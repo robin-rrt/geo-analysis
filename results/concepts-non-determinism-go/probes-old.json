@@ -1,0 +1,416 @@
+{
+  "source_url": "https://docs.chain.link/cre/concepts/non-determinism-go",
+  "source_title": "Avoiding Non-Determinism in Workflows",
+  "generated_at": "2025-01-15T12:00:00Z",
+  "product_context": "Chainlink CRE (Compute Runtime Environment) workflows written in Go, running in DON mode",
+  "probe_count": 10,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I avoid non-determinism when iterating over a map in a CRE Go workflow?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Go maps iterate in random order, causing divergent code paths across nodes",
+          "Use cre.OrderedEntries to iterate in sorted key order",
+          "Use cre.OrderedEntriesFunc with a custom comparator for non-cmp.Ordered keys like structs"
+        ],
+        "correct_entities": {
+          "functions": [
+            "cre.OrderedEntries",
+            "cre.OrderedEntriesFunc"
+          ],
+          "imports_or_packages": [
+            "github.com/smartcontractkit/cre-sdk-go/cre",
+            "cmp"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "cmp.Ordered",
+            "cmp.Compare"
+          ]
+        },
+        "correct_step_order": [
+          "Recognize map iteration is randomly ordered",
+          "Replace direct map range with cre.OrderedEntries",
+          "For struct/unordered keys, use cre.OrderedEntriesFunc with a comparator"
+        ],
+        "common_hallucinations": [
+          "Suggesting sort.Slice on keys manually as the SDK-recommended approach instead of cre.OrderedEntries",
+          "Inventing cre.SortedMap or cre.OrderedMap function names",
+          "Claiming maps can be iterated safely with a fixed seed"
+        ],
+        "out_of_scope": [
+          "Performance benchmarks of map iteration",
+          "Non-Go SDK equivalents"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using the CRE Go SDK, how do I get a consensus-safe timestamp instead of time.Now()?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Never use Go's time package (time.Now()) in DON mode because nodes have different system clocks",
+          "Use runtime.Now() from the CRE SDK which provides consensus-derived DON Time"
+        ],
+        "correct_entities": {
+          "functions": [
+            "runtime.Now()",
+            "time.Now()"
+          ],
+          "imports_or_packages": [
+            "runtime (CRE SDK)",
+            "time"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "DON Time"
+          ]
+        },
+        "correct_step_order": [
+          "Avoid time.Now() and other time package functions",
+          "Call runtime.Now() from the CRE SDK for DON Time"
+        ],
+        "common_hallucinations": [
+          "Suggesting cre.Now() instead of runtime.Now()",
+          "Claiming NTP synchronization solves the problem",
+          "Inventing a consensus.Time() function"
+        ],
+        "out_of_scope": [
+          "Detailed internals of how DON Time consensus is computed"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "Show me code to iterate a map of token prices deterministically in a CRE workflow",
+      "archetype": "code-first",
+      "paraphrase_of": "p01",
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Import github.com/smartcontractkit/cre-sdk-go/cre",
+          "Use for token, price := range cre.OrderedEntries(prices)"
+        ],
+        "correct_entities": {
+          "functions": [
+            "cre.OrderedEntries"
+          ],
+          "imports_or_packages": [
+            "github.com/smartcontractkit/cre-sdk-go/cre"
+          ],
+          "params_or_config": [],
+          "identifiers": []
+        },
+        "correct_step_order": [
+          "Import the cre package",
+          "Range over cre.OrderedEntries(prices)",
+          "Process each token/price"
+        ],
+        "common_hallucinations": [
+          "Using a plain for range over the map directly",
+          "Inventing cre.Range or cre.Iterate helpers",
+          "Wrong import path like github.com/chainlink/cre"
+        ],
+        "out_of_scope": [
+          "How processPrice is implemented"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "My CRE workflow fails to reach consensus and I think it's a JSON serialization issue — what's wrong?",
+      "archetype": "error-debug",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "encoding/json v2 uses random hashing for field order, producing non-deterministic JSON across nodes",
+          "Use encoding/json v1 for deterministic field ordering"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [
+            "encoding/json"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "encoding/json v1",
+            "encoding/json v2"
+          ]
+        },
+        "correct_step_order": [
+          "Identify that encoding/json v2 randomizes field order",
+          "Switch to encoding/json v1 for deterministic serialization"
+        ],
+        "common_hallucinations": [
+          "Recommending a custom sorted marshaler as the primary fix instead of json v1",
+          "Claiming json.Marshal is always deterministic",
+          "Suggesting setting a JSON seed environment variable"
+        ],
+        "out_of_scope": [
+          "Third-party JSON libraries not mentioned on the page"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "proto.Marshal deterministic CRE workflow",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Default proto.Marshal does not guarantee deterministic field ordering",
+          "Use proto.MarshalOptions{Deterministic: true}.Marshal() for consistent output across nodes"
+        ],
+        "correct_entities": {
+          "functions": [
+            "proto.Marshal",
+            "proto.MarshalOptions{Deterministic: true}.Marshal()"
+          ],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "Deterministic: true"
+          ],
+          "identifiers": []
+        },
+        "correct_step_order": [
+          "Avoid plain proto.Marshal",
+          "Use proto.MarshalOptions{Deterministic: true}.Marshal()"
+        ],
+        "common_hallucinations": [
+          "Inventing proto.MarshalDeterministic() function",
+          "Claiming proto.Marshal is deterministic by default",
+          "Wrong option name like proto.MarshalOptions{Ordered: true}"
+        ],
+        "out_of_scope": [
+          "Protobuf schema design"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "I'm new to Chainlink CRE and I wrote a workflow that uses a Go select statement to read from a few channels, but sometimes it behaves differently and consensus breaks. Can you explain what I should do instead?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Go's select with multiple ready channels picks one at random, causing nodes to diverge",
+          "Process channels in a fixed, deterministic order instead of using select",
+          "Check channels sequentially in a consistent order across all nodes"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "select"
+          ]
+        },
+        "correct_step_order": [
+          "Recognize select randomizes channel choice",
+          "Replace select with sequential channel checks in a fixed order"
+        ],
+        "common_hallucinations": [
+          "Suggesting a mutex or WaitGroup as the fix",
+          "Claiming select is deterministic if only one channel is used (out of scope of the stated problem)",
+          "Inventing a cre.Select helper"
+        ],
+        "out_of_scope": [
+          "General Go concurrency patterns beyond determinism"
+        ]
+      }
+    },
+    {
+      "id": "p07",
+      "prompt": "How should I handle random number generation in a CRE workflow so all nodes agree?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Go's built-in rand package produces different sequences per node, breaking consensus",
+          "Use runtime.Rand() from the CRE SDK for consensus-safe random numbers so all nodes generate the same sequence"
+        ],
+        "correct_entities": {
+          "functions": [
+            "runtime.Rand()"
+          ],
+          "imports_or_packages": [
+            "runtime (CRE SDK)",
+            "rand"
+          ],
+          "params_or_config": [],
+          "identifiers": []
+        },
+        "correct_step_order": [
+          "Avoid Go's rand package",
+          "Use runtime.Rand() from the CRE SDK"
+        ],
+        "common_hallucinations": [
+          "Suggesting seeding math/rand with a fixed seed as the recommended fix",
+          "Inventing cre.Rand() instead of runtime.Rand()",
+          "Recommending crypto/rand"
+        ],
+        "out_of_scope": [
+          "Cryptographic randomness use cases"
+        ]
+      }
+    },
+    {
+      "id": "p08",
+      "prompt": "Should I use encoding/json v1 or v2 for serializing data in a CRE workflow?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Use encoding/json v1 because it provides deterministic field ordering",
+          "Avoid encoding/json v2 because it uses random hashing for field order, making serialization non-deterministic"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [
+            "encoding/json"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "encoding/json v1",
+            "encoding/json v2"
+          ]
+        },
+        "correct_step_order": [
+          "Compare json v1 vs v2 determinism",
+          "Choose json v1 for deterministic output"
+        ],
+        "common_hallucinations": [
+          "Claiming v2 is safe if you sort keys",
+          "Recommending v2 for performance without noting the determinism risk"
+        ],
+        "out_of_scope": [
+          "Benchmark comparison of v1 vs v2 speed"
+        ]
+      }
+    },
+    {
+      "id": "p09",
+      "prompt": "How can I use an LLM inside a CRE workflow without breaking consensus?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "LLMs produce different responses for the same prompt even at temperature 0, breaking consensus",
+          "Request structured output (such as JSON with specific fields) instead of free-text",
+          "Use consensus aggregation on the structured fields so nodes agree on key data points"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "field-level consensus",
+            "structured output"
+          ]
+        },
+        "correct_step_order": [
+          "Avoid relying on free-text LLM responses",
+          "Request structured output from the LLM",
+          "Apply consensus aggregation on the structured fields"
+        ],
+        "common_hallucinations": [
+          "Claiming temperature=0 makes LLM output deterministic and consensus-safe",
+          "Inventing a specific CRE LLM API or function name",
+          "Suggesting caching responses solves consensus"
+        ],
+        "out_of_scope": [
+          "Which LLM providers are supported",
+          "Prompt engineering specifics"
+        ]
+      }
+    },
+    {
+      "id": "p10",
+      "prompt": "Why does my CRE workflow fail consensus, and what are the main sources of non-determinism to avoid in Go?",
+      "archetype": "paraphrase",
+      "paraphrase_of": "p04",
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/concepts/non-determinism-go"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Nodes executing different code paths generate different request IDs, so consensus fails",
+          "Avoid direct map iteration (use cre.OrderedEntries)",
+          "Avoid encoding/json v2 (use v1)",
+          "Avoid proto.Marshal without deterministic options",
+          "Avoid select with multiple channels",
+          "Avoid time.Now() (use runtime.Now())",
+          "Avoid Go's rand package (use runtime.Rand())",
+          "Avoid free-text LLM responses (use structured output)"
+        ],
+        "correct_entities": {
+          "functions": [
+            "cre.OrderedEntries",
+            "cre.OrderedEntriesFunc",
+            "runtime.Now()",
+            "runtime.Rand()",
+            "proto.MarshalOptions{Deterministic: true}.Marshal()"
+          ],
+          "imports_or_packages": [
+            "github.com/smartcontractkit/cre-sdk-go/cre",
+            "encoding/json"
+          ],
+          "params_or_config": [
+            "Deterministic: true"
+          ],
+          "identifiers": [
+            "DON mode",
+            "request IDs",
+            "quorum"
+          ]
+        },
+        "correct_step_order": [
+          "Understand code divergence leads to different request IDs and consensus failure",
+          "Review the common pitfalls: maps, JSON, protobuf, channels, time, randomness, LLMs",
+          "Apply the recommended deterministic alternatives for each"
+        ],
+        "common_hallucinations": [
+          "Attributing consensus failure to network latency or node count",
+          "Inventing pitfalls not on the page like goroutine scheduling flags",
+          "Wrong SDK function names such as cre.Now() or cre.Rand()"
+        ],
+        "out_of_scope": [
+          "How quorum thresholds are configured",
+          "Deep internals of consensus computing algorithm"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Avoiding Non-Determinism in Workflows\n\n## [The problem: Why determinism matters](#the-problem-why-determinism-matters)\n\nWhen your workflow runs in DON mode, multiple nodes execute the same code independently. These nodes must reach consensus on the results before proceeding. **If nodes execute different code paths, they generate different request IDs for capability calls, and consensus fails.**\n\nThe failure pattern: Code diverges → Different request IDs → No quorum → Workflow fails\n\n## [Quick reference: Common pitfalls](#quick-reference-common-pitfalls)\n\n| Don't Use | Use Instead |\n| --- | --- |\n| Direct map iteration | Sort keys first, then iterate (`cre.OrderedEntries`) |\n| `encoding/json` v2 | `encoding/json` v1 |\n| Protocol Buffers `proto.Marshal` | `proto.MarshalOptions{Deterministic: true}` |\n| `select` with multiple channels | Process channels in deterministic order |\n| `time.Now()` or `time` package | `runtime.Now()` |\n| Go's `rand` package | `runtime.Rand()` |\n| LLM free-text responses | Structured output with field-level consensus |\n\n## [1\\. Map iteration](#1-map-iteration)\n\nGo maps are **designed to iterate in random order** for security reasons. Each time you iterate over a map, the order may be different. This means different nodes will process items in different sequences, leading to divergent capability calls and consensus failure.\n\nUse `cre.OrderedEntries` from the SDK to iterate over map entries in sorted key order. It handles the sorting for you in a single range expression:\n\n```go\nimport \"github.com/smartcontractkit/cre-sdk-go/cre\"\n\nprices := map[string]float64{\"BTC\": 50000, \"ETH\": 3000, \"SOL\": 100}\n\nfor token, price := range cre.OrderedEntries(prices) {\n  processPrice(token, price)\n}\n```\n\nFor maps with keys that don't implement `cmp.Ordered` (such as structs), use `cre.OrderedEntriesFunc` with a custom comparator:\n\n```go\nimport (\n  \"cmp\"\n  \"github.com/smartcontractkit/cre-sdk-go/cre\"\n)\n\ntype Asset struct{ symbol string }\n\nassets := map[Asset]float64{{symbol: \"BTC\"}: 50000, {symbol: \"ETH\"}: 3000}\n\nfor asset, price := range cre.OrderedEntriesFunc(assets, func(a, b Asset) int {\n  return cmp.Compare(a.symbol, b.symbol)\n}) {\n  processPrice(asset, price)\n}\n```\n\n## [2\\. JSON and data serialization](#2-json-and-data-serialization)\n\n### [JSON v2 non-determinism](#json-v2-non-determinism)\n\nThe `encoding/json` v2 library uses random hashing for field order in hashmaps, making serialization non-deterministic. The same data structure can serialize to different JSON strings on different nodes.\n\n**The solution:** Use `encoding/json` v1, which provides deterministic field ordering.\n\n### [Protocol Buffers serialization](#protocol-buffers-serialization)\n\nThe default `proto.Marshal` function does not guarantee deterministic output. Fields may be serialized in different orders across nodes.\n\n**The solution:** Use `proto.MarshalOptions{Deterministic: true}.Marshal()` to ensure consistent serialization order across all nodes.\n\n## [3\\. Concurrency and channel selection](#3-concurrency-and-channel-selection)\n\nGo's `select` statement with multiple channels introduces non-determinism. When multiple channels are ready, `select` picks one at random. Different nodes may select different channels, causing code paths to diverge.\n\n**The problem:** `select` with multiple ready channels picks randomly, breaking consensus.\n\n**The solution:** Process channels in a **fixed, deterministic order** instead of using `select`. Check channels sequentially in a consistent order across all nodes.\n\n## [4\\. Time and dates](#4-time-and-dates)\n\nNever use Go's `time` package functions in DON mode. Nodes have different system clocks, causing divergence when calling `time.Now()` or similar functions.\n\n**The problem:** Using `time.Now()` returns different values on each node.\n\n**The solution:** Use `runtime.Now()` from the CRE SDK, which provides DON Time—a consensus-derived timestamp that all nodes agree on. See [Time in CRE](/cre/guides/workflow/time-in-workflows-go) for details.\n\n## [5\\. Random number generation](#5-random-number-generation)\n\nGo's built-in `rand` package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness.\n\n**The problem:** Each node generates different random values, breaking consensus.\n\n**The solution:** Use `runtime.Rand()` from the CRE SDK, which provides consensus-safe random number generation. All nodes generate the same sequence of random values, enabling consensus. See [Using Randomness in Workflows](/cre/guides/workflow/using-randomness) for details.\n\n## [6\\. Working with LLMs](#6-working-with-llms)\n\nLarge Language Models (LLMs) generate different responses for the same prompt, even with temperature set to 0. This inherent non-determinism breaks consensus in workflows.\n\n**The problem:** Free-text responses from LLMs will vary across nodes, making it impossible to reach agreement on the output.\n\n**The solution:** Request **structured output** from the LLM (such as JSON with specific fields) rather than free-form text. Then use consensus aggregation on the structured fields. This approach allows nodes to agree on the key data points even if the exact text varies slightly.\n\n## [Best practices summary](#best-practices-summary)\n\n### [Do:](#do)\n\n-   Sort map keys before iteration (or use `cre.OrderedEntries` / `cre.OrderedEntriesFunc`)\n-   Use `encoding/json` v1 for deterministic JSON serialization\n-   Use `proto.MarshalOptions{Deterministic: true}` for Protocol Buffers\n-   Process channels in a fixed, deterministic order\n-   Use `runtime.Now()` for all time operations\n-   Use `runtime.Rand()` for random number generation\n-   Request structured output from LLMs\n\n### [Don't:](#dont)\n\n-   Iterate over maps directly without sorting keys\n-   Use `encoding/json` v2 (uses random hashing)\n-   Use `proto.Marshal` without deterministic options\n-   Use `select` with multiple channels for decision-making\n-   Use `time.Now()` or other `time` package functions\n-   Use Go's `rand` package directly\n-   Rely on free-text LLM responses\n\n## [Related concepts](#related-concepts)\n\n-   **[Time in CRE](/cre/guides/workflow/time-in-workflows-go)**: Learn about DON Time and why `runtime.Now()` is required\n-   **[Using Randomness in Workflows](/cre/guides/workflow/using-randomness)**: Understand consensus-safe random number generation\n-   **[Consensus Computing](/cre/concepts/consensus-computing)**: Deep dive into how nodes reach agreement"
+}

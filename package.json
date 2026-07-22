@@ -1,0 +1,21 @@
+{
+  "name": "geo-analysis",
+  "version": "0.1.0",
+  "description": "GEO (Generative Engine Optimization) audit CLI — analyzes a docs page for how well generative engines can retrieve, cite, and synthesize it",
+  "type": "module",
+  "bin": {
+    "geo-audit": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0",
+    "cheerio": "^1.0.0",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}

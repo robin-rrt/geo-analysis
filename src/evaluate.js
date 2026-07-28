@@ -82,10 +82,14 @@ const ADAPTIVE_THINKING = /opus-4-[678]|sonnet-5|sonnet-4-6/;
 const MAX_CONTINUATIONS = 5;
 // Web-search rate limits mid-probe poison the retrieval signal (a miss that
 // isn't the page's fault). Retry the whole probe with backoff before giving up.
-const SEARCH_RETRY_LIMIT = 2;
-const SEARCH_RETRY_BACKOFF_MS = 20_000;
-// Pause between probes in web mode so a run doesn't trip search rate limits.
-const PROBE_PACING_MS = 2_000;
+const SEARCH_RETRY_LIMIT = 3;
+const SEARCH_RETRY_BACKOFF_MS = 30_000;
+// Pause between batches in web mode so back-to-back search bursts don't trip
+// rate limits.
+const PROBE_PACING_MS = 8_000;
+// How many probes run concurrently. Each probe can fire up to 5 searches, so
+// keep this low — 3 concurrent probes is already a burst of up to 15 searches.
+const PROBE_CONCURRENCY = 3;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -273,8 +277,70 @@ export async function gradeProbe({
 }
 
 /**
+ * Execute + grade one probe. Log messages are buffered and returned as a
+ * single block rather than written directly, so concurrent probes in the
+ * same batch don't interleave partial lines on stderr.
+ */
+async function runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }) {
+  const lines = [];
+  const bufLog = (msg) => lines.push(msg);
+
+  bufLog(`${probe.id} [${probe.archetype}] asking ${model} (${mode}) ... `);
+  const {
+    answer,
+    citedUrls,
+    searchErrors,
+    searchDegraded,
+    searchesAttempted,
+    searchesSucceeded,
+    retries,
+  } = await executeProbe({ prompt: probe.prompt, model, mode, log: bufLog });
+  // Live search "didn't work" = the model tried to search but nothing came
+  // back. (Attempting zero searches is the model's own choice — a real miss.)
+  const liveSearchFailed = mode === "web" && searchesAttempted > 0 && searchesSucceeded === 0;
+  bufLog(`grading (${graderModel}) ... `);
+  const grade = await gradeProbe({
+    probe,
+    model,
+    graderModel,
+    answer,
+    citedUrls,
+    sourceContent,
+    effort,
+  });
+
+  const result = {
+    ...grade,
+    prompt: probe.prompt,
+    archetype: probe.archetype,
+    answer,
+    harness: {
+      retries,
+      searches_attempted: searchesAttempted,
+      searches_succeeded: searchesSucceeded,
+      search_errors: searchErrors,
+      search_degraded: searchDegraded,
+      live_search_failed: liveSearchFailed,
+    },
+  };
+
+  const hit = grade.retrieval.hit_expected_source ? "source cited" : "source NOT cited";
+  const flags = [
+    searchDegraded && "search degraded — inconclusive",
+    liveSearchFailed && !searchDegraded && "LIVE SEARCH FAILED — inconclusive",
+    mode === "web" && searchesAttempted === 0 && "model did not search",
+  ].filter(Boolean);
+  bufLog(`fidelity ${grade.fidelity}/100 (${[hit, ...flags].join(", ")})\n`);
+
+  return { result, logText: lines.join("") };
+}
+
+/**
  * Run every probe in a probes.json file: execute against the model-under-test,
  * grade with the grader model, and return a summary with per-probe results.
+ * Probes run in capped-concurrency batches (PROBE_CONCURRENCY at a time) —
+ * fully sequential is safe but slow, fully parallel bursts too many searches
+ * at once and trips the web_search tool's rate limit.
  */
 export async function runProbes({ probesFile, model, graderModel, mode, effort, log = () => {} }) {
   const probeSet = JSON.parse(fs.readFileSync(probesFile, "utf8"));
@@ -289,56 +355,22 @@ export async function runProbes({ probesFile, model, graderModel, mode, effort, 
   }
 
   const results = [];
-  let first = true;
-  for (const probe of probeSet.probes) {
-    // Pace web-mode probes so back-to-back searches don't trip rate limits.
-    if (!first && mode === "web") await sleep(PROBE_PACING_MS);
-    first = false;
+  for (let i = 0; i < probeSet.probes.length; i += PROBE_CONCURRENCY) {
+    // Pace batches in web mode so back-to-back search bursts don't trip rate limits.
+    if (i > 0 && mode === "web") await sleep(PROBE_PACING_MS);
 
-    log(`${probe.id} [${probe.archetype}] asking ${model} (${mode}) ... `);
-    const {
-      answer,
-      citedUrls,
-      searchErrors,
-      searchDegraded,
-      searchesAttempted,
-      searchesSucceeded,
-      retries,
-    } = await executeProbe({ prompt: probe.prompt, model, mode, log });
-    // Live search "didn't work" = the model tried to search but nothing came
-    // back. (Attempting zero searches is the model's own choice — a real miss.)
-    const liveSearchFailed = mode === "web" && searchesAttempted > 0 && searchesSucceeded === 0;
-    log(`grading (${graderModel}) ... `);
-    const grade = await gradeProbe({
-      probe,
-      model,
-      graderModel,
-      answer,
-      citedUrls,
-      sourceContent,
-      effort,
-    });
-    results.push({
-      ...grade,
-      prompt: probe.prompt,
-      archetype: probe.archetype,
-      answer,
-      harness: {
-        retries,
-        searches_attempted: searchesAttempted,
-        searches_succeeded: searchesSucceeded,
-        search_errors: searchErrors,
-        search_degraded: searchDegraded,
-        live_search_failed: liveSearchFailed,
-      },
-    });
-    const hit = grade.retrieval.hit_expected_source ? "source cited" : "source NOT cited";
-    const flags = [
-      searchDegraded && "search degraded — inconclusive",
-      liveSearchFailed && !searchDegraded && "LIVE SEARCH FAILED — inconclusive",
-      mode === "web" && searchesAttempted === 0 && "model did not search",
-    ].filter(Boolean);
-    log(`fidelity ${grade.fidelity}/100 (${[hit, ...flags].join(", ")})\n`);
+    const batch = probeSet.probes.slice(i, i + PROBE_CONCURRENCY);
+    const outcomes = await Promise.all(
+      batch.map((probe) =>
+        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }),
+      ),
+    );
+    // Flush in submission order (not completion order) so output stays
+    // deterministic and matches the probes.json order run-to-run.
+    for (const { result, logText } of outcomes) {
+      log(logText);
+      results.push(result);
+    }
   }
 
   const avg = (fn) =>

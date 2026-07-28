@@ -4,19 +4,19 @@
   "model_tested": "claude-opus-4-8",
   "grader_model": "claude-opus-4-8",
   "mode": "web",
-  "run_at": "2026-07-17T21:52:23.714Z",
+  "run_at": "2026-07-28T17:35:42.944Z",
   "probe_count": 10,
-  "avg_fidelity": 56.9,
-  "retrieval_hit_rate": 0.2,
-  "retrieval_hit_rate_effective": 0.2,
+  "avg_fidelity": 62.3,
+  "retrieval_hit_rate": 0.3,
+  "retrieval_hit_rate_effective": 0.3,
   "search_degraded_count": 0,
   "live_search_failed_count": 0,
   "inconclusive_miss_count": 0,
   "avg_scores": {
-    "accuracy": 5,
-    "hallucination_free": 5.3,
-    "relevance": 5.2,
-    "structure": 7.2
+    "accuracy": 5.8,
+    "hallucination_free": 5.7,
+    "relevance": 5.8,
+    "structure": 7.5
   },
   "results": [
     {
@@ -27,34 +27,41 @@
           "https://docs.chain.link/cre/guides/workflow/using-randomness"
         ],
         "hit_expected_source": true,
-        "notes": "Cited the exact expected source page."
+        "notes": "Cited the expected source page directly."
       },
       "scores": {
-        "accuracy": 8,
-        "hallucination_free": 7,
-        "relevance": 10,
-        "structure": 9
+        "accuracy": 7,
+        "hallucination_free": 6,
+        "relevance": 8,
+        "structure": 7
       },
-      "fidelity": 85,
+      "fidelity": 70,
       "hallucinations": [
         {
-          "claim": "consider Chainlink VRF instead",
+          "claim": "you should use Chainlink VRF instead",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "use runtime.Now() from the CRE SDK, which provides DON Time",
           "type": "other",
-          "severity": "med"
+          "severity": "low"
         }
       ],
-      "missing_must_include": [],
-      "unverifiable_from_source": [
-        "Chainlink VRF suggestion for secure/high-value lotteries"
+      "missing_must_include": [
+        "Check for the error returned by runtime.Rand()"
       ],
-      "verdict": "Mostly safe and faithful, but it wrongly recommends Chainlink VRF for cryptographic needs where the source says to use Go's crypto/rand package—correct that before shipping.",
+      "unverifiable_from_source": [
+        "runtime.Now() DON Time / timestamp determinism note is not on this source page"
+      ],
+      "verdict": "Mostly correct on runtime.Rand() and consensus, but wrongly recommends Chainlink VRF for crypto-secure randomness (source says crypto/rand) and omits the error-check requirement and code, so not fully safe to ship.",
       "prompt": "How do I generate randomness in a CRE workflow so all nodes agree on the result?",
       "archetype": "direct-howto",
-      "answer": "I'll search for information about generating deterministic randomness in a CRE (Chainlink Runtime Environment) workflow.The first result is exactly what we need. Let me get the full details from the CRE randomness documentation.I have what I need to answer your question.\n\n## Generating Randomness in a CRE Workflow\n\nThe key is to use CRE's built-in randomness method rather than Go's standard random package. CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus while still providing unpredictability across different workflow executions.\n\n### Why you can't just use a normal random generator\n\nThe problem with naive randomness in a decentralized network is fundamental. In a decentralized network, naive use of random number generators creates a critical problem: If each node generates different random values, they cannot reach consensus on the workflow's output. For example, if your workflow selects a lottery winner using each node's local random generator, different nodes would select different winners, making it impossible to agree on a single result to write onchain.\n\n### How it works under the hood\n\nruntime.Rand() returns a seeded pseudo-random number generator (Go's math/rand). The seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible.\n\n### Basic usage\n\nGet the generator from the runtime, then use it with standard Go `rand` methods:\n\n```go\n// Get the random generator from the runtime\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n\n// Use it with standard Go rand methods\nrandomInt := rnd.Intn(100)                                   // Random int in [0, 100)\nrandomBigInt := new(big.Int).Rand(rnd, big.NewInt(1000))     // Random big.Int\n```\n\nFor example, to generate a random token amount: Generate a random number in the range [0, max) — max.SetString(\"1000000000000000000\", 10) // 1 ETH in wei; randomAmount := new(big.Int).Rand(rnd, max) // randomAmount is a random value between 0 and 1 ETH.\n\n### Important rules to avoid consensus bugs\n\n1. **Never use Go's global rand package.** Use runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus. Do not use Go's global rand package—it can break consensus.\n\n2. **Don't cross execution modes.** Random generators are tied to the mode they were created in. Do not attempt to use a random generator from one mode in another mode—it will cause a panic and crash your workflow. Specifically, the SDK will panic with the error: \"random cannot be used outside the mode it was created in\". This is intentional—it prevents subtle consensus bugs.\n\n3. **Reuse within the same mode is fine.** Once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode.\n\n4. **It's not cryptographically secure.** Note that runtime.Rand() is not cryptographically secure. If you need secure, tamper-proof randomness (e.g., for high-value lotteries), consider Chainlink VRF instead.\n\n### Per-node randomness (advanced)\n\nIf you deliberately want each node to produce a *different* value and then aggregate the results, you can use node mode with an aggregation function:\n\n```go\nresultPromise := cre.RunInNodeMode(config, runtime,\n    func(config *Config, nodeRuntime cre.NodeRuntime) (int, error) {\n        rnd, err := nodeRuntime.Rand()\n        if err != nil {\n            return 0, err\n        }\n        // Each node generates a different value\n        return rnd.Intn(100), nil\n    },\n    cre.ConsensusMedianAggregation[int](),\n)\n```\n\nHere each node generates a different value, and the `ConsensusMedianAggregation` function reconciles them into a single agreed-upon output.\n\n**In summary:** For randomness where all nodes must agree, call `runtime.Rand()` in the default (DON) mode — the platform coordinates the seed so every node produces the same sequence. Avoid Go's global `rand`, and don't share a generator across execution modes.\n\nYou can find the full details in the [Using Randomness in Workflows](https://docs.chain.link/cre/guides/workflow/using-randomness) documentation.",
+      "answer": "I'll search for information about generating randomness in a CRE (Chainlink Runtime Environment) workflow.Let me fix the parsing of search results.Let me get the full details from the main documentation page on using randomness in CRE workflows.I have enough information from the official Chainlink documentation. Let me provide the answer.\n\n## Generating Randomness in a CRE Workflow\n\nIn the Chainlink Runtime Environment (CRE), you can't just use Go's standard `rand` package, because each node would produce different values and consensus would break. Instead, CRE provides a consensus-safe random number generator.\n\n### Use `runtime.Rand()`\n\nThe core mechanism is the `runtime.Rand()` method. CRE provides randomness through the `runtime.Rand()` method, which returns a standard Go `*rand.Rand` object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus while still providing unpredictability across different workflow executions.\n\nThe key detail is how the seed is handled: The seed is coordinated by the CRE platform so that all nodes generate identical sequences. This gives you deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus.\n\n### What to avoid\n\nThe reason you must use the SDK method rather than Go's built-in tools is fundamental to how consensus works: Go's built-in `rand` package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness. So the rule is: Do not use Go's global rand package—it can break consensus.\n\n### Important caveats\n\nA few things to keep in mind when using `runtime.Rand()`:\n\n- **Reuse within the same mode is fine.** Once you call `runtime.Rand()` and get a `*rand.Rand` object, you can reuse it within the same execution mode.\n\n- **Don't cross execution modes.** If you try to use a random generator outside the mode it was created in, the SDK will panic with the error: \"random cannot be used outside the mode it was created in\". This is intentional—it prevents subtle consensus bugs.\n\n- **It is not cryptographically secure.** Note that `runtime.Rand()` is not cryptographically secure. If you need cryptographically secure randomness (e.g., for lotteries or high-value security decisions), you should use Chainlink VRF instead.\n\n### Related determinism note\n\nRandomness is one of several sources of non-determinism CRE handles this way. For example, the same pattern applies to timestamps: the problem with `time.Now()` is that it returns different values on each node. The solution is to use `runtime.Now()` from the CRE SDK, which provides DON Time—a consensus-derived timestamp that all nodes agree on.\n\n**In short:** call `runtime.Rand()` to get a `*rand.Rand` object, use it normally within a single execution mode, and never fall back to Go's global `rand` package. You can find full details in the [Using Randomness in Workflows](https://docs.chain.link/cre/guides/workflow/using-randomness) documentation.",
       "harness": {
         "retries": 0,
-        "searches_attempted": 4,
-        "searches_succeeded": 4,
+        "searches_attempted": 3,
+        "searches_succeeded": 3,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -66,29 +73,29 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "Answer states search quota hit; no URLs cited. Model answered about Temporal Go SDK, entirely wrong domain — not CRE/Chainlink."
+        "notes": "No URLs cited; answer is about Temporal Go SDK, not Chainlink CRE — wrong product entirely."
       },
       "scores": {
         "accuracy": 0,
         "hallucination_free": 0,
         "relevance": 0,
-        "structure": 4
+        "structure": 3
       },
-      "fidelity": 10,
+      "fidelity": 8,
       "hallucinations": [
         {
-          "claim": "go.temporal.io/sdk/workflow",
-          "type": "wrong_import",
-          "severity": "high"
-        },
-        {
-          "claim": "workflow.SideEffect(ctx, func...)",
+          "claim": "In the Temporal Go SDK, you handle this with workflow.SideEffect",
           "type": "fabricated_function",
           "severity": "high"
         },
         {
-          "claim": "rand.Intn / rand.New(rand.NewSource(seed))",
-          "type": "contradiction",
+          "claim": "import \"go.temporal.io/sdk/workflow\"",
+          "type": "wrong_import",
+          "severity": "high"
+        },
+        {
+          "claim": "workflow.SideEffect(ctx, func(ctx workflow.Context) interface{}",
+          "type": "fabricated_function",
           "severity": "high"
         },
         {
@@ -97,9 +104,14 @@
           "severity": "high"
         },
         {
-          "claim": "assumed you meant the Temporal Go SDK",
-          "type": "other",
+          "claim": "workflow.ExecuteActivity(ctx, PickWinnerActivity, participants)",
+          "type": "fabricated_function",
           "severity": "high"
+        },
+        {
+          "claim": "return \"\", workflow.ErrCanceled",
+          "type": "fabricated_function",
+          "severity": "med"
         }
       ],
       "missing_must_include": [
@@ -109,14 +121,14 @@
         "Intn(n) returns a value in range [0, n)"
       ],
       "unverifiable_from_source": [],
-      "verdict": "Completely unsafe — the answer is about the Temporal SDK, not Chainlink CRE, and contains none of the correct runtime.Rand() pattern; do not ship.",
+      "verdict": "Completely unsafe — the answer is about Temporal's SDK and fabricates the entire API; it never mentions CRE's runtime.Rand() and would not work in a CRE workflow.",
       "prompt": "Using the Go SDK, show me code to pick a random winner from a list in a workflow",
       "archetype": "code-first",
-      "answer": "I wasn't able to pull live docs (search quota hit), but this is a well-established pattern in the **Temporal Go SDK**, so here's a complete, correct example based on how the SDK works.\n\n## The key gotcha: determinism\n\nWorkflow code in Temporal must be **deterministic** — it can be replayed from history at any time. That means you **cannot** call `math/rand` (or `time.Now()`, `uuid.New()`, etc.) directly inside a workflow, because the value would differ on replay and corrupt the execution.\n\nTo generate randomness safely, wrap it in `workflow.SideEffect`. Temporal records the result in the event history the first time it runs and returns that same recorded value on every replay.\n\n## Example\n\n```go\npackage winner\n\nimport (\n\t\"math/rand\"\n\n\t\"go.temporal.io/sdk/workflow\"\n)\n\n// PickWinnerWorkflow selects one random winner from the provided list.\nfunc PickWinnerWorkflow(ctx workflow.Context, participants []string) (string, error) {\n\tlogger := workflow.GetLogger(ctx)\n\n\tif len(participants) == 0 {\n\t\treturn \"\", workflow.ErrCanceled // or a custom error\n\t}\n\n\t// SideEffect executes the closure once, records the result in history,\n\t// and replays that same recorded value deterministically afterward.\n\tvar winner string\n\tencoded := workflow.SideEffect(ctx, func(ctx workflow.Context) interface{} {\n\t\tidx := rand.Intn(len(participants))\n\t\treturn participants[idx]\n\t})\n\n\tif err := encoded.Get(&winner); err != nil {\n\t\treturn \"\", err\n\t}\n\n\tlogger.Info(\"Selected winner\", \"winner\", winner)\n\treturn winner, nil\n}\n```\n\n## Preferred alternative: `workflow.Now` + a seeded source\n\nIf you'd rather keep the randomness fully inside the deterministic engine, the SDK exposes a side-effect-free helper via a deterministic random source. A common idiom is to seed from a `SideEffect` once and reuse it:\n\n```go\nfunc PickWinnerWorkflow(ctx workflow.Context, participants []string) (string, error) {\n\tif len(participants) == 0 {\n\t\treturn \"\", errors.New(\"no participants\")\n\t}\n\n\t// Capture a random seed exactly once via SideEffect.\n\tvar seed int64\n\tif err := workflow.SideEffect(ctx, func(ctx workflow.Context) interface{} {\n\t\treturn rand.Int63()\n\t}).Get(&seed); err != nil {\n\t\treturn \"\", err\n\t}\n\n\trng := rand.New(rand.NewSource(seed))\n\treturn participants[rng.Intn(len(participants))], nil\n}\n```\n\n## Things to avoid\n\n- ❌ **Don't** call `rand.Intn(...)` directly at the top level of a workflow — it breaks determinism and will fail on replay.\n- ❌ **Don't** use `workflow.SideEffect` for anything that can fail or has side effects (network calls, DB writes). Its result isn't retried. For those, use an **Activity** instead.\n- ✅ For non-deterministic *and* potentially failing work (e.g., fetching participants from a database), do that in an Activity and pass the list into the workflow.\n\n## Registering and running it\n\n```go\nw := worker.New(temporalClient, \"winner-task-queue\", worker.Options{})\nw.RegisterWorkflow(PickWinnerWorkflow)\n\n// Start it from a client:\nrun, _ := temporalClient.ExecuteWorkflow(ctx,\n\tclient.StartWorkflowOptions{TaskQueue: \"winner-task-queue\"},\n\tPickWinnerWorkflow,\n\t[]string{\"Alice\", \"Bob\", \"Carol\"},\n)\nvar winner string\nrun.Get(ctx, &winner)\n```\n\n---\n\n**One clarification:** I assumed you meant the **Temporal** Go SDK, since \"workflow\" + \"Go SDK\" most commonly refers to it. If you actually meant a different SDK — e.g., **Cadence** (nearly identical `workflow.SideEffect` API), **AWS Step Functions**, **Azure Durable Functions**, or **Conductor** — let me know and I'll adjust the example accordingly.\n\nWould you like me to also show a runnable test using Temporal's `testsuite` to verify the winner selection?",
+      "answer": "Picking a random winner in a workflow requires special care because workflow code must be **deterministic** — it gets replayed, so calling `math/rand` or `crypto/rand` directly would break replay. In the Temporal Go SDK, you handle this with `workflow.SideEffect`, which records the random result in event history so it stays consistent across replays.\n\nHere's a complete example:\n\n```go\npackage winner\n\nimport (\n\t\"math/rand\"\n\n\t\"go.temporal.io/sdk/workflow\"\n)\n\n// PickWinnerWorkflow selects a random winner from a list of participants.\nfunc PickWinnerWorkflow(ctx workflow.Context, participants []string) (string, error) {\n\tlogger := workflow.GetLogger(ctx)\n\n\tif len(participants) == 0 {\n\t\treturn \"\", workflow.ErrCanceled // or a custom error\n\t}\n\n\t// Use SideEffect to generate a random index deterministically.\n\t// The result is recorded in event history and reused on replay.\n\tvar winnerIndex int\n\tencodedIndex := workflow.SideEffect(ctx, func(ctx workflow.Context) interface{} {\n\t\treturn rand.Intn(len(participants))\n\t})\n\n\tif err := encodedIndex.Get(&winnerIndex); err != nil {\n\t\treturn \"\", err\n\t}\n\n\twinner := participants[winnerIndex]\n\tlogger.Info(\"Selected winner\", \"winner\", winner, \"index\", winnerIndex)\n\n\treturn winner, nil\n}\n```\n\n### Why `workflow.SideEffect`?\n\n- **Determinism:** During replay, Temporal does **not** re-execute the `SideEffect` function. Instead it feeds back the value recorded the first time, so your workflow reaches the same winner every time it replays.\n- **Never call `rand` directly** in workflow code (outside `SideEffect`) — the replayed run would pick a different winner and fail with a non-determinism error.\n\n### Using the seeded workflow random source (alternative)\n\nTemporal also provides a deterministic random source seeded from the workflow, which is convenient if you need multiple random values:\n\n```go\nfunc PickWinnerWorkflow(ctx workflow.Context, participants []string) (string, error) {\n\tif len(participants) == 0 {\n\t\treturn \"\", workflow.ErrCanceled\n\t}\n\n\t// workflow.Now-safe deterministic randomness\n\tidx := workflow.SideEffect(ctx, func(ctx workflow.Context) interface{} {\n\t\treturn rand.Intn(len(participants))\n\t})\n\n\tvar i int\n\tif err := idx.Get(&i); err != nil {\n\t\treturn \"\", err\n\t}\n\treturn participants[i], nil\n}\n```\n\n### Prefer an Activity for external/cryptographic randomness\n\nIf you need cryptographically secure randomness (e.g., for a high-stakes drawing) or want the logic testable/auditable, do it in an **Activity** instead — activities aren't replayed, so any non-determinism is fine there:\n\n```go\n// Activity\nfunc PickWinnerActivity(ctx context.Context, participants []string) (string, error) {\n\tif len(participants) == 0 {\n\t\treturn \"\", errors.New(\"no participants\")\n\t}\n\tb := make([]byte, 8)\n\tif _, err := crypto_rand.Read(b); err != nil {\n\t\treturn \"\", err\n\t}\n\tn := binary.BigEndian.Uint64(b) % uint64(len(participants))\n\treturn participants[n], nil\n}\n\n// Workflow\nfunc PickWinnerWorkflow(ctx workflow.Context, participants []string) (string, error) {\n\tao := workflow.ActivityOptions{StartToCloseTimeout: 10 * time.Second}\n\tctx = workflow.WithActivityOptions(ctx, ao)\n\n\tvar winner string\n\terr := workflow.ExecuteActivity(ctx, PickWinnerActivity, participants).Get(ctx, &winner)\n\treturn winner, err\n}\n```\n\n**Rule of thumb:**\n- Simple, non-secure random selection → `workflow.SideEffect` (fast, no activity round-trip).\n- Secure/auditable/external randomness → Activity.\n\nWould you like me to also show the worker registration and a starter/client example to run this end-to-end?",
       "harness": {
         "retries": 0,
-        "searches_attempted": 5,
-        "searches_succeeded": 5,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -128,29 +140,29 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "No URLs cited; the expected CRE randomness doc was not retrieved or surfaced."
+        "notes": "No URLs cited; answer states 'Let me retry the search' indicating retrieval likely failed. Did not surface the CRE randomness docs."
       },
       "scores": {
         "accuracy": 1,
         "hallucination_free": 3,
-        "relevance": 2,
+        "relevance": 1,
         "structure": 6
       },
-      "fidelity": 30,
+      "fidelity": 28,
       "hallucinations": [
         {
-          "claim": "you use the `crypto/rand` package (for cryptographically secure randomness)",
+          "claim": "use Go's cryptographically secure crypto/rand package",
           "type": "contradiction",
           "severity": "high"
         },
         {
-          "claim": "n, err := rand.Int(rand.Reader, max)",
+          "claim": "Avoid math/rand, which is not secure",
           "type": "contradiction",
           "severity": "high"
         },
         {
-          "claim": "Use `crypto/rand`, not `math/rand`",
-          "type": "contradiction",
+          "claim": "rand.Int(rand.Reader, max) returns a uniform random value in [0, max)",
+          "type": "other",
           "severity": "high"
         }
       ],
@@ -160,18 +172,18 @@
         "Use new(big.Int).Rand(rnd, max) to generate a random value in [0, max)"
       ],
       "unverifiable_from_source": [
-        "Passing *big.Int to abigen-generated contract bindings",
-        "block.timestamp/blockhash manipulability warning",
-        "2^256 range and 32-byte fill approach"
+        "go-ethereum abigen maps uint256 to *big.Int",
+        "FillBytes left-pads to 32 bytes big-endian",
+        "rejection-sampling efficiency note"
       ],
-      "verdict": "Unsafe to ship: the answer uses crypto/rand which contradicts CRE's required runtime.Rand() and would break DON consensus, omitting every required step.",
+      "verdict": "Not safe to ship: it uses crypto/rand instead of the required consensus-safe runtime.Rand(), which would break DON consensus and directly contradicts the source's core guidance.",
       "prompt": "How do I generate a random big.Int for a Solidity uint256 value in my workflow?",
       "archetype": "constrained",
-      "answer": "To generate a random `big.Int` suitable for a Solidity `uint256` value in Go, you use the `crypto/rand` package (for cryptographically secure randomness) together with `math/big`. A `uint256` can hold any value from `0` to `2²⁵⁶ - 1`, so you generate a random number in that range.\n\n## Basic approach\n\n```go\npackage main\n\nimport (\n\t\"crypto/rand\"\n\t\"fmt\"\n\t\"math/big\"\n)\n\nfunc randomUint256() (*big.Int, error) {\n\t// max = 2^256 - 1 is the largest uint256 value.\n\t// rand.Int returns a value in [0, max), so use 2^256 as the exclusive bound.\n\tmax := new(big.Int).Lsh(big.NewInt(1), 256) // 2^256\n\n\tn, err := rand.Int(rand.Reader, max)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\treturn n, nil\n}\n\nfunc main() {\n\tn, err := randomUint256()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(n.String())\n}\n```\n\n### Key points\n\n- **Use `crypto/rand`, not `math/rand`.** For anything touching blockchain (nonces, salts, keys, commitments), you want cryptographically secure randomness. `math/rand` is predictable and unsafe for these uses.\n- **`rand.Int(rand.Reader, max)`** returns a uniform random value in the half-open interval `[0, max)`. Setting `max = 2^256` gives you the full valid `uint256` range `[0, 2^256 - 1]`.\n- **`new(big.Int).Lsh(big.NewInt(1), 256)`** computes `2^256` by left-shifting `1` by 256 bits — cleaner than `Exp`.\n\n## Alternative: fill raw bytes\n\nIf you prefer, you can generate 32 random bytes (256 bits) and interpret them as a big-endian integer:\n\n```go\nfunc randomUint256Bytes() (*big.Int, error) {\n\tb := make([]byte, 32) // 32 bytes = 256 bits\n\tif _, err := rand.Read(b); err != nil {\n\t\treturn nil, err\n\t}\n\treturn new(big.Int).SetBytes(b), nil\n}\n```\n\nThis is effectively equivalent in distribution and slightly more direct, since a full 32-byte value naturally spans the entire `uint256` range.\n\n## Passing it to a contract (go-ethereum)\n\nIf you're using `abigen`-generated bindings, contract methods expecting a `uint256` take a `*big.Int` directly:\n\n```go\ntx, err := instance.MyMethod(auth, randomValue)\n```\n\n## A few practical cautions\n\n- **Sanity-check the bit length** if a downstream system expects a specific size — a random value may have leading zero bits, which is normal and fine for `uint256`.\n- **If you need a value in a smaller range** (e.g., `0` to `N`), pass `N+1` (or `N`) as the bound to `rand.Int` rather than masking bits, to keep the distribution uniform.\n- **Never use on-chain randomness sources** (like `block.timestamp` or `blockhash`) if the value must be unpredictable — those are manipulable by miners/validators. Generating off-chain with `crypto/rand` as shown here is appropriate for salts, commit-reveal schemes, etc.\n\nWould you like me to tailor this to a specific use case (e.g., a commit-reveal scheme, a random salt for `CREATE2`, or a test fixture)?",
+      "answer": "Let me retry the search.To generate a random `big.Int` that fits into a Solidity `uint256`, use Go's cryptographically secure `crypto/rand` package with `math/big`. A `uint256` holds values from `0` to `2²⁵⁶ − 1`, so you set the exclusive upper bound to `2²⁵⁶`.\n\n## Recommended approach\n\n```go\npackage main\n\nimport (\n\t\"crypto/rand\"\n\t\"fmt\"\n\t\"math/big\"\n)\n\nfunc randomUint256() (*big.Int, error) {\n\t// max = 2^256 (exclusive upper bound)\n\tmax := new(big.Int).Lsh(big.NewInt(1), 256)\n\n\t// rand.Int returns a uniform random value in [0, max)\n\tn, err := rand.Int(rand.Reader, max)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\treturn n, nil\n}\n\nfunc main() {\n\tn, err := randomUint256()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Println(n.String())\n}\n```\n\n## Why this works\n\n- `func Int(rand io.Reader, max *big.Int) (n *big.Int, err error)` returns a uniform random value in [0, max). By setting `max = 2²⁵⁶`, you get exactly the valid `uint256` range `[0, 2²⁵⁶ − 1]`.\n- `new(big.Int).Lsh(big.NewInt(1), 256)` computes `1 << 256 = 2²⁵⁶` without any floating-point or overflow risk.\n- Using `rand.Reader` (from `crypto/rand`) ensures the value is cryptographically secure — important for anything on-chain like salts, nonces, or keys. Avoid `math/rand`, which is not secure.\n\n## Passing the value to Solidity\n\nDepending on your toolkit:\n\n- **go-ethereum (abigen / bound contracts):** Function arguments typed as `uint256` map directly to `*big.Int`, so you can pass `n` as-is.\n- **Manual ABI encoding:** A `uint256` is 32 bytes big-endian. You can get fixed-width bytes with:\n  ```go\n  buf := make([]byte, 32)\n  n.FillBytes(buf) // left-pads to 32 bytes, big-endian\n  ```\n\n## A note on efficiency\n\nIf you're generating huge numbers of these values, be aware that `rand.Int` for uint256 numbers wastes a large percentage of bytes due to its rejection-sampling implementation. For the common case this is negligible, but if it matters, an alternative is to read exactly 32 random bytes and interpret them as a big.Int:\n\n```go\nfunc randomUint256Fast() (*big.Int, error) {\n\tbuf := make([]byte, 32)\n\tif _, err := rand.Read(buf); err != nil {\n\t\treturn nil, err\n\t}\n\treturn new(big.Int).SetBytes(buf), nil // uniform over [0, 2^256 - 1]\n}\n```\n\nThis is uniform because every 256-bit pattern maps to a distinct value in the full `uint256` range, and it avoids the rejection loop. Use `rand.Int` when you need an arbitrary non-power-of-two bound; use the 32-byte read when you specifically want a full-range `uint256`.\n\nWould you like help wiring this into a specific framework (e.g., abigen bindings, ethclient transactions, or a Foundry/Hardhat test harness)?",
       "harness": {
         "retries": 0,
-        "searches_attempted": 0,
-        "searches_succeeded": 0,
+        "searches_attempted": 3,
+        "searches_succeeded": 3,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -183,55 +195,39 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "Model states its search tool hit a rate limit; no URLs cited and expected source not retrieved — inconclusive retrieval but answer shipped anyway."
+        "notes": "No URLs cited at all; retrieval/attribution failure despite content clearly drawn from the source page."
       },
       "scores": {
-        "accuracy": 2,
-        "hallucination_free": 3,
-        "relevance": 2,
-        "structure": 6
+        "accuracy": 6,
+        "hallucination_free": 6,
+        "relevance": 7,
+        "structure": 8
       },
-      "fidelity": 33,
+      "fidelity": 68,
       "hallucinations": [
         {
-          "claim": "Execution mode — the first time the code runs; Replay/recovery mode — after a crash",
+          "claim": "Don't fall back to Go's `math/rand` or `crypto/rand`.",
           "type": "contradiction",
           "severity": "high"
         },
         {
-          "claim": "Holding the RNG across a suspension/await point",
-          "type": "other",
-          "severity": "high"
-        },
-        {
-          "claim": "request ctx.rand() / ctx.random() (or your SDK's equivalent)",
-          "type": "fabricated_function",
-          "severity": "high"
-        },
-        {
-          "claim": "engines run your workflow code in ... Replay/recovery mode",
-          "type": "other",
+          "claim": "Don't cache or share a single generator across calls/modes.",
+          "type": "contradiction",
           "severity": "med"
         }
       ],
       "missing_must_include": [
-        "Random generators are tied to the mode they were created in",
-        "You cannot use a DON mode generator in Node mode or vice versa",
-        "Get a fresh generator via runtime.Rand() (DON) or nodeRuntime.Rand() (Node) within the correct mode",
-        "This panic is intentional to prevent consensus bugs"
+        "Get a fresh generator via runtime.Rand() (DON) or nodeRuntime.Rand() (Node) within the correct mode"
       ],
-      "unverifiable_from_source": [
-        "Temporal/Restate/Golem/Cloudflare Workflows references",
-        "Never carry the RNG across await/suspension points"
-      ],
-      "verdict": "Not safe to ship — the model failed to identify CRE, cited nothing, and fabricated a wrong 'execution vs replay mode' explanation instead of the actual DON/Node mode isolation cause.",
+      "unverifiable_from_source": [],
+      "verdict": "Core diagnosis is right and the panic explanation is faithful, but it wrongly forbids crypto/rand (source recommends it for crypto needs) and wrongly warns against reusing a generator across calls (source says that's fine), and it omits nodeRuntime.Rand()/RunInNodeMode — ship only with corrections.",
       "prompt": "My workflow panics with \"random cannot be used outside the mode it was created in\" — what's wrong?",
       "archetype": "error-debug",
-      "answer": "I wasn't able to confirm the exact framework from a web search (the search tool hit its rate limit), so let me answer based on how this class of error works. If you tell me which engine/SDK you're using (Temporal, Restate, Golem, Cloudflare Workflows, etc.), I can give you an exact code fix — but the cause is almost always the same across durable-workflow systems.\n\n## What the error means\n\nThat panic is a **determinism guard**. Durable/replayable workflow engines run your workflow code in more than one \"mode\":\n\n- **Execution mode** — the first time the code runs.\n- **Replay/recovery mode** — after a crash, suspension, or migration, the engine re-runs your code from the start, feeding recorded results back in so it reaches the exact same state.\n\nTo keep replay deterministic, the engine hands you a **seeded/recorded random source** that is bound to the *current execution context* (i.e., the \"mode it was created in\"). When you grab that `random` object and then use it **after the context has changed modes**, the runtime detects that the handle no longer belongs to the active context and panics rather than silently producing a non-reproducible result.\n\n## Why it happens (the usual culprits)\n\n1. **Holding the RNG across a suspension/await point.** You call something like `let r = ctx.random()`, then `await` a timer, activity, or signal. The workflow suspends and later resumes (re-entering in replay mode), but `r` still refers to the old context.\n2. **Stashing it in a global/static or long-lived struct/closure**, then reusing it on a later invocation or turn.\n3. **Using the workflow's random inside an activity/side-effect/background task**, which runs in a different (non-deterministic) mode entirely.\n4. **Sharing it across threads/tasks** that the runtime doesn't consider part of the workflow's deterministic thread.\n\n## How to fix it\n\n- **Get a fresh random from the context each time, right where you need it**, and don't store the handle:\n  - Don't: obtain the RNG once, then reuse it after an `await`/sleep.\n  - Do: request `ctx.rand()` / `ctx.random()` (or your SDK's equivalent) immediately before generating each value, entirely inside the workflow body.\n- **Never carry the RNG across await/suspension points.** If you need a value later, generate the *value* before the await and keep the value, not the generator.\n- **Don't use the workflow RNG inside an activity or side effect.** Activities are already non-deterministic, so either use ordinary randomness there, or generate the value in the workflow (deterministically) and **pass the plain value** into the activity.\n- **Keep it on the workflow's own execution thread** — don't hand it to spawned tasks/threads the engine isn't tracking.\n\n## Quick way to confirm the culprit\n\nSearch your workflow for where you capture the random source into a variable/field and trace whether that variable outlives an `await`, a timer/sleep, a signal wait, or is referenced from an activity or global. That crossing point is what trips the guard.\n\nIf you paste the relevant snippet and name the SDK, I'll point to the exact line and rewrite it correctly.",
+      "answer": "This is a Chainlink CRE (workflow) issue. Here's what's going on and how to fix it.\n\n## What the error means\n\nIn Chainlink CRE, randomness is scoped to the **execution mode** it was created in. The SDK panics with the error \"random cannot be used outside the mode it was created in.\" This is intentional—it prevents subtle consensus bugs.\n\nThe root of the problem is how consensus works in a decentralized network. Workflows often need randomness for various purposes: generating nonces, selecting winners from a list, or creating unpredictable values. However, in a decentralized network, naive use of random number generators creates a critical problem: If each node generates different random values, they cannot reach consensus on the workflow's output.\n\n## Why your workflow is panicking\n\nYou're almost certainly doing one of these:\n\n1. **Reusing a random generator across different execution contexts/modes** — e.g., you created a `Rand()` instance in one mode (like DON mode inside a trigger callback) and then tried to use that same generator in another mode. The SDK detects the boundary crossing and panics deliberately.\n2. **Using Go's standard library `rand`** instead of the CRE runtime's random source. Do not use Go's global rand package—it can break consensus.\n\n## The fix\n\nUse the runtime-provided random generator, and create/use it **within the same mode**. Use runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus.\n\nA correct pattern looks like:\n\n```go\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n// Generate a random number in the range [0, max)\nmax := new(big.Int)\nmax.SetString(\"1000000000000000000\", 10) // 1 ETH in wei\nrandomAmount := new(big.Int).Rand(rnd, max)\n```\n\nThe key rules:\n\n- **Call `runtime.Rand()` in the mode where you'll actually use it** — don't create it in one mode and carry it into another. In the documented example, the randomness is called directly in the trigger callback (DON mode), ensuring all nodes in the network would select the same winner and prize amount.\n- **Don't cache or share a single generator across calls/modes.** Get a fresh generator via `runtime.Rand()` in the context you need it.\n- **Don't fall back to Go's `math/rand` or `crypto/rand`.**\n\n## One caveat to keep in mind\n\nNote that runtime.Rand() is not cryptographically secure. So if you need randomness for security-critical purposes (not just consensus-safe nonces/selection), this isn't the right primitive.\n\n**In short:** the panic is a guardrail. Replace any Go-native `rand` usage with `runtime.Rand()`, and make sure you obtain and use the generator entirely within the same execution mode (typically directly inside your trigger/DON-mode callback) rather than passing it across mode boundaries.\n\nWould you like to share the relevant snippet of your workflow? I can point to exactly where the mode boundary is being crossed.",
       "harness": {
         "retries": 0,
-        "searches_attempted": 5,
-        "searches_succeeded": 5,
+        "searches_attempted": 2,
+        "searches_succeeded": 2,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -241,40 +237,39 @@
       "probe_id": "p05",
       "model_tested": "claude-opus-4-8",
       "retrieval": {
-        "cited_urls": [],
-        "hit_expected_source": false,
-        "notes": "Answer states search tool hit usage limit; no URLs cited. Expected docs.chain.link CRE randomness page not surfaced — retrieval failure, probe partly inconclusive."
+        "cited_urls": [
+          "https://docs.chain.link/cre/guides/workflow/using-randomness",
+          "https://docs.chain.link/cre/key-terms",
+          "https://docs.chain.link/cre/concepts/non-determinism-go"
+        ],
+        "hit_expected_source": true,
+        "notes": "Cited the expected randomness page plus two supporting docs pages."
       },
       "scores": {
-        "accuracy": 7,
+        "accuracy": 8,
         "hallucination_free": 8,
-        "relevance": 6,
-        "structure": 8
+        "relevance": 8,
+        "structure": 9
       },
-      "fidelity": 73,
-      "hallucinations": [
-        {
-          "claim": "a genuinely independent RNG per node, so each node produces different values ... real entropy",
-          "type": "other",
-          "severity": "low"
-        }
-      ],
+      "fidelity": 83,
+      "hallucinations": [],
       "missing_must_include": [
-        "Node mode accessed via nodeRuntime.Rand() (answer names RunInNodeMode but omits nodeRuntime.Rand())",
-        "cre.ConsensusMedianAggregation[int]() aggregation function"
+        "Node mode accessed via cre.RunInNodeMode and nodeRuntime.Rand()"
       ],
       "unverifiable_from_source": [
-        "Node mode gives each node 'real entropy' / 'genuinely independent RNG'; source says values differ but does not describe true entropy",
-        "Use cases like hitting different API endpoints or jitter timing"
+        "'Byzantine Fault Tolerant' / 'Easy Mode' / 'Manual Mode' framing (from key-terms, not the randomness page)",
+        "'you must use runtime.Now() instead of time.Now() and avoid select over multiple ready channels'",
+        "'Local simulation won't catch mode mistakes...single-node model'",
+        "'Chainlink CRE is currently marked as Early Access'"
       ],
-      "verdict": "Conceptually correct on the DON-vs-Node distinction and safe to ship as a high-level explanation, but it hedges, cites no source, and omits exact entities (nodeRuntime.Rand(), ConsensusMedianAggregation) a developer would need.",
+      "verdict": "Accurate and safe on the core DON-vs-Node distinction, but it omits the concrete Node-mode API (cre.RunInNodeMode, nodeRuntime.Rand(), ConsensusMedianAggregation) and adds several claims sourced from other pages rather than the randomness doc.",
       "prompt": "runtime.Rand DON node mode difference",
       "archetype": "terse/keyword",
-      "answer": "I'll search for information to clarify what you're asking about, since the query has a few technical terms that could relate to different systems.I wasn't able to run web searches (the search tool hit its usage limit), so let me answer from what this most likely refers to — and flag where you should verify.\n\n## `runtime.Rand()` in DON mode vs. Node mode (Chainlink CRE)\n\nThis looks like a question about the **Chainlink Runtime Environment (CRE)** Go SDK, where a workflow's `runtime` object exposes `Rand()`, and code can execute in one of two modes:\n\n| | **DON mode** (default) | **Node mode** (`RunInNodeMode`) |\n|---|---|---|\n| **Where code runs** | Logically once across the whole Decentralized Oracle Network; every node executes the same code and results go through consensus | Independently on each individual node, then the per-node outputs are aggregated by a consensus/aggregation function |\n| **Determinism requirement** | Must be deterministic — all nodes have to produce identical results to reach consensus | Nodes are *expected* to diverge; that's the point of node mode |\n| **What `Rand()` returns** | A **seeded, deterministic** RNG — the seed is agreed across the DON, so every node produces the **same** random sequence | A genuinely independent RNG per node, so each node produces **different** values |\n\n### The key difference\n- **DON mode `Rand()`** is *pseudo-random but consensus-safe*. Because the random source is seeded from a value the DON agrees on, all nodes generate the same numbers. If it were truly random per node, consensus would fail (every node would report a different result). So it's reproducible/deterministic within a given execution.\n- **Node mode `Rand()`** gives each node its own real entropy. This is useful when you *want* variation across nodes — for example, having different nodes hit different API endpoints, jitter their timing, or sample independently — and then you reconcile the differing results through the aggregation step.\n\n### Practical implication\nUse **DON-mode `Rand()`** when you need randomness that still lets all nodes agree on one outcome (e.g., deterministic tie-breaking, shuffling that must match across the DON). Use **node-mode `Rand()`** when you deliberately want per-node independence and will combine the results afterward.\n\n---\n\n**Caveat:** I'm inferring that you mean the Chainlink CRE SDK based on the terms \"`runtime.Rand`,\" \"DON,\" and \"node mode.\" If you actually meant something else (e.g., a different framework, or Go's `math/rand` in some other \"DON/node\" system), tell me and I'll correct course. If you can share the doc page or code snippet you're looking at, I can give you exact method signatures and behavior rather than the general model above.",
+      "answer": "Let me get more specific detail on the randomness modes.The phrase refers to **Chainlink's Runtime Environment (CRE)** and the `runtime.Rand()` function in its Go SDK. The key idea is that `runtime.Rand()` is **mode-aware** — it behaves differently depending on whether your code is running in **DON mode** or **Node mode**. Here's the breakdown.\n\n## The two execution modes (Runtime vs. NodeRuntime)\n\nThe distinction comes down to **who is responsible for turning the work of many independent nodes into a single trusted result**:\n\n- **DON mode (Runtime — \"Easy Mode\")**: Operations are guaranteed to be Byzantine Fault Tolerant. You ask the network to execute something, and CRE handles the consensus complexity so you get back one final, secure, agreed-upon result. This is the **default** execution mode for workflows and runs in the trigger/callback across the whole Workflow DON.\n\n- **Node mode (NodeRuntime — \"Manual Mode\")**: Used when a BFT guarantee can't be provided automatically (e.g., calling a standard/centralized API). In this mode **each node executes independently and returns its own result**, and CRE does *not* automatically decide how those per-node results are combined — you handle aggregation/consensus yourself.\n\n## How `runtime.Rand()` differs between the modes\n\n**DON mode randomness:**\n- The random **seed is coordinated by the CRE platform**, so *all nodes in the DON produce the same sequence*. That shared sequence is precisely what makes consensus possible — every node picks the same \"random\" outcome.\n- Typical use: called directly inside the trigger callback. For example, a lottery workflow where `rnd.Intn(len(participants))` selects a winner — because the sequence is identical everywhere, all nodes agree on the same winner and prize amount.\n- Usage pattern:\n  ```go\n  rnd, err := runtime.Rand()\n  if err != nil { return err }\n  max := new(big.Int)\n  max.SetString(\"1000000000000000000\", 10) // 1 ETH in wei\n  randomAmount := new(big.Int).Rand(rnd, max)\n  ```\n\n**Node mode randomness:**\n- Has **different random behavior**, intended for advanced scenarios where nodes act independently rather than in lockstep consensus.\n\n## Important rules and gotchas\n\n1. **You cannot mix modes.** If you use a random generator outside the mode it was created in, the SDK deliberately **panics** with an error like *\"random cannot be used outside the mode it was created in.\"* This is intentional — it prevents subtle consensus bugs.\n\n2. **Reuse is fine within a mode.** Once you call `runtime.Rand()` and get a `*rand.Rand`, you can reuse that object across multiple calls **within the same execution mode**.\n\n3. **Not cryptographically secure.** Because the seed is shared/coordinated for consensus, the DON-mode generator must **not** be used for key generation, signature nonces, or anything security-sensitive. For cryptographic randomness, use Go's `crypto/rand` package instead.\n\n4. **Never use Go's built-in `math/rand`.** Go's standard `rand` package generates a *different* sequence on each node, which breaks consensus — the same reason you must use `runtime.Now()` instead of `time.Now()` and avoid `select` over multiple ready channels. Always use the runtime-provided generator.\n\n5. **Local simulation won't catch mode mistakes.** Simulation runs a single-node model, so it validates SDK integration but cannot detect non-determinism or multi-node consensus failures — passing simulation doesn't guarantee production safety.\n\n## Quick summary\n\n| Aspect | DON mode (`Runtime`) | Node mode (`NodeRuntime`) |\n|---|---|---|\n| Consensus | BFT, automatic (\"Easy Mode\") | Manual — you combine results |\n| `runtime.Rand()` seed | Coordinated → all nodes get the **same** sequence | Different behavior, per-node/independent |\n| Typical use | Trigger callbacks, deterministic picks (e.g., lottery) | Advanced cases, independent-node logic |\n| Cross-mode use | ❌ Panics if mixed | ❌ Panics if mixed |\n\nIf you tell me which SDK version or specific error/behavior you're hitting, I can point you to the exact API and example. The authoritative references are Chainlink's docs on [Using Randomness in Workflows](https://docs.chain.link/cre/guides/workflow/using-randomness), [Key Terms and Concepts](https://docs.chain.link/cre/key-terms), and [Avoiding Non-Determinism](https://docs.chain.link/cre/concepts/non-determinism-go).\n\n*Note: Chainlink CRE is currently marked as \"Early Access,\" so these APIs may change in later versions.*",
       "harness": {
         "retries": 0,
-        "searches_attempted": 5,
-        "searches_succeeded": 5,
+        "searches_attempted": 3,
+        "searches_succeeded": 3,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -286,51 +281,46 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "No URLs cited in the citation list; the answer mentions docs.chain.link/cre/guides/workflow/using-randomness in prose but explicitly admits it could not load the page contents, so retrieval effectively failed."
+        "notes": "No URLs cited at all — retrieval/attribution failure; the expected CRE randomness page was never surfaced."
       },
       "scores": {
-        "accuracy": 3,
-        "hallucination_free": 4,
-        "relevance": 4,
-        "structure": 7
+        "accuracy": 8,
+        "hallucination_free": 6,
+        "relevance": 7,
+        "structure": 8
       },
-      "fidelity": 45,
+      "fidelity": 73,
       "hallucinations": [
         {
-          "claim": "Cryptographically secure...randomness → you want Chainlink VRF",
+          "claim": "For that last category, Chainlink VRF is the purpose-built solution...",
           "type": "other",
           "severity": "med"
         },
         {
-          "claim": "\"Avoiding Non-Determinism in Workflows\" (docs.chain.link/cre/concepts/non-determinism-go)",
+          "claim": "never using Go's time package (time.Now()...); instead use runtime.Now()",
           "type": "other",
-          "severity": "med"
+          "severity": "low"
         },
         {
-          "claim": "**Never** raw ... / crypto/rand in workflow code",
-          "type": "contradiction",
-          "severity": "med"
+          "claim": "\"Avoiding Non-Determinism in Workflows\"",
+          "type": "other",
+          "severity": "low"
         }
       ],
-      "missing_must_include": [
-        "CRE solves this with runtime.Rand() which is coordinated by the platform",
-        "In DON mode all nodes get the same sequence so they reach consensus",
-        "runtime.Rand() / rnd.Intn(100) code usage",
-        "Don't use Go's global rand package directly (named specifically)"
-      ],
+      "missing_must_include": [],
       "unverifiable_from_source": [
-        "TypeScript SDK equivalent",
-        "Chainlink VRF for provably fair randomness",
-        "Non-determinism traps like time.Now(), map ordering, floating-point"
+        "Chainlink VRF recommendation and its verifiable-randomness description — not present in the source page",
+        "runtime.Now() / time.Now() non-determinism guidance — not in this source",
+        "Reference to an 'Avoiding Non-Determinism in Workflows' doc page"
       ],
-      "verdict": "Not safe to ship: the answer never surfaces the actual runtime.Rand() API or code, admits it couldn't load the docs, invents a VRF recommendation and a bogus URL, and contradicts the source on crypto/rand.",
+      "verdict": "Core CRE randomness guidance is accurate and safe, but it injects source-absent tangents (VRF, runtime.Now()) and cites nothing, so treat the extras as unverified.",
       "prompt": "I'm new to this — I want my workflow to sometimes pick a random number, but I read that random stuff breaks decentralized networks. How am I supposed to do this correctly with Chainlink CRE?",
       "archetype": "verbose/beginner",
-      "answer": "There are exactly the right docs. Let me fetch the key ones.Great question — and you've actually already spotted the core issue that trips up a lot of people new to decentralized compute. Let me walk you through it.\n\n## Why \"just pick a random number\" breaks things\n\nA Chainlink CRE workflow doesn't run on one machine. It runs on **many independent nodes at the same time**, and those nodes have to agree on the result (reach *consensus*) before anything is committed on-chain or returned.\n\nNow imagine your code does the equivalent of `Math.random()` (or Go's `math/rand`, `crypto/rand`, etc.). Each node would roll its *own* number — node A gets 42, node B gets 17, node C gets 99. They can never agree, so consensus fails and your workflow breaks. This is the general category of **non-determinism**: anything where identical inputs can produce different outputs on different nodes (raw randomness, `time.Now()`, iterating over a map in Go without sorting, etc.).\n\nChainlink even has a dedicated docs page on this — **\"Avoiding Non-Determinism in Workflows\"** (`docs.chain.link/cre/concepts/non-determinism-go`) — worth reading in full.\n\n## The correct way to get randomness in CRE\n\nRather than each node inventing its own value, CRE gives you a **runtime-provided randomness source** that is *seeded deterministically and agreed upon via consensus*. Every node draws from the same seed, so they all produce the **same** \"random\" sequence — you get randomness in your logic without breaking agreement.\n\nThe pattern looks like this:\n\n- ❌ **Don't** call the language's standard random library directly inside workflow logic.\n- ✅ **Do** obtain your random source from the **runtime object** the SDK hands you (this is covered in the **\"Using Randomness in Workflows\"** guide: `docs.chain.link/cre/guides/workflow/using-randomness`).\n\nIn the Go SDK, that means getting a random generator off the `runtime` rather than instantiating your own. In the TypeScript SDK the same idea applies. Because I couldn't fully load the guide's exact method signatures in this session, I'd recommend copying the exact call from that guide, but the *principle* is: **let the runtime give you randomness, don't source it yourself.**\n\n## An important distinction: \"consistent\" vs. \"unpredictable\" randomness\n\nThere are two very different needs, and they have two different tools:\n\n1. **Randomness for internal workflow logic** (e.g., jitter, sampling, picking a branch) where you just need all nodes to agree → use the **runtime-provided random source** described above.\n\n2. **Cryptographically secure, tamper-proof, *unpredictable* randomness** — think lotteries, fair NFT minting, random winner selection, anything where a node operator or attacker must not be able to predict or bias the outcome → you want **Chainlink VRF (Verifiable Random Function)**. VRF produces randomness *plus a cryptographic proof* that it wasn't manipulated, verified on-chain.\n\nThe reason this distinction matters: a deterministic runtime seed is great for consensus, but if the seed is derived from public/observable data, it isn't necessarily *unpredictable*. For high-stakes fairness, reach for VRF.\n\n## Quick decision guide\n\n| Your need | Use |\n|---|---|\n| Random value, just needs nodes to agree | Runtime-provided randomness (CRE SDK) |\n| Random value that must be secure/unpredictable/provably fair | Chainlink VRF |\n| Anything | **Never** raw `Math.random()` / `math/rand` / `crypto/rand` in workflow code |\n\n## Suggested next steps\n\n1. Read **\"Using Randomness in Workflows\"** and grab the exact SDK call for your language (Go or TS).\n2. Skim **\"Avoiding Non-Determinism in Workflows\"** so you recognize the *other* determinism traps (timestamps, map ordering, external API calls without consensus, floating-point quirks).\n3. If your use case is a lottery/raffle/fair-selection, look into **Chainlink VRF** instead.\n\nIf you tell me *what* you're randomizing (and whether an attacker could benefit from predicting it), I can point you to the more specific approach — and I can also try pulling the exact code sample from the docs for you. Would that help?\n\n**One note of transparency:** I confirmed these official Chainlink docs pages exist and cover exactly this topic, but I wasn't able to fully load their detailed contents in this session, so please verify the precise SDK method names against the live guide before you ship. The conceptual guidance above is sound; the exact function signatures are what you'll want to copy from the docs.",
+      "answer": "Great question — this is exactly the kind of thing that trips people up when moving from regular programming to decentralized networks. Let me explain what's going on and the right way to do it in Chainlink CRE.\n\n## Why \"just call random()\" breaks things\n\nYour instinct is correct. CRE workflows run across many independent nodes that must all agree (reach *consensus*) on the output. In a decentralized network, naive use of random number generators creates a critical problem: if each node generates different random values, they cannot reach consensus on the workflow's output.\n\nA concrete example: if your workflow selects a lottery winner using each node's local random generator, different nodes would select different winners, making it impossible to agree on a single result to write onchain. This is the same reason Go's standard library randomness is off-limits here — Go's built-in rand package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness. Each node generates different random values, breaking consensus.\n\n## The correct way: `runtime.Rand()`\n\nThe CRE SDK gives you a consensus-safe random generator. Use runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus.\n\nHow it works under the hood: runtime.Rand() returns a seeded pseudo-random number generator (Go's math/rand); the seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible.\n\nA few practical rules to keep in mind:\n\n- **Don't reach for the standard library.** Do not use Go's global rand package — it can break consensus.\n- **You can reuse the generator.** Once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode.\n- **Stay within one execution mode.** Do not attempt to use a random generator from one mode in another mode — it will cause a panic and crash your workflow. Specifically, the SDK will panic with the error \"random cannot be used outside the mode it was created in.\" This is intentional — it prevents subtle consensus bugs.\n\n## ⚠️ The one big caveat: it's NOT cryptographically secure\n\nThis is critical to understand before you build anything sensitive. runtime.Rand() is not cryptographically secure. That means it should not be used for key generation, signature nonces, or any security-sensitive purpose.\n\nSo pick your tool based on the use case:\n\n| Use case | What to use |\n|---|---|\n| Non-security-sensitive randomness inside a workflow (nonces for internal logic, jitter, sampling, etc.) | `runtime.Rand()` |\n| Cryptographic randomness in Go | For cryptographic randomness, use Go's crypto/rand package. |\n| Tamper-proof, *verifiable* onchain randomness (lotteries, NFT traits, game outcomes, fair winner selection) | **Chainlink VRF** |\n\nFor that last category, Chainlink VRF is the purpose-built solution. Chainlink VRF (Verifiable Random Function) is a provably fair and verifiable random number generator that enables smart contracts to access random values without compromising security or usability. For each request, it generates one or more random values and cryptographic proof of how those values were determined. The proof is published and verified onchain before any consuming applications can use it.\n\nThe reason VRF exists is the same determinism dilemma at the blockchain level: determinism allows thousands of distributed nodes to reach consensus without relying on a central authority, but this strict determinism prevents blockchains from natively generating secure random numbers. If a developer tries to use onchain data such as block hashes or timestamps to generate a random number, validators or miners can manipulate those inputs.\n\n## Quick decision guide for you\n\n1. **Need a random number for internal, non-sensitive workflow logic?** → Use `runtime.Rand()` from the CRE SDK. Simple and consensus-safe.\n2. **Need randomness that money or fairness depends on (winner selection, rare NFT distribution, gambling outcomes)?** → Use **Chainlink VRF** so the result is verifiable and tamper-proof.\n3. **Need cryptographic secrets/nonces?** → Use Go's `crypto/rand`, never `runtime.Rand()`.\n\nSince you're new, one more tip: the Chainlink docs have dedicated pages — \"Using Randomness in Workflows\" and \"Avoiding Non-Determinism in Workflows\" — that show the actual Go code patterns. They also flag related gotchas beyond randomness, like never using Go's time package (time.Now() returns different values on each node); instead use runtime.Now() from the CRE SDK, which provides a consensus-derived timestamp that all nodes agree on. The same \"use the SDK's consensus-safe version\" principle applies across the board.\n\nWould you like a code sketch of a `runtime.Rand()` workflow, or are you leaning toward a VRF-style use case? Knowing what you're actually randomizing (a game outcome? a lottery? internal load-balancing?) would let me point you to the exact right approach.",
       "harness": {
         "retries": 0,
-        "searches_attempted": 5,
-        "searches_succeeded": 5,
+        "searches_attempted": 2,
+        "searches_succeeded": 2,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -342,26 +332,36 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "No URLs cited at all — retrieval/attribution failure; expected docs.chain.link/cre/guides/workflow/using-randomness not surfaced."
+        "notes": "No URLs cited at all; answer references the 'Using Randomness in Workflows' guide by name but provides no link — retrieval/attribution failure."
       },
       "scores": {
         "accuracy": 9,
         "hallucination_free": 9,
-        "relevance": 8,
+        "relevance": 7,
         "structure": 9
       },
-      "fidelity": 88,
-      "hallucinations": [],
+      "fidelity": 85,
+      "hallucinations": [
+        {
+          "claim": "a select with multiple ready channels picks randomly, breaking consensus... process channels in a fixed, deterministic order",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "Workflow DON orchestrates the execution of your callback function on every node...independent and stateless",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
       "missing_must_include": [],
       "unverifiable_from_source": [
-        "local simulation runs with a single-node model ... cannot detect non-determinism or multi-node consensus failures",
-        "passing simulation does not imply production safety",
-        "a math/rand mistake could pass simulation and only fail once deployed"
+        "Claim about select with multiple ready channels picking randomly — not in source",
+        "Description of Workflow DON orchestrating callback execution as independent and stateless — not in source"
       ],
-      "verdict": "Safe to ship — the core recommendation (use runtime.Rand(), avoid math/rand globals, crypto/rand for security) is fully faithful; only some unverified simulation caveats and a missing source citation.",
+      "verdict": "Accurate and safe to ship — code and guidance faithfully match the source; only weakness is zero citations (retrieval failure) and a couple of unverifiable general claims.",
       "prompt": "Should I use runtime.Rand() or Go's math/rand global functions for randomness in a CRE workflow?",
       "archetype": "comparison",
-      "answer": "You should use **`runtime.Rand()`** — not Go's `math/rand` global functions. Here's why:\n\n## The core reason: consensus and determinism\n\nCRE workflows run across multiple nodes in a DON (Decentralized Oracle Network), and every node must produce identical results to reach agreement. In DON mode, all nodes must execute identical code paths to reach consensus, and non-deterministic code breaks this.\n\nGo's global `math/rand` functions defeat this: Go's built-in rand package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness.\n\n## What `runtime.Rand()` does instead\n\nUse runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus. Do not use Go's global rand package—it can break consensus.\n\nConveniently, it's a drop-in replacement API-wise: CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus.\n\n## Important caveats\n\n**It is not cryptographically secure.** The seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible — but it is not cryptographically secure. Do not use it for key generation, signature nonces, or any security-sensitive purpose. For cryptographic randomness, use Go's crypto/rand package.\n\nSo the decision tree is:\n- **Need randomness within workflow logic (sampling, jitter, shuffling, etc.)** → use `runtime.Rand()`\n- **Need cryptographically secure randomness (keys, nonces)** → use `crypto/rand` (note this is separate from the consensus concern)\n- **Never** → Go's `math/rand` global functions\n\n**One more warning about testing:** using the wrong source may not surface locally. If you try to use randomness in the wrong mode, the SDK will panic. And more broadly, local simulation runs with a single-node model — it validates SDK integration but cannot detect non-determinism or multi-node consensus failures, so passing simulation does not imply production safety. That means a `math/rand` mistake could pass simulation and only fail once deployed across the DON.\n\n**Bottom line:** Use `runtime.Rand()` for general randomness in CRE workflows, reserve `crypto/rand` for security-sensitive values, and avoid the `math/rand` globals entirely.",
+      "answer": "I have a clear answer from the Chainlink documentation.\n\n## Use `runtime.Rand()` — never Go's `math/rand` globals\n\nIn a CRE workflow you should always use **`runtime.Rand()`**. The reason comes down to consensus.\n\n**Why the global `math/rand` package breaks CRE workflows**\n\nA CRE workflow doesn't run once—it runs independently on every node in the DON, and those results have to agree. When a trigger fires, the Workflow DON orchestrates the execution of your callback function on every node in the network, and each execution is independent and stateless. Because of that, Go's built-in rand package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness. The docs are explicit: Do not use Go's global rand package—it can break consensus.\n\n**Why `runtime.Rand()` is the correct choice**\n\nUse runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus. Under the hood, CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object, and this random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values. The mechanism is a coordinated seed: the seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible.\n\n**Basic usage**\n\nSince it returns a standard `*rand.Rand`, you use it just like the normal Go API:\n\n```go\n// Get the runtime's random generator\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n\n// Generate a random big.Int in range [0, max)\nmax := big.NewInt(1000)\nrandomValue := new(big.Int).Rand(rnd, max)\n```\n\nFor a complete understanding of how randomness works in CRE, including the difference between DON mode and Node mode randomness, see the \"Using Randomness in Workflows\" guide. Note that the generator is mode-bound: the SDK will panic with the error \"random cannot be used outside the mode it was created in\"—this is intentional, as it prevents subtle consensus bugs.\n\n**One important caveat: security**\n\n`runtime.Rand()` is for consensus-safe, non-security-sensitive randomness only. It is not cryptographically secure. Do not use it for key generation, signature nonces, or any security-sensitive purpose. For cryptographic randomness, use Go's crypto/rand package.\n\n### Bottom line\n- **Deterministic/consensus randomness in workflow logic** → `runtime.Rand()`\n- **Go's `math/rand` global functions** → never (breaks consensus)\n- **Cryptographic/security needs** → `crypto/rand`\n\nMore broadly, this is one instance of a general rule in CRE—randomness is just one source of non-determinism to avoid. For example, another common pitfall is that a select with multiple ready channels picks randomly, breaking consensus, and the solution is to process channels in a fixed, deterministic order instead.",
       "harness": {
         "retries": 0,
         "searches_attempted": 5,
@@ -377,38 +377,38 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "No URLs cited despite claiming to have found the documentation; expected source not attributed — retrieval/citation failure."
+        "notes": "No URLs cited despite claiming to fetch pages; expected source docs.chain.link/cre/guides/workflow/using-randomness not attributed."
       },
       "scores": {
-        "accuracy": 9,
-        "hallucination_free": 7,
-        "relevance": 9,
+        "accuracy": 7,
+        "hallucination_free": 6,
+        "relevance": 8,
         "structure": 9
       },
-      "fidelity": 85,
+      "fidelity": 75,
       "hallucinations": [
         {
-          "claim": "Use runtime.Now() from the CRE SDK, which provides DON Time",
-          "type": "fabricated_function",
-          "severity": "low"
+          "claim": "you'd want to consider Chainlink VRF rather than runtime.Rand()",
+          "type": "other",
+          "severity": "med"
         },
         {
-          "claim": "that's the job of Chainlink VRF rather than a workflow-level generator",
+          "claim": "instead of time.Now(), use runtime.Now() ... DON Time",
           "type": "other",
           "severity": "low"
         }
       ],
-      "missing_must_include": [],
-      "unverifiable_from_source": [
-        "runtime.Now() and DON Time consensus timestamp",
-        "Map iteration ordering guidance (sort keys)",
-        "select with multiple ready channels picks randomly",
-        "Chainlink VRF recommendation for onchain randomness"
+      "missing_must_include": [
+        "DON mode ensures all nodes agree (mode not explicitly named)"
       ],
-      "verdict": "Core guidance (runtime.Rand(), error check, DON-mode consensus, crypto/rand caveat) is accurate and safe to ship; the appended determinism/VRF asides are unverifiable from this source and lack citation.",
+      "unverifiable_from_source": [
+        "Chainlink VRF recommendation for cryptographic randomness (source recommends crypto/rand, not VRF)",
+        "runtime.Now() / DON Time side note not present on this page"
+      ],
+      "verdict": "Core guidance (runtime.Rand(), error check, *rand.Rand, big.Int, consensus) is accurate and shippable, but the VRF recommendation contradicts the source's crypto/rand guidance and there is no citation.",
       "prompt": "What's the right way to get a random value in a CRE workflow? (different phrasing of the consensus-safe randomness question)",
       "archetype": "paraphrase",
-      "answer": "I found the relevant Chainlink documentation. Let me get the details from the key pages.I have enough detailed information to answer this well.\n\n## Getting a Random Value in a CRE Workflow\n\nThe short answer: **use `runtime.Rand()`, never Go's built-in `rand` package.**\n\n### Why you can't just use `rand`\n\nIn a CRE workflow running in DON mode, multiple nodes execute the exact same code independently and must reach consensus on the output before anything is written onchain. Go's built-in rand package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness. If each node generates different random values, they cannot reach consensus on the workflow's output. For example, if your workflow selects a lottery winner using each node's local random generator, different nodes would select different winners, making it impossible to agree on a single result to write onchain.\n\n### The correct approach\n\nUse runtime.Rand() to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus. CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus while still providing unpredictability across different workflow executions.\n\nA minimal example:\n\n```go\n// Get the random generator from the runtime\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n\nrandomInt := rnd.Intn(100)                                    // random int in [0, 100)\nrandomBigInt := new(big.Int).Rand(rnd, big.NewInt(1000))      // random big.Int\n```\n\nBecause it returns a standard `*rand.Rand`, you use all the normal Go methods on it (`Intn`, `Int63`, `big.Int.Rand`, etc.).\n\n### Important caveats\n\n**It is not cryptographically secure.** The seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible — but it is not cryptographically secure. Do not use it for key generation, signature nonces, or any security-sensitive purpose. For cryptographic randomness, use Go's crypto/rand package.\n\n**Execution-mode safety.** The SDK guards against mixing randomness across modes. The SDK will panic with the error: \"random cannot be used outside the mode it was created in\". This is intentional—it prevents subtle consensus bugs. Within a single mode, though, once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode.\n\n### Related determinism gotchas\n\nRandomness isn't the only source of consensus-breaking non-determinism. The same guidance applies to a few other patterns:\n- **Time:** don't use `time.Now()`. Use runtime.Now() from the CRE SDK, which provides DON Time—a consensus-derived timestamp that all nodes agree on.\n- **Map iteration:** Go maps are designed to iterate in random order for security reasons. Each time you iterate over a map, the order may be different. The fix is to extract the keys, sort them, and iterate in sorted order.\n- **`select` with multiple ready channels:** it picks randomly, so process channels in a fixed, deterministic order instead.\n\n**Bottom line:** For ordinary workflow randomness (nonces, picking a winner, shuffling), use `runtime.Rand()`. For anything security-sensitive, reach for `crypto/rand` instead — and if you need verifiable, tamper-proof onchain randomness for a smart contract, that's the job of Chainlink VRF rather than a workflow-level generator.",
+      "answer": "There's a dedicated doc. Let me fetch the key pages.I have what I need.\n\n## Use `runtime.Rand()` — not Go's `rand` package\n\nIn a CRE workflow, the correct way to get a random value is through the runtime's built-in generator. Use `runtime.Rand()` to generate random numbers in your workflows. This provides deterministic randomness that ensures all nodes in the network generate the same values and can reach consensus.\n\n### Why the \"naive\" approach breaks\n\nThe whole issue is consensus. In a decentralized network, naive use of random number generators creates a critical problem: if each node generates different random values, they cannot reach consensus on the workflow's output. For example, if your workflow selects a lottery winner using each node's local random generator, different nodes would select different winners, making it impossible to agree on a single result to write onchain.\n\nThat's why Go's built-in rand package generates different random sequences on each node, making it impossible to reach consensus on values that depend on randomness. The solution is to use `runtime.Rand()` from the CRE SDK, which provides consensus-safe random number generation.\n\n### How it works\n\nCRE provides randomness through the `runtime.Rand()` method, which returns a standard Go `*rand.Rand` object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus while still providing unpredictability across different workflow executions.\n\nBasic usage looks like this:\n\n```go\n// Get the random generator from the runtime\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n\n// Use it with standard Go rand methods\nrandomInt := rnd.Intn(100)                                  // random int in [0, 100)\nrandomBigInt := new(big.Int).Rand(rnd, big.NewInt(1000))    // random big.Int\n```\n\nFor Solidity uint256 types, you often need random *big.Int values, so the `big.Int` form is handy when writing results onchain.\n\n### Important caveats\n\n- **Don't use Go's global `rand`.** Do not use Go's global rand package—it can break consensus.\n- **It's not cryptographically secure.** Note that `runtime.Rand()` is not cryptographically secure. If you need cryptographically strong/unpredictable randomness (e.g., for high-value on-chain lotteries where manipulation resistance matters), you'd want to consider Chainlink VRF rather than `runtime.Rand()`.\n\n### Typical use cases\n\nThese are the kinds of things `runtime.Rand()` is meant for: selecting a winner from a lottery or pool, generating nonces for transactions, creating random identifiers or values, and any random selection that needs to be agreed upon by all nodes.\n\n---\n\nAs a side note, randomness is one of several non-determinism traps in CRE. The same principle applies to time — instead of `time.Now()`, use `runtime.Now()` from the CRE SDK, which provides DON Time—a consensus-derived timestamp that all nodes agree on.\n\n**Bottom line:** call `runtime.Rand()` to get a `*rand.Rand`, then use standard Go methods (`Intn`, `big.Int.Rand`, etc.) on it — never `math/rand`'s global functions.",
       "harness": {
         "retries": 0,
         "searches_attempted": 4,
@@ -424,50 +424,44 @@
       "retrieval": {
         "cited_urls": [],
         "hit_expected_source": false,
-        "notes": "No URLs cited; model never found or referenced the CRE randomness docs and answered about Go's internal runtime.rand() instead."
+        "notes": "No URLs cited; did not retrieve the CRE docs page. Model misinterpreted runtime.Rand() as Go's stdlib runtime package rather than CRE's runtime.Rand()."
       },
       "scores": {
-        "accuracy": 1,
-        "hallucination_free": 2,
-        "relevance": 1,
-        "structure": 4
+        "accuracy": 2,
+        "hallucination_free": 3,
+        "relevance": 2,
+        "structure": 6
       },
-      "fidelity": 20,
+      "fidelity": 33,
       "hallucinations": [
         {
-          "claim": "There isn't a public runtime.Rand() in Go. runtime.rand() exists, but it's an unexported, internal function",
+          "claim": "there is no exported `runtime.Rand()` in Go's standard library",
           "type": "contradiction",
           "severity": "high"
         },
         {
-          "claim": "Since Go 1.22, the runtime's internal generator ... was changed to ChaCha8",
-          "type": "other",
-          "severity": "high"
-        },
-        {
-          "claim": "the seed is only 63 bits, any output drawn from the generator can be attacked",
+          "claim": "internal, unexported `runtime.rand()` function that the runtime and `math/rand/v2` use",
           "type": "other",
           "severity": "med"
         }
       ],
       "missing_must_include": [
-        "No, it is not cryptographically secure — it's a seeded pseudo-random generator (Go's math/rand)",
         "The seed is coordinated by CRE so all nodes produce the same sequence",
-        "Do not use it for key generation or signature nonces; use crypto/rand for that",
         "Yes, you can reuse the generator within the same execution mode; each call produces the next value in the deterministic sequence"
       ],
       "unverifiable_from_source": [
-        "Concurrency-safety details of *rand.Rand and crypto/rand",
-        "ChaCha8 default generator in Go 1.22"
+        "Concurrency safety of *rand.Rand across goroutines",
+        "math/rand/v2 per-thread source details",
+        "crypto/rand.Read draws from OS CSPRNG (getrandom/dev/urandom)"
       ],
-      "verdict": "Not safe to ship — the model entirely misidentified CRE's runtime.Rand() as Go's internal runtime.rand(), missed the CRE consensus-seed and reuse guidance, and cited no source.",
+      "verdict": "Not safe to ship — the model misread CRE's runtime.Rand() as Go's stdlib and falsely claims the function doesn't exist, missing all CRE-specific consensus/reuse guidance.",
       "prompt": "Is runtime.Rand() cryptographically secure, and can I reuse the same generator across multiple calls?",
       "archetype": "direct-howto",
-      "answer": "## Short answer\n\nThere isn't a public `runtime.Rand()` in Go. `runtime.rand()` exists, but it's an **unexported, internal function** — it's not part of the public API and you shouldn't call it directly from application code. If you're generating random numbers, you should be using `math/rand`, `math/rand/v2`, or `crypto/rand` instead. With that in mind, here are the two things you're really asking about:\n\n## Is it cryptographically secure?\n\nSince Go 1.22, the runtime's internal generator (and the default generator behind the global `math/rand`/`math/rand/v2` functions) was changed to ChaCha8. To ameliorate misuse of math/rand in cryptographic contexts, ChaCha8 was made the default generator used in global functions, and the Go runtime was also changed to use it (replacing wyrand).\n\nHowever — and this is the key point — that does **not** make `math/rand`/`math/rand/v2` a substitute for a CSPRNG. Programs are still strongly encouraged to use crypto/rand to generate cryptographic secrets. The reason is seeding: because the seed is only 63 bits, any output drawn from the generator can be attacked — so it does not provide the security guarantees you need for keys, tokens, nonces, or passwords.\n\nSo the guidance is:\n- **Cryptographic secrets** (keys, tokens, passwords, nonces) → use `crypto/rand`. The crypto/rand package provides cryptographically secure random numbers, designed to be unpredictable, using sources of randomness provided by your OS, which are much harder to predict.\n- **General-purpose randomness** (simulations, shuffling, sampling, jitter) → `math/rand/v2` is fine.\n\nA very common and dangerous mistake is letting an auto-import silently swap `crypto/rand` for `math/rand`, which turns a secure source into a predictable one — this has bitten real projects.\n\n## Can you reuse the same generator across multiple calls (concurrency)?\n\nYes, reusing a generator is normal and expected — but concurrency safety depends on *which* generator:\n\n- **Top-level functions and the runtime generator are safe for concurrent use.** The ChaCha8 pseudo-random number generator built into the runtime performs proper mutual exclusion, so it is safe to use heavily under concurrent processing, and the same applies to the top-level functions in the math/rand and math/rand/v2 packages.\n\n- **A `*rand.Rand` you create yourself (via `rand.New(...)`) is NOT safe for concurrent use.** If you construct your own generator instance, you must not share it across goroutines without your own locking (e.g., wrap it in a mutex, or give each goroutine its own instance). This applies to both `math/rand` and `math/rand/v2`.\n\n- `crypto/rand`'s functions are also safe for concurrent use.\n\n## Practical recommendations\n\n1. Don't call `runtime.rand()` — it's internal.\n2. For anything security-sensitive, use `crypto/rand`.\n3. For general randomness, just call the top-level `math/rand/v2` functions (e.g., `rand.IntN`, `rand.Float64`) — these are concurrency-safe and you can call them freely from many goroutines.\n4. If you create your own `*rand.Rand` for performance or reproducibility, guard it with a mutex or use one per goroutine, since a shared instance is not concurrency-safe.\n\nWould you like a short code example showing a mutex-guarded generator versus using the concurrency-safe top-level functions?",
+      "answer": "Short answer: I want to flag a premise issue first — **there is no exported `runtime.Rand()` in Go's standard library.** The `runtime` package has an *internal, unexported* `runtime.rand()` function that the runtime and `math/rand/v2` use as a fast per-thread PRNG source, but you can't call it directly. So depending on what you actually meant, here's the guidance:\n\n## 1. Is it cryptographically secure? No.\n\nWhether you mean the internal `runtime.rand()`, `math/rand`, or `math/rand/v2`, **none of these are cryptographically secure.** They are fast pseudo-random number generators intended for simulation, load balancing, sampling, jitter, etc. — not for anything security-sensitive.\n\n- `math/rand` and `math/rand/v2` are deterministic PRNGs. Their output is predictable if an attacker can observe or infer the internal state/seed.\n- Do **not** use them for tokens, session IDs, passwords, salts, nonces, keys, or anything an adversary shouldn't be able to guess.\n\nFor cryptographic randomness, use **`crypto/rand`** (e.g., `crypto/rand.Read`, `crypto/rand.Reader`, or `crypto/rand.Int`). It draws from the operating system's CSPRNG (getrandom/`/dev/urandom` on Linux, etc.), which is the correct choice for keys and secrets.\n\n```go\nimport \"crypto/rand\"\n\nbuf := make([]byte, 32)\nif _, err := rand.Read(buf); err != nil {\n    // crypto/rand can return an error — always check it\n}\n```\n\nNote: unlike `math/rand`, `crypto/rand.Read` **can return an error**, so always check it.\n\n## 2. Can you reuse the same generator across multiple calls? It depends on *how* you use it.\n\n**Top-level package functions are safe to reuse concurrently:**\n- `math/rand`'s and `math/rand/v2`'s top-level functions (e.g., `rand.Intn`, `rand.Float64`) are safe for concurrent use by multiple goroutines. They're backed by a shared, internally-locked (or per-thread, in v2) source, so calling them from many goroutines is fine.\n- `crypto/rand.Reader` is likewise safe for concurrent use.\n\n**A generator instance you create yourself is generally NOT safe to share concurrently:**\n- A `*rand.Rand` value returned by `rand.New(...)` is **not** safe for concurrent use by multiple goroutines. Reusing it sequentially in one goroutine is fine, but sharing one across goroutines requires your own mutex, or giving each goroutine its own generator.\n\n```go\n// Reusing sequentially in one goroutine: fine\nr := rand.New(rand.NewSource(seed))\na := r.Intn(100)\nb := r.Intn(100) // OK\n\n// Sharing r across goroutines: NOT safe without your own locking\n```\n\nSo \"reuse the same generator\" is fine and even encouraged for sequential calls (you don't need to re-seed or re-create it per call), but if multiple goroutines touch a single `*rand.Rand` you must protect it or use the concurrency-safe top-level functions instead.\n\n## Practical recommendation\n\n- **Security-sensitive?** → `crypto/rand`. It is cryptographically secure and safe to reuse across concurrent calls.\n- **Non-security (simulations, jitter, sampling)?** → prefer `math/rand/v2`. Reuse a single source freely; use the top-level functions for concurrent access, or give each goroutine its own `*rand.Rand`, or guard a shared one with a mutex.\n\nIf you can tell me which specific function/package you're actually calling (or share the code), I can give you a more precise answer.",
       "harness": {
         "retries": 0,
-        "searches_attempted": 4,
-        "searches_succeeded": 4,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false
@@ -477,11 +471,9 @@
       "probe_id": "p10",
       "model_tested": "claude-opus-4-8",
       "retrieval": {
-        "cited_urls": [
-          "https://docs.chain.link/cre/guides/workflow/using-randomness"
-        ],
+        "cited_urls": [],
         "hit_expected_source": true,
-        "notes": "Cited the expected source page directly."
+        "notes": "No formal citation block, but the answer body explicitly names docs.chain.link/cre/guides/workflow/using-randomness, the expected source. Also references an 'Avoiding Non-Determinism in Workflows' page not provided."
       },
       "scores": {
         "accuracy": 10,
@@ -492,15 +484,17 @@
       "fidelity": 100,
       "hallucinations": [],
       "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Accurate, faithful, and complete — safe to ship to a developer.",
+      "unverifiable_from_source": [
+        "Reference to a related 'Avoiding Non-Determinism in Workflows' concept page (not in provided source)"
+      ],
+      "verdict": "Safe to ship — accurately explains cre.RunInNodeMode, nodeRuntime.Rand(), per-node values, consensus aggregation, and mode-isolation panic, all faithful to the source.",
       "prompt": "How do I access per-node randomness using Node mode in a CRE workflow?",
       "archetype": "constrained",
-      "answer": "I'll search for information about accessing per-node randomness in Node mode within a CRE workflow.Let me get the detailed content from the primary documentation page on randomness.Based on the Chainlink documentation, here's how to access per-node randomness using Node mode in a CRE workflow.\n\n## Overview: DON mode vs. Node mode randomness\n\nCRE provides randomness that is **mode-aware**. CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus. That default behavior is **DON mode**.\n\n**Node mode** is different — instead of producing identical sequences across nodes, each node generates different random values, useful for scenarios where per-node variability is accepted.\n\n## Accessing Node mode randomness\n\nTo get per-node randomness, you run your code inside `cre.RunInNodeMode` and call `Rand()` on the **node runtime** (not the regular `runtime`):\n\n```go\nresultPromise := cre.RunInNodeMode(\n    config,\n    runtime,\n    func(config *Config, nodeRuntime cre.NodeRuntime) (int, error) {\n        rnd, err := nodeRuntime.Rand()\n        if err != nil {\n            return 0, err\n        }\n        // Each node generates a different value\n        return rnd.Intn(100), nil\n    },\n    cre.ConsensusMedianAggregation[int](),\n)\n```\n\nKey points from this pattern:\n- You obtain the generator via **`nodeRuntime.Rand()`** inside the `RunInNodeMode` callback, rather than `runtime.Rand()` (which is DON mode).\n- Because each node produces its own value, you must supply an **aggregator** (e.g., `cre.ConsensusMedianAggregation[int]()`) so the divergent per-node results are combined into a single consensus result.\n\n## Important constraints\n\nThe randomness generator is bound to the mode it was created in, and mixing modes will crash your workflow. Random generators are tied to the mode they were created in. Do not attempt to use a random generator from one mode in another mode—it will cause a panic and crash your workflow.\n\nSpecifically, the SDK will panic with the error: \"random cannot be used outside the mode it was created in\". This is intentional—it prevents subtle consensus bugs.\n\nYou can, however, reuse the generator within the same mode: once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode.\n\n## Security caveat\n\nRegardless of mode, this randomness is **not** cryptographically secure. The seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible — but it is not cryptographically secure. Do not use it for key generation, signature nonces, or any security-sensitive purpose. For cryptographic randomness, use Go's crypto/rand package.\n\nFor full details and additional examples, see the [Using Randomness in Workflows](https://docs.chain.link/cre/guides/workflow/using-randomness) page in the Chainlink documentation.",
+      "answer": "# Accessing Per-Node Randomness with Node Mode in CRE\n\nIn the Chainlink Runtime Environment (CRE), `runtime.Rand()` is **mode-aware**. The default is **DON mode**, where all nodes produce the *same* sequence of random values (so they can reach consensus). **Node mode** is different — it's designed for advanced scenarios where you want *each node* to generate its *own* independent random value, which you then aggregate into a consensus result.\n\n## How to do it\n\nYou access per-node randomness by wrapping your logic in `cre.RunInNodeMode(...)` and calling `.Rand()` on the **`NodeRuntime`** object passed into your callback (not on the outer `runtime`):\n\n```go\nresultPromise := cre.RunInNodeMode(\n    config,\n    runtime,\n    func(config *Config, nodeRuntime cre.NodeRuntime) (int, error) {\n        rnd, err := nodeRuntime.Rand()\n        if err != nil {\n            return 0, err\n        }\n        // Each node generates a different value\n        return rnd.Intn(100), nil\n    },\n    cre.ConsensusMedianAggregation[int](),\n)\n```\n\nKey points:\n\n1. **Use `nodeRuntime.Rand()`, not `runtime.Rand()`.** Inside the Node-mode callback you get a `NodeRuntime`, and calling `.Rand()` on it gives you a `*rand.Rand` whose values differ per node.\n2. **Provide a consensus aggregation.** Since each node produces a different value, you must supply an aggregation strategy (e.g., `cre.ConsensusMedianAggregation[int]()`) as the final argument so the DON can collapse the per-node values into a single agreed result.\n\n## Important caveats\n\n- **Don't cross modes.** Random generators are tied to the execution mode they were created in. If you try to use a Node-mode generator in DON mode (or vice versa), the SDK will panic with `\"random cannot be used outside the mode it was created in\"` — this is intentional to prevent subtle consensus bugs.\n- **It's not cryptographically secure.** `runtime.Rand()` / `nodeRuntime.Rand()` returns a seeded pseudo-random generator (Go's `math/rand`). Don't use it for key generation, signature nonces, or other security-sensitive work — use Go's `crypto/rand` for that.\n- **Reuse within a mode is fine.** Once you have the `*rand.Rand` object, you can reuse it across multiple calls within the same execution mode.\n\n---\n\n**Note on sources:** The details above are drawn from Chainlink's official CRE documentation, specifically the \"Using Randomness in Workflows\" guide (`docs.chain.link/cre/guides/workflow/using-randomness`) and the related \"Avoiding Non-Determinism in Workflows\" concept page. I'd recommend checking those pages directly for the most current API signatures, since the CRE SDK is actively evolving.\n\nWould you like an example that shows a full workflow combining Node-mode randomness with a consensus write onchain?",
       "harness": {
         "retries": 0,
-        "searches_attempted": 3,
-        "searches_succeeded": 3,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
         "search_errors": [],
         "search_degraded": false,
         "live_search_failed": false

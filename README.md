@@ -12,6 +12,7 @@ Three subcommands form a pipeline:
 | `score <url>` | Audits a page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
 | `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key | `probes-<slug>.json` |
 | `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source page as sole ground truth | `probe-results-<slug>-<model>.json` + summary |
+| `dashboard` | Rolls every artifact in `results/` into one shareable HTML report | `dashboard.html` |
 
 All analyst/grader work runs on **Claude Opus 4.8** by default. **Claude Fable 5** is
 selected automatically at `--effort max` (its extra capability is worth the cost only for the
@@ -72,9 +73,40 @@ node src/cli.js probe results/tutorials-go-sdk-fetch/probes.json --mode closed  
 node src/cli.js score https://docs.chain.link/data-streams/tutorials/go-sdk-fetch \
   --probe-results results/tutorials-go-sdk-fetch/probe-results-opus-4-8-web.json
 
+# 5. Roll everything in results/ into one shareable HTML report (no API calls)
+node src/cli.js dashboard
+
 # Inspect what gets sent to the auditor (no API call)
 node src/cli.js score https://docs.chain.link/data-feeds --dump-content
 ```
+
+## Dashboard
+
+`dashboard` reads `results/` and writes a single self-contained `results/dashboard.html` —
+no server, no external requests, no dependencies. Open it with `file://` or send the file to
+someone who never ran the tool.
+
+Four views: **Overview** (corpus KPIs, the score-vs-fidelity gap chart, all pages, weakest
+dimensions), **Pages** (per-page scorecard / recommendations / probes / anti-patterns),
+**Answer quality** (what retrieval is worth, retrieval funnel, failure by question phrasing,
+hallucination taxonomy), and **Methodology** (rubric, probe runs, run-to-run variance, caveats).
+
+The headline it exists to surface is the gap between how good a page *looks* (GEO score) and
+how accurately models actually answer from it (fidelity).
+
+```sh
+node src/cli.js dashboard                 # -> results/dashboard.html
+node src/cli.js dashboard --json          # also write results/dashboard-data.json
+node src/cli.js dashboard -o report.html  # custom destination
+```
+
+Statistics that cannot be known are rendered as `—`, never as `0`: pages without a probe run
+show no fidelity, and probe runs recorded before the search-health counters existed are excluded
+from the retrieval funnel rather than counted as zero-search. Superseded `*-old.*` artifacts are
+ignored. Where a page was scored more than once, every score appears under Methodology → run-to-run
+variance, and the probe-informed re-score is the one used for headline figures.
+
+Run `npm test` to check the audit-report parser against every report currently in `results/`.
 
 Or link it: `npm link` → `geo-audit <command>`.
 

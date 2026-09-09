@@ -7,6 +7,8 @@ import { extractPage, buildPageContent } from "./extract.js";
 import { runAudit } from "./analyze.js";
 import { genProbes, slugFromUrl } from "./probes.js";
 import { runProbes } from "./evaluate.js";
+import { collect } from "./dashboard/collect.js";
+import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
@@ -22,6 +24,7 @@ Usage:
   geo-audit score <url> [options]            Audit a page, print a scored Markdown report
   geo-audit gen-probes <url> [options]       Generate probe prompts + answer key JSON
   geo-audit probe <probes.json> [options]    Ask a model the probes, grade its answers
+  geo-audit dashboard [options]              Build an HTML dashboard from results/
 
 Analyst/grader model defaults to ${DEFAULT_MODEL}; ${FABLE_MODEL} is used
 automatically at --effort max. Override with -m on score / gen-probes.
@@ -57,6 +60,11 @@ probe:
   -m, --model <id>      Model under test (default: ${DEFAULT_PROBE_TARGET})
       --mode <mode>     web | closed (default: web — retrieval enabled)
                         [grader model: by effort — see above]
+
+dashboard:                                   (no API calls — reads results/ only)
+      --results-dir <dir>  Directory to read (default: results)
+      --json               Also write results/dashboard-data.json
+  -o, --output <file>      Output file (default: results/dashboard.html)
 
 Auth: uses ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, an \`ant auth login\` profile,
 or a repo-local .env file containing ANTHROPIC_API_KEY.`;
@@ -296,6 +304,51 @@ async function cmdProbe(argv) {
   process.stderr.write(`\nResults written to ${outFile}\n`);
 }
 
+// ------------------------------------------------------------- dashboard ----
+
+async function cmdDashboard(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      output: { type: "string", short: "o" },
+      "results-dir": { type: "string", default: "results" },
+      json: { type: "boolean", default: false },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  const resultsDir = values["results-dir"];
+  process.stderr.write(`Reading ${resultsDir}/ ...\n`);
+
+  let data;
+  try {
+    data = collect(resultsDir);
+  } catch (err) {
+    fail(err.message);
+  }
+
+  const outFile = values.output ?? path.join(resultsDir, "dashboard.html");
+  fs.writeFileSync(outFile, render(data));
+
+  if (values.json) {
+    const jsonFile = path.join(resultsDir, "dashboard-data.json");
+    fs.writeFileSync(jsonFile, JSON.stringify(data, null, 2) + "\n");
+    process.stderr.write(`Data written to ${jsonFile}\n`);
+  }
+
+  const { aggregates: agg } = data;
+  const sizeKb = Math.round(fs.statSync(outFile).size / 1024);
+  process.stderr.write(
+    `\n${agg.pageCount} pages (${agg.probedPageCount} probed) · ${agg.probeCount} probes\n` +
+      `  median score ${agg.medianScore} · median fidelity ${agg.medianFidelity ?? "—"} · ` +
+      `hit rate ${agg.hitRate === null ? "—" : Math.round(agg.hitRate * 100) + "%"}\n`,
+  );
+  for (const note of agg.coverageNotes) process.stderr.write(`  note: ${note}\n`);
+  process.stderr.write(`\nDashboard written to ${outFile} (${sizeKb} KB)\n`);
+}
+
 // ------------------------------------------------------------- dispatch ----
 
 async function main() {
@@ -312,8 +365,10 @@ async function main() {
       return cmdGenProbes(rest);
     case "probe":
       return cmdProbe(rest);
+    case "dashboard":
+      return cmdDashboard(rest);
     default:
-      fail(`unknown command "${cmd}" — expected score, gen-probes, or probe`);
+      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, or dashboard`);
   }
 }
 

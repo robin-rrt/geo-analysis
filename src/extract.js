@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import TurndownService from "turndown";
 import turndownPluginGfm from "turndown-plugin-gfm";
+import { runChecks, renderFacts } from "./checks/index.js";
 
 const USER_AGENT =
   "geo-analyze/0.1 (+https://github.com/robin/geo-analysis; GEO audit bot)";
@@ -110,9 +111,19 @@ export async function extractPage(url) {
 
 /**
  * Assemble the PAGE_CONTENT block injected into the audit prompt.
+ *
+ * The measured-facts block rides here, in the volatile user message, rather than
+ * in the cached system prompt — it is page-specific, so putting it in the prefix
+ * would invalidate the cache on every audit.
  */
-export function buildPageContent({ headHtml, jsonLd, markdown }) {
+export function buildPageContent(page) {
+  const { headHtml, jsonLd, markdown } = page;
   const sections = [];
+
+  const facts = renderFacts(runChecks(page));
+  sections.push(
+    `## Measured facts (computed deterministically — treat as ground truth)\n\n${facts}`,
+  );
 
   if (headHtml) {
     sections.push(`## Extracted <head> metadata\n\n\`\`\`html\n${headHtml}\n\`\`\``);

@@ -107,6 +107,21 @@ output template.
      parametric floor). These correct the metric, not the page — never mix them into
      page-content tiers.
 
+## Measured facts
+
+The page content begins with a `## Measured facts` block computed deterministically from the
+served page — JSON-LD parsed and validated, headings and code fences scanned, links and numerals
+counted. **Treat these as ground truth.** Do not recount them, re-derive them, or contradict
+them; cite them as evidence when scoring the dimensions they name.
+
+They are *measurements, not scores*. You still assign every 0–10 yourself: a fact tells you there
+are zero level skips, not that scannability is a 9. Where a fact reads `not applicable`, the
+comparison genuinely did not apply — do not treat it as a failure. Where the block reports a
+parse error or a mismatch, that is a hard finding you can quote directly rather than hedge.
+
+Facts cover part of the rubric, not all of it. Dimensions 1, 5, 8 and 9 are yours to judge from
+the prose with no measured input.
+
 ## Scoring rubric (0–100)
 
 Score each dimension 0–10, multiply by its weight, sum to a total. Weights sum to 100.

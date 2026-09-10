@@ -153,7 +153,10 @@ async function cmdScore(argv) {
           `pass the probe run for the page being scored`,
       );
     }
-    probeResults = JSON.stringify(parsed, null, 2);
+    // Token accounting is for the operator, not the auditor — keep it out of the prompt.
+    const { usage: _usage, ...run } = parsed;
+    run.results = run.results.map(({ usage: _resultUsage, ...r }) => r);
+    probeResults = JSON.stringify(run, null, 2);
   }
 
   process.stderr.write(`Fetching ${url} ...\n`);
@@ -278,19 +281,33 @@ async function cmdProbe(argv) {
     values.output ?? resultsPath(slug, `probe-results-${modelShort}-${summary.mode}.json`);
   fs.writeFileSync(outFile, JSON.stringify(summary, null, 2) + "\n");
 
-  const hitPct = Math.round(summary.retrieval_hit_rate * 100);
+  const pct = (r) => `${Math.round(r * 100)}%`;
+  const hitRate =
+    summary.retrieval_hit_rate === null ? "n/a (closed mode)" : pct(summary.retrieval_hit_rate);
+  const mentions =
+    summary.retrieval_mention_hit_count > 0
+      ? ` (${summary.retrieval_mention_hit_count} by in-text mention)`
+      : "";
   const effective =
     summary.inconclusive_miss_count > 0 && summary.retrieval_hit_rate_effective !== null
-      ? ` (effective ${Math.round(summary.retrieval_hit_rate_effective * 100)}% — ` +
+      ? ` (effective ${pct(summary.retrieval_hit_rate_effective)} — ` +
         `${summary.inconclusive_miss_count} inconclusive miss(es) excluded)`
       : "";
+  const s = summary.avg_scores;
+  const tokens = (u) =>
+    `in ${u.input_tokens.toLocaleString()} / out ${u.output_tokens.toLocaleString()} ` +
+    `/ cache-read ${u.cache_read_input_tokens.toLocaleString()}`;
   process.stderr.write(
     `\n${summary.model_tested} (${summary.mode}) on "${summary.source_title}"\n` +
-      `  graded by ${summary.grader_model} · avg fidelity: ${summary.avg_fidelity}/100 · ` +
-      `retrieval hit rate: ${hitPct}%${effective}\n` +
-      `  avg scores — accuracy ${summary.avg_scores.accuracy}, ` +
-      `hallucination-free ${summary.avg_scores.hallucination_free}, ` +
-      `relevance ${summary.avg_scores.relevance}, structure ${summary.avg_scores.structure}\n`,
+      `  graded by ${summary.grader_model} · avg fidelity: ${summary.avg_fidelity ?? "—"}/100 · ` +
+      `retrieval hit rate: ${hitRate}${mentions}${effective}\n` +
+      (s
+        ? `  avg scores — accuracy ${s.accuracy}, hallucination-free ${s.hallucination_free}, ` +
+          `relevance ${s.relevance}, structure ${s.structure}\n`
+        : "") +
+      (summary.refusal_count > 0 ? `  ${summary.refusal_count} refusal(s) — not graded\n` : "") +
+      `  tokens — model under test ${tokens(summary.usage.model_under_test)} · ` +
+      `grader ${tokens(summary.usage.grader)}\n`,
   );
   if (summary.live_search_failed_count > 0 || summary.search_degraded_count > 0) {
     process.stderr.write(

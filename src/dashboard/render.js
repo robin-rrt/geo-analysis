@@ -23,6 +23,14 @@ function inline(text) {
 
 const DASH = '<span class="faint">—</span>';
 const pct = (rate) => (Number.isFinite(rate) ? `${Math.round(rate * 100)}%` : null);
+/** Retrieval verdict for one probe: cited, named in the answer text, missed, or n/a (closed mode). */
+function retrievalPill(p) {
+  if (p.hit === null) return '<span class="pill">n/a</span>';
+  if (!p.hit) return '<span class="pill miss">missed</span>';
+  return p.via === "mention"
+    ? '<span class="pill hit">named in text</span>'
+    : '<span class="pill hit">cited</span>';
+}
 const bandClass = (band) => `band-${String(band ?? "").toLowerCase().replace(/[^a-z]/g, "")}`;
 
 /** A value that may legitimately be unknown. Never renders a placeholder zero. */
@@ -244,11 +252,8 @@ function renderProbes(page) {
     return `<tr>
       ${cell(`<span class="mono">${esc(p.id)}</span>`, { sortValue: p.id })}
       ${cell(`<span class="pill">${esc(p.archetype)}</span>`, { sortValue: p.archetype })}
-      ${cell(`${p.fidelity}`, { num: true, sortValue: p.fidelity })}
-      ${cell(
-        p.hit ? '<span class="pill hit">cited</span>' : '<span class="pill miss">missed</span>',
-        { sortValue: p.hit ? 1 : 0 },
-      )}
+      ${cell(show(p.fidelity), { num: true, sortValue: p.fidelity ?? -1 })}
+      ${cell(retrievalPill(p), { sortValue: p.hit === null ? -1 : p.hit ? 1 : 0 })}
       ${cell(
         p.hallucinations.length
           ? `${p.hallucinations.length}${high ? ` <span class="sev-high small">(${high} high)</span>` : ""}`
@@ -263,8 +268,12 @@ function renderProbes(page) {
     .map(
       (p) => `<div class="card">
     <h4><span class="mono">${esc(p.id)}</span> <span class="pill">${esc(p.archetype)}</span>
-      <span class="${p.fidelity >= 70 ? "band-strong" : p.fidelity >= 50 ? "band-developing" : "band-poor"}">${p.fidelity}/100</span>
-      ${p.hit ? '<span class="pill hit">cited source</span>' : '<span class="pill miss">missed source</span>'}</h4>
+      ${
+        p.fidelity === null
+          ? '<span class="faint">not graded</span>'
+          : `<span class="${p.fidelity >= 70 ? "band-strong" : p.fidelity >= 50 ? "band-developing" : "band-poor"}">${p.fidelity}/100</span>`
+      }
+      ${retrievalPill(p)}</h4>
     <dl>
       <dt>Prompt</dt><dd>${inline(p.prompt)}</dd>
       <dt>Verdict</dt><dd class="muted">${inline(p.verdict)}</dd>

@@ -33,6 +33,7 @@ export function client() {
  *   put a large stable prefix first with its own cache_control).
  * - With `jsonSchema` set, uses structured outputs and returns parsed JSON;
  *   otherwise returns the response text.
+ * - `onUsage`, if given, receives the response's raw `usage` object.
  */
 export async function runClaude({
   promptFile,
@@ -41,6 +42,7 @@ export async function runClaude({
   model = DEFAULT_MODEL,
   fallback = true,
   onText,
+  onUsage,
   jsonSchema,
 }) {
   const systemPrompt = fs.readFileSync(path.join(PROMPTS_DIR, promptFile), "utf8");
@@ -73,6 +75,7 @@ export async function runClaude({
   if (onText) stream.on("text", onText);
 
   const final = await stream.finalMessage();
+  onUsage?.(final.usage);
 
   if (final.stop_reason === "refusal") {
     const detail = final.stop_details?.explanation ?? final.stop_details?.category ?? "unknown";

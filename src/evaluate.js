@@ -1,39 +1,30 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 import { extractPage } from "./extract.js";
-import { runClaude, client, FABLE_MODEL } from "./claude.js";
+import { runClaude, client, FABLE_MODEL, PROMPTS_DIR } from "./claude.js";
+import { bodyUrls, retrievalHit } from "./retrieval.js";
+import { probeSetId } from "./probe-set.js";
 
 const str = { type: "string" };
 const strArr = { type: "array", items: str };
 const score = { type: "integer" };
 
-// Structured-output schema for one graded probe.
+// Structured-output schema for one graded probe. The grader judges content
+// only: retrieval, fidelity, and ids are computed or known by the harness, so
+// asking the model for them would only buy output tokens and variance.
 export const EVAL_SCHEMA = {
   type: "object",
   additionalProperties: false,
   required: [
-    "probe_id",
-    "model_tested",
-    "retrieval",
     "scores",
-    "fidelity",
     "hallucinations",
     "missing_must_include",
     "unverifiable_from_source",
     "verdict",
+    "retrieval_note",
   ],
   properties: {
-    probe_id: str,
-    model_tested: str,
-    retrieval: {
-      type: "object",
-      additionalProperties: false,
-      required: ["cited_urls", "hit_expected_source", "notes"],
-      properties: {
-        cited_urls: strArr,
-        hit_expected_source: { type: "boolean" },
-        notes: str,
-      },
-    },
     scores: {
       type: "object",
       additionalProperties: false,
@@ -45,7 +36,6 @@ export const EVAL_SCHEMA = {
         structure: score,
       },
     },
-    fidelity: score,
     hallucinations: {
       type: "array",
       items: {
@@ -71,8 +61,77 @@ export const EVAL_SCHEMA = {
     missing_must_include: strArr,
     unverifiable_from_source: strArr,
     verdict: str,
+    retrieval_note: str,
   },
 };
+
+/** Fidelity, 0–100, from the four 0–10 dimension scores. */
+export function fidelityFromScores(s) {
+  return Math.round(2.5 * (s.accuracy + s.hallucination_free + s.relevance + s.structure));
+}
+
+/** Zeroed token tally; addUsage() folds raw API usage objects into it. */
+export function emptyUsage() {
+  return {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_creation_input_tokens: 0,
+    cache_read_input_tokens: 0,
+    web_search_requests: 0,
+  };
+}
+
+export function addUsage(total, u = {}) {
+  total.input_tokens += u.input_tokens ?? 0;
+  total.output_tokens += u.output_tokens ?? 0;
+  total.cache_creation_input_tokens += u.cache_creation_input_tokens ?? 0;
+  total.cache_read_input_tokens += u.cache_read_input_tokens ?? 0;
+  total.web_search_requests += u.server_tool_use?.web_search_requests ?? u.web_search_requests ?? 0;
+  return total;
+}
+
+/** Version of the grading instrument: prompt text + output schema. */
+export function graderPromptSha() {
+  const prompt = fs.readFileSync(path.join(PROMPTS_DIR, "probe-eval.md"), "utf8");
+  return crypto
+    .createHash("sha256")
+    .update(prompt + JSON.stringify(EVAL_SCHEMA))
+    .digest("hex")
+    .slice(0, 12);
+}
+
+// A previous run is resumable only if its results are comparable with the ones
+// this run would produce: same probe set, same model under test and mode, same
+// grading instrument. Anything else starts fresh.
+const RESUME_KEYS = [
+  ["probe_set_id", "the probe set changed"],
+  ["model_tested", "a different model under test"],
+  ["mode", "a different mode"],
+  ["grader_model", "a different grader model"],
+  ["grader_effort", "a different grader effort"],
+  ["grader_prompt_sha", "the grader prompt or schema changed"],
+];
+
+/**
+ * Split a probe set into results already finished by a comparable previous run
+ * (`done`) and probes still to ask (`todo`). Errored results are retried.
+ * `reason` explains why a previous run could not be resumed, when there was one.
+ */
+export function planResume(previous, identity, probes) {
+  const done = new Map();
+  let reason = null;
+  if (previous) {
+    if (!("probe_set_id" in previous)) reason = "it predates resumable runs";
+    else reason = RESUME_KEYS.find(([key]) => previous[key] !== identity[key])?.[1] ?? null;
+    if (!reason) {
+      const ids = new Set(probes.map((p) => p.id));
+      for (const r of previous.results ?? []) {
+        if (r.stop !== "error" && ids.has(r.probe_id)) done.set(r.probe_id, r);
+      }
+    }
+  }
+  return { done, todo: probes.filter((p) => !done.has(p.id)), reason };
+}
 
 // Models documented to support the dynamic-filtering web search variant.
 const NEW_WEB_SEARCH = /opus-4-[678]|sonnet-5|sonnet-4-6/;
@@ -92,17 +151,6 @@ const PROBE_PACING_MS = 8_000;
 const PROBE_CONCURRENCY = 3;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Inline links in the answer body count as attribution: models often link the
-// source in prose/markdown without emitting an API citation block, and
-// counting only block citations under-reports retrieval hits.
-export function bodyUrls(text) {
-  const urls = new Set();
-  for (const raw of text.match(/https?:\/\/[^\s)\]}"'`<>]+/g) ?? []) {
-    urls.add(raw.replace(/[.,;:!?]+$/, ""));
-  }
-  return urls;
-}
 
 // Web-search tool errors surface as web_search_tool_result blocks whose
 // content is an error object rather than a results array.
@@ -140,11 +188,13 @@ async function executeProbeOnce({ prompt, model, mode }) {
   // drop earlier text, citations, and tool results.
   let messages = [{ role: "user", content: prompt }];
   const blocks = [];
+  const usage = emptyUsage();
   let final;
   for (let i = 0; i <= MAX_CONTINUATIONS; i++) {
     const stream = client().messages.stream({ ...base, messages });
     final = await stream.finalMessage();
     blocks.push(...final.content);
+    addUsage(usage, final.usage);
     if (final.stop_reason !== "pause_turn") break;
     // Server-side tool loop paused — append the assistant turn and resume.
     messages = [...messages, { role: "assistant", content: final.content }];
@@ -171,6 +221,7 @@ async function executeProbeOnce({ prompt, model, mode }) {
       searchDegraded,
       searchesAttempted,
       searchesSucceeded,
+      usage,
     };
   }
 
@@ -197,6 +248,7 @@ async function executeProbeOnce({ prompt, model, mode }) {
     searchDegraded,
     searchesAttempted,
     searchesSucceeded,
+    usage,
   };
 }
 
@@ -205,14 +257,17 @@ async function executeProbeOnce({ prompt, model, mode }) {
  * would. mode "web" grants web search (the realistic retrieval setup);
  * "closed" tests parametric knowledge only. Probes whose web search was
  * rate-limited are retried with backoff; if degradation persists, the result
- * is flagged so the retrieval metrics can treat it as inconclusive.
+ * is flagged so the retrieval metrics can treat it as inconclusive. Usage is
+ * summed across retries — a retried attempt is still paid for.
  */
 export async function executeProbe({ prompt, model, mode, log = () => {} }) {
+  const usage = emptyUsage();
   let result;
   for (let attempt = 0; ; attempt++) {
     result = await executeProbeOnce({ prompt, model, mode });
+    addUsage(usage, result.usage);
     if (!result.searchDegraded || attempt >= SEARCH_RETRY_LIMIT) {
-      return { ...result, retries: attempt };
+      return { ...result, usage, retries: attempt };
     }
     const delay = SEARCH_RETRY_BACKOFF_MS * (attempt + 1);
     log(`search rate-limited (${result.searchErrors.join(",")}), retrying in ${delay / 1000}s ... `);
@@ -220,22 +275,30 @@ export async function executeProbe({ prompt, model, mode, log = () => {} }) {
   }
 }
 
+const RETRIEVAL_LINE = {
+  citation: "the expected source was cited",
+  mention: "the expected source was named in the answer text (no citation block)",
+  miss: "the expected source was NOT cited",
+  closed: "not applicable (closed mode: no retrieval)",
+};
+
 /**
  * Grader: scores one answer against the source page as sole ground truth.
- * `model` is the model-under-test (recorded in the output); `graderModel` is
- * the Claude model doing the grading. The source content leads the user
- * message with its own cache breakpoint so all probes in a run share the
- * cached prefix.
+ * The grader is blind to which model wrote the answer. The source content
+ * leads the user message with its own cache breakpoint so all probes in a run
+ * share the cached prefix.
  */
 export async function gradeProbe({
   probe,
-  model,
   graderModel,
   answer,
   citedUrls,
+  retrieval,
   sourceContent,
   effort,
 }) {
+  const retrievalKey =
+    retrieval.hit_expected_source === null ? "closed" : (retrieval.via ?? "miss");
   const userContent = [
     {
       type: "text",
@@ -245,8 +308,6 @@ export async function gradeProbe({
     {
       type: "text",
       text: [
-        `MODEL: ${model}`,
-        ``,
         `Probe: ${JSON.stringify({
           id: probe.id,
           archetype: probe.archetype,
@@ -257,23 +318,25 @@ export async function gradeProbe({
         ``,
         `Answer key: ${JSON.stringify(probe.answer_key)}`,
         ``,
-        `Model answer:\n${answer}`,
+        `Answer under test:\n${answer}`,
         ``,
         `Cited URLs: ${JSON.stringify(citedUrls)}`,
+        ``,
+        `Retrieval: ${RETRIEVAL_LINE[retrievalKey]}`,
       ].join("\n"),
     },
   ];
 
+  const usage = emptyUsage();
   const grade = await runClaude({
     promptFile: "probe-eval.md",
     userContent,
     model: graderModel,
     effort,
     jsonSchema: EVAL_SCHEMA,
+    onUsage: (u) => addUsage(usage, u),
   });
-  grade.probe_id = probe.id; // authoritative, not model-echoed
-  grade.model_tested = model;
-  return grade;
+  return { grade: { ...grade, fidelity: fidelityFromScores(grade.scores) }, usage };
 }
 
 /**
@@ -286,53 +349,185 @@ async function runOneProbe({ probe, model, graderModel, mode, effort, sourceCont
   const bufLog = (msg) => lines.push(msg);
 
   bufLog(`${probe.id} [${probe.archetype}] asking ${model} (${mode}) ... `);
-  const {
-    answer,
-    citedUrls,
-    searchErrors,
-    searchDegraded,
-    searchesAttempted,
-    searchesSucceeded,
-    retries,
-  } = await executeProbe({ prompt: probe.prompt, model, mode, log: bufLog });
+  const asked = await executeProbe({ prompt: probe.prompt, model, mode, log: bufLog });
+  const { answer, citedUrls, stopReason, searchDegraded, searchesAttempted, searchesSucceeded } =
+    asked;
   // Live search "didn't work" = the model tried to search but nothing came
   // back. (Attempting zero searches is the model's own choice — a real miss.)
   const liveSearchFailed = mode === "web" && searchesAttempted > 0 && searchesSucceeded === 0;
-  bufLog(`grading (${graderModel}) ... `);
-  const grade = await gradeProbe({
-    probe,
-    model,
-    graderModel,
-    answer,
+
+  // Retrieval is a string match, decided here rather than by the grader.
+  // Closed mode has no retrieval to hit or miss, so the hit is null, not false.
+  const { hit, via } = retrievalHit({
     citedUrls,
-    sourceContent,
-    effort,
+    answer,
+    expectedUrls: probe.expected_source_urls,
   });
+  const retrieval = {
+    cited_urls: citedUrls,
+    hit_expected_source: mode === "web" ? hit : null,
+    via: mode === "web" ? via : null,
+    notes: "",
+  };
+
+  // A refusal has nothing to grade — paying the grader to score the
+  // placeholder text would only record a misleading low fidelity.
+  let graded;
+  if (stopReason === "refusal") {
+    graded = {
+      grade: {
+        scores: null,
+        fidelity: null,
+        hallucinations: [],
+        missing_must_include: [],
+        unverifiable_from_source: [],
+        verdict: "Model refused to answer — not graded.",
+        retrieval_note: "",
+      },
+      usage: emptyUsage(),
+    };
+  } else {
+    bufLog(`grading (${graderModel}) ... `);
+    graded = await gradeProbe({
+      probe,
+      graderModel,
+      answer,
+      citedUrls,
+      retrieval,
+      sourceContent,
+      effort,
+    });
+  }
+  const { retrieval_note: retrievalNote, ...grade } = graded.grade;
+  retrieval.notes = retrievalNote;
 
   const result = {
+    probe_id: probe.id,
+    model_tested: model,
+    retrieval,
     ...grade,
     prompt: probe.prompt,
     archetype: probe.archetype,
     answer,
+    stop: stopReason,
     harness: {
-      retries,
+      retries: asked.retries,
       searches_attempted: searchesAttempted,
       searches_succeeded: searchesSucceeded,
-      search_errors: searchErrors,
+      search_errors: asked.searchErrors,
       search_degraded: searchDegraded,
       live_search_failed: liveSearchFailed,
     },
+    usage: { model_under_test: asked.usage, grader: graded.usage },
   };
 
-  const hit = grade.retrieval.hit_expected_source ? "source cited" : "source NOT cited";
+  const outcome =
+    retrieval.hit_expected_source === null
+      ? "closed mode"
+      : via === "mention"
+        ? "source named in text"
+        : hit
+          ? "source cited"
+          : "source NOT cited";
   const flags = [
     searchDegraded && "search degraded — inconclusive",
     liveSearchFailed && !searchDegraded && "LIVE SEARCH FAILED — inconclusive",
     mode === "web" && searchesAttempted === 0 && "model did not search",
   ].filter(Boolean);
-  bufLog(`fidelity ${grade.fidelity}/100 (${[hit, ...flags].join(", ")})\n`);
+  const score = grade.fidelity === null ? "refused — not graded" : `fidelity ${grade.fidelity}/100`;
+  bufLog(`${score} (${[outcome, ...flags].join(", ")})\n`);
 
   return { result, logText: lines.join("") };
+}
+
+/**
+ * Summary figures for a set of probe results. Refused probes carry no grade
+ * and are left out of score averages; closed-mode probes carry no retrieval
+ * verdict (null) and are left out of hit rates, which are then null.
+ */
+export function summarizeResults(results) {
+  const graded = results.filter((r) => Number.isFinite(r.fidelity));
+  const avg = (rows, fn) =>
+    rows.length
+      ? Math.round((rows.reduce((sum, r) => sum + fn(r), 0) / rows.length) * 10) / 10
+      : null;
+  const rate = (n, d) => (d > 0 ? Math.round((n / d) * 100) / 100 : null);
+
+  // A miss whose web search was rate-limited or returned nothing is
+  // inconclusive, not a GEO miss: the effective hit rate excludes those
+  // probes from the denominator.
+  const judged = results.filter((r) => r.retrieval.hit_expected_source !== null);
+  const hits = judged.filter((r) => r.retrieval.hit_expected_source);
+  const inconclusiveMisses = judged.filter(
+    (r) =>
+      (r.harness.search_degraded || r.harness.live_search_failed) &&
+      !r.retrieval.hit_expected_source,
+  ).length;
+
+  const usage = { model_under_test: emptyUsage(), grader: emptyUsage() };
+  for (const r of results) {
+    addUsage(usage.model_under_test, r.usage?.model_under_test);
+    addUsage(usage.grader, r.usage?.grader);
+  }
+
+  return {
+    probe_count: results.length,
+    graded_count: graded.length,
+    refusal_count: results.filter((r) => r.stop === "refusal").length,
+    error_count: results.filter((r) => r.stop === "error").length,
+    avg_fidelity: avg(graded, (r) => r.fidelity),
+    retrieval_hit_rate: rate(hits.length, judged.length),
+    retrieval_hit_rate_effective: rate(hits.length, judged.length - inconclusiveMisses),
+    retrieval_mention_hit_count: hits.filter((r) => r.retrieval.via === "mention").length,
+    search_degraded_count: results.filter((r) => r.harness.search_degraded).length,
+    live_search_failed_count: results.filter((r) => r.harness.live_search_failed).length,
+    inconclusive_miss_count: inconclusiveMisses,
+    avg_scores: graded.length
+      ? {
+          accuracy: avg(graded, (r) => r.scores.accuracy),
+          hallucination_free: avg(graded, (r) => r.scores.hallucination_free),
+          relevance: avg(graded, (r) => r.scores.relevance),
+          structure: avg(graded, (r) => r.scores.structure),
+        }
+      : null,
+    usage,
+  };
+}
+
+/**
+ * A probe whose ask or grade threw. It is recorded rather than failing the
+ * whole run, and a re-run retries it (errored results are never resumed).
+ */
+function errorOutcome(probe, model, err) {
+  const message = String(err?.message ?? err);
+  return {
+    result: {
+      probe_id: probe.id,
+      model_tested: model,
+      retrieval: { cited_urls: [], hit_expected_source: null, via: null, notes: "" },
+      scores: null,
+      fidelity: null,
+      hallucinations: [],
+      missing_must_include: [],
+      unverifiable_from_source: [],
+      verdict: "Probe failed — not graded.",
+      prompt: probe.prompt,
+      archetype: probe.archetype,
+      answer: "",
+      stop: "error",
+      error: message,
+      harness: {
+        retries: 0,
+        searches_attempted: null,
+        searches_succeeded: null,
+        search_errors: [],
+        search_degraded: false,
+        live_search_failed: null,
+      },
+      usage: { model_under_test: emptyUsage(), grader: emptyUsage() },
+    },
+    logText: `${probe.id} [${probe.archetype}] ERROR: ${message}\n`,
+  };
 }
 
 /**
@@ -341,8 +536,22 @@ async function runOneProbe({ probe, model, graderModel, mode, effort, sourceCont
  * Probes run in capped-concurrency batches (PROBE_CONCURRENCY at a time) —
  * fully sequential is safe but slow, fully parallel bursts too many searches
  * at once and trips the web_search tool's rate limit.
+ *
+ * With `previous` (the existing run file for this model and mode), finished
+ * results from a comparable run are kept and only the remaining probes are
+ * asked. `onProgress` receives the full summary after every batch so the
+ * caller can persist it — an interrupted run then resumes where it stopped.
  */
-export async function runProbes({ probesFile, model, graderModel, mode, effort, log = () => {} }) {
+export async function runProbes({
+  probesFile,
+  model,
+  graderModel,
+  mode,
+  effort,
+  previous = null,
+  onProgress = () => {},
+  log = () => {},
+}) {
   const probeSet = JSON.parse(fs.readFileSync(probesFile, "utf8"));
   if (!Array.isArray(probeSet.probes) || probeSet.probes.length === 0) {
     throw new Error(`no probes found in ${probesFile}`);
@@ -354,60 +563,49 @@ export async function runProbes({ probesFile, model, graderModel, mode, effort, 
     sourceContent = (await extractPage(probeSet.source_url)).markdown;
   }
 
-  const results = [];
-  for (let i = 0; i < probeSet.probes.length; i += PROBE_CONCURRENCY) {
+  const identity = {
+    source_url: probeSet.source_url,
+    source_title: probeSet.source_title,
+    probe_set_id: probeSetId(probeSet.probes),
+    model_tested: model,
+    mode,
+    grader_model: graderModel,
+    grader_effort: effort,
+    grader_prompt_sha: graderPromptSha(),
+  };
+
+  const { done, todo, reason } = planResume(previous, identity, probeSet.probes);
+  if (reason) log(`existing run file not resumed (${reason}) — starting fresh\n`);
+  if (done.size) {
+    log(`resuming: ${done.size} of ${probeSet.probes.length} probes already answered, ${todo.length} to run\n`);
+  }
+
+  // Results always follow probes.json order, however they were produced.
+  const summary = () => {
+    const results = probeSet.probes.map((p) => done.get(p.id)).filter(Boolean);
+    return { ...identity, run_at: new Date().toISOString(), ...summarizeResults(results), results };
+  };
+
+  for (let i = 0; i < todo.length; i += PROBE_CONCURRENCY) {
     // Pace batches in web mode so back-to-back search bursts don't trip rate limits.
     if (i > 0 && mode === "web") await sleep(PROBE_PACING_MS);
 
-    const batch = probeSet.probes.slice(i, i + PROBE_CONCURRENCY);
+    const batch = todo.slice(i, i + PROBE_CONCURRENCY);
     const outcomes = await Promise.all(
       batch.map((probe) =>
-        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }),
+        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }).catch((err) =>
+          errorOutcome(probe, model, err),
+        ),
       ),
     );
     // Flush in submission order (not completion order) so output stays
     // deterministic and matches the probes.json order run-to-run.
     for (const { result, logText } of outcomes) {
       log(logText);
-      results.push(result);
+      done.set(result.probe_id, result);
     }
+    onProgress(summary());
   }
 
-  const avg = (fn) =>
-    Math.round((results.reduce((sum, r) => sum + fn(r), 0) / results.length) * 10) / 10;
-
-  // A miss whose web search was rate-limited or returned nothing is
-  // inconclusive, not a GEO miss: the effective hit rate excludes those
-  // probes from the denominator.
-  const hits = results.filter((r) => r.retrieval.hit_expected_source).length;
-  const inconclusiveMisses = results.filter(
-    (r) =>
-      (r.harness.search_degraded || r.harness.live_search_failed) &&
-      !r.retrieval.hit_expected_source,
-  ).length;
-  const conclusive = results.length - inconclusiveMisses;
-  const rate = (n, d) => (d > 0 ? Math.round((n / d) * 100) / 100 : null);
-
-  return {
-    source_url: probeSet.source_url,
-    source_title: probeSet.source_title,
-    model_tested: model,
-    grader_model: graderModel,
-    mode,
-    run_at: new Date().toISOString(),
-    probe_count: results.length,
-    avg_fidelity: avg((r) => r.fidelity),
-    retrieval_hit_rate: rate(hits, results.length),
-    retrieval_hit_rate_effective: rate(hits, conclusive),
-    search_degraded_count: results.filter((r) => r.harness.search_degraded).length,
-    live_search_failed_count: results.filter((r) => r.harness.live_search_failed).length,
-    inconclusive_miss_count: inconclusiveMisses,
-    avg_scores: {
-      accuracy: avg((r) => r.scores.accuracy),
-      hallucination_free: avg((r) => r.scores.hallucination_free),
-      relevance: avg((r) => r.scores.relevance),
-      structure: avg((r) => r.scores.structure),
-    },
-    results,
-  };
+  return summary();
 }

@@ -1,5 +1,6 @@
 import { extractPage } from "./extract.js";
 import { runClaude } from "./claude.js";
+import { sourceHash, probeSetId } from "./probe-set.js";
 
 const str = { type: "string" };
 const strArr = { type: "array", items: str };
@@ -88,13 +89,30 @@ export const PROBES_SCHEMA = {
   },
 };
 
+// A page that extracts to almost nothing still yields ten confident probes:
+// asked to work from a nav shell, the generator invents questions whose answer
+// key says only "this page is the canonical source". Those probes then grade
+// every model as wrong for the rest of time. Refuse instead — the usual causes
+// are content rendered client-side and extractor misses.
+export const MIN_SOURCE_CHARS = 800;
+
 /**
  * Generate a probe set for a docs page. Returns the probes object, augmented
  * with `source_content` (the extracted markdown) so `probe` runs grade against
- * the exact content the answer key was derived from.
+ * the exact content the answer key was derived from. Pass an already-extracted
+ * `page` to avoid fetching twice.
  */
-export async function genProbes({ url, n, model, effort, fallback = true, tally }) {
-  const page = await extractPage(url);
+export async function genProbes({ url, page, n, model, effort, fallback = true, allowThin = false, tally }) {
+  page ??= await extractPage(url);
+
+  if (!allowThin && page.markdown.length < MIN_SOURCE_CHARS) {
+    throw new Error(
+      `extracted only ${page.markdown.length} characters from ${page.finalUrl ?? url} ` +
+        `(minimum ${MIN_SOURCE_CHARS}) — the page probably renders its content client-side, ` +
+        `or extraction missed it. Inspect with \`geo-audit score <url> --dump-content\`, ` +
+        `or pass --allow-thin to generate anyway.`,
+    );
+  }
 
   // gen-probes works from the rendered main content only (no head/JSON-LD).
   const userContent = [
@@ -119,6 +137,10 @@ export async function genProbes({ url, n, model, effort, fallback = true, tally 
 
   // Ground-truth snapshot for the grader — same bytes the answer key came from.
   probes.source_content = page.markdown;
+  probes.source_hash = sourceHash(page.markdown);
+  probes.probe_set_id = probeSetId(probes.probes);
+  // The model fills generated_at from its own sense of "now" — record the real time.
+  probes.generated_at = new Date().toISOString();
   return { probes, page };
 }
 

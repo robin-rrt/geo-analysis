@@ -10,8 +10,8 @@ Three subcommands form a pipeline:
 | Command | What it does | Output |
 |---|---|---|
 | `score <url>` | Audits a page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
-| `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key | `probes-<slug>.json` |
-| `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source page as sole ground truth | `probe-results-<slug>-<model>.json` + summary |
+| `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key. Skips pages whose content is unchanged | `probes.json` |
+| `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source page as sole ground truth. Resumes where an interrupted run stopped | `probe-results-<model>-<mode>.json` + `probe-matrix.csv` |
 | `dashboard` | Rolls every artifact in `results/` into one shareable HTML report | `dashboard.html` |
 
 All analyst/grader work runs on **Claude Opus 4.8** by default. **Claude Fable 5** is
@@ -20,7 +20,16 @@ hardest jobs); override the model with `-m` on `score` / `gen-probes`.
 
 The `probe` grader catches the hallucinations that matter most for developer docs: fabricated
 function names, wrong import/package paths, invented params, deprecated APIs, out-of-order
-steps — and records whether the expected source URL was actually cited (the retrieval signal).
+steps. It judges content only, and is blind to which model wrote the answer, so answers from
+different models are graded on the same footing.
+
+**Retrieval is decided in code, not by the grader** ([src/retrieval.js](src/retrieval.js)): a hit
+is a cited URL that matches the expected source once normalised (scheme, `www.`, trailing slash,
+`.md` twin, query and fragment ignored), or the source named in the answer text without a scheme
+— `via` records which. Fidelity is likewise arithmetic, `round(2.5 × Σ scores)`. A refusal is
+recorded and not graded; in `closed` mode there is no retrieval to hit, so the verdict is `null`,
+never a miss. Each result carries the tokens it cost, split between model-under-test and grader.
+
 Cited URLs count both API citation blocks and links embedded in the answer body. Probes whose
 web search got rate-limited are retried with backoff; if degradation persists they're flagged
 `search_degraded`. Each result also records `searches_attempted`/`searches_succeeded`; a probe
@@ -53,7 +62,14 @@ results/<slug>/
   audit-probe-informed.md              score --probe-results
   probes.json                          gen-probes
   probe-results-<model>-<mode>.json    probe
+  probe-matrix.csv                     probe, dashboard — probes × models
 ```
+
+`probes.json` records a `source_hash` (the page content it was built from) and a `probe_set_id`
+(the probes themselves). Runs are only comparable within one probe set: `gen-probes` does
+nothing when the content is unchanged, `probe` resumes only a run that answered the same set
+with the same model, mode, and grader, and the dashboard marks runs on an older set as stale
+rather than mixing them in.
 
 `-o <file>` overrides the destination for any command.
 
@@ -67,6 +83,9 @@ node src/cli.js gen-probes https://docs.chain.link/data-streams/tutorials/go-sdk
 # 3. Run the probes and grade -> results/<slug>/probe-results-opus-4-8-web.json
 node src/cli.js probe results/tutorials-go-sdk-fetch/probes.json --model claude-opus-4-8
 node src/cli.js probe results/tutorials-go-sdk-fetch/probes.json --mode closed  # parametric baseline
+
+#    Interrupted? Re-run the same command: answered probes are kept, and only the
+#    missing or failed ones are asked again. -f/--force re-runs everything.
 
 # 4. Close the loop: re-score with the probe run so the audit includes the
 #    probe-informed diagnosis -> results/<slug>/audit-probe-informed.md
@@ -106,7 +125,12 @@ from the retrieval funnel rather than counted as zero-search. Superseded `*-old.
 ignored. Where a page was scored more than once, every score appears under Methodology → run-to-run
 variance, and the probe-informed re-score is the one used for headline figures.
 
-Run `npm test` to check the audit-report parser against every report currently in `results/`.
+Each run of `dashboard` also refreshes every page's `probe-matrix.csv` — one row per probe, one
+group of columns per model × mode (fidelity, hit, high-severity hallucinations) — so the
+probes × models table opens in a spreadsheet without the dashboard.
+
+Run `npm test` to check the parsers, the retrieval rule, and the matrix against every artifact
+currently in `results/`. No test touches the network.
 
 Or link it: `npm link` → `geo-audit <command>`.
 
@@ -118,8 +142,8 @@ Common: `-o/--output <file>`, `-e/--effort low|medium|high|xhigh|max` (default `
 | Command | Extra flags |
 |---|---|
 | `score` | `-m/--model` auditor (default: by effort) · `-p/--probe-results <file>` probe run JSON for the same URL (adds the probe-informed diagnosis + tiered recommendations) · `--dump-content` |
-| `gen-probes` | `-n/--n <count>` (default 10) · `-m/--model` generator (default: by effort) |
-| `probe` | `-m/--model` model under test (default `claude-opus-4-8`) · `--mode web\|closed` (default `web`) — the grader model is selected by effort |
+| `gen-probes` | `-n/--n <count>` (default 10) · `-m/--model` generator (default: by effort) · `-f/--force` regenerate unchanged content · `--allow-thin` generate even from a near-empty extraction |
+| `probe` | `-m/--model` model under test (default `claude-opus-4-8`) · `--mode web\|closed` (default `web`) · `-f/--force` re-run every probe instead of resuming — the grader model is selected by effort |
 
 **Model selection:** analyst/grader defaults to `claude-opus-4-8`; `--effort max` upgrades it
 to `claude-fable-5`. `-m` overrides on `score`/`gen-probes`. In `probe`, `-m` is the model

@@ -7,6 +7,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseAudit } from "./parse-audit.js";
+import { bodyUrls, retrievalHit } from "../retrieval.js";
+import { probeSetId } from "../probe-set.js";
 
 // Superseded artifacts kept on disk for reference; never rendered.
 const SUPERSEDED = /-old\.(md|json)$/;
@@ -23,6 +25,12 @@ function median(values, dp = 1) {
   if (!nums.length) return null;
   const mid = Math.floor(nums.length / 2);
   return round(nums.length % 2 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2, dp);
+}
+
+/** Share of probes that hit, over probes with a retrieval verdict (closed mode has none). */
+function hitRateOf(probes) {
+  const judged = probes.filter((p) => p.hit !== null);
+  return judged.length ? round(judged.filter((p) => p.hit).length / judged.length, 2) : null;
 }
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
@@ -44,16 +52,44 @@ function normaliseHarness(harness = {}) {
   };
 }
 
-function normaliseProbeRun(raw, file) {
+/**
+ * Retrieval verdict for one stored result. Runs recorded since retrieval moved
+ * into code carry `via`. Older runs hold the grader's call, which judged
+ * identical evidence both ways (a scheme-less mention was a hit in one run and
+ * a miss in another), so it is recomputed with the rule the harness now applies
+ * — but only against the probe set the run actually answered (same prompt).
+ * Closed mode has no retrieval verdict at all.
+ */
+function normaliseRetrieval(r, mode, expected) {
+  const stored = r.retrieval ?? {};
+  const graderHit = Boolean(stored.hit_expected_source);
+  if (mode === "closed") return { hit: null, via: null, recomputed: false, graderHit };
+  if ("via" in stored) {
+    return { hit: stored.hit_expected_source, via: stored.via, recomputed: false, graderHit };
+  }
+  if (!expected || expected.prompt !== r.prompt) {
+    return { hit: graderHit, via: null, recomputed: false, graderHit };
+  }
+  const { hit, via } = retrievalHit({
+    citedUrls: [...(stored.cited_urls ?? []), ...bodyUrls(r.answer ?? "")],
+    answer: r.answer ?? "",
+    expectedUrls: expected.urls,
+  });
+  return { hit, via, recomputed: true, graderHit };
+}
+
+function normaliseProbeRun(raw, file, expectedById = new Map()) {
   const probes = (raw.results ?? []).map((r) => ({
     id: r.probe_id,
     archetype: r.archetype,
     prompt: r.prompt,
-    fidelity: r.fidelity,
+    // Null for a refusal: nothing was graded.
+    fidelity: r.fidelity ?? null,
     scores: r.scores,
-    hit: Boolean(r.retrieval?.hit_expected_source),
+    ...normaliseRetrieval(r, raw.mode, expectedById.get(r.probe_id)),
+    stop: r.stop ?? null,
     citedUrls: r.retrieval?.cited_urls ?? [],
-    retrievalNotes: r.retrieval?.notes ?? null,
+    retrievalNotes: r.retrieval?.notes || null,
     hallucinations: r.hallucinations ?? [],
     missingMustInclude: r.missing_must_include ?? [],
     unverifiable: r.unverifiable_from_source ?? [],
@@ -61,6 +97,14 @@ function normaliseProbeRun(raw, file) {
     answer: r.answer,
     harness: normaliseHarness(r.harness),
   }));
+
+  // Hit rates are derived from the per-probe verdicts rather than read from the
+  // run summary, so a recomputed legacy verdict is reflected in them.
+  const judged = probes.filter((p) => p.hit !== null);
+  const inconclusive = judged.filter(
+    (p) => !p.hit && (p.harness.searchDegraded || p.harness.liveSearchFailed),
+  ).length;
+  const effectiveDenominator = judged.length - inconclusive;
 
   return {
     file: path.basename(file),
@@ -71,14 +115,56 @@ function normaliseProbeRun(raw, file) {
     probeCount: raw.probe_count ?? probes.length,
     avgFidelity: raw.avg_fidelity ?? mean(probes.map((p) => p.fidelity)),
     avgScores: raw.avg_scores ?? null,
-    hitRate: raw.retrieval_hit_rate ?? null,
-    hitRateEffective: raw.retrieval_hit_rate_effective ?? null,
+    hitRate: hitRateOf(probes),
+    // The effective rate needs the search-health counters; older runs lack them.
+    hitRateEffective:
+      "retrieval_hit_rate_effective" in raw && effectiveDenominator > 0
+        ? round(judged.filter((p) => p.hit).length / effectiveDenominator, 2)
+        : null,
+    hitCorrections: probes.filter((p) => p.recomputed && p.hit !== p.graderHit).length,
     // Absent in runs recorded before these counters existed.
     searchDegradedCount: raw.search_degraded_count ?? null,
     liveSearchFailedCount: raw.live_search_failed_count ?? null,
     inconclusiveMissCount: raw.inconclusive_miss_count ?? null,
     probes,
   };
+}
+
+/**
+ * A page's current probe set and all of its probe runs, newest first. A run is
+ * `current` when it answered this probe set — by its recorded probe_set_id, or,
+ * for runs that predate the id, when every prompt matches. Stale runs stay
+ * listed but are never compared against current ones.
+ */
+export function loadProbeRuns(dir) {
+  const files = fs.readdirSync(dir).filter((f) => !SUPERSEDED.test(f));
+  const probeSet = files.includes("probes.json") ? readJson(path.join(dir, "probes.json")) : null;
+  const currentId = probeSet ? probeSetId(probeSet.probes) : null;
+
+  // Expected source URLs per probe, keyed with the prompt so a run is only
+  // re-judged against the probe set it actually answered.
+  const expectedById = new Map(
+    (probeSet?.probes ?? []).map((p) => [
+      p.id,
+      { prompt: p.prompt, urls: p.expected_source_urls ?? [] },
+    ]),
+  );
+
+  const runs = files
+    .filter((f) => f.startsWith("probe-results-") && f.endsWith(".json"))
+    .map((f) => {
+      const raw = readJson(path.join(dir, f));
+      const run = normaliseProbeRun(raw, f, expectedById);
+      run.current =
+        probeSet !== null &&
+        (raw.probe_set_id
+          ? raw.probe_set_id === currentId
+          : run.probes.every((p) => expectedById.get(p.id)?.prompt === p.prompt));
+      return run;
+    })
+    .sort((a, b) => String(b.runAt).localeCompare(String(a.runAt)));
+
+  return { probeSet, runs };
 }
 
 function collectPage(dir, slug) {
@@ -101,10 +187,7 @@ function collectPage(dir, slug) {
     return { file: f, score: parsed.score, band: parsed.band, analyzedAt: parsed.analyzedAt };
   });
 
-  const probeRuns = files
-    .filter((f) => f.startsWith("probe-results-") && f.endsWith(".json"))
-    .map((f) => normaliseProbeRun(readJson(path.join(dir, f)), f))
-    .sort((a, b) => String(b.runAt).localeCompare(String(a.runAt)));
+  const { runs: probeRuns } = loadProbeRuns(dir);
 
   return {
     slug,
@@ -121,7 +204,13 @@ function collectPage(dir, slug) {
         : null,
     audit,
     probeRuns,
-    primaryRun: probeRuns[0] ?? null,
+    // Newest run on the current probe set, preferring web mode: closed mode
+    // measures parametric recall, not retrieval, so it must never become the
+    // page's headline just by running last. Stale runs never headline at all.
+    primaryRun:
+      probeRuns.find((r) => r.current && r.mode === "web") ??
+      probeRuns.find((r) => r.current) ??
+      null,
   };
 }
 
@@ -130,7 +219,7 @@ function aggregate(pages) {
   const allProbes = probed.flatMap((p) => p.primaryRun.probes.map((x) => ({ ...x, slug: p.slug })));
 
   const hit = allProbes.filter((p) => p.hit);
-  const miss = allProbes.filter((p) => !p.hit);
+  const miss = allProbes.filter((p) => p.hit === false);
 
   // Dimension means across pages — reveals which weakness is systemic.
   const byDimension = new Map();
@@ -158,12 +247,13 @@ function aggregate(pages) {
       archetype,
       n: ps.length,
       avgFidelity: mean(ps.map((p) => p.fidelity)),
-      hitRate: round(ps.filter((p) => p.hit).length / ps.length, 2),
+      hitRate: hitRateOf(ps),
     }))
     .sort((a, b) => a.avgFidelity - b.avgFidelity);
 
   // Funnel steps are only meaningful for runs that recorded the counters.
   const withCounters = allProbes.filter((p) => Number.isFinite(p.harness.searchesAttempted));
+  const hitCorrections = probed.reduce((n, p) => n + p.primaryRun.hitCorrections, 0);
   const recommendations = pages.flatMap((p) =>
     p.audit.recommendations.map((r) => ({ ...r, slug: p.slug, pageTitle: p.title })),
   );
@@ -175,7 +265,7 @@ function aggregate(pages) {
     medianScore: median(pages.map((p) => p.audit.score)),
     meanScore: mean(pages.map((p) => p.audit.score)),
     medianFidelity: median(probed.map((p) => p.primaryRun.avgFidelity)),
-    hitRate: allProbes.length ? round(hit.length / allProbes.length, 2) : null,
+    hitRate: hitRateOf(allProbes),
     fidelityByRetrieval: {
       hit: { n: hit.length, avgFidelity: mean(hit.map((p) => p.fidelity)) },
       miss: { n: miss.length, avgFidelity: mean(miss.map((p) => p.fidelity)) },
@@ -212,6 +302,12 @@ function aggregate(pages) {
         ? [
             `${allProbes.length - withCounters.length} probe(s) predate the search-health counters; ` +
               `they are excluded from the retrieval funnel rather than counted as zero.`,
+          ]
+        : []),
+      ...(hitCorrections
+        ? [
+            `${hitCorrections} retrieval verdict(s) from older runs were recomputed with the ` +
+              `harness's URL rule and differ from the grader's original call.`,
           ]
         : []),
       ...(pages.some((p) => p.rescored)

@@ -69,8 +69,9 @@ output template.
    parametric priors — not prose quality**. Say this plainly in the Summary, and do not
    prescribe content polish as the headline fix for a retrieval problem.
 2. **Split fidelity by retrieval.** Compute average fidelity for probes where
-   `retrieval.hit_expected_source` is true vs false. Trust `hit_expected_source` and its
-   `notes` (graders read the answer body) over `cited_urls`, which under-counts inline links.
+   `retrieval.hit_expected_source` is true vs false. The harness computes `hit_expected_source`
+   from citations and from in-text mentions of the source URL (`via` says which) — trust it over
+   `cited_urls` alone. `notes` records answers that report a search failure.
    A large hit/miss gap means retrieval owns the loss — weight the recommendation tiers
    accordingly and state the split numerically.
 3. **Triage every retrieval miss** into exactly one of:

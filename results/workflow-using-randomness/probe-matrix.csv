@@ -1,0 +1,11 @@
+probe_id,archetype,prompt,claude-opus-4-8|web fidelity,claude-opus-4-8|web hit,claude-opus-4-8|web high_sev
+p01,direct-howto,How do I generate randomness in a CRE workflow so all nodes agree on the result?,70,1,1
+p02,code-first,"Using the Go SDK, show me code to pick a random winner from a list in a workflow",8,0,5
+p03,constrained,How do I generate a random big.Int for a Solidity uint256 value in my workflow?,28,0,3
+p04,error-debug,"My workflow panics with ""random cannot be used outside the mode it was created in"" — what's wrong?",68,0,1
+p05,terse/keyword,runtime.Rand DON node mode difference,83,1,0
+p06,verbose/beginner,"I'm new to this — I want my workflow to sometimes pick a random number, but I read that random stuff breaks decentralized networks. How am I supposed to do this correctly with Chainlink CRE?",73,0,0
+p07,comparison,Should I use runtime.Rand() or Go's math/rand global functions for randomness in a CRE workflow?,85,0,0
+p08,paraphrase,What's the right way to get a random value in a CRE workflow? (different phrasing of the consensus-safe randomness question),75,0,0
+p09,direct-howto,"Is runtime.Rand() cryptographically secure, and can I reuse the same generator across multiple calls?",33,0,1
+p10,constrained,How do I access per-node randomness using Node mode in a CRE workflow?,100,1,0

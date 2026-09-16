@@ -33,6 +33,7 @@ export function client() {
  *   put a large stable prefix first with its own cache_control).
  * - With `jsonSchema` set, uses structured outputs and returns parsed JSON;
  *   otherwise returns the response text.
+ * - `onUsage`, if given, receives the response's raw `usage` object.
  */
 export async function runClaude({
   promptFile,
@@ -41,6 +42,7 @@ export async function runClaude({
   model = DEFAULT_MODEL,
   fallback = true,
   onText,
+  onUsage,
   jsonSchema,
   tally,
   tallyLabel = "call",
@@ -75,6 +77,7 @@ export async function runClaude({
   if (onText) stream.on("text", onText);
 
   const final = await stream.finalMessage();
+  onUsage?.(final.usage);
 
   // Record before any early return, so a refusal or truncation still shows what
   // it cost. `final.model` rather than the requested one — a fallback may have

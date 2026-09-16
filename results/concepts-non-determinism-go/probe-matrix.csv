@@ -1,0 +1,11 @@
+probe_id,archetype,prompt,claude-opus-4-8|web fidelity,claude-opus-4-8|web hit,claude-opus-4-8|web high_sev
+p01,direct-howto,How do I avoid non-determinism when iterating over a map in my CRE Go workflow?,60,1,0
+p02,constrained,"Using the CRE Go SDK, how should I get the current time inside a workflow so all nodes agree?",80,1,0
+p03,code-first,Show me code to iterate over a map of struct keys deterministically in a CRE workflow.,65,0,0
+p04,error-debug,My workflow keeps failing consensus with different request IDs across nodes. What could be causing this?,40,0,0
+p05,comparison,Should I use encoding/json v1 or v2 for serializing data in a CRE workflow?,50,0,2
+p06,terse/keyword,deterministic protobuf marshal cre workflow,75,0,0
+p07,verbose/beginner,"I'm new to this. I have a workflow that sometimes needs a random number, but I heard regular random breaks things in Chainlink. How am I supposed to generate random numbers so it works properly?",18,0,4
+p08,direct-howto,Why does using a select statement with multiple channels cause problems in DON mode and how do I fix it?,33,0,0
+p09,direct-howto,How can I use an LLM in my CRE workflow without breaking consensus across nodes?,60,0,0
+p10,paraphrase,What are the main sources of non-determinism I need to avoid in a CRE Go workflow?,75,1,0

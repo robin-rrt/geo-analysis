@@ -22,6 +22,7 @@ export async function runAudit({
   effort,
   fallback = true,
   onText,
+  tally,
 }) {
   const parts = [
     `URL: ${url}`,
@@ -47,6 +48,8 @@ export async function runAudit({
     effort,
     fallback,
     onText,
+    tally,
+    tallyLabel: probeResults ? "audit (probe-informed)" : "audit",
   });
   return stripReportFence(report);
 }

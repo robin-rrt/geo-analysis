@@ -10,6 +10,7 @@ import { runProbes } from "./evaluate.js";
 import { collect } from "./dashboard/collect.js";
 import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
+import { createTally } from "./usage.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -184,7 +185,9 @@ async function cmdScore(argv) {
     );
   const onText = explicit ? () => process.stderr.write(".") : (t) => process.stdout.write(t);
 
+  const tally = createTally();
   const report = await runAudit({
+    tally,
     url: page.finalUrl ?? url,
     pageContent,
     probeResults,
@@ -196,6 +199,7 @@ async function cmdScore(argv) {
 
   if (!explicit && !report.endsWith("\n")) process.stdout.write("\n");
   fs.writeFileSync(outFile, report.endsWith("\n") ? report : report + "\n");
+  process.stderr.write(`\n${tally.format()}\n`);
   process.stderr.write(`\nReport written to ${outFile}\n`);
 }
 
@@ -225,7 +229,9 @@ async function cmdGenProbes(argv) {
   process.stderr.write(`Fetching ${url} ...\n`);
   process.stderr.write(`Generating ${n} probes with ${model} (effort: ${values.effort}) ...\n`);
 
+  const tally = createTally();
   const { probes, page } = await genProbes({
+    tally,
     url,
     n,
     model,
@@ -241,6 +247,7 @@ async function cmdGenProbes(argv) {
   for (const p of probes.probes) {
     process.stderr.write(`  ${p.id} [${p.archetype}] ${p.prompt}\n`);
   }
+  process.stderr.write(`\n${tally.format()}\n`);
   process.stderr.write(`\nProbe set written to ${outFile}\n`);
 }
 

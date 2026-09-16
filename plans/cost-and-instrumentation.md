@@ -30,6 +30,16 @@ Measured with `messages.count_tokens` against `claude-opus-4-8`:
 
 A full `score` request sends roughly **9k input tokens ≈ $0.045** at Opus 4.8's $5/MTok.
 
+> **Measured 2026-09-16, once Phase 1 landed.** A real `score` run on `docs.chain.link/ace`:
+> 6,113 fresh input + 5,557 cache-write + 4,380 output = **$0.1748**. Every pre-instrumentation
+> estimate in this plan (and the ~$0.30/audit figure used to price the variance study) was
+> **~70% too high**; the 18-audit study actually cost ~$3.15, not ~$6.
+>
+> It also exposed a small real waste: **cache hit rate is 0% on a single `score` run.** The
+> system prompt is written to cache at 1.25× and never read, because one audit is one call —
+> costing ~$0.007 more than not caching. The breakpoint only pays across several calls inside
+> the 5-minute TTL (probe runs, or concurrent audits). Not worth removing, worth knowing.
+
 **Corpus-wide token distribution** (measured by the teammate's crawler across 906 markdown
 bodies on `docs.chain.link`): median **1,415**, p95 **6,246**, max **136,605**. The 3,047-token
 page above is above median; the median page is cheaper still. But **the tail is a real hazard** —
@@ -83,6 +93,12 @@ export function tally() {
 Write the tally into the run artifacts: `probe-results-*.json` gains a `usage` block, and
 `score` prints a one-line cost summary to stderr. The dashboard's Methodology page then has a
 real cost column instead of nothing.
+
+**Status 2026-09-16: partially done.** `src/usage.js` + `runClaude` instrumentation covers
+`score`, `gen-probes`, and the **grader** (all three route through `runClaude`). The
+model-under-test path in `executeProbeOnce` calls the SDK directly and is **deliberately not
+wired yet** — `src/evaluate.js` is being rewritten concurrently by the multi-model PR1 work, and
+touching it now would collide. Wire it once PR1 lands.
 
 **Done when:** a `probe` run reports total input/output/cache tokens per model and an estimated
 dollar cost, and the split between model-under-test and grader is visible separately.

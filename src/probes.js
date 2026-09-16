@@ -93,7 +93,7 @@ export const PROBES_SCHEMA = {
  * with `source_content` (the extracted markdown) so `probe` runs grade against
  * the exact content the answer key was derived from.
  */
-export async function genProbes({ url, n, model, effort, fallback = true }) {
+export async function genProbes({ url, n, model, effort, fallback = true, tally }) {
   const page = await extractPage(url);
 
   // gen-probes works from the rendered main content only (no head/JSON-LD).
@@ -113,6 +113,8 @@ export async function genProbes({ url, n, model, effort, fallback = true }) {
     effort,
     fallback,
     jsonSchema: PROBES_SCHEMA,
+    tally,
+    tallyLabel: "gen-probes",
   });
 
   // Ground-truth snapshot for the grader — same bytes the answer key came from.

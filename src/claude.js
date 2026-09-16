@@ -42,6 +42,8 @@ export async function runClaude({
   fallback = true,
   onText,
   jsonSchema,
+  tally,
+  tallyLabel = "call",
 }) {
   const systemPrompt = fs.readFileSync(path.join(PROMPTS_DIR, promptFile), "utf8");
   // The server-side refusal fallback (beta) applies only to Fable 5, whose
@@ -73,6 +75,11 @@ export async function runClaude({
   if (onText) stream.on("text", onText);
 
   const final = await stream.finalMessage();
+
+  // Record before any early return, so a refusal or truncation still shows what
+  // it cost. `final.model` rather than the requested one — a fallback may have
+  // served this turn at different rates.
+  tally?.add(tallyLabel, final.model ?? model, final.usage);
 
   if (final.stop_reason === "refusal") {
     const detail = final.stop_details?.explanation ?? final.stop_details?.category ?? "unknown";

@@ -145,3 +145,4 @@ vite.config.ts.timestamp-*
 # Generated dashboard artifacts (rebuild with `geo-audit dashboard`)
 results/dashboard.html
 results/dashboard-data.json
+results/products/

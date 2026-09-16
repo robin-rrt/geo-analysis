@@ -11,6 +11,9 @@ import { collect } from "./dashboard/collect.js";
 import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
 import { createTally } from "./usage.js";
+import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
+import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
+import { rollup } from "./product/rollup.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -26,6 +29,7 @@ Usage:
   geo-audit gen-probes <url> [options]       Generate probe prompts + answer key JSON
   geo-audit probe <probes.json> [options]    Ask a model the probes, grade its answers
   geo-audit dashboard [options]              Build an HTML dashboard from results/
+  geo-audit product <name> [options]         Resolve, fetch and roll up a whole product
 
 Analyst/grader model defaults to ${DEFAULT_MODEL}; ${FABLE_MODEL} is used
 automatically at --effort max. Override with -m on score / gen-probes.
@@ -63,6 +67,13 @@ probe:
   -m, --model <id>      Model under test (default: ${DEFAULT_PROBE_TARGET})
       --mode <mode>     web | closed (default: web — retrieval enabled)
                         [grader model: by effort — see above]
+
+product:                                     (no API calls — deterministic tier only)
+      --scope <scope>      ${SCOPES.join(" | ")} (default: curated)
+      --list               Resolve and print the page ledger, then exit (no fetching)
+      --origin <url>       Docs origin (default: https://docs.chain.link)
+      --concurrency <n>    Parallel fetches (default: 6)
+  -o, --output <dir>       Output dir (default: results/products/<name>)
 
 dashboard:                                   (no API calls — reads results/ only)
       --results-dir <dir>  Directory to read (default: results)
@@ -359,6 +370,102 @@ async function cmdDashboard(argv) {
   process.stderr.write(`\nDashboard written to ${outFile} (${sizeKb} KB)\n`);
 }
 
+// -------------------------------------------------------------- product ----
+
+async function cmdProduct(argv) {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      scope: { type: "string", default: "curated" },
+      list: { type: "boolean", default: false },
+      origin: { type: "string", default: "https://docs.chain.link" },
+      concurrency: { type: "string", default: "6" },
+      output: { type: "string", short: "o" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  const name = positionals[0];
+  if (!name) {
+    process.stderr.write("Resolving available products ...\n");
+    const products = await listProducts(values.origin);
+    if (!products.length) fail(`no products advertised by ${values.origin}/llms.txt`);
+    process.stdout.write(`Products at ${values.origin}:\n  ${products.join("\n  ")}\n`);
+    return;
+  }
+  if (!SCOPES.includes(values.scope)) fail(`invalid --scope "${values.scope}" (${SCOPES.join("|")})`);
+
+  process.stderr.write(`Resolving ${name} (scope: ${values.scope}) ...\n`);
+  const resolved = await resolveProduct(name, { scope: values.scope, origin: values.origin });
+
+  if (!resolved.counts.inScope) {
+    fail(
+      `no pages in scope for "${name}" — ${resolved.counts.discovered} discovered. ` +
+        `Try --scope full, or check the product name against \`geo-audit product\`.`,
+    );
+  }
+
+  process.stderr.write(
+    `  discovered ${resolved.counts.discovered} · curated ${resolved.counts.curated} · ` +
+      `sitemap ${resolved.counts.sitemap} · in scope ${resolved.counts.inScope}\n`,
+  );
+  for (const n of resolved.notes) process.stderr.write(`  note: ${n}\n`);
+
+  const outDir = values.output ?? path.join("results", "products", name);
+
+  if (values.list) {
+    // Prove the scope is right before spending anything on fetching.
+    for (const p of resolved.pages.filter((x) => x.included)) process.stdout.write(`${p.url}\n`);
+    process.stderr.write(`\n${resolved.counts.inScope} page(s) in scope; ${resolved.counts.excluded} excluded\n`);
+    return;
+  }
+
+  const concurrency = Number.parseInt(values.concurrency, 10);
+  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 20) {
+    fail(`invalid --concurrency "${values.concurrency}" (1-20)`);
+  }
+
+  process.stderr.write(`Fetching ${resolved.counts.inScope} page(s) ...\n`);
+  const fetched = await fetchProduct(resolved, {
+    concurrency,
+    onProgress: (done, total) => {
+      if (done % 5 === 0 || done === total) process.stderr.write(`  ${done}/${total}\n`);
+    },
+  });
+
+  const delta = changedSince(fetched.pages, path.join(outDir, "pages.json"));
+  const ledgerFile = writeLedger(outDir, resolved, fetched);
+
+  const view = rollup(name, values.scope, fetched.pages);
+  const rollupFile = path.join(outDir, "rollup.json");
+  fs.writeFileSync(rollupFile, JSON.stringify(view, null, 2) + "\n");
+
+  process.stderr.write(
+    `\n${name} (${values.scope}) — score ${view.score}/100 over ${view.counts.fetched} page(s)` +
+      `${fetched.counts.failed ? `, ${fetched.counts.failed} failed to fetch` : ""}\n`,
+  );
+  if (delta.baseline) {
+    process.stderr.write(`  ${delta.unchanged} unchanged since ${delta.baseline.slice(0, 10)}\n`);
+  }
+
+  process.stderr.write(`\n  worst checks:\n`);
+  for (const c of view.checks.filter((x) => x.points !== null).slice(0, 5)) {
+    process.stderr.write(
+      `    ${String(Math.round(c.points * 100)).padStart(3)}%  ${c.id.padEnd(22)} ` +
+        `${c.fail} fail · ${c.warn} warn of ${c.evaluatedPages} evaluated\n`,
+    );
+  }
+  if (view.potentialFixes.length) {
+    process.stderr.write(`\n  potential fixes (points recoverable):\n`);
+    for (const f of view.potentialFixes.slice(0, 5)) {
+      process.stderr.write(`    ${f.recoverable.toFixed(1).padStart(4)}  ${f.id} (${f.pages} pages)\n`);
+    }
+  }
+  process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\n`);
+}
+
 // ------------------------------------------------------------- dispatch ----
 
 async function main() {
@@ -377,8 +484,10 @@ async function main() {
       return cmdProbe(rest);
     case "dashboard":
       return cmdDashboard(rest);
+    case "product":
+      return cmdProduct(rest);
     default:
-      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, or dashboard`);
+      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, or product`);
   }
 }
 

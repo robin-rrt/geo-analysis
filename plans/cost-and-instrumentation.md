@@ -94,14 +94,25 @@ Write the tally into the run artifacts: `probe-results-*.json` gains a `usage` b
 `score` prints a one-line cost summary to stderr. The dashboard's Methodology page then has a
 real cost column instead of nothing.
 
-**Status 2026-09-16: partially done.** `src/usage.js` + `runClaude` instrumentation covers
+**Status: COMPLETE 2026-09-16.** The model-under-test path was wired by the multi-model PR1 work
+(`emptyUsage`/`addUsage` in `src/evaluate.js`), which records tokens split by
+`model_under_test` / `grader`; pricing those with the shared table closes the loop. A real
+10-probe closed-mode run reports **$0.4919** — model-under-test $0.2110, grader $0.2809 — and
+shows **40,320 grader cache-read tokens against 11,876 fresh**, confirming the cached source
+prefix is actually being reused rather than merely configured.
+
+<details><summary>Earlier partial status</summary>
+
+**2026-09-16: partially done.** `src/usage.js` + `runClaude` instrumentation covers
 `score`, `gen-probes`, and the **grader** (all three route through `runClaude`). The
 model-under-test path in `executeProbeOnce` calls the SDK directly and is **deliberately not
 wired yet** — `src/evaluate.js` is being rewritten concurrently by the multi-model PR1 work, and
 touching it now would collide. Wire it once PR1 lands.
 
 **Done when:** a `probe` run reports total input/output/cache tokens per model and an estimated
-dollar cost, and the split between model-under-test and grader is visible separately.
+dollar cost, and the split between model-under-test and grader is visible separately. ✅
+
+</details>
 
 ## Phase 2 — Batch API for grading (50%, no quality change)
 

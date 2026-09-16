@@ -12,7 +12,7 @@ import { collect, loadProbeRuns } from "./dashboard/collect.js";
 import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
-import { createTally } from "./usage.js";
+import { createTally, costOf } from "./usage.js";
 import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
 import { rollup } from "./product/rollup.js";
@@ -370,6 +370,14 @@ async function cmdProbe(argv) {
       ? ` (effective ${pct(summary.retrieval_hit_rate_effective)} — ` +
         `${summary.inconclusive_miss_count} inconclusive miss(es) excluded)`
       : "";
+  // Tokens are already split by stage; only the pricing was missing.
+  const costs = {
+    "model-under-test": costOf(summary.model_tested, summary.usage?.model_under_test),
+    grader: costOf(summary.grader_model, summary.usage?.grader),
+  };
+  const priced = Object.values(costs).every((c) => c !== null);
+  const money = (c) => (c === null ? "unknown (unpriced model)" : `$${c.toFixed(4)}`);
+
   const s = summary.avg_scores;
   const tokens = (u) =>
     `in ${u.input_tokens.toLocaleString()} / out ${u.output_tokens.toLocaleString()} ` +
@@ -384,7 +392,9 @@ async function cmdProbe(argv) {
         : "") +
       (summary.refusal_count > 0 ? `  ${summary.refusal_count} refusal(s) — not graded\n` : "") +
       `  tokens — model under test ${tokens(summary.usage.model_under_test)} · ` +
-      `grader ${tokens(summary.usage.grader)}\n`,
+      `grader ${tokens(summary.usage.grader)}\n` +
+      `  est. cost — model under test ${money(costs["model-under-test"])} · ` +
+      `grader ${money(costs.grader)}${priced ? ` · total ${money(costs["model-under-test"] + costs.grader)}` : ""}\n`,
   );
   if (summary.live_search_failed_count > 0 || summary.search_degraded_count > 0) {
     process.stderr.write(

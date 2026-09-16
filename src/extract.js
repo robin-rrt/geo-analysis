@@ -116,14 +116,18 @@ export async function extractPage(url) {
  * in the cached system prompt — it is page-specific, so putting it in the prefix
  * would invalidate the cache on every audit.
  */
-export function buildPageContent(page) {
+export function buildPageContent(page, { facts = true } = {}) {
   const { headHtml, jsonLd, markdown } = page;
   const sections = [];
 
-  const facts = renderFacts(runChecks(page));
-  sections.push(
-    `## Measured facts (computed deterministically — treat as ground truth)\n\n${facts}`,
-  );
+  // `facts: false` reproduces the pre-checks behaviour, so the effect of the
+  // facts block on scores and rankings stays measurable rather than asserted.
+  if (facts) {
+    sections.push(
+      `## Measured facts (computed deterministically — treat as ground truth)\n\n` +
+        renderFacts(runChecks(page)),
+    );
+  }
 
   if (headHtml) {
     sections.push(`## Extracted <head> metadata\n\n\`\`\`html\n${headHtml}\n\`\`\``);

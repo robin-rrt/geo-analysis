@@ -2,7 +2,29 @@
 
 **Type:** enhancement
 **Created:** 2026-09-09
-**Status:** planned
+**Status:** IMPLEMENTED (commit `84a2eb2`) · **primary hypothesis DISPROVEN 2026-09-10**
+
+> ## ⚠️ Correction — read before citing this plan as rationale
+>
+> This plan was written around a variance-reduction claim. **A controlled study disproved it.**
+> 18 audits (3 conditions × 2 pages × 3 runs, `experiments/variance-study.mjs`) measured mean
+> total-score spread of **2.5 points in every condition** — with facts, without facts, and with
+> facts plus the priority rule. Facts do not measurably reduce variance.
+>
+> Worse for the original argument: **the ±10 swing never existed as stated.** The 81/71/75 figures
+> come from `audit-old.md`, `audit.md` and `audit-probe-informed.md` — *different prompt versions
+> written two months apart*, not three runs of one configuration. Same-configuration spread is
+> 1–4 points. Cross-configuration drift was mistaken for run variance.
+>
+> The pre-checks are still worth having, on **different grounds**: they detect real defects
+> deterministically (`programmingLanguage: Rust` turned out to be on 3 of 4 pages — a site-wide
+> generator default) and they corrected a metadata score of 8 on a page declaring the wrong
+> language. That is **defect detection and accuracy**, not reproducibility.
+>
+> The study also surfaced something this plan did not anticipate: facts reorder recommendation
+> *priority*, pushing metadata to P1 in 6/6 runs and eliminating retrieval from P1 entirely (0/6).
+> A prompt rule corrects it (retrieval back to 6/6, metadata down to 1/6). Full data in
+> [experiments/results.md](../experiments/results.md).
 
 ## Overview
 
@@ -10,15 +32,25 @@ Compute the mechanically-verifiable parts of the GEO rubric in JavaScript and ha
 **measured facts** instead of making it derive them from raw HTML. The model still scores and
 still writes the report — it just stops re-deriving things a parser can settle exactly.
 
-Two payoffs, and the second matters more than the token saving:
+The payoffs, as revised by the evidence:
 
-1. **Fewer thinking tokens**, because counting links and validating JSON-LD is no longer part of
-   the reasoning task.
-2. **Lower score variance.** `concepts-non-determinism-go` has been scored three times and
-   produced **81, 71, and 75** (`audit-old.md`, `audit.md`, `audit-probe-informed.md`). A ±10
-   swing on an unchanged page is the tool's biggest credibility problem — a third party cannot
-   act on a number that moves that much. Anchoring the mechanical dimensions to measured values
-   should compress that spread.
+1. **Deterministic defect detection.** A parser finds the same JSON-LD contradiction every time;
+   an LLM finds it most of the time and describes it differently on each run. ✅ *Confirmed.*
+2. **More accurate scoring on fact-backed dimensions** — machine-readability dropped 8 → 6 on a
+   page declaring the wrong language; concrete-specifics rose 5 → 6 where the model had
+   under-counted. Movement is bidirectional, so this is correction, not anchoring. ✅ *Confirmed.*
+3. ~~**Lower score variance.**~~ ❌ *Not supported — see the correction above.*
+
+<details>
+<summary>Original variance argument (retained for the record)</summary>
+
+> `concepts-non-determinism-go` has been scored three times and produced **81, 71, and 75**. A ±10
+> swing on an unchanged page is the tool's biggest credibility problem — a third party cannot act
+> on a number that moves that much. Anchoring the mechanical dimensions to measured values should
+> compress that spread.
+
+The flaw: those three files are different prompt versions, not repeated runs of one configuration.
+</details>
 
 ## Proof that this works
 
@@ -177,10 +209,15 @@ Wire facts into `buildPageContent`, add the ground-truth paragraph to the audit 
 block after the cache breakpoint.
 **Done when:** a `score` run visibly cites the measured facts in its metadata analysis.
 
-### Phase 4 — Variance study
-Run the 12-audit protocol, write the result into the dashboard's Methodology page next to the
-existing run-to-run variance disclosure.
-**Done when:** the variance claim is either substantiated with numbers or retracted with numbers.
+### Phase 4 — Variance study ✅ RAN 2026-09-10 — hypothesis not supported
+
+Executed as `experiments/variance-study.mjs`: 3 conditions × 2 pages × 3 runs = 18 audits.
+Mean total-score spread was **2.5 in every condition**. The pre-registered diagnostic failed —
+judgment-only dimensions (which receive no facts) moved as much as fact-backed ones, so the
+per-dimension differences are run noise. Results: [experiments/results.md](../experiments/results.md).
+
+Secondary finding, now validated and shipped: facts reorder recommendation priority, and a prompt
+rule corrects it (metadata at P1 6/6 → 1/6; retrieval 0/6 → 6/6).
 
 ## Acceptance criteria
 
@@ -191,13 +228,13 @@ existing run-to-run variance disclosure.
 - [ ] JSON-LD that fails `JSON.parse` is reported as `parseErrors`, not silently skipped
 - [ ] Facts block sits after the cached prefix; `cache_read_input_tokens` unchanged on repeat runs
 - [ ] Tests assert known values from the real pages, and fail loudly if extraction changes
-- [ ] Variance study completed and its result — positive or negative — recorded in Methodology
+- [x] Variance study completed — result was **negative**; recorded above and in experiments/results.md
 
 ## Risks
 
 | Risk | Mitigation |
 |---|---|
-| Facts anchor the model into *lower* scores (framing effect) | The variance study measures level as well as spread; watch the mean, not just the range |
+| Facts anchor the model into *lower* scores (framing effect) | **Measured: did not occur in scores** — movement was bidirectional (metadata 8→6, specifics 5→6). It *did* occur in recommendation priority; corrected by a prompt rule. |
 | A wrong fact is now authoritative and un-second-guessed | Tests assert against real pages; `parseErrors` surfaces rather than swallows failures |
 | Check modules drift as pages change | Fixtures are live pages, so tests fail when extraction breaks — that is the intent |
 | Scope creep into scoring formulas | The no-verdict-fields rule is an acceptance criterion, not a convention |
@@ -208,5 +245,5 @@ existing run-to-run variance disclosure.
 - Extraction output consumed by checks: `src/extract.js:102-108`
 - Prompt assembly point for the facts block: `src/extract.js:114-134` (`buildPageContent`)
 - The three P1 JSON-LD findings this automates: `results/reference-vrf-migration-ts/audit.md:40-44`
-- Score variance being addressed: `results/concepts-non-determinism-go/` — 81 / 71 / 75
+- Variance claim (disproven): `experiments/results.md`; the 81/71/75 files are different prompt versions, not repeated runs
 - Proof-point measurements in this plan: run live against the VRF page, 2026-09-09

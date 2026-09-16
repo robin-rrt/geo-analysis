@@ -80,7 +80,10 @@ function parseHeader(markdown, file) {
 }
 
 function parseScore(markdown, file) {
-  const m = markdown.match(/^## GEO Score: (\d+)\/100 — (.+)$/m);
+  // The model usually writes an integer but sometimes carries the weighted
+  // total through as a decimal ("71.1/100"), so accept both rather than
+  // failing the whole report over the formatting of one line.
+  const m = markdown.match(/^## GEO Score: (\d+(?:\.\d+)?)\/100 — (.+)$/m);
   if (!m) throw new AuditParseError("missing `## GEO Score: n/100 — Band` line", file);
   return { score: Number(m[1]), band: m[2].trim() };
 }

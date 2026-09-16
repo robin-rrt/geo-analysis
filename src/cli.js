@@ -51,6 +51,8 @@ score:
                         fidelity reframe, retrieval hit/miss split, miss triage,
                         parametric overrides, inversions, and tiered fixes
       --dump-content    Print the extracted page content and exit (no API call)
+      --no-facts        Omit the deterministic measured-facts block from the prompt
+                        (reproduces pre-checks behaviour; for A/B comparison)
 
 gen-probes:
   -n, --n <count>       Number of probes to generate (default: 10)
@@ -125,6 +127,7 @@ async function cmdScore(argv) {
       "probe-results": { type: "string", short: "p" },
       "no-fallback": { type: "boolean", default: false },
       "dump-content": { type: "boolean", default: false },
+      "no-facts": { type: "boolean", default: false },
       help: { type: "boolean", short: "h", default: false },
     },
   });
@@ -158,7 +161,7 @@ async function cmdScore(argv) {
 
   process.stderr.write(`Fetching ${url} ...\n`);
   const page = await extractPage(url);
-  const pageContent = buildPageContent(page);
+  const pageContent = buildPageContent(page, { facts: !values["no-facts"] });
 
   if (values["dump-content"]) {
     process.stdout.write(pageContent + "\n");

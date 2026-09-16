@@ -119,6 +119,16 @@ test("plain audits have no probe-informed section", () => {
   }
 });
 
+test("accepts a decimal total score", () => {
+  // Observed live: the model sometimes carries the weighted total through to the
+  // headline ("71.1/100"). An integer-only regex silently failed the whole report.
+  const good = fs.readFileSync(files[0], "utf8");
+  const decimal = good.replace(/^## GEO Score: \d+\/100/m, "## GEO Score: 71.1/100");
+  const audit = parseAudit(decimal, "decimal.md");
+  assert.equal(audit.score, 71.1);
+  assert.ok(audit.band, "band still parses");
+});
+
 test("throws on structurally broken reports rather than returning partial data", () => {
   assert.throws(() => parseAudit("", "empty.md"), AuditParseError);
   assert.throws(() => parseAudit("# Not an audit\n", "wrong.md"), AuditParseError);

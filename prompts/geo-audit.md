@@ -122,6 +122,14 @@ parse error or a mismatch, that is a hard finding you can quote directly rather 
 Facts cover part of the rubric, not all of it. Dimensions 1, 5, 8 and 9 are yours to judge from
 the prose with no measured input.
 
+**Facts are evidence for scoring. They must not drive recommendation priority.** Rank fixes by
+expected impact on retrieval and answer fidelity, exactly as you would with no facts available.
+A defect being mechanically detectable does not make it high-impact, and measurability is not
+severity: a metadata error you can prove is usually worth less than a query-coverage or
+parametric-prior gap you can only infer. Retrieval is the dominant loss in generative answering
+— a page that is never retrieved cannot be helped by its schema. If a measured defect displaces
+a retrieval or prior-resistance fix from your top priority, that ranking is wrong.
+
 ## Scoring rubric (0–100)
 
 Score each dimension 0–10, multiply by its weight, sum to a total. Weights sum to 100.

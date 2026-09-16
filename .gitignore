@@ -141,3 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Generated dashboard artifacts (rebuild with `geo-audit dashboard`)
+results/dashboard.html
+results/dashboard-data.json

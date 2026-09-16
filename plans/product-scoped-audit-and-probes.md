@@ -2,7 +2,21 @@
 
 **Type:** enhancement
 **Created:** 2026-09-10
-**Status:** planned
+**Status:** Phases 1–2 IMPLEMENTED (commit `5acee5c`) · Phases 3–5 pending
+
+> **Shipped 2026-09-16.** `geo-audit product <name> [--scope curated|full|bundle] [--list]`
+> resolves, fetches, and rolls up a product with **zero LLM calls** — ACE at `--scope full` is
+> 59 pages in 6.5s. Ledger at `results/products/<name>/pages.json`, rollup at `rollup.json`.
+> Verified: identical scores across repeat runs; incremental re-runs report unchanged pages.
+>
+> **First corpus finding:** ACE fails `declared-language` on **8 of 8** evaluated pages
+> (declaring Rust or TypeScript over solidity/bash/plaintext). With 3 of 4 single-page audits also
+> declaring Rust, this is a site-wide generator defect.
+>
+> **Still pending: Phases 3–5** — the product *audit* (one LLM call over aggregates), product
+> *probes*, and the dashboard view. The probe half depends on multi-model PR1's deterministic
+> retrieval matcher, which is being built concurrently; the tiered `exact`/`in-scope` scoring
+> layers onto that matcher rather than replacing it twice.
 
 ## Overview
 

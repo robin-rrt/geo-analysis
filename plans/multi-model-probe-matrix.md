@@ -53,6 +53,14 @@ and variance runs wait until that data asks for them (see **Deferred**).
   `workflow-using-randomness` stays at 30%, and `concepts-non-determinism-go` moves from **20% to 30%**
   (found while implementing PR 1).
 - **Fidelity is pure arithmetic.** `fidelity == round(2.5 × Σ scores)` on 20/20 stored grades.
+- **The extractor can silently return a nav shell** (found 2026-09-16 while implementing PR 2).
+  `docs.chain.link/cre/guides/workflow/using-randomness` now extracts to **238 characters** —
+  an llms.txt banner, the title, and a newsletter form — against the **7,963** characters stored
+  in July. `gen-probes` generated ten confident probes from it anyway, with answer keys asserting
+  only that "the page is the canonical source for using randomness in CRE workflows". Probes like
+  that would mark every model wrong forever. PR 2 refuses below `MIN_SOURCE_CHARS` (800) unless
+  `--allow-thin`. Two consequences worth noting: the stored probe sets are stale with respect to
+  the live page, and `score` has no equivalent guard (see Deferred).
 - **Hash inputs need care.** Both `probes.json` files contain a model-invented
   `generated_at: "2025-01-15T00:00:00Z"`, so an ID that hashed `generated_at` would be
   meaningless. `src/extract.js` currently has uncommitted edits, and any hash over extractor
@@ -315,6 +323,19 @@ README.md                           model spec syntax, OPENAI_API_KEY, resume/--
   - The grader user message contains no model identity.
   - Grader output tokens on a 10-probe re-run are lower than before, measured through `onUsage`.
 
+  **Verified 2026-09-16** — `workflow-using-randomness`'s 10 stored answers re-graded by both the
+  old and the new grader:
+
+  | | Stored | Old grader, re-run | New grader |
+  |---|--:|--:|--:|
+  | Avg fidelity | 62.3 | 63.6 | 61.2 |
+  | Grader output tokens | — | 9,335 | **7,843 (−16%)** |
+  | Grader input tokens | — | 70,746 | 66,997 (−5%) |
+
+  Mean absolute per-probe delta: **3.5 old-vs-stored** — the grading instrument's own run-to-run
+  noise — against 4.5 new-vs-stored and 4.0 new-vs-old. The change sits inside that noise at
+  n=10: evidence of no systematic shift, not proof of equivalence.
+
 ### PR 2: probe-set identity, resume, and the CSV
 
 - `source_hash` and `probe_set_id`; the backfill script; hash-skip plus `--force`; resume with
@@ -387,6 +408,7 @@ README.md                           model spec syntax, OPENAI_API_KEY, resume/--
 | Models view leaderboard and pairwise wins | there are ≥3 models or ≥10 probed pages |
 | Multi-page `probe`, `gen-probes --from` | corpus plan Phase 3 (a shell loop works until then) |
 | Dashboard answer-size budget | `dashboard.html` exceeds ~2 MB |
+| Thin-extraction guard for `score` (and a decision on what to do about client-rendered pages) | next time a page is audited — today `score` would happily rate a 238-character nav shell against all 9 rubric dimensions |
 | Batch grading | cost plan Phase 2. Note: OpenAI's Batch API rejects `web_search`, so OpenAI web-mode asking can't be batched; Anthropic batches do support server tools |
 | Boilerplate-stripping before grading | blinding proves insufficient in a cross-family check |
 | `models` command, `--dry-run` | provider count makes the README table insufficient |

@@ -9,6 +9,8 @@ import {
   summarizeResults,
   emptyUsage,
   addUsage,
+  planResume,
+  graderPromptSha,
 } from "../src/evaluate.js";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -98,4 +100,46 @@ test("addUsage folds raw API usage, including server-tool search counts", () => 
     cache_read_input_tokens: 5,
     web_search_requests: 3,
   });
+});
+
+const identity = {
+  probe_set_id: "a41be07c19d2",
+  model_tested: "claude-opus-4-8",
+  mode: "web",
+  grader_model: "claude-opus-4-8",
+  grader_effort: "high",
+  grader_prompt_sha: "0123456789ab",
+};
+const setProbes = [{ id: "p01" }, { id: "p02" }, { id: "p03" }];
+
+test("resume keeps finished results and retries errored ones", () => {
+  const previous = {
+    ...identity,
+    results: [
+      { probe_id: "p01", stop: "end_turn" },
+      { probe_id: "p02", stop: "error" },
+    ],
+  };
+  const { done, todo, reason } = planResume(previous, identity, setProbes);
+  assert.deepEqual([...done.keys()], ["p01"]);
+  assert.deepEqual(todo.map((p) => p.id), ["p02", "p03"]);
+  assert.equal(reason, null);
+});
+
+test("resume refuses a run that isn't comparable, and says why", () => {
+  const results = [{ probe_id: "p01", stop: "end_turn" }];
+  for (const key of Object.keys(identity)) {
+    const { done, todo, reason } = planResume({ ...identity, [key]: "other", results }, identity, setProbes);
+    assert.equal(done.size, 0, key);
+    assert.equal(todo.length, 3, key);
+    assert.ok(reason, key);
+  }
+  const legacy = { model_tested: "claude-opus-4-8", mode: "web", results };
+  assert.equal(planResume(legacy, identity, setProbes).reason, "it predates resumable runs");
+  assert.deepEqual(planResume(null, identity, setProbes).reason, null);
+});
+
+test("grader prompt sha is a stable 12-hex version", () => {
+  assert.match(graderPromptSha(), /^[0-9a-f]{12}$/);
+  assert.equal(graderPromptSha(), graderPromptSha());
 });

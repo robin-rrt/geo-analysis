@@ -70,7 +70,7 @@ test("no expected URLs means no hit", () => {
   });
 });
 
-/** Stored probe runs joined with their probe sets. */
+/** Legacy web-mode probe runs (the ones the grader judged) joined with their probe sets. */
 function storedRuns() {
   const dir = path.join(root, "results");
   return fs
@@ -85,7 +85,10 @@ function storedRuns() {
           run: JSON.parse(fs.readFileSync(path.join(dir, e.name, f), "utf8")),
           probes: JSON.parse(fs.readFileSync(path.join(dir, e.name, "probes.json"), "utf8")).probes,
         })),
-    );
+    )
+    // Runs recorded since retrieval moved into code need no recomputation, and
+    // closed-mode runs have no retrieval verdict to compare against.
+    .filter(({ run }) => run.mode === "web" && !run.probe_set_id);
 }
 
 test("p10 regression: a scheme-less mention the old regex missed is a hit", () => {

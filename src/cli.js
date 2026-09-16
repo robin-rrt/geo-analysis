@@ -6,8 +6,10 @@ import { parseArgs } from "node:util";
 import { extractPage, buildPageContent } from "./extract.js";
 import { runAudit } from "./analyze.js";
 import { genProbes, slugFromUrl } from "./probes.js";
+import { sourceHash } from "./probe-set.js";
 import { runProbes } from "./evaluate.js";
-import { collect } from "./dashboard/collect.js";
+import { collect, loadProbeRuns } from "./dashboard/collect.js";
+import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
 
@@ -35,6 +37,7 @@ probes, and probe results for one page sit together:
   results/<slug>/audit-probe-informed.md         score --probe-results
   results/<slug>/probes.json                     gen-probes
   results/<slug>/probe-results-<model>-<mode>.json   probe
+  results/<slug>/probe-matrix.csv                probe, dashboard (probes × models)
 -o overrides the path; score additionally streams the report to stdout.
 
 Common options:
@@ -55,10 +58,15 @@ score:
 gen-probes:
   -n, --n <count>       Number of probes to generate (default: 10)
   -m, --model <id>      Generator model (default: by effort — see above)
+  -f, --force           Regenerate even if the page content is unchanged
+      --allow-thin      Generate even if the page extracts to almost no content
+                        (default: refuse — a nav shell yields probes about nothing)
 
 probe:
   -m, --model <id>      Model under test (default: ${DEFAULT_PROBE_TARGET})
       --mode <mode>     web | closed (default: web — retrieval enabled)
+  -f, --force           Re-run every probe. By default a run resumes: probes already
+                        answered for this probe set, model, mode, and grader are kept
                         [grader model: by effort — see above]
 
 dashboard:                                   (no API calls — reads results/ only)
@@ -110,6 +118,32 @@ function urlsMatch(a, b) {
     }
   };
   return norm(a) === norm(b);
+}
+
+function readJsonOrNull(file) {
+  try {
+    return JSON.parse(fs.readFileSync(file, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+// Write-then-rename, so an interrupted run never leaves a half-written file.
+function writeJsonAtomic(file, data) {
+  const tmp = `${file}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2) + "\n");
+  fs.renameSync(tmp, file);
+}
+
+// Per-page probe × model table, rebuilt from the page's current run files.
+function writeProbeMatrix(dir) {
+  if (!fs.existsSync(path.join(dir, "probes.json"))) return null;
+  const { probeSet, runs } = loadProbeRuns(dir);
+  const current = runs.filter((r) => r.current);
+  if (!current.length) return null;
+  const file = path.join(dir, "probe-matrix.csv");
+  fs.writeFileSync(file, toCsv(pivotRuns(current, probeSet.probes)));
+  return file;
 }
 
 // ---------------------------------------------------------------- score ----
@@ -211,6 +245,8 @@ async function cmdGenProbes(argv) {
       output: { type: "string", short: "o" },
       effort: { type: "string", short: "e", default: "high" },
       "no-fallback": { type: "boolean", default: false },
+      force: { type: "boolean", short: "f", default: false },
+      "allow-thin": { type: "boolean", default: false },
       help: { type: "boolean", short: "h", default: false },
     },
   });
@@ -223,18 +259,32 @@ async function cmdGenProbes(argv) {
   const model = analystModel(values.effort, values.model);
 
   process.stderr.write(`Fetching ${url} ...\n`);
-  process.stderr.write(`Generating ${n} probes with ${model} (effort: ${values.effort}) ...\n`);
+  const page = await extractPage(url);
+  const outFile =
+    values.output ?? resultsPath(slugFromUrl(page.finalUrl ?? url), "probes.json");
 
-  const { probes, page } = await genProbes({
+  // Probes derive from the page content. Regenerating for unchanged content
+  // buys only a different-but-equivalent set, and orphans every run that
+  // answered the current one.
+  const existing = values.force ? null : readJsonOrNull(outFile);
+  if (existing?.source_content && sourceHash(existing.source_content) === sourceHash(page.markdown)) {
+    process.stderr.write(
+      `Page content unchanged since ${outFile} was generated — nothing to do ` +
+        `(use --force to regenerate).\n`,
+    );
+    return;
+  }
+
+  process.stderr.write(`Generating ${n} probes with ${model} (effort: ${values.effort}) ...\n`);
+  const { probes } = await genProbes({
     url,
+    page,
     n,
     model,
     effort: values.effort,
     fallback: !values["no-fallback"],
+    allowThin: values["allow-thin"],
   });
-
-  const outFile =
-    values.output ?? resultsPath(slugFromUrl(page.finalUrl ?? url), "probes.json");
   fs.writeFileSync(outFile, JSON.stringify(probes, null, 2) + "\n");
 
   process.stderr.write(`\n${probes.probes.length} probes for "${probes.source_title}":\n`);
@@ -253,6 +303,7 @@ async function cmdProbe(argv) {
     options: {
       model: { type: "string", short: "m", default: DEFAULT_PROBE_TARGET },
       mode: { type: "string", default: "web" },
+      force: { type: "boolean", short: "f", default: false },
       output: { type: "string", short: "o" },
       effort: { type: "string", short: "e", default: "high" },
       help: { type: "boolean", short: "h", default: false },
@@ -266,20 +317,25 @@ async function cmdProbe(argv) {
   checkEffort(values.effort);
   const graderModel = analystModel(values.effort);
 
+  const probeSet = readJsonOrNull(probesFile);
+  if (!probeSet?.source_url) fail(`not a probes file (no source_url): ${probesFile}`);
+  const slug = slugFromUrl(probeSet.source_url);
+  const modelShort = values.model.replace(/^claude-/, "");
+  const outFile =
+    values.output ?? resultsPath(slug, `probe-results-${modelShort}-${values.mode}.json`);
+
   const summary = await runProbes({
     probesFile,
     model: values.model,
     graderModel,
     mode: values.mode,
     effort: values.effort,
+    previous: values.force ? null : readJsonOrNull(outFile),
+    // Persist after every batch, so an interrupted run resumes where it stopped.
+    onProgress: (partial) => writeJsonAtomic(outFile, partial),
     log: (msg) => process.stderr.write(msg),
   });
-
-  const slug = slugFromUrl(summary.source_url);
-  const modelShort = values.model.replace(/^claude-/, "");
-  const outFile =
-    values.output ?? resultsPath(slug, `probe-results-${modelShort}-${summary.mode}.json`);
-  fs.writeFileSync(outFile, JSON.stringify(summary, null, 2) + "\n");
+  writeJsonAtomic(outFile, summary);
 
   const pct = (r) => `${Math.round(r * 100)}%`;
   const hitRate =
@@ -318,7 +374,14 @@ async function cmdProbe(argv) {
         `treat raw retrieval numbers with caution and consider re-running.\n`,
     );
   }
+  if (summary.error_count > 0) {
+    process.stderr.write(
+      `\n  ${summary.error_count} probe(s) failed — re-run the same command to retry just those.\n`,
+    );
+  }
   process.stderr.write(`\nResults written to ${outFile}\n`);
+  const matrix = writeProbeMatrix(path.join("results", slug));
+  if (matrix) process.stderr.write(`Probe matrix written to ${matrix}\n`);
 }
 
 // ------------------------------------------------------------- dashboard ----
@@ -349,6 +412,13 @@ async function cmdDashboard(argv) {
   const outFile = values.output ?? path.join(resultsDir, "dashboard.html");
   fs.writeFileSync(outFile, render(data));
 
+  // Refresh every page's probe × model table alongside the dashboard.
+  const matrices = fs
+    .readdirSync(resultsDir, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => writeProbeMatrix(path.join(resultsDir, e.name)))
+    .filter(Boolean);
+
   if (values.json) {
     const jsonFile = path.join(resultsDir, "dashboard-data.json");
     fs.writeFileSync(jsonFile, JSON.stringify(data, null, 2) + "\n");
@@ -364,6 +434,9 @@ async function cmdDashboard(argv) {
   );
   for (const note of agg.coverageNotes) process.stderr.write(`  note: ${note}\n`);
   process.stderr.write(`\nDashboard written to ${outFile} (${sizeKb} KB)\n`);
+  if (matrices.length) {
+    process.stderr.write(`Probe matrices refreshed for ${matrices.length} page(s)\n`);
+  }
 }
 
 // ------------------------------------------------------------- dispatch ----

@@ -8,6 +8,14 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const data = collect(path.join(root, "results"));
 const page = (slug) => data.pages.find((p) => p.slug === slug);
 
+test("the headline run is a web run on the current probe set", () => {
+  for (const slug of ["workflow-using-randomness", "concepts-non-determinism-go"]) {
+    const run = page(slug).primaryRun;
+    assert.equal(run.mode, "web", slug);
+    assert.equal(run.current, true, slug);
+  }
+});
+
 test("legacy retrieval verdicts are recomputed with the harness rule", () => {
   const randomness = page("workflow-using-randomness").primaryRun;
   const p10 = randomness.probes.find((p) => p.id === "p10");

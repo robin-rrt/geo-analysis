@@ -508,7 +508,7 @@ function renderMethodology({ pages, aggregates: agg, generatedAt }) {
     p.probeRuns.map((r) => `<tr>
       ${cell(esc(p.title), { sortValue: p.title })}
       ${cell(`<span class="mono small">${esc(r.model)}</span>`, { sortValue: r.model })}
-      ${cell(esc(r.mode), { sortValue: r.mode })}
+      ${cell(`${esc(r.mode)}${r.current ? "" : ' <span class="faint small">· older probe set</span>'}`, { sortValue: r.mode })}
       ${cell(String(r.probeCount), { num: true, sortValue: r.probeCount })}
       ${cell(esc((r.runAt ?? "").slice(0, 10)), { sortValue: r.runAt })}
       ${cell(`<span class="mono small">${esc(r.graderModel)}</span>`, { sortValue: r.graderModel })}

@@ -8,6 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseAudit } from "./parse-audit.js";
 import { bodyUrls, retrievalHit } from "../retrieval.js";
+import { probeSetId } from "../probe-set.js";
 
 // Superseded artifacts kept on disk for reference; never rendered.
 const SUPERSEDED = /-old\.(md|json)$/;
@@ -129,6 +130,43 @@ function normaliseProbeRun(raw, file, expectedById = new Map()) {
   };
 }
 
+/**
+ * A page's current probe set and all of its probe runs, newest first. A run is
+ * `current` when it answered this probe set — by its recorded probe_set_id, or,
+ * for runs that predate the id, when every prompt matches. Stale runs stay
+ * listed but are never compared against current ones.
+ */
+export function loadProbeRuns(dir) {
+  const files = fs.readdirSync(dir).filter((f) => !SUPERSEDED.test(f));
+  const probeSet = files.includes("probes.json") ? readJson(path.join(dir, "probes.json")) : null;
+  const currentId = probeSet ? probeSetId(probeSet.probes) : null;
+
+  // Expected source URLs per probe, keyed with the prompt so a run is only
+  // re-judged against the probe set it actually answered.
+  const expectedById = new Map(
+    (probeSet?.probes ?? []).map((p) => [
+      p.id,
+      { prompt: p.prompt, urls: p.expected_source_urls ?? [] },
+    ]),
+  );
+
+  const runs = files
+    .filter((f) => f.startsWith("probe-results-") && f.endsWith(".json"))
+    .map((f) => {
+      const raw = readJson(path.join(dir, f));
+      const run = normaliseProbeRun(raw, f, expectedById);
+      run.current =
+        probeSet !== null &&
+        (raw.probe_set_id
+          ? raw.probe_set_id === currentId
+          : run.probes.every((p) => expectedById.get(p.id)?.prompt === p.prompt));
+      return run;
+    })
+    .sort((a, b) => String(b.runAt).localeCompare(String(a.runAt)));
+
+  return { probeSet, runs };
+}
+
 function collectPage(dir, slug) {
   const files = fs.readdirSync(dir).filter((f) => !SUPERSEDED.test(f));
 
@@ -149,21 +187,7 @@ function collectPage(dir, slug) {
     return { file: f, score: parsed.score, band: parsed.band, analyzedAt: parsed.analyzedAt };
   });
 
-  // Expected source URLs per probe, keyed with the prompt so a run is only
-  // re-judged against the probe set it actually answered.
-  const expectedById = new Map(
-    files.includes("probes.json")
-      ? readJson(path.join(dir, "probes.json")).probes.map((p) => [
-          p.id,
-          { prompt: p.prompt, urls: p.expected_source_urls ?? [] },
-        ])
-      : [],
-  );
-
-  const probeRuns = files
-    .filter((f) => f.startsWith("probe-results-") && f.endsWith(".json"))
-    .map((f) => normaliseProbeRun(readJson(path.join(dir, f)), f, expectedById))
-    .sort((a, b) => String(b.runAt).localeCompare(String(a.runAt)));
+  const { runs: probeRuns } = loadProbeRuns(dir);
 
   return {
     slug,
@@ -180,7 +204,13 @@ function collectPage(dir, slug) {
         : null,
     audit,
     probeRuns,
-    primaryRun: probeRuns[0] ?? null,
+    // Newest run on the current probe set, preferring web mode: closed mode
+    // measures parametric recall, not retrieval, so it must never become the
+    // page's headline just by running last. Stale runs never headline at all.
+    primaryRun:
+      probeRuns.find((r) => r.current && r.mode === "web") ??
+      probeRuns.find((r) => r.current) ??
+      null,
   };
 }
 

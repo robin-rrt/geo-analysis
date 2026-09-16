@@ -1,7 +1,10 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 import { extractPage } from "./extract.js";
-import { runClaude, client, FABLE_MODEL } from "./claude.js";
+import { runClaude, client, FABLE_MODEL, PROMPTS_DIR } from "./claude.js";
 import { bodyUrls, retrievalHit } from "./retrieval.js";
+import { probeSetId } from "./probe-set.js";
 
 const str = { type: "string" };
 const strArr = { type: "array", items: str };
@@ -85,6 +88,49 @@ export function addUsage(total, u = {}) {
   total.cache_read_input_tokens += u.cache_read_input_tokens ?? 0;
   total.web_search_requests += u.server_tool_use?.web_search_requests ?? u.web_search_requests ?? 0;
   return total;
+}
+
+/** Version of the grading instrument: prompt text + output schema. */
+export function graderPromptSha() {
+  const prompt = fs.readFileSync(path.join(PROMPTS_DIR, "probe-eval.md"), "utf8");
+  return crypto
+    .createHash("sha256")
+    .update(prompt + JSON.stringify(EVAL_SCHEMA))
+    .digest("hex")
+    .slice(0, 12);
+}
+
+// A previous run is resumable only if its results are comparable with the ones
+// this run would produce: same probe set, same model under test and mode, same
+// grading instrument. Anything else starts fresh.
+const RESUME_KEYS = [
+  ["probe_set_id", "the probe set changed"],
+  ["model_tested", "a different model under test"],
+  ["mode", "a different mode"],
+  ["grader_model", "a different grader model"],
+  ["grader_effort", "a different grader effort"],
+  ["grader_prompt_sha", "the grader prompt or schema changed"],
+];
+
+/**
+ * Split a probe set into results already finished by a comparable previous run
+ * (`done`) and probes still to ask (`todo`). Errored results are retried.
+ * `reason` explains why a previous run could not be resumed, when there was one.
+ */
+export function planResume(previous, identity, probes) {
+  const done = new Map();
+  let reason = null;
+  if (previous) {
+    if (!("probe_set_id" in previous)) reason = "it predates resumable runs";
+    else reason = RESUME_KEYS.find(([key]) => previous[key] !== identity[key])?.[1] ?? null;
+    if (!reason) {
+      const ids = new Set(probes.map((p) => p.id));
+      for (const r of previous.results ?? []) {
+        if (r.stop !== "error" && ids.has(r.probe_id)) done.set(r.probe_id, r);
+      }
+    }
+  }
+  return { done, todo: probes.filter((p) => !done.has(p.id)), reason };
 }
 
 // Models documented to support the dynamic-filtering web search variant.
@@ -428,6 +474,7 @@ export function summarizeResults(results) {
     probe_count: results.length,
     graded_count: graded.length,
     refusal_count: results.filter((r) => r.stop === "refusal").length,
+    error_count: results.filter((r) => r.stop === "error").length,
     avg_fidelity: avg(graded, (r) => r.fidelity),
     retrieval_hit_rate: rate(hits.length, judged.length),
     retrieval_hit_rate_effective: rate(hits.length, judged.length - inconclusiveMisses),
@@ -448,13 +495,63 @@ export function summarizeResults(results) {
 }
 
 /**
+ * A probe whose ask or grade threw. It is recorded rather than failing the
+ * whole run, and a re-run retries it (errored results are never resumed).
+ */
+function errorOutcome(probe, model, err) {
+  const message = String(err?.message ?? err);
+  return {
+    result: {
+      probe_id: probe.id,
+      model_tested: model,
+      retrieval: { cited_urls: [], hit_expected_source: null, via: null, notes: "" },
+      scores: null,
+      fidelity: null,
+      hallucinations: [],
+      missing_must_include: [],
+      unverifiable_from_source: [],
+      verdict: "Probe failed — not graded.",
+      prompt: probe.prompt,
+      archetype: probe.archetype,
+      answer: "",
+      stop: "error",
+      error: message,
+      harness: {
+        retries: 0,
+        searches_attempted: null,
+        searches_succeeded: null,
+        search_errors: [],
+        search_degraded: false,
+        live_search_failed: null,
+      },
+      usage: { model_under_test: emptyUsage(), grader: emptyUsage() },
+    },
+    logText: `${probe.id} [${probe.archetype}] ERROR: ${message}\n`,
+  };
+}
+
+/**
  * Run every probe in a probes.json file: execute against the model-under-test,
  * grade with the grader model, and return a summary with per-probe results.
  * Probes run in capped-concurrency batches (PROBE_CONCURRENCY at a time) —
  * fully sequential is safe but slow, fully parallel bursts too many searches
  * at once and trips the web_search tool's rate limit.
+ *
+ * With `previous` (the existing run file for this model and mode), finished
+ * results from a comparable run are kept and only the remaining probes are
+ * asked. `onProgress` receives the full summary after every batch so the
+ * caller can persist it — an interrupted run then resumes where it stopped.
  */
-export async function runProbes({ probesFile, model, graderModel, mode, effort, log = () => {} }) {
+export async function runProbes({
+  probesFile,
+  model,
+  graderModel,
+  mode,
+  effort,
+  previous = null,
+  onProgress = () => {},
+  log = () => {},
+}) {
   const probeSet = JSON.parse(fs.readFileSync(probesFile, "utf8"));
   if (!Array.isArray(probeSet.probes) || probeSet.probes.length === 0) {
     throw new Error(`no probes found in ${probesFile}`);
@@ -466,33 +563,49 @@ export async function runProbes({ probesFile, model, graderModel, mode, effort, 
     sourceContent = (await extractPage(probeSet.source_url)).markdown;
   }
 
-  const results = [];
-  for (let i = 0; i < probeSet.probes.length; i += PROBE_CONCURRENCY) {
+  const identity = {
+    source_url: probeSet.source_url,
+    source_title: probeSet.source_title,
+    probe_set_id: probeSetId(probeSet.probes),
+    model_tested: model,
+    mode,
+    grader_model: graderModel,
+    grader_effort: effort,
+    grader_prompt_sha: graderPromptSha(),
+  };
+
+  const { done, todo, reason } = planResume(previous, identity, probeSet.probes);
+  if (reason) log(`existing run file not resumed (${reason}) — starting fresh\n`);
+  if (done.size) {
+    log(`resuming: ${done.size} of ${probeSet.probes.length} probes already answered, ${todo.length} to run\n`);
+  }
+
+  // Results always follow probes.json order, however they were produced.
+  const summary = () => {
+    const results = probeSet.probes.map((p) => done.get(p.id)).filter(Boolean);
+    return { ...identity, run_at: new Date().toISOString(), ...summarizeResults(results), results };
+  };
+
+  for (let i = 0; i < todo.length; i += PROBE_CONCURRENCY) {
     // Pace batches in web mode so back-to-back search bursts don't trip rate limits.
     if (i > 0 && mode === "web") await sleep(PROBE_PACING_MS);
 
-    const batch = probeSet.probes.slice(i, i + PROBE_CONCURRENCY);
+    const batch = todo.slice(i, i + PROBE_CONCURRENCY);
     const outcomes = await Promise.all(
       batch.map((probe) =>
-        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }),
+        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }).catch((err) =>
+          errorOutcome(probe, model, err),
+        ),
       ),
     );
     // Flush in submission order (not completion order) so output stays
     // deterministic and matches the probes.json order run-to-run.
     for (const { result, logText } of outcomes) {
       log(logText);
-      results.push(result);
+      done.set(result.probe_id, result);
     }
+    onProgress(summary());
   }
 
-  return {
-    source_url: probeSet.source_url,
-    source_title: probeSet.source_title,
-    model_tested: model,
-    grader_model: graderModel,
-    mode,
-    run_at: new Date().toISOString(),
-    ...summarizeResults(results),
-    results,
-  };
+  return summary();
 }

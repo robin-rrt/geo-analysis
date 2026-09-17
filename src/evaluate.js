@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { extractPage } from "./extract.js";
 import { runClaude, client, FABLE_MODEL, PROMPTS_DIR } from "./claude.js";
-import { bodyUrls, retrievalHit } from "./retrieval.js";
+import { bodyUrls, retrievalHit, retrievalTier } from "./retrieval.js";
 import { probeSetId } from "./probe-set.js";
 
 const str = { type: "string" };
@@ -152,6 +152,10 @@ const PROBE_CONCURRENCY = 3;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Above this, the shared grading prefix is worth a 1-hour cache entry (2x write,
+// 0.1x read) rather than the 5-minute default that a long run outlives.
+const LARGE_PREFIX_CHARS = 60_000;
+
 // Web-search tool errors surface as web_search_tool_result blocks whose
 // content is an error object rather than a results array.
 export function searchErrorCodes(blocks) {
@@ -296,6 +300,7 @@ export async function gradeProbe({
   retrieval,
   sourceContent,
   effort,
+  cacheTtl,
 }) {
   const retrievalKey =
     retrieval.hit_expected_source === null ? "closed" : (retrieval.via ?? "miss");
@@ -303,7 +308,7 @@ export async function gradeProbe({
     {
       type: "text",
       text: `Source content (ground truth):\n\n${sourceContent}`,
-      cache_control: { type: "ephemeral" },
+      cache_control: cacheTtl ? { type: "ephemeral", ttl: cacheTtl } : { type: "ephemeral" },
     },
     {
       type: "text",
@@ -344,7 +349,20 @@ export async function gradeProbe({
  * single block rather than written directly, so concurrent probes in the
  * same batch don't interleave partial lines on stderr.
  */
-async function runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }) {
+
+/**
+ * Retrieval verdict for one answer. With `scopeUrls` (a product's page set) the
+ * outcome is tiered; without it, the page-scoped exact-match rule applies and
+ * `tier` is null. Exported so the decision is testable on its own.
+ */
+export function decideRetrieval({ citedUrls = [], answer = "", expectedUrls = [], scopeUrls = [] }) {
+  if (scopeUrls?.length) {
+    return retrievalTier({ citedUrls, answer, expectedUrls, scopeUrls });
+  }
+  return { ...retrievalHit({ citedUrls, answer, expectedUrls }), tier: null };
+}
+
+async function runOneProbe({ probe, model, graderModel, mode, effort, sourceContent, scopeUrls, cacheTtl }) {
   const lines = [];
   const bufLog = (msg) => lines.push(msg);
 
@@ -358,15 +376,21 @@ async function runOneProbe({ probe, model, graderModel, mode, effort, sourceCont
 
   // Retrieval is a string match, decided here rather than by the grader.
   // Closed mode has no retrieval to hit or miss, so the hit is null, not false.
-  const { hit, via } = retrievalHit({
+  // With a product scope, grade retrieval as a tier: citing a sibling page of
+  // the same product is materially different from citing nothing. `hit` stays
+  // true only for an exact match, so hit rates remain comparable with page runs.
+  const verdict = decideRetrieval({
     citedUrls,
     answer,
     expectedUrls: probe.expected_source_urls,
+    scopeUrls,
   });
+  const { hit, via } = verdict;
   const retrieval = {
     cited_urls: citedUrls,
     hit_expected_source: mode === "web" ? hit : null,
     via: mode === "web" ? via : null,
+    tier: mode === "web" ? (verdict.tier ?? null) : null,
     notes: "",
   };
 
@@ -396,6 +420,7 @@ async function runOneProbe({ probe, model, graderModel, mode, effort, sourceCont
       retrieval,
       sourceContent,
       effort,
+      cacheTtl,
     });
   }
   const { retrieval_note: retrievalNote, ...grade } = graded.grade;
@@ -557,6 +582,15 @@ export async function runProbes({
     throw new Error(`no probes found in ${probesFile}`);
   }
 
+  // Product probe sets carry the product's page list; page sets do not. Its
+  // presence is what switches retrieval from exact-match to tiered.
+  const scopeUrls = probeSet.scope_urls ?? [];
+
+  // A 5-minute cache entry cannot outlive a real run — probes take ~60-75s
+  // each. A large shared prefix must use the 1-hour TTL or every probe silently
+  // re-writes it at full price instead of reading it.
+  const cacheTtl = (probeSet.source_content?.length ?? 0) > LARGE_PREFIX_CHARS ? "1h" : null;
+
   let sourceContent = probeSet.source_content;
   if (!sourceContent) {
     log(`no source_content in probes file — refetching ${probeSet.source_url} ...\n`);
@@ -593,7 +627,7 @@ export async function runProbes({
     const batch = todo.slice(i, i + PROBE_CONCURRENCY);
     const outcomes = await Promise.all(
       batch.map((probe) =>
-        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent }).catch((err) =>
+        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent, scopeUrls, cacheTtl }).catch((err) =>
           errorOutcome(probe, model, err),
         ),
       ),

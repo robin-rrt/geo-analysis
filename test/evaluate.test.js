@@ -143,3 +143,27 @@ test("grader prompt sha is a stable 12-hex version", () => {
   assert.match(graderPromptSha(), /^[0-9a-f]{12}$/);
   assert.equal(graderPromptSha(), graderPromptSha());
 });
+
+// ------------------------------------------------- retrieval decision seam --
+
+import { decideRetrieval } from "../src/evaluate.js";
+
+const SCOPE = ["https://d.co/a", "https://d.co/b", "https://d.co/c"];
+
+test("tiers the verdict when a product scope is supplied", () => {
+  const r = decideRetrieval({ citedUrls: ["https://d.co/b"], expectedUrls: ["https://d.co/a"], scopeUrls: SCOPE });
+  assert.equal(r.tier, "in-scope");
+  assert.equal(r.hit, false, "an in-scope sibling is not an exact hit");
+});
+
+test("falls back to exact-match with no scope, and reports a null tier", () => {
+  // Regression: the tier field shipped as null on a real product run because the
+  // call site never forwarded scopeUrls. The seam makes that state observable.
+  const r = decideRetrieval({ citedUrls: ["https://d.co/a"], expectedUrls: ["https://d.co/a"] });
+  assert.equal(r.hit, true);
+  assert.equal(r.tier, null, "no scope means no tier — not a silently wrong tier");
+});
+
+test("an empty scope array behaves as no scope", () => {
+  assert.equal(decideRetrieval({ citedUrls: [], expectedUrls: ["https://d.co/a"], scopeUrls: [] }).tier, null);
+});

@@ -17,6 +17,7 @@ import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
 import { rollup } from "./product/rollup.js";
 import { runProductAudit, buildAuditContent, selectSamples } from "./product/audit.js";
+import { genProductProbes } from "./product/probes.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -81,6 +82,8 @@ product:                                     (no API calls — deterministic tie
       --scope <scope>      ${SCOPES.join(" | ")} (default: curated)
       --list               Resolve and print the page ledger, then exit (no fetching)
       --audit              After the rollup, run ONE LLM audit over the aggregate
+      --probes             Generate product-scoped probes -> products/<name>/probes.json
+  -n, --n <count>          Probes to generate (default: 10)
       --dump-content       Print what the audit would send, then exit (no API call)
       --samples <n>        Pages shown in full to the auditor (default: 6)
   -m, --model <id>         Auditor model (default: by effort)
@@ -346,10 +349,17 @@ async function cmdProbe(argv) {
 
   const probeSet = readJsonOrNull(probesFile);
   if (!probeSet?.source_url) fail(`not a probes file (no source_url): ${probesFile}`);
+  // A product probe set's source_url is the llms.txt index, whose slug
+  // ("vrf-llms-txt") is both wrong and collides with the page namespace. Product
+  // runs belong beside the probe set that produced them.
+  const productDir = probeSet.product ? path.dirname(path.resolve(probesFile)) : null;
   const slug = slugFromUrl(probeSet.source_url);
   const modelShort = values.model.replace(/^claude-/, "");
   const outFile =
-    values.output ?? resultsPath(slug, `probe-results-${modelShort}-${values.mode}.json`);
+    values.output ??
+    (productDir
+      ? path.join(productDir, `probe-results-${modelShort}-${values.mode}.json`)
+      : resultsPath(slug, `probe-results-${modelShort}-${values.mode}.json`));
 
   const summary = await runProbes({
     probesFile,
@@ -491,6 +501,8 @@ async function cmdProduct(argv) {
       effort: { type: "string", short: "e", default: "high" },
       "no-fallback": { type: "boolean", default: false },
       samples: { type: "string", default: "6" },
+      probes: { type: "boolean", default: false },
+      n: { type: "string", short: "n", default: "10" },
       origin: { type: "string", default: "https://docs.chain.link" },
       concurrency: { type: "string", default: "6" },
       output: { type: "string", short: "o" },
@@ -575,9 +587,47 @@ async function cmdProduct(argv) {
       process.stderr.write(`    ${f.recoverable.toFixed(1).padStart(4)}  ${f.id} (${f.pages} pages)\n`);
     }
   }
+  if (values.probes) {
+    checkEffort(values.effort);
+    const n = Number.parseInt(values.n, 10);
+    if (!Number.isInteger(n) || n < 1 || n > 50) fail(`invalid --n "${values.n}" (1-50)`);
+    const genModel = analystModel(values.effort, values.model);
+
+    process.stderr.write(`\nGenerating ${n} product probes with ${genModel} ...\n`);
+    const tally = createTally();
+    const { probes, context } = await genProductProbes({
+      resolved,
+      pages: fetched.pages,
+      n,
+      model: genModel,
+      effort: values.effort,
+      fallback: !values["no-fallback"],
+      tally,
+    });
+
+    const probeFile = path.join(outDir, "probes.json");
+    fs.writeFileSync(probeFile, JSON.stringify(probes, null, 2) + "\n");
+
+    process.stderr.write(
+      `\ncontext: ${context.strategy}, ~${context.tokensEstimated.toLocaleString()} est. tokens` +
+        `${context.pagesOmitted ? `, ${context.pagesOmitted} page(s) omitted` : ""}\n`,
+    );
+    for (const note of context.notes) process.stderr.write(`  note: ${note}\n`);
+    const spanning = probes.probes.filter((p) => (p.expected_source_urls ?? []).length > 1).length;
+    process.stderr.write(
+      `\n${probes.probes.length} probes · ${spanning} span more than one page · ` +
+        `scope ${probes.scope_urls.length} page(s)\n`,
+    );
+    for (const p of probes.probes) process.stderr.write(`  ${p.id} [${p.archetype}] ${p.prompt}\n`);
+    process.stderr.write(`\n${tally.format()}\n`);
+    process.stderr.write(`\nProbe set written to ${probeFile}\n`);
+    process.stderr.write(`Run it: geo-audit probe ${probeFile}\n`);
+    return;
+  }
+
   if (!values.audit && !values["dump-content"]) {
     process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\n`);
-    process.stderr.write(`\nRe-run with --audit for an LLM audit over this rollup.\n`);
+    process.stderr.write(`\nRe-run with --audit for an LLM audit, or --probes to generate probes.\n`);
     return;
   }
 

@@ -1,6 +1,6 @@
 # Status — what's done, what's left
 
-**Updated:** 2026-09-16 · everything below is on `main`, 79 tests passing.
+**Updated:** 2026-09-17 · everything below is on `main`, 90 tests passing.
 
 This is the index. Each plan file carries its own detail; this says which parts of it are real.
 
@@ -15,6 +15,9 @@ This is the index. Each plan file carries its own detail; this says which parts 
 | **Probe-set identity, resume, probe × model matrix** (multi-model PR2) | ✅ done | `3e82ee0` |
 | **Usage + cost instrumentation** — every command reports spend | ✅ done | `b3671c9`, `d3bd811` |
 | **Product scope** — resolve / fetch / rollup / ledger, zero LLM cost | ✅ Phases 1–2 | `5acee5c` |
+| **Markdown-endpoint fix** — HTML checks skip `.md` pages | ✅ done | `70ff566` |
+| **Product audit** — one LLM call over the rollup | ✅ Phase 3 | `6e890e8` |
+| **Tiered retrieval** — exact / in-scope / out-of-scope / none | ✅ done | `fe393f9` |
 
 ## Left to do, in the order I'd tackle it
 
@@ -65,7 +68,7 @@ already independently scored 37/100.
 
 ## Corrections carried in the plans
 
-Two claims were disproven by measurement. Both are annotated in place; don't re-inherit them:
+Three claims were disproven by measurement. All are annotated in place; don't re-inherit them:
 
 - **Pre-checks do not reduce score variance.** An 18-audit study measured 2.5-point spread in
   every condition. The 81/71/75 that motivated the plan came from three *different prompt
@@ -74,6 +77,9 @@ Two claims were disproven by measurement. Both are annotated in place; don't re-
 - **"The recorded hit rates stand"** (multi-model plan) is false. The deterministic matcher
   correctly flips `non-determinism-go/p02` from miss to hit, moving that page 20% → 30%.
   `collect.js` surfaces this as `hitCorrections`; only the plan text is stale.
+- **Tiered retrieval does not raise hit rates.** `in-scope` is 0/20 on the existing probe sets.
+  Retrieval failure is *total* — 14 of 20 answers cite nothing at all, rather than citing a
+  sibling page. The tiering is kept; the "corrects an understatement" rationale is retracted.
 
 ## Known measurements worth not re-deriving
 
@@ -83,3 +89,7 @@ Two claims were disproven by measurement. Both are annotated in place; don't re-
 - `docs.chain.link`: 1,465 sitemap URLs, growing ~70/week. CCIP bundle ~1.16M tokens — over the
   1M context window, so bundle-or-selection is a requirement.
 - A single `score` run has a 0% cache hit rate by construction: one audit is one call.
+- One **product** audit over a 13-page rollup: **$0.1474** — vs $2.27 for the pages individually.
+- VRF curated scores **88.1** (was 74.8 before HTML checks stopped firing on `.md` endpoints).
+- Curated `llms.txt` indexes link **`.md` endpoints exclusively** (13/13 for VRF), which have no
+  HTML metadata layer at all.

@@ -183,12 +183,13 @@ export function searchErrorCodes(blocks) {
 
 const RETRYABLE_SEARCH_ERRORS = new Set(["too_many_requests", "unavailable"]);
 
-async function executeProbeOnce({ prompt, model, mode }) {
+async function executeProbeOnce({ prompt, model, mode, probeEffort }) {
   const isFable = model === FABLE_MODEL;
   const base = {
     model,
     max_tokens: 16000,
     ...(!isFable && ADAPTIVE_THINKING.test(model) && { thinking: { type: "adaptive" } }),
+    ...(probeEffort && { output_config: { effort: probeEffort } }),
     ...(mode === "web" && {
       tools: [
         {
@@ -277,11 +278,11 @@ async function executeProbeOnce({ prompt, model, mode }) {
  * is flagged so the retrieval metrics can treat it as inconclusive. Usage is
  * summed across retries — a retried attempt is still paid for.
  */
-export async function executeProbe({ prompt, model, mode, log = () => {} }) {
+export async function executeProbe({ prompt, model, mode, probeEffort, log = () => {} }) {
   const usage = emptyUsage();
   let result;
   for (let attempt = 0; ; attempt++) {
-    result = await executeProbeOnce({ prompt, model, mode });
+    result = await executeProbeOnce({ prompt, model, mode, probeEffort });
     addUsage(usage, result.usage);
     if (!result.searchDegraded || attempt >= SEARCH_RETRY_LIMIT) {
       return { ...result, usage, retries: attempt };
@@ -400,12 +401,13 @@ async function runOneProbe({
   scopeUrls,
   cacheTtl,
   deferGrade,
+  probeEffort,
 }) {
   const lines = [];
   const bufLog = (msg) => lines.push(msg);
 
   bufLog(`${probe.id} [${probe.archetype}] asking ${model} (${mode}) ... `);
-  const asked = await executeProbe({ prompt: probe.prompt, model, mode, log: bufLog });
+  const asked = await executeProbe({ prompt: probe.prompt, model, mode, probeEffort, log: bufLog });
   const { answer, citedUrls, stopReason, searchDegraded, searchesAttempted, searchesSucceeded } =
     asked;
   // Live search "didn't work" = the model tried to search but nothing came
@@ -623,6 +625,7 @@ export async function runProbes({
   onProgress = () => {},
   log = () => {},
   batch = false,
+  probeEffort,
 }) {
   const probeSet = JSON.parse(fs.readFileSync(probesFile, "utf8"));
   if (!Array.isArray(probeSet.probes) || probeSet.probes.length === 0) {
@@ -655,6 +658,7 @@ export async function runProbes({
     mode,
     grader_model: graderModel,
     grader_effort: effort,
+    probe_effort: probeEffort ?? null,
     grader_prompt_sha: graderPromptSha(),
   };
 
@@ -686,6 +690,7 @@ export async function runProbes({
           sourceContent,
           scopeUrls,
           cacheTtl,
+          probeEffort,
           deferGrade: batch ? (req) => pendingGrades.push(req) : undefined,
         }).catch((err) =>
           errorOutcome(probe, model, err),

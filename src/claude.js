@@ -7,6 +7,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const PROMPTS_DIR = path.join(here, "..", "prompts");
 
 export const OPUS_MODEL = "claude-opus-4-8";
+export const SONNET_MODEL = "claude-sonnet-5";
 export const FABLE_MODEL = "claude-fable-5";
 const FALLBACK_MODEL = OPUS_MODEL;
 
@@ -17,6 +18,17 @@ export const DEFAULT_MODEL = OPUS_MODEL;
 export function analystModel(effort, override) {
   if (override) return override;
   return effort === "max" ? FABLE_MODEL : OPUS_MODEL;
+}
+
+// Grading is a constrained task: a fixed source, an answer key, four scores and
+// a hallucination list. It does not need the analyst tier, and it runs once per
+// probe, so it dominates grading spend. Sonnet 5 is $3/$15 against Opus 4.8's
+// $5/$25. `--effort max` still escalates, for the rare run where the grader
+// itself is the thing being stress-tested.
+export const DEFAULT_GRADER_MODEL = SONNET_MODEL;
+export function graderModelFor(effort, override) {
+  if (override) return override;
+  return effort === "max" ? FABLE_MODEL : SONNET_MODEL;
 }
 
 let _client;

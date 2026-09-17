@@ -259,7 +259,14 @@ function aggregate(pages) {
     p.audit.recommendations.map((r) => ({ ...r, slug: p.slug, pageTitle: p.title })),
   );
 
+  // Fidelity is grader-relative: Sonnet grades ~12 points harsher than Opus on
+  // identical answers (measured over 20 stored answers, ranking preserved).
+  // Averaging across graders would silently mix two scales.
+  const graders = [...new Set(probed.map((p) => p.primaryRun.graderModel).filter(Boolean))];
+
   return {
+    gradersUsed: graders,
+    mixedGraders: graders.length > 1,
     pageCount: pages.length,
     probedPageCount: probed.length,
     probeCount: allProbes.length,

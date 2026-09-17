@@ -583,6 +583,19 @@ function renderMethodology({ pages, aggregates: agg, generatedAt }) {
         : ""
     }
 
+    ${
+      agg.mixedGraders
+        ? `<div class="note"><strong>Fidelity numbers on this page come from more than one grader
+      (${agg.gradersUsed.map(esc).join(", ")}) and are not directly comparable.</strong>
+      Graders disagree systematically, not randomly — Sonnet scores about 12 points harsher than
+      Opus on identical answers, with the ranking preserved. Compare pages within a grader, and
+      re-grade rather than mixing scales.</div>`
+        : `<p class="muted small">All fidelity figures were produced by
+      <span class="mono">${esc(agg.gradersUsed?.[0] ?? "—")}</span>. Fidelity is grader-relative:
+      a different grader shifts the scale (Sonnet runs ~12 points harsher than Opus), so only
+      compare runs graded by the same model.</p>`
+    }
+
     <h3>Caveats</h3>
     <ul class="tight">
       ${agg.coverageNotes.map((n) => `<li>${esc(n)}</li>`).join("")}

@@ -11,7 +11,7 @@ import { runProbes } from "./evaluate.js";
 import { collect, loadProbeRuns } from "./dashboard/collect.js";
 import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
-import { DEFAULT_MODEL, FABLE_MODEL, analystModel } from "./claude.js";
+import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL } from "./claude.js";
 import { createTally, costOf } from "./usage.js";
 import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
@@ -73,6 +73,12 @@ gen-probes:
 
 probe:
   -m, --model <id>      Model under test (default: ${DEFAULT_PROBE_TARGET})
+      --probe-effort <l>  Effort for the model under test (default: medium).
+                        Answering a developer question does not need high
+                        effort; on Sonnet, xhigh is the better trade.
+      --grader-model <id> Grader (default: ${DEFAULT_GRADER_MODEL}). Grading is
+                        constrained — fixed source, answer key, four scores —
+                        so it does not need the analyst tier.
       --mode <mode>     web | closed (default: web — retrieval enabled)
       --batch           Grade via the Batch API at 50% of standard rates.
                         Finishes in minutes to an hour, not seconds, and is
@@ -80,7 +86,6 @@ probe:
                         Fable refusal fallback).
   -f, --force           Re-run every probe. By default a run resumes: probes already
                         answered for this probe set, model, mode, and grader are kept
-                        [grader model: by effort — see above]
 
 product:                                     (no API calls — deterministic tier only)
       --scope <scope>      ${SCOPES.join(" | ")} (default: curated)
@@ -338,6 +343,8 @@ async function cmdProbe(argv) {
       model: { type: "string", short: "m", default: DEFAULT_PROBE_TARGET },
       mode: { type: "string", default: "web" },
       batch: { type: "boolean", default: false },
+      "grader-model": { type: "string" },
+      "probe-effort": { type: "string", default: "medium" },
       force: { type: "boolean", short: "f", default: false },
       output: { type: "string", short: "o" },
       effort: { type: "string", short: "e", default: "high" },
@@ -350,7 +357,7 @@ async function cmdProbe(argv) {
   if (!fs.existsSync(probesFile)) fail(`probes file not found: ${probesFile}`);
   if (!["web", "closed"].includes(values.mode)) fail(`invalid --mode "${values.mode}" (web|closed)`);
   checkEffort(values.effort);
-  const graderModel = analystModel(values.effort);
+  const graderModel = graderModelFor(values.effort, values["grader-model"]);
 
   const probeSet = readJsonOrNull(probesFile);
   if (!probeSet?.source_url) fail(`not a probes file (no source_url): ${probesFile}`);
@@ -389,6 +396,7 @@ async function cmdProbe(argv) {
     mode: values.mode,
     effort: values.effort,
     batch: values.batch,
+    probeEffort: values["probe-effort"],
     previous: values.force ? null : readJsonOrNull(outFile),
     // Persist after every batch, so an interrupted run resumes where it stopped.
     onProgress: (partial) => writeJsonAtomic(outFile, partial),

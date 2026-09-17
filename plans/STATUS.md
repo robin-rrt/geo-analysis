@@ -1,6 +1,6 @@
 # Status — what's done, what's left
 
-**Updated:** 2026-09-17 · everything below is on `main`, 93 tests passing.
+**Updated:** 2026-09-17 · everything below is on `main`, 106 tests passing.
 
 This is the index. Each plan file carries its own detail; this says which parts of it are real.
 
@@ -19,6 +19,9 @@ This is the index. Each plan file carries its own detail; this says which parts 
 | **Product audit** — one LLM call over the rollup | ✅ Phase 3 | `6e890e8` |
 | **Tiered retrieval** — exact / in-scope / out-of-scope / none | ✅ done | `fe393f9` |
 | **Product probes** — product-scoped generation + tiered scoring | ✅ Phase 4 | `808754d` |
+| **Dashboard Products view** | ✅ Phase 5 | `d176edd` |
+| **Batch grading** — `probe --batch` | ⚠️ built, **failing in practice** | `3debfe8` |
+| **Cheaper defaults** — Sonnet grader, medium probe effort | ✅ done | — |
 
 ## Left to do, in the order I'd tackle it
 
@@ -37,20 +40,30 @@ The biggest remaining piece, and the one the product work was building toward.
     30%. Retrieval failure is *total*: 14 of 20 answers cite nothing at all. Kept because it is
     correct and will matter when a product probe's answer key spans pages, but the
     "corrects an understatement" claim is retracted.
-- **Phase 5 — dashboard product view.** The only part of the product plan still open: surface
-  `results/products/<name>/` (rollup, ledger, audit, probe runs) alongside the page views.
+- ~~**Phase 5 — dashboard product view.**~~ ✅ **Done 2026-09-17** (`d176edd`).
 
-### 2. Batch API for grading — `plans/cost-and-instrumentation.md` Phase 2
-50% off grading, now unblocked (`evaluate.js` is stable post-merge). Three traps documented in
-the plan: batch requests are non-streaming, **the Batch API rejects the `fallbacks` parameter**
-that `claude.js` sets at `--effort max`, and results return in arbitrary order so they must be
-keyed by `custom_id`.
+### 2. ⚠️ Batch grading is built but **does not work yet** — first thing to fix
+`probe --batch` is implemented (`3debfe8`) and all three documented traps are handled, but a live
+run returned **`errored` for all 10 requests**. The failure handling behaved correctly — every
+probe was marked failed and retryable rather than keeping its "queued" placeholder — but no grade
+came back, so the 50% saving is **unverified**.
+
+Two things to do:
+1. The error detail is being swallowed. `parseJsonEntry` falls back to `r.type` ("errored") when
+   `r.error?.message` is absent; the Batch API nests it deeper. Surface the real message first.
+2. Then diagnose. Most likely suspects, in order: the request uses the **non-beta**
+   `client().messages.batches` path while `runClaude` uses `client().beta.messages` — structured
+   outputs (`output_config.format`) may require the beta client; `max_tokens: 64000` with
+   `thinking: adaptive`; or `output_config.effort` being rejected in a batch context.
+   A one-request reproduction that dumps the full `result` object is the fastest route.
 
 ### 3. Cheap wins in the same plan
 - **Phase 3** — cache warm-up. `PROBE_CONCURRENCY = 3` means the first three grader calls race
   and all miss the cache. Run probe #1 alone, then fan out. ~5 lines.
-- **Phase 4/5** — grader model tiering and an effort sweep. Both validate for free by re-grading
-  the 20 stored answers rather than making new model-under-test calls.
+- ~~**Phase 4 — grader model tiering.**~~ ✅ Done, and **measured**: the grader now defaults to
+  Sonnet 5 and the model under test to `--probe-effort medium`. See the grader-bias correction
+  below before comparing any new fidelity number against an old one.
+- **Phase 5 — effort sweep** still open; validates for free by re-grading stored answers.
 
 ### 4. Multi-model PR3 — provider seam + OpenAI
 `plans/multi-model-probe-matrix.md`. Deliberately deferred: PR1+PR2 delivered the cost and
@@ -82,6 +95,20 @@ Three claims were disproven by measurement. All are annotated in place; don't re
   0/10 on the first product run. Retrieval failure is *total* — answers cite nothing at all
   rather than citing a sibling page. The tiering is kept; the "corrects an understatement"
   rationale is retracted.
+
+## ⚠️ Fidelity is grader-relative
+
+The grader default moved from Opus 4.8 to Sonnet 5 for cost. Re-grading the 20 stored answers with
+both: **mean absolute delta 12.6 points, mean signed delta −12.1** — Sonnet grades systematically
+harsher, and only 8 of 20 land within 10 points.
+
+The bias is systematic rather than random, and **ranking is preserved** (83→60, 75→58, 65→48,
+40→25, 33→8 keep their order), so Sonnet is a usable instrument at a shifted scale. But:
+
+- **Do not compare a Sonnet-graded fidelity against an Opus-graded one.** Every figure recorded
+  before this change is on the old scale.
+- Every run records `grader_model`; the dashboard warns when a corpus mixes graders.
+- Re-grade rather than mix if a like-for-like comparison is needed.
 
 ## Open question worth chasing
 

@@ -16,6 +16,7 @@ import { createTally, costOf } from "./usage.js";
 import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
 import { rollup } from "./product/rollup.js";
+import { runProductAudit, buildAuditContent, selectSamples } from "./product/audit.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -79,6 +80,11 @@ probe:
 product:                                     (no API calls — deterministic tier only)
       --scope <scope>      ${SCOPES.join(" | ")} (default: curated)
       --list               Resolve and print the page ledger, then exit (no fetching)
+      --audit              After the rollup, run ONE LLM audit over the aggregate
+      --dump-content       Print what the audit would send, then exit (no API call)
+      --samples <n>        Pages shown in full to the auditor (default: 6)
+  -m, --model <id>         Auditor model (default: by effort)
+  -e, --effort <level>     low | medium | high | xhigh | max (default: high)
       --origin <url>       Docs origin (default: https://docs.chain.link)
       --concurrency <n>    Parallel fetches (default: 6)
   -o, --output <dir>       Output dir (default: results/products/<name>)
@@ -479,6 +485,12 @@ async function cmdProduct(argv) {
     options: {
       scope: { type: "string", default: "curated" },
       list: { type: "boolean", default: false },
+      audit: { type: "boolean", default: false },
+      "dump-content": { type: "boolean", default: false },
+      model: { type: "string", short: "m" },
+      effort: { type: "string", short: "e", default: "high" },
+      "no-fallback": { type: "boolean", default: false },
+      samples: { type: "string", default: "6" },
       origin: { type: "string", default: "https://docs.chain.link" },
       concurrency: { type: "string", default: "6" },
       output: { type: "string", short: "o" },
@@ -563,7 +575,49 @@ async function cmdProduct(argv) {
       process.stderr.write(`    ${f.recoverable.toFixed(1).padStart(4)}  ${f.id} (${f.pages} pages)\n`);
     }
   }
-  process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\n`);
+  if (!values.audit && !values["dump-content"]) {
+    process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\n`);
+    process.stderr.write(`\nRe-run with --audit for an LLM audit over this rollup.\n`);
+    return;
+  }
+
+  checkEffort(values.effort);
+  const auditModel = analystModel(values.effort, values.model);
+  const sampleLimit = Number.parseInt(values.samples, 10);
+  if (!Number.isInteger(sampleLimit) || sampleLimit < 1 || sampleLimit > 25) {
+    fail(`invalid --samples "${values.samples}" (1-25)`);
+  }
+
+  if (values["dump-content"]) {
+    const samples = selectSamples(view, fetched.pages, sampleLimit);
+    process.stdout.write(buildAuditContent({ resolved, view, samples }) + "\n");
+    return;
+  }
+
+  process.stderr.write(
+    `\nAuditing ${name} with ${auditModel} (effort: ${values.effort}, ` +
+      `${sampleLimit} sample page(s)) ...\n\n`,
+  );
+
+  const tally = createTally();
+  const { report, samples } = await runProductAudit({
+    resolved,
+    view,
+    pages: fetched.pages,
+    model: auditModel,
+    effort: values.effort,
+    fallback: !values["no-fallback"],
+    sampleLimit,
+    onText: (t) => process.stdout.write(t),
+    tally,
+  });
+
+  const auditFile = path.join(outDir, "audit.md");
+  fs.writeFileSync(auditFile, report.endsWith("\n") ? report : report + "\n");
+
+  process.stderr.write(`\n\nsampled in full: ${samples.map((s) => s.sampleReason).join(" · ")}\n`);
+  process.stderr.write(`\n${tally.format()}\n`);
+  process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\nAudit:  ${auditFile}\n`);
 }
 
 // ------------------------------------------------------------- dispatch ----

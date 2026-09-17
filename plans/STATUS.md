@@ -21,18 +21,19 @@ This is the index. Each plan file carries its own detail; this says which parts 
 ### 1. Product audit + probes — `plans/product-scoped-audit-and-probes.md` Phases 3–5
 The biggest remaining piece, and the one the product work was building toward.
 
-- **Phase 3 — product audit.** One LLM call over the T0 aggregate plus outliers, *not* one call
-  per page. Needs `prompts/product-audit.md`. Auditing 725 CCIP pages individually would cost
-  ~$127 at the measured $0.1748/audit; this should cost roughly one audit.
+- ~~**Phase 3 — product audit.**~~ ✅ **Done 2026-09-17** (`6e890e8`). `product <name> --audit`
+  costs **$0.1474** for a 13-page product vs $2.27 auditing the pages individually — 15x. Ranked
+  the scope gap P1 over higher-scoring checks, i.e. retrieval over measurability.
 - **Phase 4 — product probes.** Generate probes from product context via
   `src/product/context.js` (built, untested against a live run). Two things to get right:
   - **Cache TTL.** Probes take ~60–75s each; 10 sequential runs blow past the 5-minute default
     and silently re-pay full price. Use the 1-hour TTL or enough concurrency to finish inside
     the window. Verify with `cache_read_input_tokens` — the instrumentation now reports it.
-  - **Tiered retrieval.** Extend `src/retrieval.js` from boolean to
-    `exact` / `in-scope` / `out-of-scope` / `none`. Layer onto the existing matcher; do not
-    rewrite it. Keep `exact` reported so old runs stay comparable, and label the headline change
-    a *correction*, not an improvement.
+  - ~~**Tiered retrieval.**~~ ✅ **Built and measured 2026-09-17** (`retrievalTier`). Against the
+    existing 20 probes it changes nothing — `in-scope` is 0/20, so strict and tiered rates are both
+    30%. Retrieval failure is *total*: 14 of 20 answers cite nothing at all. Kept because it is
+    correct and will matter when a product probe's answer key spans pages, but the
+    "corrects an understatement" claim is retracted.
 - **Phase 5 — dashboard product view.**
 
 ### 2. Batch API for grading — `plans/cost-and-instrumentation.md` Phase 2

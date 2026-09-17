@@ -131,3 +131,67 @@ test("recomputed hits keep every stored hit; disagreements are only grader-misse
   assert.ok(n >= 20, `expected the stored probe runs, found ${n} results`);
   assert.deepEqual(disagreements, ["concepts-non-determinism-go p02"]);
 });
+
+// ---------------------------------------------------- tiered (product scope) --
+
+import { retrievalTier } from "../src/retrieval.js";
+
+const PRODUCT = [
+  "https://docs.chain.link/vrf/v2-5/overview/subscription",
+  "https://docs.chain.link/vrf/v2-5/billing",
+  "https://docs.chain.link/vrf/v2-5/security",
+];
+const EXPECTED = ["https://docs.chain.link/vrf/v2-5/billing"];
+
+const tierOf = (answer, citedUrls = []) =>
+  retrievalTier({ citedUrls, answer, expectedUrls: EXPECTED, scopeUrls: PRODUCT }).tier;
+
+test("exact beats in-scope when the expected page is cited", () => {
+  assert.equal(tierOf("", ["https://docs.chain.link/vrf/v2-5/billing"]), "exact");
+});
+
+test("a sibling page inside the product is in-scope, not a miss", () => {
+  // The case page-scoped probing scores as a miss: a different page of the same
+  // product that legitimately answers the question.
+  assert.equal(tierOf("", ["https://docs.chain.link/vrf/v2-5/security"]), "in-scope");
+});
+
+test("citing only outside the product is out-of-scope", () => {
+  assert.equal(tierOf("", ["https://ethereum.org/en/developers"]), "out-of-scope");
+});
+
+test("citing nothing is none, not a miss on someone else's page", () => {
+  assert.equal(tierOf("Use Chainlink VRF for randomness.", []), "none");
+});
+
+test("in-text mentions are tiered the same as citations", () => {
+  assert.equal(tierOf("see docs.chain.link/vrf/v2-5/security for details"), "in-scope");
+  assert.equal(tierOf("see docs.chain.link/vrf/v2-5/billing for details"), "exact");
+});
+
+test("hit stays true only for exact, so old aggregates keep their meaning", () => {
+  const exact = retrievalTier({ citedUrls: EXPECTED, expectedUrls: EXPECTED, scopeUrls: PRODUCT });
+  const sibling = retrievalTier({
+    citedUrls: ["https://docs.chain.link/vrf/v2-5/security"],
+    expectedUrls: EXPECTED,
+    scopeUrls: PRODUCT,
+  });
+  assert.equal(exact.hit, true);
+  assert.equal(sibling.hit, false, "an in-scope sibling must not inflate the strict hit rate");
+  assert.equal(sibling.inScope, true, "but it is recorded as in-scope");
+});
+
+test("the expected page is never double-counted as a sibling", () => {
+  // scopeUrls contains the expected page; a near-miss must not resurface as in-scope.
+  const r = retrievalTier({
+    citedUrls: ["https://docs.chain.link/vrf/v2-5/billing-old"],
+    expectedUrls: EXPECTED,
+    scopeUrls: [...PRODUCT, ...EXPECTED],
+  });
+  assert.equal(r.tier, "out-of-scope");
+});
+
+test("falls back gracefully when no product scope is supplied", () => {
+  const r = retrievalTier({ citedUrls: EXPECTED, expectedUrls: EXPECTED });
+  assert.equal(r.tier, "exact", "page-scoped callers still work with no scopeUrls");
+});

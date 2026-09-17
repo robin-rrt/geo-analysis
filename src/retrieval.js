@@ -66,3 +66,47 @@ export function retrievalHit({ citedUrls = [], answer = "", expectedUrls = [] })
   }
   return { hit: false, via: null };
 }
+
+/** Did the answer point at any of `urls`? Same citation-then-mention order as above. */
+function matchAny(citedUrls, answer, urls) {
+  const set = new Set(urls.map(normalizeUrl).filter(Boolean));
+  if (!set.size) return null;
+  if (citedUrls.some((u) => set.has(normalizeUrl(u)))) return "citation";
+  for (const key of set) if (mentions(answer, key)) return "mention";
+  return null;
+}
+
+/**
+ * Retrieval outcome at product scope, as a tier rather than a boolean.
+ *
+ * A page-scoped probe asks "did it cite exactly this page?", which scores a
+ * model that cited a sibling page answering the same question as a miss. At
+ * product scope the useful question is whether the model found the right
+ * *documentation*, so the verdict is graded:
+ *
+ *   exact         cited the page the answer key was drawn from
+ *   in-scope      cited a different page inside the product that supports it
+ *   out-of-scope  cited something, but nothing belonging to this product
+ *   none          cited nothing at all
+ *
+ * `hit` stays true only for `exact`, so existing runs and aggregates keep
+ * comparing like with like. Treating `exact + in-scope` as the headline rate is
+ * a correction to an over-strict definition, not an improvement in the docs —
+ * report both.
+ */
+export function retrievalTier({ citedUrls = [], answer = "", expectedUrls = [], scopeUrls = [] }) {
+  const exact = matchAny(citedUrls, answer, expectedUrls);
+  if (exact) return { tier: "exact", hit: true, inScope: true, via: exact };
+
+  // Expected pages are part of the product; exclude them so a near-miss on the
+  // expected page cannot be re-counted as an in-scope hit.
+  const expectedKeys = new Set(expectedUrls.map(normalizeUrl).filter(Boolean));
+  const siblings = scopeUrls.filter((u) => !expectedKeys.has(normalizeUrl(u)));
+  const sibling = matchAny(citedUrls, answer, siblings);
+  if (sibling) return { tier: "in-scope", hit: false, inScope: true, via: sibling };
+
+  const citedAnything = citedUrls.some((u) => normalizeUrl(u)) || /https?:\/\/\S+/.test(answer);
+  return citedAnything
+    ? { tier: "out-of-scope", hit: false, inScope: false, via: null }
+    : { tier: "none", hit: false, inScope: false, via: null };
+}

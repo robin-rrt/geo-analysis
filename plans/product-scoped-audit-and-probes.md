@@ -146,9 +146,23 @@ boolean:
 | `out-of-scope` | Cited only pages outside the product |
 | `none` | Cited nothing |
 
-Keep `exact` reported so existing runs stay comparable, but make **`exact + in-scope`** the
-headline retrieval rate. This is likely to raise measured hit rates above today's 20–30%, and
-that is a *correction*, not an improvement — the old number counted correct answers as misses.
+Keep `exact` reported so existing runs stay comparable.
+
+> **⚠️ Measured 2026-09-17 — the predicted correction does not occur.** Tiering was built and run
+> against both existing probe sets (20 probes, CRE product scope of 265 pages). Result:
+> **`in-scope` = 0/20.** Strict and tiered rates are identical at 30%. The hypothesis that
+> exact-URL matching understates retrieval by scoring sibling citations as misses is **not
+> supported** on this data.
+>
+> The reason is more interesting than the correction would have been: **retrieval failure here is
+> total, not partial.** 14 of 20 answers contain no URL of any kind — not a wrong page, not an
+> out-of-scope page, *nothing*. The model answers from parametric memory without pointing at any
+> source. Verified independently: exactly those 14 answers have zero URLs or bare domains, and the
+> 6 that do are the 6 exact hits.
+>
+> The tiering code is kept — it is correct, costs nothing, and will matter for product-scoped
+> probes whose answer key legitimately spans several pages. But the claim that it corrects an
+> understatement is retracted, and `exact` remains the headline rate.
 
 ## Provenance: what was looked at, and what was skipped
 

@@ -1,0 +1,372 @@
+{
+  "source_url": "https://docs.chain.link/ace",
+  "source_title": "Chainlink ACE Overview",
+  "generated_at": "2026-09-16T13:57:32.156Z",
+  "product_context": "Chainlink ACE (Automated Compliance Engine) — a compliance layer for EVM smart contracts",
+  "probe_count": 10,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I enforce compliance rules on my EVM smart contract without embedding compliance logic in my app code using Chainlink ACE?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "ACE enforces rules at transaction time",
+          "Rules managed through the ACE Platform without changing your application contract",
+          "PolicyEngine evaluates a chain of modular policies when a protected function is called"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "PolicyEngine",
+            "ACE Platform",
+            "Policy Management"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming you must import a Solidity library or inherit a base contract with a specific name",
+          "Inventing a function like enforceCompliance() or checkPolicy()",
+          "Saying compliance logic must be redeployed with each rule change"
+        ],
+        "out_of_scope": [
+          "Specific Solidity integration code",
+          "Gas costs",
+          "Non-EVM chain support"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Walk me through step by step how ACE handles a transaction, using the example of an investor buying a tokenized bond on a DEX",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Transaction initiated — DEX contract calls the PolicyEngine before executing",
+          "Credential check executes using Cross-Chain Identity to verify KYC/accredited investor",
+          "Volume limit policy checks the trade is within the daily limit",
+          "Transaction approved when all policies pass; otherwise PolicyEngine reverts"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "PolicyEngine",
+            "Cross-Chain Identity",
+            "Emma",
+            "$50,000 tokenized bond"
+          ]
+        },
+        "correct_step_order": [
+          "Transaction initiated",
+          "Credential check executes",
+          "Volume limit executes",
+          "Transaction approved"
+        ],
+        "common_hallucinations": [
+          "Reordering so the volume check runs before the credential check contrary to the page",
+          "Inventing a payment/settlement step not described",
+          "Claiming the transaction succeeds even if a policy fails"
+        ],
+        "out_of_scope": [
+          "Actual DEX contract code",
+          "Specific token standards"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "What's the difference between the onchain contracts and the ACE Platform, and which managers does the Platform give me?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Onchain smart contracts enforce compliance rules on the blockchain",
+          "ACE Platform lets you manage those contracts through a UI and APIs",
+          "Three managers: Policy Manager (UI + API), Identity Manager (UI + API), Reporting Manager (API)"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Policy Manager",
+            "Identity Manager",
+            "Reporting Manager",
+            "Policy Management",
+            "Cross-Chain Identity"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Adding a fourth manager that doesn't exist",
+          "Saying Reporting Manager has a UI (it is API only)",
+          "Confusing PolicyEngine with Policy Manager"
+        ],
+        "out_of_scope": [
+          "API endpoint URLs",
+          "Authentication details"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "Using ACE, how do I make a user's KYC credential valid across multiple EVM chains without re-verification?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Cross-Chain Identity provides a portable identity for EVM chains",
+          "A Cross-Chain Identifier (CCID) links all of a user's wallet addresses across chains to a single identity",
+          "Credentials like KYC or AML are attached to the CCID once and verified everywhere"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Cross-Chain Identity",
+            "Cross-Chain Identifier (CCID)"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Calling the identifier a DID or UUID instead of CCID",
+          "Claiming credentials are stored fully onchain including personal data",
+          "Inventing a bridging step to copy credentials chain-to-chain"
+        ],
+        "out_of_scope": [
+          "Non-EVM chains",
+          "Specific credential issuance API calls"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "ACE prebuilt policies list",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Ready-to-use policy library with pre-built modules",
+          "Examples: allowlists, blocklists, volume limits, time restrictions, role-based access, Proof of Reserves minting caps, identity checks, grouped identity validation"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Policy Library",
+            "grouped identity validation"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Inventing policies not listed such as geofencing by IP or gas-limit policies",
+          "Claiming custom policies are not supported (they are)"
+        ],
+        "out_of_scope": [
+          "Exact configuration parameters for each policy"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "Show me how to screen transaction participants against sanctions/wallet risk with ACE",
+      "archetype": "code-first",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Offchain risk screening uses TRM Wallet Screening through a managed CRE workflow",
+          "Permits are delivered onchain",
+          "See Off-Chain Policy Execution"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "TRM Wallet Screening",
+            "CRE workflow",
+            "Off-Chain Policy Execution"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Providing fabricated Solidity/JS code — the page has no code sample",
+          "Naming a different screening provider like Chainalysis",
+          "Inventing an API method name for screening"
+        ],
+        "out_of_scope": [
+          "Actual code snippets",
+          "TRM API keys or setup"
+        ]
+      }
+    },
+    {
+      "id": "p07",
+      "prompt": "I need to update my compliance rules because regulations changed — do I have to redeploy my smart contract with ACE?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "No — update rules through the ACE Platform without redeploying",
+          "Your core smart contract stays untouched",
+          "Policies can be added, removed, or reordered without changing your contract"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "ACE Platform",
+            "PolicyEngine",
+            "Policy Manager"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Saying you must migrate state or redeploy the PolicyEngine",
+          "Inventing a contract upgrade proxy pattern requirement"
+        ],
+        "out_of_scope": [
+          "Step-by-step Policy Manager UI walkthrough"
+        ]
+      }
+    },
+    {
+      "id": "p08",
+      "prompt": "Which signing model should I choose in ACE — delegated or self-signing?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "ACE offers flexible signing models chosen at onboarding",
+          "Delegated signing means Chainlink signs on your behalf",
+          "Self-signing means you sign with your own keys",
+          "See Signing & Ownership Model"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "delegated signing",
+            "self-signing",
+            "Signing & Ownership Model"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Inventing a third signing model",
+          "Claiming a specific recommendation the page doesn't make"
+        ],
+        "out_of_scope": [
+          "Key management implementation details"
+        ]
+      }
+    },
+    {
+      "id": "p09",
+      "prompt": "How can my compliance team get an audit trail of every policy decision with ACE?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Every policy evaluation is recorded onchain",
+          "Queryable through the Reporting API",
+          "Reporting Manager queries policy run history, transaction data, and onchain state"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Reporting API",
+            "Reporting Manager"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming logs are stored offchain in a Chainlink database",
+          "Inventing a dashboard/export feature not mentioned"
+        ],
+        "out_of_scope": [
+          "Reporting API endpoint schema",
+          "Retention periods"
+        ]
+      }
+    },
+    {
+      "id": "p10",
+      "prompt": "How do I add ACE compliance to a smart contract and how does the PolicyEngine evaluate policies at transaction time?",
+      "archetype": "paraphrase",
+      "paraphrase_of": "p01",
+      "expected_source_urls": [
+        "https://docs.chain.link/ace"
+      ],
+      "answer_key": {
+        "must_include": [
+          "The PolicyEngine evaluates a chain of modular policies every time a protected function is called",
+          "Policies can be added, removed, or reordered without changing your contract",
+          "See Making Your Contract ACE-Compatible for the integration guide"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "PolicyEngine",
+            "Making Your Contract ACE-Compatible",
+            "Policy Management"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Fabricating a specific modifier or interface name for ACE-compatibility",
+          "Claiming policies execute offchain by default",
+          "Inventing a deployment CLI command"
+        ],
+        "out_of_scope": [
+          "Full Solidity integration code",
+          "Testnet addresses"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Chainlink ACE Overview\n\n**Chainlink Automated Compliance Engine (ACE)** is a compliance layer for EVM smart contracts. It enforces rules — transfer limits, identity checks, sanctions screening, and more — at transaction time, without embedding compliance logic in your application code. Rules can be added, updated, or removed through the ACE Platform — your application contract doesn't need to change.\n\n## [What problems does ACE solve?](#what-problems-does-ace-solve)\n\nBuilding compliant applications on the blockchain requires handling:\n\n-   **Dynamic policy enforcement** that evolves with regulations — without redeploying your core application contracts.\n-   **Identity verification** across chains, without fragmented credentials that force users to re-verify on every chain.\n-   **Trusted external data** (KYC providers, sanctions lists, price feeds, Proof of Reserves, etc.) delivered onchain to inform compliance decisions.\n\n## [Who is ACE for?](#who-is-ace-for)\n\nACE serves three primary audiences:\n\n-   **Token issuers and asset managers** — Enforce compliance rules (transfer limits, investor checks, sanctions screening) on your smart contracts. ACE separates these rules from your application code, so you can update them as regulations change — without redeploying.\n-   **Identity verification (IDV) providers** — Issue cross-chain credentials (KYC, AML, accredited investor status) that your clients can verify on any EVM chain from a single issuance. No need for users to re-verify on every network.\n-   **Compliance and legal teams** — Monitor and manage compliance rules through a visual interface — no code required. Every policy decision is recorded onchain and queryable through the Reporting API, providing a complete audit trail.\n\n## [What is ACE?](#what-is-ace)\n\nACE has two layers: **onchain smart contracts** that enforce compliance rules on the blockchain, and the **ACE Platform** that lets you manage those contracts through a UI and APIs.\n\n### [Onchain contracts](#onchain-contracts)\n\nACE is built on two sets of smart contracts:\n\n-   **[Policy Management](/ace/concepts/policy-management)** — A dynamic engine that enforces compliance rules on your smart contracts. A **PolicyEngine** evaluates a chain of modular **policies** every time a protected function is called. Policies can be added, removed, or reordered without changing your contract.\n-   **[Cross-Chain Identity](/ace/concepts/cross-chain-identity)** — A portable identity system for EVM chains. A **Cross-Chain Identifier (CCID)** links all of a user's wallet addresses across chains to a single identity. Credentials like KYC or AML status are attached to the CCID once and verified everywhere.\n\nThese contracts execute automatically at transaction time. For a detailed view of the architecture, see [ACE Architecture](/ace/concepts/architecture).\n\n### [ACE Platform](#ace-platform)\n\nThe [ACE Platform](/ace/concepts/key-terms#ace-platform) provides three managers that let you operate on these contracts:\n\n-   **Policy Manager** (UI + API) — Configure and deploy compliance rules for your smart contracts.\n-   **Identity Manager** (UI + API) — Manage cross-chain identities and issue credentials.\n-   **Reporting Manager** (API) — Query policy run history, transaction data, and onchain state.\n\nACE is currently in Beta. See [Beta Scope](/ace/beta-scope) for the current scope and supported features.\n\n## [Key features](#key-features)\n\n-   **Modular policies** — Each compliance rule is a self-contained module. Chain them together to build sophisticated rulesets; add or remove individual rules without affecting others. You can also register your own [custom policies](/ace/concepts/key-terms#custom-policy).\n-   **Update without redeploying** — When regulations change, update your compliance rules through the ACE Platform. Your core smart contract stays untouched.\n-   **Cross-chain identity** — Verify a user's identity once; the credential is valid across every EVM chain. No re-verification needed when users operate on a new network. Share registries across organizations through [access grants](/ace/concepts/key-terms#access-grant).\n-   **Credential data validation** — Go beyond attestation-only checks. Attach Data Validators to inspect credential contents (for example, jurisdiction codes) and enforce granular, data-level rules.\n-   **Privacy-preserving** — Sensitive user data stays offchain. Only verification results (credentials) are recorded onchain, typically as hashes or minimal references.\n-   **Auditable and transparent** — Every policy evaluation is recorded onchain and queryable through the Reporting API, giving compliance teams a complete audit trail.\n-   **Ready-to-use policy library** — Pre-built modules for common scenarios: allowlists, blocklists, volume limits, time restrictions, role-based access, Proof of Reserves minting caps, identity checks, and [grouped identity validation](/ace/reference/policy-library/grouped-identity-validator-policy).\n-   **Offchain risk screening** — Screen transaction participants with TRM Wallet Screening through a managed CRE workflow, with permits delivered onchain. See [Off-Chain Policy Execution](/ace/concepts/off-chain-policies).\n-   **Flexible signing models** — Choose between delegated signing (Chainlink signs on your behalf) and self-signing (you sign with your own keys) at onboarding. See [Signing & Ownership Model](/ace/concepts/signing-ownership).\n\n## [How it works: a real-world example](#how-it-works-a-real-world-example)\n\nHere's how ACE components work together. Imagine **Emma** (an institutional investor) wants to buy **$50,000** of a **tokenized bond** on a DEX.\n\n![](/images/ace/overview-example.png)\n\nEmma buys tokenized bonds: the PolicyEngine checks her credentials and volume limits before approving the trade.\n\n### [The compliance journey, step by step](#the-compliance-journey-step-by-step)\n\n1.  **Transaction initiated** — Emma submits her buy order on the DEX. Before executing, the DEX's smart contract calls the **PolicyEngine** to validate the transaction.\n2.  **Credential check executes** — The PolicyEngine runs the credential check, which uses the **Cross-Chain Identity** component to verify Emma has the required credentials (KYC verified, accredited investor). The same identity and credentials would be valid even if Emma were using a different wallet address on a different EVM chain.\n3.  **Volume limit executes** — The engine runs the volume limit policy, which tracks Emma's trading volume over time and confirms the $50,000 trade is within her daily limit.\n4.  **Transaction approved** — With all policies passing, the PolicyEngine allows the transaction to proceed. The DEX executes the trade and Emma receives her tokenized bonds.\n\nThe power of this model is that if regulations change tomorrow, the DEX's owners could add a new policy (for example, a time-of-day restriction) without redeploying or altering the main DEX contract. If any policy check had failed, the PolicyEngine would have reverted the transaction, preventing a non-compliant trade.\n\n## [Where to go next?](#where-to-go-next)\n\n### [Understand ACE](#understand-ace)\n\nStart here regardless of your role:\n\n1.  **[ACE Architecture](/ace/concepts/architecture)** — System components and how they connect.\n2.  **[Key Terms](/ace/concepts/key-terms)** — ACE-specific terminology.\n3.  **[Policy Management](/ace/concepts/policy-management)** — How compliance rules work.\n4.  **[Cross-Chain Identity](/ace/concepts/cross-chain-identity)** — How identity and credentials work.\n\n### [Build with ACE](#build-with-ace)\n\n-   **[Policy Manager](/ace/concepts/policy-management)** — Configure and manage compliance policies for your smart contracts.\n-   **[Identity Manager](/ace/concepts/cross-chain-identity)** — Manage cross-chain identities and credentials.\n-   **[API Reference](/ace/reference/apis)** — Use the Coordinator, Evaluation, and Reporting APIs programmatically.\n-   **[Policy Library](/ace/reference/policy-library)** — All pre-built policies with configuration details.\n-   **[Policy Ordering & Composition](/ace/concepts/policy-ordering)** — How to compose effective rulesets.\n-   **[Making Your Contract ACE-Compatible](/ace/guides/policy-manager/contracts/ace-compatible)** — Integration guide for developers adding ACE to new or existing smart contracts.\n-   **[Signing & Ownership Model](/ace/concepts/signing-ownership)** — Understand delegated and self-signing models.",
+  "source_hash": "c553f75bdca3",
+  "probe_set_id": "4a58726f9e7b"
+}

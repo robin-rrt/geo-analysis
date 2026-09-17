@@ -8,7 +8,7 @@ import { buildContext, estimateTokens, DEFAULT_CONTEXT_BUDGET } from "../src/pro
 import { hashOf, changedSince } from "../src/product/fetch.js";
 
 // A fetched-page fixture shaped like fetchProduct() output.
-const page = (url, { markdown = "# T\n\nWords here.", jsonLd = [], headHtml = null, bytes } = {}) => ({
+const page = (url, { markdown = "# T\n\nWords here.", jsonLd = [], headHtml = null, bytes, format = "html" } = {}) => ({
   url,
   included: true,
   fetched: true,
@@ -16,7 +16,7 @@ const page = (url, { markdown = "# T\n\nWords here.", jsonLd = [], headHtml = nu
   title: url,
   bytes: bytes ?? markdown.length,
   contentHash: hashOf(markdown),
-  page: { markdown, jsonLd, headHtml, finalUrl: url },
+  page: { markdown, jsonLd, headHtml, finalUrl: url, format },
 });
 
 const ld = (o) => JSON.stringify({ "@type": "TechArticle", ...o });
@@ -50,6 +50,30 @@ test("a check that cannot assess a page excludes it from its own denominator", (
   assert.equal(check.notApplicable, 1);
   assert.equal(check.fail, 1);
   assert.equal(check.points, 0, "the unassessable page must not dilute the failure");
+});
+
+test("HTML-layer checks skip markdown endpoints entirely", () => {
+  // llms.txt curated indexes link .md URLs, which have no <head> by
+  // construction. Counting that absence as a finding penalises a page for being
+  // served in the format the site tells agents to prefer.
+  const md = page("u1", { format: "markdown", markdown: "# Doc\n\nBody text here." });
+  const view = rollup("p", "curated", [md]);
+
+  for (const id of ["jsonld-valid", "canonical", "freshness", "entity-metadata", "declared-language"]) {
+    const c = view.checks.find((x) => x.id === id);
+    assert.equal(c.evaluatedPages, 0, `${id} must not evaluate a markdown endpoint`);
+    assert.equal(c.points, null, `${id} must not contribute a score`);
+  }
+  // Format-agnostic checks still run.
+  assert.ok(view.checks.find((c) => c.id === "heading-structure").evaluatedPages > 0);
+});
+
+test("an all-markdown product is not penalised for missing HTML metadata", () => {
+  const html = rollup("p", "full", [page("h", { jsonLd: [ld({ canonical: "x" })] })]).score;
+  const markdown = rollup("p", "curated", [page("m", { format: "markdown" })]).score;
+  assert.ok(markdown > 0, "a markdown-only product still scores");
+  assert.notEqual(markdown, null);
+  void html;
 });
 
 test("scores warn as half credit", () => {

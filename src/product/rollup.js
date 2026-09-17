@@ -25,6 +25,7 @@ const CHECKS = [
     id: "jsonld-valid",
     weight: 8,
     describe: "JSON-LD present and parseable",
+    htmlOnly: true,
     assess: (f) => {
       if (!f.metadata.jsonLdBlocks) return { verdict: "warn", detail: "no JSON-LD block" };
       if (f.metadata.parseErrors.length) {
@@ -36,6 +37,7 @@ const CHECKS = [
   {
     id: "declared-language",
     weight: 10,
+    htmlOnly: true,
     describe: "Declared programmingLanguage matches the code on the page",
     assess: (f) => {
       // Only applicable where the page declares a language AND has code.
@@ -51,6 +53,7 @@ const CHECKS = [
   {
     id: "entity-metadata",
     weight: 6,
+    htmlOnly: true,
     describe: "about/keywords carry real entities, not template artifacts",
     assess: (f) => {
       const m = f.metadata;
@@ -66,12 +69,14 @@ const CHECKS = [
   {
     id: "canonical",
     weight: 4,
+    htmlOnly: true,
     describe: "Canonical URL present",
     assess: (f) => (f.metadata.canonical ? { verdict: "pass" } : { verdict: "warn", detail: "no canonical link" }),
   },
   {
     id: "freshness",
     weight: 3,
+    htmlOnly: true,
     describe: "Published and modified dates differ (page has been revised)",
     assess: (f) => {
       if (!f.metadata.datePublished && !f.metadata.dateModified) {
@@ -154,11 +159,19 @@ const round = (n, dp = 1) => Math.round(n * 10 ** dp) / 10 ** dp;
  */
 export function rollup(product, scope, pages) {
   const usable = pages.filter((p) => p.fetched && p.page);
-  const facts = usable.map((p) => ({ entry: p, facts: runChecks(p.page) }));
+  const facts = usable.map((p) => ({
+    entry: p,
+    facts: runChecks(p.page),
+    format: p.page.format ?? "html",
+  }));
 
   const checks = CHECKS.map((check) => {
     const assessments = [];
-    for (const { entry, facts: f } of facts) {
+    for (const { entry, facts: f, format } of facts) {
+      // Markdown endpoints have no <head>, so HTML-layer checks cannot assess
+      // them. Counting that absence as a finding would penalise a page for
+      // being served in the format llms.txt asks agents to prefer.
+      if (check.htmlOnly && format !== "html") continue;
       const result = check.assess(f);
       if (result === null) continue; // not applicable — excluded from denominator
       assessments.push({ url: entry.url, ...result });

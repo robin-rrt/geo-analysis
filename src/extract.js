@@ -50,6 +50,10 @@ export async function extractPage(url) {
   // Markdown source served directly (e.g. a .md endpoint) — no HTML to parse.
   if (contentType.includes("markdown") || /\.md(\?|#|$)/.test(url)) {
     return {
+      // Markdown endpoints have no <head>, so HTML-layer checks do not apply to
+      // them. Recorded explicitly rather than inferred from a null headHtml,
+      // which an HTML page with no useful meta tags also produces.
+      format: "markdown",
       title: firstHeading(body) ?? url,
       finalUrl: res.url,
       headHtml: null,
@@ -101,6 +105,7 @@ export async function extractPage(url) {
   const markdown = turndown.turndown($.html($main)).trim();
 
   return {
+    format: "html",
     title: title || $main.find("h1").first().text().trim() || url,
     finalUrl: res.url,
     headHtml: headBits.length ? headBits.join("\n") : null,

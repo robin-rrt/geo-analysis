@@ -1,0 +1,11 @@
+probe_id,archetype,prompt,claude-opus-4-8|web fidelity,claude-opus-4-8|web hit,claude-opus-4-8|web high_sev
+p01,direct-howto,How do I enforce compliance rules on my EVM smart contract without embedding compliance logic in my app code using Chainlink ACE?,75,1,0
+p02,verbose/beginner,"Walk me through step by step how ACE handles a transaction, using the example of an investor buying a tokenized bond on a DEX",30,0,3
+p03,comparison,"What's the difference between the onchain contracts and the ACE Platform, and which managers does the Platform give me?",58,1,0
+p04,constrained,"Using ACE, how do I make a user's KYC credential valid across multiple EVM chains without re-verification?",58,0,1
+p05,terse/keyword,ACE prebuilt policies list,10,0,2
+p06,code-first,Show me how to screen transaction participants against sanctions/wallet risk with ACE,20,0,2
+p07,direct-howto,I need to update my compliance rules because regulations changed — do I have to redeploy my smart contract with ACE?,63,0,0
+p08,comparison,Which signing model should I choose in ACE — delegated or self-signing?,8,0,2
+p09,direct-howto,How can my compliance team get an audit trail of every policy decision with ACE?,28,0,0
+p10,paraphrase,How do I add ACE compliance to a smart contract and how does the PolicyEngine evaluate policies at transaction time?,35,1,3

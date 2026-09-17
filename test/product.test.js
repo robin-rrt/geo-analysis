@@ -183,3 +183,91 @@ test("treats every page as changed when there is no prior ledger", () => {
   assert.equal(delta.changed.length, 2);
   assert.equal(delta.baseline, null);
 });
+
+// ------------------------------------------------- dashboard product collect --
+
+import { collectProducts } from "../src/dashboard/products.js";
+import path from "node:path";
+import os from "node:os";
+
+/** A throwaway results/products tree. */
+function fixture(files) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "geo-products-"));
+  for (const [rel, body] of Object.entries(files)) {
+    const file = path.join(root, rel);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, typeof body === "string" ? body : JSON.stringify(body));
+  }
+  return root;
+}
+
+const ROLLUP = { product: "p", scope: "curated", score: 80, counts: { fetched: 3 }, checks: [], potentialFixes: [] };
+
+test("collects a product from its rollup, with or without an audit", () => {
+  const root = fixture({
+    "products/p/rollup.json": ROLLUP,
+    "products/p/pages.json": { counts: { curated: 3, sitemap: 9 }, notes: ["3 of 9"] },
+  });
+  try {
+    const [p] = collectProducts(root);
+    assert.equal(p.name, "p");
+    assert.equal(p.score, 80);
+    assert.equal(p.counts.sitemap, 9, "ledger counts merge into the rollup's");
+    assert.equal(p.audit, null, "no audit.md is absent, not an error");
+    assert.deepEqual(p.probeRuns, []);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("returns nothing when there is no products directory", () => {
+  const root = fixture({ "somepage/audit.md": "# x" });
+  try {
+    assert.deepEqual(collectProducts(root), []);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("recomputes tiers for a run recorded before tiering shipped", () => {
+  // The first real product run stored tier: null. The dashboard must still be
+  // able to show where answers pointed rather than rendering a blank column.
+  const root = fixture({
+    "products/p/rollup.json": ROLLUP,
+    "products/p/probes.json": {
+      scope_urls: ["https://d.co/a", "https://d.co/b"],
+      probes: [{ id: "p1", expected_source_urls: ["https://d.co/a"] }],
+    },
+    "products/p/probe-results-m-web.json": {
+      model_tested: "m",
+      mode: "web",
+      results: [
+        { probe_id: "p1", fidelity: 70, answer: "see https://d.co/b", retrieval: { cited_urls: [], tier: null } },
+      ],
+    },
+  });
+  try {
+    const [p] = collectProducts(root);
+    assert.equal(p.probeRuns[0].tiers["in-scope"], 1, "a sibling citation is recovered");
+    assert.equal(p.probeRuns[0].tiers.recomputed, true, "and flagged as recomputed");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("closed-mode runs get no tier breakdown", () => {
+  const root = fixture({
+    "products/p/rollup.json": ROLLUP,
+    "products/p/probes.json": { scope_urls: ["https://d.co/a"], probes: [{ id: "p1", expected_source_urls: [] }] },
+    "products/p/probe-results-m-closed.json": {
+      model_tested: "m",
+      mode: "closed",
+      results: [{ probe_id: "p1", fidelity: 30, answer: "", retrieval: { cited_urls: [] } }],
+    },
+  });
+  try {
+    assert.equal(collectProducts(root)[0].probeRuns[0].tiers, null, "closed mode has no retrieval to tier");
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});

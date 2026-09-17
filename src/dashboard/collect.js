@@ -9,6 +9,7 @@ import path from "node:path";
 import { parseAudit } from "./parse-audit.js";
 import { bodyUrls, retrievalHit } from "../retrieval.js";
 import { probeSetId } from "../probe-set.js";
+import { collectProducts, PRODUCTS_DIR } from "./products.js";
 
 // Superseded artifacts kept on disk for reference; never rendered.
 const SUPERSEDED = /-old\.(md|json)$/;
@@ -325,12 +326,22 @@ export function collect(resultsDir) {
 
   const pages = fs
     .readdirSync(resultsDir, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
+    // `products/` holds product-scoped runs, collected separately — it is not a page.
+    .filter((e) => e.isDirectory() && e.name !== PRODUCTS_DIR)
     .map((e) => collectPage(path.join(resultsDir, e.name), e.name))
     .filter(Boolean)
     .sort((a, b) => a.audit.score - b.audit.score);
 
-  if (!pages.length) throw new Error(`no audit reports found under ${resultsDir}`);
+  const products = collectProducts(resultsDir);
 
-  return { generatedAt: new Date().toISOString(), pages, aggregates: aggregate(pages) };
+  if (!pages.length && !products.length) {
+    throw new Error(`no audit reports or product rollups found under ${resultsDir}`);
+  }
+
+  return {
+    generatedAt: new Date().toISOString(),
+    pages,
+    products,
+    aggregates: aggregate(pages),
+  };
 }

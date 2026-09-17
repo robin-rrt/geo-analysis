@@ -597,6 +597,140 @@ function renderMethodology({ pages, aggregates: agg, generatedAt }) {
   </section>`;
 }
 
+
+// ------------------------------------------------------------------ products --
+
+function renderProducts({ products }) {
+  if (!products.length) {
+    return `<section class="view" id="view-products" hidden>
+      <p class="muted">No product rollups yet. Run <code>geo-audit product &lt;name&gt;</code> —
+      it costs nothing, since the deterministic tier makes no API calls.</p>
+    </section>`;
+  }
+
+  const rows = products.map((p) => {
+    const run = p.probeRuns[0];
+    return `<tr>
+      ${cell(`<a href="#" data-goto="product-${esc(p.name)}">${esc(p.name)}</a>
+        <div class="faint small mono">${esc(p.scope)}</div>`, { sortValue: p.name })}
+      ${cell(String(p.score ?? "—"), { num: true, sortValue: p.score ?? "" })}
+      ${cell(String(p.counts.fetched ?? "—"), { num: true, sortValue: p.counts.fetched ?? 0 })}
+      ${cell(
+        p.counts.curated && p.counts.sitemap
+          ? `${p.counts.curated} of ${p.counts.sitemap}`
+          : DASH,
+        { sortValue: p.counts.curated ?? 0 },
+      )}
+      ${cell(show(run?.avgFidelity ?? null), { num: true, sortValue: run?.avgFidelity ?? "" })}
+      ${cell(run?.tiers ? pct(run.tiers.exactRate) : DASH, { num: true, sortValue: run?.tiers?.exactRate ?? "" })}
+      ${cell(p.audit ? "yes" : `<span class="faint">no</span>`, { sortValue: p.audit ? 1 : 0 })}
+    </tr>`;
+  });
+
+  const details = products.map((p, i) => {
+    const run = p.probeRuns[0];
+    const worst = p.checks.filter((c) => c.points !== null).slice(0, 8);
+
+    const checkRows = worst.map((c) => `<tr>
+      ${cell(`<span class="mono small">${esc(c.id)}</span><div class="faint small">${esc(c.describe)}</div>`, { sortValue: c.id })}
+      ${cell(String(c.weight), { num: true, sortValue: c.weight })}
+      ${cell(`<div class="barrow">${bar(c.points * 100, 100)}<span class="mono small">${Math.round(c.points * 100)}%</span></div>`, { num: true, sortValue: c.points })}
+      ${cell(`${c.fail} fail · ${c.warn} warn`, { sortValue: c.fail * 10 + c.warn })}
+      ${cell(`${c.evaluatedPages}${c.notApplicable ? ` <span class="faint">(${c.notApplicable} n/a)</span>` : ""}`, { num: true, sortValue: c.evaluatedPages })}
+    </tr>`);
+
+    const fixRows = p.potentialFixes.slice(0, 8).map((f) => `<tr>
+      ${cell(`<strong>${f.recoverable.toFixed(1)}</strong>`, { num: true, sortValue: f.recoverable })}
+      ${cell(`<span class="mono small">${esc(f.id)}</span>`, { sortValue: f.id })}
+      ${cell(String(f.pages), { num: true, sortValue: f.pages })}
+      ${cell(esc(f.describe), { sortValue: f.describe })}
+    </tr>`);
+
+    return `<div class="pagedetail" id="product-${esc(p.name)}"${i === 0 ? "" : " hidden"}>
+      <h2>${esc(p.name)} <span class="faint small">${esc(p.scope)} scope</span></h2>
+
+      <div class="kpis">
+        ${kpi("Deterministic score", show(p.score), `${p.counts.fetched ?? 0} pages assessed`)}
+        ${kpi("Curated coverage", p.counts.curated && p.counts.sitemap ? `${p.counts.curated}/${p.counts.sitemap}` : DASH, "listed in llms.txt / published")}
+        ${kpi("Answer fidelity", show(run?.avgFidelity ?? null), run ? `${run.probeCount} product probes` : "not probed")}
+        ${kpi("Cited a product page", run?.tiers ? pct(run.tiers.exactRate) : DASH, run?.tiers ? `${run.tiers.none} of ${run.tiers.judged} cited nothing` : "not probed")}
+      </div>
+
+      ${p.notes.length ? `<div class="note">${p.notes.map((n) => inline(n)).join("<br>")}</div>` : ""}
+
+      ${
+        run?.tiers
+          ? `<h3>Where the answers pointed</h3>
+      <p class="muted small">Tiered retrieval over ${run.tiers.judged} probe(s)${run.tiers.recomputed ? " — recomputed, this run predates tier recording" : ""}.
+      <strong>exact</strong> cited the expected page; <strong>in-scope</strong> cited another page of this product;
+      <strong>out-of-scope</strong> cited something else; <strong>none</strong> cited nothing at all.</p>
+      <div class="gap">
+        ${["exact", "in-scope", "out-of-scope", "none"]
+          .map(
+            (t) => `<div class="row"><div class="name">${t}</div>
+          <div class="metric"><span class="k">probes</span>${bar(run.tiers[t], run.tiers.judged, t === "exact" ? "score" : "fid")}<span class="v">${run.tiers[t]}</span></div></div>`,
+          )
+          .join("")}
+      </div>`
+          : ""
+      }
+
+      ${
+        p.audit
+          ? `<h3>Audit summary</h3><p>${inline(p.audit.summary ?? "")}</p>
+      ${
+        p.audit.recommendations.length
+          ? `<ul class="tight">${p.audit.recommendations
+              .map((r) => `<li><span class="pill p${r.priority}">P${r.priority}</span> ${inline(r.title)} <span class="faint small">${esc(r.meta)}</span></li>`)
+              .join("")}</ul>`
+          : ""
+      }`
+          : `<p class="muted small">No LLM audit yet — <code>geo-audit product ${esc(p.name)} --audit</code>.</p>`
+      }
+
+      <h3>Checks</h3>
+      ${table({
+        head: [{ label: "Check" }, { label: "Weight", num: true }, { label: "Score", num: true }, { label: "Findings" }, { label: "Evaluated", num: true }],
+        rows: checkRows,
+      })}
+
+      ${
+        fixRows.length
+          ? `<h3>Potential fixes</h3>
+      <p class="muted small">Ranked by score points recoverable — effort signal, not GEO impact. Read alongside the audit's priorities.</p>
+      ${table({ head: [{ label: "Points", num: true }, { label: "Check" }, { label: "Pages", num: true }, { label: "Fix" }], rows: fixRows })}`
+          : ""
+      }
+    </div>`;
+  });
+
+  const pickers = products
+    .map((p, i) => `<button data-target="product-${esc(p.name)}" aria-selected="${i === 0}">${esc(p.name)}</button>`)
+    .join("");
+
+  return `<section class="view" id="view-products" hidden>
+    <h2>All products</h2>
+    <p class="muted small">Deterministic scores cost no API calls. "Curated coverage" is how many pages
+    <code>llms.txt</code> lists of those published — pages outside it are reachable only by luck.</p>
+    ${table({
+      head: [
+        { label: "Product" },
+        { label: "Score", num: true },
+        { label: "Pages", num: true },
+        { label: "Curated" },
+        { label: "Fidelity", num: true },
+        { label: "Cited page", num: true },
+        { label: "Audit" },
+      ],
+      rows,
+    })}
+
+    <h2>Detail</h2>
+    <div class="pagepick">${pickers}</div>
+    ${details.join("")}
+  </section>`;
+}
+
 // ------------------------------------------------------------------- document --
 
 /** Render the full dashboard document. */
@@ -621,6 +755,7 @@ export function render(data) {
     <nav class="pages">
       <button data-target="view-overview" aria-selected="true">Overview</button>
       <button data-target="view-pages" aria-selected="false">Pages</button>
+      <button data-target="view-products" aria-selected="false">Products</button>
       <button data-target="view-quality" aria-selected="false">Answer quality</button>
       <button data-target="view-method" aria-selected="false">Methodology</button>
     </nav>
@@ -628,6 +763,7 @@ export function render(data) {
 
   ${renderOverview(data)}
   ${renderPages(data)}
+  ${renderProducts(data)}
   ${renderQuality(data)}
   ${renderMethodology(data)}
 </div>

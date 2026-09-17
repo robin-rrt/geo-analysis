@@ -74,6 +74,10 @@ gen-probes:
 probe:
   -m, --model <id>      Model under test (default: ${DEFAULT_PROBE_TARGET})
       --mode <mode>     web | closed (default: web — retrieval enabled)
+      --batch           Grade via the Batch API at 50% of standard rates.
+                        Finishes in minutes to an hour, not seconds, and is
+                        unavailable at --effort max (the Batch API rejects the
+                        Fable refusal fallback).
   -f, --force           Re-run every probe. By default a run resumes: probes already
                         answered for this probe set, model, mode, and grader are kept
                         [grader model: by effort — see above]
@@ -333,6 +337,7 @@ async function cmdProbe(argv) {
     options: {
       model: { type: "string", short: "m", default: DEFAULT_PROBE_TARGET },
       mode: { type: "string", default: "web" },
+      batch: { type: "boolean", default: false },
       force: { type: "boolean", short: "f", default: false },
       output: { type: "string", short: "o" },
       effort: { type: "string", short: "e", default: "high" },
@@ -361,12 +366,29 @@ async function cmdProbe(argv) {
       ? path.join(productDir, `probe-results-${modelShort}-${values.mode}.json`)
       : resultsPath(slug, `probe-results-${modelShort}-${values.mode}.json`));
 
+  // The Batch API rejects the `fallbacks` parameter that claude.js sets for
+  // Fable 5, so batching and --effort max are mutually exclusive. Refuse up
+  // front rather than letting the API 400 after the asks are already paid for.
+  if (values.batch && values.effort === "max") {
+    fail(
+      "--batch cannot be combined with --effort max: the Batch API rejects the " +
+        "Fable refusal fallback. Use a lower effort, or drop --batch.",
+    );
+  }
+  if (values.batch) {
+    process.stderr.write(
+      "Batch grading enabled — grades are submitted after every probe is asked, " +
+        "and the batch may take minutes to an hour.\n",
+    );
+  }
+
   const summary = await runProbes({
     probesFile,
     model: values.model,
     graderModel,
     mode: values.mode,
     effort: values.effort,
+    batch: values.batch,
     previous: values.force ? null : readJsonOrNull(outFile),
     // Persist after every batch, so an interrupted run resumes where it stopped.
     onProgress: (partial) => writeJsonAtomic(outFile, partial),

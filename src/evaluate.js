@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { extractPage } from "./extract.js";
 import { runClaude, client, FABLE_MODEL, PROMPTS_DIR } from "./claude.js";
+import { buildRequest, runBatch, parseJsonEntry } from "./batch.js";
 import { bodyUrls, retrievalHit, retrievalTier } from "./retrieval.js";
 import { probeSetId } from "./probe-set.js";
 
@@ -156,6 +157,18 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // 0.1x read) rather than the 5-minute default that a long run outlives.
 const LARGE_PREFIX_CHARS = 60_000;
 
+// Placeholder written while a probe waits for its batched grade. Any result
+// still carrying it after the batch is merged means the grade never arrived.
+const PENDING_GRADE = {
+  scores: null,
+  fidelity: null,
+  hallucinations: [],
+  missing_must_include: [],
+  unverifiable_from_source: [],
+  verdict: "Queued for batch grading.",
+  retrieval_note: "",
+};
+
 // Web-search tool errors surface as web_search_tool_result blocks whose
 // content is an error object rather than a results array.
 export function searchErrorCodes(blocks) {
@@ -302,9 +315,35 @@ export async function gradeProbe({
   effort,
   cacheTtl,
 }) {
+  const userContent = buildGradeContent({
+    probe,
+    answer,
+    citedUrls,
+    retrieval,
+    sourceContent,
+    cacheTtl,
+  });
+
+  const usage = emptyUsage();
+  const grade = await runClaude({
+    promptFile: "probe-eval.md",
+    userContent,
+    model: graderModel,
+    effort,
+    jsonSchema: EVAL_SCHEMA,
+    onUsage: (u) => addUsage(usage, u),
+  });
+  return { grade: { ...grade, fidelity: fidelityFromScores(grade.scores) }, usage };
+}
+
+/**
+ * The grader's user message. Shared by the synchronous and batched paths — if
+ * these diverge, a batched grade stops being comparable with a synchronous one.
+ */
+export function buildGradeContent({ probe, answer, citedUrls, retrieval, sourceContent, cacheTtl }) {
   const retrievalKey =
     retrieval.hit_expected_source === null ? "closed" : (retrieval.via ?? "miss");
-  const userContent = [
+  return [
     {
       type: "text",
       text: `Source content (ground truth):\n\n${sourceContent}`,
@@ -331,17 +370,6 @@ export async function gradeProbe({
       ].join("\n"),
     },
   ];
-
-  const usage = emptyUsage();
-  const grade = await runClaude({
-    promptFile: "probe-eval.md",
-    userContent,
-    model: graderModel,
-    effort,
-    jsonSchema: EVAL_SCHEMA,
-    onUsage: (u) => addUsage(usage, u),
-  });
-  return { grade: { ...grade, fidelity: fidelityFromScores(grade.scores) }, usage };
 }
 
 /**
@@ -362,7 +390,17 @@ export function decideRetrieval({ citedUrls = [], answer = "", expectedUrls = []
   return { ...retrievalHit({ citedUrls, answer, expectedUrls }), tier: null };
 }
 
-async function runOneProbe({ probe, model, graderModel, mode, effort, sourceContent, scopeUrls, cacheTtl }) {
+async function runOneProbe({
+  probe,
+  model,
+  graderModel,
+  mode,
+  effort,
+  sourceContent,
+  scopeUrls,
+  cacheTtl,
+  deferGrade,
+}) {
   const lines = [];
   const bufLog = (msg) => lines.push(msg);
 
@@ -410,6 +448,14 @@ async function runOneProbe({ probe, model, graderModel, mode, effort, sourceCont
       },
       usage: emptyUsage(),
     };
+  } else if (deferGrade) {
+    // Batched: record what this probe needs graded and fill the result in later.
+    deferGrade({
+      probeId: probe.id,
+      userContent: buildGradeContent({ probe, answer, citedUrls, retrieval, sourceContent, cacheTtl }),
+    });
+    graded = { grade: PENDING_GRADE, usage: emptyUsage(), pending: true };
+    bufLog(`queued for batch grading ... `);
   } else {
     bufLog(`grading (${graderModel}) ... `);
     graded = await gradeProbe({
@@ -576,6 +622,7 @@ export async function runProbes({
   previous = null,
   onProgress = () => {},
   log = () => {},
+  batch = false,
 }) {
   const probeSet = JSON.parse(fs.readFileSync(probesFile, "utf8"));
   if (!Array.isArray(probeSet.probes) || probeSet.probes.length === 0) {
@@ -590,6 +637,9 @@ export async function runProbes({
   // each. A large shared prefix must use the 1-hour TTL or every probe silently
   // re-writes it at full price instead of reading it.
   const cacheTtl = (probeSet.source_content?.length ?? 0) > LARGE_PREFIX_CHARS ? "1h" : null;
+
+  // Grades collected while asking, then submitted as one batch at 50% of rates.
+  const pendingGrades = [];
 
   let sourceContent = probeSet.source_content;
   if (!sourceContent) {
@@ -624,10 +674,20 @@ export async function runProbes({
     // Pace batches in web mode so back-to-back search bursts don't trip rate limits.
     if (i > 0 && mode === "web") await sleep(PROBE_PACING_MS);
 
-    const batch = todo.slice(i, i + PROBE_CONCURRENCY);
+    const chunk = todo.slice(i, i + PROBE_CONCURRENCY);
     const outcomes = await Promise.all(
-      batch.map((probe) =>
-        runOneProbe({ probe, model, graderModel, mode, effort, sourceContent, scopeUrls, cacheTtl }).catch((err) =>
+      chunk.map((probe) =>
+        runOneProbe({
+          probe,
+          model,
+          graderModel,
+          mode,
+          effort,
+          sourceContent,
+          scopeUrls,
+          cacheTtl,
+          deferGrade: batch ? (req) => pendingGrades.push(req) : undefined,
+        }).catch((err) =>
           errorOutcome(probe, model, err),
         ),
       ),
@@ -637,6 +697,46 @@ export async function runProbes({
     for (const { result, logText } of outcomes) {
       log(logText);
       done.set(result.probe_id, result);
+    }
+    onProgress(summary());
+  }
+
+  if (batch && pendingGrades.length) {
+    log(`\nsubmitting ${pendingGrades.length} grade(s) as one batch (50% of standard rates)\n`);
+    const entries = await runBatch({
+      requests: pendingGrades.map((g) =>
+        buildRequest({
+          customId: g.probeId,
+          promptFile: "probe-eval.md",
+          userContent: g.userContent,
+          model: graderModel,
+          effort,
+          jsonSchema: EVAL_SCHEMA,
+        }),
+      ),
+      log,
+    });
+
+    for (const { probeId } of pendingGrades) {
+      const result = done.get(probeId);
+      if (!result) continue;
+      const parsed = parseJsonEntry(entries.get(probeId), probeId);
+
+      if (!parsed.ok) {
+        // A failed grade leaves the probe ungraded and says why, rather than
+        // silently keeping the "queued" placeholder as if it were a verdict.
+        result.verdict = `Batch grading failed — ${parsed.error}`;
+        result.stop = "error";
+        result.error = parsed.error;
+        log(`  ${probeId}: grade failed — ${parsed.error}\n`);
+        continue;
+      }
+
+      const { retrieval_note: note, ...grade } = parsed.value;
+      Object.assign(result, grade, { fidelity: fidelityFromScores(grade.scores) });
+      result.retrieval.notes = note ?? "";
+      addUsage(result.usage.grader, parsed.usage);
+      log(`  ${probeId}: fidelity ${result.fidelity}/100\n`);
     }
     onProgress(summary());
   }

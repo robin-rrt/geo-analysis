@@ -1,6 +1,6 @@
 # Status — what's done, what's left
 
-**Updated:** 2026-09-17 · everything below is on `main`, 106 tests passing.
+**Updated:** 2026-09-18 · everything below is on `main`, 109 tests passing.
 
 This is the index. Each plan file carries its own detail; this says which parts of it are real.
 
@@ -20,7 +20,7 @@ This is the index. Each plan file carries its own detail; this says which parts 
 | **Tiered retrieval** — exact / in-scope / out-of-scope / none | ✅ done | `fe393f9` |
 | **Product probes** — product-scoped generation + tiered scoring | ✅ Phase 4 | `808754d` |
 | **Dashboard Products view** | ✅ Phase 5 | `d176edd` |
-| **Batch grading** — `probe --batch` | ⚠️ built, **failing in practice** | `3debfe8` |
+| **Batch grading** — `probe --batch` | ✅ built; cache bug fixed, live run pending | `3debfe8`, `60b0fda` |
 | **Cheaper defaults** — Sonnet grader, medium probe effort | ✅ done | — |
 
 ## Left to do, in the order I'd tackle it
@@ -42,20 +42,15 @@ The biggest remaining piece, and the one the product work was building toward.
     "corrects an understatement" claim is retracted.
 - ~~**Phase 5 — dashboard product view.**~~ ✅ **Done 2026-09-17** (`d176edd`).
 
-### 2. ⚠️ Batch grading is built but **does not work yet** — first thing to fix
-`probe --batch` is implemented (`3debfe8`) and all three documented traps are handled, but a live
-run returned **`errored` for all 10 requests**. The failure handling behaved correctly — every
-probe was marked failed and retryable rather than keeping its "queued" placeholder — but no grade
-came back, so the 50% saving is **unverified**.
+### 2. Batch grading — built, root cause fixed, one live confirmation outstanding
+`probe --batch` is implemented (`3debfe8`). The first live run errored on all ten requests; the
+cause was a cache_control TTL ordering violation, fixed in `60b0fda` and verified synchronously.
+**The 50% saving itself has not yet been observed on a completed batch** — re-run
+`probe <set> --batch` and compare grader cost against a synchronous run to close this out.
 
-Two things to do:
-1. The error detail is being swallowed. `parseJsonEntry` falls back to `r.type` ("errored") when
-   `r.error?.message` is absent; the Batch API nests it deeper. Surface the real message first.
-2. Then diagnose. Most likely suspects, in order: the request uses the **non-beta**
-   `client().messages.batches` path while `runClaude` uses `client().beta.messages` — structured
-   outputs (`output_config.format`) may require the beta client; `max_tokens: 64000` with
-   `thinking: adaptive`; or `output_config.effort` being rejected in a batch context.
-   A one-request reproduction that dumps the full `result` object is the fastest route.
+Debugging lesson worth keeping: the Batch API's round trip makes each attempt cost ten minutes.
+Firing the same params at the **synchronous** endpoint runs identical validation and errors
+instantly. Do that first for any batch shape problem.
 
 ### 3. Cheap wins in the same plan
 - **Phase 3** — cache warm-up. `PROBE_CONCURRENCY = 3` means the first three grader calls race
@@ -70,11 +65,32 @@ Two things to do:
 correctness wins. Do it when someone actually needs a non-Claude number. Cost already returns
 `null` rather than a wrong figure for an unpriced model, so the seam won't silently understate.
 
-### 5. Correlation study — not in any plan, and I'd rank it above PR3
-Does structural score predict answer fidelity? CRE scores 88.6 structurally while its pages
-answer at 55–62 fidelity. If they don't correlate, several plans are optimising a number that
-doesn't matter. ~8 probe runs on the `dynamic-content-visibility` pages; the addresses page is
-already independently scored 37/100.
+### 5. Correlation study — the most valuable open item
+Does structural score predict answer fidelity?
+
+**Preview on data already on hand (2026-09-18), and it is not yet evidence:**
+
+| unit | structural | fidelity | hit rate |
+|---|--:|--:|--:|
+| ace | 68 | 38.5 | 30% |
+| concepts-non-determinism-go | 75 | 55.6 | 20% |
+| workflow-using-randomness | 77 | 62.3 | 30% |
+| *(product)* vrf | 88.1 | 77.2 | 0% |
+
+Pearson r = 0.98 — and it should **not** be acted on:
+
+- **n=4.** With four points a near-perfect r is unremarkable.
+- **The units are not comparable.** The three pages are scored by the 9-dimension LLM rubric;
+  the product by the deterministic rollup. Putting them on one axis is a category error, and
+  dropping the product leaves n=3.
+- All four happen to be Opus-graded, so at least the fidelity axis is on one scale — re-check
+  this after the Sonnet default lands, or the axis silently shifts by ~12 points.
+
+Notably **hit rate does not track fidelity at all** here (30/20/30/0 against 38.5→77.2), which is
+consistent with the retrieval findings: answers are good without retrieval happening.
+
+A real study needs ~8–10 units scored the same way, probed with the same grader. At ~$4 per web
+probe run that is roughly $35.
 
 ### Blocked
 - **`plans/corpus-scale-architecture.md`** — needs access to the teammate's crawler JSON. Its

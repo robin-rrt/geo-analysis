@@ -58,6 +58,7 @@ export async function runClaude({
   jsonSchema,
   tally,
   tallyLabel = "call",
+  cacheTtl,
 }) {
   const systemPrompt = fs.readFileSync(path.join(PROMPTS_DIR, promptFile), "utf8");
   // The server-side refusal fallback (beta) applies only to Fable 5, whose
@@ -77,7 +78,13 @@ export async function runClaude({
     },
     system: [
       // Stable prefix — cache it so repeated calls reuse the prompt.
-      { type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } },
+      // Rendered before `messages`, so this TTL must be at least as long as any
+      // cache_control later in the request — a 1h block after a 5m one is a 400.
+      {
+        type: "text",
+        text: systemPrompt,
+        cache_control: cacheTtl ? { type: "ephemeral", ttl: cacheTtl } : { type: "ephemeral" },
+      },
     ],
     messages: [{ role: "user", content: userContent }],
     ...(useFallback && {

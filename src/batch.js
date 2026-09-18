@@ -22,7 +22,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
  * and minus `fallbacks` — if those drift apart, batched and synchronous grades
  * stop being comparable.
  */
-export function buildRequest({ customId, promptFile, userContent, model, effort, jsonSchema }) {
+export function buildRequest({ customId, promptFile, userContent, model, effort, jsonSchema, cacheTtl }) {
   const systemPrompt = fs.readFileSync(path.join(PROMPTS_DIR, promptFile), "utf8");
   return {
     custom_id: customId,
@@ -34,7 +34,15 @@ export function buildRequest({ customId, promptFile, userContent, model, effort,
         effort,
         ...(jsonSchema && { format: { type: "json_schema", schema: jsonSchema } }),
       },
-      system: [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
+      // The system block is cached too, and it renders first — so its TTL must
+      // be at least as long as any later block's, or the API rejects the request.
+      system: [
+        {
+          type: "text",
+          text: systemPrompt,
+          cache_control: cacheTtl ? { type: "ephemeral", ttl: cacheTtl } : { type: "ephemeral" },
+        },
+      ],
       messages: [{ role: "user", content: userContent }],
     },
   };
@@ -89,9 +97,17 @@ export async function runBatch({ requests, log = () => {}, pollMs = POLL_INTERVA
         stopReason: r.message?.stop_reason ?? null,
       });
     } else {
+      // The API nests the real message (result.error.error.message); falling
+      // back to result.type yields a useless bare "errored".
+      const detail =
+        r.error?.error?.message ??
+        r.error?.message ??
+        (r.error ? JSON.stringify(r.error).slice(0, 300) : null) ??
+        r.type;
       out.set(entry.custom_id, {
         ok: false,
-        error: r.error?.message ?? r.type,
+        error: detail,
+        errorType: r.error?.error?.type ?? r.error?.type ?? r.type,
         usage: null,
         model: null,
       });

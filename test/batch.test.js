@@ -66,3 +66,35 @@ test("an errored entry passes its error through", () => {
   assert.equal(r.ok, false);
   assert.equal(r.error, "overloaded");
 });
+
+test("the system block's TTL matches the message block's", () => {
+  // Blocks render tools -> system -> messages, and a 1h cache_control may not
+  // follow a 5m one. Leaving system on the 5m default while the source content
+  // asked for 1h produced a 400 on every request of a real batch.
+  const r = buildRequest({
+    customId: "p01",
+    promptFile: "probe-eval.md",
+    userContent: [{ type: "text", text: "x", cache_control: { type: "ephemeral", ttl: "1h" } }],
+    model: "claude-sonnet-5",
+    effort: "high",
+    jsonSchema: { type: "object" },
+    cacheTtl: "1h",
+  });
+  assert.equal(r.params.system[0].cache_control.ttl, "1h", "system must not be left on the 5m default");
+});
+
+test("omitting the TTL leaves both blocks on the default", () => {
+  const r = req();
+  assert.equal(r.params.system[0].cache_control.ttl, undefined);
+  assert.equal(r.params.system[0].cache_control.type, "ephemeral");
+});
+
+test("surfaces the API's nested error message, not a bare type", () => {
+  // result.error.error.message is where the real reason lives; falling back to
+  // result.type yielded an undiagnosable "errored" for ten requests.
+  const detailed = parseJsonEntry(
+    { ok: false, error: "messages.0.content.0.cache_control.ttl: ..." },
+    "p01",
+  );
+  assert.match(detailed.error, /cache_control/);
+});

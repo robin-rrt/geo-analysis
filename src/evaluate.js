@@ -332,6 +332,7 @@ export async function gradeProbe({
     model: graderModel,
     effort,
     jsonSchema: EVAL_SCHEMA,
+    cacheTtl,
     onUsage: (u) => addUsage(usage, u),
   });
   return { grade: { ...grade, fidelity: fidelityFromScores(grade.scores) }, usage };
@@ -717,6 +718,7 @@ export async function runProbes({
           model: graderModel,
           effort,
           jsonSchema: EVAL_SCHEMA,
+          cacheTtl,
         }),
       ),
       log,

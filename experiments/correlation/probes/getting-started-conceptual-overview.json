@@ -1,0 +1,288 @@
+{
+  "source_url": "https://docs.chain.link/getting-started/conceptual-overview",
+  "source_title": "Smart Contract Overview",
+  "generated_at": "2026-09-18T14:52:47.759Z",
+  "product_context": "Chainlink smart contract development / oracle networks (getting started conceptual overview)",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I write a simple smart contract in Solidity that stores a message and lets me update it?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Start with SPDX license identifier and pragma solidity version",
+          "Declare a contract with the contract keyword named HelloWorld",
+          "Use a public string state variable named message",
+          "Set message in the constructor from an initialMessage parameter",
+          "Define an updateMessage function that sets message to newMessage"
+        ],
+        "correct_entities": {
+          "functions": [
+            "updateMessage",
+            "constructor"
+          ],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "initialMessage",
+            "newMessage",
+            "pragma solidity 0.8.7",
+            "SPDX-License-Identifier: MIT"
+          ],
+          "identifiers": [
+            "HelloWorld",
+            "message"
+          ]
+        },
+        "correct_step_order": [
+          "Add SPDX license and pragma solidity 0.8.7",
+          "Declare contract HelloWorld with curly braces",
+          "Add public string state variable message",
+          "Add constructor taking string memory initialMessage and assign to message",
+          "Add public function updateMessage(string memory newMessage) to update message"
+        ],
+        "common_hallucinations": [
+          "Adding an import of @chainlink contracts (not used in this example)",
+          "Using a getMessage() getter function (not present; message is public)",
+          "Claiming the pragma is ^0.8.0 instead of 0.8.7",
+          "Adding events like MessageUpdated (not in the example)"
+        ],
+        "out_of_scope": [
+          "Deploying the contract step-by-step in Remix",
+          "Data Feeds price consumer code",
+          "VRF or Automation implementation"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using Solidity, how do I declare state variables with different visibility levels like public, internal, and private?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "State variables are permanently stored in contract storage",
+          "Visibility modifiers define the level of access",
+          "Example: string public message; uint256 internal internalVar; uint8 private privateVar;"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "public",
+            "internal",
+            "private",
+            "string",
+            "uint256",
+            "uint8"
+          ],
+          "identifiers": [
+            "message",
+            "internalVar",
+            "privateVar"
+          ]
+        },
+        "correct_step_order": [
+          "Choose a variable type such as string, uint256, or uint8",
+          "Add a visibility modifier (public, internal, or private)",
+          "Declare the state variable, e.g. string public message;"
+        ],
+        "common_hallucinations": [
+          "Claiming 'external' is a valid visibility for state variables",
+          "Saying local variables are stored permanently in storage",
+          "Introducing 'immutable' or 'constant' keywords not shown on the page"
+        ],
+        "out_of_scope": [
+          "Gas optimization of storage layout",
+          "Mappings and structs details"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "Show me code for a Solidity interface and a contract that implements it.",
+      "archetype": "code-first",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Interface defines functions without implementation",
+          "interface numberComparison declares isSameNum(uint256 a, uint256 b) external view returns (bool)",
+          "Contract Test is numberComparison implements isSameNum",
+          "override is required because it overrides the interface function",
+          "pure is used instead of view because it does not return a storage variable"
+        ],
+        "correct_entities": {
+          "functions": [
+            "isSameNum"
+          ],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "external",
+            "view",
+            "pure",
+            "override",
+            "uint256",
+            "bool",
+            "pragma solidity 0.8.7"
+          ],
+          "identifiers": [
+            "numberComparison",
+            "Test"
+          ]
+        },
+        "correct_step_order": [
+          "Declare interface numberComparison with isSameNum function signature (external view returns bool)",
+          "Declare contract Test is numberComparison",
+          "Implement isSameNum with external pure override returning bool",
+          "Return true if a == b else false"
+        ],
+        "common_hallucinations": [
+          "Using 'abstract contract' instead of interface",
+          "Adding a constructor argument to Test (its constructor is empty)",
+          "Using 'virtual' keyword on the interface function",
+          "Keeping 'view' instead of 'pure' in the Test implementation"
+        ],
+        "out_of_scope": [
+          "Inheritance beyond a single interface",
+          "Chainlink AggregatorV3Interface specifics"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "solidity pragma version meaning >=0.7.0 <0.9.0",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Every Solidity file must define the Solidity version",
+          "pragma selects the compiler and defines how code is treated",
+          "pragma solidity >=0.7.0 <0.9.0 means version 0.7.0 up to but not including 0.9.0"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "pragma solidity",
+            "0.8.7",
+            ">=0.7.0 <0.9.0"
+          ],
+          "identifiers": []
+        },
+        "correct_step_order": [
+          "Place the pragma at the top of the file",
+          "Specify a fixed version like 0.8.7 or a range like >=0.7.0 <0.9.0",
+          "Understand the range excludes 0.9.0"
+        ],
+        "common_hallucinations": [
+          "Claiming the range includes 0.9.0",
+          "Saying pragma is optional",
+          "Confusing pragma with import statements"
+        ],
+        "out_of_scope": [
+          "Full list of breaking changes between Solidity versions"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "I'm totally new to blockchain and I want to build a contract that can use real-world price data. What are the basic pieces I need to understand about how smart contracts get outside data?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "A smart contract that connects to offchain data becomes a hybrid smart contract",
+          "Oracles bridge the real-world and onchain smart contracts",
+          "Oracles are most popularly used with Data Feeds",
+          "Each data feed has an onchain address and functions that let contracts read from it",
+          "Chainlink data feeds aggregate data from many independent node operators"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Data Feeds",
+            "ETH / USD feed",
+            "LINK"
+          ]
+        },
+        "correct_step_order": [
+          "Understand that oracles connect smart contracts to real-world data",
+          "Use Chainlink Data Feeds to get asset prices onchain",
+          "Read from the data feed's onchain address and functions"
+        ],
+        "common_hallucinations": [
+          "Claiming smart contracts can call HTTP APIs natively without oracles",
+          "Naming a specific Solidity function like latestRoundData (not on this page)",
+          "Saying LINK is an ERC20 (it's an ERC677 that inherits ERC20 functionality)"
+        ],
+        "out_of_scope": [
+          "Concrete Data Feed consumer contract code",
+          "VRF and Automation setup details",
+          "Deploying to a specific testnet"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "Should I use Remix or MetaMask to deploy my first Chainlink smart contract, and what does each one do?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/getting-started/conceptual-overview"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Remix is a web IDE for creating, running, and debugging smart contracts in the browser",
+          "Remix is developed and maintained by the Ethereum Foundation and can load code from GitHub",
+          "MetaMask lets you create an address, store funds, and interact with Ethereum-compatible blockchains from a browser extension",
+          "You need an address (via MetaMask) to deploy a contract with Remix",
+          "They are used together, not alternatives"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Remix",
+            "MetaMask"
+          ]
+        },
+        "correct_step_order": [
+          "Use Remix as the web IDE to write and deploy the contract",
+          "Use MetaMask to provide the address and sign the deployment",
+          "Deploy the contract to the blockchain"
+        ],
+        "common_hallucinations": [
+          "Claiming Remix requires a local installation or command line",
+          "Saying MetaMask compiles Solidity code",
+          "Presenting Remix and MetaMask as mutually exclusive choices"
+        ],
+        "out_of_scope": [
+          "Step-by-step deployment walkthrough (covered in the Deploy Your First Smart Contract quickstart)",
+          "Hardhat or Foundry setup"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Smart Contract Overview\n\nWelcome to the Smart Contract Getting Started guide. This overview explains the basic concepts of smart contract development and oracle networks.\n\n**Skip ahead:** To get your hands on the code right away, you can skip this overview:\n\n-   [Deploy Your First Smart Contract](/quickstarts/deploy-your-first-contract): If you are new to smart contracts, deploy your first smart contract in an interactive web development environment.\n-   [Learn how to use Data Feeds](/data-feeds/getting-started): If you are already familiar with smart contracts and want to learn how to create _hybrid_ smart contracts, use Chainlink Data Feeds to get asset price data onchain.\n\n[Play](https://youtube.com/watch?v=rFXSEEQG9YE)\n\n## [What is a smart contract? What is a hybrid smart contract?](#what-is-a-smart-contract-what-is-a-hybrid-smart-contract)\n\nWhen deployed to a blockchain, a _smart contract_ is a set of instructions that can be executed without intervention from third parties. The smart contract code defines how it responds to input, just like the code of any other computer program.\n\nA valuable feature of smart contracts is that they can store and manage onchain assets (like [ETH or ERC20 tokens](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/)), just like you can with an Ethereum wallet. Because they have an onchain address like a wallet, they can do everything any other address can. This enables you to program automated actions when receiving and transferring assets.\n\nSmart contracts can connect to real-world market prices of assets to produce powerful applications. Securely connecting smart contracts with offchain data and services is what makes them _hybrid_ smart contracts. This is done using oracles.\n\n## [What language is a smart contract written in?](#what-language-is-a-smart-contract-written-in)\n\nThe most popular language for writing smart contracts on Ethereum and EVM Chains is [Solidity](https://docs.soliditylang.org/en/latest/). It was created by the Ethereum Foundation specifically for smart contract development and is constantly being updated. Other languages exist for writing smart contracts on Ethereum and EVM Chains, but Solidity is the language used for Chainlink smart contracts.\n\nIf you've ever written Javascript, Java, or other object-oriented scripting languages, Solidity should be easy to understand. Similar to object-oriented languages, Solidity is considered to be a _contract_\\-oriented language.\n\nSome networks are not EVM-compatible and use languages other than Solidity for smart contracts, such as [Solana in Rust](https://solana.com/docs/programs/rust) or Starknet in [Cairo](https://www.cairo-lang.org/).\n\n## [What does a smart contract look like?](#what-does-a-smart-contract-look-like)\n\nThe structure of a smart contract is similar to that of a class in Javascript, with a few differences. For example, the following `HelloWorld` contract is a simple smart contract that stores a single variable and includes a function to update the value of that variable.\n\n```solidity\n// SPDX-License-Identifier: MIT\n\npragma solidity 0.8.7;\n\n/**\n * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.\n * DO NOT USE THIS CODE IN PRODUCTION.\n */\ncontract HelloWorld {\n  string public message;\n\n  constructor(\n    string memory initialMessage\n  ) {\n    message = initialMessage;\n  }\n\n  function updateMessage(\n    string memory newMessage\n  ) public {\n    message = newMessage;\n  }\n}\n```\n\n[Open in Remix](https://remix.ethereum.org/#url=https://docs.chain.link/samples/Tutorials/HelloWorld.sol&autoCompile=true) [What is Remix?](/getting-started/conceptual-overview#what-is-remix)\n\n### [Solidity versions](#solidity-versions)\n\nThe first thing that every Solidity file must have is the Solidity version definition. The `HelloWorld.sol` contract uses version `0.8.7`, which is defined in the contract as `pragma solidity 0.8.7;`\n\nYou can see the latest versions of the Solidity compiler [here](https://github.com/ethereum/solc-bin/blob/gh-pages/bin/list.txt/?target=_blank). You might also notice smart contracts that are compatible with a range of versions.\n\n```solidity\npragma solidity >=0.7.0 <0.9.0;\n```\n\nThis means that the code is written for Solidity version 0.7.0, or a newer version of the language up to, but not including version 0.9.0. The `pragma` selects the compiler, which defines how the code is treated.\n\n### [Naming a Contract](#naming-a-contract)\n\nThe `contract` keyword defines the name of the contract, which in this example is `HelloWorld`. This is similar to declaring a `class` in Javascript. The implementation of `HelloWorld` is inside this definition and denoted with curly braces.\n\n```solidity\ncontract HelloWorld {\n\n}\n```\n\n### [Variables](#variables)\n\nLike Javascript, contracts can have state variables and local variables. **State variables** are variables with values that are permanently stored in contract storage. The values of **local variables**, however, are present only until the function is executing. There are also different types of variables you can use within Solidity, such as `string`, `uint256`, etc. Check out the [Solidity documentation](https://docs.soliditylang.org/en/v0.8.7/) to learn more about the different kinds of variables and types.\n\n_Visibility modifiers_ are used to define the level of access to these variables. Here are some examples of state variables with different visibility modifiers:\n\n```solidity\nstring public message;\nuint256 internal internalVar;\nuint8 private privateVar;\n```\n\nLearn more about state variables visibility [here](https://docs.soliditylang.org/en/latest/contracts.html#state-variable-visibility).\n\n### [Constructors](#constructors)\n\nAnother familiar concept to programmers is the **constructor**. When you deploy a contract, the constructor sets the state of the contract when it is first created.\n\nIn `HelloWorld`, the constructor takes in a `string` as a parameter and sets the `message` state variable to that string.\n\n```solidity\nconstructor(string memory initialMessage) {\n  message = initialMessage;\n}\n```\n\n### [Functions](#functions)\n\n**Functions** can access and modify the state of the contract or call other functions on external contracts. `HelloWorld` has a function named `updateMessage`, which updates the current message stored in the state.\n\n```solidity\nconstructor(string memory initialMessage) {\n  message = initialMessage;\n}\n\nfunction updateMessage(string memory newMessage) public {\n  message = newMessage;\n}\n```\n\nFunctions use visibility modifiers to define the access level. Learn more about functions visibility [here](https://docs.soliditylang.org/en/latest/contracts.html#function-visibility).\n\n### [Interfaces](#interfaces)\n\nAn **interface** is another concept that is familiar to programmers of other languages. Interfaces define functions without their implementation, which leaves inheriting contracts to define the actual implementation themselves. This makes it easier to know what functions to call in a contract. Here's an example of an interface:\n\n```solidity\n// SPDX-License-Identifier: MIT\n\npragma solidity 0.8.7;\n\n/**\n * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.\n * DO NOT USE THIS CODE IN PRODUCTION.\n */\ninterface numberComparison {\n  function isSameNum(\n    uint256 a,\n    uint256 b\n  ) external view returns (bool);\n}\n\ncontract Test is numberComparison {\n  constructor() {}\n\n  function isSameNum(\n    uint256 a,\n    uint256 b\n  ) external pure override returns (bool) {\n    if (a == b) {\n      return true;\n    } else {\n      return false;\n    }\n  }\n}\n```\n\n[Open in Remix](https://remix.ethereum.org/#url=https://docs.chain.link/samples/Tutorials/Test.sol&autoCompile=true) [What is Remix?](/getting-started/conceptual-overview#what-is-remix)\n\nFor this example, `override` is necessary in the `Test` contract function because it overrides the base function contained in the `numberComparison` interface. The contract uses `pure` instead of `view` because the `isSameNum` function in the `Test` contract does not return a storage variable.\n\n## [What does \"deploying\" mean?](#what-does-deploying-mean)\n\n**Deploying** a smart contract is the process of pushing the code to the blockchain, at which point it resides with an onchain address. Once it's deployed, the code cannot be changed and is said to be _immutable_.\n\nAs long as the address is known, its functions can be called through an interface, on [Etherscan](https://etherscan.io/), or through a library like [web3js](https://web3js.readthedocs.io/), [web3py](https://web3py.readthedocs.io/), [ethers](https://docs.ethers.io), and more. Contracts can also be written to interact with other contracts on the blockchain.\n\n## [What is a LINK token?](#what-is-a-link-token)\n\nThe LINK token is an ERC677 token that inherits functionality from the [ERC20 token standard](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/) and allows token transfers to contain a data payload. It is used to pay node operators for retrieving data for smart contracts and also for deposits placed by node operators as required by contract creators.\n\nAny wallet that handles ERC20 tokens can store LINK tokens. The ERC677 token standard that the LINK token implements still retains all functionality of ERC20 tokens.\n\n## [What are oracles?](#what-are-oracles)\n\n**Oracles** provide a bridge between the real-world and onchain smart contracts by being a source of data that smart contracts can rely on, and act upon.\n\nOracles play a critical role in facilitating the full potential of smart contract utility. Without a reliable connection to real-world conditions, smart contracts cannot effectively serve the real-world.\n\n## [How do smart contracts use oracles?](#how-do-smart-contracts-use-oracles)\n\nOracles are most popularly used with [_Data Feeds_](/data-feeds). DeFi platforms like [AAVE](https://aave.com/) and [Synthetix](https://www.synthetix.io/) use Chainlink data feed oracles to obtain accurate real-time asset prices in their smart contracts.\n\nChainlink data feeds are sources of data [aggregated from many independent Chainlink node operators](/architecture-overview/architecture-decentralized-model). Each data feed has an onchain address and functions that enable contracts to read from that address. For example, the [ETH / USD feed](https://data.chain.link/feeds/ethereum/mainnet/eth-usd).\n\n![Chainlink Feeds List](/images/contract-devs/price-aggr.png)\n\nSmart contracts also use oracles to get other capabilities onchain:\n\n-   [Generate Verifiable Random Numbers (VRF)](/vrf): Use Chainlink VRF to consume randomness in your smart contracts.\n-   [Call External APIs (Any API)](/any-api/introduction): Request & Receive data from any API using the Chainlink contract library.\n-   [Automate Smart Contracts using Chainlink Automation](/chainlink-automation): Automating smart contract functions and regular contract maintenance.\n\n## [What is Remix?](#what-is-remix)\n\n[Play](https://youtube.com/watch?v=JWJWT9cwFbo)\n\n[Remix](https://remix.ethereum.org/) is a web IDE (integrated development environment) for creating, running, and debugging smart contracts in the browser. It is developed and maintained by the Ethereum foundation. Remix allows Solidity developers to write smart contracts without a development machine since everything required is included in the web interface. It allows for a simplified method of interacting with deployed contracts, without the need for a command line interface. Remix also has support for samples. This means that Remix can load code from Github.\n\nTo learn how to use Remix, see the [Deploying Your First Smart Contract](/quickstarts/deploy-your-first-contract) guide.\n\n[Deploy Your First Smart Contract](/quickstarts/deploy-your-first-contract)\n\n## [What is MetaMask?](#what-is-metamask)\n\nContracts are deployed by other addresses on the network. To deploy a smart contract, you need an address. Not only that, but you need an address which you can easily use with Remix. Fortunately, [MetaMask](https://metamask.io) is just what is needed. **MetaMask** allows anyone to create an address, store funds, and interact with Ethereum compatible blockchains from a browser extension.\n\n## What's next\n\n-   [\\> Deploy Your First Smart Contract](/quickstarts/deploy-your-first-contract)\n-   [\\> Consuming Data Feeds](/data-feeds/getting-started)",
+  "source_hash": "1705967e4e0b",
+  "probe_set_id": "95d08d99f77a"
+}

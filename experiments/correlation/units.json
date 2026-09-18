@@ -1,0 +1,72 @@
+[
+  {
+    "url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+    "slug": "data-streams-reference-data-streams-api",
+    "score": 41,
+    "audit": "experiments/correlation/audits/data-streams-reference-data-streams-api.md",
+    "probes": "experiments/correlation/probes/data-streams-reference-data-streams-api.json"
+  },
+  {
+    "url": "https://docs.chain.link/resources/fund-your-contract",
+    "slug": "resources-fund-your-contract",
+    "score": 56,
+    "audit": "experiments/correlation/audits/resources-fund-your-contract.md",
+    "probes": "experiments/correlation/probes/resources-fund-your-contract.json"
+  },
+  {
+    "url": "https://docs.chain.link/dta-technical-standard/actors",
+    "slug": "dta-technical-standard-actors",
+    "score": 58,
+    "audit": "experiments/correlation/audits/dta-technical-standard-actors.md",
+    "probes": "experiments/correlation/probes/dta-technical-standard-actors.json"
+  },
+  {
+    "url": "https://docs.chain.link/chainlink-automation/overview/service-limits",
+    "slug": "chainlink-automation-overview-service-limits",
+    "score": 61,
+    "audit": "experiments/correlation/audits/chainlink-automation-overview-service-limits.md",
+    "probes": "experiments/correlation/probes/chainlink-automation-overview-service-limits.json"
+  },
+  {
+    "url": "https://docs.chain.link/chainlink-functions",
+    "slug": "chainlink-functions",
+    "score": 63,
+    "audit": "experiments/correlation/audits/chainlink-functions.md",
+    "probes": "experiments/correlation/probes/chainlink-functions.json"
+  },
+  {
+    "url": "https://docs.chain.link/datalink",
+    "slug": "datalink",
+    "score": 64,
+    "audit": "experiments/correlation/audits/datalink.md",
+    "probes": "experiments/correlation/probes/datalink.json"
+  },
+  {
+    "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts",
+    "slug": "cre-guides-workflow-using-evm-client-overview-ts",
+    "score": 64,
+    "audit": "experiments/correlation/audits/cre-guides-workflow-using-evm-client-overview-ts.md",
+    "probes": "experiments/correlation/probes/cre-guides-workflow-using-evm-client-overview-ts.json"
+  },
+  {
+    "url": "https://docs.chain.link/ace",
+    "slug": "ace",
+    "score": 67,
+    "audit": "experiments/correlation/audits/ace.md",
+    "probes": "experiments/correlation/probes/ace.json"
+  },
+  {
+    "url": "https://docs.chain.link/getting-started/conceptual-overview",
+    "slug": "getting-started-conceptual-overview",
+    "score": 73,
+    "audit": "experiments/correlation/audits/getting-started-conceptual-overview.md",
+    "probes": "experiments/correlation/probes/getting-started-conceptual-overview.json"
+  },
+  {
+    "url": "https://docs.chain.link/resources/link-token-contracts",
+    "slug": "resources-link-token-contracts",
+    "score": 77,
+    "audit": "experiments/correlation/audits/resources-link-token-contracts.md",
+    "probes": "experiments/correlation/probes/resources-link-token-contracts.json"
+  }
+]

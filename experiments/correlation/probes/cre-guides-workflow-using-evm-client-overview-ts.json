@@ -1,0 +1,255 @@
+{
+  "source_url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts",
+  "source_title": "EVM Chain Interactions",
+  "generated_at": "2026-09-18T14:52:18.786Z",
+  "product_context": "Chainlink CRE (Compute Runtime Environment) TypeScript SDK — EVMClient for EVM chain interactions",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I interact with EVM contracts using the CRE TypeScript SDK?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Use the EVMClient, the TypeScript SDK's interface for EVM-compatible blockchains",
+          "Reading uses the Onchain Read guide (view/pure functions)",
+          "Writing uses the Onchain Write guide (state-changing functions)",
+          "ABIs are defined manually with viem"
+        ],
+        "correct_entities": {
+          "functions": [
+            "getNetwork()",
+            "bytesToHex()",
+            ".result()"
+          ],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient",
+            "EVM Read & Write Capabilities"
+          ]
+        },
+        "correct_step_order": [
+          "Define ABIs manually as TypeScript constants",
+          "Use EVMClient to read onchain state (view/pure) or write state-changing functions"
+        ],
+        "common_hallucinations": [
+          "Claiming the SDK auto-generates typed bindings from ABIs (it uses manual ABI definitions)",
+          "Suggesting ethers.js instead of viem",
+          "Inventing a connect() or getContract() method"
+        ],
+        "out_of_scope": [
+          "Go SDK usage",
+          "Non-EVM chain interactions"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using viem with the CRE TS SDK, show me how contract calls are made type-safe without codegen",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "The SDK uses manual ABI definitions with viem",
+          "No code generation required—define ABIs as TypeScript constants",
+          "viem provides type-safe ABI encoding/decoding and full type inference"
+        ],
+        "correct_entities": {
+          "functions": [
+            ".result()"
+          ],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient"
+          ]
+        },
+        "correct_step_order": [
+          "Define ABIs as TypeScript constants",
+          "viem handles type-safe encoding/decoding and type inference for calls"
+        ],
+        "common_hallucinations": [
+          "Mentioning a codegen step or CLI to generate types",
+          "Claiming ABIs must be loaded from JSON files at runtime"
+        ],
+        "out_of_scope": [
+          "Detailed viem API reference",
+          "Go SDK bindings"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "cre ts evm client read vs write",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Onchain Read: call view and pure functions to read onchain state",
+          "Onchain Write: call state-changing functions to write data to the blockchain"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient",
+            "Onchain Read",
+            "Onchain Write"
+          ]
+        },
+        "correct_step_order": [
+          "Read via Onchain Read guide",
+          "Write via Onchain Write guide"
+        ],
+        "common_hallucinations": [
+          "Claiming reads are async and writes are sync or vice versa without basis",
+          "Inventing method names like readContract/writeContract as SDK-specific"
+        ],
+        "out_of_scope": [
+          "Gas estimation details",
+          "Transaction receipt parsing specifics"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "I want my workflow to send data to my own smart contract and have it receive reports — how do I do that with the TypeScript SDK?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Use the Onchain Write guide to call state-changing functions",
+          "See Building Consumer Contracts to write contracts that receive reports from your workflow",
+          "Use EVMClient for the interaction"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient",
+            "Onchain Write",
+            "Building Consumer Contracts"
+          ]
+        },
+        "correct_step_order": [
+          "Build a consumer contract that receives reports",
+          "Use EVMClient Onchain Write to call state-changing functions"
+        ],
+        "common_hallucinations": [
+          "Inventing a specific report struct or callback function name not on this overview page",
+          "Claiming a dedicated sendReport() SDK method exists"
+        ],
+        "out_of_scope": [
+          "Full consumer contract Solidity code",
+          "Specific report encoding format"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "Should I use manual ABI definitions or generated bindings for contract calls in the CRE TS SDK?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "The TypeScript SDK uses manual ABI definitions with viem",
+          "No code generation is required",
+          "This gives flexibility of direct ABI handling with viem's type safety"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient"
+          ]
+        },
+        "correct_step_order": [
+          "Define ABIs manually as TypeScript constants",
+          "Rely on viem for type-safe encoding/decoding"
+        ],
+        "common_hallucinations": [
+          "Recommending a code generation tool for the TS SDK",
+          "Comparing to Go SDK codegen as if available in TS"
+        ],
+        "out_of_scope": [
+          "Go SDK approach details",
+          "Performance benchmarks between approaches"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "How do I read onchain state by calling view functions with the CRE EVMClient in TypeScript?",
+      "archetype": "paraphrase",
+      "paraphrase_of": "p03",
+      "expected_source_urls": [
+        "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Use the Onchain Read guide to call view and pure functions",
+          "Reads onchain state via EVMClient",
+          "Define ABIs manually with viem"
+        ],
+        "correct_entities": {
+          "functions": [
+            ".result()"
+          ],
+          "imports_or_packages": [
+            "viem"
+          ],
+          "params_or_config": [],
+          "identifiers": [
+            "EVMClient",
+            "Onchain Read"
+          ]
+        },
+        "correct_step_order": [
+          "Define the ABI as a TypeScript constant",
+          "Use EVMClient to call view/pure functions and read state"
+        ],
+        "common_hallucinations": [
+          "Inventing a specific read method signature not shown on the overview page",
+          "Claiming ethers.js Contract.callStatic is used"
+        ],
+        "out_of_scope": [
+          "Detailed code sample (covered on the Onchain Read subpage)",
+          "Write/state-changing operations"
+        ]
+      }
+    }
+  ],
+  "source_content": "# EVM Chain Interactions\n\nThe `EVMClient` is the TypeScript SDK's interface for interacting with EVM-compatible blockchains. It provides a simple, powerful, and type-safe way to read data from and write data to your onchain contracts through the underlying **[EVM Read & Write Capabilities](/cre/capabilities/evm-read-write)**.\n\n## [How it works](#how-it-works)\n\nThe TypeScript SDK uses **manual ABI definitions** with [viem](https://viem.sh/) for contract interactions. This approach provides:\n\n-   Type-safe ABI encoding/decoding with viem\n-   No code generation required—just define ABIs as TypeScript constants\n-   Full TypeScript type inference for contract calls\n-   Synchronous-looking async operations with `.result()`\n-   Built-in helpers like `getNetwork()`, `bytesToHex()`, and chain selectors\n\nThis approach gives you the flexibility of direct ABI handling with the type safety of TypeScript and viem's powerful utilities.\n\n## [Guides](#guides)\n\n-   **[Onchain Read](/cre/guides/workflow/using-evm-client/onchain-read-ts)**: Learn how to call `view` and `pure` functions on your smart contracts to read onchain state\n-   **[Onchain Write](/cre/guides/workflow/using-evm-client/onchain-write/overview-ts)**: Learn how to call state-changing functions on your smart contracts to write data to the blockchain\n    -   **[Building Consumer Contracts](/cre/guides/workflow/using-evm-client/onchain-write/building-consumer-contracts)**: Learn how to write your own consumer contracts that can receive reports from your workflow",
+  "source_hash": "0c4d2cfc61fd",
+  "probe_set_id": "3ee33af0eb9a"
+}

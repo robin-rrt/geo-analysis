@@ -1,0 +1,234 @@
+{
+  "source_url": "https://docs.chain.link/chainlink-functions",
+  "source_title": "Chainlink Functions",
+  "generated_at": "2026-09-18T14:52:11.346Z",
+  "product_context": "Chainlink Functions — decentralized serverless compute for smart contracts",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I use Chainlink Functions to fetch data from an external API in my smart contract?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Your smart contract sends source code in a request to a Decentralized Oracle Network (DON)",
+          "Each node in the DON executes the code in a serverless environment",
+          "The DON aggregates the independent return values and sends the final result back to your contract",
+          "You fund a subscription with LINK to pay for requests"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "DON",
+            "LINK"
+          ]
+        },
+        "correct_step_order": [
+          "Smart contract sends source code in a request to the DON",
+          "Each DON node executes the code in a serverless environment",
+          "DON aggregates the independent return values",
+          "Final result is sent back to the smart contract"
+        ],
+        "common_hallucinations": [
+          "Claiming you must run your own Chainlink node",
+          "Inventing specific Solidity function names not shown on this overview page",
+          "Stating requests are paid in ETH rather than LINK"
+        ],
+        "out_of_scope": [
+          "Specific code implementation details",
+          "Exact contract addresses per network",
+          "Step-by-step subscription setup instructions"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "How can I pass a secret API key to my Chainlink Functions request securely?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Chainlink Functions lets you include secret values encrypted using threshold encryption",
+          "Secrets can only be decrypted via a multi-party decryption process involving participation from other DON nodes",
+          "This enables providing API keys or sensitive values to your source code for authenticated APIs"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "threshold encryption",
+            "DON"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming secrets are stored in plaintext on-chain",
+          "Inventing a specific encryption library or key management API name",
+          "Saying a single node can decrypt the secret alone"
+        ],
+        "out_of_scope": [
+          "Detailed secrets management code or CLI commands",
+          "Hosted vs DON-hosted secrets specifics"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "Chainlink Functions billing — how do I pay for requests?",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "You fund a subscription account with LINK",
+          "Your subscription is billed when the DON fulfills your requests"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "LINK",
+            "subscription"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming payment is per-block or in native gas token only",
+          "Inventing exact per-request pricing figures",
+          "Saying billing happens before the request is sent rather than on fulfillment"
+        ],
+        "out_of_scope": [
+          "Exact cost/pricing numbers",
+          "Subscription creation walkthrough"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "I'm new to this. I want my smart contract to get weather data for an insurance app — can Chainlink Functions help and what kinds of things can it connect to?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Chainlink Functions can connect to any public data such as weather statistics for parametric insurance",
+          "It can connect to password-protected data sources and Web2 systems like AWS S3, Firebase, or Google Cloud Storage",
+          "It can transform data before consumption and connect to decentralized databases like IPFS"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "IPFS",
+            "AWS S3",
+            "Firebase",
+            "Google Cloud Storage"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming Chainlink Functions provides built-in weather oracles/feeds directly",
+          "Inventing specific insurance-industry integrations not listed",
+          "Confusing Chainlink Functions with Chainlink Price Feeds as the same product"
+        ],
+        "out_of_scope": [
+          "Full insurance dApp code",
+          "Specific weather API recommendations"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "Where do I start with Chainlink Functions and where can I test my code before deploying?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Start with the Getting Started guide",
+          "Use the Tutorials page for GET and POST request examples",
+          "Try the Chainlink Functions Playground for hands-on experience"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Chainlink Functions Playground",
+            "Getting Started guide",
+            "Tutorials"
+          ]
+        },
+        "correct_step_order": [
+          "Read the Getting Started guide",
+          "Explore the Tutorials for GET/POST examples",
+          "Experiment in the Chainlink Functions Playground"
+        ],
+        "common_hallucinations": [
+          "Inventing a Playground URL other than functions.chain.link/playground",
+          "Claiming there is a local-only simulator without mention",
+          "Fabricating specific tutorial names not on the page"
+        ],
+        "out_of_scope": [
+          "Actual tutorial step content",
+          "Supported network contract addresses"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "Should I use Chainlink Functions or run my own Chainlink node to do custom offchain computation?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-functions"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Chainlink Functions eliminates the need to manage your own Chainlink node",
+          "It provides decentralized offchain computation and consensus",
+          "A minority of the network cannot manipulate the response sent back to your contract"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "DON"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming Chainlink Functions requires you to operate node infrastructure",
+          "Stating a single node controls the returned result",
+          "Inventing performance/latency benchmarks not on the page"
+        ],
+        "out_of_scope": [
+          "Detailed node operation setup",
+          "Cost comparison figures"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Chainlink Functions\n\nChainlink Functions provides your smart contracts access to trust-minimized compute infrastructure, allowing you to fetch data from APIs and perform custom computation. Your smart contract sends source code in a request to a [Decentralized Oracle Network (DON)](/chainlink-functions/resources/concepts), and each node in the DON executes the code in a serverless environment. The DON then aggregates all the independent return values from each execution and sends the final result back to your smart contract.\n\nChainlink Functions eliminates the need for you to manage your own Chainlink node and provides decentralized offchain computation and consensus, ensuring that a minority of the network cannot manipulate the response sent back to your smart contract.\n\nFurthermore, Chainlink Functions allows you to include secret values in your request that are encrypted using threshold encryption. These values can only be decrypted via a multi-party decryption process, meaning that every node can only decrypt the secrets with participation from other DON nodes. This feature can provide API keys or other sensitive values to your source code, enabling access to APIs that require authentication.\n\nTo pay for requests, you fund a subscription account with LINK. Your subscription is billed when the DON fulfills your requests. Check out the [subscriptions](/chainlink-functions/resources/subscriptions) page for more information.\n\nRead the [architecture](/chainlink-functions/resources/architecture) page to learn more about how Chainlink Functions works.\n\nSee the [Tutorials](/chainlink-functions/tutorials) page for simple tutorials showing you different GET and POST requests that run on Chainlink Functions. You can also gain hands-on experience with Chainlink Functions with the [Chainlink Functions Playground](https://functions.chain.link/playground).\n\n## [When to use Chainlink Functions](#when-to-use-chainlink-functions)\n\nChainlink Functions enables a variety of use cases. Use Chainlink Functions to:\n\n-   Connect to any public data. For example, you can connect your smart contracts to weather statistics for parametric insurance or real-time sports results for Dynamic NFTs.\n-   Connect to public data and transform it before consumption. You could calculate Twitter sentiment after reading data from the Twitter API, or derive asset prices after reading price data from [Chainlink Price Feeds](/data-feeds/price-feeds).\n-   Connect to a password-protected data source; from IoT devices like smartwatches to enterprise resource planning systems.\n-   Connect to an external decentralized database, such as IPFS, to facilitate offchain processes for a dApp or build a low-cost governance voting system.\n-   Connect to your Web2 application and build complex hybrid smart contracts.\n-   Fetch data from almost any Web2 system such as AWS S3, Firebase, or Google Cloud Storage.\n\nYou can find several community examples at [useChainlinkFunctions.com](https://www.usechainlinkfunctions.com/)\n\n## [Supported networks](#supported-networks)\n\nSee the [Supported Networks](/chainlink-functions/supported-networks) page to find a list of supported networks and contract addresses.\n\n## What's next\n\n-   [\\> Learn the basics in the Getting Started guide.](/chainlink-functions/getting-started)\n-   [\\> Learn how to use more advanced capabilities in one of the Tutorials.](/chainlink-functions/tutorials)\n-   [\\> Learn about core concepts, the Chainlink Functions architecture, and billing.](/chainlink-functions/resources)",
+  "source_hash": "3e54a63ed4cf",
+  "probe_set_id": "f66a44ecf23f"
+}

@@ -1,0 +1,261 @@
+{
+  "source_url": "https://docs.chain.link/dta-technical-standard/actors",
+  "source_title": "DTA Technical Standard: Actors",
+  "generated_at": "2026-09-18T14:51:50.292Z",
+  "product_context": "Chainlink Digital Transfer Agent (DTA) Technical Standard for tokenized fund subscription/redemption workflows onchain",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "What are the responsibilities of the Transfer Agent in the Chainlink DTA standard?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Deploys and owns the DTA Request Settlement for their fund",
+          "Registers fund tokens on DTA Request Management and defines operational rules (payment method, processing model/navTTL, rate limits, timezones)",
+          "Manages an allowlist of approved Fund Distributors",
+          "Processes pending subscription and redemption requests at regular intervals",
+          "Completes settlement for offchain payments"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [
+            "navTTL",
+            "payment method",
+            "rate limits",
+            "timezones"
+          ],
+          "identifiers": [
+            "DTA Request Settlement",
+            "DTA Request Management",
+            "Transfer Agent",
+            "Fund Distributors"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming the Transfer Agent calculates NAV (that is the Fund Administrator)",
+          "Claiming the Transfer Agent deploys the fund token (that is the Fund Issuer)",
+          "Inventing specific contract function names for settlement"
+        ],
+        "out_of_scope": [
+          "Specific smart contract function signatures",
+          "Fee schedules or pricing"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "How do I set up the Fund Distributor role to submit subscription and redemption requests with the DTA standard?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Register the distributor address on DTA Request Management",
+          "Gain allowlist approval from Transfer Agents to access specific funds",
+          "Approve the DTA contracts to spend onchain payment tokens",
+          "Submit subscription and redemption requests",
+          "Distributors typically batch requests from multiple investors into a single transaction",
+          "Manage holdings and open requests, including fetching status and cancelling"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "DTA Request Management",
+            "Fund Distributor",
+            "Transfer Agents",
+            "DTA contracts"
+          ]
+        },
+        "correct_step_order": [
+          "Register address on DTA Request Management",
+          "Gain allowlist approval from Transfer Agents",
+          "Approve DTA contracts to spend payment tokens",
+          "Submit subscription/redemption requests"
+        ],
+        "common_hallucinations": [
+          "Claiming distributors calculate NAV",
+          "Claiming distributors deploy the DTA Request Settlement contract",
+          "Inventing an API endpoint or SDK method for submitting requests"
+        ],
+        "out_of_scope": [
+          "Actual code or SDK examples",
+          "Payment processor integration details"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "DTA actors roles list",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Transfer Agent",
+          "Fund Administrator",
+          "Fund Distributor",
+          "Fund Issuer",
+          "Three core onchain roles plus wider ecosystem participants"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Transfer Agent",
+            "Fund Administrator",
+            "Fund Distributor",
+            "Fund Issuer",
+            "Offchain Payment Processors",
+            "End Investors",
+            "Regulators / Auditors"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Adding a 'Custodian' or 'Oracle' role not listed on the page",
+          "Claiming there are only three actors total (there are three core roles plus Fund Issuer and wider ecosystem)"
+        ],
+        "out_of_scope": [
+          "Detailed technical implementation of each role"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "In the UK or EU where there's no legal requirement for a transfer agent, who handles subscription and redemption order processing under the Chainlink DTA standard?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "In jurisdictions like UK, EU, Singapore there may be no legal requirement for a transfer agent",
+          "Order processing is usually managed by the Fund Administrators",
+          "The Fund Administrator can deploy the DTA Request Settlement contract and perform the Transfer Agent responsibilities"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Fund Administrator",
+            "DTA Request Settlement",
+            "Transfer Agent"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming the Fund Distributor takes over the Transfer Agent role",
+          "Inventing a specific regulatory citation or law name",
+          "Claiming a Transfer Agent is always mandatory"
+        ],
+        "out_of_scope": [
+          "Specific legal/regulatory advice beyond what the page states"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "I'm new to this — what exactly does the Fund Administrator do with the NAV in the DTA setup, and how does that differ from what the Transfer Agent does?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Fund Administrator reviews new subscription and redemption requests",
+          "Calculates the updated NAV based on pending requests",
+          "Sends the updated NAV value to the onchain NAV feed",
+          "Leverages the DTA reporting layer to maintain official fund reports",
+          "Transfer Agent instead handles order processing, settlement, allowlists, and fund registration — not NAV calculation"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Fund Administrator",
+            "Transfer Agent",
+            "onchain NAV feed",
+            "DTA reporting layer"
+          ]
+        },
+        "correct_step_order": [
+          "Review new subscription/redemption requests",
+          "Calculate updated NAV based on pending requests",
+          "Send updated NAV to onchain NAV feed",
+          "Maintain official fund reports via reporting layer"
+        ],
+        "common_hallucinations": [
+          "Claiming the Fund Administrator processes/settles orders (that's the Transfer Agent's core duty)",
+          "Inventing a specific NAV feed contract address or oracle name",
+          "Claiming NAV is calculated automatically by Chainlink oracles"
+        ],
+        "out_of_scope": [
+          "NAV calculation formulas or accounting methodology"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "What does the Fund Issuer need to do to let the DTA mint and burn fund tokens?",
+      "archetype": "direct-howto",
+      "paraphrase_of": "p02",
+      "expected_source_urls": [
+        "https://docs.chain.link/dta-technical-standard/actors"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Deploy the fund token contract using Chainlink's Automated Compliance Engine (ACE)",
+          "Grant permissions to the Transfer Agent's DTA Request Settlement contract to mint and burn tokens in response to processed requests",
+          "Ensure DTA Request Settlement is authorized to hold tokens within the token's compliance framework"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Fund Issuer",
+            "Automated Compliance Engine",
+            "ACE",
+            "DTA Request Settlement",
+            "Transfer Agent"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy the fund token contract using ACE",
+          "Grant mint/burn permissions to the Transfer Agent's DTA Request Settlement contract",
+          "Authorize DTA Request Settlement to hold tokens within the compliance framework"
+        ],
+        "common_hallucinations": [
+          "Claiming the Fund Issuer deploys DTA Request Settlement (that's the Transfer Agent)",
+          "Inventing a specific token standard (e.g., ERC-1400) not mentioned on the page",
+          "Referring to ACE by a wrong expansion or name"
+        ],
+        "out_of_scope": [
+          "Details of how ACE compliance rules are configured",
+          "Specific token contract code"
+        ]
+      }
+    }
+  ],
+  "source_content": "# DTA Technical Standard: Actors\n\nThe Digital Transfer Agent technical standard allows for multiple market participants to interact with each other onchain, mirroring the flows for traditional financial assets.\n\n## [Key actors part of the Chainlink DTA](#key-actors-part-of-the-chainlink-dta)\n\nThe DTA protocol is built around three core onchain roles with distinct responsibilities and permissions.\n\n### [Transfer Agent](#transfer-agent)\n\nThe Transfer Agent manages the processing of subscription & redemption orders, as well as investor recordkeeping.\n\nThey are responsible for:\n\n-   Deploying and owning the DTA Request Settlement for their fund.\n-   Registering their fund tokens on DTA Request Management, defining all operational rules like the payment method, processing model (navTTL), rate limits, and timezones.\n-   Managing an allowlist of approved Fund Distributors for each fund.\n-   Processing pending subscription and redemption requests at regular intervals (e.g., end of day).\n-   Completing the settlement process for offchain payments.\n\n### [Fund Administrator](#fund-administrator)\n\nThe Fund Administrator supports the day-to-day operation of the fund. They are primarily responsible for NAV calculation, fund accounting and reporting.\n\nIn the DTA technical standard, the Fund Administrator has the following responsibilities:\n\n-   Review all new subscriptions & redemption requests received by the DTA\n-   Calculate the updated NAV of the fund based on pending requests\n-   Send the updated NAV value to the onchain NAV feed\n-   Leverage the DTA reporting layer to maintain official fund reports\n\nPlease note that in certain jurisdictions (e.g., UK, EU, Singapore), there is no legal requirement for a transfer agent depending on the status of the issue. In these jurisdictions, the subscription / redemption order processing is usually managed by the Fund Administrators. The Chainlink DTA technical standard is well suited for these jurisdictions as well, as the Fund Administrator can deploy the DTA Request Settlement contract and perform all the responsibilities mentioned for the Transfer Agent in the previous section.\n\n### [Fund Distributor](#fund-distributor)\n\nThe Fund Distributor is an entity that invests in (subscribes to) or divests from (redeems) funds on behalf of their end clients. They typically **batch requests from multiple investors** into a single transaction with the DTA technical standard.\n\n**Key Responsibilities:**\n\n-   Registering their address on DTA Request Management.\n-   Gaining allowlist approval from Transfer Agents to access specific funds.\n-   Approving the DTA contracts to spend their onchain payment tokens.\n-   Submitting subscription and redemption requests.\n-   Maintaining their holdings of various fund tokens.\n-   Managing open requests, including the ability to fetch request status and cancel requests.\n\n### [Fund Issuer](#fund-issuer)\n\nThe Fund Issuer is the entity that creates the underlying tokenized asset. Their primary role is to establish the fund token itself and to grant the necessary permissions to the DTA technical standard to manage its supply.\n\n**Key Responsibilities:**\n\n-   Deploying the fund token contract, using Chainlink's Automated Compliance Engine (ACE)\n-   Granting the necessary permissions to the Transfer Agent's DTA Request Settlement contract, authorizing it to mint and burn tokens in response to processed requests.\n-   Ensuring DTA Request Settlement is authorized to hold tokens within the token's compliance framework.\n\n## [The wider ecosystem](#the-wider-ecosystem)\n\nThe core DTA actors are supported by a number of offchain or external participants.\n\n-   **Offchain Payment Processors:** These allow distributors to leverage traditional payment rails to subscribe or redeem a tokenized asset.\n-   **End Investors:** These are the ultimate beneficiaries, such as family offices or accredited investors, who gain exposure to the fund. They interact with the DTA technical standard indirectly _through_ a Fund Distributor.\n-   **Regulators / Auditors:** These entities provide oversight, ensuring all participants adhere to legal and financial standards.",
+  "source_hash": "10bbfd8a5191",
+  "probe_set_id": "ee56cec43b7d"
+}

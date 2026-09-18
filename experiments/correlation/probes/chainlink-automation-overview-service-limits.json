@@ -1,0 +1,223 @@
+{
+  "source_url": "https://docs.chain.link/chainlink-automation/overview/service-limits",
+  "source_title": "Chainlink Automation Service Limits",
+  "generated_at": "2026-09-18T14:51:44.017Z",
+  "product_context": "Chainlink Automation (log trigger upkeeps and service limits)",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How many logs per block per upkeep does Chainlink Automation process for log trigger upkeeps on Ethereum?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Ethereum processes 20 logs per block per upkeep",
+          "This is a per-block per-upkeep limit for log trigger upkeeps"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Ethereum: 20 logs per block per upkeep"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming Ethereum processes unlimited logs",
+          "Stating a different number like 4 or 10 for Ethereum",
+          "Saying the limit is per second rather than per block"
+        ],
+        "out_of_scope": [
+          "Gas limits for upkeeps",
+          "Pricing or LINK costs"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using log trigger upkeeps on Arbitrum, how many logs will Automation actually process per block?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Arbitrum processes 1 log every 2 blocks, or 2 logs per second",
+          "This differs from the standard per-block model on other chains"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Arbitrum: 1 log every 2 blocks, or 2 logs per second"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Saying Arbitrum processes 20 logs per block like Ethereum",
+          "Claiming a flat 4 logs per block for Arbitrum",
+          "Inventing a per-minute rate"
+        ],
+        "out_of_scope": [
+          "Arbitrum block time details",
+          "Transaction finality on Arbitrum"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "log trigger limits per chain BSC Polygon Avalanche OP Base Gnosis",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "BSC (BNB): 4 logs per block per upkeep",
+          "Polygon: 4",
+          "Avalanche: 4",
+          "OP: 4",
+          "BASE: 4",
+          "Gnosis: 1"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "BSC (BNB): 4",
+            "Polygon: 4",
+            "Avalanche: 4",
+            "Gnosis: 1",
+            "OP: 4",
+            "BASE: 4"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Assigning Gnosis 4 instead of 1",
+          "Giving all chains 20 like Ethereum",
+          "Adding chains not in the table"
+        ],
+        "out_of_scope": [
+          "Chains not listed such as zkSync or Linea"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "I set up a log trigger upkeep on Fantom but it never fires — what's wrong?",
+      "archetype": "error-debug",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Log triggers are not supported on Fantom",
+          "You need to use a supported chain or a different trigger mechanism"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Fantom: log triggers not supported"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming Fantom supports log triggers with a specific per-block limit",
+          "Suggesting a config fix when the real issue is unsupported chain",
+          "Inventing a Fantom log limit value"
+        ],
+        "out_of_scope": [
+          "Fantom-specific RPC troubleshooting",
+          "Custom logic upkeeps on Fantom"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "I need to guarantee that every single log gets processed by my upkeep even if there are more logs than the per-block limit. How should I handle this?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Nodes process a limited number of logs per block per upkeep using a minimum dequeue method so latest logs are processed first",
+          "Additional remaining logs may be processed on a best effort basis but this is not guaranteed",
+          "Configure a manual trigger as backup if you need all remaining logs processed"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "manual trigger backup",
+            "minimum dequeue method"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming all logs are always processed automatically",
+          "Inventing a config parameter to raise the per-block log limit",
+          "Saying best-effort processing is guaranteed"
+        ],
+        "out_of_scope": [
+          "How to implement a manual trigger step-by-step",
+          "Retry or replay mechanisms"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "What's the maximum number of logs my upkeep will handle each block on a given chain, and in what order are they picked?",
+      "archetype": "paraphrase",
+      "paraphrase_of": "p01",
+      "expected_source_urls": [
+        "https://docs.chain.link/chainlink-automation/overview/service-limits"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Limits vary by chain (e.g., Ethereum 20, most L2s/sidechains 4, Gnosis 1)",
+          "Nodes use a minimum dequeue method so the latest logs are processed first",
+          "Automation nodes look back over a limited range of the latest blocks"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "minimum dequeue method",
+            "Ethereum: 20",
+            "Gnosis: 1"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Saying oldest logs are processed first",
+          "Claiming a single universal log limit across all chains",
+          "Inventing a FIFO queue guarantee"
+        ],
+        "out_of_scope": [
+          "Block lookback exact number of blocks",
+          "Node operator configuration internals"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Chainlink Automation Service Limits\n\n## [Maximum logs processed for log trigger upkeeps](#maximum-logs-processed-for-log-trigger-upkeeps)\n\nChainlink Automation nodes look back over a limited range of the latest blocks on any particular chain. During this process, the nodes process a limited number of logs per block per upkeep, using a minimum dequeue method to ensure that the latest logs are processed first. After this, the nodes may process additional remaining logs on a best effort basis, but this is not guaranteed. If you need all the remaining logs to be processed, configure a manual trigger as backup.\n\nExpect the following numbers of logs to be processed:\n\n| Chain | Logs per block per upkeep |\n| --- | --- |\n| Ethereum | 20 |\n| BSC (BNB) | 4 |\n| Polygon | 4 |\n| Avalanche | 4 |\n| Gnosis | 1 |\n| OP | 4 |\n| BASE | 4 |\n| Arbitrum | 1 log every 2 blocks, or 2 logs per second |\n\nNote: Log triggers are not supported on Fantom.\n\n## What's next\n\n-   [\\> Register Log Trigger Upkeeps](/chainlink-automation/guides/log-trigger/)",
+  "source_hash": "9584d540b0a5",
+  "probe_set_id": "cdb1fd999410"
+}

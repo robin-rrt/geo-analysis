@@ -1,0 +1,326 @@
+{
+  "source_url": "https://docs.chain.link/dta-technical-standard/actors",
+  "source_title": "DTA Technical Standard: Actors",
+  "probe_set_id": "ee56cec43b7d",
+  "model_tested": "claude-opus-4-8",
+  "mode": "closed",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T14:54:05.530Z",
+  "probe_count": 6,
+  "graded_count": 0,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": null,
+  "retrieval_hit_rate": null,
+  "retrieval_hit_rate_effective": null,
+  "retrieval_mention_hit_count": 0,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": null,
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 240,
+      "output_tokens": 3325,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": null
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "What are the responsibilities of the Transfer Agent in the Chainlink DTA standard?",
+      "archetype": "direct-howto",
+      "answer": "I don't have reliable, specific information about a \"Chainlink DTA standard\" or a defined \"Transfer Agent\" role within it.\n\nA few possibilities for what you might be referring to:\n\n1. **You may be thinking of a different acronym or standard.** Chainlink has several well-known products and standards (CCIP for cross-chain interoperability, Proof of Reserve, Data Feeds, Data Streams, Functions, etc.), but \"DTA\" isn't one I can confidently identify.\n\n2. **\"Transfer Agent\" is a term from traditional finance**—typically a firm that maintains records of securities ownership, processes transfers, and handles distributions. Chainlink has published work on tokenized assets and RWAs (real-world assets) where traditional roles like transfer agents get mapped to on-chain functions, so this may be related to that context.\n\n3. **It could be a newer or more niche specification** that emerged after my knowledge cutoff, or a proposal/whitepaper I'm not aware of.\n\nTo give you an accurate answer rather than guessing, could you clarify:\n- What does DTA stand for in this context?\n- Where did you encounter this standard (a whitepaper, documentation, a specific project)?\n\nI'd rather ask than invent responsibilities that might be inaccurate. If you can share a bit more, I'll do my best to help.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36,
+          "output_tokens": 434,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "How do I set up the Fund Distributor role to submit subscription and redemption requests with the DTA standard?",
+      "archetype": "direct-howto",
+      "answer": "I don't have reliable, specific information about a \"DTA standard\" in the context of fund distribution, subscription, and redemption requests. This could refer to several things, and I want to avoid giving you inaccurate setup instructions.\n\nTo help you get the right answer, it would help to clarify:\n\n1. **What \"DTA\" refers to in your context** — This could be:\n   - A specific fund administration platform or software\n   - A messaging/data standard (like SWIFT, FIX, or a proprietary format)\n   - A regulatory or industry framework in your jurisdiction\n   - An internal system at your organization\n\n2. **What system or platform you're working in** — For example:\n   - A transfer agency system\n   - A fund accounting platform\n   - An order management system\n\n3. **Your role/context** — Are you an administrator setting up permissions, a developer integrating an API, or an operations user?\n\n**In the meantime, general guidance** for setting up a Fund Distributor role for subscriptions/redemptions typically involves:\n- Configuring the distributor entity/counterparty in the system\n- Assigning appropriate permissions and access rights\n- Setting up the order submission workflow and approval chains\n- Configuring the data format/messaging standard for order transmission\n- Testing in a sandbox/UAT environment before going live\n\nIf you can share which specific platform or standard you're using (with a link to docs if available), I can give you much more precise help. Alternatively, your platform's official documentation or support team would be the most authoritative source.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 40,
+          "output_tokens": 475,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "DTA actors roles list",
+      "archetype": "terse/keyword",
+      "answer": "# Digital Threat Assessment (DTA) - Actors and Roles\n\nDigital Threat Assessment involves multiple stakeholders working together. Here are the key actors and their roles:\n\n## Core Team Members\n\n**Threat Assessment Coordinator**\n- Oversees the entire assessment process\n- Coordinates communication between team members\n- Ensures protocols are followed\n\n**Mental Health Professionals**\n- Psychologists, counselors, social workers\n- Assess psychological state and risk factors\n- Provide clinical perspective on behavior\n\n**School Administrators**\n- Principals, vice-principals\n- Make administrative decisions\n- Implement safety measures\n\n**Law Enforcement/School Resource Officers**\n- Provide security expertise\n- Handle criminal/legal aspects\n- Assist with investigation\n\n## Supporting Roles\n\n**IT/Digital Forensics Specialists**\n- Analyze digital evidence\n- Recover and interpret online content\n- Track digital footprints\n\n**Teachers/Educators**\n- Report concerning behavior\n- Provide context about the individual\n- Monitor ongoing situations\n\n**Parents/Guardians**\n- Provide background information\n- Participate in intervention plans\n\n## Additional Stakeholders\n\n**Community Partners**\n- Youth workers, community organizations\n- Provide additional support resources\n\n**The Subject of Concern**\n- The individual being assessed\n\n---\n\nCould you clarify what specific context you're asking about? For example:\n- Are you studying a **particular DTA framework** (like Safer Schools Together)?\n- Do you need this for **academic, professional, or implementation** purposes?\n- Is \"DTA\" referring to something else entirely (e.g., a software system, gaming, or another field)?\n\nLet me know and I can provide more targeted information!",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 14,
+          "output_tokens": 582,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p04",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "In the UK or EU where there's no legal requirement for a transfer agent, who handles subscription and redemption order processing under the Chainlink DTA standard?",
+      "archetype": "constrained",
+      "answer": "I don't have reliable information about a \"Chainlink DTA standard\" or its specific handling of subscription and redemption order processing in jurisdictions like the UK or EU.\n\nA few possibilities for what you might be referring to:\n\n1. **DTA might stand for something specific** in Chainlink's ecosystem that I'm not familiar with, or it could be a newer standard/product I don't have detailed knowledge of.\n\n2. **Chainlink has various products** related to tokenized assets and fund administration (like their work with SWIFT, DTCC, and various asset managers), but I can't confirm the specific details of how a \"DTA standard\" allocates responsibilities for order processing.\n\nRather than guess and potentially give you incorrect information about who handles these functions, I'd suggest:\n\n- **Checking Chainlink's official documentation** directly, as technical standards evolve quickly\n- **Reviewing the specific whitepaper or specification** for the DTA standard you're referencing\n- **Consulting the Chainlink Labs resources** on tokenized funds and asset management\n\nCould you clarify what DTA stands for in this context, or share where you encountered this standard? That would help me give you a more useful response, though I'd still recommend verifying any specifics against primary sources given how rapidly this area is developing.\n\nIs there something more general about fund administration roles (transfer agents, administrators, etc.) in UK/EU contexts that I could help with instead?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 56,
+          "output_tokens": 461,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p05",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "I'm new to this — what exactly does the Fund Administrator do with the NAV in the DTA setup, and how does that differ from what the Transfer Agent does?",
+      "archetype": "verbose/beginner",
+      "answer": "Great question! These roles often get confused because they both deal with fund operations, but they handle very different things. Let me break it down.\n\n## Fund Administrator & NAV\n\nThe **Fund Administrator** is responsible for **calculating the NAV (Net Asset Value)** — essentially figuring out what one share/unit of the fund is worth. This involves:\n\n- **Valuing the portfolio** — pricing all the securities and assets the fund holds\n- **Accounting for liabilities** — fees, expenses, accruals\n- **Striking the NAV** — dividing net assets by shares outstanding to get the per-share price\n- **Reconciliation** — making sure their records match the custodian, broker, etc.\n- **Financial reporting** — supporting statements, regulatory filings, audits\n\nThink of the Fund Administrator as the **\"books and records\" / accounting engine** of the fund. They produce the price.\n\n## Transfer Agent (TA)\n\nThe **Transfer Agent** deals with **investors and their shareholdings** — the ownership side. They:\n\n- **Maintain the shareholder register** (who owns what)\n- **Process subscriptions and redemptions** (investors buying in / cashing out)\n- **Use the NAV** (calculated by the Administrator) to determine how many shares an investor gets, or how much cash they receive\n- **Handle distributions** — dividends, capital gains payouts\n- **Manage investor records, KYC/AML**, and communications\n\nThink of the TA as the **\"investor recordkeeper\"** — they consume the price to transact with investors.\n\n## The Key Difference\n\n| | Fund Administrator | Transfer Agent |\n|---|---|---|\n| **Focus** | The fund's assets & accounting | The investors & their shares |\n| **NAV role** | **Calculates** it | **Uses** it |\n| **Core output** | The per-share price | Share transactions & ownership records |\n\nSo the flow is roughly: **Administrator strikes NAV → passes it to the TA → TA processes investor trades at that NAV.**\n\n---\n\nOne thing I want to flag: you mentioned **\"DTA setup\"** — I'm not certain what DTA refers to in your specific context. It could mean a few things (e.g., a particular platform, a \"Depositary/Transfer Agent\" arrangement, or something firm-specific). Could you clarify what DTA stands for in your case? That way I can tailor the answer rather than guess and risk misleading you.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 58,
+          "output_tokens": 791,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p06",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "What does the Fund Issuer need to do to let the DTA mint and burn fund tokens?",
+      "archetype": "direct-howto",
+      "answer": "I don't have enough context to give you a reliable answer here. The terms \"Fund Issuer,\" \"DTA,\" and \"fund tokens\" suggest you're asking about a specific tokenization platform, protocol, or piece of software documentation—but I'm not certain which one, and \"DTA\" could mean several things (e.g., a Digital Transfer Agent, a specific smart contract role, or a platform-specific component).\n\nTo help you accurately, could you clarify:\n\n1. **What platform or protocol** is this? (e.g., a specific fund tokenization system, a particular blockchain, a named product's documentation)\n2. **What does DTA stand for** in your context?\n3. Is this about **smart contract permissions/roles**, an administrative setup process, or a legal/operational authorization?\n\nIf you can share the relevant documentation or context, I can give you a precise answer. Generally, in token systems, granting mint/burn rights involves assigning a specific **role or permission** (often via a smart contract's access-control mechanism) to the authorized address—but the exact steps depend entirely on the system you're working with.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36,
+          "output_tokens": 582,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    }
+  ]
+}

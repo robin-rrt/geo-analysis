@@ -1,0 +1,221 @@
+{
+  "source_url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+  "source_title": "Data Streams Reference",
+  "generated_at": "2026-09-18T14:51:42.500Z",
+  "product_context": "Chainlink Data Streams API and SDK reference",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I integrate with the Chainlink Data Streams API — what interfaces and SDKs are available?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "REST API (HTTP-based interface)",
+          "WebSocket for real-time streaming",
+          "Go SDK",
+          "Rust SDK"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "REST API",
+            "WebSocket",
+            "Go SDK",
+            "Rust SDK"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming a Python or JavaScript SDK exists (only Go and Rust SDKs are listed)",
+          "Inventing a GraphQL interface",
+          "Suggesting a gRPC interface"
+        ],
+        "out_of_scope": [
+          "Detailed REST endpoint schemas",
+          "SDK installation commands"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using Go, how do I connect to Data Streams — is there a native SDK?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Yes, there is a native Go SDK",
+          "Go SDK page: /data-streams/reference/data-streams-api/go-sdk",
+          "Authentication is not required when using the SDKs"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Go SDK"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Providing specific Go import paths not shown on this index page",
+          "Claiming you must manually authenticate even when using the Go SDK"
+        ],
+        "out_of_scope": [
+          "Actual Go SDK code and method names"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "data streams verify report onchain EVM",
+      "archetype": "terse/keyword",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Onchain report data verification for EVM chains",
+          "Link: /data-streams/reference/data-streams-api/onchain-verification"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Onchain report data verification",
+            "EVM chains"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Confusing EVM verification with Solana or Stellar verification flows",
+          "Inventing a verifier contract address"
+        ],
+        "out_of_scope": [
+          "Specific verifier contract addresses",
+          "Solidity verification code"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "Do I need to handle authentication myself if I use the Data Streams SDK, or can I skip it?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Authentication is not required if using the SDKs",
+          "Authentication is only needed for direct API access",
+          "Examples available in JavaScript, TypeScript, Go, and Rust"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Authentication",
+            "JavaScript examples",
+            "TypeScript examples",
+            "Go examples",
+            "Rust examples"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming SDKs still require manual API key headers",
+          "Inventing Python authentication examples (not listed)"
+        ],
+        "out_of_scope": [
+          "Exact HMAC signing algorithm details",
+          "API key provisioning process"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "I'm building on Solana and need to verify Data Streams reports. What are my options?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Solana supports onchain integration method verification",
+          "Solana supports offchain integration method verification",
+          "Onchain link: /data-streams/tutorials/solana-onchain-report-verification",
+          "Offchain link: /data-streams/tutorials/solana-offchain-report-verification"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Solana",
+            "onchain integration method",
+            "offchain integration method"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Claiming Solana only supports onchain verification (both onchain and offchain exist)",
+          "Applying EVM verification steps to Solana"
+        ],
+        "out_of_scope": [
+          "Detailed Solana program code",
+          "Anchor framework specifics"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "Should I use the REST API or WebSocket to get Data Streams data?",
+      "archetype": "comparison",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/data-streams/reference/data-streams-api"
+      ],
+      "answer_key": {
+        "must_include": [
+          "REST API is an HTTP-based interface for simple integrations",
+          "WebSocket provides real-time data streaming via a WebSocket connection"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "REST API",
+            "WebSocket"
+          ]
+        },
+        "correct_step_order": [],
+        "common_hallucinations": [
+          "Stating REST supports server-push/real-time (WebSocket is the real-time option)",
+          "Inventing performance benchmarks or rate limits not on the page"
+        ],
+        "out_of_scope": [
+          "Specific latency numbers",
+          "Connection endpoint URLs"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Data Streams Reference\n\n### [API Interfaces](#api-interfaces)\n\n-   [REST API](/data-streams/reference/data-streams-api/interface-api) - HTTP-based interface for simple integrations\n-   [WebSocket](/data-streams/reference/data-streams-api/interface-ws) - Real-time data streaming via WebSocket connection\n\n### [SDK Integration](#sdk-integration)\n\n-   [Go SDK](/data-streams/reference/data-streams-api/go-sdk) - Native Go language integration\n-   [Rust SDK](/data-streams/reference/data-streams-api/rust-sdk) - Native Rust language integration\n\n### [Authentication](#authentication)\n\n-   [Authentication](/data-streams/reference/data-streams-api/authentication) - Learn how to authenticate with the Data Streams API (not required if using the SDKs)\n    -   [JavaScript examples](/data-streams/reference/data-streams-api/authentication/javascript-examples)\n    -   [TypeScript examples](/data-streams/reference/data-streams-api/authentication/typescript-examples)\n    -   [Go examples](/data-streams/reference/data-streams-api/authentication/go-examples)\n    -   [Rust examples](/data-streams/reference/data-streams-api/authentication/rust-examples)\n\n### [Verification](#verification)\n\n#### [EVM chains](#evm-chains)\n\n-   [Onchain report data verification](/data-streams/reference/data-streams-api/onchain-verification) - Verify the authenticity of received data on EVM chains\n\n#### [Solana](#solana)\n\n-   [Verify reports using the onchain integration method](/data-streams/tutorials/solana-onchain-report-verification)\n-   [Verify reports using the offchain integration method](/data-streams/tutorials/solana-offchain-report-verification)\n\n#### [Stellar](#stellar)\n\n-   [Verify reports using the onchain integration method](/data-streams/tutorials/stellar-onchain-report-verification)",
+  "source_hash": "9d8ff5e101ea",
+  "probe_set_id": "40dd807bbf5d"
+}

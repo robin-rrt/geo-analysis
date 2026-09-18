@@ -1,0 +1,330 @@
+{
+  "source_url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+  "source_title": "Data Streams Reference",
+  "probe_set_id": "40dd807bbf5d",
+  "model_tested": "claude-opus-4-8",
+  "mode": "closed",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T14:54:19.044Z",
+  "probe_count": 6,
+  "graded_count": 0,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": null,
+  "retrieval_hit_rate": null,
+  "retrieval_hit_rate_effective": null,
+  "retrieval_mention_hit_count": 0,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": null,
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 187,
+      "output_tokens": 5481,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": null
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/data-streams**"
+        ],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "How do I integrate with the Chainlink Data Streams API — what interfaces and SDKs are available?",
+      "archetype": "direct-howto",
+      "answer": "# Integrating with Chainlink Data Streams\n\nChainlink Data Streams provides low-latency, high-frequency market data delivered on-demand, combining off-chain data availability with on-chain verification. Here's an overview of how to integrate.\n\n## Two Main Integration Approaches\n\n### 1. Streams Trade (On-Chain, via Automation)\nUses Chainlink Automation to fetch and verify reports, then act on them in a single transaction. Best for trigger-based use cases like liquidations or trade execution.\n\n### 2. Streams Direct (SDK/API)\nFetch data directly from the Data Streams API (Aggregation Network) via a low-latency connection, then verify reports on-chain yourself. Best for applications needing direct control over data retrieval.\n\n## Available SDKs\n\nChainlink provides official SDKs for Streams Direct:\n\n### Go SDK\n```\ngithub.com/smartcontractkit/data-streams-sdk/go\n```\n- Full-featured client for REST API and WebSocket streaming\n- Handles authentication, report decoding, and reconnection logic\n\n### Rust SDK\n```\ngithub.com/smartcontractkit/data-streams-sdk/rust\n```\n- Similar capabilities for Rust-based applications\n\n## API Interfaces\n\n### REST API\nFor fetching reports on-demand:\n- **Single report** — `GET /api/v1/reports` (by feed ID + timestamp)\n- **Bulk reports** — `GET /api/v1/reports/bulk`\n- **Latest report** — `GET /api/v1/reports/latest`\n- **Report by page** — for historical retrieval\n\n### WebSocket API\nFor real-time streaming:\n- **Stream endpoint** — `wss://` connection for continuous report delivery\n- Subscribe to one or multiple feed IDs\n- Lower latency than polling REST\n\n## Authentication\n\nRequests are authenticated using **HMAC signatures** with API credentials (client ID and secret) provided when you're onboarded. The SDKs handle the HMAC header generation automatically. Required headers typically include:\n- `Authorization` (API key)\n- `X-Authorization-Timestamp`\n- `X-Authorization-Signature-SHA256`\n\n## On-Chain Verification\n\nRegardless of how you fetch data, reports should be verified on-chain using the **Verifier Contract**:\n\n```solidity\ninterface IVerifierProxy {\n    function verify(\n        bytes calldata payload,\n        bytes calldata parameterPayload\n    ) external payable returns (bytes memory verifierResponse);\n}\n```\n\nSteps:\n1. Fetch the report (off-chain via SDK/API)\n2. Pass the raw report to `verify()` on the `VerifierProxy`\n3. Decode the returned verified report struct\n\n## Report Structure\n\nReports come in schema versions (e.g., v3 for crypto, v4 for RWA/market status). A typical decoded report includes:\n- `feedId`\n- `validFromTimestamp` / `observationsTimestamp`\n- `nativeFee` / `linkFee`\n- `expiresAt`\n- `price` (and `bid`/`ask` for some schemas)\n\n## Getting Started Steps\n\n1. **Request access** — Data Streams requires onboarding; apply through Chainlink to get API credentials\n2. **Choose your approach** — Streams Trade vs. Streams Direct\n3. **Install an SDK** — Go or Rust, or call the REST/WebSocket API directly\n4. **Find feed IDs** — from the Data Streams feed directory in the docs\n5. **Implement verification** — deploy/use the VerifierProxy on your target chain\n\n## Documentation\n\nThe authoritative and up-to-date reference is:\n- **https://docs.chain.link/data-streams**\n- SDK repos on the `smartcontractkit` GitHub org\n\n---\n\n**A note on accuracy:** Chainlink's APIs and SDKs evolve, and exact endpoint paths, SDK package names, and supported schema versions may have changed since my knowledge cutoff. I'd recommend verifying the current specifics against the official docs and GitHub repositories before building. Would you like me to go deeper on a specific part — like a code example for the Go SDK, the on-chain verification flow, or the Streams Trade + Automation setup?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 39,
+          "output_tokens": 1423,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "Using Go, how do I connect to Data Streams — is there a native SDK?",
+      "archetype": "constrained",
+      "answer": "# Connecting to Data Streams in Go\n\nI need to clarify something first: **\"Data Streams\" is ambiguous** and could refer to several different services. To give you accurate information, could you tell me which one you mean?\n\n## Common possibilities:\n\n### 1. **Chainlink Data Streams**\n- Chainlink provides a **Go SDK** for their Data Streams product\n- Repository: `github.com/smartcontractkit/data-streams-sdk`\n- Used for low-latency market data (crypto/DeFi pricing)\n\n### 2. **AWS Kinesis Data Streams**\n- Yes, there's an official **AWS SDK for Go v2**\n- Package: `github.com/aws/aws-sdk-go-v2/service/kinesis`\n- Very mature and well-documented\n\n### 3. **Redpanda / Kafka streams**\n- Uses Kafka-compatible Go clients like `franz-go` or `confluent-kafka-go`\n\n### 4. **Google Cloud / Pub/Sub or other vendors**\n- Each has its own Go SDK\n\n---\n\n## Example if you mean AWS Kinesis:\n\n```go\npackage main\n\nimport (\n\t\"context\"\n\t\"log\"\n\n\t\"github.com/aws/aws-sdk-go-v2/config\"\n\t\"github.com/aws/aws-sdk-go-v2/service/kinesis\"\n)\n\nfunc main() {\n\tcfg, err := config.LoadDefaultConfig(context.TODO())\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tclient := kinesis.NewFromConfig(cfg)\n\n\t// Example: list streams\n\tout, err := client.ListStreams(context.TODO(), &kinesis.ListStreamsInput{})\n\tif err != nil {\n\t\tlog.Fatal(err)\n\t}\n\n\tlog.Println(out.StreamNames)\n}\n```\n\n---\n\n**Which \"Data Streams\" are you working with?** Once you confirm, I can give you:\n- The exact SDK/package name\n- Whether it's officially native\n- A working connection example\n- Authentication setup",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 31,
+          "output_tokens": 673,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/data-streams/crypto-streams"
+        ],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "data streams verify report onchain EVM",
+      "archetype": "terse/keyword",
+      "answer": "# Verifying Chainlink Data Streams Reports Onchain (EVM)\n\nChainlink Data Streams delivers signed reports off-chain (via the Streams Direct API or the Streams Trade/`StreamsLookup` mechanism). To use the data trustlessly, you **verify the report onchain** through Chainlink's Verifier contract, which checks the report's signatures against the DON's configuration.\n\n## Core Flow\n\n```\nOff-chain report (bytes) ──► Your Consumer Contract ──► FeeManager (pay fee)\n                                       │\n                                       ▼\n                              Verifier Proxy .verify()\n                                       │\n                                       ▼\n                         Returns decoded verified report\n```\n\n## Key Contracts\n\n| Contract | Role |\n|----------|------|\n| `IVerifierProxy` | Entry point you call to verify a report |\n| `FeeManager` | Calculates & collects the verification fee |\n| `RewardManager` | Distributes fees to node operators |\n| LINK / native token | Used to pay the verification fee |\n\n## Example Consumer Contract\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity 0.8.19;\n\nimport {Common} from \"@chainlink/contracts/src/v0.8/llo-feeds/libraries/Common.sol\";\nimport {IVerifierProxy} from \"@chainlink/contracts/src/v0.8/llo-feeds/interfaces/IVerifierProxy.sol\";\nimport {IFeeManager} from \"@chainlink/contracts/src/v0.8/llo-feeds/interfaces/IFeeManager.sol\";\nimport {IERC20} from \"@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/interfaces/IERC20.sol\";\n\ncontract StreamsVerifier {\n    IVerifierProxy public verifier;\n\n    // Report v3 schema (crypto streams)\n    struct ReportV3 {\n        bytes32 feedId;\n        uint32  validFromTimestamp;\n        uint32  observationsTimestamp;\n        uint192 nativeFee;\n        uint192 linkFee;\n        uint32  expiresAt;\n        int192  price;\n        int192  bid;\n        int192  ask;\n    }\n\n    constructor(address _verifier) {\n        verifier = IVerifierProxy(_verifier);\n    }\n\n    function verifyReport(bytes memory unverifiedReport) external {\n        // 1. Decode the report envelope\n        (, bytes memory reportData) = abi.decode(\n            unverifiedReport, (bytes32[3], bytes)\n        );\n\n        // 2. Get the fee manager and fee token\n        IFeeManager feeManager = IFeeManager(address(verifier.s_feeManager()));\n        address feeToken = feeManager.i_linkAddress();\n\n        // 3. Calculate the fee\n        (Common.Asset memory fee, , ) = feeManager.getFeeAndReward(\n            address(this), reportData, feeToken\n        );\n\n        // 4. Approve fee to the reward manager\n        IERC20(feeToken).approve(feeManager.i_rewardManager(), fee.amount);\n\n        // 5. Verify — returns verified report bytes\n        bytes memory verifiedReportData = verifier.verify(\n            unverifiedReport,\n            abi.encode(feeToken)\n        );\n\n        // 6. Decode to structured data\n        ReportV3 memory report = abi.decode(verifiedReportData, (ReportV3));\n\n        // report.price now trusted and usable\n    }\n}\n```\n\n## Steps Summary\n\n1. **Receive the report** — from the Data Streams API (WebSocket/REST) or delivered by Automation via `StreamsLookup` `checkCallback`.\n2. **Decode the envelope** — `(bytes32[3] reportContext, bytes reportData)`.\n3. **Fund fees** — approve LINK (or wrap native) to the `RewardManager`.\n4. **Call `verifierProxy.verify()`** — passing the raw report + fee token param.\n5. **Decode the verified report** — into the correct schema (v3 crypto, v4 RWA, etc.).\n\n## Report Schemas\n\n- **v3** (crypto): `price`, `bid`, `ask`\n- **v4** (RWA/equities): adds `marketStatus`\n- Always check `feedId` prefix to confirm the schema version before decoding.\n\n## Important Notes\n\n- Get the **Verifier Proxy address** for your network from the [Data Streams contract addresses docs](https://docs.chain.link/data-streams/crypto-streams).\n- Validate `report.expiresAt` and `report.validFromTimestamp` for freshness in your business logic.\n- For **native token fees**, use the `verify()` with `msg.value` variant and pass the native address flag.\n\n---\n\nCould you tell me a bit more so I can tailor this? For example:\n- Are you using **Streams Trade** (with Automation/`StreamsLookup`) or **Streams Direct** (fetch API yourself)?\n- Which **chain/testnet** are you deploying to?\n- Are you paying fees in **LINK** or **native token**?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 18,
+          "output_tokens": 1879,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p04",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "Do I need to handle authentication myself if I use the Data Streams SDK, or can I skip it?",
+      "archetype": "direct-howto",
+      "answer": "I need to be careful here—I'm not certain which specific \"Data Streams SDK\" you're referring to, as several products use this or similar names (Chainlink Data Streams, various cloud providers' streaming SDKs, etc.).\n\nRather than guess and give you potentially wrong information about authentication requirements, let me ask: **which Data Streams SDK are you using?** For example:\n\n- Chainlink Data Streams\n- A specific cloud provider's SDK (AWS, Google, Azure)\n- Another vendor's product\n\nThat said, here's some **general guidance** that usually applies to streaming/data SDKs:\n\n- **Most SDKs still require you to provide credentials** (API keys, tokens, or client credentials), even if they handle the mechanics of signing requests, refreshing tokens, or managing sessions for you.\n- **\"Handling authentication yourself\"** can mean different things—the SDK may automate the *auth flow* while still requiring you to *supply and secure* the credentials.\n- You typically **cannot skip authentication entirely** on production endpoints, though some SDKs offer sandbox/test modes with relaxed requirements.\n\nIf you can tell me the exact SDK (and ideally link to its docs), I can give you a much more accurate answer instead of speculating.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 38,
+          "output_tokens": 413,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p05",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "I'm building on Solana and need to verify Data Streams reports. What are my options?",
+      "archetype": "verbose/beginner",
+      "answer": "# Verifying Data Streams Reports on Solana\n\nWhen working with Data Streams (like Chainlink Data Streams) on Solana, you have a few options for report verification. Here's a breakdown:\n\n## Main Options\n\n### 1. On-Chain Verification via Verifier Program\n- Use the deployed **Verifier program** on Solana to validate reports directly on-chain\n- Your program makes a CPI (Cross-Program Invocation) to the Verifier\n- The verifier checks the report's signatures against the authorized set of oracles\n- Best when you need **trustless, on-chain guarantees** that the data is valid\n\n### 2. Off-Chain Verification\n- Verify reports off-chain before submitting them\n- Useful for reducing on-chain compute costs\n- Trade-off: you're taking on more trust assumptions unless combined with other checks\n\n## Typical On-Chain Flow\n\n1. Fetch the report payload from the Data Streams API (via a client/aggregation service)\n2. Submit the report to your Solana program\n3. Your program CPIs into the Verifier program's `verify` instruction\n4. The Verifier validates signatures and returns the decoded report\n5. Your program consumes the verified data\n\n## Key Considerations\n\n- **Compute budget**: Signature verification is compute-intensive; you may need to request additional compute units\n- **Account setup**: You'll need the correct verifier config/account addresses for your target cluster (devnet/mainnet)\n- **Report decoding**: Reports come in schemas/versions—make sure you decode the correct version\n\n---\n\nTo give you more specific guidance, it would help to know:\n\n- **Which Data Streams provider** are you using? (Chainlink is the most common on Solana, but confirming helps)\n- Are you building in **Anchor** or native Rust?\n- Do you need **on-chain** verification specifically, or is off-chain acceptable for your use case?\n\nFor the most accurate integration details (program IDs, account structures, SDK versions), I'd recommend checking the official docs of your provider, as these addresses and interfaces get updated.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 32,
+          "output_tokens": 673,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p06",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "Should I use the REST API or WebSocket to get Data Streams data?",
+      "archetype": "comparison",
+      "answer": "It depends on your specific use case, but here's a general guide to help you decide:\n\n## Use WebSocket when:\n- You need **real-time, continuous data** (live price feeds, order book updates, live metrics)\n- You want to **minimize latency** for time-sensitive applications\n- You need **push-based updates** where the server notifies you of changes\n- You're building dashboards, trading applications, or live monitoring tools\n- You want to avoid repeated polling overhead\n\n## Use REST API when:\n- You need **historical data** or one-time snapshots\n- You're making **occasional or infrequent requests**\n- You need **specific queries** with filters, pagination, or date ranges\n- You want **simpler implementation** (request/response is easier to handle)\n- You're doing **batch processing** rather than continuous streaming\n\n## A quick note\n\nThe term \"Data Streams\" can refer to different products depending on the platform (e.g., Chainlink Data Streams, AWS, a specific financial data provider, etc.). The best choice can vary based on:\n\n- The provider's specific recommendations and rate limits\n- Whether they optimize one method over the other\n- Your infrastructure and existing tooling\n\n**Could you let me know which platform or service you're working with?** That way I can give you more specific guidance tailored to their actual API design and best practices.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 29,
+          "output_tokens": 420,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    }
+  ]
+}

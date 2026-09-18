@@ -1,0 +1,298 @@
+{
+  "source_url": "https://docs.chain.link/resources/fund-your-contract",
+  "source_title": "Fund Your Contracts",
+  "generated_at": "2026-09-18T14:51:50.851Z",
+  "product_context": "Chainlink smart contract development (Solidity, Remix, MetaMask)",
+  "probe_count": 6,
+  "probes": [
+    {
+      "id": "p01",
+      "prompt": "How do I fund my deployed Solidity contract with LINK using MetaMask?",
+      "archetype": "direct-howto",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Retrieve the deployed contract address from Remix using the Copy button",
+          "Open MetaMask and select the correct network (e.g., Sepolia testnet)",
+          "Click Send, paste the contract address, select LINK as the asset, enter the amount, then Next and Confirm"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "LINK",
+            "MetaMask",
+            "Remix",
+            "Sepolia testnet",
+            "Deployed Contracts",
+            "Send",
+            "Asset",
+            "Amount",
+            "Confirm"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy contract in Remix and wait for it to appear in Deployed Contracts",
+          "Copy the contract address using the Copy button",
+          "Open MetaMask and select the network",
+          "Click Send",
+          "Paste the contract address",
+          "Select LINK in the Asset dropdown",
+          "Enter the amount",
+          "Click Next to review gas and details",
+          "Click Confirm"
+        ],
+        "common_hallucinations": [
+          "Claiming you must call a transfer() or fund() function on the contract",
+          "Suggesting a Chainlink faucet directly funds the contract",
+          "Inventing a fundContract CLI command"
+        ],
+        "out_of_scope": [
+          "Withdrawing funds from a contract",
+          "Programmatic funding via scripts or ethers.js",
+          "Funding VRF or Automation subscriptions"
+        ]
+      }
+    },
+    {
+      "id": "p02",
+      "prompt": "Using Remix and MetaMask, how do I get my contract's address and send it some testnet ETH?",
+      "archetype": "constrained",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Copy the contract address from the Deployed Contracts section in Remix",
+          "In MetaMask select the testnet network then click Send and paste the address",
+          "Choose ETH as the asset, enter amount, click Next then Confirm"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "ETH",
+            "LINK",
+            "MetaMask",
+            "Remix",
+            "Deployed Contracts",
+            "Copy",
+            "Send",
+            "Asset",
+            "Amount",
+            "Next",
+            "Confirm"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy in Remix",
+          "Copy address with Copy button near contract title",
+          "Open MetaMask, select network",
+          "Click Send",
+          "Paste contract address",
+          "Select asset (ETH)",
+          "Enter amount",
+          "Click Next",
+          "Click Confirm"
+        ],
+        "common_hallucinations": [
+          "Telling the user ETH must be wrapped to WETH first",
+          "Requiring a payable receive/fallback function to be described in detail (page doesn't mention it)",
+          "Inventing a specific gas limit value"
+        ],
+        "out_of_scope": [
+          "Contract code requirements for receiving ETH",
+          "Mainnet gas fee estimates"
+        ]
+      }
+    },
+    {
+      "id": "p03",
+      "prompt": "steps to fund contract LINK remix metamask sepolia",
+      "archetype": "terse/keyword",
+      "paraphrase_of": "p01",
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Copy contract address from Remix Deployed Contracts",
+          "MetaMask -> select Sepolia -> Send -> paste address -> Asset LINK -> amount -> Next -> Confirm"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "LINK",
+            "Sepolia",
+            "Remix",
+            "MetaMask",
+            "Send",
+            "Asset",
+            "Amount",
+            "Confirm"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy in Remix",
+          "Copy address",
+          "MetaMask select Sepolia",
+          "Send",
+          "Paste address",
+          "Select LINK",
+          "Enter amount",
+          "Next",
+          "Confirm"
+        ],
+        "common_hallucinations": [
+          "Adding a step to import a LINK token contract address manually into the contract",
+          "Claiming you need to approve() LINK spending first"
+        ],
+        "out_of_scope": [
+          "Acquiring testnet LINK (separate guide)",
+          "Non-Sepolia network specifics"
+        ]
+      }
+    },
+    {
+      "id": "p04",
+      "prompt": "I pasted my contract address in MetaMask but LINK isn't showing up in the Asset dropdown to send — what am I missing?",
+      "archetype": "error-debug",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "If LINK is not listed in the Asset dropdown, follow the Acquire testnet LINK guide",
+          "LINK must be present/added in your MetaMask wallet before you can select it as the asset"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "LINK",
+            "Asset",
+            "MetaMask",
+            "Acquire testnet LINK"
+          ]
+        },
+        "correct_step_order": [
+          "Notice LINK missing from Asset dropdown",
+          "Follow the Acquire testnet LINK guide to obtain/add LINK",
+          "Return to Send flow and select LINK"
+        ],
+        "common_hallucinations": [
+          "Telling the user to manually add a wrong LINK token contract address",
+          "Claiming the contract must whitelist LINK",
+          "Suggesting a network switch fixes a missing asset"
+        ],
+        "out_of_scope": [
+          "The exact steps of acquiring testnet LINK (covered on /resources/acquire-link)"
+        ]
+      }
+    },
+    {
+      "id": "p05",
+      "prompt": "Show me the exact steps in Remix to copy my deployed contract's address so I can send funds to it.",
+      "archetype": "code-first",
+      "paraphrase_of": null,
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Deploy the contract in Remix and wait for it to appear in the Deployed Contracts section",
+          "Use the Copy button near the contract title on the left panel to copy the address"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "Remix",
+            "Deployed Contracts",
+            "Copy"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy contract in Remix",
+          "Wait for it in Deployed Contracts section",
+          "Click the Copy button near the contract title to copy the address"
+        ],
+        "common_hallucinations": [
+          "Referencing a Solidity address(this) code snippet to retrieve the address",
+          "Pointing to an etherscan lookup as the primary method"
+        ],
+        "out_of_scope": [
+          "Verifying the contract on a block explorer",
+          "Retrieving the address programmatically"
+        ]
+      }
+    },
+    {
+      "id": "p06",
+      "prompt": "I'm brand new to this. I deployed a smart contract and someone said it needs some LINK to run on its own without me clicking buttons every time. Can you walk me through how to actually send money to it?",
+      "archetype": "verbose/beginner",
+      "paraphrase_of": "p01",
+      "expected_source_urls": [
+        "https://docs.chain.link/resources/fund-your-contract"
+      ],
+      "answer_key": {
+        "must_include": [
+          "Explain that some contracts need funding at their address to operate without manual transactions",
+          "Retrieve the contract address from Remix with the Copy button",
+          "Send LINK (or ETH) from MetaMask: select network, Send, paste address, choose asset, enter amount, Next, Confirm"
+        ],
+        "correct_entities": {
+          "functions": [],
+          "imports_or_packages": [],
+          "params_or_config": [],
+          "identifiers": [
+            "LINK",
+            "ETH",
+            "MetaMask",
+            "Remix",
+            "Deployed Contracts",
+            "Send",
+            "Asset",
+            "Amount",
+            "Confirm",
+            "Sepolia testnet"
+          ]
+        },
+        "correct_step_order": [
+          "Deploy contract in Remix and find it under Deployed Contracts",
+          "Copy the contract address",
+          "Open MetaMask and select the network",
+          "Click Send",
+          "Paste the contract address",
+          "Select the asset (LINK or ETH)",
+          "Enter the amount",
+          "Click Next to review gas",
+          "Click Confirm"
+        ],
+        "common_hallucinations": [
+          "Describing setting up an Automation/Keeper subscription as the funding method",
+          "Inventing minimum LINK amounts required",
+          "Claiming funds are sent via the Chainlink website"
+        ],
+        "out_of_scope": [
+          "Why a specific contract needs funding logic",
+          "Setting up Chainlink Automation or VRF subscriptions"
+        ]
+      }
+    }
+  ],
+  "source_content": "# Fund Your Contracts\n\nSome smart contracts require funding at their addresses so they can operate without you having to call functions manually and pay for the transactions through MetaMask. This guide explains how to fund Solidity contracts with LINK or ETH.\n\n## [Retrieve the contract address](#retrieve-the-contract-address)\n\n1.  In Remix, deploy your contract and wait until you see a new contract in the **Deployed Contracts** section.\n2.  On the left side panel, use the **Copy** button located near the contract title to copy the contract address to your clipboard.\n\n![](/files/25d2c8e-Screen_Shot_2020-09-08_at_7.15.50_AM.png)\n\n## [Send funds to your contract](#send-funds-to-your-contract)\n\n1.  Open MetaMask.\n2.  Select the network that you want to send funds on. For example, select the Sepolia testnet.\n3.  Click the **Send** button to initiate a transaction.\n4.  Paste your contract address in the address field.\n5.  In the **Asset** drop down menu, select the type of asset that you need to send to your contract. For example, you can send LINK. If LINK is not listed, follow the guide to [Acquire testnet LINK](/resources/acquire-link).\n6.  In the **Amount** field, enter the amount of LINK that you want to send.\n7.  Click **Next** to review the transaction details and the gas cost.\n8.  If the transaction details are correct, click **Confirm** and wait for the transaction to process.\n\n![](/files/867073d-metamask.png)",
+  "source_hash": "ba98814e77bc",
+  "probe_set_id": "ab9c9e40f777"
+}

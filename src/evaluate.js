@@ -79,6 +79,9 @@ export function emptyUsage() {
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 0,
     web_search_requests: 0,
+    // "batch" when the tokens were billed at the Batch API's 50% rate. Costing
+    // a batched run at standard rates overstates it two-fold.
+    service_tier: null,
   };
 }
 
@@ -88,6 +91,8 @@ export function addUsage(total, u = {}) {
   total.cache_creation_input_tokens += u.cache_creation_input_tokens ?? 0;
   total.cache_read_input_tokens += u.cache_read_input_tokens ?? 0;
   total.web_search_requests += u.server_tool_use?.web_search_requests ?? u.web_search_requests ?? 0;
+  // Carried through so the accumulated total knows how it was billed.
+  if (u.service_tier) total.service_tier = u.service_tier;
   return total;
 }
 

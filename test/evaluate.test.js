@@ -99,7 +99,15 @@ test("addUsage folds raw API usage, including server-tool search counts", () => 
     cache_creation_input_tokens: 0,
     cache_read_input_tokens: 5,
     web_search_requests: 3,
+    service_tier: null,
   });
+});
+
+test("addUsage carries the service tier so batched tokens can be costed correctly", () => {
+  const total = emptyUsage();
+  addUsage(total, { input_tokens: 10, service_tier: "batch" });
+  addUsage(total, { input_tokens: 5 });
+  assert.equal(total.service_tier, "batch", "a later untiered entry must not clear it");
 });
 
 const identity = {

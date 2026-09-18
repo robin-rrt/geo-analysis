@@ -36,6 +36,41 @@ test("cache reads cost a tenth of fresh input, writes a fifth more", () => {
   assert.ok(read < fresh, "caching must be cheaper than not caching");
 });
 
+test("prices a dated snapshot id the same as its alias", () => {
+  // The API answers `claude-haiku-4-5` with `claude-haiku-4-5-20251001`, and
+  // runClaude tallies `final.model`. Unnormalized, every Haiku call was free.
+  const dated = costOf("claude-haiku-4-5-20251001", usage());
+  assert.ok(dated !== null, "a dated snapshot id must still be priced");
+  assert.equal(dated, costOf("claude-haiku-4-5", usage()));
+});
+
+test("prices a 1-hour cache write at 2x, not the 5-minute 1.25x", () => {
+  const only = { input_tokens: 0, output_tokens: 0 };
+  const write1h = costOf("claude-sonnet-5", usage({
+    ...only,
+    cache_creation_input_tokens: 1_000_000,
+    cache_creation: { ephemeral_5m_input_tokens: 0, ephemeral_1h_input_tokens: 1_000_000 },
+  }));
+  const write5m = costOf("claude-sonnet-5", usage({
+    ...only,
+    cache_creation_input_tokens: 1_000_000,
+    cache_creation: { ephemeral_5m_input_tokens: 1_000_000, ephemeral_1h_input_tokens: 0 },
+  }));
+
+  // Derived from PRICES so a price correction doesn't look like a logic break.
+  const rate = PRICES["claude-sonnet-5"].input;
+  assert.equal(write1h.toFixed(2), (rate * 2).toFixed(2), "1h write is 2x input");
+  assert.equal(write5m.toFixed(2), (rate * 1.25).toFixed(2), "5m write is 1.25x input");
+});
+
+test("falls back to the 5-minute rate when the response omits the TTL split", () => {
+  // Older stored responses carry only the total.
+  const legacy = costOf("claude-sonnet-5", usage({
+    input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 1_000_000,
+  }));
+  assert.equal(legacy.toFixed(2), (PRICES["claude-sonnet-5"].input * 1.25).toFixed(2));
+});
+
 test("returns null for an unpriced model rather than guessing", () => {
   assert.equal(costOf("some-future-model", usage()), null);
 });
@@ -87,4 +122,14 @@ test("format names each stage and the price-checked date", () => {
   assert.match(out, /audit: 1 call/);
   assert.match(out, /estimated cost: \$/);
   assert.match(out, /prices checked \d{4}-\d{2}-\d{2}/);
+});
+
+test("batch-tier tokens cost half, read from the usage not a caller flag", () => {
+  const standard = costOf("claude-sonnet-5", usage());
+  const batched = costOf("claude-sonnet-5", { ...usage(), service_tier: "batch" });
+  assert.equal(batched, standard / 2, "the Batch API bills at 50%");
+});
+
+test("an absent service_tier is standard rate, not a guess", () => {
+  assert.equal(costOf("claude-sonnet-5", usage()), costOf("claude-sonnet-5", { ...usage(), service_tier: null }));
 });

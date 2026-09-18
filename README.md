@@ -226,7 +226,9 @@ separate from the grader, and `--probe-effort` controls its effort independently
 
 **`--batch`** submits every grade as one Batch API job at 50% of standard rates. It finishes in
 minutes to an hour rather than seconds, and is refused at `--effort max` because the Batch API
-rejects the Fable refusal fallback.
+rejects the Fable refusal fallback. Measured on a 10-probe run: **$1.07 → $0.54** in grader cost.
+Reported costs account for the discount automatically — the API returns `service_tier: "batch"`
+in usage, and that field, not a caller-supplied flag, is what halves the price.
 
 ## How it works
 

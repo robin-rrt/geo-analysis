@@ -45,8 +45,17 @@ The biggest remaining piece, and the one the product work was building toward.
 ### 2. Batch grading — built, root cause fixed, one live confirmation outstanding
 `probe --batch` is implemented (`3debfe8`). The first live run errored on all ten requests; the
 cause was a cache_control TTL ordering violation, fixed in `60b0fda` and verified synchronously.
-**The 50% saving itself has not yet been observed on a completed batch** — re-run
-`probe <set> --batch` and compare grader cost against a synchronous run to close this out.
+**Closed out.** A 10-probe batch then completed with all ten graded (vrf curated, closed mode,
+avg fidelity 68.5).
+
+Confirming the saving exposed a second bug: `costOf` priced batched tokens at standard rates, so
+batched runs were reported at **twice** what they actually cost. The API returns
+`service_tier: "batch"` in usage; `addUsage` was dropping it. Now carried through and halved at
+costing time. That first batch reported a $1.0724 grader cost; the real figure is **$0.5362**.
+
+The lesson from the `scopeUrls` no-op applies here too — a field that exists is not a field that
+arrives. The propagation is pinned by a test that drives a real batch-entry shape through
+`parseJsonEntry` → `addUsage` → `costOf`, not by the presence of the assignment.
 
 Debugging lesson worth keeping: the Batch API's round trip makes each attempt cost ten minutes.
 Firing the same params at the **synchronous** endpoint runs identical validation and errors

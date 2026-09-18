@@ -12,34 +12,63 @@ export const PRICES = {
   "claude-opus-5": { input: 5, output: 25, checked: "2026-09-09" },
   "claude-opus-4-8": { input: 5, output: 25, checked: "2026-09-09" },
   "claude-opus-4-7": { input: 5, output: 25, checked: "2026-09-09" },
-  "claude-sonnet-5": { input: 3, output: 15, checked: "2026-09-09" },
+  // Sonnet 5 is $2/$10 — the row previously carried Sonnet 4.6's $3/$15, which
+  // overstated every Sonnet grading cost by 50%. Verified against the published
+  // pricing page, which also confirmed the other rows unchanged.
+  "claude-sonnet-5": { input: 2, output: 10, checked: "2026-09-18" },
   "claude-sonnet-4-6": { input: 3, output: 15, checked: "2026-09-09" },
   "claude-fable-5": { input: 10, output: 50, checked: "2026-09-09" },
   "claude-haiku-4-5": { input: 1, output: 5, checked: "2026-09-09" },
 };
 
 // Cache writes cost 1.25x base input (5-minute TTL) or 2x (1-hour); reads cost
-// 0.1x. We only ever write 5-minute entries today.
-const CACHE_WRITE_MULTIPLIER = 1.25;
+// 0.1x. Product probe sets request a 1-hour entry for prefixes over 60k chars,
+// so both rates are live — `usage.cache_creation` splits the write by TTL, and
+// pricing every write at 1.25x understated those runs.
+const CACHE_WRITE_5M_MULTIPLIER = 1.25;
+const CACHE_WRITE_1H_MULTIPLIER = 2;
 const CACHE_READ_MULTIPLIER = 0.1;
+
+// The Batch API bills every token at half the standard rate. The response
+// reports `service_tier: "batch"`, so this is read rather than inferred from a
+// flag the caller might forget to pass.
+const BATCH_MULTIPLIER = 0.5;
+
+/**
+ * The API answers a request for an alias with the dated snapshot it served —
+ * `claude-haiku-4-5` comes back as `claude-haiku-4-5-20251001`. Callers pass
+ * `final.model` (correctly: a fallback may have served the turn), so without
+ * this every Haiku call missed PRICES and was reported as unpriced, i.e. free.
+ */
+export function priceKey(model) {
+  return typeof model === "string" ? model.replace(/-\d{8}$/, "") : model;
+}
 
 /**
  * Cost of one call in USD. Returns null for an unknown model rather than
  * guessing — a wrong number is worse than an absent one.
  */
 export function costOf(model, usage) {
-  const price = PRICES[model];
+  const price = PRICES[priceKey(model)];
   if (!price || !usage) return null;
 
   const uncachedIn = usage.input_tokens ?? 0;
-  const cacheWrite = usage.cache_creation_input_tokens ?? 0;
   const cacheRead = usage.cache_read_input_tokens ?? 0;
   const out = usage.output_tokens ?? 0;
 
-  const perMillion = (tokens, rate) => (tokens / 1e6) * rate;
+  // Split the write by TTL when the API reports it; older responses carry only
+  // the total, which we price at the 5-minute rate as before.
+  const write1h = usage.cache_creation?.ephemeral_1h_input_tokens ?? 0;
+  const write5m =
+    usage.cache_creation?.ephemeral_5m_input_tokens ??
+    (usage.cache_creation_input_tokens ?? 0) - write1h;
+
+  const tier = usage.service_tier === "batch" ? BATCH_MULTIPLIER : 1;
+  const perMillion = (tokens, rate) => (tokens / 1e6) * rate * tier;
   return (
     perMillion(uncachedIn, price.input) +
-    perMillion(cacheWrite, price.input * CACHE_WRITE_MULTIPLIER) +
+    perMillion(write5m, price.input * CACHE_WRITE_5M_MULTIPLIER) +
+    perMillion(write1h, price.input * CACHE_WRITE_1H_MULTIPLIER) +
     perMillion(cacheRead, price.input * CACHE_READ_MULTIPLIER) +
     perMillion(out, price.output)
   );

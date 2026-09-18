@@ -5,28 +5,48 @@ pages: how likely a page is to be retrieved, cited, and accurately synthesized b
 engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews) and by coding agents that
 read docs to complete tasks.
 
-Three subcommands form a pipeline:
+It works at two scales: a single page, or a whole **product** resolved from the site's own
+`llms.txt` index and sitemap.
 
 | Command | What it does | Output |
 |---|---|---|
-| `score <url>` | Audits a page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
+| `score <url>` | Audits one page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
 | `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key. Skips pages whose content is unchanged | `probes.json` |
-| `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source page as sole ground truth. Resumes where an interrupted run stopped | `probe-results-<model>-<mode>.json` + `probe-matrix.csv` |
+| `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source as sole ground truth. Resumes where an interrupted run stopped | `probe-results-<model>-<mode>.json` + `probe-matrix.csv` |
+| **`product <name>`** | Resolves a product's pages, fetches them, and rolls up deterministic checks — **no API calls**. `--audit` adds one LLM audit over the aggregate; `--probes` generates product-scoped probes | `pages.json`, `rollup.json`, `audit.md`, `probes.json` |
 | `dashboard` | Rolls every artifact in `results/` into one shareable HTML report | `dashboard.html` |
 
-All analyst/grader work runs on **Claude Opus 4.8** by default. **Claude Fable 5** is
-selected automatically at `--effort max` (its extra capability is worth the cost only for the
-hardest jobs); override the model with `-m` on `score` / `gen-probes`.
+**Cost is measured, not estimated.** Every command reports the tokens it used and what they
+cost ([src/usage.js](src/usage.js)). Measured on `docs.chain.link`: one page audit **$0.17**,
+one product audit over a 13-page rollup **$0.15** (auditing those pages individually is $2.27),
+a 10-probe web run **$4.17**. Prices are a cached constant carrying the date they were checked;
+an unpriced model yields `null` rather than a wrong number.
+
+**Model defaults are tiered by job.** The analyst (`score`, `gen-probes`) runs on **Opus 4.8**,
+escalating to **Fable 5** at `--effort max`. The **grader defaults to Sonnet 5** — grading is
+constrained work (fixed source, answer key, four scores) that does not need the analyst tier.
+The model under test defaults to Opus 4.8 at `--probe-effort medium`.
 
 The `probe` grader catches the hallucinations that matter most for developer docs: fabricated
 function names, wrong import/package paths, invented params, deprecated APIs, out-of-order
 steps. It judges content only, and is blind to which model wrote the answer, so answers from
 different models are graded on the same footing.
 
+> ### ⚠️ Fidelity is grader-relative
+>
+> Re-grading 20 stored answers with both graders: **Sonnet scores ~12 points harsher than Opus**
+> (mean absolute delta 12.6, mean signed −12.1, only 8 of 20 within 10 points). The bias is
+> systematic rather than random and **ranking is preserved**, so Sonnet is a usable instrument on
+> a shifted scale. But a Sonnet-graded fidelity is **not comparable** with an Opus-graded one.
+> Every run records `grader_model`, and the dashboard warns when a corpus mixes graders instead
+> of silently averaging two scales. Use `--grader-model` to pin one.
+
 **Retrieval is decided in code, not by the grader** ([src/retrieval.js](src/retrieval.js)): a hit
 is a cited URL that matches the expected source once normalised (scheme, `www.`, trailing slash,
 `.md` twin, query and fragment ignored), or the source named in the answer text without a scheme
-— `via` records which. Fidelity is likewise arithmetic, `round(2.5 × Σ scores)`. A refusal is
+— `via` records which. At product scope the verdict is a **tier** — `exact` (the expected page),
+`in-scope` (another page of the same product), `out-of-scope`, or `none` — while `hit` stays true
+only for `exact`, so page and product runs remain comparable. Fidelity is likewise arithmetic, `round(2.5 × Σ scores)`. A refusal is
 recorded and not graded; in `closed` mode there is no retrieval to hit, so the verdict is `null`,
 never a miss. Each result carries the tokens it cost, split between model-under-test and grader.
 
@@ -63,6 +83,13 @@ results/<slug>/
   probes.json                          gen-probes
   probe-results-<model>-<mode>.json    probe
   probe-matrix.csv                     probe, dashboard — probes × models
+
+results/products/<product>/
+  pages.json                           product — the ledger: every page, included or why not
+  rollup.json                          product — deterministic checks + points recoverable
+  audit.md                             product --audit
+  probes.json                          product --probes
+  probe-results-<model>-<mode>.json    probe
 ```
 
 `probes.json` records a `source_hash` (the page content it was built from) and a `probe_set_id`
@@ -92,7 +119,13 @@ node src/cli.js probe results/tutorials-go-sdk-fetch/probes.json --mode closed  
 node src/cli.js score https://docs.chain.link/data-streams/tutorials/go-sdk-fetch \
   --probe-results results/tutorials-go-sdk-fetch/probe-results-opus-4-8-web.json
 
-# 5. Roll everything in results/ into one shareable HTML report (no API calls)
+# 5. Or work at product scope — steps 1-3 for a whole product at once
+node src/cli.js product vrf --list          # what would be assessed (no API calls)
+node src/cli.js product vrf --audit         # deterministic rollup + one LLM audit
+node src/cli.js product vrf --probes -n 10  # product-scoped probes
+node src/cli.js probe results/products/vrf/probes.json
+
+# 6. Roll everything in results/ into one shareable HTML report (no API calls)
 node src/cli.js dashboard
 
 # Inspect what gets sent to the auditor (no API call)
@@ -105,10 +138,12 @@ node src/cli.js score https://docs.chain.link/data-feeds --dump-content
 no server, no external requests, no dependencies. Open it with `file://` or send the file to
 someone who never ran the tool.
 
-Four views: **Overview** (corpus KPIs, the score-vs-fidelity gap chart, all pages, weakest
+Five views: **Overview** (corpus KPIs, the score-vs-fidelity gap chart, all pages, weakest
 dimensions), **Pages** (per-page scorecard / recommendations / probes / anti-patterns),
-**Answer quality** (what retrieval is worth, retrieval funnel, failure by question phrasing,
-hallucination taxonomy), and **Methodology** (rubric, probe runs, run-to-run variance, caveats).
+**Products** (deterministic score, curated coverage, checks, points-recoverable fixes, and where
+probe answers actually pointed), **Answer quality** (what retrieval is worth, retrieval funnel,
+failure by question phrasing, hallucination taxonomy), and **Methodology** (rubric, probe runs,
+run-to-run variance, grader caveats).
 
 The headline it exists to surface is the gap between how good a page *looks* (GEO score) and
 how accurately models actually answer from it (fidelity).
@@ -134,6 +169,44 @@ currently in `results/`. No test touches the network.
 
 Or link it: `npm link` → `geo-audit <command>`.
 
+## Products
+
+Auditing one page at a time misses corpus-wide defects. A `programmingLanguage: "Rust"`
+declaration looked like a per-page typo until the checks ran across a product and found it on
+every page — a generator default, not an authoring slip.
+
+Discovery needs no crawler. Sites following the `llms.txt` convention publish their own taxonomy:
+`docs.chain.link` exposes a curated index at `/{product}/llms.txt`, a full-text bundle at
+`/{product}/llms-full.txt`, and a sitemap for complete coverage.
+
+```sh
+node src/cli.js product                       # list every product the site advertises
+node src/cli.js product vrf --list            # resolve + print the ledger (no fetching, no API)
+node src/cli.js product ace --scope full      # 59 pages, ~6s, zero LLM cost
+node src/cli.js product vrf --audit           # + one LLM audit over the rollup
+node src/cli.js product vrf --probes -n 10    # + product-scoped probes
+```
+
+**Three scopes, because "the product" is ambiguous.** `curated` is the page set `llms.txt`
+recommends to agents; `full` is every page the sitemap publishes; `bundle` uses the product's
+full-text file. The gap between curated and published is reported as a finding in its own right
+— VRF's index lists 13 of 36 pages, CCIP's 37 of 725.
+
+**Everything is ledgered.** `pages.json` records every page discovered, whether it was included,
+and why not when it wasn't, so a report cannot quietly shrink its own denominator. Two rules the
+rollup follows: each check reports `evaluatedPages` and never counts a page it could not assess
+as a failure, and scoring is graduated at `(pass + 0.5 × warn) / evaluated`. Fixes rank by
+**points recoverable**, so a heavy check failing once outranks a light one warning eight times.
+
+Checks that read the HTML layer — JSON-LD, canonical, dates — skip `.md` endpoints entirely.
+Curated indexes link markdown almost exclusively, and markdown has no `<head>`; counting that
+absence as a defect penalised pages for being served in the format `llms.txt` asks agents to
+prefer.
+
+Product probes are generated from the whole product rather than one page, so they read like
+questions asked *before* you know which page holds the answer. The output is a normal
+`probes.json`, so `geo-audit probe` runs it unchanged.
+
 ## Options
 
 Common: `-o/--output <file>`, `-e/--effort low|medium|high|xhigh|max` (default `high`),
@@ -143,19 +216,32 @@ Common: `-o/--output <file>`, `-e/--effort low|medium|high|xhigh|max` (default `
 |---|---|
 | `score` | `-m/--model` auditor (default: by effort) · `-p/--probe-results <file>` probe run JSON for the same URL (adds the probe-informed diagnosis + tiered recommendations) · `--dump-content` |
 | `gen-probes` | `-n/--n <count>` (default 10) · `-m/--model` generator (default: by effort) · `-f/--force` regenerate unchanged content · `--allow-thin` generate even from a near-empty extraction |
-| `probe` | `-m/--model` model under test (default `claude-opus-4-8`) · `--mode web\|closed` (default `web`) · `-f/--force` re-run every probe instead of resuming — the grader model is selected by effort |
+| `probe` | `-m/--model` model under test (default `claude-opus-4-8`) · `--probe-effort` effort for the model under test (default `medium`) · `--grader-model` (default `claude-sonnet-5`) · `--mode web\|closed` (default `web`) · `--batch` grade via the Batch API at 50% of rates · `-f/--force` re-run every probe instead of resuming |
+| `product` | `--scope curated\|full\|bundle` (default `curated`) · `--list` resolve only · `--audit` one LLM audit over the rollup · `--probes` generate product probes · `-n/--n` probe count · `--samples` pages shown in full to the auditor · `--dump-content` · `--origin` |
 
-**Model selection:** analyst/grader defaults to `claude-opus-4-8`; `--effort max` upgrades it
-to `claude-fable-5`. `-m` overrides on `score`/`gen-probes`. In `probe`, `-m` is the model
-being tested (separate from the grader).
+**Model selection:** the analyst (`score`, `gen-probes`, `product --audit`) defaults to
+`claude-opus-4-8`, upgrading to `claude-fable-5` at `--effort max`. The **grader** defaults to
+`claude-sonnet-5` (`--grader-model` to override). In `probe`, `-m` is the model being tested,
+separate from the grader, and `--probe-effort` controls its effort independently of `-e`.
+
+**`--batch`** submits every grade as one Batch API job at 50% of standard rates. It finishes in
+minutes to an hour rather than seconds, and is refused at `--effort max` because the Batch API
+rejects the Fable refusal fallback.
 
 ## How it works
 
 - **Extraction** ([src/extract.js](src/extract.js)) — fetches the page, captures raw `<head>`
   metadata and JSON-LD blocks, strips nav/sidebar noise, and converts the main content to GFM
   markdown. `.md` endpoints are passed through as-is.
-- **Analysis** ([src/claude.js](src/claude.js)) — analyst/grader calls run on
-  **Claude Opus 4.8** by default (**Fable 5** at `--effort max`), with system prompts in
+- **Measured facts** ([src/checks/](src/checks/)) — before the auditor sees a page, the
+  mechanically-verifiable parts of the rubric are computed in JavaScript: JSON-LD parsed and
+  validated, heading tree and code fences scanned, links and numerals counted. These are injected
+  as ground truth so the model stops re-deriving what a parser settles exactly. They are
+  **measurements, not scores** — no score, grade or severity field appears in them, enforced by
+  test — and the model still assigns every 0–10 itself. `--no-facts` reproduces the old behaviour
+  for A/B comparison.
+- **Analysis** ([src/claude.js](src/claude.js)) — analyst calls run on **Claude Opus 4.8**
+  (**Fable 5** at `--effort max`), the grader on **Sonnet 5**, with system prompts in
   [prompts/](prompts/), streaming, adaptive thinking, `output_config.effort` control, and
   structured outputs (JSON schema) for the JSON-emitting stages so probe/result files are
   always parseable.
@@ -168,7 +254,10 @@ being tested (separate from the grader).
   `--no-fallback`. Opus 4.8 runs don't use this path.
 - **Prompt caching** — system prompts carry a cache breakpoint, and in `probe` runs the source
   content leads the grader message with its own breakpoint, so all probes in a run share the
-  cached prefix.
+  cached prefix. Large prefixes (over ~60k chars, i.e. product contexts) request the **1-hour
+  TTL**, because a 5-minute entry cannot outlive a run at ~60–75s per probe. Both breakpoints
+  carry the same TTL: blocks render `tools → system → messages`, and a 1h block after a 5m one
+  is rejected outright.
 
 ## Notes
 
@@ -176,4 +265,14 @@ being tested (separate from the grader).
   as it's generated.
 - `probe --mode web` grants the model-under-test the web search tool (max 5 searches per
   probe) — the realistic retrieval setup. `--mode closed` tests parametric knowledge only;
-  retrieval hit rate will be 0 by construction.
+  retrieval hit rate is `null` by construction, not a miss.
+- **Retrieval failure is usually total, not partial.** Across every run so far, answers that miss
+  the source cite *nothing at all* rather than citing a sibling page — 14 of 20 on page probes,
+  8 of 10 on the first product run. One product run scored 77.2 average fidelity at a 0%
+  retrieval rate: the model answered well from memory and never opened the docs. Worth knowing
+  before optimising a page for retrieval that may not be happening.
+- Plans and their corrections live in [plans/](plans/); [plans/STATUS.md](plans/STATUS.md) is the
+  index of what is built and what is left. Several plan hypotheses were **disproven by
+  measurement** and are annotated in place — most notably that deterministic pre-checks would
+  reduce score variance (they do not; an 18-audit study measured the same 2.5-point spread in
+  every condition).

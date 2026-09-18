@@ -1,0 +1,450 @@
+{
+  "rows": [
+    {
+      "slug": "data-streams-reference-data-streams-api",
+      "score": 41,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 51.166666666666664,
+      "closedFidelity": 39.833333333333336,
+      "pairedWeb": 51.166666666666664,
+      "pairedClosed": 39.833333333333336,
+      "lift": 11.333333333333334,
+      "anyCitationRate": 0.5,
+      "hitRate": 0,
+      "searches": 24,
+      "searchesPerProbe": 4,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        -30,
+        18,
+        -5,
+        35,
+        25,
+        25
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "resources-fund-your-contract",
+      "score": 56,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 46,
+      "closedFidelity": 57.833333333333336,
+      "pairedWeb": 46,
+      "pairedClosed": 57.833333333333336,
+      "lift": -11.833333333333334,
+      "anyCitationRate": 0,
+      "hitRate": 0,
+      "searches": 3,
+      "searchesPerProbe": 0.5,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        7,
+        5,
+        -17,
+        -30,
+        -18,
+        -18
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "dta-technical-standard-actors",
+      "score": 58,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 42.666666666666664,
+      "closedFidelity": 21,
+      "pairedWeb": 42.666666666666664,
+      "pairedClosed": 21,
+      "lift": 21.666666666666668,
+      "anyCitationRate": 0.16666666666666666,
+      "hitRate": 0.33,
+      "searches": 18,
+      "searchesPerProbe": 3,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        45,
+        25,
+        0,
+        60,
+        0,
+        0
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "chainlink-automation-overview-service-limits",
+      "score": 61,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 63.166666666666664,
+      "closedFidelity": 37.166666666666664,
+      "pairedWeb": 63.166666666666664,
+      "pairedClosed": 37.166666666666664,
+      "lift": 26,
+      "anyCitationRate": 0.6666666666666666,
+      "hitRate": 0.67,
+      "searches": 29,
+      "searchesPerProbe": 4.833333333333333,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        17,
+        28,
+        33,
+        -17,
+        35,
+        60
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "chainlink-functions",
+      "score": 63,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 65.5,
+      "closedFidelity": 70.66666666666667,
+      "pairedWeb": 65.5,
+      "pairedClosed": 70.66666666666667,
+      "lift": -5.166666666666667,
+      "anyCitationRate": 0.5,
+      "hitRate": 0.17,
+      "searches": 17,
+      "searchesPerProbe": 2.8333333333333335,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        0,
+        -10,
+        -7,
+        -15,
+        18,
+        -17
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "datalink",
+      "score": 64,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 36.833333333333336,
+      "closedFidelity": 17.166666666666668,
+      "pairedWeb": 36.833333333333336,
+      "pairedClosed": 17.166666666666668,
+      "lift": 19.666666666666668,
+      "anyCitationRate": 0,
+      "hitRate": 0.17,
+      "searches": 24,
+      "searchesPerProbe": 4,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        38,
+        -8,
+        15,
+        10,
+        43,
+        20
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "cre-guides-workflow-using-evm-client-overview-ts",
+      "score": 64,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 46.5,
+      "closedFidelity": 30.666666666666668,
+      "pairedWeb": 46.5,
+      "pairedClosed": 30.666666666666668,
+      "lift": 15.833333333333334,
+      "anyCitationRate": 0.5,
+      "hitRate": 0,
+      "searches": 30,
+      "searchesPerProbe": 5,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        2,
+        3,
+        20,
+        18,
+        30,
+        22
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "ace",
+      "score": 67,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 35.666666666666664,
+      "closedFidelity": 22,
+      "pairedWeb": 35.666666666666664,
+      "pairedClosed": 22,
+      "lift": 13.666666666666666,
+      "anyCitationRate": 0.16666666666666666,
+      "hitRate": 0.17,
+      "searches": 21,
+      "searchesPerProbe": 3.5,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        10,
+        25,
+        15,
+        40,
+        -23,
+        15
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "getting-started-conceptual-overview",
+      "score": 73,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 63.333333333333336,
+      "closedFidelity": 63.833333333333336,
+      "pairedWeb": 63.333333333333336,
+      "pairedClosed": 63.833333333333336,
+      "lift": -0.5,
+      "anyCitationRate": 0.16666666666666666,
+      "hitRate": 0,
+      "searches": 0,
+      "searchesPerProbe": 0,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        3,
+        -10,
+        -2,
+        0,
+        8,
+        -2
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    },
+    {
+      "slug": "resources-link-token-contracts",
+      "score": 77,
+      "expectedProbes": 6,
+      "refusals": {
+        "web": 0,
+        "closed": 0
+      },
+      "webFidelity": 66.66666666666667,
+      "closedFidelity": 60.166666666666664,
+      "pairedWeb": 66.66666666666667,
+      "pairedClosed": 60.166666666666664,
+      "lift": 6.5,
+      "anyCitationRate": 0.3333333333333333,
+      "hitRate": 0.33,
+      "searches": 21,
+      "searchesPerProbe": 3.5,
+      "searchBroken": 0,
+      "pairedProbes": 6,
+      "probeDiffs": [
+        -8,
+        15,
+        7,
+        25,
+        0,
+        0
+      ],
+      "graders": [
+        "claude-sonnet-5",
+        "claude-sonnet-5"
+      ]
+    }
+  ],
+  "tests": {
+    "H1": {
+      "label": "H1  score -> web fidelity (naive)",
+      "n": 10,
+      "spearman": 0.23100410659842452,
+      "p": 0.5206947930520694,
+      "ci": {
+        "lo": -0.6305732484076433,
+        "hi": 0.8381332495354052,
+        "resamples": 10000
+      },
+      "slope": 0.36202812165673254,
+      "slopeCI": {
+        "lo": -0.4631181205848529,
+        "hi": 1.230070218917803,
+        "resamples": 10000
+      }
+    },
+    "H2": {
+      "label": "H2  score -> CLOSED fidelity (confound check; should be ~0)",
+      "n": 10,
+      "spearman": 0.1337392196096142,
+      "p": 0.7139828601713983,
+      "ci": {
+        "lo": -0.6222504428368918,
+        "hi": 0.6645161290322581,
+        "resamples": 10000
+      },
+      "slope": 0.46790463090325524,
+      "slopeCI": {
+        "lo": -0.9341524889729046,
+        "hi": 2.1947500785916376,
+        "resamples": 10000
+      }
+    },
+    "H3": {
+      "label": "H3  score -> lift (web - closed)  [causal estimand]",
+      "n": 10,
+      "spearman": -0.07294866524160774,
+      "p": 0.8436215637843621,
+      "ci": {
+        "lo": -0.8,
+        "hi": 0.5925490349219996,
+        "resamples": 10000
+      },
+      "slope": -0.10587650924652298,
+      "slopeCI": {
+        "lo": -1.2699498404012766,
+        "hi": 0.9134738186462323,
+        "resamples": 10000
+      }
+    },
+    "H4": {
+      "label": "H4  score -> any-citation rate (mediator)",
+      "n": 10,
+      "spearman": -0.1219131037995866,
+      "p": 0.7350526494735052,
+      "ci": {
+        "lo": -0.7396054859615201,
+        "hi": 0.600666568625177,
+        "resamples": 9999
+      },
+      "slope": -0.0044322176371694956,
+      "slopeCI": {
+        "lo": -0.015792031098153546,
+        "hi": 0.014084507042253521,
+        "resamples": 10000
+      }
+    }
+  },
+  "exploratoryDimensions": [
+    {
+      "name": "Answer-first extractability",
+      "r": -0.05483440807684433,
+      "p": 0.8809059547022648
+    },
+    {
+      "name": "Structural scannability & chunkability",
+      "r": 0.404403759566727,
+      "p": 0.2471376431178441
+    },
+    {
+      "name": "Concrete statistics & specifics",
+      "r": 0.1875916198442167,
+      "p": 0.5988700564971752
+    },
+    {
+      "name": "Citations & authoritative references",
+      "r": -0.4233447522064957,
+      "p": 0.22193890305484726
+    },
+    {
+      "name": "Quotable canonical definitions",
+      "r": -0.2854496128592251,
+      "p": 0.42212889355532224
+    },
+    {
+      "name": "Machine-readability & metadata",
+      "r": -0.037986858819879316,
+      "p": 1
+    },
+    {
+      "name": "Code completeness & agent-runnability",
+      "r": -0.10699444587365947,
+      "p": 0.7688615569221539
+    },
+    {
+      "name": "Query/intent coverage",
+      "r": -0.3963779236805213,
+      "p": 0.2543872806359682
+    },
+    {
+      "name": "Clarity, fluency & terminology consistency",
+      "r": -0.19069251784911845,
+      "p": 0.5946202689865506
+    }
+  ],
+  "lift": {
+    "n": 60,
+    "mean": 9.716666666666667,
+    "sd": 20.63984271608272,
+    "wilcoxon": {
+      "statistic": 737,
+      "p": 0.0007199928000719992
+    }
+  }
+}

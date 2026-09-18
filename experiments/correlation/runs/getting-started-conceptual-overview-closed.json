@@ -8,19 +8,24 @@
   "grader_effort": "high",
   "probe_effort": "medium",
   "grader_prompt_sha": "0bbc797e0e35",
-  "run_at": "2026-09-18T15:13:43.348Z",
+  "run_at": "2026-09-18T15:29:08.805Z",
   "probe_count": 6,
-  "graded_count": 0,
+  "graded_count": 6,
   "refusal_count": 0,
   "error_count": 0,
-  "avg_fidelity": null,
+  "avg_fidelity": 63.8,
   "retrieval_hit_rate": null,
   "retrieval_hit_rate_effective": null,
   "retrieval_mention_hit_count": 0,
   "search_degraded_count": 0,
   "live_search_failed_count": 0,
   "inconclusive_miss_count": 0,
-  "avg_scores": null,
+  "avg_scores": {
+    "accuracy": 5.3,
+    "hallucination_free": 6.2,
+    "relevance": 5.5,
+    "structure": 8.5
+  },
   "usage": {
     "model_under_test": {
       "input_tokens": 229,
@@ -31,12 +36,12 @@
       "service_tier": "standard"
     },
     "grader": {
-      "input_tokens": 0,
-      "output_tokens": 0,
-      "cache_creation_input_tokens": 0,
-      "cache_read_input_tokens": 0,
+      "input_tokens": 9738,
+      "output_tokens": 11492,
+      "cache_creation_input_tokens": 4376,
+      "cache_read_input_tokens": 33808,
       "web_search_requests": 0,
-      "service_tier": null
+      "service_tier": "batch"
     }
   },
   "results": [
@@ -50,14 +55,58 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer cites only remix.ethereum.org and does not reference the expected conceptual-overview source page."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 3,
+        "hallucination_free": 3,
+        "relevance": 4,
+        "structure": 8
+      },
+      "fidelity": 45,
+      "hallucinations": [
+        {
+          "claim": "pragma solidity ^0.8.0;",
+          "type": "contradiction",
+          "severity": "med"
+        },
+        {
+          "claim": "string private message;",
+          "type": "contradiction",
+          "severity": "med"
+        },
+        {
+          "claim": "function getMessage() public view returns (string memory)",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "event MessageUpdated(string newMessage, address updatedBy);",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "contract MessageStore { ... function setMessage(string memory newMessage) public {",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "modifier onlyOwner() { require(msg.sender == owner, \"Not the owner\"); _; }",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Declare a contract with the contract keyword named HelloWorld",
+        "Use a public string state variable named message",
+        "Define an updateMessage function that sets message to newMessage"
+      ],
+      "unverifiable_from_source": [
+        "Adding ownership modifier and onlyOwner restriction",
+        "Using events for off-chain tracking",
+        "Adding a getMessage getter function"
+      ],
+      "verdict": "The answer provides a functional Solidity contract but diverges from the source's exact HelloWorld example (wrong contract/function names, private instead of public variable, wrong pragma version) and reproduces several patterns explicitly flagged in the source's guidance as things to avoid, making it not fully faithful though still generally usable code.",
       "prompt": "How do I write a simple smart contract in Solidity that stores a message and lets me update it?",
       "archetype": "direct-howto",
       "answer": "# Simple Message Storage Smart Contract\n\nHere's a straightforward Solidity contract that stores a message and allows you to update it:\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract MessageStore {\n    // State variable to store the message\n    string private message;\n\n    // Event emitted when the message is updated\n    event MessageUpdated(string newMessage, address updatedBy);\n\n    // Constructor - runs once when the contract is deployed\n    constructor(string memory initialMessage) {\n        message = initialMessage;\n    }\n\n    // Function to update the stored message\n    function setMessage(string memory newMessage) public {\n        message = newMessage;\n        emit MessageUpdated(newMessage, msg.sender);\n    }\n\n    // Function to read the stored message\n    function getMessage() public view returns (string memory) {\n        return message;\n    }\n}\n```\n\n## Breaking It Down\n\n| Component | Purpose |\n|-----------|---------|\n| `pragma solidity ^0.8.0` | Specifies the compiler version |\n| `string private message` | Stores the message on-chain |\n| `constructor` | Sets an initial message at deployment |\n| `setMessage()` | Updates the message (writes to blockchain) |\n| `getMessage()` | Reads the message (free, no gas needed) |\n| `event MessageUpdated` | Logs changes for off-chain tracking |\n\n## Key Concepts\n\n- **`view`** on `getMessage()` means it only reads data — calling it costs no gas.\n- **`memory`** is used for temporary string storage during function execution.\n- **`emit`** fires an event, useful for front-ends to detect changes.\n- **`msg.sender`** is the address of whoever called the function.\n\n## How to Try It\n\nThe easiest way to test this is with **[Remix IDE](https://remix.ethereum.org)** (browser-based, no setup):\n\n1. Go to Remix and create a new file (e.g., `MessageStore.sol`)\n2. Paste the code above\n3. Go to the **Solidity Compiler** tab and click **Compile**\n4. Go to the **Deploy & Run** tab\n5. Enter an initial message next to the **Deploy** button, then click **Deploy**\n6. Use the deployed contract's buttons to call `setMessage` and `getMessage`\n\n## Optional: Restrict Updates to the Owner\n\nIf you want only the deployer to be able to change the message, add ownership:\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract MessageStore {\n    string private message;\n    address public owner;\n\n    event MessageUpdated(string newMessage, address updatedBy);\n\n    constructor(string memory initialMessage) {\n        message = initialMessage;\n        owner = msg.sender;\n    }\n\n    modifier onlyOwner() {\n        require(msg.sender == owner, \"Not the owner\");\n        _;\n    }\n\n    function setMessage(string memory newMessage) public onlyOwner {\n        message = newMessage;\n        emit MessageUpdated(newMessage, msg.sender);\n    }\n\n    function getMessage() public view returns (string memory) {\n        return message;\n    }\n}\n```\n\nThe `onlyOwner` **modifier** runs the `require` check before the function body executes, blocking anyone who isn't the owner.\n\nWould you like help deploying this to a testnet, or adding more features like multiple messages or timestamps?",
@@ -80,12 +129,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "input_tokens": 1739,
+          "output_tokens": 2513,
+          "cache_creation_input_tokens": 4376,
+          "cache_read_input_tokens": 1988,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -99,12 +148,25 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
+      "scores": {
+        "accuracy": 8,
+        "hallucination_free": 8,
+        "relevance": 8,
+        "structure": 9
+      },
+      "fidelity": 83,
       "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "missing_must_include": [
+        "State variables are permanently stored in contract storage",
+        "Example: string public message; uint256 internal internalVar; uint8 private privateVar;"
+      ],
+      "unverifiable_from_source": [
+        "public auto-generates a getter function",
+        "Default visibility for state variables is internal",
+        "Table mapping of external access for internal/private variables",
+        "Private variables are visible on the blockchain via storage inspection"
+      ],
+      "verdict": "The answer correctly explains Solidity visibility modifiers and provides accurate, runnable code, but it substitutes its own examples instead of the source's exact snippet and adds several plausible-but-unsourced Solidity facts (getter auto-generation, default visibility) that are not confirmed by the source, so it's usable but not strictly source-faithful.",
       "prompt": "Using Solidity, how do I declare state variables with different visibility levels like public, internal, and private?",
       "archetype": "constrained",
       "answer": "# Declaring State Variables with Different Visibility Levels\n\nIn Solidity, state variables can have three visibility levels: `public`, `internal`, and `private`. Here's how to declare each:\n\n## Basic Syntax\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract VisibilityExample {\n    // PUBLIC: Accessible everywhere, auto-generates a getter function\n    uint256 public publicVar = 100;\n    \n    // INTERNAL: Accessible in this contract and derived contracts (default)\n    uint256 internal internalVar = 200;\n    \n    // PRIVATE: Accessible only within this contract\n    uint256 private privateVar = 300;\n    \n    // No specifier defaults to INTERNAL\n    uint256 defaultVar = 400;\n}\n```\n\n## Visibility Levels Explained\n\n| Visibility | Same Contract | Derived Contracts | External Access |\n|------------|:-------------:|:-----------------:|:---------------:|\n| `public`   | ✅ | ✅ | ✅ (via getter) |\n| `internal` | ✅ | ✅ | ❌ |\n| `private`  | ✅ | ❌ | ❌ |\n\n## Detailed Examples\n\n### 1. Public Variables\n\n```solidity\ncontract PublicExample {\n    // Solidity automatically creates a getter function\n    uint256 public count = 10;\n    string public name = \"Token\";\n    \n    // Equivalent auto-generated getter:\n    // function count() public view returns (uint256) { return count; }\n}\n```\n\n### 2. Internal Variables\n\n```solidity\ncontract Base {\n    uint256 internal balance = 1000;\n}\n\ncontract Derived is Base {\n    function getBalance() public view returns (uint256) {\n        return balance; // ✅ Can access internal variable from parent\n    }\n}\n```\n\n### 3. Private Variables\n\n```solidity\ncontract Parent {\n    uint256 private secret = 42;\n    \n    function getSecret() public view returns (uint256) {\n        return secret; // ✅ Accessible within same contract\n    }\n}\n\ncontract Child is Parent {\n    function trySecret() public view returns (uint256) {\n        // return secret; // ❌ ERROR: private is NOT inherited\n        return getSecret(); // ✅ Must use public/internal function\n    }\n}\n```\n\n## Important Notes\n\n⚠️ **Privacy is not real secrecy!** Even `private` and `internal` variables are visible on the blockchain. Anyone can read them by inspecting contract storage. Never store sensitive data (passwords, keys) in any state variable.\n\n```solidity\ncontract SecurityWarning {\n    // This is readable by anyone inspecting the blockchain!\n    uint256 private notReallySecret = 12345;\n}\n```\n\n## Complete Practical Example\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract BankAccount {\n    address public owner;           // Anyone can check the owner\n    uint256 internal totalDeposits; // Shared with child contracts\n    uint256 private secretPin;      // Only this contract\n    \n    constructor() {\n        owner = msg.sender;\n        totalDeposits = 0;\n        secretPin = 1234;\n    }\n    \n    function deposit(uint256 amount) public {\n        totalDeposits += amount;\n    }\n    \n    function verifyPin(uint256 pin) private view returns (bool) {\n        return pin == secretPin;\n    }\n}\n```\n\n## Quick Tips\n\n- **Default is `internal`** — but always specify visibility explicitly for clarity\n- Use **`public`** when you need external read access\n- Use **`internal`** for values shared with inheriting contracts\n- Use **`private`** for contract-specific implementation details\n\nWould you like me to explain function visibility as well, or dive deeper into any of these concepts?",
@@ -127,12 +189,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1739,
+          "output_tokens": 1780,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 6364,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -146,14 +208,29 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer cites OpenZeppelin's contracts repo instead of the expected Chainlink documentation source."
       },
-      "scores": null,
-      "fidelity": null,
+      "scores": {
+        "accuracy": 3,
+        "hallucination_free": 7,
+        "relevance": 2,
+        "structure": 8
+      },
+      "fidelity": 50,
       "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "missing_must_include": [
+        "Interface defines functions without implementation (using the source's numberComparison example)",
+        "interface numberComparison declares isSameNum(uint256 a, uint256 b) external view returns (bool)",
+        "Contract Test is numberComparison implements isSameNum",
+        "override is required because it overrides the interface function",
+        "pure is used instead of view because it does not return a storage variable"
+      ],
+      "unverifiable_from_source": [
+        "IToken/SimpleToken ERC-20-style example (name, symbol, totalSupply, balanceOf, transfer, approve, transferFrom)",
+        "Statement that interfaces cannot have constructors or state variables",
+        "Statement that unimplemented interface functions require contract to be abstract"
+      ],
+      "verdict": "The code is syntactically valid Solidity but it substitutes an entirely different, self-invented ERC-20-style example instead of the source's numberComparison/Test/isSameNum example, omits the source's specific override/pure-vs-view reasoning, and cites OpenZeppelin instead of the Chainlink source, making it unfaithful to the requested source material despite being technically usable code.",
       "prompt": "Show me code for a Solidity interface and a contract that implements it.",
       "archetype": "code-first",
       "answer": "# Solidity Interface and Implementation Example\n\nHere's a complete example showing an interface and a contract that implements it.\n\n## Interface\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n/// @title IToken - A simple token interface\ninterface IToken {\n    // Events\n    event Transfer(address indexed from, address indexed to, uint256 amount);\n    event Approval(address indexed owner, address indexed spender, uint256 amount);\n\n    // View functions\n    function name() external view returns (string memory);\n    function symbol() external view returns (string memory);\n    function totalSupply() external view returns (uint256);\n    function balanceOf(address account) external view returns (uint256);\n\n    // State-changing functions\n    function transfer(address to, uint256 amount) external returns (bool);\n    function approve(address spender, uint256 amount) external returns (bool);\n    function transferFrom(address from, address to, uint256 amount) external returns (bool);\n}\n```\n\n## Implementation\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport \"./IToken.sol\";\n\n/// @title SimpleToken - A basic implementation of IToken\ncontract SimpleToken is IToken {\n    // State variables\n    string private _name;\n    string private _symbol;\n    uint256 private _totalSupply;\n\n    mapping(address => uint256) private _balances;\n    mapping(address => mapping(address => uint256)) private _allowances;\n\n    // Constructor\n    constructor(string memory tokenName, string memory tokenSymbol, uint256 initialSupply) {\n        _name = tokenName;\n        _symbol = tokenSymbol;\n        _totalSupply = initialSupply;\n        _balances[msg.sender] = initialSupply;\n\n        emit Transfer(address(0), msg.sender, initialSupply);\n    }\n\n    // View functions (override interface)\n    function name() external view override returns (string memory) {\n        return _name;\n    }\n\n    function symbol() external view override returns (string memory) {\n        return _symbol;\n    }\n\n    function totalSupply() external view override returns (uint256) {\n        return _totalSupply;\n    }\n\n    function balanceOf(address account) external view override returns (uint256) {\n        return _balances[account];\n    }\n\n    // Transfer tokens to another address\n    function transfer(address to, uint256 amount) external override returns (bool) {\n        require(to != address(0), \"Transfer to zero address\");\n        require(_balances[msg.sender] >= amount, \"Insufficient balance\");\n\n        _balances[msg.sender] -= amount;\n        _balances[to] += amount;\n\n        emit Transfer(msg.sender, to, amount);\n        return true;\n    }\n\n    // Approve a spender to spend tokens on your behalf\n    function approve(address spender, uint256 amount) external override returns (bool) {\n        require(spender != address(0), \"Approve to zero address\");\n\n        _allowances[msg.sender][spender] = amount;\n\n        emit Approval(msg.sender, spender, amount);\n        return true;\n    }\n\n    // Transfer tokens on behalf of another address (requires approval)\n    function transferFrom(address from, address to, uint256 amount) external override returns (bool) {\n        require(from != address(0), \"Transfer from zero address\");\n        require(to != address(0), \"Transfer to zero address\");\n        require(_balances[from] >= amount, \"Insufficient balance\");\n        require(_allowances[from][msg.sender] >= amount, \"Insufficient allowance\");\n\n        _balances[from] -= amount;\n        _balances[to] += amount;\n        _allowances[from][msg.sender] -= amount;\n\n        emit Transfer(from, to, amount);\n        return true;\n    }\n}\n```\n\n## Key Concepts\n\n| Concept | Description |\n|---------|-------------|\n| `interface` | Defines a contract's external API without implementation. All functions are implicitly `external` and cannot have a body. |\n| `override` | Required keyword when implementing functions declared in an interface. |\n| `is IToken` | Indicates the contract inherits from / implements the interface. |\n| `event` | Declared in the interface; must be emitted in the implementation. |\n\n## Notes\n\n- **No constructors or state variables** are allowed in interfaces.\n- **All interface functions** must be `external` and marked `override` in the implementing contract.\n- If you don't implement **all** interface functions, the contract must be declared `abstract`.\n- This is a simplified ERC-20-style token — for production use, consider [OpenZeppelin's audited contracts](https://github.com/OpenZeppelin/openzeppelin-contracts).\n\nWould you like me to show a more advanced example, such as one using inheritance across multiple interfaces or an abstract contract?",
@@ -176,12 +253,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 2137,
+          "output_tokens": 2218,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 6364,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -195,12 +272,25 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
+      "scores": {
+        "accuracy": 7,
+        "hallucination_free": 8,
+        "relevance": 8,
+        "structure": 9
+      },
+      "fidelity": 80,
       "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "missing_must_include": [
+        "Every Solidity file must define the Solidity version",
+        "pragma selects the compiler and defines how code is treated"
+      ],
+      "unverifiable_from_source": [
+        "Version 0.8.0 introduced automatic overflow/underflow checking and 0.7.x needs SafeMath",
+        "OpenZeppelin and Remix commonly use this pragma range",
+        "Caret (^) pragma explanation and equivalence to '0.8.0 to <0.9.0'",
+        "Best practice of locking a specific version for production contracts"
+      ],
+      "verdict": "The core explanation of the version range is accurate and clearly presented, but it omits two explicit source statements (that every file must declare a version and that pragma selects the compiler) and adds several plausible but unsourced claims about SafeMath, tooling conventions, and best practices, so it's mostly safe but not a strict, source-faithful answer.",
       "prompt": "solidity pragma version meaning >=0.7.0 <0.9.0",
       "archetype": "terse/keyword",
       "answer": "# Solidity Pragma Version: `>=0.7.0 <0.9.0`\n\nThis pragma statement specifies a **range of compatible compiler versions** for your Solidity contract.\n\n## Breaking It Down\n\n```solidity\npragma solidity >=0.7.0 <0.9.0;\n```\n\n| Part | Meaning |\n|------|---------|\n| `>=0.7.0` | Compiler version must be **greater than or equal to 0.7.0** |\n| `<0.9.0` | Compiler version must be **less than 0.9.0** |\n\n## What This Means\n\nYour contract can be compiled with **any version from 0.7.0 up to (but not including) 0.9.0**.\n\n✅ **Compatible versions:**\n- 0.7.0, 0.7.1, ... 0.7.6\n- 0.8.0, 0.8.1, ... 0.8.x\n\n❌ **Incompatible versions:**\n- 0.6.x or older (too low)\n- 0.9.0 or newer (too high)\n\n## Why Use a Range?\n\n1. **Flexibility** – Works across multiple compiler versions\n2. **Common in templates** – Tools like OpenZeppelin and Remix use this\n3. **Avoids breaking changes** – Excludes 0.9.0+ which may have incompatible changes\n\n## Important Note ⚠️\n\nVersion **0.8.0 introduced automatic overflow/underflow checking**. So if your code relies on this behavior but compiles with 0.7.x, it could behave differently (0.7.x needs SafeMath library for protection).\n\n## Comparison with Other Pragmas\n\n```solidity\npragma solidity ^0.8.0;    // 0.8.0 to <0.9.0 (caret = same minor)\npragma solidity 0.8.19;    // ONLY exactly 0.8.19\npragma solidity >=0.7.0 <0.9.0;  // 0.7.0 to <0.9.0 (wider range)\n```\n\n## Best Practice 💡\n\nFor **production contracts**, it's often recommended to **lock a specific version** to ensure consistent, predictable compilation:\n\n```solidity\npragma solidity 0.8.19;  // Exact version for production\n```\n\nLet me know if you'd like more details on any specific version's features!",
@@ -223,12 +313,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1181,
+          "output_tokens": 1123,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 6364,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -242,14 +332,43 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer cites only an unrelated cryptozombies.io link instead of the expected Chainlink source page."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 4,
+        "hallucination_free": 3,
+        "relevance": 5,
+        "structure": 8
+      },
+      "fidelity": 50,
+      "hallucinations": [
+        {
+          "claim": "return price; // Note: has 8 decimals typically ... priceFeed.latestRoundData();",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "import \"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\";",
+          "type": "wrong_import",
+          "severity": "med"
+        }
+      ],
+      "missing_must_include": [
+        "A smart contract that connects to offchain data becomes a hybrid smart contract"
+      ],
+      "unverifiable_from_source": [
+        "Push vs. Pull models description",
+        "Decimals gotcha (8 or 18 decimals)",
+        "Staleness/timestamp check via latestRoundData",
+        "Network-specific feed address differences",
+        "CryptoZombies as a learning resource"
+      ],
+      "verdict": "The explanation of oracles and data feeds is conceptually reasonable but the response fabricates specific code (latestRoundData, a hardcoded feed address, and an import path) that isn't in the source and is explicitly flagged as a common hallucination risk, plus it omits the 'hybrid smart contract' terminology and cites an unrelated URL instead of the source page, making it risky to ship as-is.",
       "prompt": "I'm totally new to blockchain and I want to build a contract that can use real-world price data. What are the basic pieces I need to understand about how smart contracts get outside data?",
       "archetype": "verbose/beginner",
       "answer": "# Getting Outside Data into Smart Contracts\n\nGreat question! This gets at one of the most important concepts in blockchain development. Let me break down the key pieces.\n\n## The Core Problem: Blockchains Are Isolated\n\nSmart contracts **can't access the internet directly**. They can only see data that's already on their blockchain. This is by design—it keeps the network deterministic (every node must compute the same result to reach consensus).\n\nSo if you want a price like \"ETH is $3,200,\" you can't just make an API call from your contract.\n\n## The Solution: Oracles\n\nAn **oracle** is a bridge that brings external data onto the blockchain. Here's the basic flow:\n\n1. Off-chain systems fetch real-world data (e.g., from exchanges)\n2. That data gets written to the blockchain in a transaction\n3. Your contract reads it from there\n\n## Key Concepts to Understand\n\n**1. Data Feeds (the easiest starting point)**\nInstead of building your own oracle, you read from existing on-chain price feeds. **Chainlink Price Feeds** are the industry standard—they aggregate prices from many sources and are already deployed on most networks.\n\n**2. Push vs. Pull models**\n- *Push:* Data is updated on-chain automatically (e.g., when price moves 0.5%)\n- *Pull:* You request data and pay for a fresh fetch\n\n**3. Decentralization matters**\nA single data source can be wrong or manipulated. Good oracles aggregate *many* sources so no single point can lie.\n\n## A Concrete Starting Point\n\nFor a beginner, I'd strongly recommend **reading from Chainlink Price Feeds**. Minimal example:\n\n```solidity\n// Simplified concept\nimport \"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\";\n\ncontract PriceReader {\n    AggregatorV3Interface internal priceFeed;\n\n    constructor() {\n        // ETH/USD feed address (varies by network)\n        priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);\n    }\n\n    function getLatestPrice() public view returns (int) {\n        (, int price, , , ) = priceFeed.latestRoundData();\n        return price; // Note: has 8 decimals typically\n    }\n}\n```\n\n## Gotchas to Watch For\n\n- **Decimals:** Prices often come with 8 or 18 decimals, not dollars-and-cents\n- **Staleness:** Always check *when* data was last updated (the `latestRoundData` returns a timestamp)\n- **Network-specific addresses:** Feed addresses differ between mainnet, testnets, and different chains\n\n## Suggested Learning Path\n\n1. Learn Solidity basics (try [CryptoZombies](https://cryptozombies.io))\n2. Deploy a simple contract on a **testnet** (free, no real money)\n3. Read a Chainlink price feed\n4. Then explore custom oracles if you need data that doesn't already exist on-chain\n\n---\n\nWould you like me to go deeper on any of these—like setting up a testnet environment, or how the aggregation actually prevents manipulation?",
@@ -272,12 +391,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1621,
+          "output_tokens": 2153,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 6364,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -293,14 +412,27 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The harness ran in closed mode with no retrieval, and the answer does not cite the expected source page (docs.chain.link/getting-started/conceptual-overview)."
       },
-      "scores": null,
-      "fidelity": null,
+      "scores": {
+        "accuracy": 7,
+        "hallucination_free": 8,
+        "relevance": 6,
+        "structure": 9
+      },
+      "fidelity": 75,
       "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "missing_must_include": [
+        "Remix is developed and maintained by the Ethereum Foundation and can load code from GitHub"
+      ],
+      "unverifiable_from_source": [
+        "Get testnet funds via a faucet like Sepolia",
+        "Get testnet LINK tokens from faucets.chain.link",
+        "Injected Provider - MetaMask as the deployment environment option",
+        "Chainlink VRF/Automation require funding a subscription with LINK",
+        "Recommendation to always start on a testnet like Sepolia"
+      ],
+      "verdict": "The answer correctly conveys that Remix and MetaMask are complementary tools and accurately describes their roles, but it omits a source detail (Ethereum Foundation maintenance/GitHub loading) and adds several workflow specifics not found in or verifiable from the cited source page, and it never cites the expected source URL.",
       "prompt": "Should I use Remix or MetaMask to deploy my first Chainlink smart contract, and what does each one do?",
       "archetype": "comparison",
       "answer": "# Remix vs MetaMask for Deploying Your First Chainlink Contract\n\nGreat question! These two tools actually work **together** rather than being alternatives. You'll typically use *both*.\n\n## What Each One Does\n\n### Remix (IDE - Integrated Development Environment)\n- A **browser-based code editor** where you write, compile, and deploy Solidity smart contracts\n- No installation needed (runs at [remix.ethereum.org](https://remix.ethereum.org))\n- Handles the actual **compilation** and **deployment** logic\n- Great for beginners because it's all-in-one\n\n### MetaMask (Crypto Wallet)\n- A **browser extension wallet** that stores your crypto and account keys\n- **Signs and pays** for transactions (like deployment)\n- Connects Remix to the actual blockchain network\n- Holds your test ETH/tokens needed to pay gas fees\n\n## How They Work Together\n\n```\nYou write code in Remix \n    → Remix compiles it \n    → MetaMask signs & pays for deployment \n    → Contract goes live on blockchain\n```\n\n## Recommended Workflow for Your First Chainlink Contract\n\n1. **Install MetaMask** and create a wallet\n2. **Get testnet funds** – Use a faucet (e.g., Sepolia testnet ETH) so you're not spending real money\n3. **Get testnet LINK tokens** – Many Chainlink features (like VRF or Price Feeds) require LINK. Grab some from [faucets.chain.link](https://faucets.chain.link)\n4. **Open Remix**, write your contract\n5. In Remix's \"Deploy\" panel, choose **\"Injected Provider - MetaMask\"** as the environment\n6. Deploy and confirm the transaction in MetaMask\n\n## Quick Tips for Chainlink Beginners\n\n- **Always start on a testnet** (Sepolia is common) — never mainnet while learning\n- Chainlink has excellent starter tutorials in their [docs](https://docs.chain.link)\n- For Price Feeds, you often just need the correct **feed address** for your network\n- For VRF/Automation, you'll need to fund a **subscription** with LINK\n\nWould you like a simple example contract (like reading a Chainlink Price Feed) to try out?",
@@ -323,12 +455,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1321,
+          "output_tokens": 1705,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 6364,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     }

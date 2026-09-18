@@ -1,0 +1,77 @@
+=== per-unit ===
+unit                                   score  web  clsd  lift  cite pairs
+data-streams-reference-data-streams-api    41  51.2  39.8  11.3  0.50    6
+resources-fund-your-contract              56  46.0  57.8 -11.8  0.00    6
+dta-technical-standard-actors             58  42.7  21.0  21.7  0.17    6
+chainlink-automation-overview-service-limits    61  63.2  37.2  26.0  0.67    6
+chainlink-functions                       63  65.5  70.7  -5.2  0.50    6
+datalink                                  64  36.8  17.2  19.7  0.00    6
+cre-guides-workflow-using-evm-client-overview-ts    64  46.5  30.7  15.8  0.50    6
+ace                                       67  35.7  22.0  13.7  0.17    6
+getting-started-conceptual-overview       73  63.3  63.8  -0.5  0.17    6
+resources-link-token-contracts            77  66.7  60.2   6.5  0.33    6
+
+graders used: claude-sonnet-5
+structural score: n=10 range 41–77 SD 9.8
+smallest |r| detectable at n=10, alpha=.05: 0.636
+
+=== validity: did the web arm actually retrieve? ===
+searches per probe: 4.0, 0.5, 3.0, 4.8, 2.8, 4.0, 5.0, 3.5, 0.0, 3.5
+total searches 187 across 60 paired probes
+no degraded or failed searches
+units that never searched: getting-started-conceptual-overview
+
+=== validity: probe attrition ===
+probes dropped from pairing: 0 of 60
+no attrition — every probe graded in both arms
+
+=== hypotheses ===
+H1  score -> web fidelity (naive)
+  Spearman r = 0.231   95% CI [-0.631, 0.838]   permutation p = 0.521
+  OLS slope  = 0.362 per structural point   95% CI [-0.463, 1.230]
+
+H2  score -> CLOSED fidelity (confound check; should be ~0)
+  Spearman r = 0.134   95% CI [-0.622, 0.665]   permutation p = 0.714
+  OLS slope  = 0.468 per structural point   95% CI [-0.934, 2.195]
+
+H3  score -> lift (web - closed)  [causal estimand]
+  Spearman r = -0.073   95% CI [-0.800, 0.593]   permutation p = 0.844
+  OLS slope  = -0.106 per structural point   95% CI [-1.270, 0.913]
+
+H4  score -> any-citation rate (mediator)
+  Spearman r = -0.122   95% CI [-0.740, 0.601]   permutation p = 0.735
+  OLS slope  = -0.004 per structural point   95% CI [-0.016, 0.014]
+
+=== does web access help at all? (probe-level paired) ===
+paired probes: 60   mean lift 9.7 points   SD 20.6
+Wilcoxon signed-rank p = 0.001
+any-citation rate across units: min 0.000 max 0.667 mean 0.300
+
+=== EXPLORATORY: does retrieval itself produce lift? (not pre-registered) ===
+searches per probe -> lift
+  Spearman r = 0.695   95% CI [0.111, 0.956]   permutation p = 0.031
+  OLS slope  = 5.640 per structural point   95% CI [3.019, 9.832]
+any-citation rate -> lift
+  Spearman r = 0.237   95% CI [-0.619, 0.863]   permutation p = 0.507
+  OLS slope  = 14.636 per structural point   95% CI [-29.981, 47.215]
+  caveat: any-citation counts URLs the model printed from memory (via=null), so it
+  overstates true retrieval; searches-per-probe is the cleaner mechanism measure.
+
+  -- ruling out the ceiling artefact --
+  closed baseline -> lift:            r = -0.782  (p = 0.011)
+  closed baseline -> searches/probe:  r = -0.530  (p = 0.119)
+  searches -> lift, HOLDING baseline fixed: partial r = 0.530
+  if the partial collapses toward 0, the mechanism result is a ceiling artefact, not evidence.
+
+=== EXPLORATORY: per-dimension vs lift (not pre-registered; 37% chance of a spurious hit) ===
+  Answer-first extractability                    r=-0.055  p=0.881
+  Structural scannability & chunkability         r= 0.404  p=0.247
+  Concrete statistics & specifics                r= 0.188  p=0.599
+  Citations & authoritative references           r=-0.423  p=0.222
+  Quotable canonical definitions                 r=-0.285  p=0.422
+  Machine-readability & metadata                 r=-0.038  p=1.000
+  Code completeness & agent-runnability          r=-0.107  p=0.769
+  Query/intent coverage                          r=-0.396  p=0.254
+  Clarity, fluency & terminology consistency     r=-0.191  p=0.595
+
+wrote experiments/correlation/results.json

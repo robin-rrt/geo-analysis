@@ -74,32 +74,40 @@ instantly. Do that first for any batch shape problem.
 correctness wins. Do it when someone actually needs a non-Claude number. Cost already returns
 `null` rather than a wrong figure for an unpriced model, so the seam won't silently understate.
 
-### 5. Correlation study — the most valuable open item
-Does structural score predict answer fidelity?
+### 5. ~~Correlation study~~ ✅ Done — 2026-09-18. **Answer: no detectable relationship.**
 
-**Preview on data already on hand (2026-09-18), and it is not yet evidence:**
+Full write-up: [experiments/correlation/RESULTS.md](../experiments/correlation/RESULTS.md).
+Pre-registered before any probe ran; n=10 pages (scores 41–77), 6 probes each, web and closed arms
+on the same probes, single grader, 20 runs all succeeded, zero attrition. **$24.80.**
 
-| unit | structural | fidelity | hit rate |
-|---|--:|--:|--:|
-| ace | 68 | 38.5 | 30% |
-| concepts-non-determinism-go | 75 | 55.6 | 20% |
-| workflow-using-randomness | 77 | 62.3 | 30% |
-| *(product)* vrf | 88.1 | 77.2 | 0% |
+| test | r | p |
+|---|--:|--:|
+| score → web fidelity | 0.231 | .52 |
+| score → closed fidelity (confound check) | 0.134 | .71 |
+| score → **lift** (causal estimand) | **−0.073** | .84 |
+| score → citation rate | −0.122 | .74 |
 
-Pearson r = 0.98 — and it should **not** be acted on:
+**The r = 0.98 preview that used to sit here was an artefact of n=4 and a mixed scale.** With ten
+comparable units on one instrument and one grader it vanishes. Worth remembering as a case where a
+near-perfect small-n correlation meant nothing.
 
-- **n=4.** With four points a near-perfect r is unremarkable.
-- **The units are not comparable.** The three pages are scored by the 9-dimension LLM rubric;
-  the product by the deterministic rollup. Putting them on one axis is a category error, and
-  dropping the product leaves n=3.
-- All four happen to be Opus-graded, so at least the fidelity axis is on one scale — re-check
-  this after the Sonnet default lands, or the axis silently shifts by ~12 points.
+What *is* established, and it is the useful part: **web access is worth +9.7 fidelity points**
+(Wilcoxon p = .001 over 60 paired probes). Retrieval helps; structural score does not predict who
+benefits from it.
 
-Notably **hit rate does not track fidelity at all** here (30/20/30/0 against 38.5→77.2), which is
-consistent with the retrieval findings: answers are good without retrieval happening.
+Honest limit: n=10 only excludes |r| > 0.64. This is "not shown", not "shown absent". Do not
+quote it as proof structure is irrelevant.
 
-A real study needs ~8–10 units scored the same way, probed with the same grader. At ~$4 per web
-probe run that is roughly $35.
+Two things fell out of it:
+- **`any-citation` overcounts retrieval** — a unit with 0 searches still logged a citation, because
+  the model printed a URL from memory (`via=null`). Use searches-per-probe as the retrieval measure.
+- A `lift`-based design has a strong built-in ceiling artefact: baseline → lift is r = −0.78. Any
+  future analysis of lift must partial out the baseline.
+
+**Next, and better than more correlation:** an intervention study. Apply the tool's own P1 fixes to
+8–10 pages and re-probe the same pages with the same probe sets. Same-page before/after removes
+topic difficulty, parametric familiarity, and the ceiling in one step, and it tests what the tool
+claims to do rather than whether its score ranks pages.
 
 ### Blocked
 - **`plans/corpus-scale-architecture.md`** — needs access to the teammate's crawler JSON. Its

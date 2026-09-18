@@ -8,19 +8,24 @@
   "grader_effort": "high",
   "probe_effort": "medium",
   "grader_prompt_sha": "0bbc797e0e35",
-  "run_at": "2026-09-18T15:13:28.962Z",
+  "run_at": "2026-09-18T15:28:53.931Z",
   "probe_count": 6,
-  "graded_count": 0,
+  "graded_count": 6,
   "refusal_count": 0,
   "error_count": 0,
-  "avg_fidelity": null,
+  "avg_fidelity": 30.7,
   "retrieval_hit_rate": null,
   "retrieval_hit_rate_effective": null,
   "retrieval_mention_hit_count": 0,
   "search_degraded_count": 0,
   "live_search_failed_count": 0,
   "inconclusive_miss_count": 0,
-  "avg_scores": null,
+  "avg_scores": {
+    "accuracy": 1.8,
+    "hallucination_free": 3.8,
+    "relevance": 1.8,
+    "structure": 4.7
+  },
   "usage": {
     "model_under_test": {
       "input_tokens": 210,
@@ -31,12 +36,12 @@
       "service_tier": "standard"
     },
     "grader": {
-      "input_tokens": 0,
-      "output_tokens": 0,
-      "cache_creation_input_tokens": 0,
-      "cache_read_input_tokens": 0,
+      "input_tokens": 7554,
+      "output_tokens": 9361,
+      "cache_creation_input_tokens": 586,
+      "cache_read_input_tokens": 14858,
       "web_search_requests": 0,
-      "service_tier": null
+      "service_tier": "batch"
     }
   },
   "results": [
@@ -48,14 +53,30 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer does not cite or reference the source page at all, relying instead on generic knowledge of ethers.js/viem."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 5,
+        "relevance": 0,
+        "structure": 3
+      },
+      "fidelity": 23,
+      "hallucinations": [
+        {
+          "claim": "Using ethers.js (very common): import { ethers } from \"ethers\";",
+          "type": "contradiction",
+          "severity": "med"
+        }
+      ],
+      "missing_must_include": [
+        "Use the EVMClient, the TypeScript SDK's interface for EVM-compatible blockchains",
+        "Reading uses the Onchain Read guide (view/pure functions)",
+        "Writing uses the Onchain Write guide (state-changing functions)",
+        "ABIs are defined manually with viem"
+      ],
       "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "verdict": "The answer refuses to engage with the actual CRE TypeScript SDK documented in the source and instead offers generic ethers.js/viem guidance, making it unhelpful and effectively useless for the user's actual question.",
       "prompt": "How do I interact with EVM contracts using the CRE TypeScript SDK?",
       "archetype": "direct-howto",
       "answer": "I don't have reliable, specific information about a \"CRE TypeScript SDK\" for interacting with EVM contracts. This could refer to a few different things, and I want to avoid giving you made-up API details that could waste your time.\n\nTo help you better, could you clarify:\n\n1. **What does CRE stand for** in your context? (For example, it might be a specific platform, company, or framework I'm not certain about.)\n\n2. **Where did you encounter this SDK?** (A GitHub repo, documentation site, npm package name, etc.)\n\nIf you can share the package name or a documentation link, I can help you interpret it.\n\n## In the meantime — general EVM interaction in TypeScript\n\nMost EVM/TypeScript SDKs wrap one of these common libraries, so the patterns are usually similar:\n\n**Using ethers.js (very common):**\n```typescript\nimport { ethers } from \"ethers\";\n\nconst provider = new ethers.JsonRpcProvider(RPC_URL);\nconst signer = new ethers.Wallet(PRIVATE_KEY, provider);\n\nconst contract = new ethers.Contract(contractAddress, abi, signer);\n\n// Read (view function)\nconst value = await contract.someViewFunction();\n\n// Write (state-changing)\nconst tx = await contract.someWriteFunction(arg1, arg2);\nawait tx.wait();\n```\n\n**Using viem (increasingly popular):**\n```typescript\nimport { createPublicClient, createWalletClient, http } from \"viem\";\n\nconst publicClient = createPublicClient({ transport: http(RPC_URL) });\n\n// Read\nconst data = await publicClient.readContract({\n  address: contractAddress,\n  abi,\n  functionName: \"someViewFunction\",\n});\n```\n\nIf your SDK is a wrapper, it likely exposes similar concepts (provider, signer, contract instance, ABI).\n\nOnce you tell me more about CRE, I can give you accurate guidance. What can you share?",
@@ -78,12 +99,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "input_tokens": 1121,
+          "output_tokens": 1286,
+          "cache_creation_input_tokens": 586,
+          "cache_read_input_tokens": 1988,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -97,12 +118,46 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 4,
+        "hallucination_free": 3,
+        "relevance": 5,
+        "structure": 8
+      },
+      "fidelity": 50,
+      "hallucinations": [
+        {
+          "claim": "runtime.getEVMClient(chainSelector)",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "evmClient.callContract({ to: tokenAddress, data })",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "viem's use of the `abitype` library under the hood",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "use tools like `wagmi/cli` to emit `const`-typed ABI TS files",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        ".result() usage for synchronous-looking async operations",
+        "Explicit mention of the EVMClient class/interface name"
+      ],
+      "unverifiable_from_source": [
+        "abitype library parsing ABI at the type level",
+        "encodeFunctionData/decodeFunctionResult as the CRE workflow pattern",
+        "getEVMClient/callContract method names on the CRE SDK client",
+        "wagmi/cli tooling recommendation"
+      ],
+      "verdict": "The answer captures the high-level 'manual ABI + viem, no codegen' idea correctly but invents specific CRE SDK method names (getEVMClient, callContract) and omits the source's key `.result()` pattern, making the runnable code examples unsafe to trust as-is.",
       "prompt": "Using viem with the CRE TS SDK, show me how contract calls are made type-safe without codegen",
       "archetype": "constrained",
       "answer": "# Type-Safe Contract Calls with viem in the CRE TS SDK\n\nThe CRE (Chainlink Runtime Environment) TS SDK leverages **viem's ABI type inference** to achieve type safety without any code generation step. This works through TypeScript's ability to infer types directly from a `const`-asserted ABI.\n\n## The Core Mechanism\n\nThe key is viem's use of the `abitype` library under the hood, which parses your ABI at the **type level** when you use `as const`.\n\n```typescript\nimport { type Abi } from 'viem'\n\n// The `as const` assertion is CRITICAL\nconst erc20Abi = [\n  {\n    name: 'balanceOf',\n    type: 'function',\n    stateMutability: 'view',\n    inputs: [{ name: 'account', type: 'address' }],\n    outputs: [{ name: 'balance', type: 'uint256' }],\n  },\n  {\n    name: 'transfer',\n    type: 'function',\n    stateMutability: 'nonpayable',\n    inputs: [\n      { name: 'to', type: 'address' },\n      { name: 'amount', type: 'uint256' },\n    ],\n    outputs: [{ name: 'success', type: 'bool' }],\n  },\n] as const satisfies Abi\n```\n\nWithout `as const`, TypeScript widens the types (e.g., `string` instead of the literal `'balanceOf'`), and inference breaks.\n\n## Using It in a CRE Workflow\n\nIn a CRE workflow, you typically get a client/reader bound to a chain, then make calls using `encodeFunctionData` / `decodeFunctionResult` or a contract abstraction.\n\n```typescript\nimport {\n  encodeFunctionData,\n  decodeFunctionResult,\n  type Address,\n} from 'viem'\n\n// Type-safe encoding — args are validated against the ABI\nconst callData = encodeFunctionData({\n  abi: erc20Abi,\n  functionName: 'balanceOf',   // autocompleted; only valid names allowed\n  args: ['0x1234...'],          // typed as [Address] — wrong arity/type = error\n})\n\n// After the on-chain read via CRE's EVM capability...\nconst balance = decodeFunctionResult({\n  abi: erc20Abi,\n  functionName: 'balanceOf',\n  data: returnedBytes,\n})\n// `balance` is inferred as `bigint` from the `uint256` output\n```\n\n## Inside a CRE Report/Runner Context\n\nA more complete pattern using the SDK's EVM client capability:\n\n```typescript\nimport { cre } from '@chainlink/cre-sdk'\nimport { encodeFunctionData, decodeFunctionResult } from 'viem'\n\nconst onRun = async (runtime, ...) => {\n  const evmClient = runtime.getEVMClient(chainSelector)\n\n  // Encode a read call — fully type-checked\n  const data = encodeFunctionData({\n    abi: erc20Abi,\n    functionName: 'balanceOf',\n    args: [userAddress],\n  })\n\n  // Perform the call through CRE's capability\n  const result = await evmClient.callContract({\n    to: tokenAddress,\n    data,\n  })\n\n  // Decode with inferred return type\n  const balance = decodeFunctionResult({\n    abi: erc20Abi,\n    functionName: 'balanceOf',\n    data: result.data,\n  })\n  // balance: bigint\n}\n```\n\n## Why This Beats Codegen\n\n| Aspect | viem + `as const` | Traditional codegen (e.g., TypeChain) |\n|--------|-------------------|----------------------------------------|\n| Build step | None | Requires generation before compile |\n| Source of truth | The ABI itself | Generated files (can drift) |\n| Autocomplete | `functionName`, `args`, return types | Same, but via generated classes |\n| Errors | Caught at TS compile time | Caught at compile time |\n\n## Getting the ABI as `const`\n\nIf your ABI lives in a JSON file, import it with `as const` or use a typed import so inference is preserved:\n\n```typescript\n// Preferred: define inline or in a .ts file with `as const`\nexport const myAbi = [ /* ... */ ] as const\n\n// If importing JSON, ensure resolveJsonModule + the const assertion pattern\nimport abiJson from './MyContract.json'\nconst myAbi = abiJson.abi as const\n```\n\n> ⚠️ **Common pitfall:** Importing a plain `.json` ABI often loses literal types. Prefer defining ABIs in `.ts` files with `as const`, or use tools like `wagmi/cli` to emit `const`-typed ABI TS files (this is optional tooling, not runtime codegen).\n\n## Key Takeaways\n\n1. **`as const satisfies Abi`** is what unlocks type inference — this is the whole trick.\n2. viem's functions (`encodeFunctionData`, `decodeFunctionResult`, `readContract`, etc.) are **generic over the ABI**, so they narrow types per-call.\n3. **No codegen** because types are computed by the TypeScript compiler from the ABI literal directly.\n\n---\n\n**Note:** The exact CRE SDK client API surface (method names like `getEVMClient`/`callContract`) evolves — check the current `@chainlink/cre-sdk` docs for precise signatures. The **viem type-safety pattern shown here is stable** and is the intended way to interact with contracts in CRE TypeScript workflows.",
@@ -125,12 +180,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 2211,
+          "output_tokens": 2848,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2574,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -142,14 +197,45 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer never cites or references the expected CRE TypeScript SDK source page and instead gives generic EVM library knowledge, explicitly hedging that it may not match the intended framework."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 2,
+        "hallucination_free": 4,
+        "relevance": 1,
+        "structure": 5
+      },
+      "fidelity": 30,
+      "hallucinations": [
+        {
+          "claim": "Use `eth_call` or `eth_getStorageAt` under the hood",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "Use `eth_sendRawTransaction` under the hood",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "const contract = new ethers.Contract(address, abi, provider);",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "the read/write pattern is similar but uses Chainlink's SDK abstractions",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Onchain Read: call view and pure functions to read onchain state",
+        "Onchain Write: call state-changing functions to write data to the blockchain"
+      ],
+      "unverifiable_from_source": [
+        "Generic ethers.js/web3.js/go-ethereum read-write mechanics (eth_call, eth_sendRawTransaction, provider vs signer distinction) are not covered by the source at all"
+      ],
+      "verdict": "The answer ignores the actual source (Chainlink CRE TypeScript EVMClient docs) entirely, substituting generic ethers.js/web3.js explanations and even asking the user to clarify whether they meant Chainlink CRE, so it fails to deliver the required, source-grounded information and is not safe to ship as-is.",
       "prompt": "cre ts evm client read vs write",
       "archetype": "terse/keyword",
       "answer": "# EVM Client: Read vs Write Operations\n\nWhen interacting with an EVM blockchain via a client (like ethers.js, web3.js, viem, or Go's go-ethereum), operations split into two fundamental categories.\n\n## Read Operations (Calls)\n\n**Characteristics:**\n- Query blockchain state without modifying it\n- **Free** (no gas cost)\n- Don't require a signature/private key\n- Return data immediately (synchronous relative to a block)\n- Use `eth_call` or `eth_getStorageAt` under the hood\n\n**Examples:**\n```javascript\n// Reading a view/pure function\nconst balance = await contract.balanceOf(address);\nconst name = await contract.name();\n\n// Direct state reads\nconst ethBalance = await provider.getBalance(address);\nconst blockNumber = await provider.getBlockNumber();\n```\n\n## Write Operations (Transactions)\n\n**Characteristics:**\n- **Modify** blockchain state\n- **Cost gas** (must pay fees)\n- Require signing with a **private key**\n- Return a transaction hash, then must wait for mining/confirmation\n- Use `eth_sendRawTransaction` under the hood\n\n**Examples:**\n```javascript\n// State-changing function\nconst tx = await contract.transfer(recipient, amount);\nawait tx.wait(); // wait for confirmation\n\n// Sending ETH\nconst tx = await signer.sendTransaction({\n  to: recipient,\n  value: ethers.parseEther(\"1.0\")\n});\n```\n\n## Comparison Table\n\n| Aspect | Read (Call) | Write (Transaction) |\n|--------|-------------|---------------------|\n| Gas cost | Free | Requires gas |\n| Signature | Not needed | Required |\n| State change | No | Yes |\n| Return value | Function result | Tx hash |\n| Confirmation | Immediate | Wait for block |\n| Client object | Provider | Signer |\n\n## Key Distinction in Code\n\n```javascript\n// READ: use a provider (read-only)\nconst contract = new ethers.Contract(address, abi, provider);\n\n// WRITE: use a signer (has private key)\nconst contract = new ethers.Contract(address, abi, signer);\n```\n\n---\n\n**Note:** You mentioned \"cre ts\" — if you meant **Chainlink CRE (Chainlink Runtime Environment)** with **TypeScript**, the read/write pattern is similar but uses Chainlink's SDK abstractions. Could you clarify which framework/library you're using so I can give more targeted examples?",
@@ -172,12 +258,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1204,
+          "output_tokens": 1877,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2574,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -189,14 +275,38 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer cites no URLs and does not reference the expected source page at all."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 2,
+        "hallucination_free": 4,
+        "relevance": 2,
+        "structure": 4
+      },
+      "fidelity": 30,
+      "hallucinations": [
+        {
+          "claim": "often something like a `onReport` handler",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "Use a write/target capability — configure the target chain and contract address",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Use the Onchain Write guide to call state-changing functions",
+        "See Building Consumer Contracts to write contracts that receive reports from your workflow",
+        "Use EVMClient for the interaction"
+      ],
+      "unverifiable_from_source": [
+        "Implementing the receiver interface with an onReport handler",
+        "Validating the report via metadata or sender/forwarder address checks",
+        "Encode your report — take the consensus output and format it"
+      ],
+      "verdict": "The answer sidesteps the actual source-backed guidance (EVMClient, Onchain Write, Building Consumer Contracts) in favor of generic, unverified patterns and clarifying questions, so it is not safe to ship as-is.",
       "prompt": "I want my workflow to send data to my own smart contract and have it receive reports — how do I do that with the TypeScript SDK?",
       "archetype": "verbose/beginner",
       "answer": "# Sending Data to Your Smart Contract with the TypeScript SDK\n\nTo have your workflow send data to your own smart contract and receive reports, you'll need to set up both the **smart contract side** (to receive reports) and the **workflow side** (to send data).\n\n## Smart Contract Side\n\nYour contract needs to implement the interface that allows it to receive reports. Typically this means:\n\n1. **Implementing the receiver interface** — your contract should have a function that can accept and process incoming reports (often something like a `onReport` handler).\n2. **Validating the report** — you'll want to verify the report comes from an authorized source (e.g., checking metadata, sender/forwarder address).\n\n## Workflow Side (TypeScript SDK)\n\nOn the workflow side, you'll typically:\n\n1. **Encode your report** — take the consensus output and format it into a report that your contract can decode.\n2. **Use a write/target capability** — configure the target chain and contract address so the report gets delivered on-chain.\n\n---\n\nI want to make sure I point you to the exact, correct APIs and patterns rather than guessing at method names, which platform/SDK this is, and the current syntax.\n\nCould you clarify a few things?\n\n1. **Which SDK/platform is this?** For example, is this the **Chainlink CRE (Chainlink Runtime Environment) TypeScript SDK**, or a different product? The phrasing \"workflow,\" \"reports,\" and \"smart contract\" strongly suggests Chainlink CRE, but I want to confirm.\n2. **What chain(s)** are you targeting for the on-chain write (e.g., an EVM chain)?\n3. **What does your data look like** — are you fetching from an API, aggregating across nodes, etc.?\n\nWith those details I can give you accurate, working code for both the contract interface and the workflow configuration.",
@@ -219,12 +329,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1019,
+          "output_tokens": 1198,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2574,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -236,14 +346,42 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "No URLs were cited and the answer explicitly admits uncertainty about the SDK's actual tooling, indicating no real retrieval occurred."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 1,
+        "relevance": 2,
+        "structure": 5
+      },
+      "fidelity": 23,
+      "hallucinations": [
+        {
+          "claim": "generated bindings are generally the recommended approach for most use cases",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Generated Bindings (Recommended for most cases)",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "Use generated bindings as your default for production code",
+          "type": "contradiction",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "The TypeScript SDK uses manual ABI definitions with viem",
+        "No code generation is required",
+        "This gives flexibility of direct ABI handling with viem's type safety"
+      ],
+      "unverifiable_from_source": [
+        "Checking the official CRE SDK documentation for their recommended workflow",
+        "Looking at their example repositories to see the idiomatic pattern they promote"
+      ],
+      "verdict": "The answer directly contradicts the source, which states the CRE TS SDK uses only manual ABI definitions with no code generation, so recommending generated bindings as the default is unsafe to ship.",
       "prompt": "Should I use manual ABI definitions or generated bindings for contract calls in the CRE TS SDK?",
       "archetype": "comparison",
       "answer": "# ABI Definitions vs Generated Bindings in CRE TS SDK\n\nFor contract calls in the CRE TypeScript SDK, **generated bindings are generally the recommended approach** for most use cases, but the right choice depends on your specific needs.\n\n## Generated Bindings (Recommended for most cases)\n\n**Advantages:**\n- **Type safety** — you get full TypeScript type checking for function names, parameters, and return values\n- **Better developer experience** — autocomplete and inline documentation\n- **Fewer errors** — the compiler catches mismatches between your code and the contract interface\n- **Cleaner code** — you don't manually construct ABI objects\n\n**Best when:**\n- You have access to the contract's ABI at build time\n- You're working with a stable, known contract interface\n- You want maintainable, self-documenting code\n\n## Manual ABI Definitions\n\n**Advantages:**\n- **Flexibility** — useful when interacting with contracts whose ABIs you fetch or determine at runtime\n- **No build step dependency** — you don't need a code generation step in your pipeline\n- **Partial interfaces** — you can define only the specific functions you need\n\n**Best when:**\n- The contract ABI isn't known until runtime\n- You're only calling one or two simple functions\n- You're prototyping quickly\n\n## My Recommendation\n\nUse **generated bindings** as your default for production code — the type safety benefits significantly reduce bugs in contract interactions, which are notoriously error-prone.\n\n---\n\n**A caveat:** I want to be honest that I'm not fully certain about the current specifics of the CRE (Chainlink Runtime Environment) TS SDK's exact binding generation tooling and workflow, as this is a relatively specialized and evolving SDK. The general principles above apply to most Web3 TS SDKs (like those built on viem/ethers patterns), but I'd recommend:\n\n1. Checking the **official CRE SDK documentation** for their recommended workflow\n2. Looking at their **example repositories** to see the idiomatic pattern they promote\n\nWould you like me to help you think through a specific use case, or do you have more context about what your CRE workflow looks like?",
@@ -266,12 +404,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1096,
+          "output_tokens": 1001,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2574,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -283,14 +421,31 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer claims it lacks reliable information about the CRE EVMClient despite this being documented on the source page, effectively ignoring the expected source."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 6,
+        "relevance": 1,
+        "structure": 3
+      },
+      "fidelity": 28,
+      "hallucinations": [
+        {
+          "claim": "ethers.js (`contract.myViewFunction(...)`)",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Use the Onchain Read guide to call view and pure functions",
+        "Reads onchain state via EVMClient",
+        "Define ABIs manually with viem"
+      ],
+      "unverifiable_from_source": [
+        "Reading on-chain state via view functions typically follows this pattern with most EVM clients (eth_call, ABI encode/decode)"
+      ],
+      "verdict": "The answer refuses to use the well-documented CRE EVMClient overview and instead asks clarifying questions, providing no source-grounded guidance, making it unsafe and unhelpful for the developer's actual question.",
       "prompt": "How do I read onchain state by calling view functions with the CRE EVMClient in TypeScript?",
       "archetype": "paraphrase",
       "answer": "I don't have reliable, detailed information about a \"CRE EVMClient\" in TypeScript, and I want to avoid inventing API details that could send you down the wrong path.\n\nTo give you accurate help, could you clarify a few things?\n\n## What I need to know\n\n1. **What is \"CRE\"?** This could refer to:\n   - Chainlink Runtime Environment (Chainlink's newer offering)\n   - A specific SDK or internal library\n   - Something else entirely\n\n2. **How are you installing it?** The exact package name (e.g., what you'd `npm install`) would help pin down the correct API.\n\n3. **Do you have any existing docs or code samples?** Even a partial import statement or a link to documentation would let me give you precise guidance.\n\n## What I can tell you generally\n\nReading on-chain state via view functions typically follows this pattern with most EVM clients:\n\n1. **Get the contract's ABI** (at least the fragment for the function you're calling)\n2. **Encode the call data** — the function selector plus arguments\n3. **Perform an `eth_call`** (not a transaction, so no gas/signing needed)\n4. **Decode the returned bytes** back into typed values\n\nIf it helps, I'm quite familiar with equivalent patterns in mainstream libraries like:\n- **viem** (`publicClient.readContract(...)`)\n- **ethers.js** (`contract.myViewFunction(...)`)\n\nIf you can share the details above—or if you'd accept an example in viem/ethers as a reference—I can give you concrete, correct code.",
@@ -313,12 +468,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 903,
+          "output_tokens": 1151,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2574,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     }

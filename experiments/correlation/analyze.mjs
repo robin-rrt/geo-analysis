@@ -5,7 +5,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { spearman, olsSlope, permutationP, bootstrapCI, signedRankP, mean, sd, detectableR } from "./stats.mjs";
+import { spearman, olsSlope, permutationP, bootstrapCI, signedRankP, mean, sd, detectableR, partialSpearman } from "./stats.mjs";
 
 const DIR = "experiments/correlation";
 const RUNS = path.join(DIR, "runs");
@@ -189,6 +189,32 @@ function dimensionScores(auditFile) {
   }
   return out;
 }
+
+// Mechanism check. The causal chain is structure -> retrieval -> fidelity. The
+// pre-registered tests all start at "structure". This asks whether the second
+// link works at all: when the model actually searches, does it gain anything?
+// If it does, a null on H3/H4 localises the failure to the FIRST link.
+console.log("\n=== EXPLORATORY: does retrieval itself produce lift? (not pre-registered) ===");
+const spp = rows.map((r) => r.searchesPerProbe);
+const lifts = rows.map((r) => r.lift);
+const mech = testPair("searches per probe -> lift", spp, lifts);
+printTest(mech);
+const citeMech = testPair("any-citation rate -> lift", rows.map((r) => r.anyCitationRate), lifts);
+printTest(citeMech);
+console.log("  caveat: any-citation counts URLs the model printed from memory (via=null), so it");
+console.log("  overstates true retrieval; searches-per-probe is the cleaner mechanism measure.");
+
+// The alternative explanation for the line above. `lift` is bounded by its own
+// baseline — a unit already answered well cannot gain much — and the model
+// plausibly searches less precisely when it already knows the topic. That alone
+// would manufacture a searches->lift correlation with no causal role for search.
+const closed = rows.map((r) => r.pairedClosed);
+console.log("\n  -- ruling out the ceiling artefact --");
+console.log(`  closed baseline -> lift:            r = ${f3(spearman(closed, lifts))}  (p = ${f3(permutationP(closed, lifts, spearman, { iterations: 20_000 }))})`);
+console.log(`  closed baseline -> searches/probe:  r = ${f3(spearman(closed, spp))}  (p = ${f3(permutationP(closed, spp, spearman, { iterations: 20_000 }))})`);
+const partial = partialSpearman(spp, lifts, closed);
+console.log(`  searches -> lift, HOLDING baseline fixed: partial r = ${f3(partial)}`);
+console.log("  if the partial collapses toward 0, the mechanism result is a ceiling artefact, not evidence.");
 
 const dims = units.map((u) => dimensionScores(u.audit));
 const names = [...new Set(dims.flatMap(Object.keys))];

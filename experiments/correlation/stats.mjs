@@ -126,6 +126,21 @@ export function signedRankP(diffs, { iterations = 100_000, seed = 13 } = {}) {
   return { statistic: observed, p: (extreme + 1) / (iterations + 1) };
 }
 
+/**
+ * Rank-based partial correlation of x and y, holding z fixed.
+ *
+ * Needed because `lift` is arithmetically bounded by its own baseline: a unit
+ * the model already answers well has little room to gain, so anything that
+ * tracks baseline knowledge will correlate with lift for free. Partialling out
+ * the closed-mode score asks whether the association survives that.
+ */
+export function partialSpearman(xs, ys, zs) {
+  const rxy = spearman(xs, ys), rxz = spearman(xs, zs), ryz = spearman(ys, zs);
+  if (rxy === null || rxz === null || ryz === null) return null;
+  const denom = Math.sqrt((1 - rxz ** 2) * (1 - ryz ** 2));
+  return denom === 0 ? null : (rxy - rxz * ryz) / denom;
+}
+
 export const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
 export const sd = (xs) => {
   if (xs.length < 2) return null;

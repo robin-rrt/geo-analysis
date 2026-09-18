@@ -75,12 +75,27 @@ const STAGES = {
   closed: () => stageProbeRun("closed"),
 };
 
+/**
+ * A probe run writes its answers before the grading batch returns, so an
+ * existing file is not a finished one. Resuming on existence alone would
+ * silently leave an ungraded unit in the study forever.
+ */
+function isGraded(file) {
+  if (!fs.existsSync(file)) return false;
+  try {
+    const j = JSON.parse(fs.readFileSync(file, "utf8"));
+    return (j.graded_count ?? 0) > 0;
+  } catch {
+    return false; // truncated mid-write — re-run it
+  }
+}
+
 function stageProbeRun(mode) {
   return readUnits().map((u) => {
     const out = path.join(DIR, "runs", `${u.slug}-${mode}.json`);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     return {
-      skip: fs.existsSync(out),
+      skip: isGraded(out),
       label: `${u.slug} [${mode}]`,
       args: [
         "probe", u.probes,

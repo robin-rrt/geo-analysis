@@ -1,0 +1,464 @@
+{
+  "source_url": "https://docs.chain.link/dta-technical-standard/actors",
+  "source_title": "DTA Technical Standard: Actors",
+  "probe_set_id": "ee56cec43b7d",
+  "model_tested": "claude-opus-4-8",
+  "mode": "web",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T15:15:02.171Z",
+  "probe_count": 6,
+  "graded_count": 6,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": 42.7,
+  "retrieval_hit_rate": 0.33,
+  "retrieval_hit_rate_effective": 0.33,
+  "retrieval_mention_hit_count": 1,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": {
+    "accuracy": 3.3,
+    "hallucination_free": 5.2,
+    "relevance": 3.7,
+    "structure": 4.8
+  },
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 228631,
+      "output_tokens": 11400,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 18,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 8079,
+      "output_tokens": 5992,
+      "cache_creation_input_tokens": 1416,
+      "cache_read_input_tokens": 19008,
+      "web_search_requests": 0,
+      "service_tier": "batch"
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": true,
+        "via": "mention",
+        "tier": null,
+        "notes": ""
+      },
+      "scores": {
+        "accuracy": 6,
+        "hallucination_free": 6,
+        "relevance": 9,
+        "structure": 9
+      },
+      "fidelity": 75,
+      "hallucinations": [
+        {
+          "claim": "Reporting — Leveraging the DTA reporting layer to maintain official fund reports.",
+          "type": "contradiction",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "Completes settlement for offchain payments"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "Mostly accurate and well-structured, but it incorrectly attributes the DTA reporting responsibility to the Transfer Agent (that's the Fund Administrator's job per the source) and omits the offchain payment settlement duty, so it should not be shipped without correction.",
+      "prompt": "What are the responsibilities of the Transfer Agent in the Chainlink DTA standard?",
+      "archetype": "direct-howto",
+      "answer": "Based on the Chainlink Digital Transfer Agent (DTA) technical standard documentation, here are the responsibilities of the Transfer Agent:\n\n## Core Role\n\nThe DTA protocol is built around distinct onchain roles, and the Transfer Agent manages the processing of subscription and redemption orders, as well as investor recordkeeping.\n\n## Specific Responsibilities\n\nThe Transfer Agent's duties in the DTA standard include:\n\n- **Contract ownership** — Deploying and owning the DTA Request Settlement for their fund.\n\n- **Fund registration and rule-setting** — Registering their fund tokens on DTA Request Management, defining all operational rules like the payment method, processing model (navTTL), rate limits, and timezones.\n\n- **Distributor management** — Managing an allowlist of approved Fund Distributors for each fund.\n\n- **Order processing** — Processing pending subscription and redemption requests at regular intervals (e.g., end of day).\n\n- **Reporting** — Leveraging the DTA reporting layer to maintain official fund reports.\n\n## Jurisdictional Note\n\nIt's worth noting that the standard accounts for regional differences. In certain jurisdictions (e.g., UK, EU, Singapore), there is no legal requirement for a transfer agent depending on the status of the issue. In these jurisdictions, the subscription/redemption order processing is usually managed by the Fund Administrators. In such cases, the Fund Administrator can deploy the DTA Request Settlement contract and perform all the responsibilities mentioned for the Transfer Agent.\n\nFor complete technical details, you can refer to the official Chainlink DTA documentation at docs.chain.link/dta-technical-standard/actors.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 35060,
+          "output_tokens": 1803,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 5,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1063,
+          "output_tokens": 934,
+          "cache_creation_input_tokens": 1416,
+          "cache_read_input_tokens": 1988,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/dta-technical-standard/actors",
+          "https://docs.chain.link/dta-technical-standard/how-it-works",
+          "https://docs.chain.link/dta-technical-standard/concepts/payment-modes"
+        ],
+        "hit_expected_source": true,
+        "via": "citation",
+        "tier": null,
+        "notes": ""
+      },
+      "scores": {
+        "accuracy": 3,
+        "hallucination_free": 3,
+        "relevance": 5,
+        "structure": 4
+      },
+      "fidelity": 38,
+      "hallucinations": [
+        {
+          "claim": "A real-world example of this setup is the recent UBS transaction: DigiFT functioned as the on-chain fund distributor",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "Chainlink Runtime Environment, Cross-Chain Interoperability Protocol, Automated Compliance Engine, and NAVLink",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "DTA Request Settlement releases the escrowed tokens... in the cross-chain model the DTA Request Settlement on Chain B receives the CCIP message and payment, then automatically mints the Fund Token",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "preemptively burns the fund tokens from the Distributor's address and emits an event",
+          "type": "other",
+          "severity": "med"
+        }
+      ],
+      "missing_must_include": [
+        "Register the distributor address on DTA Request Management",
+        "Gain allowlist approval from Transfer Agents to access specific funds",
+        "Approve the DTA contracts to spend onchain payment tokens",
+        "Distributors typically batch requests from multiple investors into a single transaction",
+        "Manage holdings and open requests, including fetching status and cancelling"
+      ],
+      "unverifiable_from_source": [
+        "UBS/DigiFT transaction example",
+        "Three payment/settlement models (Offchain, Local Onchain, Cross-chain Onchain) and their mechanics",
+        "Chainlink Runtime Environment and NAVLink integration details",
+        "CCIP-based cross-chain settlement flow details"
+      ],
+      "verdict": "The answer cites the correct source but largely omits the concrete, source-stated steps (registration, allowlist approval, token approval, batching, holdings management) and instead introduces unverified narrative and technical details not present in the given source, making it unreliable as a precise how-to for setting up the Fund Distributor role.",
+      "prompt": "How do I set up the Fund Distributor role to submit subscription and redemption requests with the DTA standard?",
+      "archetype": "direct-howto",
+      "answer": "I'll search for information about setting up the Fund Distributor role for subscription and redemption requests with the DTA standard.This is about the Chainlink Digital Transfer Agent (DTA) technical standard. Let me get more specific documentation on setting up the Fund Distributor role.Let me get the detailed content from the Actors and How It Works documentation pages.I have enough information from the Chainlink documentation and related sources to answer. Note that the \"DTA standard\" you're referring to is the **Chainlink Digital Transfer Agent (DTA) technical standard**.\n\n## Overview of the Fund Distributor role\n\nThe Chainlink Digital Transfer Agent (DTA) technical standard defines how transfer agents and fund admins can expand their operations onchain. Within this framework, the Fund Distributor is the actor authorized to initiate orders. Distributors initiate subscription or redemption requests through the DTA technical standard contracts, and the Transfer Agent processes the distributor's request on the DTA technical standard contracts.\n\nA real-world example of this setup is the recent UBS transaction: DigiFT functioned as the on-chain fund distributor and leveraged the DTA standard to successfully request and process a subscription and redemption order. As the distributor described it, leveraging the Chainlink DTA technical standard enables seamless subscription and redemption workflows directly integrated with institutional custody.\n\n## How the setup works\n\nThe core of the setup involves two main contracts you interact with as a distributor:\n\n1. **DTA Request Management** – where requests are submitted and where the Transfer Agent processes them.\n2. **DTA Request Settlement** – which handles the token/payment mechanics once a request is processed.\n\nFor a subscription/redemption lifecycle, this end-to-end tokenized fund workflow can cover every stage of the fund lifecycle, including order taking, execution, settlement, and data synchronization across all on-chain and off-chain systems.\n\n## Choosing a payment/settlement model\n\nBefore submitting requests, you (together with the Transfer Agent) must decide which settlement model your Fund Distributor role will operate under. The Digital Transfer Agent (DTA) technical standard is designed for maximum flexibility, supporting three distinct payment and settlement models. These are the **Offchain**, **Local Onchain**, and **Cross-chain Onchain** models:\n\n- **Local Onchain (single chain):** This is used when DTA Request Management, the DTA Request Settlement, the Fund Token, and the payment token all reside on the same blockchain — perfect for digitally native funds operating within a single blockchain ecosystem.\n- **Offchain settlement:** After the Transfer Agent processes the redemption request, DTA Request Settlement preemptively burns the fund tokens from the Distributor's address and emits an event to signal that the onchain portion is complete. The Transfer Agent then settles the payment to the Distributor through their offchain method; once payment is complete, the Transfer Agent confirms completion of the request. Importantly, if the payment fails, DTA Request Settlement mints new tokens back to the Distributor, making them whole again.\n- **Cross-chain Onchain:** After the Transfer Agent processes the request on Chain A, DTA Request Management sends a CCIP message with the redemption instructions to DTA Request Settlement on Chain B, which burns the fund tokens from the Distributor's address and then sends a CCIP token-transfer message back to DTA Request Management on Chain A, including the payment tokens.\n\n## Submitting subscription and redemption requests\n\nOnce your Fund Distributor address is authorized and the settlement model is agreed upon, the flow is:\n\n1. **You (Distributor) submit the request** to the DTA Request Management contract — either a subscription or a redemption order.\n2. **The Transfer Agent processes it** on the DTA contracts.\n3. **Settlement completes** according to the chosen model. For example, on redemption in an onchain model, DTA Request Settlement releases the escrowed tokens to the Fund Distributor, completing the transaction, while in the cross-chain model the DTA Request Settlement on Chain B receives the CCIP message and payment, then automatically mints the Fund Token, delivering the new shares to the distributor with no manual completion step required.\n\nUnder the hood, this automation relies on several Chainlink components. The Chainlink DTA standard integrates several technologies, including Chainlink Runtime Environment, Cross-Chain Interoperability Protocol, Automated Compliance Engine, and NAVLink — allowing Chainlink's oracle network to automate fund lifecycle operations such as order processing, execution, settlement, and data synchronization between on-chain and off-chain systems.\n\n## Recommended next steps\n\nFor the exact contract addresses, role-granting functions (access control), and API/method signatures to wire up your Fund Distributor address, consult the official Chainlink documentation directly, particularly:\n\n- **DTA Technical Standard – Actors:** `https://docs.chain.link/dta-technical-standard/actors`\n- **How It Works:** `https://docs.chain.link/dta-technical-standard/how-it-works`\n- **Payment Modes:** `https://docs.chain.link/dta-technical-standard/concepts/payment-modes`\n\n---\n\n**A note on specifics:** I wasn't able to retrieve the exact on-chain permissioning steps (e.g., the specific role identifiers or the `grantRole`-style calls that a Transfer Agent uses to authorize your distributor address) because these depend on the concrete implementation deployed by your Transfer Agent/fund admin. In practice, the authority to submit requests is granted to your distributor address by the Transfer Agent, since they control processing on the DTA Request Management contract. I'd recommend confirming the precise authorization mechanics with your Transfer Agent and the Actors/access-control section of the docs linked above. Would you like me to try searching again for the specific access-control functions?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 91002,
+          "output_tokens": 4113,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 5,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 2553,
+          "output_tokens": 2615,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3404,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": "The answer did not cite or reference the expected Chainlink DTA source at all, instead fabricating an unrelated Defense Travel System topic."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 0,
+        "relevance": 0,
+        "structure": 1
+      },
+      "fidelity": 3,
+      "hallucinations": [
+        {
+          "claim": "Defense Travel Administrator (DTA) in the U.S. Department of Defense's Defense Travel System (DTS)",
+          "type": "other",
+          "severity": "high"
+        },
+        {
+          "claim": "LDTA (Lead DTA), ODTA (Organization DTA), FDTA (Finance DTA), BDTA (Budget DTA)",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "theatre/drama education (Drama & Theatre Arts)... playwright, director, actor, designer, and technician",
+          "type": "other",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "Transfer Agent",
+        "Fund Administrator",
+        "Fund Distributor",
+        "Fund Issuer",
+        "Three core onchain roles plus wider ecosystem participants"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer completely misidentifies 'DTA' and fabricates an entirely unrelated Defense Travel System context, failing to address the Chainlink DTA technical standard actors at all—unsafe and unusable for the developer's actual query.",
+      "prompt": "DTA actors roles list",
+      "archetype": "terse/keyword",
+      "answer": "Your query \"DTA\" could refer to a few different things, but the most common context for a \"DTA roles list\" is the **Defense Travel Administrator (DTA)** in the U.S. Department of Defense's **Defense Travel System (DTS)**. Here's what I found:\n\n## DTA Roles in the Defense Travel System (DTS)\n\nAccording to the DTS DTA Manual, DTA roles include Lead DTAs (LDTAs), Organization DTAs (ODTAs), Finance DTAs (FDTAs), and Budget DTAs (BDTAs). These administrators use DTS to set up and manage the travel system for their organizations.\n\nA quick breakdown of these roles:\n- **LDTA (Lead DTA)** – The top-level administrator with the broadest authority, overseeing DTS setup and management for an organization.\n- **ODTA (Organization DTA)** – Manages organization-level setup (people, routing lists, groups) within an assigned area.\n- **FDTA (Finance DTA)** – Handles finance-related setup such as budgets, lines of accounting (LOAs), and routing.\n- **BDTA (Budget DTA)** – Focuses on budget management functions within DTS.\n\nIn addition to these administrator roles, DTS also involves other **permission-level roles** used in the travel document workflow, such as travelers, Authorizing Officials (AOs)/Reviewing Officials, and NDEAs (Non-DTS Entry Agents).\n\n---\n\n**A note on ambiguity:** \"DTA\" also appears in other contexts — for example, in **theatre/drama education (Drama & Theatre Arts)**, where students learn about roles like the **playwright, director, actor, designer, and technician**. If you meant a different \"DTA\" (theatre arts, a specific software/framework, a company, etc.), let me know and I can refine the answer.\n\nCould you confirm which context you're asking about so I can give you a more complete and accurate list?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 44233,
+          "output_tokens": 2194,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 5,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1019,
+          "output_tokens": 448,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3404,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p04",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": "The answer did not cite the expected source URL despite accurately reproducing its content."
+      },
+      "scores": {
+        "accuracy": 10,
+        "hallucination_free": 10,
+        "relevance": 7,
+        "structure": 9
+      },
+      "fidelity": 90,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "The answer accurately and faithfully reflects the source content with correct quotes and no fabrications, though it fails to cite the expected source URL.",
+      "prompt": "In the UK or EU where there's no legal requirement for a transfer agent, who handles subscription and redemption order processing under the Chainlink DTA standard?",
+      "archetype": "constrained",
+      "answer": "Under the Chainlink Digital Transfer Agent (DTA) technical standard, in jurisdictions where no transfer agent is legally required, that role is filled by the **Fund Administrator**.\n\nSpecifically, the standard notes that in certain jurisdictions (e.g., UK, EU, Singapore), there is no legal requirement for a transfer agent depending on the status of the issue, and in these jurisdictions the subscription / redemption order processing is usually managed by the Fund Administrators.\n\nThe DTA standard accommodates this arrangement directly: the Chainlink DTA technical standard is well suited for these jurisdictions as well, as the Fund Administrator can deploy the DTA Request Settlement contract and perform all the responsibilities mentioned for the Transfer Agent in the previous section.\n\nIn other words, the Fund Administrator effectively steps into the transfer agent's shoes—deploying the Request Settlement contract and carrying out the same on-chain responsibilities that a transfer agent would otherwise handle.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 3,
+        "searches_succeeded": 3,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 26997,
+          "output_tokens": 927,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 3,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 772,
+          "output_tokens": 156,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3404,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p05",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": "The answer relies entirely on general finance knowledge instead of the cited Chainlink DTA source and cites no URLs."
+      },
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 2,
+        "relevance": 1,
+        "structure": 4
+      },
+      "fidelity": 20,
+      "hallucinations": [
+        {
+          "claim": "DTA commonly refers to the Domiciliary agent / Transfer Agent (and Administration) bundle",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "I answered this from general fund-operations knowledge since \"DTA\" can mean slightly different things",
+          "type": "other",
+          "severity": "high"
+        },
+        {
+          "claim": "Handles AML/KYC and investor onboarding",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "Maintains the shareholder register (who owns how many shares/units)",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Fund Administrator reviews new subscription and redemption requests",
+        "Calculates the updated NAV based on pending requests",
+        "Sends the updated NAV value to the onchain NAV feed",
+        "Leverages the DTA reporting layer to maintain official fund reports",
+        "Transfer Agent instead handles order processing, settlement, allowlists, and fund registration — not NAV calculation"
+      ],
+      "unverifiable_from_source": [
+        "NAV per share = (Total assets − Total liabilities) ÷ Number of shares/units outstanding",
+        "Valuing the portfolio using market prices, pricing vendors, or fair-value methods",
+        "Reconciling positions and cash against custodian and prime broker records",
+        "Distributes dividends/distributions to investors",
+        "Sends investor statements and confirmations"
+      ],
+      "verdict": "The answer ignores the actual Chainlink DTA technical standard source entirely, relies on generic traditional-finance fund administration knowledge, misdefines 'DTA' (contradicting the source's Digital Transfer Agent framing), and omits every required source-specific detail, so it is not safe to ship for this prompt.",
+      "prompt": "I'm new to this — what exactly does the Fund Administrator do with the NAV in the DTA setup, and how does that differ from what the Transfer Agent does?",
+      "archetype": "verbose/beginner",
+      "answer": "Great question — these roles get confused a lot when you're new, because both touch the fund's operations but at very different points. Let me break it down.\n\n## First, the key term: NAV\n\n**NAV (Net Asset Value)** is the per-unit/per-share value of the fund. In simple terms:\n\n> NAV per share = (Total assets − Total liabilities) ÷ Number of shares/units outstanding\n\nIt's the \"price\" at which investors buy into and redeem out of the fund.\n\n## What the Fund Administrator does with the NAV\n\nThe **Fund Administrator (FA)** is the party that **calculates and strikes the NAV**. This is often called being the fund's \"official books and records\" keeper. Their NAV-related work includes:\n\n- **Valuing the portfolio** — pricing all the securities/positions (using market prices, pricing vendors, or fair-value methods for illiquid holdings)\n- **Accounting for income, accruals, and expenses** — dividends, interest, management fees, admin fees, etc.\n- **Reconciling** positions and cash against the custodian and prime broker records\n- **Computing the final NAV** (both total fund NAV and per-share/per-unit NAV)\n- **Producing financial statements** and supporting the audit\n\nSo the Administrator is essentially the **independent \"scorekeeper\"** who produces the authoritative NAV number.\n\n## What the Transfer Agent does\n\nThe **Transfer Agent (TA)** is the party that maintains the **register of investors (shareholders/unitholders)** and processes their transactions. The TA:\n\n- Maintains the **shareholder register** (who owns how many shares/units)\n- Processes **subscriptions (buys), redemptions (sells), and transfers**\n- Handles **AML/KYC** and investor onboarding\n- **Uses the NAV** (which the Administrator strikes) to determine how many shares an investor gets for their money, or how much cash they receive on a redemption\n- Distributes **dividends/distributions** to investors\n- Sends **investor statements and confirmations**\n\n## The crucial difference — and where \"DTA\" comes in\n\nHere's the mental model:\n\n| | Fund Administrator | Transfer Agent |\n|---|---|---|\n| **Focus** | The fund's assets & books | The fund's investors |\n| **Role with NAV** | **Produces/strikes** the NAV | **Consumes/applies** the NAV |\n| **Core question answered** | \"What is the fund worth per share?\" | \"Who owns what, and how many shares do they get?\" |\n\nIn many arrangements the **same firm performs both functions**, which is where a **\"DTA\" setup** typically comes in. DTA commonly refers to the **Domiciliary agent / Transfer Agent (and Administration)** bundle — a combined service where one provider handles administration (NAV) *and* the transfer agency/registrar function. The point of the acronym varies by jurisdiction and provider, though (in Luxembourg, for example, \"domiciliary agent\" is a distinct role), so it's worth confirming exactly what your firm means by \"DTA.\"\n\n### A quick note\nI answered this from general fund-operations knowledge since \"DTA\" can mean slightly different things depending on your jurisdiction and the specific service provider. **A couple of things would help me sharpen this:**\n\n1. Is \"DTA\" an internal acronym at your firm, or a jurisdiction-specific term (e.g., Luxembourg, Ireland, Cayman)?\n2. Are the FA and TA the *same* entity in your setup, or two separate providers?\n\nIf you can share the document or context where you saw \"DTA,\" I can tailor the explanation to exactly how your operation is structured. Would you like me to walk through the **end-to-end flow** of a subscription (from investor cash → NAV strike → shares issued) to show how the two roles hand off to each other?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 5936,
+          "output_tokens": 1440,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1799,
+          "output_tokens": 1565,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3404,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p06",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": "The answer explicitly states it could not find the source document and asks the user to upload it, failing to retrieve the expected page."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 10,
+        "relevance": 0,
+        "structure": 2
+      },
+      "fidelity": 30,
+      "hallucinations": [],
+      "missing_must_include": [
+        "Deploy the fund token contract using Chainlink's Automated Compliance Engine (ACE)",
+        "Grant permissions to the Transfer Agent's DTA Request Settlement contract to mint and burn tokens in response to processed requests",
+        "Ensure DTA Request Settlement is authorized to hold tokens within the token's compliance framework"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer fails to retrieve or use the source at all and instead asks the user for clarification, providing no useful information; not shippable.",
+      "prompt": "What does the Fund Issuer need to do to let the DTA mint and burn fund tokens?",
+      "archetype": "direct-howto",
+      "answer": "I don't see any uploaded document in this conversation, and I wasn't able to find a file to reference.\n\nYour question uses specific terms — \"Fund Issuer,\" \"DTA,\" and \"mint and burn fund tokens\" — that appear to come from a particular document, contract, or platform's documentation (this looks like tokenized-fund / digital-asset terminology, where \"DTA\" might be a Digital Transfer Agent or similar role).\n\nTo give you an accurate answer, could you please:\n\n1. **Upload the document** you're referring to (e.g., the PDF, whitepaper, terms, or technical spec), or\n2. **Clarify the context** — for example, what platform or scheme this relates to and what \"DTA\" stands for in your document.\n\nOnce I have the source material, I can pull out exactly what the Fund Issuer needs to do (e.g., granting roles/permissions, signing agreements, configuring the smart contract, whitelisting the DTA's address, etc.) and cite the relevant passages for you.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 25403,
+          "output_tokens": 923,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 873,
+          "output_tokens": 274,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3404,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    }
+  ]
+}

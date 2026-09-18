@@ -1,0 +1,466 @@
+{
+  "source_url": "https://docs.chain.link/chainlink-automation/overview/service-limits",
+  "source_title": "Chainlink Automation Service Limits",
+  "probe_set_id": "cdb1fd999410",
+  "model_tested": "claude-opus-4-8",
+  "mode": "closed",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T15:13:11.369Z",
+  "probe_count": 6,
+  "graded_count": 6,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": 37.2,
+  "retrieval_hit_rate": null,
+  "retrieval_hit_rate_effective": null,
+  "retrieval_mention_hit_count": 0,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": {
+    "accuracy": 2,
+    "hallucination_free": 5.3,
+    "relevance": 2.7,
+    "structure": 4.8
+  },
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 244,
+      "output_tokens": 3858,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 6295,
+      "output_tokens": 4365,
+      "cache_creation_input_tokens": 432,
+      "cache_read_input_tokens": 14088,
+      "web_search_requests": 0,
+      "service_tier": "batch"
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer explicitly states it lacks reliable information and does not cite or retrieve the source."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 10,
+        "relevance": 2,
+        "structure": 3
+      },
+      "fidelity": 38,
+      "hallucinations": [],
+      "missing_must_include": [
+        "Ethereum processes 20 logs per block per upkeep",
+        "This is a per-block per-upkeep limit for log trigger upkeeps"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer fails to provide the requested information and is not usable for a developer seeking the specific limit, despite avoiding fabrication.",
+      "prompt": "How many logs per block per upkeep does Chainlink Automation process for log trigger upkeeps on Ethereum?",
+      "archetype": "direct-howto",
+      "answer": "I don't have reliable, specific information about the exact number of logs per block per upkeep that Chainlink Automation processes for log trigger upkeeps on Ethereum.\n\nThis is a fairly specific technical detail that may:\n- Change over time as Chainlink updates its Automation network\n- Vary based on network conditions or configuration\n- Be documented in Chainlink's official technical documentation\n\nFor accurate and current information, I'd recommend checking:\n\n1. **Chainlink's official documentation** at docs.chain.link, specifically the Automation section on log triggers\n2. **Chainlink's developer resources** or their GitHub repositories\n3. **Chainlink community forums or Discord** where technical specifics are often discussed\n\nIf you're building with log trigger upkeeps, the official documentation would have the authoritative limits and processing specifications, as these details are important for correctly architecting your implementation.\n\nIs there something more general about how Chainlink Automation log triggers work that I could help explain?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 44,
+          "output_tokens": 315,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 689,
+          "output_tokens": 202,
+          "cache_creation_input_tokens": 432,
+          "cache_read_input_tokens": 1988,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/chainlink-automation"
+        ],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer cites only the generic Chainlink Automation docs homepage, not the specific service-limits page, and did not retrieve the correct source content."
+      },
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 1,
+        "relevance": 3,
+        "structure": 5
+      },
+      "fidelity": 25,
+      "hallucinations": [
+        {
+          "claim": "Chainlink Automation processes up to 5 logs per block per upkeep on Arbitrum (and other chains)",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Arbitrum produces blocks very quickly (roughly every ~250ms for sequencer blocks",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "If more than 5 matching logs are emitted in a single block: Automation will process 5 of them",
+          "type": "fabricated_function",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "Arbitrum processes 1 log every 2 blocks, or 2 logs per second",
+        "This differs from the standard per-block model on other chains"
+      ],
+      "unverifiable_from_source": [
+        "Arbitrum block time ~250ms for sequencer blocks",
+        "L1 batch posting differs"
+      ],
+      "verdict": "The answer fabricates a '5 logs per block' limit that directly contradicts the source's actual Arbitrum figure (1 log every 2 blocks / 2 logs per second), making it unsafe to ship despite the caveat to verify docs.",
+      "prompt": "Using log trigger upkeeps on Arbitrum, how many logs will Automation actually process per block?",
+      "archetype": "constrained",
+      "answer": "On Arbitrum with Chainlink Automation log trigger upkeeps, the key thing to understand is how block structure and log processing work.\n\n## Key Point: Logs Per Block Limit\n\nChainlink Automation processes **up to 5 logs per block** per upkeep on Arbitrum (and other chains). This is a limitation you need to design around.\n\n## Why This Matters on Arbitrum Specifically\n\nArbitrum has some characteristics that make this particularly important:\n\n1. **Fast block times** – Arbitrum produces blocks very quickly (roughly every ~250ms for sequencer blocks, though L1 batch posting differs), which means logs can accumulate rapidly.\n\n2. **High throughput** – If your contract emits many logs in a short window, you can easily exceed the per-block processing capacity.\n\n## Practical Implications\n\nIf more than 5 matching logs are emitted in a single block:\n- Automation will process 5 of them\n- The remaining logs **may be missed** if you're not handling this carefully\n\n## Recommendations\n\nTo avoid missing logs:\n\n- **Design for idempotency and batching** – Have your `checkLog` / `performUpkeep` logic account for the possibility of catching up on missed events.\n- **Consider log volume** – If you expect high-frequency events, you may need multiple upkeeps or a different architectural pattern.\n- **Verify current limits in the docs** – These operational parameters can change over time.\n\n## Important Caveat\n\nI'd recommend **verifying the exact current number in the [official Chainlink Automation documentation](https://docs.chain.link/chainlink-automation)**, as these limits are subject to change and may vary by network or Automation version. My figure reflects commonly documented behavior, but the docs are the authoritative source for current specifications.\n\nWould you like help designing a log trigger upkeep that handles high log volumes gracefully?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 39,
+          "output_tokens": 609,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1011,
+          "output_tokens": 453,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2420,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/chainlink-automation/overview/supported-networks"
+        ],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer explicitly declines to retrieve/answer and points to a different, wrong doc page instead of the expected service-limits source."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 6,
+        "relevance": 1,
+        "structure": 3
+      },
+      "fidelity": 25,
+      "hallucinations": [
+        {
+          "claim": "maxRevertDataSize",
+          "type": "invented_param",
+          "severity": "med"
+        },
+        {
+          "claim": "gasCeiling multiplier",
+          "type": "invented_param",
+          "severity": "low"
+        },
+        {
+          "claim": "checkGasLimit ... Gas for log processing/simulation",
+          "type": "invented_param",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "BSC (BNB): 4 logs per block per upkeep",
+        "Polygon: 4",
+        "Avalanche: 4",
+        "OP: 4",
+        "BASE: 4",
+        "Gnosis: 1"
+      ],
+      "unverifiable_from_source": [
+        "performGas / gas limit table entries",
+        "Log lookback blocks table entries",
+        "Automation Supported Networks page content"
+      ],
+      "verdict": "The answer fails to provide any of the requested per-chain log trigger numbers and instead deflects with unrelated/possibly fabricated parameters, making it unusable and unsafe to ship.",
+      "prompt": "log trigger limits per chain BSC Polygon Avalanche OP Base Gnosis",
+      "archetype": "terse/keyword",
+      "answer": "You're asking about **log trigger limits per chain** for **Chainlink Automation** (formerly Keepers). This is a common question for developers using log-based upkeeps.\n\nHere's what you should know:\n\n## Important Note\nThe specific numeric limits (like gas limits, log data size, blocks lookback, etc.) **change over time** and vary by network. I don't have reliable, current values memorized for each chain, and giving you outdated numbers could cause real problems in your deployment.\n\n## Where to Get Accurate Limits\n\n**Official Chainlink Documentation:**\n- **Automation Supported Networks page**: https://docs.chain.link/chainlink-automation/overview/supported-networks\n  - This lists per-chain configuration for BNB Chain (BSC), Polygon, Avalanche, Optimism (OP), Base, and Gnosis\n  - Includes gas limits, check gas limits, and network-specific parameters\n\n## Common Log Trigger Parameters to Look For\nWhen you check the docs, you'll want these values per chain:\n\n| Parameter | What it controls |\n|-----------|------------------|\n| **performGas / gas limit** | Max gas for your `performUpkeep` |\n| **checkGasLimit** | Gas for log processing/simulation |\n| **maxRevertDataSize** | Max revert data size |\n| **Log lookback blocks** | How far back logs can be recovered |\n| **gasCeiling multiplier** | Gas price ceiling |\n\n## My Recommendation\nCould you clarify what you're specifically trying to find? For example:\n- Are you asking about **Chainlink Automation** log triggers?\n- Or a different service (e.g., **The Graph**, **Alchemy**, **QuickNode**, **Tenderly**)?\n\nIf you tell me the **exact platform** and **which limit** (gas, data size, rate limits, etc.), I can give you a more targeted answer or point you to the precise doc section.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36,
+          "output_tokens": 633,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1059,
+          "output_tokens": 390,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2420,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p04",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/chainlink-automation/overview/supported-networks"
+        ],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer cites the supported-networks page rather than the actual source page (service-limits) that states Fantom lacks log trigger support."
+      },
+      "scores": {
+        "accuracy": 8,
+        "hallucination_free": 8,
+        "relevance": 7,
+        "structure": 9
+      },
+      "fidelity": 80,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [
+        "Fantom (Fantom Opera) has limited Chainlink Automation support and either doesn't support log triggers or supports only custom logic/time-based upkeeps",
+        "checkLog reverting or returning upkeepNeeded = false",
+        "Indexed topic filters (topic0/1/2/3) causing missed events",
+        "Upkeep underfunded/paused as a cause"
+      ],
+      "verdict": "The answer correctly identifies the core fact that Fantom doesn't support log trigger upkeeps and offers reasonable alternatives, but it hedges unnecessarily on a point the source states unambiguously and cites a different (unverified) doc page instead of the actual source page, so it's mostly safe but not perfectly faithful.",
+      "prompt": "I set up a log trigger upkeep on Fantom but it never fires — what's wrong?",
+      "archetype": "error-debug",
+      "answer": "Chainlink Automation **log trigger upkeeps are not supported on Fantom**. This is the most likely reason your upkeep never fires.\n\n## The core issue\n\nFantom (Fantom Opera) has limited Chainlink Automation support. Log trigger upkeeps — which watch for specific emitted events — are only available on certain networks, and Fantom is either **unsupported or supports only custom logic / time-based upkeeps**, not log triggers.\n\nYou should verify this directly, because supported features change over time:\n\n- **Check the official docs:** [Chainlink Automation Supported Networks](https://docs.chain.link/chainlink-automation/overview/supported-networks) — look specifically for whether Fantom lists \"Log Trigger\" as a supported trigger type.\n\n## What to check / do\n\n1. **Confirm network + trigger support** on the supported networks page. If log triggers aren't listed for Fantom, that's your answer.\n\n2. **Consider alternatives if unsupported:**\n   - Use a **custom logic upkeep** with `checkUpkeep`/`performUpkeep` that reads state instead of reacting to logs.\n   - Migrate the log-trigger logic to a **supported network** (e.g., Ethereum, Arbitrum, Base, Polygon, etc.).\n\n## If log triggers *are* supported and it still doesn't fire\n\nThen debug these common causes:\n\n1. **Wrong emitting contract address or event signature** in the trigger config — must match exactly.\n2. **Indexed topic filters** set incorrectly (topic0/1/2/3 filtering out your event).\n3. **Upkeep underfunded** — no LINK balance means it won't execute.\n4. **`checkLog` reverting or returning `upkeepNeeded = false`.**\n5. **Upkeep paused** in the Automation UI.\n6. **The event actually isn't being emitted** — verify on a block explorer.\n\n---\n\nCan you tell me:\n- Which trigger type does the docs page show for Fantom?\n- Are you 100% sure the event is being emitted on-chain (confirmed via explorer)?\n\nThat'll narrow it down quickly — but I'd bet on the network/feature support issue first.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 35,
+          "output_tokens": 718,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1111,
+          "output_tokens": 1437,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2420,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p05",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer cites no sources and does not reference the expected Chainlink Automation service-limits page at all."
+      },
+      "scores": {
+        "accuracy": 2,
+        "hallucination_free": 4,
+        "relevance": 2,
+        "structure": 6
+      },
+      "fidelity": 35,
+      "hallucinations": [
+        {
+          "claim": "Chainlink Automation has limits on how many upkeeps can be performed per block.",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "function checkLog(Log calldata log, bytes memory) external returns (bool upkeepNeeded, bytes memory performData)",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "Use a Combination of Log Trigger + Custom Logic Trigger",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "Implement a Log Buffer/Queue Pattern",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Nodes process a limited number of logs per block per upkeep using a minimum dequeue method so latest logs are processed first",
+        "Additional remaining logs may be processed on a best effort basis but this is not guaranteed",
+        "Configure a manual trigger as backup if you need all remaining logs processed"
+      ],
+      "unverifiable_from_source": [
+        "Log Buffer/Queue Pattern implementation details",
+        "Combination of Log Trigger + Custom Logic Trigger architecture",
+        "Idempotency and persistent storage design principles",
+        "checkLog function signature and performData batch info"
+      ],
+      "verdict": "The answer ignores the source's actual documented guidance (minimum dequeue method, best-effort processing, and manual trigger as backup) and instead fabricates an unrelated architectural solution, making it unsafe to ship as a faithful representation of Chainlink's documentation.",
+      "prompt": "I need to guarantee that every single log gets processed by my upkeep even if there are more logs than the per-block limit. How should I handle this?",
+      "archetype": "verbose/beginner",
+      "answer": "# Handling Log Backlogs in Chainlink Automation Upkeeps\n\nThis is a common challenge with log-triggered upkeeps. Let me explain how to guarantee every log gets processed even when you exceed per-block limits.\n\n## The Core Problem\n\nChainlink Automation has limits on how many upkeeps can be performed per block. If your contract emits more logs than can be processed in a single block, some logs could potentially be **dropped** if you don't design for this.\n\n## Recommended Solutions\n\n### 1. Implement a Log Buffer/Queue Pattern\n\nInstead of processing logs immediately, store them and process in batches:\n\n```solidity\n// Store unprocessed log data\nmapping(uint256 => LogData) public pendingLogs;\nuint256 public nextToProcess;\nuint256 public nextToAdd;\n\nfunction checkLog(Log calldata log, bytes memory) \n    external \n    returns (bool upkeepNeeded, bytes memory performData) \n{\n    // Return whether there are pending items to process\n    upkeepNeeded = nextToProcess < nextToAdd;\n    performData = abi.encode(/* batch info */);\n}\n```\n\n### 2. Use a Combination of Log Trigger + Custom Logic Trigger\n\n- **Log trigger upkeep**: Captures logs and adds them to a queue\n- **Custom logic (time-based) upkeep**: Drains the queue in batches\n\nThis decouples log *capture* from log *processing*.\n\n### 3. Process Multiple Items Per PerformUpkeep\n\nBatch your processing within each `performUpkeep` call:\n\n```solidity\nfunction performUpkeep(bytes calldata performData) external {\n    uint256 processed = 0;\n    uint256 maxBatch = 50; // stay within gas limits\n    \n    while (nextToProcess < nextToAdd && processed < maxBatch) {\n        _processLog(pendingLogs[nextToProcess]);\n        delete pendingLogs[nextToProcess];\n        nextToProcess++;\n        processed++;\n    }\n}\n```\n\n## Key Design Principles\n\n| Principle | Why It Matters |\n|-----------|----------------|\n| **Idempotency** | Ensure reprocessing the same log is safe |\n| **Persistent storage** | Never rely on the log itself being re-delivered |\n| **Batch processing** | Handle multiple items per upkeep execution |\n| **Gas awareness** | Keep batches under gas limits |\n\n## Important Caveats\n\n⚠️ **A few things to verify for your specific situation:**\n\n1. **Which network are you on?** Log retention and limits vary.\n2. **What's your log volume?** This affects whether a queue is sufficient or if you need architectural changes.\n3. **Latency requirements?** Batching adds delay between emission and processing.\n\n---\n\n**To give you more precise guidance, could you share:**\n- Are you using **Chainlink Automation** specifically, or a different keeper/automation system?\n- What's your approximate log volume (logs per block)?\n- What does each log need to trigger?\n\nThis will help me tailor the solution to your exact setup.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 49,
+          "output_tokens": 1020,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1449,
+          "output_tokens": 1298,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2420,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p06",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer does not cite the source and operates in closed mode with no retrieval, relying entirely on hedged general knowledge."
+      },
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 3,
+        "relevance": 1,
+        "structure": 3
+      },
+      "fidelity": 20,
+      "hallucinations": [
+        {
+          "claim": "Ordering typically follows log emission order (by transaction index within a block, then log index within a transaction).",
+          "type": "contradiction",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "Limits vary by chain (e.g., Ethereum 20, most L2s/sidechains 4, Gnosis 1)",
+        "Nodes use a minimum dequeue method so the latest logs are processed first",
+        "Automation nodes look back over a limited range of the latest blocks"
+      ],
+      "unverifiable_from_source": [
+        "Per-block log limits exist to prevent a single upkeep from monopolizing block space"
+      ],
+      "verdict": "The answer refuses to give the actual per-chain numbers from the source and instead fabricates an incorrect ordering mechanism (transaction/log index) that contradicts the source's stated minimum dequeue (latest-first) method, making it unsafe and unhelpful to ship.",
+      "prompt": "What's the maximum number of logs my upkeep will handle each block on a given chain, and in what order are they picked?",
+      "archetype": "paraphrase",
+      "answer": "It looks like you're asking about a specific system involving \"upkeep,\" \"logs,\" \"blocks,\" and \"chains\" — this terminology strongly suggests **Chainlink Automation** (formerly Keepers), specifically **log-triggered upkeeps**.\n\nHowever, I want to be honest: I'm not certain about the exact current numeric limits, as these can vary by chain and may have changed over time. Let me share what's generally true while flagging where you should verify.\n\n## What I can tell you generally\n\n**Log-triggered upkeeps** watch for specific emitted logs (events) and execute your `performUpkeep` function in response.\n\nKey concepts that affect throughput:\n- **Per-block log limits** exist to prevent a single upkeep from monopolizing block space.\n- **Ordering** typically follows log emission order (by transaction index within a block, then log index within a transaction).\n\n## Where I'd recommend you verify\n\nBecause the specific numbers (max logs per block per upkeep) can differ **by chain** and are subject to change, I'd strongly encourage checking:\n\n1. **Chainlink Automation documentation** — docs.chain.link → Automation section\n2. Chain-specific configuration pages, since limits on Ethereum mainnet may differ from L2s like Arbitrum, Optimism, Polygon, etc.\n\n## To give you a precise answer, could you confirm:\n\n- Are you indeed using **Chainlink Automation log triggers**? (Or a different platform?)\n- **Which chain** are you deploying on?\n\nIf it's a different system entirely (e.g., another automation protocol or a custom setup), let me know and I can adjust — but I don't want to guess at specific numbers and risk giving you inaccurate limits that could affect your deployment.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 41,
+          "output_tokens": 563,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 976,
+          "output_tokens": 585,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2420,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    }
+  ]
+}

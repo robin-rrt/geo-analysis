@@ -32,6 +32,12 @@ function loadRun(slug, mode) {
     anyCitation: rs.filter((r) => (r.retrieval?.cited_urls ?? []).length > 0).length,
     hitRate: j.retrieval_hit_rate,
     n: rs.length,
+    // If the model never searches, the web arm is not testing retrieval at all —
+    // it is closed mode with extra steps. This is a property of the protocol, so
+    // it must be reported before any causal claim rests on the arm.
+    searches: j.usage?.model_under_test?.web_search_requests ?? 0,
+    searchDegraded: j.search_degraded_count ?? 0,
+    searchFailed: j.live_search_failed_count ?? 0,
   };
 }
 
@@ -69,6 +75,15 @@ for (const u of units) {
     console.error(`skipping ${u.slug}: missing ${!web ? "web" : "closed"} run`);
     continue;
   }
+  // A run file exists from the moment answers are written, before its grading
+  // batch returns. Including a half-finished unit would feed nulls straight into
+  // the coefficients instead of failing loudly.
+  if (!web.fidelities.length || !closed.fidelities.length) {
+    console.error(
+      `skipping ${u.slug}: ungraded (web ${web.fidelities.length}/${web.n}, closed ${closed.fidelities.length}/${closed.n})`,
+    );
+    continue;
+  }
   // Pair on probe id: a probe graded in one arm but not the other would
   // otherwise shift the difference for reasons unrelated to retrieval.
   const shared = [...web.byProbe.keys()].filter((k) => closed.byProbe.has(k));
@@ -76,6 +91,8 @@ for (const u of units) {
   rows.push({
     slug: u.slug,
     score: u.score,
+    expectedProbes: Math.max(web.n, closed.n),
+    refusals: { web: web.n - web.fidelities.length, closed: closed.n - closed.fidelities.length },
     webFidelity: web.fidelities.length ? mean(web.fidelities) : null,
     closedFidelity: closed.fidelities.length ? mean(closed.fidelities) : null,
     pairedWeb: paired.length ? mean(paired.map((p) => p.web)) : null,
@@ -83,6 +100,9 @@ for (const u of units) {
     lift: paired.length ? mean(paired.map((p) => p.web - p.closed)) : null,
     anyCitationRate: web.n ? web.anyCitation / web.n : null,
     hitRate: web.hitRate,
+    searches: web.searches,
+    searchesPerProbe: web.n ? web.searches / web.n : null,
+    searchBroken: web.searchDegraded + web.searchFailed,
     pairedProbes: paired.length,
     probeDiffs: paired.map((p) => p.web - p.closed),
     graders: [web.grader, closed.grader],
@@ -110,6 +130,34 @@ console.log(`\ngraders used: ${[...graders].join(", ")}${graders.size > 1 ? "  *
 const score = rows.map((r) => r.score);
 console.log(`structural score: n=${rows.length} range ${Math.min(...score)}–${Math.max(...score)} SD ${f1(sd(score))}`);
 console.log(`smallest |r| detectable at n=${rows.length}, alpha=.05: ${f3(detectableR(rows.length))}`);
+
+// Validity check on the web arm itself. The causal story requires the model to
+// actually search; if it does not, "web mode" is closed mode with extra steps and
+// H3/H4 describe a path that was never exercised.
+console.log("\n=== validity: did the web arm actually retrieve? ===");
+console.log(`searches per probe: ${rows.map((r) => f1(r.searchesPerProbe)).join(", ")}`);
+console.log(`total searches ${rows.reduce((a, r) => a + r.searches, 0)} across ${rows.reduce((a, r) => a + r.pairedProbes, 0)} paired probes`);
+const broken = rows.filter((r) => r.searchBroken > 0);
+console.log(broken.length ? `search degraded/failed on: ${broken.map((r) => r.slug).join(", ")}` : "no degraded or failed searches");
+const noSearch = rows.filter((r) => r.searches === 0);
+if (noSearch.length) console.log(`units that never searched: ${noSearch.map((r) => r.slug).join(", ")}`);
+
+// Validity check. A probe the model refused in closed mode is dropped from the
+// pair. If those drops are more common on low-scoring units, lift is computed on
+// an easier subset there and the H3 coefficient is biased — so this is checked
+// rather than assumed.
+console.log("\n=== validity: probe attrition ===");
+const expected = rows.map((r) => r.expectedProbes ?? 6);
+const dropped = rows.map((r, i) => expected[i] - r.pairedProbes);
+console.log(`probes dropped from pairing: ${dropped.reduce((a, b) => a + b, 0)} of ${expected.reduce((a, b) => a + b, 0)}`);
+if (dropped.some((d) => d > 0)) {
+  for (const [i, r] of rows.entries()) if (dropped[i]) console.log(`  ${r.slug}: -${dropped[i]}`);
+  const attr = spearman(score, dropped);
+  console.log(`attrition vs score: Spearman r = ${f3(attr)} (p = ${f3(permutationP(score, dropped, spearman, { iterations: 20_000 }))})`);
+  console.log("  a strong negative r would mean low-scoring units lost their hardest probes — read H3 with that in mind");
+} else {
+  console.log("no attrition — every probe graded in both arms");
+}
 
 console.log("\n=== hypotheses ===");
 const tests = {

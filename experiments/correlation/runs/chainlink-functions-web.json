@@ -1,0 +1,192 @@
+{
+  "source_url": "https://docs.chain.link/chainlink-functions",
+  "source_title": "Chainlink Functions",
+  "probe_set_id": "f66a44ecf23f",
+  "model_tested": "claude-opus-4-8",
+  "mode": "web",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T15:15:08.164Z",
+  "probe_count": 3,
+  "graded_count": 0,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": null,
+  "retrieval_hit_rate": 0.33,
+  "retrieval_hit_rate_effective": 0.33,
+  "retrieval_mention_hit_count": 1,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": null,
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 93533,
+      "output_tokens": 6383,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 7,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": null
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://functions.chain.link",
+          "https://api.example.com/data?symbol=${args[0",
+          "https://github.com/smartcontractkit/functions-hardhat-starter-kit"
+        ],
+        "hit_expected_source": true,
+        "via": "mention",
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "How do I use Chainlink Functions to fetch data from an external API in my smart contract?",
+      "archetype": "direct-howto",
+      "answer": "# Using Chainlink Functions to Fetch External API Data\n\nChainlink Functions lets your smart contract execute custom JavaScript code off-chain (on a Decentralized Oracle Network) and receive the result on-chain. Here's how to set it up.\n\n## 1. Prerequisites\n\n- A **Functions subscription** created and funded with LINK at [functions.chain.link](https://functions.chain.link)\n- Your consumer contract added to that subscription\n- The router address, DON ID, and subscription ID for your target network\n\n## 2. Write Your Consumer Contract\n\nYou inherit from `FunctionsClient` and use the `FunctionsRequest` library to build and send requests.\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {FunctionsClient} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol\";\nimport {FunctionsRequest} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol\";\n\ncontract APIConsumer is FunctionsClient {\n    using FunctionsRequest for FunctionsRequest.Request;\n\n    bytes32 public s_lastRequestId;\n    bytes public s_lastResponse;\n    bytes public s_lastError;\n\n    // Router address - set per network (e.g. Sepolia)\n    constructor(address router) FunctionsClient(router) {}\n\n    // Your JavaScript source lives on-chain as a string\n    string source =\n        \"const res = await Functions.makeHttpRequest({\"\n        \"url: `https://api.example.com/data?symbol=${args[0]}`\"\n        \"});\"\n        \"if (res.error) { throw Error('Request failed'); }\"\n        \"return Functions.encodeUint256(Math.round(res.data.price * 100));\";\n\n    function sendRequest(\n        uint64 subscriptionId,\n        string[] calldata args,\n        bytes32 donID,\n        uint32 gasLimit\n    ) external returns (bytes32 requestId) {\n        FunctionsRequest.Request memory req;\n        req.initializeRequestForInlineJavaScript(source);\n\n        if (args.length > 0) {\n            req.setArgs(args);\n        }\n\n        s_lastRequestId = _sendRequest(\n            req.encodeCBOR(),\n            subscriptionId,\n            gasLimit,\n            donID\n        );\n        return s_lastRequestId;\n    }\n\n    // The DON calls this back with your result\n    function fulfillRequest(\n        bytes32 requestId,\n        bytes memory response,\n        bytes memory err\n    ) internal override {\n        require(s_lastRequestId == requestId, \"unexpected request ID\");\n        s_lastResponse = response;\n        s_lastError = err;\n    }\n}\n```\n\n## 3. Key Concepts\n\n**The JavaScript source** — This runs off-chain on every DON node. Use the injected `Functions` object:\n- `Functions.makeHttpRequest({ url, method, headers, params, data })` for API calls\n- `Functions.encodeUint256()`, `encodeInt256()`, `encodeString()` to encode your return value into `bytes`\n\n**Arguments** — `setArgs()` passes non-secret parameters to your script (accessed via the `args` array). For API keys and other secrets, use **encrypted secrets** (uploaded to the DON via `setDONHostedSecrets()` / `addSecretsReference()`, never plaintext on-chain).\n\n**Callback pattern** — Requests are asynchronous. You send a request, get a `requestId`, and the DON later invokes `fulfillRequest()`. Keep decoding logic there, and use `abi.decode()` on the `response` bytes to recover your value.\n\n**Gas & billing** — Set an appropriate `gasLimit` for the callback. Costs (DON execution + callback gas) are paid in LINK from your subscription.\n\n## 4. Typical Workflow\n\n1. Develop and test your JS locally using the [Functions Toolkit / Hardhat starter kit](https://github.com/smartcontractkit/functions-hardhat-starter-kit) with simulation before deploying.\n2. Deploy your consumer contract with the correct **router address**.\n3. Create/fund a subscription and add your contract as a consumer.\n4. Call `sendRequest()` and read the result once `fulfillRequest()` fires.\n\n## Important Considerations\n\n- **Consensus:** Each DON node runs your code independently and results are aggregated, so your API responses should be deterministic (avoid timestamps or values that change between calls).\n- **Data providers:** Respect API rate limits and terms of service — many nodes hit your endpoint simultaneously.\n- **Don't over-return data:** Encode only the minimal value you need on-chain to save gas.\n\n---\n\nSince Chainlink updates its contracts and network configs (router addresses, DON IDs, supported chains) fairly often, I'd recommend verifying the current library version and network parameters against the official docs at **docs.chain.link/chainlink-functions**. \n\nWould you like me to search for the latest network addresses/DON IDs, or show a full example including encrypted secrets for an authenticated API?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 5912,
+          "output_tokens": 1854,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "How can I pass a secret API key to my Chainlink Functions request securely?",
+      "archetype": "direct-howto",
+      "answer": "I have enough information. Let me answer based on the Chainlink documentation.\n\n## Passing Secrets Securely in Chainlink Functions\n\nThe golden rule first: You should not use secrets or any sensitive information in the arguments field of a request. Chainlink Functions provides a mechanism to pass encrypted secrets to your source code without revealing them publicly. Never hardcode API keys directly into your JavaScript source code or pass them as plaintext arguments, since request data is visible on-chain.\n\nChainlink Functions gives you two main ways to handle secrets, both of which encrypt the values before they ever leave your machine.\n\n### How the encryption works\n\nWhen you use secrets, you encrypt them using the DON's public key. Only the DON can decrypt your secrets, and the decryption happens within the secure environment of the nodes. This means the plaintext value is never exposed publicly at any stage.\n\n### Option 1: DON-hosted secrets (recommended for most cases)\n\nWith this approach, you encrypt the secrets and then upload the encrypted blob directly to the DON, which stores them until they expire.\n\n- You encrypt your secrets (e.g., `{ apiKey: \"your-key\" }`) with the DON's public key.\n- You upload the encrypted secrets to the DON, specifying a **slot ID** and a **TTL (time-to-live / expiration)**.\n- Your request then references the secrets by slot ID and version rather than including them directly.\n- In your JavaScript source code, you access them via the `secrets` object, e.g. `secrets.apiKey`.\n\nThis avoids relying on any external hosting; the encrypted secrets live within the DON itself for the duration you specify.\n\n### Option 2: User-hosted (self-hosted) secrets\n\nHere you encrypt the secrets and host the encrypted file yourself at a publicly reachable URL (for example, a private GitHub Gist or your own cloud storage), then pass a reference to that location in your request.\n\n- You encrypt the secrets with the DON public key, producing an encrypted file.\n- You host that encrypted file somewhere the DON can fetch it (the URL is also encrypted when passed).\n- Because the file is encrypted with the DON's public key, only the DON can decrypt it—so even a public Gist URL doesn't leak your key.\n\nGist-based hosting is convenient for testing, while self-hosting on your own infrastructure gives you more control for production.\n\n### Typical workflow using the Functions Toolkit\n\nUsing the `@chainlink/functions-toolkit` NPM package, the general steps are:\n\n1. Create a `SecretsManager` instance with your signer and the router/DON ID.\n2. Call `encryptSecrets()` on your secrets object.\n3. For DON-hosted: call `uploadEncryptedSecretsToDON()` with a slot ID and expiration, and note the returned version.\n   For user-hosted: call `encryptSecretsUrls()` after hosting the encrypted file.\n4. In your request, set the `secretsLocation` (DONHosted or Remote) and reference `encryptedSecretsReference`.\n5. Access the value in your source code via `secrets.apiKey`.\n\n### Practical tips\n\n- **Rotate and expire:** Set a reasonable TTL on DON-hosted secrets and re-upload/rotate keys periodically. Keep in mind DON-hosted secrets have a maximum expiration window, so long-running deployments need a re-upload strategy.\n- **Keep your own keys out of source control:** Store the API key in a local `.env` file (loaded at encryption time) and never commit it.\n- **Never put secrets in `args`:** Arguments are passed in plaintext and are publicly visible.\n\nIf you tell me which environment you're working in (e.g., Hardhat starter kit, the Functions Toolkit in a Node script, or the CLI), I can give you a concrete code snippet for encrypting and uploading your API key.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 5,
+        "searches_succeeded": 5,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36164,
+          "output_tokens": 2332,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 5,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [
+          "https://docs.chain.link/chainlink-functions/resources/billing",
+          "https://docs.chain.link/chainlink-functions/resources/subscriptions"
+        ],
+        "hit_expected_source": false,
+        "via": null,
+        "tier": null,
+        "notes": ""
+      },
+      "scores": null,
+      "fidelity": null,
+      "hallucinations": [],
+      "missing_must_include": [],
+      "unverifiable_from_source": [],
+      "verdict": "Queued for batch grading.",
+      "prompt": "Chainlink Functions billing — how do I pay for requests?",
+      "archetype": "terse/keyword",
+      "answer": "I'll search for current information on how Chainlink Functions billing works.Let me retry the search.The result is a JSON string. Let me parse it properly.Let me get the detailed billing content from the most relevant results.I have enough detail to answer comprehensively.\n\n## Paying for Chainlink Functions Requests\n\nChainlink Functions uses a **prepaid subscription model** funded with LINK tokens. Here's how it works:\n\n### The subscription account\nTo pay for requests, you fund a subscription account with LINK, and your subscription is billed when the DON fulfills your requests. Chainlink Functions do not require your consumer contracts to hold LINK tokens and send them to oracles when making requests. Instead, you must create a subscription account and fund it to pre-pay for your Chainlink Functions requests, so your consumer contracts don't need to hold LINK when calling Chainlink Functions.\n\nThe funds are actually held in a dedicated contract: the Subscriptions Contract (aka Functions Billing Registry Contract) is the contract that holds user funds to pay for Chainlink Functions requests.\n\nKey facts about the account:\n- A Subscription ID uniquely identifies each account — it's a 64-bit unsigned integer representing the unique identifier of the Subscription account.\n- Any account can add LINK tokens to the subscription balance, but only the owner can add approved consuming contracts or withdraw funds.\n- Requests from consumer contracts will continue to be funded until the balance runs out, so be sure to maintain sufficient funds in your Subscription balance to pay for the requests and keep your applications running.\n\n### How billing happens (two steps)\nBecause Functions follows a Request and Receive Data model, billing is done in two steps: During the request step, the cost to fulfill a request is estimated and blocked on the subscription balance by adding it to the subscription reservation. During the receive step, the exact fulfillment cost is calculated, then billed to the subscription account, and the subscription reservation is removed.\n\nSo you need to maintain a sufficient amount of LINK in your subscription balance to send requests.\n\n### What the cost consists of\nTotal costs break down into two components, both paid in LINK:\n- **Gas cost** — this cost is paid back to the transmitter oracle in LINK for fulfilling the request.\n- **Premium fees** — these fees are paid in LINK to compensate nodes for their work and for the maintenance of the FunctionsRouter contract.\n\nThe gas cost portion depends on variables like the current gas price, a deliberately overestimated gas price (a safety buffer for price fluctuations), the callback gas used, the callback gas limit, and gas overhead.\n\n### Typical workflow\n1. Create a subscription and note its Subscription ID.\n2. Fund your subscription (for instance, 0.1 LINK) and confirm the transaction.\n3. Add your consumer contract(s) to the subscription.\n4. Make requests — costs are automatically deducted from the balance as the DON fulfills them.\n\nOne caveat when winding down: You cannot cancel a subscription if there are in-flight requests (requests that still need to be fulfilled); when you do cancel, remaining funds are sent to a receiver address you specify.\n\nYou can find full details, including exact cost formulas, on Chainlink's [Functions Billing](https://docs.chain.link/chainlink-functions/resources/billing) and [Managing Subscriptions](https://docs.chain.link/chainlink-functions/resources/subscriptions) documentation pages.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 2,
+        "searches_succeeded": 2,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 51457,
+          "output_tokens": 2197,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 2,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": null
+        }
+      }
+    }
+  ]
+}

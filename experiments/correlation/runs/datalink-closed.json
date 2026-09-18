@@ -1,0 +1,470 @@
+{
+  "source_url": "https://docs.chain.link/datalink",
+  "source_title": "DataLink",
+  "probe_set_id": "30dc1591cadb",
+  "model_tested": "claude-opus-4-8",
+  "mode": "closed",
+  "grader_model": "claude-sonnet-5",
+  "grader_effort": "high",
+  "probe_effort": "medium",
+  "grader_prompt_sha": "0bbc797e0e35",
+  "run_at": "2026-09-18T15:13:01.985Z",
+  "probe_count": 6,
+  "graded_count": 6,
+  "refusal_count": 0,
+  "error_count": 0,
+  "avg_fidelity": 17.2,
+  "retrieval_hit_rate": null,
+  "retrieval_hit_rate_effective": null,
+  "retrieval_mention_hit_count": 0,
+  "search_degraded_count": 0,
+  "live_search_failed_count": 0,
+  "inconclusive_miss_count": 0,
+  "avg_scores": {
+    "accuracy": 0.3,
+    "hallucination_free": 3.5,
+    "relevance": 0.5,
+    "structure": 2.5
+  },
+  "usage": {
+    "model_under_test": {
+      "input_tokens": 217,
+      "output_tokens": 3914,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "web_search_requests": 0,
+      "service_tier": "standard"
+    },
+    "grader": {
+      "input_tokens": 6648,
+      "output_tokens": 3485,
+      "cache_creation_input_tokens": 3190,
+      "cache_read_input_tokens": 27878,
+      "web_search_requests": 0,
+      "service_tier": "batch"
+    }
+  },
+  "results": [
+    {
+      "probe_id": "p01",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer explicitly claims it cannot confirm DataLink exists and never retrieves or cites the source page, indicating a retrieval/knowledge failure."
+      },
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 3,
+        "relevance": 1,
+        "structure": 3
+      },
+      "fidelity": 20,
+      "hallucinations": [
+        {
+          "claim": "\"Chainlink DataLink\" isn't a product I can confirm exists",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Chainlink Any API – Connect to external APIs for specialized data.",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "DataLink offers a single integration to access the full catalog",
+        "two delivery methods: pull-based and push-based feeds",
+        "pull-based feeds are fetched offchain (REST API, WebSocket, or SDKs) and verified onchain via verifier contracts",
+        "push-based feeds use direct smart contract calls to aggregator proxy contracts"
+      ],
+      "unverifiable_from_source": [
+        "Chainlink Functions and Any API descriptions",
+        "Solidity code example using AggregatorV3Interface"
+      ],
+      "verdict": "The answer denies the existence of DataLink, a real Chainlink product documented in the source, and fails to provide any of the required integration guidance, making it unsafe and unhelpful to ship.",
+      "prompt": "How do I integrate specialized market data into my DeFi protocol using Chainlink DataLink?",
+      "archetype": "direct-howto",
+      "answer": "# Integrating Specialized Market Data with Chainlink\n\nI want to give you accurate guidance here, but I should flag something first: **\"Chainlink DataLink\" isn't a product I can confirm exists** under that exact name. Chainlink's data offerings have specific names, and I don't want to give you fabricated integration steps for a product that may not exist or may be named differently.\n\n## What Chainlink actually offers for market data\n\nHere are the real Chainlink products you likely want:\n\n- **Chainlink Data Feeds** – Decentralized price feeds (crypto, forex, commodities). The most common for DeFi.\n- **Chainlink Data Streams** – Low-latency, pull-based feeds designed for perps, options, and high-frequency use cases. (This might be what you're thinking of.)\n- **Chainlink Functions** – Fetch custom/off-chain data via decentralized computation.\n- **Chainlink Any API** – Connect to external APIs for specialized data.\n\n## My suggestion\n\nCould you clarify:\n1. **What \"specialized market data\"** do you need? (e.g., specific asset prices, volatility, real-world assets, off-market data)\n2. **What's the source** — is it publicly available on-chain feeds, or a proprietary/custom API?\n\nThis matters a lot because the integration path differs significantly:\n\n| Need | Likely Product |\n|------|---------------|\n| Standard asset prices | Data Feeds |\n| Low-latency perps/derivatives data | Data Streams |\n| Custom API / proprietary data | Functions or Any API |\n\n## General integration pattern (Data Feeds example)\n\n```solidity\nimport \"@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol\";\n\ncontract MyProtocol {\n    AggregatorV3Interface internal priceFeed;\n\n    constructor(address _feedAddress) {\n        priceFeed = AggregatorV3Interface(_feedAddress);\n    }\n\n    function getLatestPrice() public view returns (int) {\n        (, int price, , ,) = priceFeed.latestRoundData();\n        return price;\n    }\n}\n```\n\n## Best next step\n\nCheck the **official Chainlink docs** at `docs.chain.link` to confirm the exact product name and current APIs, since integration details change.\n\nIf you tell me your specific data need, I can give you a much more targeted answer. What are you building?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 37,
+          "output_tokens": 783,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1338,
+          "output_tokens": 431,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5178,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p02",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer does not cite or reference the Chainlink DataLink source at all, instead treating it as an unknown generic product."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 1,
+        "relevance": 1,
+        "structure": 3
+      },
+      "fidelity": 13,
+      "hallucinations": [
+        {
+          "claim": "push-based feeds are almost always the right choice for HFT",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Push-based feeds deliver data the moment it's available, which is what HFT requires",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "I'm not certain which specific \"DataLink\" product you're referring to",
+          "type": "other",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "pull-based feeds suit high-frequency trading, on-demand retrieval, and sub-second data resolution",
+        "pull delivery is built on Chainlink Data Streams architecture",
+        "push-based feeds suit regular onchain updates at fixed intervals and threshold-based automation",
+        "push delivery is built on Chainlink Data Feeds architecture"
+      ],
+      "unverifiable_from_source": [
+        "kernel-bypass networking and raw multicast market data comparisons",
+        "claims about backpressure, ordering, and gap handling differences between push/pull"
+      ],
+      "verdict": "This answer directly reverses the source's guidance (which recommends pull-based feeds for HFT/sub-second use cases) and fails to recognize DataLink as the specific Chainlink product in question, making it unsafe to ship.",
+      "prompt": "Should I use pull-based or push-based DataLink feeds for a high-frequency trading application?",
+      "archetype": "comparison",
+      "answer": "For high-frequency trading, **push-based feeds are almost always the right choice**, but let me explain the reasoning so you can validate against your specific setup.\n\n## Why push-based wins for HFT\n\n**Latency is the deciding factor.** In pull-based systems, you're polling on an interval, which introduces:\n- Wait time between polls (you find out about changes late)\n- Redundant requests when nothing has changed\n- Overhead of repeated connection/request cycles\n\nPush-based feeds deliver data the moment it's available, which is what HFT requires—you're competing on microseconds.\n\n## When you might still consider pull-based\n\n- **Reference/static data** (instrument definitions, corporate actions) that changes infrequently—pull or scheduled snapshots are fine here\n- **Recovery/gap-fill scenarios**—many systems use push for the live stream but a pull/request mechanism to backfill missed sequences\n- If \"DataLink\" here doesn't offer a true low-latency push transport and its push mode is just long-polling in disguise\n\n## Important caveat\n\nI'm not certain which specific \"DataLink\" product you're referring to—there are several vendors and internal systems using that name. The right answer depends heavily on:\n- **The actual transport mechanism** behind each mode (multicast? WebSocket? long-polling?)\n- **The delivery guarantees** (does push handle backpressure, ordering, gaps?)\n- Whether push gives you **direct market data** vs. a normalized/aggregated feed with added latency\n\n## What I'd suggest\n\nCan you share:\n1. Which DataLink product/vendor this is?\n2. What the underlying transport is for each mode?\n3. Your latency budget and whether you're doing true tick-to-trade HFT or something more latency-tolerant?\n\nFor genuine HFT, many shops bypass general-purpose feed abstractions entirely in favor of raw multicast market data (e.g., exchange-native protocols) with kernel-bypass networking. If ultra-low latency is critical, that's worth evaluating too.\n\nWhat's your setup?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36,
+          "output_tokens": 669,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1123,
+          "output_tokens": 786,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5178,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p03",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer claims it lacks information and asks for clarification instead of retrieving or using the source content."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 10,
+        "relevance": 0,
+        "structure": 2
+      },
+      "fidelity": 30,
+      "hallucinations": [],
+      "missing_must_include": [
+        "pull delivery supports access via Go SDK (among REST API, WebSocket, and Rust SDK)",
+        "pull-based feeds fetch signed oracle reports offchain and validate integrity onchain via verifier contracts",
+        "pull delivery is built on Chainlink Data Streams architecture"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer fails to use available source knowledge and incorrectly claims ambiguity about a well-documented Chainlink DataLink feature, making it unhelpful and not shippable.",
+      "prompt": "Using the Go SDK, how can I retrieve DataLink pull-based data?",
+      "archetype": "constrained",
+      "answer": "I don't have enough reliable information to answer this question accurately.\n\nThe term \"DataLink pull-based data\" and the specific \"Go SDK\" you're referring to are ambiguous to me. There are many products, services, and libraries that could match this description, including:\n\n- **Various company-specific SDKs** (many companies name features \"DataLink\")\n- **Different cloud or data platforms** that offer Go SDKs\n- **Proprietary or internal tools** I may not have information about\n\nTo give you an accurate answer rather than potentially fabricating API methods or code, I'd need some clarification:\n\n1. **Which product or platform** is this SDK for? (e.g., a specific vendor, cloud provider, or service)\n2. **Is there documentation** you're working from, or a package name/import path?\n3. **What does \"DataLink pull-based data\"** refer to in your context?\n\nIf you can share:\n- The **name of the vendor/service**\n- The **Go package import path** (e.g., `github.com/vendor/sdk`)\n- A link to the **relevant documentation**\n\n...I can give you much more helpful and accurate guidance.\n\nAlternatively, if you paste any code you already have or the SDK's relevant type/method names, I can help you work with it.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 32,
+          "output_tokens": 390,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 815,
+          "output_tokens": 268,
+          "cache_creation_input_tokens": 3190,
+          "cache_read_input_tokens": 1988,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p04",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer ignores the actual Chainlink DataLink source entirely and substitutes unrelated Oracle DBMS content."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 0,
+        "relevance": 0,
+        "structure": 0
+      },
+      "fidelity": 0,
+      "hallucinations": [
+        {
+          "claim": "DataLink is Oracle's implementation for managing external files referenced from the database",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "CREATE TABLE documents (doc_id NUMBER, doc_file DATALINK);",
+          "type": "fabricated_function",
+          "severity": "high"
+        },
+        {
+          "claim": "NO LINK CONTROL / FILE LINK CONTROL / INTEGRITY ALL / READ PERMISSION FS etc.",
+          "type": "other",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "Credit Ratings",
+        "Equities",
+        "FX Rates",
+        "Bonds",
+        "Commodities",
+        "Reference Data",
+        "Perpetual Funding Rates",
+        "Corporate Actions Data",
+        "Derivatives",
+        "Long-Tail Crypto Assets",
+        "Any Custom Dataset"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer completely misidentifies Chainlink's DataLink as an Oracle database SQL feature, fabricating unrelated syntax and concepts, and is entirely unusable and unsafe to ship.",
+      "prompt": "datalink data types available",
+      "archetype": "terse/keyword",
+      "answer": "# DataLink Data Types\n\nDataLink is Oracle's implementation for managing external files referenced from the database. Here are the main data types and options:\n\n## Core DATALINK Data Type\n\nThe **DATALINK** SQL type stores a reference (URL) to a file stored outside the database, typically in a file system.\n\n```sql\nCREATE TABLE documents (\n    doc_id NUMBER,\n    doc_file DATALINK\n);\n```\n\n## Link Control Options\n\nWhen defining a DATALINK column, you specify how the database manages the linked file:\n\n### File Link Control\n- **NO LINK CONTROL** – Database only stores the URL; no verification that the file exists\n- **FILE LINK CONTROL** – Database verifies the file exists when the link is set\n\n### Integrity Options\n- **INTEGRITY ALL** – File is under database control; cannot be renamed/deleted through the file system\n- **INTEGRITY SELECTIVE** – File can be manipulated but the DBMS tracks it\n- **INTEGRITY NONE** – No integrity checking\n\n### Read Permission\n- **READ PERMISSION FS** – File system permissions control read access\n- **READ PERMISSION DB** – Database controls read access via access tokens\n\n### Write Permission\n- **WRITE PERMISSION FS** – File system controls write access\n- **WRITE PERMISSION BLOCKED** – No write access allowed\n- **WRITE PERMISSION ADMIN** – Administrator-managed write access\n\n### Recovery Options\n- **RECOVERY YES** – Database supports point-in-time recovery of files\n- **RECOVERY NO** – No recovery support\n\n### Unlink Options\n- **ON UNLINK RESTORE** – File permissions restored when unlinked\n- **ON UNLINK DELETE** – File deleted when unlinked\n\n---\n\n**Note:** The specific data types and syntax can vary between database systems.\n\nCould you clarify which **database platform** you're working with?\n- **DB2** (IBM) – Has robust DATALINK support\n- **Oracle**\n- **SQL Server**\n- Another system?\n\nThis will help me give you more precise and accurate information.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 12,
+          "output_tokens": 706,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1105,
+          "output_tokens": 447,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5178,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p05",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The answer claims it lacks information and could not verify DataLink despite source content being provided, indicating a retrieval/use failure."
+      },
+      "scores": {
+        "accuracy": 0,
+        "hallucination_free": 3,
+        "relevance": 0,
+        "structure": 3
+      },
+      "fidelity": 15,
+      "hallucinations": [
+        {
+          "claim": "I don't have reliable information about a specific product called \"DataLink\" that matches your description.",
+          "type": "other",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "data providers can integrate through existing REST or WebSocket APIs without custom blockchain development",
+        "providers maintain control over data distribution and access rights via configurable access control",
+        "DataLink reaches 2,400+ dApps, RWA issuers, and tokenization platforms",
+        "to become a provider, contact Chainlink Labs"
+      ],
+      "unverifiable_from_source": [],
+      "verdict": "The answer fails entirely to use the provided source material, incorrectly claims ignorance of DataLink, and offers only generic speculation instead of the specific, accurate guidance available in the docs—unsafe to ship.",
+      "prompt": "I'm a market data provider and I want to start selling my proprietary datasets onchain but I don't have any blockchain developers on my team — how does DataLink let me do that and what do I need?",
+      "archetype": "verbose/beginner",
+      "answer": "I don't have reliable information about a specific product called \"DataLink\" that matches your description. There are several possibilities here, and I want to be honest rather than guess:\n\n## What I can't confirm\n- Whether \"DataLink\" refers to a specific commercial product, protocol, or service\n- Its exact features, requirements, pricing, or onboarding process\n\n\"DataLink\" is a fairly generic name, and there may be multiple products using it (or it could be internal/newer than my knowledge). If I described features, I'd likely be inventing them—which wouldn't help you.\n\n## How to get an accurate answer\nTo get the specifics you need, I'd suggest:\n1. **Check the official documentation/website** of the DataLink you're referring to\n2. **Confirm the vendor** — is this associated with Chainlink, a specific data marketplace, or another company?\n\n## What I *can* help with generally\n\nIf you tell me more, I can give you useful guidance. In general, selling proprietary data onchain **without blockchain developers** typically involves solutions that handle:\n\n- **Data delivery/oracle infrastructure** — getting your off-chain data onchain reliably\n- **Access control & monetization** — subscriptions, pay-per-use, or licensing enforcement\n- **No-code/low-code tooling** — dashboards or APIs so you don't write smart contracts yourself\n\nCommon requirements for such platforms usually include:\n- A reliable data feed/API from your side\n- Data formatting to their spec\n- A crypto wallet for receiving payments\n- Legal/licensing terms for your datasets\n\n**Could you clarify:**\n- Where did you hear about DataLink (a company, a conference, a specific chain)?\n- Is it possibly **Chainlink Data Streams / Data Feeds** you're thinking of?\n\nThat'll let me give you real, accurate detail instead of speculation.",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 64,
+          "output_tokens": 597,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1102,
+          "output_tokens": 345,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5178,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    },
+    {
+      "probe_id": "p06",
+      "model_tested": "claude-opus-4-8",
+      "retrieval": {
+        "cited_urls": [],
+        "hit_expected_source": null,
+        "via": null,
+        "tier": null,
+        "notes": "The response never engages with the Chainlink DataLink source and instead treats 'DataLink' as an ambiguous generic term, effectively ignoring the retrieved/expected source."
+      },
+      "scores": {
+        "accuracy": 1,
+        "hallucination_free": 4,
+        "relevance": 1,
+        "structure": 4
+      },
+      "fidelity": 25,
+      "hallucinations": [
+        {
+          "claim": "Availability | Caching, graceful degradation, SLAs",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "Security and integrity ... Interception, spoofing, or man-in-the-middle risks",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "\"DataLink\" refers to several different products/technologies (e.g., financial data services, ETL tools, various enterprise platforms).",
+          "type": "contradiction",
+          "severity": "high"
+        }
+      ],
+      "missing_must_include": [
+        "single-source data introduces unique trust assumptions that protocols must manage with risk mitigation and fallback mechanisms",
+        "data providers are solely responsible for data quality, accuracy, uptime, and support",
+        "integrating protocols must perform due diligence to validate the provider's data meets their use case requirements"
+      ],
+      "unverifiable_from_source": [
+        "Schema stability, provenance integrity, continued authorization as trust assumptions",
+        "Mitigation strategies table (caching, SLAs, contract testing, encryption, abstraction layer)"
+      ],
+      "verdict": "The answer ignores the actual Chainlink DataLink documentation entirely, offers generic data-integration advice, and even asks the user to clarify which 'DataLink' they mean—failing to address the specific source content and omitting all required must-include points, so it is not safe to ship as a docs answer.",
+      "prompt": "What trust assumptions and risks do I need to manage when consuming single-source data through DataLink?",
+      "archetype": "direct-howto",
+      "answer": "# Trust Assumptions and Risks in Single-Source DataLink Consumption\n\nWhen consuming data from a single source through DataLink (or any data-linking/integration mechanism), here are the key considerations to manage:\n\n## Trust Assumptions You're Implicitly Making\n\n- **Source accuracy**: You're trusting the provider's data is correct at the point of creation\n- **Source availability**: You assume the source will remain accessible when you need it\n- **Schema stability**: You're betting the structure/format won't change without notice\n- **Timeliness**: You trust the data reflects a state recent enough for your use case\n- **Provenance integrity**: You assume the data hasn't been tampered with in transit or at rest\n- **Continued authorization**: You trust your access permissions will persist\n\n## Key Risks to Manage\n\n**Single point of failure**\n- No fallback if the source goes down, degrades, or is deprecated\n- Vendor/provider lock-in and dependency\n\n**Data quality risks**\n- No cross-validation against a second source to catch errors\n- Silent corruption or drift may go undetected\n\n**Freshness and staleness**\n- Cached or delayed data leading to decisions on outdated information\n\n**Change management**\n- Breaking schema changes, API version deprecation\n- Semantic drift (field meanings change without the name changing)\n\n**Security and integrity**\n- Interception, spoofing, or man-in-the-middle risks\n- Compromised upstream source propagating bad data\n\n## Mitigation Strategies\n\n| Risk | Mitigation |\n|------|-----------|\n| Availability | Caching, graceful degradation, SLAs |\n| Quality | Validation rules, anomaly detection, sanity checks |\n| Staleness | Timestamp tracking, freshness alerts |\n| Schema change | Contract testing, versioning, monitoring |\n| Integrity | Encryption, signing, checksums |\n| Lock-in | Abstraction layer, plan for source substitution |\n\n---\n\n**A note on specificity:** \"DataLink\" refers to several different products/technologies (e.g., financial data services, ETL tools, various enterprise platforms). If you can tell me **which DataLink** you're using and **what kind of data** you're consuming, I can give you much more targeted guidance—including product-specific controls, SLA details, and known gotchas.\n\nWhich DataLink are you working with?",
+      "stop": "end_turn",
+      "harness": {
+        "retries": 0,
+        "searches_attempted": 0,
+        "searches_succeeded": 0,
+        "search_errors": [],
+        "search_degraded": false,
+        "live_search_failed": false
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 36,
+          "output_tokens": 769,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 1165,
+          "output_tokens": 1208,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5178,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      }
+    }
+  ]
+}

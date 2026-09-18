@@ -8,19 +8,24 @@
   "grader_effort": "high",
   "probe_effort": "medium",
   "grader_prompt_sha": "0bbc797e0e35",
-  "run_at": "2026-09-18T14:54:13.052Z",
+  "run_at": "2026-09-18T15:00:54.798Z",
   "probe_count": 6,
-  "graded_count": 0,
+  "graded_count": 6,
   "refusal_count": 0,
   "error_count": 0,
-  "avg_fidelity": null,
+  "avg_fidelity": 57.8,
   "retrieval_hit_rate": null,
   "retrieval_hit_rate_effective": null,
   "retrieval_mention_hit_count": 0,
   "search_degraded_count": 0,
   "live_search_failed_count": 0,
   "inconclusive_miss_count": 0,
-  "avg_scores": null,
+  "avg_scores": {
+    "accuracy": 5.3,
+    "hallucination_free": 5.3,
+    "relevance": 5.3,
+    "structure": 7
+  },
   "usage": {
     "model_under_test": {
       "input_tokens": 248,
@@ -31,12 +36,12 @@
       "service_tier": "standard"
     },
     "grader": {
-      "input_tokens": 0,
-      "output_tokens": 0,
-      "cache_creation_input_tokens": 0,
-      "cache_read_input_tokens": 0,
+      "input_tokens": 8135,
+      "output_tokens": 11081,
+      "cache_creation_input_tokens": 521,
+      "cache_read_input_tokens": 14533,
       "web_search_requests": 0,
-      "service_tier": null
+      "service_tier": "batch"
     }
   },
   "results": [
@@ -53,12 +58,38 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
+      "scores": {
+        "accuracy": 6,
+        "hallucination_free": 5,
+        "relevance": 7,
+        "structure": 7
+      },
+      "fidelity": 63,
+      "hallucinations": [
+        {
+          "claim": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+          "type": "other",
+          "severity": "med"
+        },
+        {
+          "claim": "LinkTokenInterface link = LinkTokenInterface(linkAddress); return link.balanceOf(address(this));",
+          "type": "fabricated_function",
+          "severity": "med"
+        }
+      ],
       "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "unverifiable_from_source": [
+        "Specific LINK token contract addresses for Ethereum Mainnet and Sepolia",
+        "Use of faucets.chain.link for testnet LINK",
+        "Calling a contract's balance function (getLinkBalance) to verify transfer",
+        "Import tokens flow in MetaMask for adding LINK to wallet"
+      ],
+      "verdict": "The core MetaMask send-LINK steps match the source accurately, but the answer adds unverified token contract addresses and a fabricated balance-check function that could mislead a developer if taken at face value.",
       "prompt": "How do I fund my deployed Solidity contract with LINK using MetaMask?",
       "archetype": "direct-howto",
       "answer": "# Funding Your Contract with LINK via MetaMask\n\nTo fund your deployed contract with LINK tokens, you'll transfer LINK to your contract's address. Here's how:\n\n## Step 1: Add LINK Token to MetaMask\n\nIf LINK isn't visible in your wallet:\n\n1. Open MetaMask and select the correct network (e.g., Sepolia, Ethereum Mainnet)\n2. Click **\"Import tokens\"** at the bottom of the assets list\n3. Paste the LINK token contract address for your network:\n\n| Network | LINK Token Address |\n|---------|-------------------|\n| Ethereum Mainnet | `0x514910771AF9Ca656af840dff83E8264EcF986CA` |\n| Sepolia | `0x779877A7B0D9E8603169DdbD7836e478b4624789` |\n\n*(Always verify addresses at [docs.chain.link/resources/link-token-contracts](https://docs.chain.link/resources/link-token-contracts))*\n\n4. MetaMask should auto-fill the symbol and decimals — click **Import**\n\n## Step 2: Get Your Contract Address\n\nCopy your deployed contract's address (from Remix, Etherscan, or your deployment logs).\n\n## Step 3: Send LINK to Your Contract\n\n1. In MetaMask, click on **LINK** in your assets\n2. Click **Send**\n3. Paste your **contract address** as the recipient\n4. Enter the amount (e.g., `1` or `2` LINK — check what your use case needs)\n5. Click **Next**, review gas fees, then **Confirm**\n\n## Step 4: Verify the Transfer\n\n- Check the transaction on a block explorer (e.g., Etherscan)\n- Or call your contract's balance function if it has one, e.g.:\n\n```solidity\nfunction getLinkBalance() public view returns (uint256) {\n    LinkTokenInterface link = LinkTokenInterface(linkAddress);\n    return link.balanceOf(address(this));\n}\n```\n\n## Common Use Cases & Tips\n\n- **Chainlink VRF / Automation / Functions:** Amount needed varies — check the specific service docs\n- **Get testnet LINK:** Use [faucets.chain.link](https://faucets.chain.link) for Sepolia and other testnets\n- ⚠️ **Double-check the network** — sending LINK on the wrong network means it won't reach your contract\n- ⚠️ **Verify the contract address** — transfers are irreversible\n\n---\n\n**What are you funding the contract for?** (e.g., VRF for randomness, Automation for scheduled tasks) — I can give more specific guidance on the required amount and setup.",
@@ -81,12 +112,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1478,
+          "output_tokens": 1709,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2509,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -100,12 +131,62 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 5,
+        "hallucination_free": 4,
+        "relevance": 5,
+        "structure": 7
+      },
+      "fidelity": 53,
+      "hallucinations": [
+        {
+          "claim": "Your contract **must be able to receive ETH**. Include one of these: receive() external payable {}",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Without these, transfers will **revert**",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "Method B: Using Remix's Value Field ... Use the low-level interactions to send ETH directly",
+          "type": "fabricated_function",
+          "severity": "med"
+        },
+        {
+          "claim": "function getBalance() public view returns (uint256) { return address(this).balance; }",
+          "type": "fabricated_function",
+          "severity": "low"
+        },
+        {
+          "claim": "Sepolia: sepoliafaucet.com, or Alchemy/Infura faucets",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "Google Cloud Faucet: cloud.google.com/application/web3/faucet",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "check the Remix terminal ... Find the 'to' field or 'contract address' in the logs",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Click Next to review transaction details and gas cost before clicking Confirm"
+      ],
+      "unverifiable_from_source": [
+        "Deploy & Run Transactions panel with Injected Provider - MetaMask environment",
+        "Terminal transaction receipt showing 'to' field or contract address",
+        "Remix Value field for sending ETH via payable function calls",
+        "getBalance() helper function for verifying transfer",
+        "Specific faucet URLs (sepoliafaucet.com, Alchemy/Infura, Google Cloud Faucet)",
+        "Viewing contract on sepolia.etherscan.io block explorer"
+      ],
+      "verdict": "The core MetaMask steps are correct but the answer adds an unverified and source-contradicted requirement (receive/fallback function) plus several fabricated extras (Remix Value field method, getBalance helper, specific faucet URLs), making it risky to ship as-is without review.",
       "prompt": "Using Remix and MetaMask, how do I get my contract's address and send it some testnet ETH?",
       "archetype": "constrained",
       "answer": "# Getting Your Contract's Address and Sending It Testnet ETH\n\n## Part 1: Getting Your Contract's Address\n\nAfter deploying your contract in Remix:\n\n1. **Deploy your contract** using the \"Deploy & Run Transactions\" panel (make sure \"Injected Provider - MetaMask\" is selected as the environment)\n\n2. **Find the address** in the **\"Deployed Contracts\"** section at the bottom of the panel:\n   - Your deployed contract appears here with its name\n   - Click the **copy icon** 📋 next to the contract name/address to copy the full address\n\n3. **Alternatively**, check the Remix terminal (bottom console) after deployment:\n   - Look for the transaction receipt\n   - Find the **\"to\"** field or **\"contract address\"** in the logs\n\n## Part 2: Sending Testnet ETH to the Contract\n\n### ⚠️ Important Prerequisite\nYour contract **must be able to receive ETH**. Include one of these:\n\n```solidity\n// Option 1: receive function (for plain ETH transfers)\nreceive() external payable {}\n\n// Option 2: fallback function\nfallback() external payable {}\n```\n\nWithout these, transfers will **revert** (unless sending via a payable function).\n\n### Method A: Using MetaMask Directly\n\n1. Open MetaMask and ensure you're on the **correct testnet** (e.g., Sepolia)\n2. Click **\"Send\"**\n3. Paste your **contract address** in the recipient field\n4. Enter the **amount** of testnet ETH\n5. Confirm the transaction\n\n### Method B: Using Remix's Value Field\n\n1. In the \"Deploy & Run Transactions\" panel, find the **\"Value\"** field near the top\n2. Enter an amount and select the unit (Wei, Gwei, or Ether)\n3. Call a **payable function** on your deployed contract, OR\n4. Use the low-level interactions to send ETH directly\n\n## Getting Testnet ETH (if needed)\n\nUse a **faucet** to fund your MetaMask wallet first:\n- **Sepolia**: sepoliafaucet.com, or Alchemy/Infura faucets\n- **Google Cloud Faucet**: cloud.google.com/application/web3/faucet\n\n## Verify the Transfer\n\nCheck your contract's balance:\n- Add a helper function to your contract:\n  ```solidity\n  function getBalance() public view returns (uint256) {\n      return address(this).balance;\n  }\n  ```\n- Or view the contract address on a **block explorer** (e.g., sepolia.etherscan.io)\n\n---\n\nWould you like help with a specific testnet, or writing a payable function to receive the ETH?",
@@ -128,12 +209,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "input_tokens": 1381,
+          "output_tokens": 2146,
+          "cache_creation_input_tokens": 521,
+          "cache_read_input_tokens": 1988,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -152,12 +233,37 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 6,
+        "hallucination_free": 7,
+        "relevance": 6,
+        "structure": 7
+      },
+      "fidelity": 65,
+      "hallucinations": [
+        {
+          "claim": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+          "type": "other",
+          "severity": "low"
+        },
+        {
+          "claim": "link.transferAndCall(contractAddress, amount, data);",
+          "type": "fabricated_function",
+          "severity": "med"
+        }
+      ],
+      "missing_must_include": [
+        "Click Next to review the transaction details and gas cost before confirming"
+      ],
+      "unverifiable_from_source": [
+        "Add Sepolia Network to MetaMask steps",
+        "Chainlink Faucet URL and process for getting test LINK",
+        "Importing the LINK token into MetaMask to see balance",
+        "transferAndCall usage for Chainlink VRF/Automation contracts",
+        "Verifying funding via Sepolia Etherscan token holdings",
+        "Sepolia LINK token contract address value"
+      ],
+      "verdict": "The core funding steps (copy address, MetaMask Send, paste address, select LINK, enter amount, confirm) roughly match the source, but the answer adds many extra, unverified steps (faucet, token import, transferAndCall, Etherscan check) that go beyond the source's scope and could mislead a developer who just needs the simple funding flow, so it is only partially safe to ship.",
       "prompt": "steps to fund contract LINK remix metamask sepolia",
       "archetype": "terse/keyword",
       "answer": "# Funding a Contract with LINK Tokens (Remix + MetaMask + Sepolia)\n\nHere's a complete step-by-step guide to fund your smart contract with LINK tokens on the Sepolia testnet.\n\n## Prerequisites\n\n- **MetaMask** installed and connected to Sepolia\n- **Remix IDE** open (https://remix.ethereum.org)\n- Your contract already deployed on Sepolia\n\n## Step 1: Add Sepolia Network to MetaMask\n\nIf not already added:\n1. Open MetaMask → Network dropdown → **Add Network**\n2. Enable \"Show test networks\" in Settings → Advanced\n3. Select **Sepolia** from the list\n\n## Step 2: Get Test LINK Tokens\n\n1. Go to the **Chainlink Faucet**: https://faucets.chain.link/sepolia\n2. Connect your MetaMask wallet\n3. Request **test LINK** (and Sepolia ETH if needed for gas)\n4. Wait for tokens to arrive in your wallet\n\n## Step 3: Add LINK Token to MetaMask (to see balance)\n\n1. In MetaMask, click **Import tokens**\n2. Enter Sepolia LINK contract address:\n   ```\n   0x779877A7B0D9E8603169DdbD7836e478b4624789\n   ```\n3. Symbol: `LINK`, Decimals: `18`\n4. Click **Add**\n\n## Step 4: Fund the Contract with LINK\n\n### Method A: Simple Transfer (MetaMask)\n1. Copy your **deployed contract address** from Remix\n2. In MetaMask, select LINK token → **Send**\n3. Paste the contract address\n4. Enter amount (e.g., `5` LINK)\n5. Confirm transaction\n\n> ⚠️ **Note:** This only works if your contract can receive LINK via standard transfer.\n\n### Method B: Using `transferAndCall` (Recommended for Chainlink)\nMany Chainlink contracts (like VRF or Automation) require this method.\n\n**In Remix:**\n1. Interact with the LINK token contract using its ABI, OR\n2. Use a helper function in your contract\n\nExample using the LINK interface:\n```solidity\nLinkTokenInterface link = LinkTokenInterface(0x779877A7B0D9E8603169DdbD7836e478b4624789);\nlink.transferAndCall(contractAddress, amount, data);\n```\n\n## Step 5: Verify Funding\n\n1. In Remix, call a `getBalance` type function (if your contract has one), OR\n2. Check the contract on **Sepolia Etherscan**:\n   ```\n   https://sepolia.etherscan.io/address/YOUR_CONTRACT_ADDRESS\n   ```\n3. Look at the **Token holdings** to confirm LINK balance\n\n---\n\n## Quick Reference\n\n| Item | Value |\n|------|-------|\n| Sepolia LINK Address | `0x779877A7B0D9E8603169DdbD7836e478b4624789` |\n| LINK Faucet | https://faucets.chain.link/sepolia |\n| Sepolia Explorer | https://sepolia.etherscan.io |\n| Decimals | 18 |\n\n---\n\n**What are you funding the contract for?** (e.g., Chainlink VRF, Automation, Price Feeds) — I can give you more specific steps based on your use case! 🔗",
@@ -180,12 +286,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1642,
+          "output_tokens": 3467,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2509,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -199,12 +305,29 @@
         "tier": null,
         "notes": ""
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 4,
+        "hallucination_free": 5,
+        "relevance": 3,
+        "structure": 8
+      },
+      "fidelity": 50,
+      "hallucinations": [
+        {
+          "claim": "Paste the official LINK contract address (Ethereum mainnet): `0x514910771AF9Ca656af840dff83E8264EcF986CA`",
+          "type": "invented_param",
+          "severity": "med"
+        }
+      ],
+      "missing_must_include": [
+        "If LINK is not listed in the Asset dropdown, follow the Acquire testnet LINK guide"
+      ],
+      "unverifiable_from_source": [
+        "MetaMask should auto-fill the symbol (LINK) and decimals (18)",
+        "LINK exists on multiple chains with different contract addresses",
+        "Steps to import a token via Tokens tab → Import tokens"
+      ],
+      "verdict": "The answer is well-structured and generically plausible MetaMask troubleshooting, but it ignores the documented, source-specific fix (follow the Acquire testnet LINK guide) and introduces an unverified mainnet contract address that could mislead a testnet user, so it's not fully safe to ship as-is.",
       "prompt": "I pasted my contract address in MetaMask but LINK isn't showing up in the Asset dropdown to send — what am I missing?",
       "archetype": "error-debug",
       "answer": "# Why Your Contract/Token Isn't Showing in MetaMask\n\nThere's a common misunderstanding here that's worth clearing up. Let me walk through the likely issues:\n\n## Key Point: You Don't Send TO a Contract via the Asset Dropdown\n\nThe **Asset dropdown** in MetaMask shows tokens *you own and can send*, not addresses you're sending to. So a few things might be confused here:\n\n### If you're trying to SEND LINK to someone:\n1. **LINK must be imported as a token** in your wallet first:\n   - Go to **Tokens** tab → **Import tokens**\n   - Paste the official LINK contract address (Ethereum mainnet): `0x514910771AF9Ca656af840dff83E8264EcF986CA`\n   - MetaMask should auto-fill the symbol (LINK) and decimals (18)\n2. **You must actually hold LINK** in that wallet — if your balance is 0, it may not appear or will show as unavailable to send.\n3. Make sure you're on the **correct network** (LINK exists on multiple chains with *different* contract addresses).\n\n### If you pasted a contract address in the \"To\" field:\n- That's fine for the recipient — but the **Asset** you select is the token you're sending *from your balance*, which is separate.\n\n## Common Mistakes\n- ❌ Using a contract address from the **wrong network** (e.g., Polygon LINK address while on Ethereum mainnet)\n- ❌ Using an **unofficial/fake** token contract — always verify on the official source\n- ❌ Expecting the token to appear before **importing** it\n\n## Quick Checklist\n- [ ] Correct network selected?\n- [ ] LINK token imported?\n- [ ] Do you actually hold a LINK balance?\n- [ ] Using the *official* contract address for that network?\n\n---\n\n**Can you tell me a bit more so I can pinpoint it?**\n- Which network are you on?\n- Are you trying to **send** LINK or **receive/import** it?\n- Do you already hold LINK in this wallet?\n\n⚠️ **Safety note:** Always get token contract addresses from official sources (like the project's website or a trusted explorer like Etherscan) — scammers spread fake addresses.",
@@ -227,12 +350,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1194,
+          "output_tokens": 1606,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2509,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -244,14 +367,29 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "No URL was cited despite the source being available; retrieval mode is not applicable here."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
+      "scores": {
+        "accuracy": 8,
+        "hallucination_free": 8,
+        "relevance": 8,
+        "structure": 9
+      },
+      "fidelity": 83,
+      "hallucinations": [
+        {
+          "claim": "Click the copy icon (📋) located directly to the left of the contract address",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
       "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "unverifiable_from_source": [
+        "Contract needs a payable function, receive() function, or fallback() payable function to receive funds",
+        "Remix VM vs Injected Provider - MetaMask distinction for real transactions",
+        "Double-check the address by pasting it somewhere to confirm"
+      ],
+      "verdict": "The core steps for copying the contract address align with the source and are clearly structured, though some added safety details and a minor location discrepancy are unverified extras that don't contradict the source but should be flagged as supplementary.",
       "prompt": "Show me the exact steps in Remix to copy my deployed contract's address so I can send funds to it.",
       "archetype": "code-first",
       "answer": "# Copying Your Deployed Contract Address in Remix\n\nHere are the exact steps to copy your deployed contract's address:\n\n## Steps\n\n1. **Compile and Deploy your contract first** (if you haven't already)\n   - Go to the **Solidity Compiler** tab (left sidebar) and compile\n   - Go to the **Deploy & Run Transactions** tab (Ethereum logo icon)\n   - Click the orange **Deploy** button\n\n2. **Locate the Deployed Contracts section**\n   - Scroll down in the **Deploy & Run Transactions** panel\n   - Find the **\"Deployed Contracts\"** section near the bottom\n\n3. **Find your contract**\n   - Your contract will appear as something like:\n     `CONTRACT_NAME AT 0x1234...5678`\n\n4. **Copy the address**\n   - Click the **copy icon** (📋) located directly to the **left of the contract address**\n   - The full address is now copied to your clipboard\n\n## ⚠️ Important Safety Warnings\n\nBefore sending real funds, please verify:\n\n- **✅ Contract can receive funds** — Your contract needs a `payable` function, a `receive()` function, or a `fallback() payable` function. Otherwise, transfers may **fail or permanently lock your funds**.\n\n- **✅ Correct network** — Confirm whether you're on a **testnet** (like Sepolia) or **mainnet**. Addresses look identical, but funds on mainnet are real money.\n\n- **✅ Environment matters** — If you deployed using Remix's **\"Remix VM\"** (JavaScript VM), that address only exists in a **temporary simulation** — sending real funds to it is meaningless. For real transactions, you must use **\"Injected Provider - MetaMask\"** or a similar connected wallet.\n\n- **✅ Double-check the address** — Paste it somewhere to visually confirm it matches before sending.\n\nWould you like help verifying your contract is set up to safely receive funds?",
@@ -274,12 +412,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1054,
+          "output_tokens": 725,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2509,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     },
@@ -291,14 +429,37 @@
         "hit_expected_source": null,
         "via": null,
         "tier": null,
-        "notes": ""
+        "notes": "The answer cites no URLs and does not reference the actual Chainlink docs page content at all."
       },
-      "scores": null,
-      "fidelity": null,
-      "hallucinations": [],
-      "missing_must_include": [],
-      "unverifiable_from_source": [],
-      "verdict": "Queued for batch grading.",
+      "scores": {
+        "accuracy": 3,
+        "hallucination_free": 3,
+        "relevance": 3,
+        "structure": 4
+      },
+      "fidelity": 33,
+      "hallucinations": [
+        {
+          "claim": "Chainlink Automation: You usually DON'T send LINK directly to the contract. Instead, you register your contract at automation.chain.link and fund the subscription/upkeep through their interface. This is the most common way and much safer.",
+          "type": "contradiction",
+          "severity": "high"
+        },
+        {
+          "claim": "You \"import\" it using the LINK token contract address for your specific network",
+          "type": "other",
+          "severity": "low"
+        }
+      ],
+      "missing_must_include": [
+        "Retrieve the contract address from Remix with the Copy button",
+        "Send LINK (or ETH) from MetaMask: select network, Send, paste address, choose asset, enter amount, Next, Confirm"
+      ],
+      "unverifiable_from_source": [
+        "LINK won't show up automatically and must be imported via token contract address",
+        "Use the free faucet at faucets.chain.link",
+        "Buy real LINK on an exchange like Coinbase and withdraw to MetaMask"
+      ],
+      "verdict": "The answer avoids the source's actual documented steps (Remix address copy, MetaMask Send flow) and instead pushes the Automation/subscription funding model as the 'most common and safer' approach, which is explicitly the kind of hallucination the source guide does not describe and effectively contradicts its simple direct-send instructions, making it unsafe to ship as a faithful walkthrough of this doc.",
       "prompt": "I'm brand new to this. I deployed a smart contract and someone said it needs some LINK to run on its own without me clicking buttons every time. Can you walk me through how to actually send money to it?",
       "archetype": "verbose/beginner",
       "answer": "# Getting LINK to Your Smart Contract\n\nGreat question! Let me walk you through this. The \"LINK\" is a cryptocurrency token used by **Chainlink**, which provides services like automation (running your contract automatically) and real-world data feeds.\n\n## First, some important questions\n\nBefore sending anything, let's make sure you do this correctly, because **crypto transactions are irreversible**—if you send to the wrong place, it's gone.\n\n1. **What network is your contract on?** (Ethereum mainnet, Sepolia testnet, Polygon, etc.)\n2. **Are you testing or going live?**\n\n⚠️ **If you're brand new, you should be practicing on a TESTNET first** (like Sepolia), where the LINK and gas are *free* from faucets. Don't spend real money until you've done a full practice run.\n\n## The general steps\n\n### 1. Get a wallet\nYou likely already have **MetaMask** if you deployed a contract. That's your tool for sending tokens.\n\n### 2. Add the LINK token to your wallet\nLINK won't show up automatically. You \"import\" it using the LINK token contract address **for your specific network** (get this from the official Chainlink docs: `docs.chain.link`).\n\n### 3. Get some LINK\n- **Testnet:** Use the free faucet at `faucets.chain.link`\n- **Mainnet:** Buy real LINK on an exchange (Coinbase, etc.) and withdraw it to your MetaMask address.\n\n### 4. Send LINK to your contract\nHere's the key part—**how you fund it depends on your setup**:\n\n- **Chainlink Automation:** You usually DON'T send LINK directly to the contract. Instead, you register your contract at `automation.chain.link` and fund the *subscription/upkeep* through their interface. This is the most common way and much safer.\n- **Direct funding:** Some contracts are designed to just hold LINK. In that case you send LINK to the contract's address like any normal transfer.\n\n## The one thing I really want to flag\n\n**Which method you need depends entirely on how your contract was written.** Sending LINK directly to a contract that isn't designed to receive/use it can mean the tokens get stuck forever.\n\nTo give you exact instructions, can you tell me:\n- What Chainlink service are you using? (Automation? VRF? Price feeds?)\n- Do you have the contract code, or a tutorial you're following?\n\nShare those and I'll give you the precise steps for your situation. 🙂",
@@ -321,12 +482,12 @@
           "service_tier": "standard"
         },
         "grader": {
-          "input_tokens": 0,
-          "output_tokens": 0,
+          "input_tokens": 1386,
+          "output_tokens": 1428,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
+          "cache_read_input_tokens": 2509,
           "web_search_requests": 0,
-          "service_tier": null
+          "service_tier": "batch"
         }
       }
     }

@@ -10,10 +10,10 @@ can stop after any of them and have something better than today.
 
 | # | Plan | Delivers | Depends on |
 |---|---|---|---|
-| 1 | [Targets & the one-command runner](01-scopes-and-runner.md) | `geo run <target>` — one command, end to end | — |
+| 1 | [Targets & the one-command runner](01-scopes-and-runner.md) | `geo-audit run <target>` — one command, end to end | — |
 | 2 | [History & a data model that scales](02-history-and-data-model.md) | trends over time; index/detail split | 1 |
-| 3 | [Local server & job execution](03-local-server-and-jobs.md) | `geo serve` — trigger runs from a browser | 1, 2 |
-| 4 | [React dashboard: IA, navigation, themes](04-react-dashboard-shell.md) | the app shell, routing, pagination, dark/light | 2 (3 for live runs) |
+| 3 | [Local server & job execution](03-local-server-and-jobs.md) | `geo-audit serve` — trigger runs from a browser | 1, 2 |
+| 4 | [React dashboard: IA, navigation, themes](04-react-dashboard-shell.md) | the app shell, routing, pagination, dark/light | 2, 3 |
 | 5 | [Visualization & the leadership report](05-visualization-and-leadership.md) | charts, bird's-eye view, static export to a domain | 4 |
 
 ## Decisions locked with you
@@ -78,19 +78,62 @@ A button that can spend that must not be one click. Plan 1 specifies a cost pref
 the API refuse to start a run without an acknowledged estimate; plan 4 puts the dollar figure in the
 confirm dialog. Cheap to build now, expensive to retrofit after someone's first surprise bill.
 
-## Review pass — 2026-09-21
+## Review history
 
-Reviewed after drafting. Four changes, two of which cut scope:
+### Self-review — 2026-09-21
+`scope` → `target` (collided with the existing product-breadth `scope`); dropped a `sitemap:<glob>`
+target type; SSE → polling; dropped the radar chart; collapsed three storage projections to two.
 
-- **`scope` → `target`.** The codebase already uses `scope` for breadth within a product
-  (`curated|full|bundle`); the new concept would have collided, with `curated` meaning two different
-  things. Renamed, and the watchlist prefix is `watchlist:` not `curated:`.
-- **Dropped the `sitemap:<glob>` target type.** The requirement is sitemap-backed autocomplete when
-  picking a single page, which the picker covers; a glob type duplicated `product:`.
-- **SSE → polling.** Deletes a connection registry, heartbeats and reconnection logic for no
-  user-visible loss on a single-user localhost tool.
-- **Dropped the radar chart.** The only fiddly primitive, and worse than a grouped bar at comparing
-  9 dimensions. Four simple SVG primitives remain.
+### Agent review — 2026-09-21
+Three reviewers (DHH, Kieran, simplicity). Every code-level claim below was independently verified
+before being accepted.
+
+**Factual correction — plan 2 was wrong about its own premise.** It blamed the 272KB dashboard file
+on embedded audit prose. Measured: prose is **14.7%**; probe runs are 41.8%; and `primaryRun` is
+**byte-identical** to `probeRuns[0]` — 97.2KB, 41.8% of the file, pure duplication from
+[collect.js:211](../../src/dashboard/collect.js#L211). Deleting one line halves the file today.
+The index/detail split was also unachievable as specified, because it stripped prose while leaving
+~50KB of probe payload per page in the index.
+
+**Data-integrity bug the plans would have shipped.**
+[`slugFromUrl`](../../src/probes.js#L148) keys on the last two path segments, so
+`/ccip/getting-started/evm` and `/vrf/getting-started/evm` both become `getting-started-evm`.
+Verified by running it. In a flat page namespace that silently overwrites one product's page with
+another's.
+
+**Wrong completion predicate.** `graded_count > 0` marks a page done when 1 of 6 probes graded, and
+`graded === probe_count` ignores legitimate refusals. Corrected to
+`graded + refusals + errors === probe_count` with errors retryable.
+
+**Substantial reuse missed.** `mixedGraders` ([collect.js:268](../../src/dashboard/collect.js#L268)),
+ROI-ranked `potentialFixes` ([rollup.js:222](../../src/product/rollup.js#L222)), a 21-token theme
+set, `bar()`/`kpi()`/`table()`, `changedSince`/`writeLedger`, and `cmdProduct` as the existing
+pipeline — all previously written as new work. `matrix.js` had no home in any plan and would have
+been silently orphaned along with the probe-matrix CSV.
+
+**Unverifiable criteria removed or made measurable:** "type error" in a repo with no TypeScript
+(now a runtime throw); "without jank" (now interaction-to-paint <100ms); "byte-for-byte rebuild"
+(impossible — [resolve.js:144](../../src/product/resolve.js#L144) stamps a timestamp; now semantic
+equality); "no trigger code" (now a separate build entry point rather than grepping minified
+output).
+
+**Cut:** the `acknowledgedCost` handshake, the migration module (six legacy dirs — re-run them), the
+Settings route, two of four chart primitives, the chart wrapper abstraction, and `src/report/build.js`
+as a second exporter.
+
+**Rejected, with reasons.** Two recommendations conflicted with stated requirements the reviewers
+did not have:
+
+- *"Delete plan 3, a docs team has a terminal."* The brief explicitly asks to run the whole process
+  from the UI.
+- *"Delete watchlists, the requirement is product-or-page."* The curated set was explicitly
+  requested as the team's quick routine check.
+
+**Newly added from review:** run-health fingerprinting (`search_degraded_count` /
+`live_search_failed_count` already exist and make fidelity inconclusive); a run status enum with
+cancelled/partial excluded from trends; atomic writes and locking for the shared projection; a cap
+on concurrent *runs* rather than only pages; and stage input hashing so a page edited mid-run is
+not scored against stale text.
 
 ## Skill
 

@@ -41,24 +41,27 @@ not measure, and it is more credible to a technical leadership audience than a s
 |---|---|---|
 | Score trend | is quality improving? | line, per-protocol segments, discontinuity markers |
 | Fidelity trend | are answers improving? | line, **one series per grader**, never joined |
-| Band distribution | how is the portfolio spread? | stacked bar, Poor→Exemplary |
+| Band distribution | how is the portfolio spread? | bar, Poor→Exemplary |
 | Dimension breakdown | which of the 9 dimensions are weak? | grouped horizontal bar |
 | Product comparison | which product is behind? | horizontal bars, sorted |
 | Fix backlog by ROI | what do we do next? | bars of points-recoverable |
-| Coverage | how much is even measured? | donut — audited vs known pages |
+| Coverage | how much is even measured? | bar + explicit `n/N` label — a two-part ratio does not need a donut |
 
 **Coverage is the most important and least obvious.** A 74 average across 12 audited pages out of
 1,465 is not a portfolio health figure. Every aggregate displays its denominator; the Overview shows
 coverage before it shows any average.
 
-Charts are hand-rolled SVG behind a thin `ui/src/charts/` wrapper — **four** primitives: line, bar,
-stacked bar, donut. A charting library is 100KB+ against a single-file export budget, and
-theme-token inheritance is easier to guarantee when we own the markup. The wrapper means a library
-can be swapped in later without touching callers.
+Charts are hand-rolled SVG — **two** primitives, `Line` and `Bar`, which cover all seven charts
+above. Radar was dropped (fiddly, and worse than a sorted bar at comparing 9 magnitudes); donut and
+stacked bar followed (a donut is a worse bar for a two-part ratio, and stacked bar had one caller).
 
-**Radar dropped.** It was the one primitive that is genuinely fiddly to hand-roll, and radar charts
-are poor at the job anyway — comparing 9 magnitudes is what a sorted grouped bar does well and a
-radar does badly. Cutting it removes the main argument for taking on a chart dependency.
+No wrapper abstraction. An earlier draft justified one by "a library could be swapped in later" —
+that is a dependency we do not have, abstracted in advance. Two SVG components with a props
+interface are the abstraction.
+
+**Already computed, do not recompute:** [rollup.js:222](../../src/product/rollup.js#L222) already
+emits `potentialFixes` ranked by recoverable points, and a per-check breakdown. The "fix backlog by
+ROI" and "dimension breakdown" charts are views over existing data.
 
 ### Drill-down path
 
@@ -75,9 +78,10 @@ Overview: fidelity 52 ▼
 
 ### The exportable report
 
-`geo report --target product:ccip --out report.html` produces a standalone, self-contained page for
-sharing: headline measures with caveats, trends, top fixes by recoverable points, coverage, and a
-methods appendix naming models, effort, grader, dates and cost.
+**Folded into the export, not a second exporter.** An earlier draft specified both
+`geo-audit report` and `geo-audit dashboard --export`, two overlapping paths producing
+self-contained HTML. There is one: `geo-audit dashboard --export dist/ [--target <t>]`, where
+`--target` filters to a single product for sharing.
 
 The methods appendix is non-negotiable. A report quoting fidelity without naming the grader is
 misleading by omission, given the measured ~12-point Opus/Sonnet gap.
@@ -89,8 +93,8 @@ details fetched from sibling JSON. Output is **static** — no API, no job trigg
 locked deployment decision. Deployable to any static host.
 
 ```bash
-geo dashboard --export dist/     # static bundle, read-only, safe to publish
-geo serve                        # local, can trigger runs
+geo-audit dashboard --export dist/     # static bundle, read-only, safe to publish
+geo-audit serve                        # local, can trigger runs
 ```
 
 A test asserts the exported bundle contains **no** API base URL and **no** run-trigger code path.
@@ -99,14 +103,13 @@ A test asserts the exported bundle contains **no** API base URL and **no** run-t
 
 | file | action |
 |---|---|
-| `ui/src/charts/Line.jsx` `Bar.jsx` `StackedBar.jsx` `Donut.jsx` | new — SVG primitives |
+| `ui/src/charts/Line.jsx` `Bar.jsx` | new — the only two SVG primitives |
 | `ui/src/charts/theme.js` | new — token-driven palette, colour-blind safe |
 | `ui/src/routes/Overview.jsx` | new — two-measure headline, coverage, trends |
 | `ui/src/components/MeasureCard.jsx` | new — value + delta + provenance + caveat |
 | `ui/src/components/CoverageBadge.jsx` | new — denominator, always shown |
 | `ui/src/components/MethodsAppendix.jsx` | new |
-| `src/report/build.js` | new — standalone report generation |
-| `src/cli.js` | add `report`; `dashboard --export` |
+| `src/cli.js` | `dashboard --export [--target]` — one exporter |
 | `ui/src/charts/*.test.jsx` | new |
 | `test/report.test.js` | new |
 
@@ -119,10 +122,10 @@ A test asserts the exported bundle contains **no** API base URL and **no** run-t
 - [ ] Protocol changes appear as visible discontinuity markers
 - [ ] Every chart reads theme tokens and is legible in both themes
 - [ ] Chart palette is colour-blind safe; no chart relies on colour alone
-- [ ] Every aggregate drills down to the underlying probe answer in ≤4 clicks
-- [ ] `geo report` produces a self-contained file with a methods appendix naming models, grader, dates, cost
-- [ ] `geo dashboard --export` emits a static bundle containing **no** API URL and **no** trigger code (asserted in test)
-- [ ] Exported bundle is under 2MB for a 200-page scope
+- [ ] Every aggregate drills down to its underlying evidence in ≤4 clicks — to the probe answer where probes exist, and to the audit finding for audit-only targets (a `--stages audit` run has no probes, so an unqualified probe-answer criterion would be unsatisfiable)
+- [ ] The export carries a methods appendix naming models, effort, grader, dates and cost
+- [ ] The export is built from a **separate Vite entry point** with the API client swapped for the static implementation at build time, so "no trigger code" is structural rather than a grep over minified output; the test asserts the API entry module is absent from the bundle graph
+- [ ] Exported **HTML file** is under 2MB for a 200-page target; sibling page-detail JSON is excluded from that figure and fetched on demand
 - [ ] `npm test` and `npm --prefix ui test` pass
 
 ## Risks
@@ -131,8 +134,8 @@ A test asserts the exported bundle contains **no** API base URL and **no** run-t
 |---|---|
 | Dashboard gets quoted as proof docs are effective | Two-measure headline; caveat text next to the number, not in a footer; methods appendix in every export |
 | Averages over tiny coverage look authoritative | Denominator on every aggregate; coverage shown first |
-| Hand-rolled charts balloon in effort | Four simple primitives only, radar cut; escape hatch to a library behind the wrapper if a complex need appears |
-| Export leaks a trigger path | Explicit test asserting no API URL or trigger code in the bundle |
+| Hand-rolled charts balloon in effort | Two primitives only; if a genuinely complex chart appears, add a library then — not before |
+| Export leaks a trigger path | Separate build entry point; the API client is not in the static bundle's module graph |
 | Single-file export grows past practical size | Index-only embed, details fetched; size assertion in CI |
 
 ## Out of scope

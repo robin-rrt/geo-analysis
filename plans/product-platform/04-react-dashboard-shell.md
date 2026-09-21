@@ -1,6 +1,6 @@
 # 4 — React dashboard: information architecture, navigation, themes
 
-**Type:** ♻️ refactor (replaces the current renderer) · **Depends on:** plan 2 (plan 3 for live runs)
+**Type:** ♻️ refactor (replaces the current renderer) · **Depends on:** plans 2 **and 3**
 
 ## Problem
 
@@ -14,6 +14,37 @@ become the product described in the brief by extension — it needs replacing.
 React + Vite in `ui/`, consuming the plan-2 projections. The Node side stays dependency-light; all
 UI dependencies are confined to `ui/package.json` so the CLI keeps its current 4-dep footprint.
 
+> **Dependency on plan 3 is hard, not optional.** An earlier draft called it optional. It is not:
+> the target picker's sitemap autocomplete comes from `GET /api/targets`, `ui/vite.config.js` proxies
+> to `geo-audit serve` for the dev loop, and the data client must speak the API. Only the *live-run
+> progress* routes are deferrable.
+>
+> **Two transports, one interface.** `ui/src/api/client.js` is built from the start against an
+> interface with two implementations — the plan-3 API, and static sibling-JSON for the plan-5 export.
+> Building against only one means rewriting the client later.
+
+### Reuse rather than rebuild
+
+- [`theme.js`](../../src/dashboard/theme.js) is already a complete two-theme custom-property set
+  (21 tokens, including band and severity colours). `ui/src/theme/tokens.css` is a **port** of it
+  plus a `data-theme` override — not a new design system.
+- [`render.js`](../../src/dashboard/render.js) already has `bar()`, `kpi()` and `table()`; their
+  markup and class names are the reference for the React equivalents.
+- [`parse-audit.js`](../../src/dashboard/parse-audit.js) (299 lines) is the disk→model layer and is
+  **kept**, not reimplemented.
+
+### Modules that must not be orphaned
+
+The rewrite deletes `render.js`, but four modules currently hang off it and need explicit homes,
+or features disappear silently:
+
+| module | disposition |
+|---|---|
+| `parse-audit.js` | keep — feeds the store |
+| `collect.js` | amended by plan 2, kept |
+| `products.js` | folded into the store's product projection |
+| `matrix.js` (`pivotRuns`, `toCsv`, `probe-matrix.csv` at [cli.js:460](../../src/cli.js#L460)) | **keep the CSV export**; surface it as a download on the Product route |
+
 ### Information architecture
 
 Navigation is organised by the question being asked, not by the artifact type. Two audiences, one
@@ -26,8 +57,7 @@ Overview            leadership landing — portfolio health, trends, what change
           └ Page    audit, dimensions, measured facts, probes, answers, history
 Runs                run history, status, cost, live progress
   └ Run             per-page progress, logs, artifacts produced
-Watchlists          curated sets; edit membership; run a routine check
-Settings            theme, protocol defaults, cost ceiling
+Watchlists          curated sets; run a routine check
 ```
 
 `Overview → Product → Page` is the leadership drill-down path. `Watchlists → run` is the team's
@@ -80,8 +110,10 @@ Not optional for something leadership opens on unknown hardware.
 
 From the [README](README.md) product rule — these are component-level, not copy suggestions:
 
-- A fidelity figure is **never rendered without its grader**. The component requires `graderModel`
-  as a prop; omitting it is a type error, not a silent default.
+- A fidelity figure is **never rendered without its grader**. There is no TypeScript here, so this
+  is enforced as a **runtime invariant**: `FidelityBadge` throws when `graderModel` is missing, and a
+  unit test asserts the throw. An earlier draft called it "a type error", which is unimplementable in
+  a zero-build JS repo.
 - Structural score is labelled *page quality*, never *effectiveness*.
 - Retrieval figures carry the `any-citation` overcount caveat via an info affordance.
 - A score and a fidelity number are never summed, averaged, or shown as one composite.
@@ -91,8 +123,9 @@ From the [README](README.md) product rule — these are component-level, not cop
 | file | action |
 |---|---|
 | `ui/package.json` | new — React, Vite, router, react-query (UI deps isolated here) |
-| `ui/vite.config.js` | new — dev proxy to `geo serve`; single-file export config (plan 5) |
-| `ui/src/routes/` | new — Overview, Products, Product, Page, Runs, Run, Watchlists, Settings |
+| `ui/vite.config.js` | new — dev proxy to `geo-audit serve`; single-file export config (plan 5) |
+| `ui/dist/` | **committed build output** — see the build-step decision below |
+| `ui/src/routes/` | new — Overview, Products, Product, Page, Runs, Run, Watchlists (Settings dropped; theme lives in the header, ceilings are flags) |
 | `ui/src/components/DataTable.jsx` | new — pagination, sort, filter, URL sync |
 | `ui/src/components/ThemeToggle.jsx` | new — Light/Dark/System |
 | `ui/src/components/FidelityBadge.jsx` | new — **requires** `graderModel` |
@@ -101,23 +134,25 @@ From the [README](README.md) product rule — these are component-level, not cop
 | `ui/src/api/client.js` | new — typed fetch wrappers |
 | `ui/src/components/TargetPicker.jsx` | new — product / watchlist / single page, with **sitemap-backed autocomplete** |
 | `src/dashboard/render.js` | **delete** once parity is reached |
-| `src/cli.js` | `dashboard` builds the React app instead of string templates |
+| `src/cli.js` | `dashboard` **copies prebuilt `ui/dist`** and writes projections beside it — it does **not** invoke a bundler |
 | `ui/src/**/*.test.jsx` | new — Vitest + Testing Library |
 
 ## Acceptance criteria
 
 - [ ] Every route renders with loading, empty and error states
 - [ ] Pagination, sort, filter and search all round-trip through the URL; a pasted link reproduces the view
-- [ ] Table handles a 1,465-row index without jank (measured, synthetic fixture)
+- [ ] Table renders a 1,465-row index with **interaction-to-paint under 100ms** on sort/filter/page change (measured, not judged)
 - [ ] Theme toggle offers Light/Dark/System, persists, and overrides the media query in both directions
 - [ ] No flash of incorrect theme on load
-- [ ] Charts and all components read theme tokens; no hard-coded colours (lint rule)
-- [ ] WCAG AA contrast verified for both themes
+- [ ] No hard-coded colours — enforced by `stylelint` rule `color-no-hex` over `ui/src/**/*.css` and an ESLint rule banning hex literals in `.jsx`
+- [ ] WCAG AA contrast verified for every foreground/background token pair in both themes, by a script over `tokens.css` (not by eye)
 - [ ] Every view is fully keyboard operable with visible focus
 - [ ] Target picker offers product, watchlist, and single page with autocomplete over sitemap URLs
 - [ ] Band indicators carry a non-colour signal
-- [ ] `FidelityBadge` cannot be rendered without `graderModel`
-- [ ] No view displays a composite of structural score and fidelity
+- [ ] `FidelityBadge` **throws** without `graderModel`; test asserts it
+- [ ] `probe-matrix.csv` remains downloadable; no existing feature is dropped silently
+- [ ] Parity checklist against `render.js` is enumerated and every item ticked **before** deletion
+- [ ] No component computes a value from both a structural score and a fidelity figure (enforced by review of the two selector modules, which are the only places aggregates are derived)
 - [ ] CLI runtime deps remain 4 — UI deps live only in `ui/package.json`
 - [ ] `npm test` and `npm --prefix ui test` both pass
 
@@ -125,7 +160,7 @@ From the [README](README.md) product rule — these are component-level, not cop
 
 | risk | mitigation |
 |---|---|
-| Build step breaks the zero-install property | `ui/dist` is committed or built in release; `geo serve` serves prebuilt assets so users need no toolchain |
+| Build step breaks the zero-install property | **Decided: `ui/dist` is committed.** `geo-audit serve` and `dashboard` serve/copy prebuilt assets, so installing the CLI never requires a bundler. Contributors touching `ui/` run Vite; users never do. The cost is a generated artifact in git, accepted deliberately to preserve zero-install |
 | React deps leak into the CLI | Separate `ui/package.json`; CI asserts the root dependency count |
 | Rewrite loses features of the current dashboard | Parity checklist against `render.js` before deleting it |
 | Dark mode ships broken in charts | Token-only colours; lint rule; visual check in both themes |

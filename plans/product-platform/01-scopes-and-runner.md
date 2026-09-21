@@ -21,11 +21,11 @@ without ten invocations, and no way to know what a run will cost before it start
 One command with an explicit target and optional stage selection:
 
 ```bash
-geo run product:vrf                      # resolve → audit → probes → test → roll up
-geo run watchlist:release-critical      # a curated set
-geo run page:https://docs.chain.link/ace  # a single page
-geo run product:ccip --stages audit      # granular: audit only
-geo run product:vrf --estimate           # print projected cost and exit
+geo-audit run product:vrf                      # resolve → audit → probes → test → roll up
+geo-audit run watchlist:release-critical      # a curated set
+geo-audit run page:https://docs.chain.link/ace  # a single page
+geo-audit run product:ccip --stages audit      # granular: audit only
+geo-audit run product:vrf --estimate           # print projected cost and exit
 ```
 
 ### The target abstraction
@@ -69,11 +69,12 @@ autocomplete when choosing a single page**, not a glob target. `product:` alread
 the sitemap, so a glob type would have been a near-duplicate. The picker in plan 4 satisfies the
 requirement directly; `GET /api/targets` (plan 3) exposes sitemap URLs for that autocomplete.
 
-### Watchlist format
+### Watchlist format and validation
 
 ```json
 // watchlists/release-critical.json
 {
+  "version": 1,
   "name": "release-critical",
   "description": "Pages that must be correct before any release",
   "pages": [
@@ -82,6 +83,11 @@ requirement directly; `GET /api/targets` (plan 3) exposes sitemap URLs for that 
   ]
 }
 ```
+
+Validation rules, so "reader + validation" means something specific: `version` must be known;
+duplicate URLs are rejected; off-origin URLs are rejected (a watchlist pointing at another domain is
+a mistake, not a feature); URLs that 404 at resolve time are kept in the ledger with a reason rather
+than silently dropped.
 
 ### Stages
 
@@ -96,15 +102,38 @@ Each stage is skippable and resumable. `--stages` takes a comma list; default is
 | `rollup` | aggregate to target level | `src/product/rollup.js` |
 
 Resumability is not optional: a `test` stage can run 40 minutes, and re-running a whole target
-because one page failed is unacceptable. Reuse the existing artifact-exists check, **corrected** —
-`experiments/correlation/run-stage.mjs` learned the hard way that a probe run writes its answers
-before grading returns, so "file exists" is not "stage complete". Completion must be asserted from
-content (`graded_count > 0`), not existence.
+because one page failed is unacceptable. But "file exists" is not "stage complete" — a probe run
+writes its answers before grading returns (`experiments/correlation/run-stage.mjs` learned this the
+hard way).
+
+**The completion predicate, stated correctly.** `graded_count > 0` is also wrong — it marks a page
+complete when 1 of 6 probes graded. And `graded_count === probe_count` is wrong too, because
+refusals and errors are legitimately ungraded
+([evaluate.js:555](../../src/evaluate.js#L555)). The predicate is:
+
+```js
+const settled = graded_count + refusal_count + error_count === probe_count;
+// refusals are terminal — the model declined, re-running burns money for the same answer.
+// errors are retryable — they are transport failures, not verdicts.
+const complete = settled && error_count === 0;
+```
+
+**Stage inputs are hashed.** A page audited at t=0 and probed at t=40min may have changed in
+between, which would score an answer against stale text.
+[`changedSince`](../../src/product/fetch.js#L81) already exists for this; each stage records the
+content hash it consumed, and a resumed run re-does a stage whose input hash moved.
+
+### Reuse, don't re-derive
+
+[`cmdProduct`](../../src/cli.js#L521) is already the end-to-end pipeline — resolve, fetch, ledger,
+rollup, with `--audit` and `--probes`. `src/run/pipeline.js` **extends** it with stage selection,
+resume and multi-target support; it does not reimplement it.
+[`writeLedger`](../../src/product/fetch.js#L102) already produces the ledger this plan describes.
 
 ### Cost preflight
 
 ```
-$ geo run product:ccip --estimate
+$ geo-audit run product:ccip --estimate
 
   target     product:ccip (product scope: curated) — 31 pages
   stages     audit, probes, test, rollup
@@ -119,7 +148,11 @@ $ geo run product:ccip --estimate
   reduces grader cost by 50%; the model under test is unaffected.
 ```
 
-`geo run` prints this and requires `--yes` above a threshold (default $10, `GEO_COST_CEILING`).
+`geo-audit run` prints this and requires `--yes` above a threshold (default $10, `GEO_COST_CEILING`).
+
+Deliberately **not** built: the three-way `acknowledgedCost` handshake an earlier draft specified.
+A page count, a projected figure and `--yes`, with the ceiling enforced server-side in plan 3, is
+the whole feature. A consensus protocol between one user and their own laptop is not.
 
 ## Files
 
@@ -138,17 +171,19 @@ $ geo run product:ccip --estimate
 
 ## Acceptance criteria
 
-- [ ] `geo run product:vrf` completes end to end and writes a rollup
-- [ ] `geo run watchlist:<name>` works with **no** code path that special-cases it downstream of `resolveTarget`
-- [ ] `geo run page:<url>` works for a single page
+- [ ] `geo-audit run product:vrf` completes end to end and writes a rollup
+- [ ] `geo-audit run watchlist:<name>` works with **no** code path that special-cases it downstream of `resolveTarget`
+- [ ] `geo-audit run page:<url>` works for a single page
 - [ ] `--product-scope full` still reaches the existing resolver unchanged — the new `target` concept does not shadow or rename the existing `scope`
 - [ ] `--stages audit` runs only the audit stage; `--stages probes,test` runs only those
-- [ ] Re-running a completed target re-does no paid work
-- [ ] **Stage completion is determined by content, not file existence** (regression test: a run file with `graded_count: 0` must not count as complete)
-- [ ] `--estimate` prints a projection and makes no API call
+- [ ] Re-running a completed target issues **zero Anthropic requests** — asserted with an injected client that counts calls, not by inspection
+- [ ] **Completion is `graded + refusals + errors === probe_count` with `error_count === 0`** — regression tests for: `graded_count: 0` (incomplete), 1-of-6 graded (incomplete), 5 graded + 1 refusal (complete), 5 graded + 1 error (incomplete, retryable)
+- [ ] A stage whose input content hash changed is re-run, not skipped
+- [ ] `--estimate` makes **no Anthropic API call**; it may fetch llms.txt/sitemap, which is how page count is known ([resolve.js:83](../../src/product/resolve.js#L83))
 - [ ] A run projected above the ceiling refuses to start without `--yes`
 - [ ] A failed page does not abort the run; it is reported in the ledger with a reason
-- [ ] Ledger records every URL considered and why it was kept or dropped
+- [ ] Ledger records every URL considered and why it was kept or dropped (via existing `writeLedger`)
+- [ ] Watchlist validation rejects unknown `version`, duplicate URLs and off-origin URLs
 - [ ] `npm test` passes
 
 ## Risks

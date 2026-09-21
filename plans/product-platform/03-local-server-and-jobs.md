@@ -13,11 +13,11 @@ properties of this workload rule out naive request/response:
 
 ## Solution
 
-`geo serve` — a small Node server, no framework, serving the built UI and exposing a job API.
+`geo-audit serve` — a small Node server, no framework, serving the built UI and exposing a job API.
 
 ```bash
-geo serve                 # http://127.0.0.1:4317
-geo serve --port 8080
+geo-audit serve                 # http://127.0.0.1:4317
+geo-audit serve --port 8080
 ```
 
 ### Security posture — the part not to get wrong
@@ -33,7 +33,7 @@ Enforced, not merely documented:
 3. **The API key never reaches the browser.** It stays in the server process; no endpoint echoes it;
    it is redacted from all job logs and error payloads.
 4. No endpoint accepts an arbitrary shell command. The API takes a scope target and a stage list,
-   both validated against the scope resolver — never interpolated into a shell.
+   both validated against the target resolver — never interpolated into a shell.
 5. Cost ceiling enforced server-side. A client cannot bypass it by crafting a request.
 
 ### API
@@ -42,17 +42,18 @@ Enforced, not merely documented:
 |---|---|---|
 | `GET` | `/api/targets` | resolvable targets — products, watchlists, sitemap sections |
 | `POST` | `/api/estimate` | `{target, stages}` → projected cost, no API call made |
-| `POST` | `/api/runs` | start a run; **400 unless `acknowledgedCost` matches the server's estimate** |
-| `GET` | `/api/runs` | run history (from `index/runs.json`) |
-| `GET` | `/api/runs/:id` | status, per-page progress, cost so far |
-| `GET` | `/api/runs/:id` | polled for progress (see below) |
-| `POST` | `/api/runs/:id/cancel` | cancel; in-flight page finishes, nothing new starts |
+| `POST` | `/api/runs` | start a run; **refused above the cost ceiling without `confirm: true`** |
+| `GET` | `/api/runs` | run history (from `dashboard/runs.json`) |
+| `GET` | `/api/runs/:id` | status, per-page progress, cost so far — **polled** (see below) |
+| `POST` | `/api/runs/:id/cancel` | cancel; does not block on an in-flight grading batch |
 | `GET` | `/api/dashboard/index` | slim index (plan 2) |
 | `GET` | `/api/dashboard/pages/:slug` | page detail |
 
-`acknowledgedCost` is the guardrail that makes the confirm dialog meaningful: the client must send
-back the figure it showed the user. If the server's estimate has changed, it refuses — so the user
-cannot approve $9 and trigger $200.
+**Simplified from an earlier draft.** Rather than an `acknowledgedCost` float round-trip — which
+raises unanswerable questions about exact equality against a ±30% estimate on a sitemap that shifts
+between estimate and start — the server enforces the ceiling itself. `POST /api/runs` refuses any
+run whose projection exceeds `GEO_COST_CEILING` unless the request carries `confirm: true`, and the
+UI shows the dollar figure on that confirm. The client cannot raise the ceiling.
 
 ### Progress via polling, not SSE
 
@@ -93,7 +94,7 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 | `src/server/index.js` | new — HTTP server, routing, static file serving |
 | `src/server/api.js` | new — endpoint handlers |
 | `src/server/jobs.js` | new — job lifecycle, queue, cancellation, reconciliation |
-| `src/server/redact.js` | new — strip secrets from logs/errors |
+| `src/server/redact.js` | new — one small helper; applied centrally, not a subsystem |
 | `src/cli.js` | add `serve` subcommand |
 | `test/server-api.test.js` | new |
 | `test/jobs.test.js` | new |
@@ -101,16 +102,17 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 
 ## Acceptance criteria
 
-- [ ] `geo serve` binds `127.0.0.1` by default; asserted in test
+- [ ] `geo-audit serve` binds `127.0.0.1` by default; asserted in test
 - [ ] Binding externally requires `--expose` and prints the budget warning
 - [ ] **No response body or log line ever contains the API key** (test feeds a known key and greps all output)
-- [ ] `POST /api/runs` returns 400 when `acknowledgedCost` does not match the server estimate
+- [ ] `POST /api/runs` refuses a projection above the ceiling without `confirm: true`, and the ceiling cannot be raised by the client
 - [ ] Cost ceiling is enforced server-side and cannot be bypassed by a crafted request
 - [ ] Target and stage inputs are validated against the resolver; no shell interpolation anywhere
 - [ ] `GET /api/runs/:id` reports stage, per-page progress and running cost, read from disk
-- [ ] Cancel stops new work; the in-flight page completes rather than corrupting an artifact
+- [ ] Cancel stops new work and resolves **promptly** — it does not wait on an in-flight grading batch, which can poll for up to 24h ([batch.js:16](../../src/batch.js#L16)). A submitted batch's spend is already committed and is recorded as such; the run ends `cancelled`
+- [ ] A `cancelled` or `partial` run posts no timeseries point (enforced in plan 2's store)
 - [ ] Killing and restarting the server leaves a running job marked `interrupted`, not lost or double-spent
-- [ ] Concurrency cap is respected
+- [ ] Concurrency is capped **across runs, not only pages within a run** — otherwise N parallel runs each pass the per-run ceiling and collectively blow past it
 - [ ] `npm test` passes
 
 ## Risks
@@ -120,7 +122,7 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 | Server reachable publicly and burns budget | Loopback default; `--expose` opt-in with warning; public artifact is the static export, which has no API |
 | Secret leaks via an error payload | Central redaction; test greps every output for a planted key |
 | Restart double-spends | Interrupted, never auto-resumed; completion asserted from content |
-| Runaway concurrent runs | Server-side cap and ceiling |
+| Runaway concurrent runs | Cap on simultaneous runs, not just pages; ceiling applied to aggregate in-flight projection |
 | UI looks frozen if a poll fails | Polling retries by default; last-updated timestamp shown so staleness is visible |
 
 ## Out of scope

@@ -1,4 +1,4 @@
-# 1 — Scopes and the one-command runner
+# 1 — Targets and the one-command runner
 
 **Type:** ✨ feature · **Depends on:** nothing · **Unlocks:** every other plan
 
@@ -22,39 +22,52 @@ One command with an explicit target and optional stage selection:
 
 ```bash
 geo run product:vrf                      # resolve → audit → probes → test → roll up
-geo run curated:release-critical         # a watchlist
-geo run page:https://docs.chain.link/ace # a single page
+geo run watchlist:release-critical      # a curated set
+geo run page:https://docs.chain.link/ace  # a single page
 geo run product:ccip --stages audit      # granular: audit only
 geo run product:vrf --estimate           # print projected cost and exit
 ```
 
-### The scope abstraction
+### The target abstraction
 
-One idea makes both product and curated cheap, and is the reason to build it first. A **scope**
-resolves a target string into a page list; everything downstream is identical regardless of type.
+> **Naming, decided deliberately.** The codebase already uses `scope` to mean *breadth within a
+> product* — `curated | full | bundle` — across
+> [resolve.js:72](../../src/product/resolve.js#L72), `fetch.js`, `audit.js` and
+> [rollup.js:160](../../src/product/rollup.js#L160). Reusing `scope` for *what to run against*
+> would collide, and worse, `curated` would mean two different things on two different axes.
+> So the new concept is **target**, and the watchlist prefix is `watchlist:` not `curated:`.
+> The existing `scope` keeps its current meaning, untouched.
+
+A **target** resolves into a page list; everything downstream is identical regardless of type.
 
 ```js
-// src/scope/index.js
+// src/target/index.js
 /**
- * @typedef {object} Scope
- * @property {"product"|"curated"|"page"|"sitemap"} type
+ * @typedef {object} ResolvedTarget
+ * @property {"product"|"watchlist"|"page"} type
  * @property {string} name
+ * @property {string|null} productScope   // curated|full|bundle — only for type "product"
  * @property {PageRef[]} pages
- * @property {LedgerEntry[]} ledger   // what was considered and why it was kept or dropped
+ * @property {LedgerEntry[]} ledger       // what was considered and why it was kept or dropped
  */
-export async function resolveScope(target) { /* dispatch on the "type:" prefix */ }
+export async function resolveTarget(spec) { /* dispatch on the "type:" prefix */ }
 ```
 
-| type | target | resolver | notes |
+| type | spec | resolver | notes |
 |---|---|---|---|
-| `product` | `product:vrf` | wraps existing [src/product/resolve.js](../../src/product/resolve.js) | llms.txt / sitemap, three scopes already built |
-| `curated` | `curated:<name>` | new, ~50 lines | reads `watchlists/<name>.json` |
+| `product` | `product:vrf` | wraps existing [src/product/resolve.js](../../src/product/resolve.js) | llms.txt / sitemap; passes through `--product-scope curated\|full\|bundle` |
+| `watchlist` | `watchlist:<name>` | new, ~50 lines | reads `watchlists/<name>.json` |
 | `page` | `page:<url>` | trivial | one page |
-| `sitemap` | `sitemap:<glob>` | new, ~40 lines | e.g. `sitemap:/vrf/**` — satisfies "figured out from the sitemap" |
 
-**Why curated is cheap here:** it produces the same `Scope` shape, so audit, probes, rollup, history
-and UI need no knowledge of it. [src/product/rollup.js](../../src/product/rollup.js) already scores a
-set of pages generically.
+**Why the watchlist type is cheap:** it produces the same `ResolvedTarget` shape, so audit, probes,
+rollup, history and UI need no knowledge of it.
+[src/product/rollup.js](../../src/product/rollup.js) already scores a set of pages generically.
+
+**Dropped from this plan: a `sitemap:<glob>` target type.** Re-reading the requirement — *"picking a
+product or just a page (maybe figured out from the sitemap)"* — what is wanted is **sitemap-backed
+autocomplete when choosing a single page**, not a glob target. `product:` already resolves through
+the sitemap, so a glob type would have been a near-duplicate. The picker in plan 4 satisfies the
+requirement directly; `GET /api/targets` (plan 3) exposes sitemap URLs for that autocomplete.
 
 ### Watchlist format
 
@@ -80,9 +93,9 @@ Each stage is skippable and resumable. `--stages` takes a comma list; default is
 | `audit` | per-page score + measured facts | `cmdScore` |
 | `probes` | generate probe sets | `cmdGenProbes` |
 | `test` | run probes, grade | `cmdProbe` |
-| `rollup` | aggregate to scope level | `src/product/rollup.js` |
+| `rollup` | aggregate to target level | `src/product/rollup.js` |
 
-Resumability is not optional: a `test` stage can run 40 minutes, and re-running a whole scope
+Resumability is not optional: a `test` stage can run 40 minutes, and re-running a whole target
 because one page failed is unacceptable. Reuse the existing artifact-exists check, **corrected** —
 `experiments/correlation/run-stage.mjs` learned the hard way that a probe run writes its answers
 before grading returns, so "file exists" is not "stage complete". Completion must be asserted from
@@ -93,7 +106,7 @@ content (`graded_count > 0`), not existence.
 ```
 $ geo run product:ccip --estimate
 
-  scope      product:ccip (curated) — 31 pages
+  target     product:ccip (product scope: curated) — 31 pages
   stages     audit, probes, test, rollup
 
   audit      31 pages x $0.17                    $5.27
@@ -112,30 +125,29 @@ $ geo run product:ccip --estimate
 
 | file | action |
 |---|---|
-| `src/scope/index.js` | new — `resolveScope`, dispatch |
-| `src/scope/product.js` | new — thin wrapper over existing product resolver |
-| `src/scope/curated.js` | new — watchlist reader + validation |
-| `src/scope/sitemap.js` | new — glob against sitemap |
+| `src/target/index.js` | new — `resolveTarget`, dispatch |
+| `src/target/product.js` | new — thin wrapper over existing product resolver |
+| `src/target/watchlist.js` | new — watchlist reader + validation |
 | `src/run/pipeline.js` | new — stage sequencing, resume, concurrency |
 | `src/run/estimate.js` | new — cost projection from measured unit costs |
 | `src/cli.js` | add `run` subcommand; existing five stay for granular use |
 | `watchlists/release-critical.json` | new — example watchlist |
-| `test/scope.test.js` | new |
+| `test/target.test.js` | new |
 | `test/pipeline.test.js` | new |
 | `test/estimate.test.js` | new |
 
 ## Acceptance criteria
 
 - [ ] `geo run product:vrf` completes end to end and writes a rollup
-- [ ] `geo run curated:<name>` works with **no** code path that special-cases curated downstream of `resolveScope`
-- [ ] `geo run sitemap:/vrf/**` resolves pages from the sitemap
+- [ ] `geo run watchlist:<name>` works with **no** code path that special-cases it downstream of `resolveTarget`
 - [ ] `geo run page:<url>` works for a single page
+- [ ] `--product-scope full` still reaches the existing resolver unchanged — the new `target` concept does not shadow or rename the existing `scope`
 - [ ] `--stages audit` runs only the audit stage; `--stages probes,test` runs only those
-- [ ] Re-running a completed scope re-does no paid work
+- [ ] Re-running a completed target re-does no paid work
 - [ ] **Stage completion is determined by content, not file existence** (regression test: a run file with `graded_count: 0` must not count as complete)
 - [ ] `--estimate` prints a projection and makes no API call
 - [ ] A run projected above the ceiling refuses to start without `--yes`
-- [ ] A failed page does not abort the scope; it is reported in the ledger with a reason
+- [ ] A failed page does not abort the run; it is reported in the ledger with a reason
 - [ ] Ledger records every URL considered and why it was kept or dropped
 - [ ] `npm test` passes
 
@@ -143,7 +155,7 @@ $ geo run product:ccip --estimate
 
 | risk | mitigation |
 |---|---|
-| Scope abstraction leaks and `product` gets hard-coded downstream | Acceptance criterion forbids it; curated is implemented in the same PR to prove the seam |
+| Target abstraction leaks and `product` gets hard-coded downstream | Acceptance criterion forbids it; `watchlist` ships in the same PR to prove the seam |
 | Resume logic marks incomplete work complete | Assert on content; explicit regression test (this already bit us once) |
 | Cost estimates drift from reality | Estimates read from one constants module, updated from measured runs; `±30%` shown, never a false-precision figure |
 | Long runs lose work on crash | Artifacts written per page as they complete, never only at the end |
@@ -151,3 +163,4 @@ $ geo run product:ccip --estimate
 ## Out of scope
 
 Server, UI, history storage. Plan 1 writes to the existing `results/` layout; plan 2 migrates it.
+A `sitemap:<glob>` target type, deferred as above.

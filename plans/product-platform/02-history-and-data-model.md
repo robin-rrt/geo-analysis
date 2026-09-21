@@ -37,20 +37,23 @@ results/
       pages/<slug>/probes.json
       pages/<slug>/probe-results-<model>-<mode>.json
       rollup.json
-  index/
-    runs.json                            # one row per run — id, scope, when, headline figures
-    timeseries.json                      # per-target score/fidelity over time (small, append-only)
-  dashboard/
+  dashboard/                             # derived projections — rebuildable from runs/ at any time
     index.json                           # slim: one row per page — no audit bodies
     pages/<slug>.json                    # detail, fetched on demand
+    runs.json                            # one row per run — id, target, when, headline figures
+    timeseries.json                      # per-target score/fidelity over time (append-only)
 ```
+
+Two directories, not three: `runs/` is the source of truth and `dashboard/` is a pure projection
+of it. Anything in `dashboard/` can be deleted and rebuilt, which makes the static export of plan 5
+a copy rather than a separate build path.
 
 `manifest.json` records the **protocol**, because comparing across runs is invalid without it:
 
 ```json
 {
   "runId": "2026-09-18T14-22-05Z-a3f9",
-  "scope": { "type": "product", "name": "vrf", "pageCount": 12 },
+  "target": { "type": "product", "name": "vrf", "productScope": "curated", "pageCount": 12 },
   "stages": ["audit", "probes", "test", "rollup"],
   "protocol": {
     "analystModel": "claude-opus-4-8", "analystEffort": "high",
@@ -98,7 +101,7 @@ originals until verified.
 | file | action |
 |---|---|
 | `src/store/run.js` | new — write/read immutable run snapshots |
-| `src/store/index-build.js` | new — build `index/` and `dashboard/` projections |
+| `src/store/project.js` | new — rebuild the `dashboard/` projection from `runs/` |
 | `src/store/timeseries.js` | new — append points, group by protocol fingerprint |
 | `src/store/migrate.js` | new — import legacy `results/<slug>/` |
 | `scripts/migrate-results.mjs` | new — CLI wrapper, idempotent |
@@ -109,8 +112,9 @@ originals until verified.
 
 ## Acceptance criteria
 
-- [ ] A run writes an immutable snapshot; a second run of the same scope does not modify the first
-- [ ] `index/runs.json` lists every run with scope, timestamp, cost, status
+- [ ] A run writes an immutable snapshot; a second run of the same target does not modify the first
+- [ ] `dashboard/runs.json` lists every run with target, timestamp, cost, status
+- [ ] Deleting `dashboard/` entirely and rebuilding reproduces it byte-for-byte from `runs/`
 - [ ] `dashboard/index.json` is **under 500 bytes per page** (assert in test with a synthetic 200-page fixture)
 - [ ] Page detail loads from `dashboard/pages/<slug>.json`, not the index
 - [ ] `timeseries.json` records a protocol fingerprint per point

@@ -37,8 +37,9 @@ routine-check path. Both are reachable in two clicks from the landing page.
 
 - `react-router` for routes; URL is the source of truth for filters, sort, page number and selected
   tab, so any view is shareable — "look at this page's regression" must be a link.
-- Server state via `@tanstack/react-query` — caching, background refetch, and SSE-driven
-  invalidation for live runs. Avoids hand-rolling fetch/loading/error in every component.
+- Server state via `@tanstack/react-query` — caching, background refetch, and `refetchInterval`
+  polling for live runs (plan 3 uses polling, not SSE). Avoids hand-rolling fetch/loading/error
+  in every component, and is the single dependency that earns its keep most clearly here.
 - No global state library. Route + query cache is sufficient; adding Redux here would be ceremony.
 
 ### Table UX — where the brief's "pagination and best practices" lands
@@ -97,7 +98,8 @@ From the [README](README.md) product rule — these are component-level, not cop
 | `ui/src/components/FidelityBadge.jsx` | new — **requires** `graderModel` |
 | `ui/src/components/EmptyState.jsx` | new |
 | `ui/src/theme/tokens.css` | new — custom properties, both themes |
-| `ui/src/api/client.js` | new — typed fetch wrappers + SSE subscription |
+| `ui/src/api/client.js` | new — typed fetch wrappers |
+| `ui/src/components/TargetPicker.jsx` | new — product / watchlist / single page, with **sitemap-backed autocomplete** |
 | `src/dashboard/render.js` | **delete** once parity is reached |
 | `src/cli.js` | `dashboard` builds the React app instead of string templates |
 | `ui/src/**/*.test.jsx` | new — Vitest + Testing Library |
@@ -112,6 +114,7 @@ From the [README](README.md) product rule — these are component-level, not cop
 - [ ] Charts and all components read theme tokens; no hard-coded colours (lint rule)
 - [ ] WCAG AA contrast verified for both themes
 - [ ] Every view is fully keyboard operable with visible focus
+- [ ] Target picker offers product, watchlist, and single page with autocomplete over sitemap URLs
 - [ ] Band indicators carry a non-colour signal
 - [ ] `FidelityBadge` cannot be rendered without `graderModel`
 - [ ] No view displays a composite of structural score and fidelity

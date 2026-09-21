@@ -45,7 +45,7 @@ Enforced, not merely documented:
 | `POST` | `/api/runs` | start a run; **400 unless `acknowledgedCost` matches the server's estimate** |
 | `GET` | `/api/runs` | run history (from `index/runs.json`) |
 | `GET` | `/api/runs/:id` | status, per-page progress, cost so far |
-| `GET` | `/api/runs/:id/events` | **SSE** — progress stream |
+| `GET` | `/api/runs/:id` | polled for progress (see below) |
 | `POST` | `/api/runs/:id/cancel` | cancel; in-flight page finishes, nothing new starts |
 | `GET` | `/api/dashboard/index` | slim index (plan 2) |
 | `GET` | `/api/dashboard/pages/:slug` | page detail |
@@ -54,19 +54,28 @@ Enforced, not merely documented:
 back the figure it showed the user. If the server's estimate has changed, it refuses — so the user
 cannot approve $9 and trigger $200.
 
-### Progress via SSE
+### Progress via polling, not SSE
 
-Server-Sent Events, not WebSockets: traffic is one-directional and SSE reconnects on its own.
+**Revised down from an SSE design.** An SSE broker needs a connection registry, heartbeats,
+reconnection handling and its own failure mode where the UI looks frozen because the stream died
+silently. For one user on localhost watching a job that takes 7–40 minutes, polling
+`GET /api/runs/:id` every 2 seconds is indistinguishable in experience and deletes all of that.
+`@tanstack/react-query`'s `refetchInterval` (plan 4) does it in one line.
 
+`GET /api/runs/:id` returns the whole progress picture, read from the job's on-disk state:
+
+```json
+{
+  "runId": "…", "status": "running",
+  "stage": "audit",
+  "pages": { "complete": 7, "failed": 0, "total": 31 },
+  "recent": [{ "slug": "vrf-getting-started", "stage": "audit", "status": "ok", "cost": 0.17 }],
+  "cost": { "spent": 4.21, "projected": 94.55 }
+}
 ```
-event: stage    data: {"runId":"…","stage":"audit","status":"running"}
-event: page     data: {"slug":"vrf-getting-started","stage":"audit","status":"ok","cost":0.17}
-event: cost     data: {"spent":4.21,"projected":94.55}
-event: done     data: {"runId":"…","status":"complete","cost":18.24}
-```
 
-Running cost in the stream matters: a user watching $4 → $90 can cancel. That is only possible if
-cost is reported continuously.
+Running cost matters here: a user watching $4 climb toward $90 can cancel. Because state is read
+from disk rather than memory, a poll after a server restart still returns the truth.
 
 ### Job persistence
 
@@ -84,7 +93,6 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 | `src/server/index.js` | new — HTTP server, routing, static file serving |
 | `src/server/api.js` | new — endpoint handlers |
 | `src/server/jobs.js` | new — job lifecycle, queue, cancellation, reconciliation |
-| `src/server/events.js` | new — SSE broker |
 | `src/server/redact.js` | new — strip secrets from logs/errors |
 | `src/cli.js` | add `serve` subcommand |
 | `test/server-api.test.js` | new |
@@ -99,7 +107,7 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 - [ ] `POST /api/runs` returns 400 when `acknowledgedCost` does not match the server estimate
 - [ ] Cost ceiling is enforced server-side and cannot be bypassed by a crafted request
 - [ ] Target and stage inputs are validated against the resolver; no shell interpolation anywhere
-- [ ] SSE emits stage, page, cost and done events; a client reconnecting mid-run resumes the stream
+- [ ] `GET /api/runs/:id` reports stage, per-page progress and running cost, read from disk
 - [ ] Cancel stops new work; the in-flight page completes rather than corrupting an artifact
 - [ ] Killing and restarting the server leaves a running job marked `interrupted`, not lost or double-spent
 - [ ] Concurrency cap is respected
@@ -113,7 +121,7 @@ Concurrency is capped (default 3, `GEO_CONCURRENCY`), matching what the study us
 | Secret leaks via an error payload | Central redaction; test greps every output for a planted key |
 | Restart double-spends | Interrupted, never auto-resumed; completion asserted from content |
 | Runaway concurrent runs | Server-side cap and ceiling |
-| SSE connection drops silently, UI looks frozen | Heartbeat event; client shows "reconnecting"; job state is always re-fetchable from `GET /api/runs/:id` |
+| UI looks frozen if a poll fails | Polling retries by default; last-updated timestamp shown so staleness is visible |
 
 ## Out of scope
 

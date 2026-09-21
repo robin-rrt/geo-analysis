@@ -42,7 +42,7 @@ not measure, and it is more credible to a technical leadership audience than a s
 | Score trend | is quality improving? | line, per-protocol segments, discontinuity markers |
 | Fidelity trend | are answers improving? | line, **one series per grader**, never joined |
 | Band distribution | how is the portfolio spread? | stacked bar, Poor→Exemplary |
-| Dimension radar | which of the 9 dimensions are weak? | radar or grouped bar |
+| Dimension breakdown | which of the 9 dimensions are weak? | grouped horizontal bar |
 | Product comparison | which product is behind? | horizontal bars, sorted |
 | Fix backlog by ROI | what do we do next? | bars of points-recoverable |
 | Coverage | how much is even measured? | donut — audited vs known pages |
@@ -51,10 +51,14 @@ not measure, and it is more credible to a technical leadership audience than a s
 1,465 is not a portfolio health figure. Every aggregate displays its denominator; the Overview shows
 coverage before it shows any average.
 
-Charts are hand-rolled SVG behind a thin `ui/src/charts/` wrapper. Rationale: the shapes needed are
-simple (line, bar, stacked bar, donut, radar), a charting library is 100KB+ against a single-file
-export budget, and theme-token inheritance is easier to guarantee when we own the markup. If a
-genuinely complex chart appears later, the wrapper lets one be swapped in without touching callers.
+Charts are hand-rolled SVG behind a thin `ui/src/charts/` wrapper — **four** primitives: line, bar,
+stacked bar, donut. A charting library is 100KB+ against a single-file export budget, and
+theme-token inheritance is easier to guarantee when we own the markup. The wrapper means a library
+can be swapped in later without touching callers.
+
+**Radar dropped.** It was the one primitive that is genuinely fiddly to hand-roll, and radar charts
+are poor at the job anyway — comparing 9 magnitudes is what a sorted grouped bar does well and a
+radar does badly. Cutting it removes the main argument for taking on a chart dependency.
 
 ### Drill-down path
 
@@ -71,7 +75,7 @@ Overview: fidelity 52 ▼
 
 ### The exportable report
 
-`geo report --scope product:ccip --out report.html` produces a standalone, self-contained page for
+`geo report --target product:ccip --out report.html` produces a standalone, self-contained page for
 sharing: headline measures with caveats, trends, top fixes by recoverable points, coverage, and a
 methods appendix naming models, effort, grader, dates and cost.
 
@@ -95,7 +99,7 @@ A test asserts the exported bundle contains **no** API base URL and **no** run-t
 
 | file | action |
 |---|---|
-| `ui/src/charts/Line.jsx` `Bar.jsx` `StackedBar.jsx` `Donut.jsx` `Radar.jsx` | new — SVG primitives |
+| `ui/src/charts/Line.jsx` `Bar.jsx` `StackedBar.jsx` `Donut.jsx` | new — SVG primitives |
 | `ui/src/charts/theme.js` | new — token-driven palette, colour-blind safe |
 | `ui/src/routes/Overview.jsx` | new — two-measure headline, coverage, trends |
 | `ui/src/components/MeasureCard.jsx` | new — value + delta + provenance + caveat |
@@ -127,7 +131,7 @@ A test asserts the exported bundle contains **no** API base URL and **no** run-t
 |---|---|
 | Dashboard gets quoted as proof docs are effective | Two-measure headline; caveat text next to the number, not in a footer; methods appendix in every export |
 | Averages over tiny coverage look authoritative | Denominator on every aggregate; coverage shown first |
-| Hand-rolled charts balloon in effort | Five simple primitives only; escape hatch to a library behind the wrapper if a complex need appears |
+| Hand-rolled charts balloon in effort | Four simple primitives only, radar cut; escape hatch to a library behind the wrapper if a complex need appears |
 | Export leaks a trigger path | Explicit test asserting no API URL or trigger code in the bundle |
 | Single-file export grows past practical size | Index-only embed, details fetched; size assertion in CI |
 

@@ -138,3 +138,34 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   font-size: 12.5px; color: var(--muted); border-left: 2px solid var(--border);
   padding-left: 10px; margin-top: 10px; max-width: 70ch;
 }
+
+/* Chip row: the fastest path from a 93-row table to one product's pages.
+   Chips are buttons, not links, and carry aria-pressed so a screen reader
+   reports which filter is active rather than just "All, button". */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+.chip {
+  border-radius: 999px; padding: 3px 11px; font-size: 12.5px;
+  background: var(--bg); color: var(--muted);
+}
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] {
+  background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600;
+}
+.chip[aria-pressed="true"] .faint { color: rgba(255, 255, 255, 0.75); }
+
+/* Group headers sit inside the table so a group reads as part of the same
+   column grid, not as a separate card stack. */
+tr.grouphead td {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px;
+}
+.groupbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.groupToggle {
+  border: 0; background: none; padding: 0; font: inherit; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px; color: var(--text);
+}
+.linkish {
+  border: 0; background: none; padding: 0; color: var(--accent);
+  margin-left: auto; text-decoration: underline;
+}

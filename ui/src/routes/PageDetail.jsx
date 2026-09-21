@@ -131,11 +131,28 @@ export default function PageDetail() {
           <p className="small muted">
             {primary.probe_count} probes, {primary.mode} mode, graded by {primary.grader_model}.
           </p>
+          {primary.unattributed_count ? (
+            /* A question the engine could not attribute to this product is a
+               discoverability failure, not bad writing. Showing it separately
+               keeps fidelity meaning one thing. */
+            <p className="caveat">
+              <strong>{primary.unattributed_count} of {primary.probe_count} answers never identified the subject.</strong>{" "}
+              The model answered a different topic — it did not find this product. Those are excluded
+              from the fidelity above ({primary.avg_fidelity_all != null ? `including them it would be ${Math.round(primary.avg_fidelity_all)}` : "unfiltered figure unavailable"}),
+              because that is a retrieval problem rather than an answer-quality one. Look for probes
+              marked <code>cold</code>, or wording that does not name the product.
+            </p>
+          ) : null}
           {(primary.results ?? []).map((r) => (
             <details key={r.probe_id} className="card" style={{ marginBottom: 8 }}>
               <summary>
                 <strong>{r.probe_id}</strong>{" "}
                 <span className="muted small">fidelity {r.fidelity ?? "—"}</span>{" "}
+                {r.subject_identified === false ? (
+                  <span className="badge" style={{ color: "var(--warn)", borderColor: "var(--warn)" }}>
+                    wrong subject
+                  </span>
+                ) : null}{" "}
                 <span className="faint small">{r.prompt?.slice(0, 90)}</span>
               </summary>
               <div className="small" style={{ marginTop: 10 }}>

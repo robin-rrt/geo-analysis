@@ -56,6 +56,50 @@ Spread probes across these, weighting toward how developers actually ask:
 At least two probes should require facts from more than one page. At least one should be a
 `paraphrase` of another so retrieval stability to phrasing is measurable.
 
+## Give the reader enough to know what you are asking about
+
+This is the rule that most often goes wrong, so it is stated at length.
+
+A probe is answered by an engine that has never seen this page and does not know
+which product you mean. A question built from a product-specific term and nothing
+else is not a test of the documentation — it is a test of whether a two-word
+phrase happens to be globally unique. It usually is not.
+
+> ❌ *"How does Confidential HTTP guarantee only one request is sent?"*
+>
+> "Confidential HTTP" is a capability name here, but the words are generic. An
+> engine reasonably reads this as a question about HTTP confidentiality, answers
+> about TLS and idempotency keys, and never reaches this product at all. The
+> answer then scores near zero — not because the docs are bad, but because the
+> question never identified them.
+
+> ✅ *"In Chainlink CRE, how does the Confidential HTTP capability avoid sending a
+> duplicate request to my payment API?"*
+>
+> Same question. Now an engine can find the right documentation, and the score
+> measures whether the docs actually answer it.
+
+So: **name the product, or use a term distinctive enough to identify it on its
+own.** Real developers do this — they say "in CRE", "with the Chainlink VRF SDK",
+or they paste an error string that only this product emits. Identifying context
+is not a hint you are leaking; it is what a genuine question contains.
+
+Set `context_mode` on every probe:
+
+| `context_mode` | what it means | what it measures |
+|---|---|---|
+| `self-contained` | names the product, or uses a term that unambiguously identifies it | whether the docs **answer well** once found |
+| `cold` | deliberately only what a developer would type knowing nothing about the product | whether the docs are **discoverable** at all |
+
+**Most probes must be `self-contained`.** They are the ones that measure answer
+quality, which is what fidelity reports. Include **one or two `cold`** probes
+deliberately — they are a real and separate measurement, and marking them keeps
+their low scores from being read as poor documentation.
+
+A `terse/keyword` or `multilingual` probe is usually `cold`. A `code-first` or
+`error-debug` probe should almost always be `self-contained`: someone debugging
+a real error has the product in front of them.
+
 ## Output
 
 Return JSON matching the provided schema. `product_context` is one sentence on what this product

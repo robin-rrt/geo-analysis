@@ -18,6 +18,7 @@ export const EVAL_SCHEMA = {
   type: "object",
   additionalProperties: false,
   required: [
+    "subject_identified",
     "scores",
     "hallucinations",
     "missing_must_include",
@@ -26,6 +27,11 @@ export const EVAL_SCHEMA = {
     "retrieval_note",
   ],
   properties: {
+    // Did the answer engage the subject the source is about at all? An answer
+    // that never identified the product is a RETRIEVAL failure wearing an
+    // answer-quality score. Scoring it as a bad answer defames the docs for a
+    // problem the docs may not have.
+    subject_identified: { type: "boolean" },
     scores: {
       type: "object",
       additionalProperties: false,
@@ -526,6 +532,7 @@ async function runOneProbe({
  */
 export function summarizeResults(results) {
   const graded = results.filter((r) => Number.isFinite(r.fidelity));
+  const attributed = graded.filter((r) => r.subject_identified !== false);
   const avg = (rows, fn) =>
     rows.length
       ? Math.round((rows.reduce((sum, r) => sum + fn(r), 0) / rows.length) * 10) / 10
@@ -554,7 +561,19 @@ export function summarizeResults(results) {
     graded_count: graded.length,
     refusal_count: results.filter((r) => r.stop === "refusal").length,
     error_count: results.filter((r) => r.stop === "error").length,
-    avg_fidelity: avg(graded, (r) => r.fidelity),
+    // Fidelity reports how well the docs answer ONCE FOUND, so answers that
+    // never identified the subject are excluded. They are a retrieval failure,
+    // already visible in the hit rate; counting them here would report a
+    // discoverability problem as bad writing.
+    //
+    // Runs graded before subject_identified existed have it undefined, and are
+    // treated as attributed — the old number is reproduced rather than silently
+    // changed.
+    avg_fidelity: avg(attributed, (r) => r.fidelity),
+    // The unfiltered figure, kept so the filtering is auditable rather than
+    // something the reader has to take on trust.
+    avg_fidelity_all: avg(graded, (r) => r.fidelity),
+    unattributed_count: graded.length - attributed.length,
     retrieval_hit_rate: rate(hits.length, judged.length),
     retrieval_hit_rate_effective: rate(hits.length, judged.length - inconclusiveMisses),
     retrieval_mention_hit_count: hits.filter((r) => r.retrieval.via === "mention").length,

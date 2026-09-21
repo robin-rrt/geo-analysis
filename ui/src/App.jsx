@@ -6,6 +6,8 @@ import Pages from "./routes/Pages.jsx";
 import PageDetail from "./routes/PageDetail.jsx";
 import Runs from "./routes/Runs.jsx";
 import RunDetail from "./routes/RunDetail.jsx";
+import Activity from "./routes/Activity.jsx";
+import { ActivityBadge } from "./components/ActivityBadge.jsx";
 import NewRun from "./routes/NewRun.jsx";
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
         <NavLink to="/">Overview</NavLink>
         <NavLink to="/pages">Pages</NavLink>
         <NavLink to="/runs">Runs</NavLink>
+        {client.readOnly ? null : <ActivityBadge />}
         {/* The published export is read-only and has no API, so it must not
             advertise an action it cannot perform. */}
         {client.readOnly ? null : <NavLink to="/new">New run</NavLink>}
@@ -29,6 +32,7 @@ export default function App() {
         <Route path="/pages/:key" element={<PageDetail />} />
         <Route path="/runs" element={<Runs />} />
         <Route path="/runs/:runId" element={<RunDetail />} />
+        {client.readOnly ? null : <Route path="/activity" element={<Activity />} />}
         {client.readOnly ? null : <Route path="/new" element={<NewRun />} />}
         <Route path="*" element={<div className="wrap"><h1>Not found</h1></div>} />
       </Routes>

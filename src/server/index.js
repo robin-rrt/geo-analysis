@@ -101,6 +101,9 @@ export function createServer({ root = "results", uiDir = null, env = process.env
     "POST /api/runs": async (body) => manager.start(body),
 
     "GET /api/runs": async () => ({ runs: manager.history() }),
+
+    // What is running right now, from ANY process — including the terminal.
+    "GET /api/active": async () => ({ active: manager.active() }),
   };
 
   const server = http.createServer(async (req, res) => {

@@ -22,6 +22,7 @@ export const apiTransport = {
   index: () => fetch("/api/dashboard/index").then(jsonOrThrow),
   page: (key) => fetch(`/api/dashboard/pages/${key}`).then(jsonOrThrow),
   runs: () => fetch("/api/dashboard/runs").then(jsonOrThrow),
+  active: () => fetch("/api/active").then(jsonOrThrow),
   run: (runId) => fetch(`/api/dashboard/runs/${encodeURIComponent(runId)}`).then(jsonOrThrow),
   timeseries: () => fetch("/api/dashboard/timeseries").then(jsonOrThrow),
   targets: () => fetch("/api/targets").then(jsonOrThrow),
@@ -47,6 +48,8 @@ export const staticTransport = {
   index: () => fetch("./data/index.json").then(jsonOrThrow),
   page: (key) => fetch(`./data/pages/${key}.json`).then(jsonOrThrow),
   runs: () => fetch("./data/runs.json").then(jsonOrThrow),
+  // A published export is a snapshot; nothing can be running in it.
+  active: async () => ({ active: [] }),
   run: (runId) => fetch(`./data/runs/${encodeURIComponent(runId)}.json`).then(jsonOrThrow),
   timeseries: () => fetch("./data/timeseries.json").then(jsonOrThrow),
   targets: async () => ({ products: [], watchlists: [], pages: [], stages: [] }),

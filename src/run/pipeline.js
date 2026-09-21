@@ -185,7 +185,14 @@ export async function runPipeline({
     stages,
     protocol,
   });
-  manifest = writeManifest(root, { ...manifest, status: "running" });
+  // The expected page count is published at START, not at the end. Without it
+  // an in-flight run cannot report progress as a fraction — and a run started
+  // from the CLI is invisible to the dashboard until it finishes.
+  manifest = writeManifest(root, {
+    ...manifest,
+    status: "running",
+    counts: { expected: target.pages.length, pages: 0, failed: 0 },
+  });
 
   const report = {
     runId,
@@ -420,7 +427,11 @@ export async function runPipeline({
     ...manifest,
     status,
     endedAt: new Date().toISOString(),
-    counts: { pages: report.pages.length, failed: report.failures.length },
+    counts: {
+      expected: target.pages.length,
+      pages: report.pages.length,
+      failed: report.failures.length,
+    },
     cost: { measured: tally?.total?.() ?? 0, currency: "USD" },
     protocolFingerprint: protocolFingerprint(protocol),
   });

@@ -1,4 +1,6 @@
 import test from "node:test";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
@@ -219,5 +221,50 @@ test("a missing projection reports why rather than 500ing", async () => {
     const res = await get("/api/dashboard/index");
     assert.equal(res.status, 404);
     assert.match((await res.json()).error, /run something first/);
+  });
+});
+
+test("a run started elsewhere shows as active, so the dashboard is not idle while the machine works", async () => {
+  // A run started at the terminal is not in this server's memory. Listing only
+  // in-memory jobs showed an empty dashboard while a 43-page run was spending.
+  const root = tmp();
+  const { createManifest, writeManifest, newRunId, runDir } = await import("../src/store/run.js");
+  const runId = newRunId();
+  writeManifest(root, {
+    ...createManifest({ runId, target: { type: "product", name: "cre" }, stages: ["test"], protocol: {} }),
+    status: "running",
+    counts: { expected: 43, pages: 0, failed: 0 },
+  });
+  // Two pages have finished their stages.
+  for (const key of ["a", "b"]) {
+    const d = path.join(runDir(root, runId), "pages", key);
+    fs.mkdirSync(d, { recursive: true });
+    fs.writeFileSync(path.join(d, "stage-state.json"), "{}");
+  }
+
+  const manager = new JobManager({ root, env: {}, runner: async () => ({}) });
+  await withServer({ root, jobs: manager }, async (get) => {
+    const { active } = await (await get("/api/active")).json();
+    assert.equal(active.length, 1);
+    assert.equal(active[0].source, "external", "a terminal-started run is not a server job");
+    assert.equal(active[0].pages.total, 43);
+    assert.equal(active[0].pages.complete, 2, "progress should come from what the run has written");
+  });
+});
+
+test("a stale running manifest from a crash is not reported as activity", async () => {
+  const root = tmp();
+  const { createManifest, writeManifest, newRunId } = await import("../src/store/run.js");
+  const runId = newRunId();
+  writeManifest(root, {
+    ...createManifest({ runId, target: { type: "page", name: "x" }, stages: ["audit"], protocol: {} }),
+    status: "running",
+    // A pid that cannot be alive.
+    owner: { pid: 999999999, host: require("node:os").hostname() },
+  });
+  const manager = new JobManager({ root, env: {}, runner: async () => ({}) });
+  await withServer({ root, jobs: manager }, async (get) => {
+    const { active } = await (await get("/api/active")).json();
+    assert.equal(active.length, 0, "a dead run is not activity");
   });
 });

@@ -10,7 +10,9 @@
 import { runPipeline } from "../run/pipeline.js";
 import { resolveTarget } from "../target/index.js";
 import { estimateRun, ALL_STAGES, ceilingFromEnv } from "../run/estimate.js";
-import { listRuns, readManifest, writeManifest, reconcileInterrupted } from "../store/run.js";
+import fs from "node:fs";
+import path from "node:path";
+import { listRuns, readManifest, writeManifest, reconcileInterrupted, ownerAlive, runDir } from "../store/run.js";
 import { redact } from "./redact.js";
 
 const DEFAULT_MAX_CONCURRENT_RUNS = 1;
@@ -153,6 +155,61 @@ export class JobManager {
     const job = this.live.get(handle);
     if (!job) return null;
     return { handle, runId: job.runId ?? null, ...job.progress };
+  }
+
+  /**
+   * Everything running right now, from any process.
+   *
+   * A run started at the terminal is not in this server's memory, so listing
+   * only in-memory jobs shows an idle dashboard while the machine is busy
+   * spending money. On-disk runs whose owning process is still alive are
+   * included, with progress counted from the artifacts they have written.
+   */
+  active() {
+    const out = [];
+    const seen = new Set();
+
+    for (const [handle, job] of this.live) {
+      if (job.done) continue;
+      out.push({ handle, source: "server", runId: job.runId ?? null, ...job.progress });
+      if (job.runId) seen.add(job.runId);
+    }
+
+    for (const m of listRuns(this.root)) {
+      if (m.status !== "running" && m.status !== "queued") continue;
+      if (seen.has(m.runId)) continue;
+      // Only genuinely live ones: a stale `running` manifest from a crash is
+      // not activity, and reconciliation will retire it.
+      if (ownerAlive(m) !== true) continue;
+      out.push({
+        handle: m.runId,
+        source: "external",
+        runId: m.runId,
+        status: m.status,
+        target: m.target,
+        stages: m.stages,
+        startedAt: m.startedAt,
+        elapsedMs: Date.now() - new Date(m.startedAt).getTime(),
+        pages: this.diskProgress(m),
+      });
+    }
+
+    return out.sort((a, b) => String(b.startedAt).localeCompare(String(a.startedAt)));
+  }
+
+  /** Pages finished, counted from what a run has actually written. */
+  diskProgress(manifest) {
+    const pagesDir = path.join(runDir(this.root, manifest.runId), "pages");
+    let complete = 0;
+    try {
+      for (const key of fs.readdirSync(pagesDir)) {
+        // stage-state.json is written once a page has been through its stages.
+        if (fs.existsSync(path.join(pagesDir, key, "stage-state.json"))) complete++;
+      }
+    } catch {
+      /* the directory may not exist yet */
+    }
+    return { complete, failed: 0, total: manifest.counts?.expected ?? 0 };
   }
 
   history() {

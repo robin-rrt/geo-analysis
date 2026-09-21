@@ -87,6 +87,11 @@ export function protocolFingerprint(protocol = {}) {
     protocol.probeModel ?? "unknown",
     protocol.probeEffort ?? "unknown",
     protocol.mode ?? "unknown",
+    // The grader PROMPT is part of the protocol. Changing what the grader is
+    // asked moves scores exactly as changing which model grades does — adding
+    // subject_identified re-based fidelity — so a re-grade must not silently
+    // join a line drawn under the old rubric.
+    protocol.graderPromptSha ?? "unknown",
   ];
   return parts.join("|");
 }

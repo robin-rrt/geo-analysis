@@ -84,7 +84,16 @@ export default function Runs() {
       render: (r) => <span style={{ color: STATUS_COLOUR[r.status] ?? "var(--muted)" }}>{r.status}</span>,
     },
     { key: "pages", label: "Pages", width: 110, sortValue: (r) => r.counts?.pages ?? 0, render: (r) => `${r.counts?.pages ?? 0}${r.counts?.failed ? ` (${r.counts.failed} failed)` : ""}` },
-    { key: "cost", label: "Cost", width: 90, sortValue: (r) => r.cost?.measured ?? 0, render: (r) => (r.cost?.measured ? `$${r.cost.measured.toFixed(2)}` : <span className="faint">—</span>) },
+    {
+      key: "cost",
+      label: "Cost",
+      width: 90,
+      sortValue: (r) => r.cost?.measured ?? 0,
+      // A run that cost nothing (every stage reused) is not a run whose cost is
+      // unknown. `0` is falsy, so the old check rendered both as an em dash.
+      render: (r) =>
+        Number.isFinite(r.cost?.measured) ? money(r.cost.measured) : <span className="faint">—</span>,
+    },
     { key: "graderModel", label: "Grader", width: 150, render: (r) => <span className="small muted">{r.graderModel?.replace("claude-", "") ?? "—"}</span> },
     {
       key: "startedAt",

@@ -6,7 +6,7 @@ import { Band } from "../components/Band.jsx";
 import { DataTable } from "../components/DataTable.jsx";
 import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
-import { nextAction } from "../components/PageActions.jsx";
+import { nextAction, explicitActions } from "../components/PageActions.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -408,5 +408,57 @@ describe("DataTable default sort", () => {
       </MemoryRouter>,
     );
     expect(screen.getByText("Page 0")).toBeTruthy();
+  });
+});
+
+describe("explicit re-run controls", () => {
+  test("both controls exist on every page, whatever its state", () => {
+    for (const page of [
+      { probeSet: { present: false, count: 0 }, tested: false },
+      { probeSet: { present: true, count: 6 }, tested: false },
+      { probeSet: { present: true, count: 6 }, tested: true },
+    ]) {
+      const keys = explicitActions(page).map((a) => a.key);
+      expect(keys).toEqual(["regen-probes", "redo-test"]);
+    }
+  });
+
+  test("they are genuinely different operations, not one button twice", () => {
+    const [probes, test] = explicitActions({ probeSet: { present: true, count: 6 }, tested: true });
+    expect(probes.stages).toEqual(["probes"]);
+    expect(test.stages).toEqual(["test"]);
+    expect(probes.icon).not.toBe(test.icon);
+    expect(probes.short).not.toBe(test.short);
+  });
+
+  test("both force, or they would silently reuse and do nothing", () => {
+    // Without force, resume would find the existing artifact and skip — the
+    // button would appear to work and change nothing.
+    for (const a of explicitActions({ probeSet: { present: true, count: 6 }, tested: true })) {
+      expect(a.force).toBe(true);
+    }
+  });
+
+  test("re-running the test is disabled when there is no probe set to run", () => {
+    const [, test] = explicitActions({ probeSet: { present: false, count: 0 }, tested: false });
+    expect(test.disabled).toBe(true);
+    // ...and enabled once a set exists.
+    const [, ok] = explicitActions({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(ok.disabled).toBe(false);
+  });
+
+  test("regenerating is labelled for what it does on a page with no probes yet", () => {
+    const [fresh] = explicitActions({ probeSet: { present: false, count: 0 }, tested: false });
+    expect(fresh.label).toBe("Generate probes");
+    const [again] = explicitActions({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(again.label).toBe("Regenerate probes");
+  });
+
+  test("every control carries a text label, never an icon alone", () => {
+    for (const a of explicitActions({ probeSet: { present: true, count: 6 }, tested: true })) {
+      expect(a.label.length).toBeGreaterThan(0);
+      expect(a.short.length).toBeGreaterThan(0);
+      expect(a.why.length).toBeGreaterThan(0);
+    }
   });
 });

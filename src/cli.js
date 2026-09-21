@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import "./env.js";
 import { extractPage, buildPageContent } from "./extract.js";
 import { runAudit } from "./analyze.js";
 import { genProbes, slugFromUrl } from "./probes.js";
@@ -23,9 +24,8 @@ import { runPipeline } from "./run/pipeline.js";
 import { estimateRun, formatEstimate, needsConfirmation, ceilingFromEnv, ALL_STAGES } from "./run/estimate.js";
 import { startServer, DEFAULT_PORT, LOOPBACK } from "./server/index.js";
 
-// Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
-const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
-if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
+// Loading .env is a side effect of importing src/env.js — see that file for why
+// it does not live here any more.
 
 const EFFORT_LEVELS = ["low", "medium", "high", "xhigh", "max"];
 

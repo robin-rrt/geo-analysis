@@ -342,3 +342,13 @@ test("a run owned by another host is not judged from here", () => {
   writeManifest(root, { ...m, status: "running", owner: { pid: 1, host: "some-other-machine" } });
   assert.deepEqual(reconcileInterrupted(root, new Date(), { isAlive: () => false }), []);
 });
+
+test("a changed grader PROMPT breaks the fingerprint, like a changed grader model", () => {
+  // Adding subject_identified changed what fidelity means. A re-grade under the
+  // new rubric must not be joined to a line drawn under the old one.
+  const base = { graderModel: "claude-sonnet-5", probeModel: "claude-opus-4-8", probeEffort: "medium", mode: "web" };
+  assert.notEqual(
+    protocolFingerprint({ ...base, graderPromptSha: "aaaaaaaaaaaa" }),
+    protocolFingerprint({ ...base, graderPromptSha: "bbbbbbbbbbbb" }),
+  );
+});

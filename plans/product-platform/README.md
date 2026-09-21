@@ -1,6 +1,6 @@
 # GEO Platform — from primitives to a product
 
-**Created:** 2026-09-18 · **Status:** planned, not started
+**Created:** 2026-09-18 · **Status:** ✅ all five plans implemented (2026-09-21)
 
 Turns the current five CLI primitives into one product two audiences can use: the docs team running
 routine checks, and leadership asking whether `docs.chain.link` is working.

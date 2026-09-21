@@ -6,15 +6,26 @@ engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews) and by coding
 read docs to complete tasks.
 
 It works at two scales: a single page, or a whole **product** resolved from the site's own
-`llms.txt` index and sitemap.
+`llms.txt` index and sitemap. One command runs the whole thing; a local server and a React
+dashboard sit on top for people who would rather not use a terminal.
+
+```bash
+geo-audit run product:vrf          # resolve -> audit -> probes -> test -> roll up
+geo-audit run product:ccip --estimate   # what would that cost? (free, no API call)
+geo-audit serve                    # dashboard + start runs from the browser (localhost)
+geo-audit dashboard --export pub/  # read-only bundle to publish on a domain
+```
 
 | Command | What it does | Output |
 |---|---|---|
+| **`run <target>`** | Runs every stage end to end over a `product:`, `watchlist:` or `page:` target. Stage-selectable, resumable, and refuses to start above a cost ceiling | An immutable run snapshot under `results/runs/<runId>/` |
+| **`serve`** | Serves the dashboard and starts runs from the browser. **Loopback only** | `http://127.0.0.1:4317` |
 | `score <url>` | Audits one page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
 | `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key. Skips pages whose content is unchanged | `probes.json` |
 | `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source as sole ground truth. Resumes where an interrupted run stopped | `probe-results-<model>-<mode>.json` + `probe-matrix.csv` |
 | **`product <name>`** | Resolves a product's pages, fetches them, and rolls up deterministic checks — **no API calls**. `--audit` adds one LLM audit over the aggregate; `--probes` generates product-scoped probes | `pages.json`, `rollup.json`, `audit.md`, `probes.json` |
 | `dashboard` | Rolls every artifact in `results/` into one shareable HTML report | `dashboard.html` |
+| **`dashboard --export <dir>`** | Publishes the read-only static bundle — a single self-contained HTML file plus sibling JSON | `index.html` + `data/` |
 
 **Cost is measured, not estimated.** Every command reports the tokens it used and what they
 cost ([src/usage.js](src/usage.js)). Measured on `docs.chain.link`: one page audit **$0.17**,
@@ -229,6 +240,46 @@ minutes to an hour rather than seconds, and is refused at `--effort max` because
 rejects the Fable refusal fallback. Measured on a 10-probe run: **$1.07 → $0.54** in grader cost.
 Reported costs account for the discount automatically — the API returns `service_tier: "batch"`
 in usage, and that field, not a caller-supplied flag, is what halves the price.
+
+## The platform
+
+Two audiences, one tool.
+
+**The docs team** runs routine checks: `geo-audit run watchlist:release-critical` over a curated
+set, or a whole product. Runs are resumable and re-running repeats no paid work.
+
+**Leadership** opens a published dashboard on a domain. That artifact is **read-only by
+construction** — the export is built with the API client swapped out, so the bundle does not
+contain the code that starts runs. It cannot spend money because the code is not in it, not
+because it is asked nicely.
+
+### Two measures, never one number
+
+The dashboard leads with **page quality** and **measured answer fidelity** side by side, each with
+its own denominator and grader. They are deliberately not combined.
+
+A pre-registered 10-page study
+([experiments/correlation/RESULTS.md](experiments/correlation/RESULTS.md)) found structural score
+does **not** predict answer fidelity (Spearman r = −0.07, p = .84). A single composite "GEO score"
+would assert exactly the link the evidence does not support — and it is the number that ends up in
+a deck. `FidelityBadge` throws if rendered without its grader, because Sonnet grades ~12 points
+harsher than Opus and a fidelity figure without provenance is not comparable to anything.
+
+### Runs are immutable
+
+Every run writes a snapshot to `results/runs/<runId>/` and is never modified. `results/dashboard/`
+is a pure projection, rebuildable from the runs at any time. This replaced overwrite-in-place,
+which destroyed the previous audit for any page it touched.
+
+Trends refuse to lie in three specific ways: only a `complete` run posts a point (a partial run's
+average is over a self-narrowed denominator); points are joined only within a matching protocol
+fingerprint, so a line never crosses a grader change; and score and fidelity are separate series.
+
+### Cost is gated, not discovered
+
+A full-site sweep of 1,465 pages is ~$250 in audits alone. `--estimate` projects the cost from
+measured unit rates and makes no Anthropic call; anything above `GEO_COST_CEILING` (default $10)
+needs `--yes`. The server enforces the same ceiling and a client cannot raise it.
 
 ## How it works
 

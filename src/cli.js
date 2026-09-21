@@ -21,6 +21,7 @@ import { genProductProbes } from "./product/probes.js";
 import { resolveTarget, TARGET_TYPES } from "./target/index.js";
 import { runPipeline } from "./run/pipeline.js";
 import { estimateRun, formatEstimate, needsConfirmation, ceilingFromEnv, ALL_STAGES } from "./run/estimate.js";
+import { startServer, DEFAULT_PORT, LOOPBACK } from "./server/index.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -38,6 +39,7 @@ Usage:
   geo-audit dashboard [options]              Build an HTML dashboard from results/
   geo-audit product <name> [options]         Resolve, fetch and roll up a whole product
   geo-audit run <target> [options]           Run every stage end to end over a target
+  geo-audit serve [options]                  Serve the dashboard and run jobs (localhost)
 
 Analyst/grader model defaults to ${DEFAULT_MODEL}; ${FABLE_MODEL} is used
 automatically at --effort max. Override with -m on score / gen-probes.
@@ -809,6 +811,46 @@ async function cmdRun(argv) {
   }
 }
 
+
+// --------------------------------------------------------------- serve ----
+
+async function cmdServe(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    options: {
+      port: { type: "string", default: String(DEFAULT_PORT) },
+      host: { type: "string", default: LOOPBACK },
+      ui: { type: "string" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  // Binding anywhere but loopback means anyone who can reach the port can spend
+  // the Anthropic budget. The published artifact is the static export, which has
+  // no API — so this is opt-in and loud.
+  if (values.host !== LOOPBACK) {
+    process.stderr.write(
+      `\nRefusing to bind ${values.host} without --i-know-this-spends-money.\n` +
+        `Publish \`geo-audit dashboard --export\` instead; it is static and cannot start runs.\n\n`,
+    );
+    if (!process.env.GEO_ALLOW_EXPOSE) process.exit(2);
+  }
+
+  const uiDir = values.ui ?? (fs.existsSync("ui/dist") ? "ui/dist" : null);
+  if (!uiDir) {
+    process.stderr.write("No UI build found at ui/dist — serving the API only.\n");
+  }
+
+  await startServer({
+    port: Number(values.port),
+    host: values.host,
+    root: "results",
+    uiDir,
+    log: (line) => process.stderr.write(line),
+  });
+}
+
 // ------------------------------------------------------------- dispatch ----
 
 async function main() {
@@ -831,8 +873,10 @@ async function main() {
       return cmdProduct(rest);
     case "run":
       return cmdRun(rest);
+    case "serve":
+      return cmdServe(rest);
     default:
-      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, product, or run`);
+      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, product, run, or serve`);
   }
 }
 

@@ -57,7 +57,11 @@ async function pool(items, limit, fn) {
         try {
           results[i] = { ok: true, value: await fn(items[i], i) };
         } catch (err) {
-          results[i] = { ok: false, error: err?.message ?? String(err) };
+          results[i] = {
+            ok: false,
+            error: err?.message ?? String(err),
+            skippedByCancel: Boolean(err?.cancelled),
+          };
         }
       }
     }),
@@ -136,6 +140,8 @@ export async function runPipeline({
   force = false,
   tally,
   log = () => {},
+  onPage = () => {},
+  shouldCancel = () => false,
   deps = {},
 } = {}) {
   const api = {
@@ -182,7 +188,16 @@ export async function runPipeline({
     reused: 0,
   };
 
+  let cancelled = false;
   const pageResults = await pool(target.pages, concurrency, async (page) => {
+    // Cancellation stops NEW work. A page already in flight finishes so its
+    // artifact is not left half-written; nothing waits on a grading batch.
+    if (shouldCancel()) {
+      cancelled = true;
+      const err = new Error("cancelled before this page started");
+      err.cancelled = true;
+      throw err;
+    }
     const dir = pageDir(outRoot, page.url);
     fs.mkdirSync(dir, { recursive: true });
     const state = readState(dir);
@@ -295,10 +310,17 @@ export async function runPipeline({
   });
 
   for (const [i, r] of pageResults.entries()) {
-    if (r.ok) report.pages.push(r.value);
-    else {
+    if (r.ok) {
+      report.pages.push(r.value);
+      onPage({ ok: true, url: target.pages[i].url });
+    } else if (r.skippedByCancel) {
+      // Not a failure: nothing was attempted, so it must not count against the
+      // run's health or turn a cancelled run into a "partial" one.
+      report.cancelledPages = (report.cancelledPages ?? 0) + 1;
+    } else {
       // Rule 1: a failed page is recorded, not fatal.
       report.failures.push({ url: target.pages[i].url, error: r.error });
+      onPage({ ok: false, url: target.pages[i].url, error: r.error });
       log(`  FAIL ${target.pages[i].url} — ${r.error}\n`);
     }
   }
@@ -333,7 +355,7 @@ export async function runPipeline({
 
   // partial, not complete: an average over the pages that happened to succeed is
   // a self-narrowed denominator, so a partial run must not post a trend point.
-  const status = report.failures.length ? "partial" : "complete";
+  const status = cancelled ? "cancelled" : report.failures.length ? "partial" : "complete";
   manifest = writeManifest(root, {
     ...manifest,
     status,

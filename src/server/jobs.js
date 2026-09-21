@@ -1,0 +1,171 @@
+// Job lifecycle for runs started from the browser.
+//
+// Runs are long — measured web probe runs took 685-2,360 seconds, and batch
+// grading adds more — so nothing here is request/response. A job is started,
+// its state lives on disk, and the client polls.
+//
+// State on disk rather than in memory is deliberate: a server restart must not
+// lose a 40-minute run, and a poll after a restart must still return the truth.
+
+import { runPipeline } from "../run/pipeline.js";
+import { resolveTarget } from "../target/index.js";
+import { estimateRun, ALL_STAGES, ceilingFromEnv } from "../run/estimate.js";
+import { listRuns, readManifest, writeManifest, reconcileInterrupted } from "../store/run.js";
+import { redact } from "./redact.js";
+
+const DEFAULT_MAX_CONCURRENT_RUNS = 1;
+
+export class JobManager {
+  /**
+   * @param {object} opts
+   * @param {string} opts.root results directory
+   * @param {number} opts.maxConcurrentRuns capped across RUNS, not just pages —
+   *   otherwise N parallel runs each pass the per-run ceiling and collectively
+   *   blow far past it.
+   */
+  constructor({ root = "results", maxConcurrentRuns = DEFAULT_MAX_CONCURRENT_RUNS, env = process.env, runner = runPipeline } = {}) {
+    this.root = root;
+    this.maxConcurrentRuns = maxConcurrentRuns;
+    this.env = env;
+    this.runner = runner;
+    /** @type {Map<string, {progress: object, cancelled: boolean}>} */
+    this.live = new Map();
+    // Anything left mid-flight by a dead process is marked interrupted, never
+    // auto-resumed: resuming without a human risks paying twice.
+    this.interrupted = reconcileInterrupted(root);
+  }
+
+  activeCount() {
+    return [...this.live.values()].filter((j) => !j.done).length;
+  }
+
+  /** Resolve + project cost without making a single Anthropic call. */
+  async estimate({ target: spec, stages = ALL_STAGES, probesPerPage = 6, mode = "web", origin, productScope }) {
+    const target = await resolveTarget(spec, { origin, productScope });
+    const estimate = estimateRun({ pageCount: target.pages.length, stages, probesPerPage, mode });
+    return { target, estimate };
+  }
+
+  /**
+   * Start a run.
+   *
+   * The ceiling is enforced HERE, server-side. A client cannot raise it, and a
+   * projection above it is refused without an explicit confirm — so a stray
+   * click cannot spend the $250 a full-site sweep costs.
+   */
+  async start({ target: spec, stages = ALL_STAGES, probesPerPage = 6, mode = "web", confirm = false, origin, productScope, ...rest }) {
+    if (this.activeCount() >= this.maxConcurrentRuns) {
+      const err = new Error(`already running ${this.activeCount()} run(s); limit is ${this.maxConcurrentRuns}`);
+      err.status = 409;
+      throw err;
+    }
+
+    const { target, estimate } = await this.estimate({ target: spec, stages, probesPerPage, mode, origin, productScope });
+    const ceiling = ceilingFromEnv(this.env);
+    if (estimate.total > ceiling && !confirm) {
+      const err = new Error(
+        `projected $${estimate.total.toFixed(2)} exceeds the $${ceiling.toFixed(2)} ceiling — confirm to proceed`,
+      );
+      err.status = 400;
+      err.detail = { projected: estimate.total, ceiling, requiresConfirm: true };
+      throw err;
+    }
+
+    const job = {
+      done: false,
+      cancelled: false,
+      progress: {
+        status: "running",
+        stage: stages[0] ?? null,
+        pages: { complete: 0, failed: 0, total: target.pages.length },
+        recent: [],
+        cost: { spent: 0, projected: estimate.total },
+        startedAt: new Date().toISOString(),
+      },
+    };
+
+    const promise = this.runner({
+      target,
+      stages,
+      probesPerPage,
+      mode,
+      root: this.root,
+      ...rest,
+      shouldCancel: () => job.cancelled,
+      log: (line) => {
+        const text = redact(String(line), this.env).trim();
+        if (!text) return;
+        job.progress.recent.unshift({ at: new Date().toISOString(), line: text });
+        job.progress.recent = job.progress.recent.slice(0, 20);
+      },
+      onPage: (rec) => {
+        if (rec.ok) job.progress.pages.complete++;
+        else job.progress.pages.failed++;
+      },
+    })
+      .then((report) => {
+        job.runId = report.runId;
+        job.progress.status = job.cancelled ? "cancelled" : report.status;
+        job.progress.pages.complete = report.pages.length;
+        job.progress.pages.failed = report.failures.length;
+        job.report = report;
+        return report;
+      })
+      .catch((err) => {
+        job.progress.status = "failed";
+        job.progress.error = redact(err?.message ?? String(err), this.env);
+      })
+      .finally(() => {
+        job.done = true;
+        job.progress.endedAt = new Date().toISOString();
+      });
+
+    job.promise = promise;
+    // A placeholder id until the pipeline mints the real one, so the client has
+    // something to poll immediately.
+    const handle = `job-${Date.now().toString(36)}`;
+    job.handle = handle;
+    this.live.set(handle, job);
+    return { handle, estimate, pageCount: target.pages.length };
+  }
+
+  /**
+   * Cancel a run.
+   *
+   * Resolves promptly and does NOT block on an in-flight grading batch, which
+   * can poll for up to 24h. Money already committed to a submitted batch stays
+   * committed; the run simply stops taking on new work.
+   */
+  cancel(handle) {
+    const job = this.live.get(handle);
+    if (!job) return false;
+    job.cancelled = true;
+    job.progress.status = "cancelling";
+    return true;
+  }
+
+  status(handle) {
+    const job = this.live.get(handle);
+    if (!job) return null;
+    return { handle, runId: job.runId ?? null, ...job.progress };
+  }
+
+  history() {
+    return listRuns(this.root).map((m) => ({
+      runId: m.runId,
+      target: m.target,
+      status: m.status,
+      startedAt: m.startedAt,
+      endedAt: m.endedAt,
+      counts: m.counts,
+      cost: m.cost,
+      graderModel: m.protocol?.graderModel ?? null,
+    }));
+  }
+
+  run(runId) {
+    return readManifest(this.root, runId);
+  }
+}
+
+export { writeManifest };

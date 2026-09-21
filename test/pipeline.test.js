@@ -330,3 +330,42 @@ test("colliding page keys are rejected before any money is spent", async () => {
   assert.equal(report.pages.length, 2, "both pages should survive as distinct keys");
   assert.equal(new Set(report.pages.map((p) => p.key)).size, 2);
 });
+
+test("cancellation stops new work and marks the run cancelled, not partial", async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "geo-wl4-"));
+  const wl = path.join(dir, "watchlists");
+  fs.mkdirSync(wl, { recursive: true });
+  fs.writeFileSync(
+    path.join(wl, "many.json"),
+    JSON.stringify({
+      version: 1,
+      name: "many",
+      pages: Array.from({ length: 6 }, (_, i) => `https://docs.chain.link/p/page-${i}`),
+    }),
+  );
+  const target = await resolveTarget("watchlist:many", { watchlistDir: wl });
+
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  let started = 0;
+  const base = countingDeps(counts);
+  const deps = {
+    ...base,
+    extractPage: async (url) => {
+      started++;
+      return base.extractPage(url);
+    },
+  };
+  const report = await runPipeline({
+    target,
+    stages: ["audit"],
+    root: tmp(),
+    concurrency: 1,
+    deps,
+    // Cancel after the first page has begun.
+    shouldCancel: () => started >= 1,
+  });
+
+  assert.equal(report.status, "cancelled", "a cancelled run must not be reported as partial");
+  assert.ok(report.pages.length < 6, "cancellation should have stopped new work");
+  assert.equal(report.failures.length, 0, "skipped pages are not failures");
+});

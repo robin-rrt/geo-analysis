@@ -18,6 +18,9 @@ import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
 import { rollup } from "./product/rollup.js";
 import { runProductAudit, buildAuditContent, selectSamples } from "./product/audit.js";
 import { genProductProbes } from "./product/probes.js";
+import { resolveTarget, TARGET_TYPES } from "./target/index.js";
+import { runPipeline } from "./run/pipeline.js";
+import { estimateRun, formatEstimate, needsConfirmation, ceilingFromEnv, ALL_STAGES } from "./run/estimate.js";
 
 // Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
 const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
@@ -34,6 +37,7 @@ Usage:
   geo-audit probe <probes.json> [options]    Ask a model the probes, grade its answers
   geo-audit dashboard [options]              Build an HTML dashboard from results/
   geo-audit product <name> [options]         Resolve, fetch and roll up a whole product
+  geo-audit run <target> [options]           Run every stage end to end over a target
 
 Analyst/grader model defaults to ${DEFAULT_MODEL}; ${FABLE_MODEL} is used
 automatically at --effort max. Override with -m on score / gen-probes.
@@ -700,6 +704,109 @@ async function cmdProduct(argv) {
   process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\nAudit:  ${auditFile}\n`);
 }
 
+
+// ----------------------------------------------------------------- run ----
+
+async function cmdRun(argv) {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      stages: { type: "string" },
+      estimate: { type: "boolean", default: false },
+      yes: { type: "boolean", short: "y", default: false },
+      "product-scope": { type: "string", default: "curated" },
+      n: { type: "string", short: "n", default: "6" },
+      mode: { type: "string", default: "web" },
+      batch: { type: "boolean", default: false },
+      force: { type: "boolean", short: "f", default: false },
+      concurrency: { type: "string", default: "3" },
+      model: { type: "string", short: "m" },
+      effort: { type: "string", short: "e", default: "high" },
+      "probe-model": { type: "string", default: DEFAULT_PROBE_TARGET },
+      "probe-effort": { type: "string", default: "medium" },
+      "grader-model": { type: "string" },
+      origin: { type: "string", default: "https://docs.chain.link" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  const spec = positionals[0];
+  if (!spec) {
+    fail(`run needs a target — ${TARGET_TYPES.map((t) => `${t}:<name>`).join(", ")}`);
+  }
+  if (!["web", "closed"].includes(values.mode)) fail(`invalid --mode "${values.mode}" (web|closed)`);
+  checkEffort(values.effort);
+
+  const stages = values.stages ? values.stages.split(",").map((s) => s.trim()).filter(Boolean) : ALL_STAGES;
+  const unknown = stages.filter((s) => !ALL_STAGES.includes(s));
+  if (unknown.length) fail(`unknown stage(s) ${unknown.join(", ")} — expected: ${ALL_STAGES.join(", ")}`);
+
+  const probesPerPage = Number(values.n);
+  if (!Number.isFinite(probesPerPage) || probesPerPage < 1) fail(`invalid -n "${values.n}"`);
+
+  process.stderr.write(`Resolving ${spec} ...\n`);
+  const target = await resolveTarget(spec, {
+    productScope: values["product-scope"],
+    origin: values.origin,
+  });
+  if (!target.pages.length) {
+    fail(`no pages in scope for ${spec} — ${target.counts.discovered} discovered`);
+  }
+
+  // Estimation never makes an Anthropic call. Resolving the target above does
+  // fetch llms.txt and the sitemap, which is free and is how page count is known.
+  const estimate = estimateRun({
+    pageCount: target.pages.length,
+    stages,
+    probesPerPage,
+    mode: values.mode,
+  });
+  process.stderr.write(
+    `\n${formatEstimate(estimate, { target: spec, stages, pageCount: target.pages.length })}\n\n`,
+  );
+
+  if (values.estimate) return;
+
+  const ceiling = ceilingFromEnv();
+  if (needsConfirmation(estimate.total, ceiling) && !values.yes) {
+    fail(
+      `projected $${estimate.total.toFixed(2)} exceeds the $${ceiling.toFixed(2)} ceiling — ` +
+        `re-run with --yes to proceed, or raise GEO_COST_CEILING`,
+    );
+  }
+
+  const tally = createTally();
+  const report = await runPipeline({
+    target,
+    stages,
+    probesPerPage,
+    mode: values.mode,
+    concurrency: Number(values.concurrency),
+    model: values.model ? values.model : analystModel(values.effort, values.model),
+    effort: values.effort,
+    probeModel: values["probe-model"],
+    probeEffort: values["probe-effort"],
+    graderModel: graderModelFor(values.effort, values["grader-model"]),
+    batch: values.batch,
+    force: values.force,
+    tally,
+    log: (line) => process.stderr.write(line),
+  });
+
+  const skipped = Object.entries(report.skipped).filter(([, n]) => n);
+  process.stderr.write(
+    `\n${report.pages.length} page(s) done, ${report.failures.length} failed` +
+      (skipped.length ? `, skipped: ${skipped.map(([k, n]) => `${k} x${n}`).join(", ")}` : "") +
+      `\nLedger: ${path.join(report.outRoot, "pages.json")}\n` +
+      (report.rollup ? `Rollup: ${report.rollup.file} (score ${report.rollup.score})\n` : ""),
+  );
+  if (report.failures.length) {
+    process.stderr.write(`\nFailures:\n${report.failures.map((f) => `  ${f.url} — ${f.error}`).join("\n")}\n`);
+  }
+}
+
 // ------------------------------------------------------------- dispatch ----
 
 async function main() {
@@ -720,8 +827,10 @@ async function main() {
       return cmdDashboard(rest);
     case "product":
       return cmdProduct(rest);
+    case "run":
+      return cmdRun(rest);
     default:
-      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, or product`);
+      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, product, or run`);
   }
 }
 

@@ -195,7 +195,17 @@ the whole feature. A consensus protocol between one user and their own laptop is
 | Cost estimates drift from reality | Estimates read from one constants module, updated from measured runs; `±30%` shown, never a false-precision figure |
 | Long runs lose work on crash | Artifacts written per page as they complete, never only at the end |
 
+## Known limitation until plan 2
+
+Plan 1 writes to the existing `results/<slug>/` layout, which **overwrites in place**. This was
+confirmed the hard way during implementation: a single end-to-end verification run replaced a
+committed `results/ace/audit.md` (restored from git).
+
+Until plan 2's immutable run snapshots land, `geo-audit run` destroys the previous audit for any
+page it touches. Mitigation for now: `--estimate` is free and safe, and `results/` is under version
+control so an overwrite is recoverable. This is the strongest argument for doing plan 2 next.
+
 ## Out of scope
 
-Server, UI, history storage. Plan 1 writes to the existing `results/` layout; plan 2 migrates it.
+Server, UI, history storage. Plan 2 replaces the overwrite-in-place layout.
 A `sitemap:<glob>` target type, deferred as above.

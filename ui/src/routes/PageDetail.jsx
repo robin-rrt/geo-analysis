@@ -40,6 +40,41 @@ export default function PageDetail() {
         </div>
       </div>
 
+      {/* The report itself. parseAudit has always produced these; the UI simply
+          never showed them, so "see the report it created" had no answer. */}
+      {audit?.summary ? (
+        <>
+          <h2>Summary</h2>
+          <p style={{ whiteSpace: "pre-wrap" }}>{audit.summary}</p>
+        </>
+      ) : null}
+
+      {audit?.recommendations?.length ? (
+        <>
+          <h2>Recommended fixes</h2>
+          <p className="small muted">Ordered by priority as the auditor ranked them.</p>
+          {audit.recommendations.map((r, i) => (
+            <div key={i} className="card" style={{ marginBottom: 8 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+                <span className="badge" style={{ color: r.priority === 1 ? "var(--sev-high)" : r.priority === 2 ? "var(--sev-med)" : "var(--sev-low)" }}>
+                  P{r.priority}
+                </span>
+                <strong>{r.title}</strong>
+              </div>
+              {r.meta ? <div className="small faint" style={{ marginTop: 4 }}>{r.meta}</div> : null}
+              {r.body ? <div className="small" style={{ marginTop: 6, whiteSpace: "pre-wrap" }}>{r.body}</div> : null}
+            </div>
+          ))}
+        </>
+      ) : null}
+
+      {audit?.antiPatterns?.length ? (
+        <>
+          <h2>Anti-patterns found</h2>
+          <ul className="small">{audit.antiPatterns.map((a, i) => <li key={i}>{a}</li>)}</ul>
+        </>
+      ) : null}
+
       {audit?.dimensions?.length ? (
         <>
           <h2>Dimensions</h2>
@@ -51,6 +86,23 @@ export default function PageDetail() {
             max={10}
             format={(v) => `${v}/10`}
           />
+          {/* Per-dimension critique — the reasoning behind each score. */}
+          {audit.dimensions.some((d) => d.analysis) ? (
+            <div style={{ marginTop: 12 }}>
+              {[...audit.dimensions]
+                .sort((a, b) => a.score - b.score)
+                .filter((d) => d.analysis)
+                .map((d) => (
+                  <details key={d.name} className="card" style={{ marginBottom: 6 }}>
+                    <summary>
+                      <strong className="small">{d.name}</strong>{" "}
+                      <span className="muted small">{d.score}/10 · weight {d.weight}</span>
+                    </summary>
+                    <div className="small" style={{ marginTop: 8, whiteSpace: "pre-wrap" }}>{d.analysis}</div>
+                  </details>
+                ))}
+            </div>
+          ) : null}
         </>
       ) : null}
 

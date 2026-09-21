@@ -22,7 +22,7 @@ import { runProbes } from "../evaluate.js";
 import { hashOf } from "../product/fetch.js";
 import { rollup } from "../product/rollup.js";
 import { ALL_STAGES } from "./estimate.js";
-import { probeRunFileComplete, artifactComplete, inputUnchanged } from "./complete.js";
+import { probeRunFileComplete, artifactComplete, probeSetComplete, inputUnchanged } from "./complete.js";
 import { pageKey, assertUniqueKeys } from "../store/slug.js";
 import {
   newRunId, createManifest, writeManifest, listRuns, runDir, protocolFingerprint, runHealth,
@@ -201,7 +201,17 @@ export async function runPipeline({
     const dir = pageDir(outRoot, page.url);
     fs.mkdirSync(dir, { recursive: true });
     const state = readState(dir);
-    const record = { url: page.url, key: pageKey(page.url), slug: path.basename(dir), stages: {} };
+    const startedAt = Date.now();
+    const record = {
+      url: page.url,
+      key: pageKey(page.url),
+      slug: path.basename(dir),
+      stages: {},
+      // Per-stage wall time, so a run can explain where its minutes went and an
+      // in-flight run can project a finish time from pages already done.
+      durations: {},
+      startedAt: new Date(startedAt).toISOString(),
+    };
 
     // --- extraction is shared by audit, probes and rollup; do it once --------
     let extracted = null;
@@ -229,10 +239,13 @@ export async function runPipeline({
         copyForward(reusable, file);
         state["audit.md"] = { contentHash, at: new Date().toISOString(), reusedFrom: reusable };
         record.stages.audit = "reused";
+        record.durations.audit = 0;
         report.skipped.audit++;
         report.reused++;
       } else {
+        const t = Date.now();
         const md = await api.runAudit({ url: page.url, pageContent: content, model, effort, tally });
+        record.durations.audit = Date.now() - t;
         fs.writeFileSync(file, md);
         state["audit.md"] = { contentHash, at: new Date().toISOString() };
         record.stages.audit = "ran";
@@ -246,16 +259,23 @@ export async function runPipeline({
         ? null
         : findReusable(root, record.key, "probes.json", {
             contentHash,
-            validate: (f) => artifactComplete(f, { requireJson: true }),
+            validate: (f) => probeSetComplete(f),
           });
       if (reusable) {
         copyForward(reusable, probesFile);
         state["probes.json"] = { contentHash, at: new Date().toISOString(), reusedFrom: reusable };
         record.stages.probes = "reused";
+        record.durations.probes = 0;
         report.skipped.probes++;
         report.reused++;
       } else {
-        const probes = await api.genProbes({
+        const t = Date.now();
+        // genProbes returns a WRAPPER, { probes, page } — cmdGenProbes
+        // destructures it and writes the inner probe set. Writing the wrapper
+        // whole produces a probes.json whose `probes` key is an object, which
+        // `runProbes` rejects with "no probes found" only once the test stage
+        // runs, i.e. after the audit and probe generation have been paid for.
+        const { probes } = await api.genProbes({
           url: page.url,
           page: extracted,
           n: probesPerPage,
@@ -263,6 +283,7 @@ export async function runPipeline({
           effort,
           tally,
         });
+        record.durations.probes = Date.now() - t;
         fs.writeFileSync(probesFile, JSON.stringify(probes, null, 2));
         state["probes.json"] = { contentHash, at: new Date().toISOString() };
         record.stages.probes = "ran";
@@ -271,8 +292,12 @@ export async function runPipeline({
 
     // --- test ----------------------------------------------------------------
     if (stages.includes("test")) {
-      if (!artifactComplete(probesFile, { requireJson: true })) {
-        throw new Error("no probe set — run the probes stage first");
+      if (!probeSetComplete(probesFile)) {
+        throw new Error(
+          fs.existsSync(probesFile)
+            ? `probe set at ${probesFile} has no probes — regenerate with --force`
+            : "no probe set — run the probes stage first",
+        );
       }
       const out = path.join(dir, `probe-results-${mode}.json`);
       const reusable = force
@@ -283,11 +308,13 @@ export async function runPipeline({
       if (reusable) {
         copyForward(reusable, out);
         record.stages.test = "reused";
+        record.durations.test = 0;
         report.skipped.test++;
         report.reused++;
       } else {
         // runProbes returns a summary; the caller owns the file. `previous`
         // is what makes a partially-graded run resume instead of re-paying.
+        const t = Date.now();
         const summary = await api.runProbes({
           probesFile,
           model: probeModel,
@@ -299,20 +326,29 @@ export async function runPipeline({
           previous: force ? null : readJsonOrNull(out),
           onProgress: (partial) => writeJsonAtomic(out, partial),
         });
+        record.durations.test = Date.now() - t;
         writeJsonAtomic(out, summary);
         record.stages.test = "ran";
+        record.probeSummary = {
+          probes: summary.probe_count ?? null,
+          graded: summary.graded_count ?? null,
+          avgFidelity: summary.avg_fidelity ?? null,
+          mode: summary.mode ?? mode,
+        };
       }
     }
 
+    record.elapsedMs = Date.now() - startedAt;
     writeState(dir, state);
     log(`  ok   ${record.slug}\n`);
+    // Reported as pages finish so a live run can project a finish time.
+    onPage({ ok: true, url: page.url, elapsedMs: record.elapsedMs });
     return record;
   });
 
   for (const [i, r] of pageResults.entries()) {
     if (r.ok) {
       report.pages.push(r.value);
-      onPage({ ok: true, url: target.pages[i].url });
     } else if (r.skippedByCancel) {
       // Not a failure: nothing was attempted, so it must not count against the
       // run's health or turn a cancelled run into a "partial" one.
@@ -372,6 +408,37 @@ export async function runPipeline({
   } catch (err) {
     report.projectionError = err.message;
   }
+
+  // What this run actually did, persisted so the UI can answer "what happened?"
+  // long after the process has gone. pages.json is the ledger (what was
+  // considered); this is the record (what was done).
+  writeJsonAtomic(path.join(outRoot, "report.json"), {
+    runId,
+    target: manifest.target,
+    stages,
+    protocol,
+    status,
+    startedAt: manifest.startedAt,
+    endedAt: manifest.endedAt,
+    elapsedMs: new Date(manifest.endedAt) - new Date(manifest.startedAt),
+    counts: {
+      pages: report.pages.length,
+      failed: report.failures.length,
+      reused: report.reused,
+      cancelled: report.cancelledPages ?? 0,
+    },
+    skipped: report.skipped,
+    cost: manifest.cost,
+    pages: report.pages.map((p) => ({
+      key: p.key,
+      url: p.url,
+      stages: p.stages,
+      durations: p.durations,
+      elapsedMs: p.elapsedMs,
+      probeSummary: p.probeSummary ?? null,
+    })),
+    failures: report.failures,
+  });
 
   report.outRoot = outRoot;
   return report;

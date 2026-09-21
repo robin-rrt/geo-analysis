@@ -135,6 +135,13 @@ export function createServer({ root = "results", uiDir = null, env = process.env
         if (!fs.existsSync(file)) return json(res, 404, { error: `no ${dash[1]} projection yet — run something first` });
         return json(res, 200, JSON.parse(fs.readFileSync(file, "utf8")));
       }
+      const runDetail = url.pathname.match(/^\/api\/dashboard\/runs\/([A-Za-z0-9._-]+)$/);
+      if (runDetail && req.method === "GET") {
+        const file = path.join(root, DASHBOARD_DIR, "runs", `${runDetail[1]}.json`);
+        if (!fs.existsSync(file)) return json(res, 404, { error: "no such run" });
+        return json(res, 200, JSON.parse(fs.readFileSync(file, "utf8")));
+      }
+
       const pageMatch = url.pathname.match(/^\/api\/dashboard\/pages\/([A-Za-z0-9-]+)$/);
       if (pageMatch && req.method === "GET") {
         const file = path.join(root, DASHBOARD_DIR, "pages", `${pageMatch[1]}.json`);

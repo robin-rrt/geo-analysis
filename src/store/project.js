@@ -208,6 +208,20 @@ export function project(root, { now = new Date() } = {}) {
       graderModel: m.protocol?.graderModel ?? null,
     })),
   });
+  // Per-run detail, mirroring the index/detail split: runs.json stays small and
+  // the breakdown of what a run did is fetched only when someone opens it.
+  for (const m of manifests) {
+    const reportFile = path.join(runDir(root, m.runId), "report.json");
+    const report = readJson(reportFile);
+    writeJsonAtomic(path.join(out, "runs", `${m.runId}.json`), {
+      ...m,
+      // Runs from before the breakdown was recorded say so rather than
+      // rendering as a run that did nothing.
+      breakdown: report ?? null,
+      ledger: readJson(path.join(runDir(root, m.runId), "pages.json")),
+    });
+  }
+
   writeJsonAtomic(path.join(out, "timeseries.json"), { generatedAt: now.toISOString(), points: series });
 
   return { pages: index.length, runs: manifests.length, points: series.length };

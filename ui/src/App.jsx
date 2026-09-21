@@ -5,6 +5,7 @@ import Overview from "./routes/Overview.jsx";
 import Pages from "./routes/Pages.jsx";
 import PageDetail from "./routes/PageDetail.jsx";
 import Runs from "./routes/Runs.jsx";
+import RunDetail from "./routes/RunDetail.jsx";
 import NewRun from "./routes/NewRun.jsx";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/pages" element={<Pages />} />
         <Route path="/pages/:key" element={<PageDetail />} />
         <Route path="/runs" element={<Runs />} />
+        <Route path="/runs/:runId" element={<RunDetail />} />
         {client.readOnly ? null : <Route path="/new" element={<NewRun />} />}
         <Route path="*" element={<div className="wrap"><h1>Not found</h1></div>} />
       </Routes>

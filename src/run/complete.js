@@ -70,6 +70,19 @@ export function inputUnchanged(recordedHash, currentHash) {
   return recordedHash === currentHash;
 }
 
+/**
+ * A probe set is complete only if it actually holds probes.
+ *
+ * Parseable-JSON was not enough: a malformed set written by an earlier bug is
+ * valid JSON, so a resumed run reused it and failed again at the test stage —
+ * after paying for the audit and the generation. Shape is the contract.
+ */
+export function probeSetComplete(file) {
+  if (!fs.existsSync(file)) return false;
+  const set = readJson(file);
+  return Array.isArray(set?.probes) && set.probes.length > 0;
+}
+
 /** A non-probe artifact (audit, probes.json) is complete when it exists and parses. */
 export function artifactComplete(file, { requireJson = false } = {}) {
   if (!fs.existsSync(file)) return false;

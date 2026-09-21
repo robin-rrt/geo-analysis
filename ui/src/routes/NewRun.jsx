@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { client } from "../api/client.js";
 import { Loading, ErrorState } from "../components/States.jsx";
+import { duration } from "../lib/format.js";
 
 const STAGES = ["audit", "probes", "test", "rollup"];
 
@@ -123,6 +124,15 @@ export default function NewRun() {
           </p>
           {status.data?.cost ? (
             <p className="small">spent ${Number(status.data.cost.spent ?? 0).toFixed(2)} of ~${Number(status.data.cost.projected ?? 0).toFixed(2)}</p>
+          ) : null}
+          <p className="small">
+            elapsed {duration(status.data?.elapsedMs)}
+            {status.data?.etaMs != null ? <> · <strong>~{duration(status.data.etaMs)} remaining</strong></> : null}
+          </p>
+          {status.data?.etaBasis ? (
+            /* Say what the estimate is built on. It assumes the remaining pages
+               behave like the finished ones, which a queued grading batch breaks. */
+            <p className="small faint">estimate: {status.data.etaBasis}</p>
           ) : null}
           <button onClick={() => client.cancelRun(started.handle)} disabled={["complete", "partial", "cancelled"].includes(status.data?.status)}>
             Cancel

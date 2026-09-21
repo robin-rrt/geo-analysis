@@ -108,7 +108,10 @@ function countingDeps(counts) {
     },
     genProbes: async () => {
       counts.probes++;
-      return { probes: [{ id: "p01", prompt: "q" }] };
+      // The REAL shape: genProbes returns a wrapper whose `probes` is the probe
+      // SET, whose own `probes` is the array. A stub that returned the array
+      // directly hid a bug that cost a 43-page run.
+      return { probes: { source_url: "u", probes: [{ id: "p01", prompt: "q" }] }, page: {} };
     },
     runProbes: async () => {
       counts.test++;
@@ -368,4 +371,47 @@ test("cancellation stops new work and marks the run cancelled, not partial", asy
   assert.equal(report.status, "cancelled", "a cancelled run must not be reported as partial");
   assert.ok(report.pages.length < 6, "cancellation should have stopped new work");
   assert.equal(report.failures.length, 0, "skipped pages are not failures");
+});
+
+test("the probes stage writes a probe set the test stage can actually read", async () => {
+  // Regression: the pipeline wrote genProbes' WRAPPER instead of the inner probe
+  // set, so probes.json had an object where the array belongs. runProbes only
+  // rejects that at the test stage — after audit and generation are paid for.
+  // A real 43-page run failed on every page this way.
+  const root = tmp();
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  const report = await runPipeline({
+    target: await pageTarget(),
+    stages: ["probes", "test"],
+    root,
+    deps: countingDeps(counts),
+  });
+  assert.equal(report.failures.length, 0, `test stage failed: ${JSON.stringify(report.failures)}`);
+
+  const written = JSON.parse(
+    fs.readFileSync(path.join(report.outRoot, "pages", report.pages[0].key, "probes.json"), "utf8"),
+  );
+  assert.ok(Array.isArray(written.probes), "probes.json must hold an array under `probes`");
+  assert.ok(written.probes.length > 0);
+});
+
+test("a malformed probe set is not silently reused", async () => {
+  const root = tmp();
+  const target = await pageTarget();
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  const broken = {
+    ...countingDeps(counts),
+    // Emulates the old bug: valid JSON, no usable probes.
+    genProbes: async () => {
+      counts.probes++;
+      return { probes: { probes: [] }, page: {} };
+    },
+  };
+  const first = await runPipeline({ target, stages: ["probes"], root, deps: broken });
+  assert.equal(first.pages.length, 1);
+
+  // A second run must REGENERATE rather than reuse the unusable set.
+  const second = { extract: 0, audit: 0, probes: 0, test: 0 };
+  await runPipeline({ target, stages: ["probes"], root, deps: countingDeps(second) });
+  assert.equal(second.probes, 1, "an empty probe set must not count as complete");
 });

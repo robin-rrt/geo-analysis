@@ -74,6 +74,9 @@ export class JobManager {
     const job = {
       done: false,
       cancelled: false,
+      startedAtMs: Date.now(),
+      concurrency: rest.concurrency ?? 3,
+      durations: [],
       progress: {
         status: "running",
         stage: stages[0] ?? null,
@@ -101,6 +104,8 @@ export class JobManager {
       onPage: (rec) => {
         if (rec.ok) job.progress.pages.complete++;
         else job.progress.pages.failed++;
+        if (Number.isFinite(rec.elapsedMs)) job.durations.push(rec.elapsedMs);
+        Object.assign(job.progress, etaFrom(job));
       },
     })
       .then((report) => {
@@ -166,6 +171,34 @@ export class JobManager {
   run(runId) {
     return readManifest(this.root, runId);
   }
+}
+
+/**
+ * Project a finish time from the pages already done.
+ *
+ * Deliberately naive and labelled as such: it assumes the remaining pages
+ * behave like the completed ones, which is wrong when stages differ in cost or
+ * a grading batch is queued behind them. It is a guide, not a promise — hence
+ * `basis`, so the UI can say what the number is built on.
+ */
+export function etaFrom(job) {
+  const done = job.durations.length;
+  const total = job.progress.pages.total;
+  const remaining = Math.max(0, total - job.progress.pages.complete - job.progress.pages.failed);
+  const elapsedMs = Date.now() - job.startedAtMs;
+
+  if (!done || !remaining) {
+    return { elapsedMs, etaMs: null, etaBasis: done ? "finishing" : "not enough data yet" };
+  }
+  const meanMs = job.durations.reduce((a, b) => a + b, 0) / done;
+  // Pages run concurrently, so wall time for the remainder is the serial
+  // estimate divided by how many run at once.
+  const lanes = Math.max(1, Math.min(job.concurrency, remaining));
+  return {
+    elapsedMs,
+    etaMs: Math.round((remaining * meanMs) / lanes),
+    etaBasis: `mean ${Math.round(meanMs / 1000)}s over ${done} page(s), ${lanes} at a time`,
+  };
 }
 
 export { writeManifest };

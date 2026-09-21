@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { client } from "../api/client.js";
 import { DataTable } from "../components/DataTable.jsx";
 import { Loading, Empty, ErrorState } from "../components/States.jsx";
@@ -20,7 +21,16 @@ export default function Runs() {
   const rows = (data?.runs ?? []).map((r) => ({ ...r, key: r.runId, targetLabel: `${r.target?.type}:${r.target?.name}` }));
 
   const columns = [
-    { key: "targetLabel", label: "Target" },
+    {
+      key: "targetLabel",
+      label: "Target",
+      render: (r) => (
+        <>
+          <Link to={`/runs/${encodeURIComponent(r.runId)}`}>{r.targetLabel}</Link>
+          <div className="faint small mono">{r.runId}</div>
+        </>
+      ),
+    },
     {
       key: "status",
       label: "Status",
@@ -42,6 +52,9 @@ export default function Runs() {
         rather than a change in coverage.
       </p>
       <DataTable rows={rows} columns={columns} searchKeys={["targetLabel", "runId"]} empty={<Empty title="No runs yet" />} />
+      <p className="small faint" style={{ marginTop: 10 }}>
+        Open a run to see what it did per page, where the time went, and the report each page produced.
+      </p>
     </div>
   );
 }

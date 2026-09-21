@@ -6,6 +6,9 @@ import { Band } from "../components/Band.jsx";
 import { DataTable } from "../components/DataTable.jsx";
 import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
+import { nextAction } from "../components/PageActions.jsx";
+
+const assert_equal = (a, b) => expect(a).toBe(b);
 
 describe("FidelityBadge", () => {
   test("throws when rendered without a grader — the invariant that keeps numbers comparable", () => {
@@ -151,5 +154,61 @@ describe("trend segmentation in the client", () => {
   test("unknown-protocol points are never joined to a known line", () => {
     const segs = segmentsFor([pt("2025-12-01", 55, null, false), pt("2026-01-01", 70, "claude-sonnet-5")], "fidelity");
     expect(segs).toHaveLength(2);
+  });
+});
+
+describe("next action for a page", () => {
+  test("no probe set — offer to generate and grade", () => {
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: false });
+    assert_equal(a.key, "generate");
+    assert_equal(a.stages.join(","), "probes,test");
+  });
+
+  test("probes exist but nothing graded — grade only, never regenerate", () => {
+    // Regenerating would pay a second time for a probe set already bought.
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: false });
+    assert_equal(a.key, "test");
+    assert_equal(a.stages.join(","), "test");
+    expect(a.label).toContain("6");
+  });
+
+  test("a probe run that graded nothing does NOT count as tested", () => {
+    // This is the failure mode that hid behind a green tick: every probe
+    // errored, a summary was still written, and the page looked measured.
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(a.key).not.toBe("retest");
+  });
+
+  test("already graded — re-running is offered quietly", () => {
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: true });
+    assert_equal(a.key, "retest");
+    expect(a.secondary).toBe(true);
+    expect(a.force).toBe(true);
+  });
+});
+
+describe("next action precedence", () => {
+  test("an already-measured page is never pushed to regenerate as the PRIMARY action", () => {
+    // A page can hold results without the probe set that produced them — every
+    // page imported from the correlation study does. Checking "has probes?"
+    // before "measured?" told the user to re-pay for a measured page.
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: true });
+    expect(a.secondary).toBe(true);
+    assert_equal(a.key, "regenerate");
+  });
+
+  test("an unmeasured page with no probes is the primary generate action", () => {
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: false });
+    assert_equal(a.key, "generate");
+    expect(a.secondary).toBeUndefined();
+  });
+
+  test("re-measuring always forces, so it cannot silently reuse and do nothing", () => {
+    for (const page of [
+      { probeSet: { present: true, count: 6 }, tested: true },
+      { probeSet: { present: false, count: 0 }, tested: true },
+    ]) {
+      expect(nextAction(page).force).toBe(true);
+    }
   });
 });

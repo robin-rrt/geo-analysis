@@ -72,7 +72,15 @@ function readPage(root, runId, key) {
     .map((f) => readJson(path.join(dir, f)))
     .filter(Boolean);
 
-  return { key, audit, probeRuns, dir };
+  // Whether a probe SET exists is separate from whether it has been run. The UI
+  // needs both to offer the right next action: generate, or grade what is
+  // already generated and paid for.
+  const set = readJson(path.join(dir, "probes.json"));
+  const probeSet = Array.isArray(set?.probes) && set.probes.length
+    ? { present: true, count: set.probes.length }
+    : { present: false, count: 0 };
+
+  return { key, audit, probeRuns, probeSet, dir };
 }
 
 /** Pages present in a run snapshot. */
@@ -137,7 +145,10 @@ export function project(root, { now = new Date() } = {}) {
     );
 
     for (const p of pages) {
-      const prev = latestByKey.get(p.key) ?? { key: p.key, audit: null, auditRun: null, probeRuns: new Map(), health };
+      const prev = latestByKey.get(p.key) ?? {
+        key: p.key, audit: null, auditRun: null, probeRuns: new Map(),
+        probeSet: { present: false, count: 0 }, health,
+      };
       if (p.audit) {
         prev.audit = p.audit;
         prev.auditRun = m;
@@ -146,6 +157,7 @@ export function project(root, { now = new Date() } = {}) {
         // Keyed by mode so a closed-mode run never displaces a web-mode one.
         prev.probeRuns.set(r.mode ?? "web", { run: r, manifest: m });
       }
+      if (p.probeSet?.present) prev.probeSet = p.probeSet;
       if (p.probeRuns.length) prev.health = health;
       prev.manifest = prev.auditRun ?? m;
       latestByKey.set(p.key, prev);
@@ -182,6 +194,10 @@ export function project(root, { now = new Date() } = {}) {
       runId: manifest?.runId ?? null,
       audit,
       probeRuns,
+      probeSet: entry.probeSet,
+      // Graded is not the same as run: a probe run that errored on every probe
+      // still writes a summary, and graded_count 0 means nothing was measured.
+      tested: probeRuns.some((r) => (r.graded_count ?? 0) > 0),
       health,
       // Which run each artifact came from — a page can legitimately show an
       // audit from today and fidelity from last week.

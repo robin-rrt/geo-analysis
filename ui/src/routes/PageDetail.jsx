@@ -4,6 +4,7 @@ import { client } from "../api/client.js";
 import { Bar } from "../charts/Bar.jsx";
 import { FidelityBadge } from "../components/FidelityBadge.jsx";
 import { Loading, ErrorState, Empty } from "../components/States.jsx";
+import { PageActions } from "../components/PageActions.jsx";
 
 export default function PageDetail() {
   const { key } = useParams();
@@ -14,12 +15,16 @@ export default function PageDetail() {
 
   const { audit, probeRuns = [], health } = data ?? {};
   const primary = probeRuns.find((r) => r.mode === "web") ?? probeRuns[0] ?? null;
+  const url = audit?.url ?? null;
 
   return (
     <div className="wrap">
       <p className="small"><Link to="/pages">← Pages</Link></p>
       <h1>{audit?.title ?? key}</h1>
       <p className="small mono faint">{audit?.url}</p>
+
+      {/* Offered in place, so the next step is where the gap is visible. */}
+      <PageActions page={data} url={url} onDone={refetch} />
 
       <div className="grid three" style={{ marginTop: 14 }}>
         <div className="card">
@@ -108,7 +113,19 @@ export default function PageDetail() {
 
       <h2>Probes</h2>
       {!primary ? (
-        <Empty title="Not probed" hint="Run the probes and test stages to measure how engines answer." />
+        <Empty
+          title={data?.probeSet?.present ? `${data.probeSet.count} probes generated, none graded` : "No probes yet"}
+          hint={
+            data?.probeSet?.present
+              ? "The probe set exists and is paid for — grading it is the only remaining cost."
+              : "Generate a probe set to measure how engines answer questions about this page."
+          }
+        />
+      ) : !data?.tested ? (
+        <Empty
+          title="A probe run exists but graded nothing"
+          hint={`${primary.probe_count ?? 0} probes, ${primary.error_count ?? 0} errored. The answers were never scored, so there is no fidelity for this page.`}
+        />
       ) : (
         <>
           <p className="small muted">

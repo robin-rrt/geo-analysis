@@ -488,3 +488,47 @@ test("model defaults are resolved by the pipeline, not left to the caller", asyn
     assert.match(value, /^claude-/, `${role} model looks wrong: ${value}`);
   }
 });
+
+test("a run records what it actually cost, not zero", async () => {
+  // The manifest called tally.total(), which does not exist — the tally exposes
+  // summary(). Every run therefore reported itself free, which quietly defeats
+  // the entire cost-transparency story.
+  const root = tmp();
+  const { createTally } = await import("../src/usage.js");
+  const tally = createTally();
+
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    runAudit: async (args) => {
+      args.tally?.add("audit", "claude-opus-4-8", { input_tokens: 10_000, output_tokens: 2_000 });
+      return base.runAudit(args);
+    },
+    runProbes: async () => ({
+      probe_count: 1, graded_count: 1, refusal_count: 0, error_count: 0, results: [],
+      model_tested: "claude-opus-4-8",
+      grader_model: "claude-sonnet-5",
+      usage: {
+        model_under_test: { input_tokens: 50_000, output_tokens: 4_000 },
+        grader: { input_tokens: 3_000, output_tokens: 1_000 },
+      },
+    }),
+  };
+
+  const report = await runPipeline({
+    target: await pageTarget(),
+    stages: ["audit", "probes", "test"],
+    root,
+    tally,
+    deps,
+  });
+
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(root, "runs", report.runId, "manifest.json"), "utf8"),
+  );
+  assert.ok(manifest.cost.measured > 0, `run reported ${manifest.cost.measured}`);
+  // The test stage dominates, so its cost must be included — it is not in the
+  // tally, because runProbes takes no tally.
+  assert.ok(report.probeCost > 0, "probe-run spend must be counted");
+  assert.ok(manifest.cost.measured >= report.probeCost, "manifest must include probe spend");
+});

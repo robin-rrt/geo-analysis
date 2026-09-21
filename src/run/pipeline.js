@@ -22,6 +22,7 @@ import { runProbes } from "../evaluate.js";
 import { hashOf } from "../product/fetch.js";
 import { rollup } from "../product/rollup.js";
 import { analystModel, graderModelFor, DEFAULT_PROBE_TARGET } from "../claude.js";
+import { costOf } from "../usage.js";
 import { ALL_STAGES } from "./estimate.js";
 import { probeRunFileComplete, artifactComplete, probeSetComplete, inputUnchanged } from "./complete.js";
 import { pageKey, assertUniqueKeys } from "../store/slug.js";
@@ -31,6 +32,8 @@ import {
 import { project } from "../store/project.js";
 
 const DEFAULT_CONCURRENCY = 3;
+
+const round2 = (n) => Math.round(n * 10000) / 10000;
 
 const readJsonOrNull = (file) => {
   try {
@@ -202,6 +205,10 @@ export async function runPipeline({
     failures: [],
     skipped: { audit: 0, probes: 0, test: 0 },
     reused: 0,
+    // Probe runs are costed from the summary they return: runProbes does not
+    // take a tally, so its spend would otherwise be invisible — and the test
+    // stage is by far the most expensive one.
+    probeCost: 0,
   };
 
   let cancelled = false;
@@ -358,6 +365,10 @@ export async function runPipeline({
           onProgress: (partial) => writeJsonAtomic(out, partial),
         });
         record.durations.test = Date.now() - t;
+        const mutCost = costOf(summary.model_tested, summary.usage?.model_under_test ?? {}) ?? 0;
+        const graderCost = costOf(summary.grader_model, summary.usage?.grader ?? {}) ?? 0;
+        record.cost = mutCost + graderCost;
+        report.probeCost += record.cost;
         writeJsonAtomic(out, summary);
         record.stages.test = "ran";
         record.probeSummary = {
@@ -432,7 +443,15 @@ export async function runPipeline({
       pages: report.pages.length,
       failed: report.failures.length,
     },
-    cost: { measured: tally?.total?.() ?? 0, currency: "USD" },
+    // The tally exposes summary(), not total(). Calling a method that does not
+    // exist yielded 0 for every run, so every run reported as free.
+    cost: (() => {
+      const analyst = tally?.summary?.()?.cost ?? null;
+      // An unpriced model gives null rather than a wrong figure; don't turn
+      // that into a confident 0 by adding it.
+      if (analyst === null && report.probeCost === 0) return { measured: null, currency: "USD" };
+      return { measured: round2((analyst ?? 0) + report.probeCost), currency: "USD" };
+    })(),
     protocolFingerprint: protocolFingerprint(protocol),
   });
   report.status = status;

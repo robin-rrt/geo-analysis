@@ -23,6 +23,11 @@ import { hashOf } from "../product/fetch.js";
 import { rollup } from "../product/rollup.js";
 import { ALL_STAGES } from "./estimate.js";
 import { probeRunFileComplete, artifactComplete, inputUnchanged } from "./complete.js";
+import { pageKey, assertUniqueKeys } from "../store/slug.js";
+import {
+  newRunId, createManifest, writeManifest, listRuns, runDir, protocolFingerprint, runHealth,
+} from "../store/run.js";
+import { project } from "../store/project.js";
 
 const DEFAULT_CONCURRENCY = 3;
 
@@ -60,9 +65,38 @@ async function pool(items, limit, fn) {
   return results;
 }
 
-/** Where a page's artifacts live. Keyed by the existing slug scheme. */
-export function pageDir(root, url) {
-  return path.join(root, slugFromUrl(url));
+/** Where a page's artifacts live inside a run snapshot. Full-path key: the old
+ * last-two-segments slug collides across products (ccip/ and vrf/ both yield
+ * `getting-started-evm`), which in a shared namespace serves one product's page
+ * as another's. */
+export function pageDir(runRoot, url) {
+  return path.join(runRoot, "pages", pageKey(url));
+}
+
+/**
+ * Find a completed artifact for this page in an EARLIER run.
+ *
+ * Resume across immutable runs works by copying forward, not by re-paying and
+ * not by mutating history: if a previous run produced this artifact from the
+ * same input, it is copied into the new run so every run directory stays
+ * self-contained and independently readable.
+ */
+function findReusable(root, key, file, { contentHash, validate }) {
+  for (const m of listRuns(root)) {
+    const candidate = path.join(runDir(root, m.runId), "pages", key, file);
+    if (!fs.existsSync(candidate)) continue;
+    const state = readJsonOrNull(path.join(runDir(root, m.runId), "pages", key, "stage-state.json"));
+    const recorded = state?.[file] ?? null;
+    if (contentHash && !inputUnchanged(recorded?.contentHash, contentHash)) continue;
+    if (validate && !validate(candidate)) continue;
+    return candidate;
+  }
+  return null;
+}
+
+function copyForward(from, to) {
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  fs.copyFileSync(from, to);
 }
 
 /** Per-page record of what each stage consumed, so resume can detect drift. */
@@ -113,22 +147,46 @@ export async function runPipeline({
     ...deps,
   };
 
-  const outRoot = path.join(root, target.type === "product" ? path.join("products", target.name) : ".");
-  fs.mkdirSync(outRoot, { recursive: true });
+  // A key collision would serve one product's page as another's. Checked before
+  // anything is written, so it fails before spending rather than after.
+  assertUniqueKeys(target.pages.map((p) => p.url));
+
+  const protocol = {
+    analystModel: model ?? null,
+    analystEffort: effort,
+    graderModel: graderModel ?? null,
+    probeModel: probeModel ?? null,
+    probeEffort,
+    mode,
+    batch,
+  };
+  const runId = newRunId();
+  const outRoot = runDir(root, runId);
+  fs.mkdirSync(path.join(outRoot, "pages"), { recursive: true });
+
+  let manifest = createManifest({
+    runId,
+    target: { type: target.type, name: target.name, productScope: target.productScope },
+    stages,
+    protocol,
+  });
+  manifest = writeManifest(root, { ...manifest, status: "running" });
 
   const report = {
-    target: { type: target.type, name: target.name, productScope: target.productScope },
+    runId,
+    target: manifest.target,
     stages,
     pages: [],
     failures: [],
     skipped: { audit: 0, probes: 0, test: 0 },
+    reused: 0,
   };
 
   const pageResults = await pool(target.pages, concurrency, async (page) => {
     const dir = pageDir(outRoot, page.url);
     fs.mkdirSync(dir, { recursive: true });
     const state = readState(dir);
-    const record = { url: page.url, slug: path.basename(dir), stages: {} };
+    const record = { url: page.url, key: pageKey(page.url), slug: path.basename(dir), stages: {} };
 
     // --- extraction is shared by audit, probes and rollup; do it once --------
     let extracted = null;
@@ -149,15 +207,19 @@ export async function runPipeline({
     // --- audit ---------------------------------------------------------------
     if (stages.includes("audit")) {
       const file = path.join(dir, "audit.md");
-      const fresh =
-        !force && artifactComplete(file) && inputUnchanged(state.audit?.contentHash, contentHash);
-      if (fresh) {
-        record.stages.audit = "skipped";
+      const reusable = force
+        ? null
+        : findReusable(root, record.key, "audit.md", { contentHash, validate: (f) => artifactComplete(f) });
+      if (reusable) {
+        copyForward(reusable, file);
+        state["audit.md"] = { contentHash, at: new Date().toISOString(), reusedFrom: reusable };
+        record.stages.audit = "reused";
         report.skipped.audit++;
+        report.reused++;
       } else {
         const md = await api.runAudit({ url: page.url, pageContent: content, model, effort, tally });
         fs.writeFileSync(file, md);
-        state.audit = { contentHash, at: new Date().toISOString() };
+        state["audit.md"] = { contentHash, at: new Date().toISOString() };
         record.stages.audit = "ran";
       }
     }
@@ -165,13 +227,18 @@ export async function runPipeline({
     // --- probes --------------------------------------------------------------
     let probesFile = path.join(dir, "probes.json");
     if (stages.includes("probes")) {
-      const fresh =
-        !force &&
-        artifactComplete(probesFile, { requireJson: true }) &&
-        inputUnchanged(state.probes?.contentHash, contentHash);
-      if (fresh) {
-        record.stages.probes = "skipped";
+      const reusable = force
+        ? null
+        : findReusable(root, record.key, "probes.json", {
+            contentHash,
+            validate: (f) => artifactComplete(f, { requireJson: true }),
+          });
+      if (reusable) {
+        copyForward(reusable, probesFile);
+        state["probes.json"] = { contentHash, at: new Date().toISOString(), reusedFrom: reusable };
+        record.stages.probes = "reused";
         report.skipped.probes++;
+        report.reused++;
       } else {
         const probes = await api.genProbes({
           url: page.url,
@@ -182,7 +249,7 @@ export async function runPipeline({
           tally,
         });
         fs.writeFileSync(probesFile, JSON.stringify(probes, null, 2));
-        state.probes = { contentHash, at: new Date().toISOString() };
+        state["probes.json"] = { contentHash, at: new Date().toISOString() };
         record.stages.probes = "ran";
       }
     }
@@ -193,9 +260,16 @@ export async function runPipeline({
         throw new Error("no probe set — run the probes stage first");
       }
       const out = path.join(dir, `probe-results-${mode}.json`);
-      if (!force && probeRunFileComplete(out)) {
-        record.stages.test = "skipped";
+      const reusable = force
+        ? null
+        : findReusable(root, record.key, `probe-results-${mode}.json`, {
+            validate: (f) => probeRunFileComplete(f),
+          });
+      if (reusable) {
+        copyForward(reusable, out);
+        record.stages.test = "reused";
         report.skipped.test++;
+        report.reused++;
       } else {
         // runProbes returns a summary; the caller owns the file. `previous`
         // is what makes a partially-graded run resume instead of re-paying.
@@ -256,6 +330,26 @@ export async function runPipeline({
   // The extracted page bodies were carried only so rollup could consume them.
   // Dropping them keeps the returned report small and JSON-safe.
   for (const p of report.pages) delete p.page;
+
+  // partial, not complete: an average over the pages that happened to succeed is
+  // a self-narrowed denominator, so a partial run must not post a trend point.
+  const status = report.failures.length ? "partial" : "complete";
+  manifest = writeManifest(root, {
+    ...manifest,
+    status,
+    endedAt: new Date().toISOString(),
+    counts: { pages: report.pages.length, failed: report.failures.length },
+    cost: { measured: tally?.total?.() ?? 0, currency: "USD" },
+    protocolFingerprint: protocolFingerprint(protocol),
+  });
+  report.status = status;
+
+  // dashboard/ is a pure projection and is rebuilt from runs/ every time.
+  try {
+    report.projection = project(root);
+  } catch (err) {
+    report.projectionError = err.message;
+  }
 
   report.outRoot = outRoot;
   return report;

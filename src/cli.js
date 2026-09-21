@@ -8,7 +8,7 @@ import { runAudit } from "./analyze.js";
 import { genProbes, slugFromUrl } from "./probes.js";
 import { sourceHash } from "./probe-set.js";
 import { runProbes } from "./evaluate.js";
-import { collect, loadProbeRuns } from "./dashboard/collect.js";
+import { collect, loadProbeRuns, toSerializable } from "./dashboard/collect.js";
 import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
 import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL } from "./claude.js";
@@ -502,7 +502,9 @@ async function cmdDashboard(argv) {
 
   if (values.json) {
     const jsonFile = path.join(resultsDir, "dashboard-data.json");
-    fs.writeFileSync(jsonFile, JSON.stringify(data, null, 2) + "\n");
+    // Serialisable form: primaryRun is the same object as one of probeRuns, and
+    // JSON has no references, so writing `data` directly duplicates a whole run.
+    fs.writeFileSync(jsonFile, JSON.stringify(toSerializable(data), null, 2) + "\n");
     process.stderr.write(`Data written to ${jsonFile}\n`);
   }
 

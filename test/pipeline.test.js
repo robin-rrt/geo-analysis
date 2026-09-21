@@ -269,3 +269,64 @@ test("rollup is skipped rather than crashing when every page failed", async () =
   assert.equal(report.failures.length, 1);
   assert.equal(report.rollup, undefined, "no pages means no rollup, not a crash");
 });
+
+test("a second run never mutates the first — the overwrite hazard is gone", async () => {
+  const root = tmp();
+  const target = await pageTarget();
+  const first = await runPipeline({ target, stages: ["audit"], root, deps: countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 }) });
+
+  const firstAudit = path.join(first.outRoot, "pages", first.pages[0].key, "audit.md");
+  const before = fs.readFileSync(firstAudit, "utf8");
+  const beforeMtime = fs.statSync(firstAudit).mtimeMs;
+
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  const second = await runPipeline({ target, stages: ["audit"], root, deps: countingDeps(counts) });
+
+  assert.notEqual(second.runId, first.runId, "a second run must get its own snapshot");
+  assert.equal(fs.readFileSync(firstAudit, "utf8"), before, "the earlier run's audit was modified");
+  assert.equal(fs.statSync(firstAudit).mtimeMs, beforeMtime, "the earlier run's audit was rewritten");
+  assert.equal(counts.audit, 0, "the second run re-paid for work it could reuse");
+  assert.equal(second.reused, 1);
+});
+
+test("a run with failures is marked partial, so it cannot post a trend point", async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "geo-wl2-"));
+  const wl = path.join(dir, "watchlists");
+  fs.mkdirSync(wl, { recursive: true });
+  fs.writeFileSync(
+    path.join(wl, "mixed.json"),
+    JSON.stringify({ version: 1, name: "mixed", pages: ["https://docs.chain.link/a/good", "https://docs.chain.link/b/bad"] }),
+  );
+  const target = await resolveTarget("watchlist:mixed", { watchlistDir: wl });
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    extractPage: async (url) => {
+      if (url.endsWith("/bad")) throw new Error("HTTP 404");
+      return base.extractPage(url);
+    },
+  };
+  const report = await runPipeline({ target, stages: ["audit"], root: tmp(), deps });
+  assert.equal(report.status, "partial");
+});
+
+test("colliding page keys are rejected before any money is spent", async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "geo-wl3-"));
+  const wl = path.join(dir, "watchlists");
+  fs.mkdirSync(wl, { recursive: true });
+  // Distinct URLs that the OLD slug scheme would merge into one key.
+  fs.writeFileSync(
+    path.join(wl, "collide.json"),
+    JSON.stringify({
+      version: 1,
+      name: "collide",
+      pages: ["https://docs.chain.link/ccip/getting-started/evm", "https://docs.chain.link/vrf/getting-started/evm"],
+    }),
+  );
+  const target = await resolveTarget("watchlist:collide", { watchlistDir: wl });
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  // Full-path keys keep these distinct, so this must NOT throw.
+  const report = await runPipeline({ target, stages: ["audit"], root: tmp(), deps: countingDeps(counts) });
+  assert.equal(report.pages.length, 2, "both pages should survive as distinct keys");
+  assert.equal(new Set(report.pages.map((p) => p.key)).size, 2);
+});

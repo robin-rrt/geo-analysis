@@ -292,11 +292,26 @@ export async function runPipeline({
 
     // --- test ----------------------------------------------------------------
     if (stages.includes("test")) {
+      // `--stages test` on its own produces no probes.json in THIS run, and the
+      // probes stage is not running to create one. Without looking back at
+      // earlier runs, grading an already-generated probe set would be
+      // impossible — which is exactly the case after a run failed at the test
+      // stage with its probes already paid for.
+      if (!probeSetComplete(probesFile)) {
+        const carried = findReusable(root, record.key, "probes.json", {
+          validate: (f) => probeSetComplete(f),
+        });
+        if (carried) {
+          copyForward(carried, probesFile);
+          record.stages.probes ??= "reused";
+          report.reused++;
+        }
+      }
       if (!probeSetComplete(probesFile)) {
         throw new Error(
           fs.existsSync(probesFile)
             ? `probe set at ${probesFile} has no probes — regenerate with --force`
-            : "no probe set — run the probes stage first",
+            : "no probe set in this run or any earlier one — run the probes stage first",
         );
       }
       const out = path.join(dir, `probe-results-${mode}.json`);

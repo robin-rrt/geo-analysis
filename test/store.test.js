@@ -7,7 +7,7 @@ import { pageKey, assertUniqueKeys } from "../src/store/slug.js";
 import { slugFromUrl } from "../src/probes.js";
 import {
   newRunId, createManifest, writeManifest, listRuns, canTransition, assertTransition,
-  reconcileInterrupted, protocolFingerprint, runHealth, RUN_STATUS,
+  reconcileInterrupted, protocolFingerprint, runHealth, RUN_STATUS, ownerAlive,
 } from "../src/store/run.js";
 import { buildPoint, appendPoint, segmentsFor, discontinuities, postsTrendPoint } from "../src/store/timeseries.js";
 import { project, indexBytesPerRow, INDEX_FIELDS, bandFor } from "../src/store/project.js";
@@ -83,11 +83,13 @@ test("runs are immutable: a second run does not modify the first", () => {
   assert.equal(listRuns(root).length, 2);
 });
 
-test("a run left running is reconciled to interrupted, never auto-resumed", () => {
+test("a run left running by a DEAD process is reconciled to interrupted, never auto-resumed", () => {
   const root = tmp();
   const m = createManifest({ runId: newRunId(), target: { type: "page", name: "x" }, stages: ["audit"], protocol: {} });
   writeManifest(root, { ...m, status: "running" });
-  const fixed = reconcileInterrupted(root);
+  // The manifest's owner is this very process, which is alive — so liveness has
+  // to be stubbed to represent the crash this reconciles.
+  const fixed = reconcileInterrupted(root, new Date(), { isAlive: () => false });
   assert.deepEqual(fixed, [m.runId]);
   assert.equal(listRuns(root)[0].status, "interrupted");
 });
@@ -315,4 +317,28 @@ test("interleaved targets do not fragment each other's series", () => {
   const study = segs.find((s) => s.target === "watchlist:study");
   assert.equal(study.points.length, 2, "the study's two points must stay on one line");
   assert.equal(segs.length, 2);
+});
+
+test("reconciliation leaves a run alone while its owner is still alive", () => {
+  // Observed live: starting `serve` during a 43-page CLI run marked that run
+  // interrupted while it was working, because reconciliation ran on JobManager
+  // construction and could not tell a dead process from a busy one.
+  const root = tmp();
+  const m = createManifest({ runId: newRunId(), target: { type: "page", name: "x" }, stages: ["audit"], protocol: {} });
+  writeManifest(root, { ...m, status: "running" });
+
+  const untouched = reconcileInterrupted(root, new Date(), { isAlive: () => true });
+  assert.deepEqual(untouched, [], "a live run must not be marked interrupted");
+  assert.equal(listRuns(root)[0].status, "running");
+
+  const dead = reconcileInterrupted(root, new Date(), { isAlive: () => false });
+  assert.deepEqual(dead, [m.runId], "a dead owner's run should be reconciled");
+  assert.equal(listRuns(root)[0].status, "interrupted");
+});
+
+test("a run owned by another host is not judged from here", () => {
+  const root = tmp();
+  const m = createManifest({ runId: newRunId(), target: { type: "page", name: "x" }, stages: ["audit"], protocol: {} });
+  writeManifest(root, { ...m, status: "running", owner: { pid: 1, host: "some-other-machine" } });
+  assert.deepEqual(reconcileInterrupted(root, new Date(), { isAlive: () => false }), []);
 });

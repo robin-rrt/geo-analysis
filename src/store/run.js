@@ -9,6 +9,7 @@
 // projection of `runs/` and can be deleted and rebuilt at any time.
 
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 
@@ -113,6 +114,9 @@ export function createManifest({ runId, target, stages, protocol, status = "queu
     runId,
     startedAt: new Date().toISOString(),
     endedAt: null,
+    // Who is running this. Without it, reconciliation cannot tell a dead
+    // process from a live one in another terminal, and marks working runs dead.
+    owner: { pid: process.pid, host: os.hostname() },
     target,
     stages,
     protocol,
@@ -144,20 +148,49 @@ export function listRuns(root) {
     .sort((a, b) => String(b.runId).localeCompare(String(a.runId)));
 }
 
+/** Is the process that owns this run still alive on this machine? */
+export function ownerAlive(manifest, { hostname = os.hostname(), isAlive = defaultIsAlive } = {}) {
+  const owner = manifest?.owner;
+  // Pre-owner runs and runs from another machine cannot be judged from here.
+  // Treating "unknown" as dead is what marked a live run interrupted.
+  if (!owner?.pid) return null;
+  if (owner.host && owner.host !== hostname) return null;
+  return isAlive(owner.pid);
+}
+
+function defaultIsAlive(pid) {
+  try {
+    // Signal 0 tests for existence without touching the process.
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    // EPERM means it exists but belongs to someone else — still alive.
+    return err.code === "EPERM";
+  }
+}
+
 /**
- * Reconcile runs left mid-flight by a dead process.
+ * Reconcile runs left mid-flight by a DEAD process.
  *
  * Marked `interrupted`, never auto-resumed: resuming without a human deciding
- * risks paying twice for work that may already have been committed upstream.
+ * risks paying twice for work already committed upstream.
+ *
+ * Liveness is checked first. This function runs on every JobManager
+ * construction, so starting `serve` while a CLI run is in flight used to mark
+ * that run interrupted even though it was working — observed on a live 43-page
+ * run. A run whose owner cannot be judged (older manifest, or another host) is
+ * left alone rather than declared dead.
  */
-export function reconcileInterrupted(root, now = new Date()) {
+export function reconcileInterrupted(root, now = new Date(), opts = {}) {
   const fixed = [];
   for (const m of listRuns(root)) {
-    if (m.status === "running" || m.status === "queued") {
-      const next = { ...m, status: "interrupted", endedAt: now.toISOString() };
-      writeManifest(root, next);
-      fixed.push(next.runId);
-    }
+    if (m.status !== "running" && m.status !== "queued") continue;
+    const alive = ownerAlive(m, opts);
+    if (alive === true) continue; // working in another process
+    if (alive === null && m.owner) continue; // another host — not ours to judge
+    const next = { ...m, status: "interrupted", endedAt: now.toISOString() };
+    writeManifest(root, next);
+    fixed.push(next.runId);
   }
   return fixed;
 }

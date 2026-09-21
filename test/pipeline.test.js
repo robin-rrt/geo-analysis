@@ -415,3 +415,22 @@ test("a malformed probe set is not silently reused", async () => {
   await runPipeline({ target, stages: ["probes"], root, deps: countingDeps(second) });
   assert.equal(second.probes, 1, "an empty probe set must not count as complete");
 });
+
+test("`--stages test` carries a probe set forward from an earlier run", async () => {
+  // A run that failed at the test stage has already PAID for its probes. Being
+  // unable to grade them without regenerating would charge twice for the same
+  // work — the exact situation after the wrapper bug.
+  const root = tmp();
+  const target = await pageTarget();
+
+  const gen = { extract: 0, audit: 0, probes: 0, test: 0 };
+  await runPipeline({ target, stages: ["probes"], root, deps: countingDeps(gen) });
+  assert.equal(gen.probes, 1);
+
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  const report = await runPipeline({ target, stages: ["test"], root, deps: countingDeps(counts) });
+
+  assert.equal(report.failures.length, 0, `test stage failed: ${JSON.stringify(report.failures)}`);
+  assert.equal(counts.probes, 0, "it must reuse the probe set, not regenerate it");
+  assert.equal(counts.test, 1, "and it must actually grade");
+});

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "correlation-study",
+  "description": "The 10 pages measured in the pre-registered correlation study (2026-09-18), kept as a routine-check set.",
+  "pages": [
+    "https://docs.chain.link/data-streams/reference/data-streams-api",
+    "https://docs.chain.link/resources/fund-your-contract",
+    "https://docs.chain.link/dta-technical-standard/actors",
+    "https://docs.chain.link/chainlink-automation/overview/service-limits",
+    "https://docs.chain.link/chainlink-functions",
+    "https://docs.chain.link/datalink",
+    "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts",
+    "https://docs.chain.link/ace",
+    "https://docs.chain.link/getting-started/conceptual-overview",
+    "https://docs.chain.link/resources/link-token-contracts"
+  ]
+}

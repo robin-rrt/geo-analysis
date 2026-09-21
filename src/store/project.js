@@ -106,8 +106,13 @@ export function project(root, { now = new Date() } = {}) {
   const manifests = listRuns(root);
   const out = path.join(root, DASHBOARD_DIR);
 
-  // Latest complete-or-partial run wins per page; a page is shown from the most
-  // recent run that actually produced it.
+  // Latest per ARTIFACT, not latest run wholesale.
+  //
+  // A `--stages audit` run produces no probe results. Taking its page state
+  // whole would erase fidelity measured by an earlier run — which is exactly
+  // what happened the first time this ran against real data. So the audit and
+  // each probe mode are tracked separately, each remembering which run it came
+  // from.
   const latestByKey = new Map();
   let series = [];
 
@@ -132,7 +137,18 @@ export function project(root, { now = new Date() } = {}) {
     );
 
     for (const p of pages) {
-      latestByKey.set(p.key, { page: p, manifest: m, health });
+      const prev = latestByKey.get(p.key) ?? { key: p.key, audit: null, auditRun: null, probeRuns: new Map(), health };
+      if (p.audit) {
+        prev.audit = p.audit;
+        prev.auditRun = m;
+      }
+      for (const r of p.probeRuns) {
+        // Keyed by mode so a closed-mode run never displaces a web-mode one.
+        prev.probeRuns.set(r.mode ?? "web", { run: r, manifest: m });
+      }
+      if (p.probeRuns.length) prev.health = health;
+      prev.manifest = prev.auditRun ?? m;
+      latestByKey.set(p.key, prev);
     }
   }
 
@@ -141,30 +157,38 @@ export function project(root, { now = new Date() } = {}) {
   // before a run directory is created.
 
   const index = [];
-  for (const [key, { page, manifest, health }] of latestByKey) {
-    const primary = primaryProbeRun(page.probeRuns);
+  for (const [key, entry] of latestByKey) {
+    const { audit, manifest, health } = entry;
+    const probeRuns = [...entry.probeRuns.values()].map((v) => v.run);
+    const primary = primaryProbeRun(probeRuns);
     const row = pick({
       key,
-      url: page.audit?.url ?? null,
-      title: page.audit?.title ?? null,
-      score: page.audit?.score ?? null,
-      band: bandFor(page.audit?.score),
+      url: audit?.url ?? null,
+      title: audit?.title ?? null,
+      score: audit?.score ?? null,
+      band: bandFor(audit?.score),
       fidelity: primary?.avg_fidelity ?? null,
       graderModel: primary?.grader_model ?? null,
       probeCount: primary?.probe_count ?? 0,
-      healthClean: health.clean,
-      runId: manifest.runId,
-      at: manifest.endedAt ?? manifest.startedAt,
+      healthClean: health?.clean ?? true,
+      runId: manifest?.runId ?? null,
+      at: manifest?.endedAt ?? manifest?.startedAt ?? null,
     });
     index.push(row);
 
     // Detail carries everything the index deliberately excludes.
     writeJsonAtomic(path.join(out, "pages", `${key}.json`), {
       key,
-      runId: manifest.runId,
-      audit: page.audit,
-      probeRuns: page.probeRuns,
+      runId: manifest?.runId ?? null,
+      audit,
+      probeRuns,
       health,
+      // Which run each artifact came from — a page can legitimately show an
+      // audit from today and fidelity from last week.
+      provenance: {
+        audit: entry.auditRun?.runId ?? null,
+        probes: Object.fromEntries([...entry.probeRuns].map(([mode, v]) => [mode, v.manifest.runId])),
+      },
     });
   }
 

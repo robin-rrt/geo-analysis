@@ -61,19 +61,31 @@ export function appendPoint(series, point) {
  * is unknown, so the renderer cannot accidentally join across a grader swap.
  */
 export function segmentsFor(points, { field = "fidelity" } = {}) {
-  const usable = points
-    .filter((p) => p[field] !== null && p[field] !== undefined)
-    .sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  // Group by target FIRST. Walking one globally time-sorted list lets points
+  // from another target land in the middle of this one and split it in two —
+  // observed with real data, where a one-page run fragmented a ten-page series.
+  const byTarget = new Map();
+  for (const p of points) {
+    if (p[field] === null || p[field] === undefined) continue;
+    if (!byTarget.has(p.target)) byTarget.set(p.target, []);
+    byTarget.get(p.target).push(p);
+  }
 
   const segments = [];
-  let current = null;
-  for (const p of usable) {
-    const key = p.protocolKnown ? p.fingerprint : `unknown:${p.runId}`;
-    if (!current || current.fingerprint !== key) {
-      current = { fingerprint: key, graderModel: p.graderModel, protocolKnown: p.protocolKnown, points: [] };
-      segments.push(current);
+  for (const group of byTarget.values()) {
+    const usable = group.sort((a, b) => String(a.at).localeCompare(String(b.at)));
+    let current = null;
+    for (const p of usable) {
+    // Target is part of the key: a point's denominator is its target, so a
+    // 10-page average and a 1-page average are different series, not two
+    // points on one line.
+      const key = `${p.target}::${p.protocolKnown ? p.fingerprint : `unknown:${p.runId}`}`;
+      if (!current || current.fingerprint !== key) {
+        current = { fingerprint: key, target: p.target, graderModel: p.graderModel, protocolKnown: p.protocolKnown, points: [] };
+        segments.push(current);
+      }
+      current.points.push(p);
     }
-    current.points.push(p);
   }
   return segments;
 }

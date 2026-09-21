@@ -246,3 +246,73 @@ test("bands are assigned at the documented thresholds", () => {
   assert.equal(bandFor(10), "Poor");
   assert.equal(bandFor(null), null);
 });
+
+test("a trend never joins points from different targets", () => {
+  // Found by populating the dashboard for real: a 10-page study average and a
+  // 1-page run were being drawn as one line. Different denominators, different
+  // populations — joining them reads as a quality change that did not happen.
+  const mk = (target, at, fidelity) => ({
+    runId: at, at, target, fidelity, score: null,
+    graderModel: "claude-sonnet-5", fingerprint: "claude-sonnet-5|x|medium|web", protocolKnown: true,
+  });
+  const segs = segmentsFor(
+    [mk("watchlist:study", "2026-09-18", 52), mk("page:ace", "2026-09-21", 69)],
+    { field: "fidelity" },
+  );
+  assert.equal(segs.length, 2, "points from different targets must not share a line");
+  assert.equal(segs[0].target, "watchlist:study");
+});
+
+test("an audit-only run must not erase fidelity measured by an earlier run", () => {
+  // Found against real data: a `--stages audit` re-run became the latest run for
+  // every page and the dashboard reported 0 probed pages despite holding 10
+  // pages of real fidelity. Latest per ARTIFACT, not latest run wholesale.
+  const root = tmp();
+  const url = "https://docs.chain.link/vrf/x";
+  const key = seedRun(root, { runId: newRunId(new Date(2026, 0, 1)), url, score: 70, fidelity: 55 });
+
+  // A later run that produced only an audit.
+  const later = newRunId(new Date(2026, 0, 9));
+  writeManifest(root, {
+    ...createManifest({
+      runId: later,
+      target: { type: "watchlist", name: "w" },
+      stages: ["audit"],
+      protocol: { graderModel: "claude-sonnet-5", probeEffort: "medium", probeModel: "claude-opus-4-8", mode: "web" },
+    }),
+    status: "complete",
+    endedAt: new Date().toISOString(),
+  });
+  const dir = path.join(root, "runs", later, "pages", key);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "audit.md"), realAudit({ url, score: 88 }));
+
+  project(root);
+  const row = JSON.parse(fs.readFileSync(path.join(root, "dashboard", "index.json"), "utf8")).pages[0];
+  assert.equal(row.score, 88, "the newer audit should win");
+  assert.equal(row.fidelity, 55, "the earlier fidelity must survive an audit-only run");
+
+  const detail = JSON.parse(fs.readFileSync(path.join(root, "dashboard", "pages", `${key}.json`), "utf8"));
+  assert.equal(detail.provenance.audit, later);
+  assert.ok(detail.provenance.probes.web, "probe provenance should name the run it came from");
+});
+
+test("interleaved targets do not fragment each other's series", () => {
+  // Also found against real data: walking one globally time-sorted list let a
+  // one-page run land between two points of a ten-page series and split it.
+  const mk = (target, at, score) => ({
+    runId: `${target}-${at}`, at, target, score, fidelity: null,
+    graderModel: "claude-sonnet-5", fingerprint: "claude-sonnet-5|x|medium|web", protocolKnown: true,
+  });
+  const segs = segmentsFor(
+    [
+      mk("watchlist:study", "2026-09-18", 62),
+      mk("page:ace", "2026-09-19", 69),
+      mk("watchlist:study", "2026-09-21", 63),
+    ],
+    { field: "score" },
+  );
+  const study = segs.find((s) => s.target === "watchlist:study");
+  assert.equal(study.points.length, 2, "the study's two points must stay on one line");
+  assert.equal(segs.length, 2);
+});

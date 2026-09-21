@@ -11,7 +11,7 @@ import { runProbes } from "./evaluate.js";
 import { collect, loadProbeRuns, toSerializable } from "./dashboard/collect.js";
 import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
-import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL } from "./claude.js";
+import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL, DEFAULT_PROBE_TARGET } from "./claude.js";
 import { createTally, costOf } from "./usage.js";
 import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
@@ -28,7 +28,6 @@ const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".
 if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
 
 const EFFORT_LEVELS = ["low", "medium", "high", "xhigh", "max"];
-const DEFAULT_PROBE_TARGET = "claude-opus-4-8";
 
 const USAGE = `geo-audit — GEO toolkit for documentation pages
 

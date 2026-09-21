@@ -26,6 +26,9 @@ export function analystModel(effort, override) {
 // $5/$25. `--effort max` still escalates, for the rare run where the grader
 // itself is the thing being stress-tested.
 export const DEFAULT_GRADER_MODEL = SONNET_MODEL;
+
+/** Default model under test for probes. Shared so the CLI and the server agree. */
+export const DEFAULT_PROBE_TARGET = OPUS_MODEL;
 export function graderModelFor(effort, override) {
   if (override) return override;
   return effort === "max" ? FABLE_MODEL : SONNET_MODEL;

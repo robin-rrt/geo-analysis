@@ -21,6 +21,7 @@ import { genProbes, slugFromUrl } from "../probes.js";
 import { runProbes } from "../evaluate.js";
 import { hashOf } from "../product/fetch.js";
 import { rollup } from "../product/rollup.js";
+import { analystModel, graderModelFor, DEFAULT_PROBE_TARGET } from "../claude.js";
 import { ALL_STAGES } from "./estimate.js";
 import { probeRunFileComplete, artifactComplete, probeSetComplete, inputUnchanged } from "./complete.js";
 import { pageKey, assertUniqueKeys } from "../store/slug.js";
@@ -152,6 +153,14 @@ export async function runPipeline({
     runProbes,
     ...deps,
   };
+
+  // Model defaults are resolved HERE, not at the call site. The CLI set them and
+  // the server did not, so every run started from the browser reached the API
+  // with no model and failed the whole test stage with "model: Field required".
+  // A default that lives in one caller is a default the other caller forgets.
+  model = analystModel(effort, model);
+  probeModel = probeModel ?? DEFAULT_PROBE_TARGET;
+  graderModel = graderModelFor(effort, graderModel);
 
   // A key collision would serve one product's page as another's. Checked before
   // anything is written, so it fails before spending rather than after.
@@ -417,13 +426,6 @@ export async function runPipeline({
   });
   report.status = status;
 
-  // dashboard/ is a pure projection and is rebuilt from runs/ every time.
-  try {
-    report.projection = project(root);
-  } catch (err) {
-    report.projectionError = err.message;
-  }
-
   // What this run actually did, persisted so the UI can answer "what happened?"
   // long after the process has gone. pages.json is the ledger (what was
   // considered); this is the record (what was done).
@@ -454,6 +456,15 @@ export async function runPipeline({
     })),
     failures: report.failures,
   });
+
+  // Projection LAST. It reads report.json, so running it before that file is
+  // written produces a run whose breakdown is null — the UI then says "no
+  // breakdown recorded" for a run that recorded one. Observed on a real run.
+  try {
+    report.projection = project(root);
+  } catch (err) {
+    report.projectionError = err.message;
+  }
 
   report.outRoot = outRoot;
   return report;

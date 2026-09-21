@@ -434,3 +434,57 @@ test("`--stages test` carries a probe set forward from an earlier run", async ()
   assert.equal(counts.probes, 0, "it must reuse the probe set, not regenerate it");
   assert.equal(counts.test, 1, "and it must actually grade");
 });
+
+test("the projection a run leaves behind actually contains its breakdown", async () => {
+  // Ordering regression: the pipeline used to project BEFORE writing
+  // report.json, so every finished run appeared in the UI as "no breakdown
+  // recorded" despite having recorded one. Asserting the file exists is not
+  // enough — the assertion has to be on what the UI reads.
+  const root = tmp();
+  const report = await runPipeline({
+    target: await pageTarget(),
+    stages: ["audit", "probes", "test"],
+    root,
+    deps: countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 }),
+  });
+
+  const projected = JSON.parse(
+    fs.readFileSync(path.join(root, "dashboard", "runs", `${report.runId}.json`), "utf8"),
+  );
+  assert.ok(projected.breakdown, "the projected run must carry its breakdown");
+  assert.equal(projected.breakdown.pages.length, 1);
+  assert.ok(projected.breakdown.pages[0].stages.audit, "per-page stage outcomes must survive projection");
+  assert.ok(Number.isFinite(projected.breakdown.pages[0].durations.audit), "durations must survive projection");
+});
+
+test("model defaults are resolved by the pipeline, not left to the caller", async () => {
+  // The server omitted them, so every UI-started run hit the API with no model
+  // and failed the entire test stage with "model: Field required".
+  const seen = {};
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    runAudit: async (args) => {
+      seen.analyst = args.model;
+      return base.runAudit(args);
+    },
+    runProbes: async (args) => {
+      seen.probe = args.model;
+      seen.grader = args.graderModel;
+      return base.runProbes(args);
+    },
+  };
+
+  // Deliberately passing NO model options, as the server did.
+  await runPipeline({
+    target: await pageTarget(),
+    stages: ["audit", "probes", "test"],
+    root: tmp(),
+    deps,
+  });
+
+  for (const [role, value] of Object.entries(seen)) {
+    assert.ok(value, `${role} model must not be undefined`);
+    assert.match(value, /^claude-/, `${role} model looks wrong: ${value}`);
+  }
+});

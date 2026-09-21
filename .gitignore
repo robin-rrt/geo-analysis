@@ -151,3 +151,11 @@ results/products/
 # pure projection rebuilt from it. Neither belongs in version control.
 results/runs/
 results/dashboard/
+
+# The UI build IS committed: `geo-audit serve` serves prebuilt assets so that
+# installing the CLI never requires a bundler. Contributors touching ui/ run
+# Vite; users never do. dist-export/ is regenerated on publish.
+!ui/dist
+!ui/dist/**
+ui/dist-export/
+ui/node_modules/

@@ -37,6 +37,7 @@ Usage:
   geo-audit gen-probes <url> [options]       Generate probe prompts + answer key JSON
   geo-audit probe <probes.json> [options]    Ask a model the probes, grade its answers
   geo-audit dashboard [options]              Build an HTML dashboard from results/
+  geo-audit dashboard --export <dir>         Publish the read-only static bundle
   geo-audit product <name> [options]         Resolve, fetch and roll up a whole product
   geo-audit run <target> [options]           Run every stage end to end over a target
   geo-audit serve [options]                  Serve the dashboard and run jobs (localhost)
@@ -477,12 +478,47 @@ async function cmdDashboard(argv) {
       output: { type: "string", short: "o" },
       "results-dir": { type: "string", default: "results" },
       json: { type: "boolean", default: false },
+      export: { type: "string" },
       help: { type: "boolean", short: "h", default: false },
     },
   });
   if (values.help) usageExit(0);
 
   const resultsDir = values["results-dir"];
+
+  // --export: publish the read-only artifact. It is the PREBUILT single-file
+  // bundle plus the projection as sibling JSON — the CLI never invokes a
+  // bundler, so installing this tool never requires a toolchain.
+  if (values.export) {
+    const bundle = "ui/dist-export/index.html";
+    if (!fs.existsSync(bundle)) {
+      fail(`no export bundle at ${bundle} — build it with \`npm --prefix ui run build:export\``);
+    }
+    const src = path.join(resultsDir, "dashboard");
+    if (!fs.existsSync(path.join(src, "index.json"))) {
+      fail(`no projection at ${src} — run \`geo-audit run <target>\` first`);
+    }
+    const dest = values.export;
+    fs.mkdirSync(path.join(dest, "data", "pages"), { recursive: true });
+    fs.copyFileSync(bundle, path.join(dest, "index.html"));
+    for (const f of ["index.json", "runs.json", "timeseries.json"]) {
+      if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dest, "data", f));
+    }
+    const pagesDir = path.join(src, "pages");
+    let copied = 0;
+    if (fs.existsSync(pagesDir)) {
+      for (const f of fs.readdirSync(pagesDir)) {
+        fs.copyFileSync(path.join(pagesDir, f), path.join(dest, "data", "pages", f));
+        copied++;
+      }
+    }
+    const kb = Math.round(fs.statSync(path.join(dest, "index.html")).size / 1024);
+    process.stderr.write(
+      `Exported to ${dest}/ — index.html (${kb}KB, self-contained) + ${copied} page file(s).\n` +
+        `Read-only: the bundle does not contain the run-trigger code. Safe to publish.\n`,
+    );
+    return;
+  }
   process.stderr.write(`Reading ${resultsDir}/ ...\n`);
 
   let data;

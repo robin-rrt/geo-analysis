@@ -1,7 +1,175 @@
 {
   "key": "chainlink-automation-overview-automation-economics-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Automation Billing and Costs",
+    "url": "https://docs.chain.link/chainlink-automation/overview/automation-economics.md",
+    "analyzedAt": "2026-09-22T13:21:20.732Z",
+    "contentType": "developer documentation / reference (pricing & economics)",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 61.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working: \"Chainlink Automation requires only an execution fee for transactions onchain.\" is a clean liftable opener. Weak: the two formula panels live inside `TabsContent`/`Fragment` MDX components that may not render as retrievable text — the canonical fee formula risks being invisible to a crawler."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 9 headings, 1 H1, max depth H3, 0 level skips, median 76 words/section, none over 600. Chunk boundaries are clean."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong; the worked example (110,051 gas, 182,723,799,380 wei, 0.008077 LINK) is exactly the high-lift content engines cite. Minor drag from vague quantifiers (\"last several blocks,\" \"next few blocks,\" \"fast gas price\")."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak; 4 external links but 0 to primary sources. ERC-677 and ERC-20 are named without linking their specs; the LINK/Native rate is \"fetched from Chainlink Oracle\" without a data-feeds link."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Adequate; the fee-composition sentence is quotable, but \"ERC-677 LINK\" gets a usage note, not a one-sentence definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak; measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Head metadata could not be verified — CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak; 0 fenced blocks. The formulas and the final arithmetic (`0.008077 = [...]`) are prose/MDX, not language-tagged blocks an agent can parse or copy."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate; lifecycle is covered (cost → fund → withdraw → minimum balance → gas), but there's no FAQ/troubleshooting and no symptom-phrased headings (\"Why isn't my upkeep being performed?\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good, but the withdrawal examples slip into first person: \"I will receive 5 LINK\" — inconsistent voice that weakens entity/agent parsing."
+      }
+    ],
+    "summary": "This is a well-structured billing reference: the fee formula, a fully worked Polygon example with real gas/wei values, and clean section boundaries make most of it highly extractable. Its single biggest strength is concrete specificity (42 numerals per 1k words, a real onchain transaction cited). Its biggest opportunity is metadata and retrieval framing — zero JSON-LD, missing canonical URL, no visible date, and concept-titled sections that don't match the symptom/cost questions developers actually type. Honest verdict: strong content, under-optimized for how engines discover and trust it.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no date signals.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `inLanguage`, and a self-referential `url`; add a visible \"Last updated\" line.",
+        "why": "freshness and schema are E-E-A-T signals engines use to select and trust sources for factual pricing answers."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "section titles + new FAQ block",
+        "issue": "headings like \"No node competition,\" \"Minimum balance\" don't match user queries.",
+        "change": "Add H2/H3 or FAQ entries phrased as \"How much does Chainlink Automation cost?\", \"Why isn't my upkeep being performed?\" (→ minimum balance), \"Why was I charged a 0.1 LINK cancellation fee?\", \"How do I withdraw upkeep funds?\"",
+        "why": "devs/agents query by symptom and question; concept-titled prose loses retrieval it would otherwise win."
+      },
+      {
+        "priority": 1,
+        "title": "Ensure the fee formula renders as plain extractable text",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "the `TabsContent`/`Fragment` formula panels",
+        "issue": "canonical formula is trapped in MDX tab components.",
+        "change": "Precede the tabs with a plain-text canonical statement of both LINK and native fee formulas (or render formulas in a fenced/code block) so the answer survives chunking.",
+        "why": "if the formula isn't in liftable text, engines answer from priors instead of the page's canonical math."
+      },
+      {
+        "priority": 2,
+        "title": "Put the fee arithmetic in a labeled code block",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Fee calculation example\"",
+        "issue": "`0.008077 = [182,723,799,380 * (110,051 + 80,000) * (1 + 70%)]/[...]` sits as loose prose.",
+        "change": "Wrap the formula and substituted-values calculation in a fenced block; consider a small runnable snippet computing the fee.",
+        "why": "structured, tagged calculations are easier to parse, quote, and reproduce."
+      },
+      {
+        "priority": 2,
+        "title": "Link primary/canonical references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"ERC-677 LINK\" section and the oracle rate mention",
+        "issue": "0 links to primary sources; ERC-677/ERC-20 unlinked.",
+        "change": "Link ERC-677 and ERC-20 to their EIP specs, and link \"Chainlink Oracle\"/rate to the relevant Data Feeds doc.",
+        "why": "inline authoritative links raise citation rate and credibility."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Price selection and gas bumping,\" \"Minimum balance\"",
+        "issue": "\"last several blocks,\" \"next few blocks,\" \"fast gas price.\"",
+        "change": "State the actual block window / percentile target and define \"fast gas price\" (e.g. the source feed), even if approximate/configurable.",
+        "why": "quantitative specifics are among the highest-lift changes; vague qualifiers underperform."
+      },
+      {
+        "priority": 3,
+        "title": "Fix first-person voice in withdrawal examples",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "\"Withdrawing funds\" Examples 1 & 2",
+        "issue": "\"I will receive 5 LINK.\"",
+        "change": "Use second person: \"you will receive 5 LINK.\"",
+        "why": "consistent voice aids clean extraction and reads as authoritative reference."
+      },
+      {
+        "priority": 3,
+        "title": "Add a one-sentence ERC-677 definition near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "\"ERC-677 LINK\" section opener",
+        "issue": "term used throughout, defined only via PegSwap workaround.",
+        "change": "Open with \"ERC-677 LINK is the transferAndCall-capable LINK token required to fund upkeeps; ERC-20 LINK must be converted first.\"",
+        "why": "a crisp definition near first use is verbatim-liftable."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"many,\" \"several,\" \"fast\" flagged in measured facts.",
+      "Formula content locked in MDX tab components — risk of non-rendered/unretrievable canonical text.",
+      "First-person voice (\"I will receive\") inconsistent with reference-doc register.",
+      "No stale-content evidence, no keyword stuffing, no marketing fluff, no undifferentiated walls."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; confirm this page is indexed there.",
+      "Canonical URL, JSON-LD, and freshness cadence are partly template/site-level; ensure the docs platform emits them site-wide rather than page-by-page.",
+      "Head metadata could not be verified from the supplied content — pass raw `<head>` in the CLI for a definitive metadata read."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +182,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

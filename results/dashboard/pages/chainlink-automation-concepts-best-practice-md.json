@@ -1,7 +1,175 @@
 {
   "key": "chainlink-automation-concepts-best-practice-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Automation Best Practices",
+    "url": "https://docs.chain.link/chainlink-automation/concepts/best-practice.md",
+    "analyzedAt": "2026-09-22T13:19:29.753Z",
+    "contentType": "developer documentation / conceptual best-practices guide",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong. Each section leads with the recommendation, e.g. \"For registration on Mainnet, you need ERC-677 LINK.\" Sections stand alone with no back-references. Minor: \"Use the Forwarder\" opens on a conditional rather than the core rule."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Sections are short and coherent (median 46 words), but the measured **1 level skip** (H1 directly to H3, no H2) flattens the hierarchy, and **0 bullets / 0 tables** means the nine best practices aren't presented as an extractable list. A summary bullet list or \"Do/Don't\" table would improve chunk selection."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Only 4 numerals per 1k words, **0 with units**, and vague quantifier \"many token bridges.\" No version numbers (v1/v2 mentioned but no exact release), no latency/limit figures for the \"flickering\" latency claim."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Mostly internal links (6 of 7); the sole external link is PegSwap. **0 links to primary sources** and 1 opaque link (\"convert Chainlink tokens...\") reduce attributability. ERC-677 and ERC-20 are named but not linked to the token standard."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Middling. \"Flickering\" is described but not crisply defined in one liftable sentence; no canonical one-line definitions for `Forwarder`, `Registry`, or `StreamsLookup`."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak per measured facts: **0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified**. Head metadata could not be verified from the served content; CLI should pass raw `<head>` for a full read, but the JSON-LD/canonical absence is confirmed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "**0 fenced code blocks.** Advice like \"add a setter function with permissions\" and \"revalidate the conditions in `checkUpkeep`\" is exactly where a short Solidity snippet would make the page agent-runnable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers the lifecycle (versioning, config, security, testing, tokens) but headings are imperative/concept-titled, not symptom-phrased. Missing the retrieval-winning question forms: \"Why isn't my upkeep being performed?\", \"How do I restrict performUpkeep?\""
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Terminology (`Forwarder`, `Registry`, `checkUpkeep`, `performUpkeep`) is consistent and unambiguous."
+      }
+    ],
+    "summary": "This is a clean, well-written best-practices guide for Chainlink Automation with nine short, coherent sections that each open with actionable advice — genuinely strong on clarity and answer-first phrasing. Its biggest GEO weaknesses are mechanical and fixable: no code snippets, near-zero concrete specifics (4 numerals, no units, vague \"many\"), a missing H2 layer (H1→H3 skip), and absent structured metadata (no JSON-LD, canonical, or dates). The headings are concept/imperative-titled rather than symptom-phrased, so the page will lose retrieval on the exact queries developers type (\"why is my upkeep not performing\"). Solid prose held back from citation by thin specifics and no machine-readable envelope.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased section headings/anchors",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Avoid 'flickering' custom logic upkeeps\" and \"Use the Forwarder\"",
+        "issue": "Concept-titled headings miss how devs query failures.",
+        "change": "Add question sub-anchors or reword, e.g. \"Why isn't my upkeep being performed? (avoid flickering)\" and \"How do I restrict `performUpkeep` to the Forwarder?\"",
+        "why": "Devs/agents query by symptom, not concept name; question-phrased headings win retrieval body text loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add a top-of-page summary list of the practices",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "After the intro paragraph",
+        "issue": "9 practices exist only as prose sections; 0 bullets, 0 tables.",
+        "change": "Insert a bulleted checklist (one line per practice) or a \"Practice / Why it matters\" table so an engine can lift the full set as one chunk.",
+        "why": "Bulleted/tabular decision factors let engines extract reasons and build justified answers."
+      },
+      {
+        "priority": 1,
+        "title": "Fix the heading hierarchy",
+        "mapsTo": "structural chunkability",
+        "tier": null,
+        "where": "All sections use H3 under the H1.",
+        "issue": "Measured 1 level skip (H1→H3, no H2).",
+        "change": "Promote the nine best-practice sections to H2.",
+        "why": "Correct hierarchy improves RAG chunk boundaries and section retrieval."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema, canonical URL, and last-updated date",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter",
+        "issue": "0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `about` (Chainlink Automation), plus a `<link rel=\"canonical\">` and a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise parse-ability and trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Add short Solidity snippets for the two actionable practices",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Use the Forwarder\" and \"Automation v1 upkeep revalidation\"",
+        "issue": "0 code blocks; advice is prose-only (\"add a setter function with permissions\").",
+        "change": "Add a labeled `solidity` snippet showing a mutable `forwarder` variable with an `onlyOwner` setter and a `require(msg.sender == forwarder)` guard; and a `checkUpkeep`-revalidation block inside `performUpkeep`.",
+        "why": "Complete, copy-pasteable snippets are directly liftable by coding agents completing these exact tasks."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers and add concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Many token bridges give you ERC-20 LINK\"; \"latency between observing... consensus\"",
+        "issue": "No units/figures; vague \"many.\"",
+        "change": "Name the token standards with links, and quantify where possible (e.g. block-confirmation window, DON check cadence) or state the exact versions where \"latest\" applies.",
+        "why": "Quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary-source and standard links; fix opaque link text",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Using ERC-677 tokens\" and the PegSwap link",
+        "issue": "0 primary-source links; 1 opaque link.",
+        "change": "Link \"ERC-677\" and \"ERC-20\" to their EIP specs and give the PegSwap link descriptive text (\"convert ERC-20 LINK to ERC-677 via PegSwap\").",
+        "why": "Inline authoritative references raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Add a one-line canonical definition of \"flickering\"",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "\"Avoid 'flickering' custom logic upkeeps\"",
+        "issue": "Behavior is described diffusely, not defined.",
+        "change": "Lead with: \"A 'flickering' upkeep is one whose `checkUpkeep` rapidly alternates between true and false, risking non-execution.\"",
+        "why": "A crisp, self-contained definition is verbatim-liftable."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier: \"Many token bridges give you ERC-20 LINK tokens\" — replace with named bridges/standards.",
+      "Opaque link text on the PegSwap conversion link.",
+      "Undated content (no visible last-updated), which reads as potentially stale to engines.",
+      "No walls of text, no keyword stuffing, no marketing fluff — clean on those axes."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Site-level JSON-LD/canonical templates and a freshness cadence (dateModified) are best solved at the docs-platform level, not per-page.",
+      "Head metadata could not be verified from the served content; pass raw `<head>` to the CLI for a definitive metadata read."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +182,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

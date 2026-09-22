@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T13:18:40.780Z",
+  "generatedAt": "2026-09-22T13:23:22.832Z",
   "pages": [
     {
       "key": "vrf-v2-5-overview",
@@ -52,201 +52,6 @@
       "healthClean": true,
       "runId": "2026-09-22T13-10-14-434Z-5184",
       "at": "2026-09-22T13:13:34.424Z"
-    },
-    {
-      "key": "chainlink-automation-concepts-automation-architecture-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-concepts-automation-concepts-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-concepts-best-practice-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-guides-compatible-contracts-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-guides-job-scheduler-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-guides-log-trigger-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-guides-manage-upkeeps-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-guides-register-upkeep-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-overview-automation-economics-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-overview-getting-started-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-overview-service-limits-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-overview-supported-networks-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-reference-automation-contracts-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
-    },
-    {
-      "key": "chainlink-automation-reference-automation-interfaces-md",
-      "url": null,
-      "title": null,
-      "score": null,
-      "band": null,
-      "fidelity": null,
-      "graderModel": null,
-      "probeCount": 0,
-      "healthClean": true,
-      "runId": "2026-09-22T13-05-06-283Z-3212",
-      "at": "2026-09-22T13:05:10.872Z"
     },
     {
       "key": "chainlink-functions-api-reference-functions-client-md",
@@ -1289,6 +1094,19 @@
       "at": "2026-09-21T11:54:52.748Z"
     },
     {
+      "key": "chainlink-automation-md",
+      "url": "https://docs.chain.link/chainlink-automation.md",
+      "title": "Chainlink Automation",
+      "score": 37,
+      "band": "Poor",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "data-feeds-smartdata-addresses",
       "url": "https://docs.chain.link/data-feeds/smartdata/addresses",
       "title": "SmartData Feed Addresses",
@@ -1315,6 +1133,19 @@
       "at": "2026-09-21T16:36:26.280Z"
     },
     {
+      "key": "chainlink-automation-overview-getting-started-md",
+      "url": "https://docs.chain.link/chainlink-automation/overview/getting-started.md",
+      "title": "Getting Started with Chainlink Automation",
+      "score": 41,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "data-streams-reference-data-streams-api",
       "url": "https://docs.chain.link/data-streams/reference/data-streams-api",
       "title": "Data Streams Reference",
@@ -1326,6 +1157,19 @@
       "healthClean": true,
       "runId": "2026-09-21T11-28-14-728Z-4f83",
       "at": "2026-09-21T11:31:35.043Z"
+    },
+    {
+      "key": "chainlink-automation-concepts-automation-concepts-md",
+      "url": "https://docs.chain.link/chainlink-automation/concepts/automation-concepts.md",
+      "title": "Automation Concepts",
+      "score": 46,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
     },
     {
       "key": "datalink-pull-delivery-supported-networks-md",
@@ -1354,6 +1198,19 @@
       "at": "2026-09-21T13:30:31.859Z"
     },
     {
+      "key": "chainlink-automation-concepts-automation-architecture-md",
+      "url": "https://docs.chain.link/chainlink-automation/concepts/automation-architecture.md",
+      "title": "Automation Architecture",
+      "score": 48,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "dta-technical-standard-concepts-architecture-md",
       "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
       "title": "Architecture (DTA Technical Standard)",
@@ -1365,6 +1222,19 @@
       "healthClean": true,
       "runId": "2026-09-22T13-07-40-558Z-8ba1",
       "at": "2026-09-22T13:10:12.889Z"
+    },
+    {
+      "key": "chainlink-automation-guides-register-upkeep-md",
+      "url": "https://docs.chain.link/chainlink-automation/guides/register-upkeep.md",
+      "title": "Register a Custom Logic Upkeep",
+      "score": 49,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
     },
     {
       "key": "data-feeds-svr-feeds-md",
@@ -1497,6 +1367,32 @@
       "at": "2026-09-22T13:13:34.424Z"
     },
     {
+      "key": "chainlink-automation-concepts-best-practice-md",
+      "url": "https://docs.chain.link/chainlink-automation/concepts/best-practice.md",
+      "title": "Automation Best Practices",
+      "score": 52,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
+      "key": "chainlink-automation-overview-service-limits-md",
+      "url": "https://docs.chain.link/chainlink-automation/overview/service-limits.md",
+      "title": "Chainlink Automation Service Limits",
+      "score": 52,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "dta-technical-standard-concepts-request-lifecycle-md",
       "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
       "title": "The Request Lifecycle",
@@ -1588,6 +1484,19 @@
       "at": "2026-09-22T13:18:40.779Z"
     },
     {
+      "key": "chainlink-automation-guides-manage-upkeeps-md",
+      "url": "https://docs.chain.link/chainlink-automation/guides/manage-upkeeps.md",
+      "title": "Managing Upkeeps",
+      "score": 54,
+      "band": "Developing",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "data-feeds-feed-types-md",
       "url": "https://docs.chain.link/data-feeds/feed-types.md",
       "title": "Feed Types",
@@ -1664,6 +1573,19 @@
       "healthClean": true,
       "runId": "2026-09-21T13-17-18-344Z-8032",
       "at": "2026-09-21T13:30:31.859Z"
+    },
+    {
+      "key": "chainlink-automation-guides-job-scheduler-md",
+      "url": "https://docs.chain.link/chainlink-automation/guides/job-scheduler.md",
+      "title": "Create a Time-Based Upkeep",
+      "score": 56,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
     },
     {
       "key": "data-feeds-rates-feeds-md",
@@ -1809,6 +1731,19 @@
       "at": "2026-09-22T13:18:40.779Z"
     },
     {
+      "key": "chainlink-automation-guides-log-trigger-md",
+      "url": "https://docs.chain.link/chainlink-automation/guides/log-trigger.md",
+      "title": "Register a Log Trigger Upkeep",
+      "score": 59,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "data-feeds-developer-responsibilities-md",
       "url": "https://docs.chain.link/data-feeds/developer-responsibilities.md",
       "title": "Developer Responsibilities: Market Integrity and Application Code Risks",
@@ -1887,6 +1822,32 @@
       "at": "2026-09-22T13:18:40.779Z"
     },
     {
+      "key": "chainlink-automation-reference-automation-contracts-md",
+      "url": "https://docs.chain.link/chainlink-automation/reference/automation-contracts.md",
+      "title": "Automation Contracts",
+      "score": 60,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
+      "key": "chainlink-automation-reference-automation-interfaces-md",
+      "url": "https://docs.chain.link/chainlink-automation/reference/automation-interfaces.md",
+      "title": "Automation Interfaces",
+      "score": 60,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "chainlink-functions",
       "url": "https://docs.chain.link/chainlink-functions",
       "title": "Chainlink Functions",
@@ -1950,6 +1911,19 @@
       "healthClean": true,
       "runId": "2026-09-21T16-32-21-335Z-e21f",
       "at": "2026-09-21T16:36:26.280Z"
+    },
+    {
+      "key": "chainlink-automation-overview-automation-economics-md",
+      "url": "https://docs.chain.link/chainlink-automation/overview/automation-economics.md",
+      "title": "Automation Billing and Costs",
+      "score": 61,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
     },
     {
       "key": "data-feeds-api-reference-md",
@@ -2147,6 +2121,19 @@
       "at": "2026-09-22T13:18:40.779Z"
     },
     {
+      "key": "chainlink-automation-overview-supported-networks-md",
+      "url": "https://docs.chain.link/chainlink-automation/overview/supported-networks.md",
+      "title": "Supported Networks (Chainlink Automation)",
+      "score": 63,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
+    },
+    {
       "key": "data-feeds-aptos-md",
       "url": "https://docs.chain.link/data-feeds/aptos.md",
       "title": "Using Data Feeds on Aptos",
@@ -2275,6 +2262,19 @@
       "healthClean": true,
       "runId": "2026-09-22T13-13-35-905Z-9cc9",
       "at": "2026-09-22T13:18:40.779Z"
+    },
+    {
+      "key": "chainlink-automation-guides-compatible-contracts-md",
+      "url": "https://docs.chain.link/chainlink-automation/guides/compatible-contracts.md",
+      "title": "Create Automation-Compatible Contracts",
+      "score": 64,
+      "band": "Good",
+      "fidelity": null,
+      "graderModel": null,
+      "probeCount": 0,
+      "healthClean": true,
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z"
     },
     {
       "key": "data-feeds-md",

@@ -1,7 +1,166 @@
 {
   "key": "chainlink-automation-guides-log-trigger-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Register a Log Trigger Upkeep",
+    "url": "https://docs.chain.link/chainlink-automation/guides/log-trigger.md",
+    "analyzedAt": "2026-09-22T13:20:24.101Z",
+    "contentType": "developer documentation / procedural how-to guide",
+    "score": 59,
+    "band": "Developing",
+    "weightedTotal": 59,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a solid, step-by-step tutorial for registering a Chainlink Automation log-trigger upkeep, with two complete, copy-pasteable Solidity contracts as its standout strength. Its biggest weaknesses are structural for GEO: no self-contained definition of \"log-trigger upkeep\" near the top, no metadata (zero JSON-LD, missing canonical, no dates in served HTML), and key facts deferred to other pages instead of stated inline (e.g. the max-logs-per-block limit). The page reads well for a human following along in Remix, but leaves easy retrieval and citation lift on the table for engines answering \"what is a log trigger upkeep\" or \"how do I register one.\"",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical definition in the first liftable sentence",
+        "mapsTo": "Quotable canonical definitions / Answer-first extractability",
+        "tier": null,
+        "where": "Under the H1, before \"Create powerful smart contracts…\"",
+        "issue": "\"This guide explains how to create log-trigger upkeeps.\" — task framing, no definition.",
+        "change": "Add: \"A log-trigger upkeep is a Chainlink Automation upkeep that runs when a specified smart-contract event (log) is emitted, passing the log data to your contract's `checkLog` function as both trigger and input.\"",
+        "why": "Gives engines a verbatim answer for \"what is a log trigger upkeep,\" the highest-frequency concept query this page should own."
+      },
+      {
+        "priority": 1,
+        "title": "State the max-logs-per-block number inline",
+        "mapsTo": "Concrete statistics & specifics / Answer-first",
+        "tier": null,
+        "where": "\"Understanding maximum logs processed\"",
+        "issue": "\"processes a limited number of logs per block per upkeep. See the Service Limits page…\"",
+        "change": "Lead with the actual figure (e.g. \"Chainlink Automation processes up to N logs per block per upkeep on most networks…\") then link Service Limits for the per-chain table.",
+        "why": "Quantitative claims are among the highest-lift changes; deferring the number means the page is never cited for the limit."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "New H2 sections and/or a short FAQ",
+        "issue": "Concept-titled sections (\"Using log triggers\") miss how devs query.",
+        "change": "Add sections like \"How do I register a log-trigger upkeep?\", \"Why isn't my upkeep triggering when my event is emitted?\", and \"How do I filter on an indexed event parameter?\"",
+        "why": "Symptom/question headings win retrieval that concept-titled prose loses even when the answer is present."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema + canonical + visible last-updated",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter",
+        "issue": "Measured: 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: Solidity`, and a canonical URL; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise parseability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the upkeep-details fields into a table",
+        "mapsTo": "Structural scannability / Machine-scannability",
+        "tier": null,
+        "where": "\"Entering upkeep details\"",
+        "issue": "Field | meaning | required-ness buried in mixed bullets and TIP callouts.",
+        "change": "A 3-column table (Field · Description · Required?) covering Upkeep name, Gas limit, Starting balance (LINK), Check data, Email.",
+        "why": "Tables let engines extract reasons/constraints cleanly; the page currently has 0 tables."
+      },
+      {
+        "priority": 3,
+        "title": "Name the common-but-wrong funding token as a Don't",
+        "mapsTo": "Parametric-prior resistance / Concrete specifics",
+        "tier": null,
+        "where": "\"ERC-677 Link\" TIP",
+        "issue": "\"For funding on Mainnet, you need ERC-677 LINK.\"",
+        "change": "Add an explicit \"Don't fund with ERC-20 LINK bridged tokens — convert them with PegSwap first\" as a bolded caution.",
+        "why": "Explicitly naming the wrong-but-tempting choice defends against generic-prior answers."
+      },
+      {
+        "priority": 3,
+        "title": "Fix typos",
+        "mapsTo": "Clarity & fluency",
+        "tier": null,
+        "where": "\"Emit a log\" step 3; ERC-677 funding TIP",
+        "issue": "\"You an view\"; \"more LINK that you anticipate.\"",
+        "change": "\"You can view\"; \"more LINK than you anticipate.\"",
+        "why": "Fluency is independently rewarded by engines."
+      }
+    ],
+    "antiPatterns": [
+      "Deferred facts: central quantitative claim (\"limited number of logs per block\") offloaded to another page instead of stated.",
+      "Vague quantifier \"many\" where a number belongs (measured).",
+      "Minor typos (\"You an view\", \"LINK that you anticipate\").",
+      "Numbered lists restart at `1.` across code-interrupted steps, which can confuse sequence extraction.",
+      "No dated/versioned last-updated signal (measured: dateModified absent)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this guide is indexed there.",
+      "Missing JSON-LD/canonical in served HTML is likely a template/site-level issue; verify by passing raw `<head>` to the CLI before concluding absence.",
+      "Image-heavy steps render as \"(Image: Image)\" with no alt text in the served markdown — descriptive alt text is a site-level accessibility/parse win."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +173,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

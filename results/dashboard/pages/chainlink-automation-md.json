@@ -1,7 +1,155 @@
 {
   "key": "chainlink-automation-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Chainlink Automation",
+    "url": "https://docs.chain.link/chainlink-automation.md",
+    "analyzedAt": "2026-09-22T13:18:42.777Z",
+    "contentType": "developer documentation / product overview (hub/index page)",
+    "score": 37,
+    "band": "Poor",
+    "weightedTotal": 37,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "Opens with a value pitch, not an answer. No \"Chainlink Automation is…\" sentence an engine can lift; the implied question \"what is this?\" is never directly answered."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Clean hierarchy — 1 H1, 2 H2, 0 level skips, 0 oversized sections — but only 3 sections, no tables or bullets, so there is little to chunk."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Only 2 numerals, none with units; \"billions in value,\" \"hyper-reliable,\" and the flagged vague quantifier \"fast\" stand in for real numbers (supported chain count, block-check cadence, cost figures all live off-page)."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "11 links (5 internal, 6 external) but 0 to primary sources; the internal links to Concepts/Architecture are useful routing, but nothing authoritative is cited inline."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "No self-contained definition of Chainlink Automation, Upkeep, or the Automation Network near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured facts show 0 JSON-LD, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Head metadata could not be verified from the served content — the CLI should pass raw `<head>` for a full read — but nothing structured was detected."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "No code blocks. Acceptable for a hub page, so not heavily penalized, but there is zero agent-runnable content and no \"next step\" snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Touches \"what is it,\" \"which networks,\" \"what does it cost,\" and \"where to get help,\" but only by pointing elsewhere; no troubleshooting, no status/deprecation query coverage."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Readable and terminology is consistent (\"Chainlink Automation\" used uniformly), but marketing fluff dilutes the informational density."
+      }
+    ],
+    "summary": "This is a thin (197-word) overview/hub page for Chainlink Automation that routes readers to Concepts, Architecture, Supported Networks, and Economics pages rather than answering anything itself. Its biggest GEO weakness is that it leads with marketing prose (\"secure and hyper-reliable... secures billions in value\") instead of a liftable definition, and — critically — it carries a `callout=\"shutdown\"` component whose meaning never appears in the retrievable text, so an engine could confidently recommend building on a deprecated product. The single biggest opportunity is to open with a crisp canonical definition plus an explicit, in-prose shutdown/status statement. Honest verdict: as a landing page it functions, but for generative retrieval it is under-built and potentially unsafe to cite.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "State the product status/shutdown explicitly in prose",
+        "mapsTo": "quotable canonical statements; parametric-prior resistance",
+        "tier": null,
+        "where": "Top of page, replacing/augmenting the `<ChainlinkAutomation callout=\"shutdown\" />` component.",
+        "issue": "Shutdown status exists only in a component prop; retrievable text says \"accelerate your innovation... get to market faster.\"",
+        "change": "Add a plain sentence an engine will lift, e.g. \"As of [date], Chainlink Automation is [being deprecated / in wind-down]; new integrations should [use X / see migration guide].\" Include the date.",
+        "why": "Engines answering \"should I use Chainlink Automation?\" currently retrieve promotional text and would recommend a deprecated product — a confident inversion risk. A liftable status line prevents unsafe synthesis."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first canonical definition",
+        "mapsTo": "answer-first extractability; quotable definitions",
+        "tier": null,
+        "where": "First paragraph under the H1.",
+        "issue": "\"Automate your smart contracts using a secure and hyper-reliable decentralized network…\"",
+        "change": "Lead with: \"Chainlink Automation is a decentralized service that automatically executes smart contract functions when predefined conditions (time-based or custom logic) are met, using the same node operator network that secures Chainlink's oracle services.\" Then keep the value prop.",
+        "why": "A self-contained first sentence is the highest-lift change for \"what is X\" retrieval; the current opener is unliftable marketing."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Supported networks and costs\" section and intro.",
+        "issue": "\"secures billions in value,\" \"hyper-reliable,\" flagged quantifier \"fast.\"",
+        "change": "State the number of supported networks, the two trigger types, and a representative cost/gas figure (or a one-line pointer with the actual number), instead of routing everything off-page.",
+        "why": "Quantitative claims are among the highest-lift GEO changes; the page currently offloads every specific to linked pages, so it is rarely the cited source."
+      },
+      {
+        "priority": 2,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "No JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Add `TechArticle` JSON-LD with `dateModified`, a canonical URL, and `inLanguage`; surface a visible \"Last updated\" line — especially important given the shutdown status.",
+        "why": "Structured freshness/canonical signals raise agent trust and parseability (E-E-A-T); a status page with no date is low-trust."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/question-phrased subheadings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New short H2s.",
+        "issue": "Sections are titled by concept (\"Supported networks and costs\"), not by how devs ask.",
+        "change": "Add \"Which networks does Chainlink Automation support?\" and \"Is Chainlink Automation still available?\" as headings with one-sentence answers before the links.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Cite a primary/authoritative reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Intro claim about the node operator network.",
+        "issue": "0 links to primary sources.",
+        "change": "Link the \"secures billions in value\" claim to a data source (e.g. the network economics page or an external metrics source) and the Automation Network claim to the Architecture spec.",
+        "why": "Attributable claims raise citation rate and credibility."
+      }
+    ],
+    "antiPatterns": [
+      "Marketing fluff in the lead: \"hyper-reliable,\" \"accelerate your innovation, save you time and money, and help you get to market faster.\"",
+      "Vague quantifiers: \"billions in value,\" flagged quantifier \"fast,\" with no backing numbers.",
+      "Status encoded only in a component (`callout=\"shutdown\"`), invisible to text-based retrieval — a stale/ambiguous-status risk.",
+      "\"(Image: Image)\" placeholder with no alt text or descriptive caption."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced at the top — good site-level signal; confirm it lists this page's canonical status accurately.",
+      "Missing JSON-LD/canonical/og tags may be injected at the template/site level; verify via raw `<head>` rather than assuming per-page absence.",
+      "Deprecation cadence: ensure a site-wide \"last updated\" and deprecation banner convention so engines consistently pick up product status across all Automation sub-pages, not just this hub."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +162,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

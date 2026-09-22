@@ -1,7 +1,154 @@
 {
   "key": "chainlink-automation-reference-automation-contracts-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Automation Contracts",
+    "url": "https://docs.chain.link/chainlink-automation/reference/automation-contracts.md",
+    "analyzedAt": "2026-09-22T13:22:18.696Z",
+    "contentType": "developer documentation / reference",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 59.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong; each section opens with the contract and a self-contained purpose, e.g. \"The registry contract that tracks all registered Upkeeps and the Automation Nodes that can perform them.\" No cross-reference dependencies."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good — 6 clean sections, 0 level skips, all under 98 words. Weak spot: the `AutomationCompatible.sol` inventory sits as a bullet list under the H1 with no H2, and there is no summary table for at-a-glance extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Thin — 5 numerals, 0 with units, no deployed addresses or supported networks. Version strings (`v1.3.0`, `2.1`, `1.2/1.3/2.0`) are the main specifics; a reference page like this should name registry addresses or at least link the network address table."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; 9 primary-source GitHub links pinned to a release tag. One opaque `here` link weakens attribution."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — the Forwarder description (\"a relayer that sits between the registry and the customer's target contract\") is crisply liftable. Most contracts get a one-sentence definition near first mention."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified. Head metadata was not captured, so absence of `og`/`TechArticle` schema can't be fully verified, but nothing in the served HTML supplies freshness or entity signals."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak — 0 code fences. Acceptable for a pure link index, but a minimal import example (`import \"@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol\";`) would make it agent-runnable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for \"what contracts does Chainlink Automation use,\" but no symptom/how-to entry points and no FAQ."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Mostly clear; the `AutomationRegistry.sol` heading naming a `2_1` contract, and the `AutomationRegistrar.sol` heading likewise, introduce name inconsistency that hurts entity resolution."
+      }
+    ],
+    "summary": "This is a compact reference page cataloging the core Chainlink Automation contracts, and its main GEO strength is dense, authoritative sourcing — 9 of 14 links point directly to canonical GitHub source (`contracts-v1.3.0`). Its biggest opportunities are structural and metadata: the contract inventory belongs in a summary table (currently 0 tables), and the page carries no JSON-LD, canonical URL, or last-updated signal. A visible entity mismatch (heading `AutomationRegistry.sol` vs. body `AutomationRegistry2_1.sol`) risks confusing entity resolution. Solid but under-optimized for lift-and-cite.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a summary contract table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of page, after the intro paragraph",
+        "issue": "contracts are listed as scattered H2s with prose; 0 tables.",
+        "change": "add a table with columns `Contract | Source file (version) | Purpose | When to use`, one row per contract, each linking the pinned GitHub source.",
+        "why": "tables are high-lift for extraction and let engines build a justified \"which contract do I need\" answer in one chunk."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` + canonical URL + dateModified",
+        "mapsTo": "machine-readability (\"API-able\")",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "measured \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "emit `TechArticle` schema with `headline`, `dateModified`, and a self-referential `canonical`.",
+        "why": "freshness and canonical signals raise E-E-A-T and parse trust for agents; their absence is a measured deficit."
+      },
+      {
+        "priority": 2,
+        "title": "Fix heading/contract entity mismatch",
+        "mapsTo": "terminology consistency / entity resolution",
+        "tier": null,
+        "where": "headings `## AutomationRegistry.sol`, `## AutomationRegistrar.sol`, `## UpkeepTranscoder.sol`",
+        "issue": "heading says `AutomationRegistry.sol`, body links `AutomationRegistry2_1.sol`.",
+        "change": "align headings to the versioned artifact, e.g. `## AutomationRegistry (v2.1)` and note the abstract role in the first sentence.",
+        "why": "consistent naming prevents engines conflating or mis-attributing the contract entity."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/how-to phrased sub-headings or intro line",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "intro",
+        "issue": "no headings match \"which contract do I import for Automation\" / \"what is the Automation registry address\".",
+        "change": "add a one-line answer-first lead: \"To make a contract Automation-compatible, import `AutomationCompatible.sol`; the on-chain registry is `AutomationRegistry`, and registration goes through `AutomationRegistrar`.\" Optionally add a \"Which contract do I need?\" line.",
+        "why": "captures intent-phrased retrieval that a bare contract catalog misses."
+      },
+      {
+        "priority": 3,
+        "title": "Replace opaque link text",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "`CronUpkeepFactory.sol` section — \"creating upkeeps programmatically [here]\"",
+        "issue": "measured \"1 link with opaque text ('here')\".",
+        "change": "relabel to \"the Register Upkeeps programmatically guide\".",
+        "why": "descriptive anchors improve link context for both engines and agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal import snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "`AutomationCompatible.sol` section",
+        "issue": "0 fenced code blocks; agents can't copy an import.",
+        "change": "add a tagged `solidity` fence: `import \"@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol\";`",
+        "why": "gives agents a runnable, copy-pasteable artifact tied to the exact package path."
+      }
+    ],
+    "antiPatterns": [
+      "Opaque anchor text (`here`) in the CronUpkeepFactory section.",
+      "Undated content — no visible last-updated signal.",
+      "Minor entity inconsistency between section headings and the contracts they describe."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; confirm this reference page is enumerated there.",
+      "Site-level `TechArticle`/breadcrumb schema and a freshness cadence are best set globally rather than per-page.",
+      "The CLI should pass raw `<head>` so canonical/OG/schema presence can be fully verified rather than inferred from served HTML."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +161,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

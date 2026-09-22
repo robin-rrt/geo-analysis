@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T13:18:40.780Z",
+  "generatedAt": "2026-09-22T13:23:22.832Z",
   "points": [
     {
       "runId": "2026-09-18T18-00-00-000Z-study",
@@ -302,6 +302,25 @@
       "coverage": {
         "measured": 13,
         "ofTarget": 13
+      },
+      "protocolKnown": true
+    },
+    {
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "at": "2026-09-22T13:23:22.827Z",
+      "target": "product:chainlink-automation",
+      "score": 53.46666666666667,
+      "fidelity": null,
+      "graderModel": "claude-sonnet-5",
+      "fingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+      "health": {
+        "degraded": 0,
+        "failed": 0,
+        "clean": true
+      },
+      "coverage": {
+        "measured": 15,
+        "ofTarget": 15
       },
       "protocolKnown": true
     }

@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Belt and braces: the header in vercel.json is what search engines
+         actually honour, but this survives the file being copied elsewhere. -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <title>GEO — documentation measurement</title>
     <script>
       // Resolve the theme BEFORE first paint, or the page flashes the wrong one.

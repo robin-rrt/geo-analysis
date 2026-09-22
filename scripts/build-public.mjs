@@ -69,6 +69,18 @@ if (leaks.length) {
   process.exit(1);
 }
 
+// Three layers, because they fail differently:
+//   robots.txt      asks a crawler not to fetch  (ignored by bad actors)
+//   X-Robots-Tag    tells it not to index even after fetching  (vercel.json)
+//   <meta robots>   survives if the file is copied somewhere without the header
+//
+// None of these is access control. Anyone with the URL can still read the page —
+// for that, use Vercel Deployment Protection.
+fs.writeFileSync(
+  path.join(OUT, "robots.txt"),
+  "# This dashboard is internal. Not for indexing.\nUser-agent: *\nDisallow: /\n",
+);
+
 const kb = Math.round(fs.statSync(path.join(OUT, "index.html")).size / 1024);
 console.log(`${OUT}/ — index.html (${kb}KB, self-contained) + ${files} data file(s)`);
 console.log("read-only: no run-trigger code in the bundle");

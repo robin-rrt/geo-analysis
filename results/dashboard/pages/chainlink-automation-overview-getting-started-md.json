@@ -1,7 +1,145 @@
 {
   "key": "chainlink-automation-overview-getting-started-md",
-  "runId": "2026-09-22T13-05-06-283Z-3212",
-  "audit": null,
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Getting Started with Chainlink Automation",
+    "url": "https://docs.chain.link/chainlink-automation/overview/getting-started.md",
+    "analyzedAt": "2026-09-22T13:21:22.261Z",
+    "contentType": "developer documentation / landing-overview page",
+    "score": 41,
+    "band": "Developing",
+    "weightedTotal": 41,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "The opening line is a solid canonical statement — \"Chainlink Automation will reliably execute smart contract functions using a variety of triggers.\" But \"Try out Chainlink Automation\" opens with \"Click the tabs below\" and delivers no standalone content."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean hierarchy — 1 H1, three H2s, no level skips (per measured facts). Chunk boundaries are sensible but sections are shallow (median 38 words) and one is content-empty."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. Measured facts: 2 numerals, 0 with units, 0 version strings, vague quantifier \"quickly\" present. No network count, no cost figures, no gas/latency numbers."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "8 links but 0 to primary sources; all are internal nav or contact/community links. No spec, no canonical concept anchor."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The three trigger bullets are crisp and liftable (e.g., \"Log trigger: Use log data as both trigger and input\"). Good, though terse."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured facts show 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Head metadata could not be verified from the capture — CLI should pass raw `<head>` for a full read — but nothing was detected."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 1,
+        "weighted": 1,
+        "analysis": "0 fenced code blocks. For a \"getting started\" page, the absence of any registration snippet or contract example is a severe gap; the runnable content is trapped in tab components."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Covers \"what is,\" \"supported networks/costs,\" and \"where to get help.\" Missing \"how do I register an upkeep,\" troubleshooting, and any error/symptom phrasing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Strong; prose is unambiguous and \"Chainlink Automation\" / \"Automation Nodes\" are used consistently."
+      }
+    ],
+    "summary": "This is a thin (216-word) overview/landing page for Chainlink Automation whose actual \"try it out\" content is locked inside unrendered React components (`<ChainlinkAutomation callout=\"cre\" />` and a tabs widget) — so a generative engine ingesting this page sees a shell, not a getting-started guide. Its single strength is clean, consistent prose with three liftable trigger definitions; its single biggest opportunity is that the \"Try out Chainlink Automation\" section is literally empty of extractable text and the page carries zero code, zero specifics, and zero metadata. Honest verdict: presentation is clean but there is almost nothing here for an engine to retrieve or an agent to run — this reads as a navigation hub, and it should either be enriched or explicitly defer to canonical child pages via internal links.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Render the \"Try out\" content as text and code, not tabs",
+        "mapsTo": "code completeness / answer-first extractability",
+        "tier": null,
+        "where": "`## Try out Chainlink Automation`",
+        "issue": "\"Click the tabs below to use Chainlink Automation with each type of trigger:\" — no extractable content follows.",
+        "change": "Under this H2, add three H3s (\"Register a time-based upkeep,\" \"Register a custom-logic upkeep,\" \"Register a log-trigger upkeep\"), each with a complete, tagged Solidity/JS snippet (imports, `AutomationCompatibleInterface`, `checkUpkeep`/`performUpkeep` stubs) and the expected registration step. Tab widgets are invisible to LLMs.",
+        "why": "The page currently carries 0 code blocks; a getting-started page with runnable, complete snippets is the primary asset agents retrieve and execute."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom- and intent-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new sections after the trigger overview",
+        "issue": "No \"how do I…\" or troubleshooting phrasing; devs query by task and error string.",
+        "change": "Add H2/H3s like \"How do I register an upkeep?\", \"Which trigger type should I use?\", and a short \"Common errors\" block (e.g., upkeep not executing, insufficient LINK balance).",
+        "why": "Concept-titled prose loses retrieval to question-phrased headings even when the answer is present; this page has no task/error phrasing at all."
+      },
+      {
+        "priority": 2,
+        "title": "Inject concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "`## Supported networks and costs`",
+        "issue": "Section is a pure redirect: \"For a list of blockchains… see the Supported Networks page.\"",
+        "change": "State the number of supported chains, the LINK-based funding model, minimum balance behavior, and the \"quickly\" claim's actual meaning. Add a small comparison table of the three trigger types (trigger source / evaluation location / typical use).",
+        "why": "Quantitative claims are among the highest-lift changes; \"quickly\" is a flagged vague quantifier and adds nothing."
+      },
+      {
+        "priority": 2,
+        "title": "Add canonical definition lead + inline authoritative links",
+        "mapsTo": "quotable definitions / citations",
+        "tier": null,
+        "where": "intro paragraph and trigger bullets",
+        "issue": "Trigger bullets are good but link to no canonical concept pages or specs.",
+        "change": "Link each trigger term to its dedicated tutorial/reference page, and add one crisp one-sentence definition of \"upkeep\" near first use (the term is implied but never defined here).",
+        "why": "Inline links to canonical sources raise citation rate; \"upkeep\" is core Automation vocabulary and currently undefined on the entry page."
+      },
+      {
+        "priority": 3,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "Measured facts: 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `inLanguage`, and a `<link rel=\"canonical\">`; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals improve agent parseability and E-E-A-T trust — real but smaller lift than the retrieval/content gaps above."
+      }
+    ],
+    "antiPatterns": [
+      "Empty section: \"Try out Chainlink Automation\" contains only \"Click the tabs below…\" — content trapped in an unrendered component.",
+      "Vague quantifier \"quickly\" (flagged in measured facts) with no supporting number.",
+      "Redirect-only sections (\"Supported networks and costs\" is entirely a pointer to other pages) that give an engine no standalone answer.",
+      "No keyword stuffing or marketing fluff detected — prose is clean."
+    ],
+    "offPageNotes": [
+      "The page references `/llms.txt`, which is a positive site-level discoverability signal; confirm it lists this page and its child tutorials.",
+      "Head metadata could not be captured in this run — the CLI should pass raw `<head>` so JSON-LD/canonical/date presence can be verified rather than inferred absent.",
+      "Much of this page's value depends on the linked child pages (Supported Networks, Automation Economics, tutorials); ensure those canonical pages link back here to reinforce the hub pattern."
+    ]
+  },
   "probeRuns": [],
   "probeSet": {
     "present": false,
@@ -14,7 +152,7 @@
     "clean": true
   },
   "provenance": {
-    "audit": null,
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
     "probes": {}
   }
 }

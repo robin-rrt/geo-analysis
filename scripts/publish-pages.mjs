@@ -38,7 +38,11 @@ const worktree = fs.mkdtempSync(path.join(os.tmpdir(), "geo-pages-"));
 git(["worktree", "add", "--detach", worktree, "HEAD"]);
 
 try {
-  git(["checkout", "--orphan", BRANCH], { cwd: worktree });
+  // A throwaway orphan name, never `gh-pages` itself. Checking out the real
+  // branch name fails the moment one exists locally — which it will from the
+  // previous publish — and the branch is only ever a push target anyway.
+  const temp = `publish-${Date.now().toString(36)}`;
+  git(["checkout", "--orphan", temp], { cwd: worktree });
   git(["rm", "-rf", "--quiet", "."], { cwd: worktree });
 
   const copy = (from, to) => {
@@ -83,6 +87,15 @@ try {
     if (owner && repo) console.log(`then it serves at https://${owner}.github.io/${repo}/`);
   } else {
     console.log(`\nnot pushed. Re-run with --push when ready.`);
+  }
+
+  // The temp branch has served its purpose; leaving it accumulates a dead
+  // branch per publish.
+  git(["checkout", "--detach"], { cwd: worktree });
+  try {
+    git(["branch", "-D", temp], { cwd: worktree });
+  } catch {
+    /* already gone */
   }
 
   console.log(

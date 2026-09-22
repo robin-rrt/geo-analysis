@@ -382,6 +382,18 @@ export async function runPipeline({
         report.probeCost += record.cost;
         writeJsonAtomic(out, summary);
         record.stages.test = "ran";
+
+        // A test stage that graded nothing produced no measurement. The summary
+        // is structurally valid — graded_count 0 is a legal value — so the run
+        // used to report itself `complete` while every probe had errored. That
+        // is how a 0/6 failure looked like a success at run level.
+        if ((summary.probe_count ?? 0) > 0 && (summary.graded_count ?? 0) === 0) {
+          throw new Error(
+            `test graded 0 of ${summary.probe_count} probes` +
+              (summary.error_count ? ` (${summary.error_count} errored)` : "") +
+              " — no measurement was produced",
+          );
+        }
         record.probeSummary = {
           probes: summary.probe_count ?? null,
           graded: summary.graded_count ?? null,

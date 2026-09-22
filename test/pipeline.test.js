@@ -594,3 +594,40 @@ test("a page-level failure does NOT stop the run", async () => {
   assert.equal(report.pages.length, 2, "the good pages must still complete");
   assert.equal(report.abortedReason, undefined);
 });
+
+test("a test stage that graded nothing does not report the run complete", async () => {
+  // graded_count 0 is a structurally valid summary, so a run where every probe
+  // errored reported itself complete. That is how a 0/6 failure looked like a
+  // success — flagged twice before it was fixed.
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    runProbes: async () => ({
+      probe_count: 6, graded_count: 0, refusal_count: 0, error_count: 6, results: [],
+      model_tested: "claude-opus-4-8", grader_model: "claude-sonnet-5",
+    }),
+  };
+  const report = await runPipeline({
+    target: await pageTarget(),
+    stages: ["probes", "test"],
+    root: tmp(),
+    deps,
+  });
+  assert.notEqual(report.status, "complete", "a run that measured nothing is not complete");
+  assert.equal(report.status, "partial");
+  assert.match(report.failures[0].error, /graded 0 of 6/);
+});
+
+test("a run that graded SOME probes is still complete", async () => {
+  // Refusals and a partial grade are legitimate; only zero is the failure.
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    runProbes: async () => ({
+      probe_count: 6, graded_count: 5, refusal_count: 1, error_count: 0, results: [],
+      model_tested: "claude-opus-4-8", grader_model: "claude-sonnet-5",
+    }),
+  };
+  const report = await runPipeline({ target: await pageTarget(), stages: ["probes", "test"], root: tmp(), deps });
+  assert.equal(report.status, "complete");
+});

@@ -20,8 +20,14 @@ const SRC = "results/dashboard";
 
 if (!fs.existsSync(path.join(SRC, "index.json"))) {
   console.error(
-    `no projection at ${SRC}/index.json.\n` +
-      `The published site has no data without it. Run a target, then commit results/dashboard/.`,
+    `\nNo projection at ${SRC}/index.json — there is nothing to publish.\n\n` +
+      `If you are seeing this in a Vercel build log: that is expected.\n` +
+      `The dashboard data is deliberately NOT in git (it is generated, it changes on\n` +
+      `every run, and it would conflict on every branch). A build from a git checkout\n` +
+      `therefore has no data and must fail rather than publish an empty dashboard.\n\n` +
+      `Deploy from a machine that has results/ instead:\n` +
+      `    node scripts/deploy-vercel.mjs --deploy\n\n` +
+      `and turn off Git auto-deploy for this project so pushes stop triggering this.\n`,
   );
   process.exit(1);
 }

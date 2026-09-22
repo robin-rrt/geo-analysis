@@ -348,9 +348,22 @@ content, and keeping it means an import can merge two machines without damaging 
 
 ### Publishing
 
+Two routes, both keeping generated data out of `main`:
+
 ```sh
-node scripts/deploy-vercel.mjs --deploy    # build locally, upload, no data in git
+node scripts/deploy-vercel.mjs --deploy    # Vercel: upload direct, no data in git at all
+node scripts/publish-pages.mjs --push      # GitHub Pages: data on an orphan gh-pages branch
 ```
+
+The Pages route puts the built site on an orphan branch that is rebuilt and force-pushed each
+time, so it always holds exactly one commit — otherwise every publish would add several megabytes
+to the repository permanently. `main` never sees it.
+
+**Vercel is the stronger option if the dashboard should stay out of search.** GitHub Pages cannot
+set HTTP headers, so `X-Robots-Tag` is unavailable — and that is the layer that stops a URL being
+indexed when it is linked from somewhere else. `robots.txt` and `<meta robots>` still ship, but
+they only ask. A Pages site is also public even when its repository is private, and Pages on a
+private repo requires a paid GitHub plan.
 
 The published bundle is read-only **by construction**: `MODE=export` swaps the API client for a
 static one at build time, so `/api/runs`, `/api/estimate` and `/api/targets` are not in the
@@ -367,6 +380,7 @@ per-run costs. Use Vercel Deployment Protection if it should be private.
 |---|---|
 | `data-archive.mjs` | move `results/runs/` between machines; rebuilds the projection on import |
 | `deploy-vercel.mjs` | assemble and deploy the read-only dashboard without committing data |
+| `publish-pages.mjs` | publish to an orphan `gh-pages` branch, force-pushed so history stays one commit |
 | `build-public.mjs` | assemble `public-dist/` only |
 | `regrade.mjs` | re-score a run's **stored answers** under the current grader — the answers are the expensive part, grading is ~4% of a run |
 | `repair-wrapped-probe-sets.mjs` | one-off recovery for probe sets written by a serialisation bug |

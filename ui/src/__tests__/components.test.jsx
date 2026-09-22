@@ -8,6 +8,8 @@ import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
 import { nextAction, explicitActions } from "../components/PageActions.jsx";
 import { aggregatableTargets, weakestFirst } from "../components/ProductScores.jsx";
+import { Gauge, bandColour } from "../charts/Gauge.jsx";
+import { ScoreRows } from "../components/ScoreRows.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -494,5 +496,52 @@ describe("per-product scores", () => {
     const dims = [{ name: "a", mean: 9 }, { name: "b", mean: 1 }];
     weakestFirst(dims);
     expect(dims[0].name).toBe("a");
+  });
+});
+
+describe("gauge", () => {
+  test("band colour tracks the score, and an absent value is not band-coloured", () => {
+    assert_equal(bandColour(90), "var(--band-exemplary)");
+    assert_equal(bandColour(72), "var(--band-strong)");
+    assert_equal(bandColour(56), "var(--band-good)");
+    assert_equal(bandColour(41), "var(--band-developing)");
+    assert_equal(bandColour(10), "var(--band-poor)");
+    // Not measured must not borrow a band colour — that would read as a score.
+    assert_equal(bandColour(null), "var(--faint)");
+    assert_equal(bandColour(undefined), "var(--faint)");
+  });
+
+  test("an unmeasured gauge says so instead of rendering zero", () => {
+    render(<Gauge value={null} label="Answer fidelity" />);
+    expect(screen.getByText("—")).toBeTruthy();
+    expect(screen.getByText("not measured")).toBeTruthy();
+  });
+
+  test("a measured gauge shows one decimal and its label", () => {
+    render(<Gauge value={57.04} label="Page quality" />);
+    expect(screen.getByText("57.0")).toBeTruthy();
+    expect(screen.getByText("Page quality")).toBeTruthy();
+    expect(screen.getByText("out of 100")).toBeTruthy();
+  });
+
+  test("the gauge is labelled for screen readers, not just drawn", () => {
+    const { container } = render(<Gauge value={61.8} label="Page quality" />);
+    const svg = container.querySelector("svg");
+    expect(svg.getAttribute("aria-label")).toContain("Page quality");
+    expect(svg.getAttribute("aria-label")).toContain("62");
+  });
+});
+
+describe("score rows", () => {
+  test("an absent value renders a dash, never a zero-length bar reading as zero", () => {
+    const { container } = render(<ScoreRows rows={[{ label: "ccip", value: null, count: 12 }]} />);
+    expect(screen.getByText("—")).toBeTruthy();
+    expect(container.querySelector(".row-fill")).toBeNull();
+  });
+
+  test("values render to one decimal with their count", () => {
+    render(<ScoreRows rows={[{ label: "vrf", value: 61.84, count: 13 }]} />);
+    expect(screen.getByText("61.8")).toBeTruthy();
+    expect(screen.getByText("13")).toBeTruthy();
   });
 });

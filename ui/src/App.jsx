@@ -14,7 +14,9 @@ export default function App() {
   return (
     <>
       <nav className="top">
-        <strong style={{ fontSize: 14 }}>GEO</strong>
+        <strong style={{ fontSize: 14, letterSpacing: "-0.01em", marginRight: "var(--s3)" }}>
+          Docs agent score
+        </strong>
         <NavLink to="/">Overview</NavLink>
         <NavLink to="/pages">Pages</NavLink>
         <NavLink to="/runs">Runs</NavLink>
@@ -23,6 +25,7 @@ export default function App() {
             advertise an action it cannot perform. */}
         {client.readOnly ? null : <NavLink to="/new">New run</NavLink>}
         <div className="spacer" />
+        <span className="small faint mono" style={{ marginRight: "var(--s2)" }}>docs.chain.link</span>
         {client.readOnly ? <span className="badge">read-only</span> : null}
         <ThemeToggle />
       </nav>

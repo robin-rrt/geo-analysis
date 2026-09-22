@@ -1,28 +1,54 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { client } from "../api/client.js";
-import { MeasureCard } from "../components/MeasureCard.jsx";
-import { Bar, BAND_COLOURS } from "../charts/Bar.jsx";
-import { GroupedBar } from "../charts/GroupedBar.jsx";
-import { ProductScores, aggregatableTargets } from "../components/ProductScores.jsx";
+import { Gauge, bandColour } from "../charts/Gauge.jsx";
+import { ScoreRows } from "../components/ScoreRows.jsx";
+import { Findings } from "../components/Findings.jsx";
 import { Line } from "../charts/Line.jsx";
 import { Loading, Empty, ErrorState } from "../components/States.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
+import { aggregatableTargets, weakestFirst } from "../components/ProductScores.jsx";
 
 const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
-const BANDS = ["Poor", "Developing", "Good", "Strong", "Exemplary"];
+
+/** Dimension means across every product — a weakness in all of them is systemic. */
+function systemicDimensions(products) {
+  const byName = new Map();
+  for (const p of products) {
+    for (const d of p.dimensions ?? []) {
+      if (!byName.has(d.name)) byName.set(d.name, { name: d.name, weight: d.weight, means: [] });
+      byName.get(d.name).means.push(d.mean);
+    }
+  }
+  return weakestFirst(
+    [...byName.values()].map((d) => ({ name: d.name, weight: d.weight, mean: mean(d.means) })),
+  );
+}
+
+/** Scores drift a couple of points between runs, so a tiny delta is not news. */
+function deltaFor(points, field) {
+  const usable = points.filter((p) => Number.isFinite(p[field]));
+  if (usable.length < 2) return null;
+  const sorted = [...usable].sort((a, b) => String(a.at).localeCompare(String(b.at)));
+  return sorted.at(-1)[field] - sorted.at(-2)[field];
+}
 
 export default function Overview() {
+  const navigate = useNavigate();
   const index = useQuery({ queryKey: ["index"], queryFn: client.index });
   const ts = useQuery({ queryKey: ["timeseries"], queryFn: client.timeseries });
   const prod = useQuery({ queryKey: ["products"], queryFn: client.products });
 
-  if (index.isLoading) return <Loading label="Loading overview" />;
-  if (index.error) return <ErrorState error={index.error} onRetry={index.refetch} />;
+  if (index.isLoading) return <div className="wrap"><Loading label="Loading overview" /></div>;
+  if (index.error) return <div className="wrap"><ErrorState error={index.error} onRetry={index.refetch} /></div>;
 
   const pages = index.data?.pages ?? [];
   if (!pages.length) {
-    return <Empty title="Nothing measured yet" hint="Run `geo-audit run product:<name>` to populate this." />;
+    return (
+      <div className="wrap">
+        <Empty title="Nothing measured yet" hint="Run `geo-audit run product:<name>` to populate this." />
+      </div>
+    );
   }
 
   const scored = pages.filter((p) => Number.isFinite(p.score));
@@ -30,111 +56,137 @@ export default function Overview() {
   const graders = [...new Set(probed.map((p) => p.graderModel).filter(Boolean))];
 
   const points = ts.data?.points ?? [];
-  const scoreSegs = segmentsFor(points, "score");
-  const fidSegs = segmentsFor(points, "fidelity");
+  const products = aggregatableTargets(prod.data?.products ?? []);
 
-  const bands = BANDS.map((b) => ({
-    label: b,
-    value: pages.filter((p) => p.band === b).length,
-    color: BAND_COLOURS[b],
-  })).filter((b) => b.value > 0);
+  const qualityMean = mean(scored.map((p) => p.score));
+  const fidelityMean = mean(probed.map((p) => p.fidelity));
+  const qDelta = deltaFor(points, "score");
+  const fDelta = deltaFor(points, "fidelity");
+
+  const fmtDelta = (d) => (d === null ? "—" : `${d >= 0 ? "+" : "−"}${Math.abs(d).toFixed(1)}`);
+  const deltaTone = (d) => (d === null || Math.abs(d) < 1 ? undefined : d > 0 ? "var(--ok)" : "var(--sev-high)");
+
+  const dims = systemicDimensions(products);
 
   return (
     <div className="wrap">
-      <h1>Overview</h1>
-
-      {/* Two measures, never one composite — see MeasureCard. */}
-      <div className="grid two" style={{ marginTop: 16 }}>
-        <MeasureCard
-          label="Page quality"
-          value={mean(scored.map((p) => p.score))}
-          denominator={`${scored.length} of ${pages.length} pages audited`}
-          provenance="structural rubric, 9 dimensions"
-          description="How well pages are BUILT."
-        />
-        <MeasureCard
-          label="Measured answer fidelity"
-          value={mean(probed.map((p) => p.fidelity))}
-          denominator={`${probed.length} of ${pages.length} pages probed`}
-          provenance={graders.length ? `graded by ${graders.join(", ")}` : "not probed yet"}
-          description="How well engines ANSWER."
-        />
-      </div>
-
-      <p className="caveat">
-        These measure different things and are deliberately not combined. In a pre-registered
-        10-page study, structural score did <strong>not</strong> predict answer fidelity
-        (Spearman r = −0.07, p = .84). Treat page quality as “is this page well built”, not as
-        evidence the docs are effective.
-        {graders.length > 1 ? (
-          <>
-            {" "}
-            <strong>Mixed graders present ({graders.join(", ")})</strong> — fidelity scales are
-            ~12 points apart between Opus and Sonnet and must not be compared directly.
-          </>
-        ) : null}
-      </p>
-
-      <h2>Scores by product</h2>
-      {/* Two series, never a composite — see MeasureCard for why. */}
-      <GroupedBar
-        rows={aggregatableTargets(prod.data?.products ?? []).map((p) => ({
-          label: p.name,
-          quality: p.score?.mean ?? null,
-          fidelity: p.fidelity?.mean ?? null,
-          note: `${p.pages.audited} audited · ${p.pages.probed} probed`,
-        }))}
-        series={[
-          { key: "quality", label: "Page quality", color: "var(--accent)" },
-          { key: "fidelity", label: "Measured fidelity", color: "var(--band-strong)", absentLabel: "not probed" },
-        ]}
-        emptyLabel="No product runs yet."
-      />
-      <p className="small faint">
-        Sorted worst-first by page quality. The two bars measure different things and are
-        deliberately not combined.
-      </p>
-
-      <h2>Coverage</h2>
-      <Bar
-        items={[
-          { label: "Audited", value: scored.length, note: `of ${pages.length} known` },
-          { label: "Probed", value: probed.length, note: `of ${pages.length} known` },
-        ]}
-        max={pages.length}
-      />
-
-      <h2>Distribution</h2>
-      <Bar items={bands} format={(v) => `${v} page${v === 1 ? "" : "s"}`} />
-
-      <h2>Trends</h2>
-      {points.length < 2 ? (
-        <Empty title="Not enough history yet" hint="Trends appear once a target has been run more than once." />
-      ) : (
-        <div className="grid two">
+      {/* ---------------------------------------------------------- headline */}
+      <section className="block reveal" style={{ marginTop: "var(--s5)" }}>
+        <div className="grid headline">
           <div className="card">
-            <h3>Page quality</h3>
-            <Line segments={scoreSegs} marks={discontinuities(points)} yLabel="structural score" />
-          </div>
-          <div className="card">
-            <h3>Answer fidelity</h3>
-            <Line segments={fidSegs} marks={discontinuities(points)} yLabel="fidelity" />
-            <div className="small faint">
-              Separate line per grader. A break means the protocol changed, not that quality jumped.
+            <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "var(--s4)" }}>
+              <Gauge
+                value={qualityMean}
+                label="Page quality"
+                stats={[
+                  { label: "pages", value: scored.length },
+                  { label: "change", value: fmtDelta(qDelta), tone: deltaTone(qDelta) },
+                ]}
+              />
+              <Gauge
+                value={fidelityMean}
+                label="Answer fidelity"
+                stats={[
+                  { label: "probed", value: probed.length },
+                  { label: "change", value: fmtDelta(fDelta), tone: deltaTone(fDelta) },
+                ]}
+                caveat={graders.length ? `graded by ${graders.join(", ").replace(/claude-/g, "")}` : undefined}
+              />
             </div>
+            <p className="caveat" style={{ marginTop: "var(--s4)" }}>
+              Two measures, never combined. Page quality is how well pages are <em>built</em>;
+              fidelity is how well engines <em>answer</em>. In a pre-registered 10-page study they
+              did not track each other (r&nbsp;=&nbsp;−0.07), so a single composite score would
+              assert a link the evidence does not support.
+              {graders.length > 1 ? (
+                <> <strong>Mixed graders present</strong> — Sonnet runs ~12 points harsher than Opus.</>
+              ) : null}
+            </p>
+          </div>
+
+          <div className="card">
+            <h2>Score over time</h2>
+            {points.length < 2 ? (
+              <Empty title="Not enough history" hint="Trends appear once a target has run more than once." />
+            ) : (
+              <>
+                <Line
+                  segments={segmentsFor(points, "score")}
+                  marks={discontinuities(points)}
+                  height={150}
+                  yLabel="page quality"
+                />
+                <div className="small faint" style={{ marginTop: "var(--s2)" }}>
+                  One line per target and protocol. A break means the grader or protocol changed —
+                  not that quality moved.
+                </div>
+              </>
+            )}
           </div>
         </div>
-      )}
+      </section>
 
-      <h2>Per-product detail</h2>
-      <p className="small muted">
-        Expand a product for its rubric dimensions, averaged across its pages. Individual pages are
-        in the Pages table; this is the aggregate.
-      </p>
-      <ProductScores products={prod.data?.products ?? []} />
+      {/* ------------------------------------------------------------- detail */}
+      <section className="block reveal" style={{ animationDelay: "80ms" }}>
+        <div className="grid two">
+          <div className="card">
+            <h2>Score by product</h2>
+            <ScoreRows
+              rows={products.map((p) => ({
+                label: p.name,
+                value: p.score?.mean ?? null,
+                count: p.pages.audited,
+                runId: p.runId,
+              }))}
+              onSelect={(r) => r.runId && navigate(`/runs/${encodeURIComponent(r.runId)}`)}
+              emptyLabel="No product runs yet."
+            />
+            <div className="small faint" style={{ marginTop: "var(--s3)" }}>
+              Worst first. The right column is pages audited. Select a product for its run.
+            </div>
+          </div>
 
-      <p style={{ marginTop: 24 }}>
-        <Link to="/pages">Browse all pages →</Link>
+          <div className="card">
+            <h2>Weakest dimensions</h2>
+            <Findings
+              items={dims.slice(0, 6).map((d) => ({
+                key: d.name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, ""),
+                state: d.mean < 4 ? "critical" : d.mean < 6 ? "weak" : "fair",
+                tone: bandColour(d.mean * 10),
+                value: `${d.mean.toFixed(1)}/10`,
+                detail: `Averaged across ${products.length} products, weight ${d.weight} of 100. ${
+                  d.mean < 4
+                    ? "Low mean on a high weight — the largest pool of recoverable points."
+                    : "Consistent across products, so likely a template or convention rather than individual pages."
+                }`,
+              }))}
+              emptyLabel="No dimension data yet."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------- coverage */}
+      <section className="block reveal" style={{ animationDelay: "160ms" }}>
+        <div className="card">
+          <h2>Coverage</h2>
+          <ScoreRows
+            rows={[
+              { label: "Audited", value: (scored.length / pages.length) * 100, count: `${scored.length}/${pages.length}` },
+              { label: "Probed", value: (probed.length / pages.length) * 100, count: `${probed.length}/${pages.length}` },
+            ]}
+          />
+          <div className="small faint" style={{ marginTop: "var(--s3)" }}>
+            Every average above is over the pages actually measured — coverage is what tells you how
+            much of the corpus that is.
+          </div>
+        </div>
+      </section>
+
+      <p className="small" style={{ marginTop: "var(--s6)" }}>
+        <Link to="/pages">All pages →</Link>
+        {"  ·  "}
+        <Link to="/runs">Run history →</Link>
       </p>
     </div>
   );

@@ -1,4 +1,4 @@
-import { bandColour } from "../charts/Gauge.jsx";
+import { bandColour } from "../lib/bands.js";
 
 /**
  * A ranked list of scores: label, bar, value, count.

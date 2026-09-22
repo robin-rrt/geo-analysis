@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { client } from "../api/client.js";
-import { Gauge, bandColour } from "../charts/Gauge.jsx";
+import { ScaleBar } from "../charts/ScaleBar.jsx";
+import { bandColour } from "../lib/bands.js";
 import { ScoreRows } from "../components/ScoreRows.jsx";
 import { Findings } from "../components/Findings.jsx";
 import { Line } from "../charts/Line.jsx";
@@ -70,66 +71,45 @@ export default function Overview() {
 
   return (
     <div className="wrap">
-      {/* ---------------------------------------------------------- headline */}
-      <section className="block reveal" style={{ marginTop: "var(--s5)" }}>
+      {/* --------------------------------------------------------- headline */}
+      <section className="reveal" style={{ marginTop: "var(--s7)" }}>
         <div className="grid headline">
-          <div className="card">
-            <div className="grid" style={{ gridTemplateColumns: "1fr 1fr", gap: "var(--s4)" }}>
-              <Gauge
-                value={qualityMean}
-                label="Page quality"
-                stats={[
-                  { label: "pages", value: scored.length },
-                  { label: "change", value: fmtDelta(qDelta), tone: deltaTone(qDelta) },
-                ]}
-              />
-              <Gauge
-                value={fidelityMean}
-                label="Answer fidelity"
-                stats={[
-                  { label: "probed", value: probed.length },
-                  { label: "change", value: fmtDelta(fDelta), tone: deltaTone(fDelta) },
-                ]}
-                caveat={graders.length ? `graded by ${graders.join(", ").replace(/claude-/g, "")}` : undefined}
-              />
-            </div>
-            <p className="caveat" style={{ marginTop: "var(--s4)" }}>
-              Two measures, never combined. Page quality is how well pages are <em>built</em>;
-              fidelity is how well engines <em>answer</em>. In a pre-registered 10-page study they
-              did not track each other (r&nbsp;=&nbsp;−0.07), so a single composite score would
-              assert a link the evidence does not support.
-              {graders.length > 1 ? (
-                <> <strong>Mixed graders present</strong> — Sonnet runs ~12 points harsher than Opus.</>
-              ) : null}
-            </p>
-          </div>
-
-          <div className="card">
-            <h2>Score over time</h2>
-            {points.length < 2 ? (
-              <Empty title="Not enough history" hint="Trends appear once a target has run more than once." />
-            ) : (
-              <>
-                <Line
-                  segments={segmentsFor(points, "score")}
-                  marks={discontinuities(points)}
-                  height={150}
-                  yLabel="page quality"
-                />
-                <div className="small faint" style={{ marginTop: "var(--s2)" }}>
-                  One line per target and protocol. A break means the grader or protocol changed —
-                  not that quality moved.
-                </div>
-              </>
-            )}
-          </div>
+          <ScaleBar
+            value={qualityMean}
+            label="Page quality"
+            meta={`${scored.length} pages audited`}
+            delta={qDelta}
+            sub="How well the pages are built — the 9-dimension structural rubric."
+          />
+          <ScaleBar
+            value={fidelityMean}
+            label="Answer fidelity"
+            meta={`${probed.length} of ${pages.length} probed`}
+            delta={fDelta}
+            sub={
+              graders.length
+                ? `How well engines answer — graded by ${graders.join(", ").replace(/claude-/g, "")}.`
+                : "How well engines answer. Nothing probed yet."
+            }
+          />
         </div>
+
+        <p className="note">
+          These two are <strong>not combined into one score</strong>, and the distinction is the
+          point. In a pre-registered 10-page study, page quality did not predict answer fidelity
+          (Spearman r&nbsp;=&nbsp;−0.07, p&nbsp;=&nbsp;.84). A single headline number would assert a
+          relationship the evidence does not support.
+          {graders.length > 1 ? (
+            <> Fidelity here spans <strong>more than one grader</strong>; Sonnet runs about 12
+            points harsher than Opus, so the average crosses two scales.</>
+          ) : null}
+        </p>
       </section>
 
-      {/* ------------------------------------------------------------- detail */}
+      {/* ----------------------------------------------------------- detail */}
       <section className="block reveal" style={{ animationDelay: "80ms" }}>
-        <div className="grid two">
-          <div className="card">
+        <div className="grid split">
+          <div className="ruled">
             <h2>Score by product</h2>
             <ScoreRows
               rows={products.map((p) => ({
@@ -146,14 +126,14 @@ export default function Overview() {
             </div>
           </div>
 
-          <div className="card">
+          <div className="ruled">
             <h2>Weakest dimensions</h2>
             <Findings
-              items={dims.slice(0, 6).map((d) => ({
+              items={dims.slice(0, 5).map((d) => ({
                 key: d.name.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, ""),
                 state: d.mean < 4 ? "critical" : d.mean < 6 ? "weak" : "fair",
                 tone: bandColour(d.mean * 10),
-                value: `${d.mean.toFixed(1)}/10`,
+                value: d.mean.toFixed(1),
                 detail: `Averaged across ${products.length} products, weight ${d.weight} of 100. ${
                   d.mean < 4
                     ? "Low mean on a high weight — the largest pool of recoverable points."
@@ -166,9 +146,9 @@ export default function Overview() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------- coverage */}
+      {/* -------------------------------------------------------- coverage */}
       <section className="block reveal" style={{ animationDelay: "160ms" }}>
-        <div className="card">
+        <div className="ruled" style={{ maxWidth: 560 }}>
           <h2>Coverage</h2>
           <ScoreRows
             rows={[
@@ -183,7 +163,29 @@ export default function Overview() {
         </div>
       </section>
 
-      <p className="small" style={{ marginTop: "var(--s6)" }}>
+      <section className="block reveal" style={{ animationDelay: "240ms" }}>
+        <div className="ruled">
+          <h2>Score over time</h2>
+          {points.length < 2 ? (
+            <Empty title="Not enough history" hint="Trends appear once a target has run more than once." />
+          ) : (
+            <>
+              <Line
+                segments={segmentsFor(points, "score")}
+                marks={discontinuities(points)}
+                height={160}
+                yLabel="page quality"
+              />
+              <p className="note" style={{ marginTop: "var(--s2)" }}>
+                One line per target and protocol. A break is a grader or protocol change, not a
+                movement in quality.
+              </p>
+            </>
+          )}
+        </div>
+      </section>
+
+      <p className="small" style={{ marginTop: "var(--s7)" }}>
         <Link to="/pages">All pages →</Link>
         {"  ·  "}
         <Link to="/runs">Run history →</Link>

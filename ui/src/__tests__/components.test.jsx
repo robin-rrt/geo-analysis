@@ -8,7 +8,8 @@ import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
 import { nextAction, explicitActions } from "../components/PageActions.jsx";
 import { aggregatableTargets, weakestFirst } from "../components/ProductScores.jsx";
-import { Gauge, bandColour } from "../charts/Gauge.jsx";
+import { ScaleBar } from "../charts/ScaleBar.jsx";
+import { bandColour, bandName } from "../lib/bands.js";
 import { ScoreRows } from "../components/ScoreRows.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
@@ -499,7 +500,7 @@ describe("per-product scores", () => {
   });
 });
 
-describe("gauge", () => {
+describe("measure scale", () => {
   test("band colour tracks the score, and an absent value is not band-coloured", () => {
     assert_equal(bandColour(90), "var(--band-exemplary)");
     assert_equal(bandColour(72), "var(--band-strong)");
@@ -511,24 +512,32 @@ describe("gauge", () => {
     assert_equal(bandColour(undefined), "var(--faint)");
   });
 
-  test("an unmeasured gauge says so instead of rendering zero", () => {
-    render(<Gauge value={null} label="Answer fidelity" />);
+  test("an unmeasured figure says so instead of rendering zero", () => {
+    const { container } = render(<ScaleBar value={null} label="Answer fidelity" />);
     expect(screen.getByText("—")).toBeTruthy();
     expect(screen.getByText("not measured")).toBeTruthy();
+    // No marker at all, rather than one parked at zero.
+    expect(container.querySelector(".scale-marker")).toBeNull();
   });
 
-  test("a measured gauge shows one decimal and its label", () => {
-    render(<Gauge value={57.04} label="Page quality" />);
+  test("a measured figure shows one decimal, its band, and its position", () => {
+    const { container } = render(<ScaleBar value={57.04} label="Page quality" />);
     expect(screen.getByText("57.0")).toBeTruthy();
     expect(screen.getByText("Page quality")).toBeTruthy();
-    expect(screen.getByText("out of 100")).toBeTruthy();
+    expect(screen.getByText("Good")).toBeTruthy();
+    // Position is what a ring cannot show: 57 sits just inside Good.
+    expect(container.querySelector(".scale-marker").style.left).toBe("57.04%");
   });
 
-  test("the gauge is labelled for screen readers, not just drawn", () => {
-    const { container } = render(<Gauge value={61.8} label="Page quality" />);
-    const svg = container.querySelector("svg");
-    expect(svg.getAttribute("aria-label")).toContain("Page quality");
-    expect(svg.getAttribute("aria-label")).toContain("62");
+  test("band names agree with band colours at the thresholds", () => {
+    // A boundary that disagrees between colour and label is the bug nobody
+    // notices until a score lands exactly on 70.
+    for (const v of [85, 70, 55, 40, 0]) {
+      expect(bandName(v)).toBeTruthy();
+      expect(bandColour(v)).toContain("var(--band-");
+    }
+    assert_equal(bandName(70), "Strong");
+    assert_equal(bandName(69.9), "Good");
   });
 });
 

@@ -26,6 +26,7 @@ import { costOf } from "../usage.js";
 import { ALL_STAGES } from "./estimate.js";
 import { probeRunFileComplete, artifactComplete, probeSetComplete, inputUnchanged } from "./complete.js";
 import { pageKey, assertUniqueKeys } from "../store/slug.js";
+import { isFatalError, fatalReason } from "./fatal.js";
 import {
   newRunId, createManifest, writeManifest, listRuns, runDir, protocolFingerprint, runHealth,
 } from "../store/run.js";
@@ -51,7 +52,7 @@ function writeJsonAtomic(file, data) {
 }
 
 /** Capped-concurrency map that never rejects: every result is captured. */
-async function pool(items, limit, fn) {
+async function pool(items, limit, fn, onError) {
   const results = new Array(items.length);
   let next = 0;
   await Promise.all(
@@ -61,10 +62,12 @@ async function pool(items, limit, fn) {
         try {
           results[i] = { ok: true, value: await fn(items[i], i) };
         } catch (err) {
+          onError?.(err);
           results[i] = {
             ok: false,
             error: err?.message ?? String(err),
             skippedByCancel: Boolean(err?.cancelled),
+            fatal: isFatalError(err),
           };
         }
       }
@@ -212,7 +215,15 @@ export async function runPipeline({
   };
 
   let cancelled = false;
+  let fatal = null;
   const pageResults = await pool(target.pages, concurrency, async (page) => {
+    // An account-level failure fails every remaining page identically. Stopping
+    // turns 119 duplicate errors into one legible cause.
+    if (fatal) {
+      const err = new Error(`stopped: ${fatal.reason}`);
+      err.cancelled = true;
+      throw err;
+    }
     // Cancellation stops NEW work. A page already in flight finishes so its
     // artifact is not left half-written; nothing waits on a grading batch.
     if (shouldCancel()) {
@@ -386,6 +397,14 @@ export async function runPipeline({
     // Reported as pages finish so a live run can project a finish time.
     onPage({ ok: true, url: page.url, elapsedMs: record.elapsedMs });
     return record;
+  },
+  (err) => {
+    // Set the moment it happens. Deriving this after the pool drained meant the
+    // guard inside the pool never fired and all 119 pages still ran.
+    if (!fatal && isFatalError(err)) {
+      fatal = { reason: fatalReason(err), error: err?.message ?? String(err) };
+      log(`\n  stopping: ${fatal.reason}\n`);
+    }
   });
 
   for (const [i, r] of pageResults.entries()) {
@@ -434,6 +453,7 @@ export async function runPipeline({
   // partial, not complete: an average over the pages that happened to succeed is
   // a self-narrowed denominator, so a partial run must not post a trend point.
   const status = cancelled ? "cancelled" : report.failures.length ? "partial" : "complete";
+  if (fatal) report.abortedReason = fatal.reason;
   manifest = writeManifest(root, {
     ...manifest,
     status,
@@ -443,6 +463,9 @@ export async function runPipeline({
       pages: report.pages.length,
       failed: report.failures.length,
     },
+    // One cause, recorded once — rather than leaving a reader to infer it from
+    // a failure list where every entry says the same thing.
+    ...(fatal ? { abortedReason: fatal.reason } : {}),
     // The tally exposes summary(), not total(). Calling a method that does not
     // exist yielded 0 for every run, so every run reported as free.
     cost: (() => {

@@ -532,3 +532,65 @@ test("a run records what it actually cost, not zero", async () => {
   assert.ok(report.probeCost > 0, "probe-run spend must be counted");
   assert.ok(manifest.cost.measured >= report.probeCost, "manifest must include probe spend");
 });
+
+test("an account-level failure stops the run instead of repeating itself 119 times", async () => {
+  // A real sweep failed all 119 pages with the same "credit balance is too low"
+  // and ran for four minutes. One cause, reported once, beats a failure list
+  // where every entry says the same thing.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "geo-fatal-"));
+  const wl = path.join(dir, "watchlists");
+  fs.mkdirSync(wl, { recursive: true });
+  fs.writeFileSync(
+    path.join(wl, "many.json"),
+    JSON.stringify({
+      version: 1, name: "many",
+      pages: Array.from({ length: 12 }, (_, i) => `https://docs.chain.link/p/page-${i}`),
+    }),
+  );
+  const target = await resolveTarget("watchlist:many", { watchlistDir: wl });
+
+  let attempts = 0;
+  const base = countingDeps({ extract: 0, audit: 0, probes: 0, test: 0 });
+  const deps = {
+    ...base,
+    runAudit: async () => {
+      attempts++;
+      throw new Error(
+        '400 {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API."}}',
+      );
+    },
+  };
+
+  const report = await runPipeline({ target, stages: ["audit"], root: tmp(), concurrency: 2, deps });
+
+  assert.ok(attempts < 12, `it kept going: ${attempts} of 12 pages attempted`);
+  assert.equal(report.abortedReason, "Anthropic credit balance exhausted");
+  assert.ok(report.failures.length >= 1, "the real failure is still reported");
+});
+
+test("a page-level failure does NOT stop the run", async () => {
+  // The opposite case: one 404 must not discard the other pages' paid work.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "geo-nonfatal-"));
+  const wl = path.join(dir, "watchlists");
+  fs.mkdirSync(wl, { recursive: true });
+  fs.writeFileSync(
+    path.join(wl, "mixed.json"),
+    JSON.stringify({
+      version: 1, name: "mixed",
+      pages: ["https://docs.chain.link/a/ok1", "https://docs.chain.link/b/bad", "https://docs.chain.link/c/ok2"],
+    }),
+  );
+  const target = await resolveTarget("watchlist:mixed", { watchlistDir: wl });
+  const counts = { extract: 0, audit: 0, probes: 0, test: 0 };
+  const base = countingDeps(counts);
+  const deps = {
+    ...base,
+    extractPage: async (url) => {
+      if (url.endsWith("/bad")) throw new Error("Fetch failed: 404 Not Found");
+      return base.extractPage(url);
+    },
+  };
+  const report = await runPipeline({ target, stages: ["audit"], root: tmp(), concurrency: 1, deps });
+  assert.equal(report.pages.length, 2, "the good pages must still complete");
+  assert.equal(report.abortedReason, undefined);
+});

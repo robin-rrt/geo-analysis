@@ -60,6 +60,9 @@ export default function RunDetail() {
       </div>
 
       {STATUS_NOTE[status] ? <p className="caveat">{STATUS_NOTE[status]}</p> : null}
+      {/* A run can explain itself — a re-grade in particular is not obvious from
+          a stage called "regrade". */}
+      {breakdown?.note ? <p className="caveat">{breakdown.note}</p> : null}
 
       <h2>What it did</h2>
       {!breakdown ? (
@@ -95,6 +98,7 @@ export default function RunDetail() {
                 {(breakdown.stages ?? []).filter((s) => s !== "resolve" && s !== "rollup").map((s) => (
                   <th key={s} scope="col" style={{ width: 90 }}>{s}</th>
                 ))}
+                <th scope="col" style={{ width: 170 }}>result</th>
                 <th scope="col" style={{ width: 80 }}>time</th>
                 <th scope="col" style={{ width: 110 }}>report</th>
               </tr>
@@ -116,6 +120,28 @@ export default function RunDetail() {
                       </td>
                     );
                   })}
+                  <td className="small">
+                    {p.probeSummary ? (
+                      <>
+                        <span>
+                          fidelity <strong>{p.probeSummary.avgFidelity ?? "—"}</strong>
+                          {Number.isFinite(p.probeSummary.avgFidelityBefore) ? (
+                            <span className="faint"> (was {Math.round(p.probeSummary.avgFidelityBefore)})</span>
+                          ) : null}
+                        </span>
+                        <div className="faint small">
+                          {p.probeSummary.graded ?? 0}/{p.probeSummary.probes ?? 0} graded
+                          {p.probeSummary.unattributed ? (
+                            /* Excluded from the fidelity beside it — a
+                               discoverability failure, not bad writing. */
+                            <span style={{ color: "var(--warn)" }}> · {p.probeSummary.unattributed} wrong-subject</span>
+                          ) : null}
+                        </div>
+                      </>
+                    ) : (
+                      <span className="faint">—</span>
+                    )}
+                  </td>
                   <td className="small muted">{duration(p.elapsedMs)}</td>
                   <td>
                     {/* The thing that was missing: a way to reach what the run produced. */}

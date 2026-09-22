@@ -105,11 +105,13 @@ async function pool(items, limit, fn) {
 
 let done = 0;
 let spend = 0;
+const pageRecords = [];
 
 const results = await pool(units, CONCURRENCY, async (unit) => {
   const byId = new Map((unit.probeSet.probes ?? []).map((p) => [p.id, p]));
   const usage = emptyUsage();
   const regraded = [];
+  const startedAt = Date.now();
 
   for (const r of unit.run.results ?? []) {
     const probe = byId.get(r.probe_id);
@@ -164,6 +166,25 @@ const results = await pool(units, CONCURRENCY, async (unit) => {
   const cost = costOf(unit.run.grader_model, usage) ?? 0;
   spend += cost;
   done++;
+
+  // The breakdown a run leaves behind is what the UI reads. runPipeline writes
+  // one; this script did not, so a finished re-grade rendered as "no breakdown
+  // recorded" despite having re-scored 244 answers.
+  pageRecords.push({
+    key: unit.key,
+    url: unit.probeSet.source_url ?? null,
+    stages: { regrade: "ran" },
+    durations: { regrade: Date.now() - startedAt },
+    elapsedMs: Date.now() - startedAt,
+    probeSummary: {
+      probes: summary.probe_count ?? null,
+      graded: summary.graded_count ?? null,
+      avgFidelity: summary.avg_fidelity ?? null,
+      avgFidelityBefore: unit.run.avg_fidelity ?? null,
+      unattributed: summary.unattributed_count ?? 0,
+      mode: summary.mode ?? null,
+    },
+  });
   process.stderr.write(
     `  ${String(done).padStart(3)}/${units.length}  ${unit.key.slice(0, 44).padEnd(44)} ` +
       `${summary.avg_fidelity ?? "—"} (was ${unit.run.avg_fidelity ?? "—"})` +
@@ -175,13 +196,42 @@ const results = await pool(units, CONCURRENCY, async (unit) => {
 const ok = results.filter((r) => r.ok).map((r) => r.value);
 const failed = results.filter((r) => !r.ok);
 
-writeManifest(ROOT, {
+const endedAt = new Date().toISOString();
+const finalManifest = {
   ...readManifest(ROOT, newId),
   status: failed.length ? "partial" : "complete",
-  endedAt: new Date().toISOString(),
+  endedAt,
   counts: { expected: units.length, pages: ok.length, failed: failed.length },
   cost: { measured: Math.round(spend * 10000) / 10000, currency: "USD" },
   protocolFingerprint: protocolFingerprint(protocol),
+};
+writeManifest(ROOT, finalManifest);
+
+writeJsonAtomic(path.join(dest, "report.json"), {
+  runId: newId,
+  target: source.target,
+  stages: ["regrade"],
+  protocol,
+  status: finalManifest.status,
+  startedAt: finalManifest.startedAt,
+  endedAt,
+  elapsedMs: new Date(endedAt) - new Date(finalManifest.startedAt),
+  counts: { pages: ok.length, failed: failed.length, reused: 0, cancelled: 0 },
+  skipped: { audit: 0, probes: 0, test: 0 },
+  cost: finalManifest.cost,
+  pages: pageRecords,
+  failures: failed.map((f) => ({ url: null, error: f.error })),
+  // Why this run exists, so the detail page can say so rather than leaving a
+  // reader to infer it from a stage called "regrade".
+  note: `Re-graded the stored answers of ${sourceRunId} under grader prompt ${graderPromptSha()}. The model under test was not re-run; only the grading changed.`,
+});
+
+writeJsonAtomic(path.join(dest, "pages.json"), {
+  target: source.target,
+  counts: { discovered: units.length, inScope: units.length, failed: failed.length },
+  notes: [`Re-grade of ${sourceRunId} — answers reused, not re-fetched.`],
+  ledger: pageRecords.map((p) => ({ url: p.url, source: "regrade", included: true })),
+  failures: [],
 });
 
 const mean = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);

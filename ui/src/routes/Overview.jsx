@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { client } from "../api/client.js";
 import { MeasureCard } from "../components/MeasureCard.jsx";
 import { Bar, BAND_COLOURS } from "../charts/Bar.jsx";
+import { GroupedBar } from "../charts/GroupedBar.jsx";
+import { ProductScores, aggregatableTargets } from "../components/ProductScores.jsx";
 import { Line } from "../charts/Line.jsx";
 import { Loading, Empty, ErrorState } from "../components/States.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
@@ -13,6 +15,7 @@ const BANDS = ["Poor", "Developing", "Good", "Strong", "Exemplary"];
 export default function Overview() {
   const index = useQuery({ queryKey: ["index"], queryFn: client.index });
   const ts = useQuery({ queryKey: ["timeseries"], queryFn: client.timeseries });
+  const prod = useQuery({ queryKey: ["products"], queryFn: client.products });
 
   if (index.isLoading) return <Loading label="Loading overview" />;
   if (index.error) return <ErrorState error={index.error} onRetry={index.refetch} />;
@@ -72,6 +75,26 @@ export default function Overview() {
         ) : null}
       </p>
 
+      <h2>Scores by product</h2>
+      {/* Two series, never a composite — see MeasureCard for why. */}
+      <GroupedBar
+        rows={aggregatableTargets(prod.data?.products ?? []).map((p) => ({
+          label: p.name,
+          quality: p.score?.mean ?? null,
+          fidelity: p.fidelity?.mean ?? null,
+          note: `${p.pages.audited} audited · ${p.pages.probed} probed`,
+        }))}
+        series={[
+          { key: "quality", label: "Page quality", color: "var(--accent)" },
+          { key: "fidelity", label: "Measured fidelity", color: "var(--band-strong)", absentLabel: "not probed" },
+        ]}
+        emptyLabel="No product runs yet."
+      />
+      <p className="small faint">
+        Sorted worst-first by page quality. The two bars measure different things and are
+        deliberately not combined.
+      </p>
+
       <h2>Coverage</h2>
       <Bar
         items={[
@@ -102,6 +125,13 @@ export default function Overview() {
           </div>
         </div>
       )}
+
+      <h2>Per-product detail</h2>
+      <p className="small muted">
+        Expand a product for its rubric dimensions, averaged across its pages. Individual pages are
+        in the Pages table; this is the aggregate.
+      </p>
+      <ProductScores products={prod.data?.products ?? []} />
 
       <p style={{ marginTop: 24 }}>
         <Link to="/pages">Browse all pages →</Link>

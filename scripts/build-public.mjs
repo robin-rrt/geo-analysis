@@ -43,7 +43,7 @@ fs.mkdirSync(path.join(OUT, "data"), { recursive: true });
 fs.copyFileSync(BUNDLE, path.join(OUT, "index.html"));
 
 let files = 0;
-for (const f of ["index.json", "runs.json", "timeseries.json"]) {
+for (const f of ["index.json", "runs.json", "timeseries.json", "products.json"]) {
   if (fs.existsSync(path.join(SRC, f))) {
     fs.copyFileSync(path.join(SRC, f), path.join(OUT, "data", f));
     files++;

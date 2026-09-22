@@ -352,3 +352,73 @@ test("a changed grader PROMPT breaks the fingerprint, like a changed grader mode
     protocolFingerprint({ ...base, graderPromptSha: "bbbbbbbbbbbb" }),
   );
 });
+
+test("the projection aggregates per product, including rubric dimensions", () => {
+  // Dimensions live in the page detail files, kept out of the index by the
+  // allowlist. Averaging them in the browser would mean fetching every page to
+  // draw one section — the scaling problem the split exists to prevent.
+  const root = tmp();
+  const runId = newRunId();
+  writeManifest(root, {
+    ...createManifest({
+      runId, target: { type: "product", name: "vrf" }, stages: ["audit"],
+      protocol: { graderModel: "claude-sonnet-5", probeEffort: "medium", probeModel: "claude-opus-4-8", mode: "web" },
+    }),
+    status: "complete", endedAt: new Date().toISOString(),
+  });
+  for (const [i, url] of ["https://docs.chain.link/vrf/a", "https://docs.chain.link/vrf/b"].entries()) {
+    const key = pageKey(url);
+    const dir = path.join(root, "runs", runId, "pages", key);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "audit.md"), realAudit({ url, score: 60 + i * 10 }));
+  }
+  project(root);
+
+  const { products } = JSON.parse(fs.readFileSync(path.join(root, "dashboard", "products.json"), "utf8"));
+  assert.equal(products.length, 1);
+  const vrf = products[0];
+  assert.equal(vrf.name, "vrf");
+  assert.equal(vrf.pages.audited, 2);
+  assert.equal(vrf.score.mean, 65, "mean of 60 and 70");
+  assert.ok(vrf.dimensions.length >= 9, `expected the nine rubric dimensions, got ${vrf.dimensions.length}`);
+  for (const d of vrf.dimensions) {
+    assert.ok(d.mean >= 0 && d.mean <= 10, `${d.name} mean ${d.mean} is not a 0-10 score`);
+    assert.ok(Number.isFinite(d.weight));
+  }
+});
+
+test("a product with nothing probed has null fidelity, never zero", () => {
+  // Zero would read as "answers badly". The truth is "was never asked", and the
+  // two must not look alike.
+  const root = tmp();
+  const runId = newRunId();
+  writeManifest(root, {
+    ...createManifest({ runId, target: { type: "product", name: "vrf" }, stages: ["audit"], protocol: {} }),
+    status: "complete", endedAt: new Date().toISOString(),
+  });
+  const key = pageKey("https://docs.chain.link/vrf/a");
+  const dir = path.join(root, "runs", runId, "pages", key);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "audit.md"), realAudit({ url: "https://docs.chain.link/vrf/a", score: 70 }));
+  project(root);
+
+  const { products } = JSON.parse(fs.readFileSync(path.join(root, "dashboard", "products.json"), "utf8"));
+  assert.equal(products[0].fidelity, null);
+  assert.equal(products[0].pages.probed, 0);
+});
+
+test("the product aggregate does not put dimensions back into the index", () => {
+  // The whole point of the separate file: the index must stay slim.
+  const root = tmp();
+  for (let i = 0; i < 12; i++) {
+    seedRun(root, {
+      runId: newRunId(new Date(2026, 0, i + 1)),
+      url: `https://docs.chain.link/ccip/guides/a-realistic-page-path-${i}`,
+      score: 60 + i, fidelity: 40 + i,
+    });
+  }
+  project(root);
+  const raw = fs.readFileSync(path.join(root, "dashboard", "index.json"), "utf8");
+  assert.ok(!raw.includes("dimensions"), "dimensions leaked into the index");
+  assert.ok(indexBytesPerRow(path.join(root, "dashboard", "index.json")) < 500);
+});

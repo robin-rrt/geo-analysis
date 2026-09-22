@@ -7,6 +7,7 @@ import { DataTable } from "../components/DataTable.jsx";
 import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
 import { segmentsFor, discontinuities } from "../lib/trends.js";
 import { nextAction, explicitActions } from "../components/PageActions.jsx";
+import { aggregatableTargets, weakestFirst } from "../components/ProductScores.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -460,5 +461,38 @@ describe("explicit re-run controls", () => {
       expect(a.short.length).toBeGreaterThan(0);
       expect(a.why.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("per-product scores", () => {
+  const p = (o) => ({ type: "product", name: "x", pages: { audited: 5, probed: 0 }, dimensions: [], ...o });
+
+  test("single-page targets are excluded — the Pages table already lists those", () => {
+    const rows = aggregatableTargets([
+      p({ name: "ccip" }),
+      p({ type: "page", name: "https://docs.chain.link/ace" }),
+      p({ type: "watchlist", name: "release-critical" }),
+    ]);
+    expect(rows.map((r) => r.name)).toEqual(["ccip", "release-critical"]);
+  });
+
+  test("a target with nothing audited is not shown as a product with no score", () => {
+    const rows = aggregatableTargets([p({ name: "empty", pages: { audited: 0, probed: 0 } })]);
+    expect(rows).toHaveLength(0);
+  });
+
+  test("dimensions sort weakest first — that ordering is the actionable part", () => {
+    const sorted = weakestFirst([
+      { name: "strong", weight: 10, mean: 8.1 },
+      { name: "weak", weight: 12, mean: 2.1 },
+      { name: "mid", weight: 8, mean: 5 },
+    ]);
+    expect(sorted.map((d) => d.name)).toEqual(["weak", "mid", "strong"]);
+  });
+
+  test("sorting does not mutate the caller's array", () => {
+    const dims = [{ name: "a", mean: 9 }, { name: "b", mean: 1 }];
+    weakestFirst(dims);
+    expect(dims[0].name).toBe("a");
   });
 });

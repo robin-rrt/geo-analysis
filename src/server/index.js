@@ -132,7 +132,7 @@ export function createServer({ root = "results", uiDir = null, env = process.env
       }
 
       // Projections, read straight off disk.
-      const dash = url.pathname.match(/^\/api\/dashboard\/(index|runs|timeseries)$/);
+      const dash = url.pathname.match(/^\/api\/dashboard\/(index|runs|timeseries|products)$/);
       if (dash && req.method === "GET") {
         const file = path.join(root, DASHBOARD_DIR, `${dash[1]}.json`);
         if (!fs.existsSync(file)) return json(res, 404, { error: `no ${dash[1]} projection yet — run something first` });

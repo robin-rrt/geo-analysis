@@ -48,6 +48,9 @@ const BANDS = [
   [0, "Poor"],
 ];
 
+const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+const round1 = (n) => Math.round(n * 10) / 10;
+
 export const bandFor = (score) =>
   score === null || score === undefined ? null : BANDS.find(([min]) => score >= min)[1];
 
@@ -210,6 +213,85 @@ export function project(root, { now = new Date() } = {}) {
 
   index.sort((a, b) => (a.score ?? 0) - (b.score ?? 0));
 
+  // Per-target aggregation, including the nine rubric dimensions.
+  //
+  // Done here rather than in the browser because dimensions live in the page
+  // detail files, deliberately kept out of the index. Averaging them client-side
+  // would mean fetching every page to draw one section — re-creating the
+  // scaling problem the index/detail split exists to prevent.
+  const byTarget = new Map();
+  for (const entry of latestByKey.values()) {
+    const m = entry.auditRun ?? entry.manifest;
+    const t = m?.target;
+    if (!t?.name) continue;
+    const id = `${t.type}:${t.name}`;
+    if (!byTarget.has(id)) {
+      byTarget.set(id, {
+        name: t.name, type: t.type, runId: m.runId, status: m.status,
+        at: m.endedAt ?? m.startedAt, pages: [], probeRuns: [],
+      });
+    }
+    const g = byTarget.get(id);
+    // Newest run wins the link, so "open run" lands on the latest.
+    if (String(m.runId) > String(g.runId)) {
+      Object.assign(g, { runId: m.runId, status: m.status, at: m.endedAt ?? m.startedAt });
+    }
+    if (entry.audit) g.pages.push(entry.audit);
+    const primary = primaryProbeRun([...entry.probeRuns.values()].map((v) => v.run));
+    if (primary) g.probeRuns.push(primary);
+  }
+
+  const products = [];
+  for (const g of byTarget.values()) {
+    const scores = g.pages.map((a) => a.score).filter(Number.isFinite);
+    const fids = g.probeRuns.map((r) => r.avg_fidelity).filter(Number.isFinite);
+
+    // Dimension means are over 0-10 scores, not weighted contributions: the
+    // weight is reported alongside so a reader can see what a gap costs, but
+    // folding it into the mean would make the number unreadable against the
+    // rubric it came from.
+    const dims = new Map();
+    for (const a of g.pages) {
+      for (const d of a.dimensions ?? []) {
+        if (!dims.has(d.name)) dims.set(d.name, { name: d.name, weight: d.weight, scores: [] });
+        if (Number.isFinite(d.score)) dims.get(d.name).scores.push(d.score);
+      }
+    }
+
+    const bands = {};
+    for (const a of g.pages) {
+      const b = bandFor(a.score);
+      if (b) bands[b] = (bands[b] ?? 0) + 1;
+    }
+
+    products.push({
+      name: g.name,
+      type: g.type,
+      runId: g.runId,
+      status: g.status,
+      at: g.at,
+      pages: { audited: scores.length, probed: fids.length, inScope: g.pages.length },
+      score: scores.length
+        ? { mean: round1(mean(scores)), min: Math.min(...scores), max: Math.max(...scores) }
+        : null,
+      // null, never 0 — a zero would read as "answers badly" when the truth is
+      // "was never asked".
+      fidelity: fids.length
+        ? {
+            mean: round1(mean(fids)),
+            graders: [...new Set(g.probeRuns.map((r) => r.grader_model).filter(Boolean))],
+          }
+        : null,
+      bands,
+      dimensions: [...dims.values()]
+        .filter((d) => d.scores.length)
+        .map((d) => ({ name: d.name, weight: d.weight, mean: round1(mean(d.scores)), pages: d.scores.length })),
+    });
+  }
+  products.sort((a, b) => (a.score?.mean ?? 999) - (b.score?.mean ?? 999));
+
+  writeJsonAtomic(path.join(out, "products.json"), { generatedAt: now.toISOString(), products });
+
   writeJsonAtomic(path.join(out, "index.json"), { generatedAt: now.toISOString(), pages: index });
   writeJsonAtomic(path.join(out, "runs.json"), {
     generatedAt: now.toISOString(),
@@ -240,7 +322,7 @@ export function project(root, { now = new Date() } = {}) {
 
   writeJsonAtomic(path.join(out, "timeseries.json"), { generatedAt: now.toISOString(), points: series });
 
-  return { pages: index.length, runs: manifests.length, points: series.length };
+  return { pages: index.length, runs: manifests.length, points: series.length, products: products.length };
 }
 
 /** Average bytes per index row — the scaling property the split exists to hold. */

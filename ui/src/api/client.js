@@ -25,6 +25,7 @@ export const apiTransport = {
   active: () => fetch("/api/active").then(jsonOrThrow),
   run: (runId) => fetch(`/api/dashboard/runs/${encodeURIComponent(runId)}`).then(jsonOrThrow),
   timeseries: () => fetch("/api/dashboard/timeseries").then(jsonOrThrow),
+  products: () => fetch("/api/dashboard/products").then(jsonOrThrow),
   targets: () => fetch("/api/targets").then(jsonOrThrow),
   estimate: (body) =>
     fetch("/api/estimate", {
@@ -52,6 +53,7 @@ export const staticTransport = {
   active: async () => ({ active: [] }),
   run: (runId) => fetch(`./data/runs/${encodeURIComponent(runId)}.json`).then(jsonOrThrow),
   timeseries: () => fetch("./data/timeseries.json").then(jsonOrThrow),
+  products: () => fetch("./data/products.json").then(jsonOrThrow),
   targets: async () => ({ products: [], watchlists: [], pages: [], stages: [] }),
   estimate: async () => {
     throw new Error("this is a read-only published dashboard");

@@ -500,7 +500,7 @@ async function cmdDashboard(argv) {
     const dest = values.export;
     fs.mkdirSync(path.join(dest, "data", "pages"), { recursive: true });
     fs.copyFileSync(bundle, path.join(dest, "index.html"));
-    for (const f of ["index.json", "runs.json", "timeseries.json"]) {
+    for (const f of ["index.json", "runs.json", "timeseries.json", "products.json"]) {
       if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dest, "data", f));
     }
     // Per-page AND per-run detail. Omitting the run files published a site

@@ -3,28 +3,31 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import "./env.js";
 import { extractPage, buildPageContent } from "./extract.js";
 import { runAudit } from "./analyze.js";
 import { genProbes, slugFromUrl } from "./probes.js";
 import { sourceHash } from "./probe-set.js";
 import { runProbes } from "./evaluate.js";
-import { collect, loadProbeRuns } from "./dashboard/collect.js";
+import { collect, loadProbeRuns, toSerializable } from "./dashboard/collect.js";
 import { pivotRuns, toCsv } from "./dashboard/matrix.js";
 import { render } from "./dashboard/render.js";
-import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL } from "./claude.js";
+import { DEFAULT_MODEL, FABLE_MODEL, analystModel, graderModelFor, DEFAULT_GRADER_MODEL, DEFAULT_PROBE_TARGET } from "./claude.js";
 import { createTally, costOf } from "./usage.js";
 import { resolveProduct, listProducts, SCOPES } from "./product/resolve.js";
 import { fetchProduct, writeLedger, changedSince } from "./product/fetch.js";
 import { rollup } from "./product/rollup.js";
 import { runProductAudit, buildAuditContent, selectSamples } from "./product/audit.js";
 import { genProductProbes } from "./product/probes.js";
+import { resolveTarget, TARGET_TYPES } from "./target/index.js";
+import { runPipeline } from "./run/pipeline.js";
+import { estimateRun, formatEstimate, needsConfirmation, ceilingFromEnv, ALL_STAGES } from "./run/estimate.js";
+import { startServer, DEFAULT_PORT, LOOPBACK } from "./server/index.js";
 
-// Load repo-local .env (ANTHROPIC_API_KEY) if present; env vars already set win.
-const envFile = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
-if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
+// Loading .env is a side effect of importing src/env.js — see that file for why
+// it does not live here any more.
 
 const EFFORT_LEVELS = ["low", "medium", "high", "xhigh", "max"];
-const DEFAULT_PROBE_TARGET = "claude-opus-4-8";
 
 const USAGE = `geo-audit — GEO toolkit for documentation pages
 
@@ -33,7 +36,10 @@ Usage:
   geo-audit gen-probes <url> [options]       Generate probe prompts + answer key JSON
   geo-audit probe <probes.json> [options]    Ask a model the probes, grade its answers
   geo-audit dashboard [options]              Build an HTML dashboard from results/
+  geo-audit dashboard --export <dir>         Publish the read-only static bundle
   geo-audit product <name> [options]         Resolve, fetch and roll up a whole product
+  geo-audit run <target> [options]           Run every stage end to end over a target
+  geo-audit serve [options]                  Serve the dashboard and run jobs (localhost)
 
 Analyst/grader model defaults to ${DEFAULT_MODEL}; ${FABLE_MODEL} is used
 automatically at --effort max. Override with -m on score / gen-probes.
@@ -471,12 +477,53 @@ async function cmdDashboard(argv) {
       output: { type: "string", short: "o" },
       "results-dir": { type: "string", default: "results" },
       json: { type: "boolean", default: false },
+      export: { type: "string" },
       help: { type: "boolean", short: "h", default: false },
     },
   });
   if (values.help) usageExit(0);
 
   const resultsDir = values["results-dir"];
+
+  // --export: publish the read-only artifact. It is the PREBUILT single-file
+  // bundle plus the projection as sibling JSON — the CLI never invokes a
+  // bundler, so installing this tool never requires a toolchain.
+  if (values.export) {
+    const bundle = "ui/dist-export/index.html";
+    if (!fs.existsSync(bundle)) {
+      fail(`no export bundle at ${bundle} — build it with \`npm --prefix ui run build:export\``);
+    }
+    const src = path.join(resultsDir, "dashboard");
+    if (!fs.existsSync(path.join(src, "index.json"))) {
+      fail(`no projection at ${src} — run \`geo-audit run <target>\` first`);
+    }
+    const dest = values.export;
+    fs.mkdirSync(path.join(dest, "data", "pages"), { recursive: true });
+    fs.copyFileSync(bundle, path.join(dest, "index.html"));
+    for (const f of ["index.json", "runs.json", "timeseries.json", "products.json"]) {
+      if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dest, "data", f));
+    }
+    // Per-page AND per-run detail. Omitting the run files published a site
+    // whose Run pages 404 — the export must carry everything the static client
+    // knows how to fetch.
+    let copied = 0;
+    for (const sub of ["pages", "runs"]) {
+      const from = path.join(src, sub);
+      if (!fs.existsSync(from)) continue;
+      const to = path.join(dest, "data", sub);
+      fs.mkdirSync(to, { recursive: true });
+      for (const f of fs.readdirSync(from)) {
+        fs.copyFileSync(path.join(from, f), path.join(to, f));
+        copied++;
+      }
+    }
+    const kb = Math.round(fs.statSync(path.join(dest, "index.html")).size / 1024);
+    process.stderr.write(
+      `Exported to ${dest}/ — index.html (${kb}KB, self-contained) + ${copied} page file(s).\n` +
+        `Read-only: the bundle does not contain the run-trigger code. Safe to publish.\n`,
+    );
+    return;
+  }
   process.stderr.write(`Reading ${resultsDir}/ ...\n`);
 
   let data;
@@ -498,7 +545,9 @@ async function cmdDashboard(argv) {
 
   if (values.json) {
     const jsonFile = path.join(resultsDir, "dashboard-data.json");
-    fs.writeFileSync(jsonFile, JSON.stringify(data, null, 2) + "\n");
+    // Serialisable form: primaryRun is the same object as one of probeRuns, and
+    // JSON has no references, so writing `data` directly duplicates a whole run.
+    fs.writeFileSync(jsonFile, JSON.stringify(toSerializable(data), null, 2) + "\n");
     process.stderr.write(`Data written to ${jsonFile}\n`);
   }
 
@@ -700,6 +749,149 @@ async function cmdProduct(argv) {
   process.stderr.write(`\nLedger: ${ledgerFile}\nRollup: ${rollupFile}\nAudit:  ${auditFile}\n`);
 }
 
+
+// ----------------------------------------------------------------- run ----
+
+async function cmdRun(argv) {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      stages: { type: "string" },
+      estimate: { type: "boolean", default: false },
+      yes: { type: "boolean", short: "y", default: false },
+      "product-scope": { type: "string", default: "curated" },
+      n: { type: "string", short: "n", default: "6" },
+      mode: { type: "string", default: "web" },
+      batch: { type: "boolean", default: false },
+      force: { type: "boolean", short: "f", default: false },
+      concurrency: { type: "string", default: "3" },
+      model: { type: "string", short: "m" },
+      effort: { type: "string", short: "e", default: "high" },
+      "probe-model": { type: "string", default: DEFAULT_PROBE_TARGET },
+      "probe-effort": { type: "string", default: "medium" },
+      "grader-model": { type: "string" },
+      origin: { type: "string", default: "https://docs.chain.link" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  const spec = positionals[0];
+  if (!spec) {
+    fail(`run needs a target — ${TARGET_TYPES.map((t) => `${t}:<name>`).join(", ")}`);
+  }
+  if (!["web", "closed"].includes(values.mode)) fail(`invalid --mode "${values.mode}" (web|closed)`);
+  checkEffort(values.effort);
+
+  const stages = values.stages ? values.stages.split(",").map((s) => s.trim()).filter(Boolean) : ALL_STAGES;
+  const unknown = stages.filter((s) => !ALL_STAGES.includes(s));
+  if (unknown.length) fail(`unknown stage(s) ${unknown.join(", ")} — expected: ${ALL_STAGES.join(", ")}`);
+
+  const probesPerPage = Number(values.n);
+  if (!Number.isFinite(probesPerPage) || probesPerPage < 1) fail(`invalid -n "${values.n}"`);
+
+  process.stderr.write(`Resolving ${spec} ...\n`);
+  const target = await resolveTarget(spec, {
+    productScope: values["product-scope"],
+    origin: values.origin,
+  });
+  if (!target.pages.length) {
+    fail(`no pages in scope for ${spec} — ${target.counts.discovered} discovered`);
+  }
+
+  // Estimation never makes an Anthropic call. Resolving the target above does
+  // fetch llms.txt and the sitemap, which is free and is how page count is known.
+  const estimate = estimateRun({
+    pageCount: target.pages.length,
+    stages,
+    probesPerPage,
+    mode: values.mode,
+  });
+  process.stderr.write(
+    `\n${formatEstimate(estimate, { target: spec, stages, pageCount: target.pages.length })}\n\n`,
+  );
+
+  if (values.estimate) return;
+
+  const ceiling = ceilingFromEnv();
+  if (needsConfirmation(estimate.total, ceiling) && !values.yes) {
+    fail(
+      `projected $${estimate.total.toFixed(2)} exceeds the $${ceiling.toFixed(2)} ceiling — ` +
+        `re-run with --yes to proceed, or raise GEO_COST_CEILING`,
+    );
+  }
+
+  const tally = createTally();
+  const report = await runPipeline({
+    target,
+    stages,
+    probesPerPage,
+    mode: values.mode,
+    concurrency: Number(values.concurrency),
+    model: values.model ? values.model : analystModel(values.effort, values.model),
+    effort: values.effort,
+    probeModel: values["probe-model"],
+    probeEffort: values["probe-effort"],
+    graderModel: graderModelFor(values.effort, values["grader-model"]),
+    batch: values.batch,
+    force: values.force,
+    tally,
+    log: (line) => process.stderr.write(line),
+  });
+
+  const skipped = Object.entries(report.skipped).filter(([, n]) => n);
+  process.stderr.write(
+    `\n${report.pages.length} page(s) done, ${report.failures.length} failed` +
+      (skipped.length ? `, skipped: ${skipped.map(([k, n]) => `${k} x${n}`).join(", ")}` : "") +
+      `\nLedger: ${path.join(report.outRoot, "pages.json")}\n` +
+      (report.rollup ? `Rollup: ${report.rollup.file} (score ${report.rollup.score})\n` : ""),
+  );
+  if (report.failures.length) {
+    process.stderr.write(`\nFailures:\n${report.failures.map((f) => `  ${f.url} — ${f.error}`).join("\n")}\n`);
+  }
+}
+
+
+// --------------------------------------------------------------- serve ----
+
+async function cmdServe(argv) {
+  const { values } = parseArgs({
+    args: argv,
+    options: {
+      port: { type: "string", default: String(DEFAULT_PORT) },
+      host: { type: "string", default: LOOPBACK },
+      ui: { type: "string" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+  });
+  if (values.help) usageExit(0);
+
+  // Binding anywhere but loopback means anyone who can reach the port can spend
+  // the Anthropic budget. The published artifact is the static export, which has
+  // no API — so this is opt-in and loud.
+  if (values.host !== LOOPBACK) {
+    process.stderr.write(
+      `\nRefusing to bind ${values.host} without --i-know-this-spends-money.\n` +
+        `Publish \`geo-audit dashboard --export\` instead; it is static and cannot start runs.\n\n`,
+    );
+    if (!process.env.GEO_ALLOW_EXPOSE) process.exit(2);
+  }
+
+  const uiDir = values.ui ?? (fs.existsSync("ui/dist") ? "ui/dist" : null);
+  if (!uiDir) {
+    process.stderr.write("No UI build found at ui/dist — serving the API only.\n");
+  }
+
+  await startServer({
+    port: Number(values.port),
+    host: values.host,
+    root: "results",
+    uiDir,
+    log: (line) => process.stderr.write(line),
+  });
+}
+
 // ------------------------------------------------------------- dispatch ----
 
 async function main() {
@@ -720,8 +912,12 @@ async function main() {
       return cmdDashboard(rest);
     case "product":
       return cmdProduct(rest);
+    case "run":
+      return cmdRun(rest);
+    case "serve":
+      return cmdServe(rest);
     default:
-      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, or product`);
+      fail(`unknown command "${cmd}" — expected score, gen-probes, probe, dashboard, product, run, or serve`);
   }
 }
 

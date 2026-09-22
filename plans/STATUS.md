@@ -1,6 +1,7 @@
 # Status — what's done, what's left
 
-**Updated:** 2026-09-18 · everything below is on `main`, 109 tests passing.
+**Updated:** 2026-09-21 · `main` plus the platform work on `feat/target-runner`
+([PR #1](https://github.com/robin-rrt/geo-analysis/pull/1)). 184 Node + 14 UI tests passing.
 
 This is the index. Each plan file carries its own detail; this says which parts of it are real.
 
@@ -22,8 +23,42 @@ This is the index. Each plan file carries its own detail; this says which parts 
 | **Dashboard Products view** | ✅ Phase 5 | `d176edd` |
 | **Batch grading** — `probe --batch` | ✅ built; cache bug fixed, live run pending | `3debfe8`, `60b0fda` |
 | **Cheaper defaults** — Sonnet grader, medium probe effort | ✅ done | — |
+| **Batch saving confirmed** — and a 2× over-reporting bug fixed | ✅ done | `d1d33c1` |
+| **Correlation study** — pre-registered, n=10, $24.80 | ✅ done, **null** | `5307598` |
+
+### Platform — [plans/product-platform/](product-platform/), on `feat/target-runner`
+
+| Area | State | Commit |
+|---|---|---|
+| **`run <target>`** — one command, stages, resume, cost preflight | ✅ done | `2f8be49` |
+| **Immutable run snapshots + trends + index/detail split** | ✅ done | `4093ade` |
+| **`serve`** — local job server, polled progress, loopback-only | ✅ done | `9307e25` |
+| **React dashboard + charts + read-only static export** | ✅ done | `4f760c8` |
+
+## Worth knowing before building on this
+
+- **Fidelity does not follow structural score.** The correlation study settled it: r = −0.07,
+  p = .84 on the causal estimand. The platform therefore never combines the two into one number.
+  n=10 excludes only |r| > 0.64, so this is *not shown*, not *shown absent*.
+- **`any-citation` overcounts retrieval.** A model printing a URL from memory (`via=null`) is
+  counted as a citation. Use searches-per-probe as the retrieval measure.
+- **`slugFromUrl` collides across products** (`slice(-2)`); the store keys on the full path
+  instead. Anything new writing to a shared page namespace must use `src/store/slug.js`.
+- **Runs are immutable now.** Nothing should write into a previous run directory.
 
 ## Left to do, in the order I'd tackle it
+
+### 0. Populate the dashboard with real data
+The platform works but `results/` holds a single page audit, so the Overview trend view is
+empty and the leadership case is unmade. A `product:vrf` audit-only run is **~$2.27** and would
+give it something real; full stages over a product is **~$50**. Needs a spend decision, not
+engineering.
+
+### 0b. The intervention study — better evidence than more correlation
+Apply the tool's own P1 fixes to 8–10 pages and re-probe the same pages with the same probe sets.
+Same-page before/after removes topic difficulty, parametric familiarity and the baseline ceiling
+in one step — the three confounds that limited the correlational design — and it tests what the
+tool claims to do rather than whether its score ranks pages.
 
 ### 1. Product audit + probes — `plans/product-scoped-audit-and-probes.md` Phases 3–5
 The biggest remaining piece, and the one the product work was building toward.

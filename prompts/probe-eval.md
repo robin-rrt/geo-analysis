@@ -22,6 +22,30 @@ the highest-severity, most shippable-breaking hallucinations.
   import/package paths, invented parameters, wrong types, or out-of-order steps are the
   highest-severity hallucinations for developer answers. List each with the offending text quoted.
 
+## First: did the answer identify the subject at all?
+
+Before scoring anything, decide `subject_identified`.
+
+Set it **false** when the answer is about a different subject entirely — it did
+not recognise the product or capability the question referred to, and answered a
+generic question instead. The usual signature is an answer that is competent and
+well-reasoned but never mentions the product, or that says outright it could not
+find the thing being asked about.
+
+Set it **true** when the answer engages this product's subject matter, even if it
+gets the details badly wrong. Wrong details are a low accuracy score. Wrong
+subject is not a score at all — it means retrieval failed and the model answered
+something else.
+
+This distinction matters because the two have opposite fixes: a wrong answer
+means the documentation is unclear, while a wrong subject means the
+documentation was never found. Scoring the second as if it were the first blames
+the writing for a discoverability problem.
+
+**Still score all four dimensions** when `subject_identified` is false — the
+scores are kept for the record. They are simply excluded from the headline
+fidelity, which reports how well the docs answer once they have been found.
+
 ## Score four dimensions, 0–10 each
 
 - **accuracy** — do the factual/code claims match the source? Correct steps, names, params,
@@ -44,6 +68,7 @@ competitor/aggregator instead of the source. Otherwise an empty string. Do not l
 ## Output schema (return exactly this JSON)
 
 {
+  "subject_identified": true,
   "scores": { "accuracy": 0, "hallucination_free": 0, "relevance": 0, "structure": 0 },
   "hallucinations": [
     { "claim": "<quote the fabricated/contradicting text>", "type": "fabricated_function|wrong_import|invented_param|contradiction|other", "severity": "high|med|low" }

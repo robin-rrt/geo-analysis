@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "release-critical",
+  "description": "Pages that must be correct before any release",
+  "pages": [
+    "https://docs.chain.link/vrf/v2-5/getting-started",
+    "https://docs.chain.link/ccip/getting-started/evm",
+    "https://docs.chain.link/data-feeds/using-data-feeds"
+  ]
+}

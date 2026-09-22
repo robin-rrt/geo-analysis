@@ -6,21 +6,41 @@ engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews) and by coding
 read docs to complete tasks.
 
 It works at two scales: a single page, or a whole **product** resolved from the site's own
-`llms.txt` index and sitemap.
+`llms.txt` index and sitemap. One command runs the whole thing; a local server and a React
+dashboard sit on top for people who would rather not use a terminal.
+
+```bash
+geo-audit run product:vrf          # resolve -> audit -> probes -> test -> roll up
+geo-audit run product:ccip --estimate   # what would that cost? (free, no API call)
+geo-audit serve                    # dashboard + start runs from the browser (localhost)
+geo-audit dashboard --export pub/  # read-only bundle to publish on a domain
+```
 
 | Command | What it does | Output |
 |---|---|---|
+| **`run <target>`** | Runs every stage end to end over a `product:`, `watchlist:` or `page:` target. Stage-selectable, resumable, and refuses to start above a cost ceiling | An immutable run snapshot under `results/runs/<runId>/` |
+| **`serve`** | Serves the dashboard and starts runs from the browser. **Loopback only** | `http://127.0.0.1:4317` |
 | `score <url>` | Audits one page against a weighted GEO rubric | Scored Markdown report (0–100, 9 dimensions, prioritized fixes) |
-| `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key. Skips pages whose content is unchanged | `probes.json` |
+| `gen-probes <url>` | Generates realistic developer prompts the page should be the canonical answer to, with a source-grounded answer key. Each probe declares a `context_mode` (see below). Skips pages whose content is unchanged | `probes.json` |
 | `probe <probes.json>` | Asks a model-under-test each probe (web retrieval on by default), then grades every answer against the source as sole ground truth. Resumes where an interrupted run stopped | `probe-results-<model>-<mode>.json` + `probe-matrix.csv` |
 | **`product <name>`** | Resolves a product's pages, fetches them, and rolls up deterministic checks — **no API calls**. `--audit` adds one LLM audit over the aggregate; `--probes` generates product-scoped probes | `pages.json`, `rollup.json`, `audit.md`, `probes.json` |
 | `dashboard` | Rolls every artifact in `results/` into one shareable HTML report | `dashboard.html` |
+| **`dashboard --export <dir>`** | Publishes the read-only static bundle — a single self-contained HTML file plus sibling JSON | `index.html` + `data/` |
 
-**Cost is measured, not estimated.** Every command reports the tokens it used and what they
-cost ([src/usage.js](src/usage.js)). Measured on `docs.chain.link`: one page audit **$0.17**,
-one product audit over a 13-page rollup **$0.15** (auditing those pages individually is $2.27),
-a 10-probe web run **$4.17**. Prices are a cached constant carrying the date they were checked;
-an unpriced model yields `null` rather than a wrong number.
+**Cost is measured, not estimated.** Every run records what it actually spent
+([src/usage.js](src/usage.js)). Measured on `docs.chain.link`:
+
+| operation | cost |
+|---|---|
+| one page audit | **$0.17** |
+| a 10-product sweep, audit only (196 pages) | **~$21** |
+| grading 244 probes, web mode (43 pages) | **$80.31** |
+| re-grading those same stored answers | **$5.40** |
+
+The shape matters more than the figures: **auditing is cheap, probing is not.** Breadth costs
+tens of dollars; measuring how engines answer costs roughly $2 a page. Prices are a cached
+constant carrying the date they were checked, and an unpriced model yields `null` rather than a
+wrong number.
 
 **Model defaults are tiered by job.** The analyst (`score`, `gen-probes`) runs on **Opus 4.8**,
 escalating to **Fable 5** at `--effort max`. The **grader defaults to Sonnet 5** — grading is
@@ -46,9 +66,24 @@ is a cited URL that matches the expected source once normalised (scheme, `www.`,
 `.md` twin, query and fragment ignored), or the source named in the answer text without a scheme
 — `via` records which. At product scope the verdict is a **tier** — `exact` (the expected page),
 `in-scope` (another page of the same product), `out-of-scope`, or `none` — while `hit` stays true
-only for `exact`, so page and product runs remain comparable. Fidelity is likewise arithmetic, `round(2.5 × Σ scores)`. A refusal is
-recorded and not graded; in `closed` mode there is no retrieval to hit, so the verdict is `null`,
-never a miss. Each result carries the tokens it cost, split between model-under-test and grader.
+only for `exact`, so page and product runs remain comparable. Fidelity is likewise arithmetic,
+`round(2.5 × Σ scores)`. A refusal is recorded and not graded; in `closed` mode there is no
+retrieval to hit, so the verdict is `null`, never a miss. Each result carries the tokens it cost,
+split between model-under-test and grader.
+
+> ### Fidelity covers answers that found the subject
+>
+> The grader first decides `subject_identified`. An answer that engages this product and gets the
+> details wrong is a low accuracy score — the docs are unclear. An answer about a *different
+> subject* is not a score at all: retrieval failed and the model answered something else.
+>
+> The two have opposite fixes — rewrite the prose, versus make the page findable — so
+> `avg_fidelity` covers attributed answers only, with `avg_fidelity_all` and `unattributed_count`
+> reported alongside so the filtering is auditable. Runs graded before this existed are treated as
+> attributed, so no historical trend silently re-bases.
+>
+> Measured on a 43-page CRE run: **26% of answers had never identified the subject**, and 91% of
+> those cited nothing at all. Including them reported 42.8 where the attributed figure is 52.6.
 
 Cited URLs count both API citation blocks and links embedded in the answer body. Probes whose
 web search got rate-limited are retried with backoff; if degradation persists they're flagged
@@ -218,6 +253,9 @@ Common: `-o/--output <file>`, `-e/--effort low|medium|high|xhigh|max` (default `
 | `gen-probes` | `-n/--n <count>` (default 10) · `-m/--model` generator (default: by effort) · `-f/--force` regenerate unchanged content · `--allow-thin` generate even from a near-empty extraction |
 | `probe` | `-m/--model` model under test (default `claude-opus-4-8`) · `--probe-effort` effort for the model under test (default `medium`) · `--grader-model` (default `claude-sonnet-5`) · `--mode web\|closed` (default `web`) · `--batch` grade via the Batch API at 50% of rates · `-f/--force` re-run every probe instead of resuming |
 | `product` | `--scope curated\|full\|bundle` (default `curated`) · `--list` resolve only · `--audit` one LLM audit over the rollup · `--probes` generate product probes · `-n/--n` probe count · `--samples` pages shown in full to the auditor · `--dump-content` · `--origin` |
+| `run` | `--stages resolve,audit,probes,test,rollup` (default all) · `--estimate` project cost and exit, no API call · `-y/--yes` proceed above the cost ceiling · `--product-scope` · `-n/--n` probes per page · `--mode web\|closed` · `--batch` · `-f/--force` · `--concurrency` (default 3) |
+| `serve` | `--port` (default 4317) · `--host` (loopback only; other interfaces refused) · `--ui <dir>` |
+| `dashboard` | `--export <dir>` publish the read-only bundle · `--json` also write `dashboard-data.json` · `--results-dir` |
 
 **Model selection:** the analyst (`score`, `gen-probes`, `product --audit`) defaults to
 `claude-opus-4-8`, upgrading to `claude-fable-5` at `--effort max`. The **grader** defaults to
@@ -229,6 +267,132 @@ minutes to an hour rather than seconds, and is refused at `--effort max` because
 rejects the Fable refusal fallback. Measured on a 10-probe run: **$1.07 → $0.54** in grader cost.
 Reported costs account for the discount automatically — the API returns `service_tier: "batch"`
 in usage, and that field, not a caller-supplied flag, is what halves the price.
+
+## The platform
+
+Two audiences, one tool.
+
+**The docs team** runs routine checks: `geo-audit run watchlist:release-critical` over a curated
+set, or a whole product. Runs are resumable and re-running repeats no paid work.
+
+**Leadership** opens a published dashboard on a domain. That artifact is **read-only by
+construction** — the export is built with the API client swapped out, so the bundle does not
+contain the code that starts runs. It cannot spend money because the code is not in it, not
+because it is asked nicely.
+
+### Two measures, never one number
+
+The dashboard leads with **page quality** and **measured answer fidelity** side by side, each with
+its own denominator and grader. They are deliberately not combined.
+
+A pre-registered 10-page study
+([experiments/correlation/RESULTS.md](experiments/correlation/RESULTS.md)) found structural score
+does **not** predict answer fidelity (Spearman r = −0.07, p = .84). A single composite "GEO score"
+would assert exactly the link the evidence does not support — and it is the number that ends up in
+a deck. `FidelityBadge` throws if rendered without its grader, because Sonnet grades ~12 points
+harsher than Opus and a fidelity figure without provenance is not comparable to anything.
+
+### Runs are immutable
+
+Every run writes a snapshot to `results/runs/<runId>/` and is never modified. `results/dashboard/`
+is a pure projection, rebuildable from the runs at any time. This replaced overwrite-in-place,
+which destroyed the previous audit for any page it touched.
+
+Trends refuse to lie in three specific ways: only a `complete` run posts a point (a partial run's
+average is over a self-narrowed denominator); points are joined only within a matching protocol
+fingerprint, so a line never crosses a grader change; and score and fidelity are separate series.
+
+### Probes must identify what they are asking about
+
+Every probe declares a `context_mode`:
+
+| mode | the question | what it measures |
+|---|---|---|
+| `self-contained` | names the product, or uses a term that identifies it alone | whether the docs **answer well** once found |
+| `cold` | only what a developer would type knowing nothing | whether the docs are **discoverable** |
+
+Most probes are `self-contained`, because that is what fidelity reports. The rule exists because a
+question built from a product-specific term and nothing else is not a test of the documentation —
+it is a test of whether a two-word phrase is globally unique, and it usually is not.
+
+> *"How does Confidential HTTP guarantee only one request is sent?"* scored 8. The model searched,
+> found no such technology, and answered carefully about TLS and idempotency keys. Rewritten as
+> *"In Chainlink CRE, how does the Confidential HTTP capability avoid a duplicate request?"* an
+> engine can find the right page, and the score measures the docs rather than the phrasing.
+
+A small number of `cold` probes are kept deliberately — discoverability is a real and separate
+measurement, and labelling them stops their low scores reading as poor documentation.
+
+### Cost is gated, not discovered
+
+A full-site sweep of 1,465 pages is ~$250 in audits alone. `--estimate` projects the cost from
+measured unit rates and makes no Anthropic call; anything above `GEO_COST_CEILING` (default $10)
+needs `--yes`. The server enforces the same ceiling and a client cannot raise it.
+
+### Data does not live in git
+
+`results/runs/` is the source of truth and is **gitignored** — it is generated, changes on every
+run, and would conflict on every branch. `results/dashboard/` is a pure projection of it and is
+likewise not committed.
+
+So **a fresh clone has no data.** The dashboard will start and show its empty state. Move the
+measurements instead of re-buying them — 11MB of runs compresses to about 2.2MB:
+
+```sh
+node scripts/data-archive.mjs export geo-data.tgz   # on the machine that has them
+node scripts/data-archive.mjs import geo-data.tgz   # on the new one; rebuilds the projection
+```
+
+Import never overwrites. Runs are immutable, so a run id that already exists holds identical
+content, and keeping it means an import can merge two machines without damaging either.
+
+### Publishing
+
+Two routes, both keeping generated data out of `main`:
+
+```sh
+node scripts/deploy-vercel.mjs --deploy    # Vercel: upload direct, no data in git at all
+node scripts/publish-pages.mjs --push      # GitHub Pages: data on an orphan gh-pages branch
+```
+
+The Pages route puts the built site on an orphan branch that is rebuilt and force-pushed each
+time, so it always holds exactly one commit — otherwise every publish would add several megabytes
+to the repository permanently. `main` never sees it.
+
+**Which to use depends on who may see it.**
+
+On **GitHub Enterprise Cloud**, Pages visibility can be restricted to organisation members. That
+is the strongest option of the three: the site requires authentication, so indexing stops being a
+concern at all — a crawler cannot log in. `robots.txt` and `<meta robots>` still ship as
+belt-and-braces.
+
+On a **personal or free account**, prefer Vercel. A Pages site there is public even when its
+repository is private, Pages on a private repo needs a paid plan, and Pages cannot set HTTP
+headers — so `X-Robots-Tag` is unavailable, and that is the layer that stops a URL being indexed
+when it is linked from somewhere else. `robots.txt` only asks.
+
+Either way the artifact is identical and read-only by construction; only the hosting differs.
+
+The published bundle is read-only **by construction**: `MODE=export` swaps the API client for a
+static one at build time, so `/api/runs`, `/api/estimate` and `/api/targets` are not in the
+artifact at all. The build refuses to publish if they appear. `noindex` headers ship in
+`.vercel/output/config.json` rather than `vercel.json`, because `--prebuilt` skips the remote build
+and would never read the latter.
+
+`noindex` is not access control — anyone with the URL can read it, and it carries probe answers and
+per-run costs. Use Vercel Deployment Protection if it should be private.
+
+## Scripts
+
+| script | what it does |
+|---|---|
+| `data-archive.mjs` | move `results/runs/` between machines; rebuilds the projection on import |
+| `deploy-vercel.mjs` | assemble and deploy the read-only dashboard without committing data |
+| `publish-pages.mjs` | publish to an orphan `gh-pages` branch, force-pushed so history stays one commit |
+| `build-public.mjs` | assemble `public-dist/` only |
+| `regrade.mjs` | re-score a run's **stored answers** under the current grader — the answers are the expensive part, grading is ~4% of a run |
+| `repair-wrapped-probe-sets.mjs` | one-off recovery for probe sets written by a serialisation bug |
+| `import-correlation-study.mjs` | import the pre-registered study as a historical run |
 
 ## How it works
 

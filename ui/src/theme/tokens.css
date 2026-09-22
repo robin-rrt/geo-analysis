@@ -1,0 +1,405 @@
+/* Ported from src/dashboard/theme.js — same palette, so the React UI and any
+   legacy output stay visually consistent. Every colour is a custom property:
+   components must never hard-code a hex, or dark mode breaks silently.
+
+   Explicit choice wins over the media query IN BOTH DIRECTIONS, which is why
+   there are :root[data-theme=...] blocks rather than only a media query. */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f8;
+  --border: #e3e3e6;
+  --text: #16161a;
+  --muted: #6a6a73;
+  --faint: #9a9aa3;
+  --accent: #2f5eea;
+  --track: #ececef;
+  --band-poor: #c0392b;
+  --band-developing: #c77700;
+  --band-good: #9a8500;
+  --band-strong: #2e7d4f;
+  --band-exemplary: #16736b;
+  --sev-high: #c0392b;
+  --sev-med: #c77700;
+  --sev-low: #8a8a93;
+  --ok: #2e7d4f;
+  --warn: #c77700;
+  --focus: #2f5eea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121215; --surface: #1a1a1f; --border: #2c2c33; --text: #ececef;
+    --muted: #9b9ba4; --faint: #6e6e77; --accent: #7d9bff; --track: #26262c;
+    --band-poor: #e8695a; --band-developing: #e0a33e; --band-good: #cbb52f;
+    --band-strong: #5fbd88; --band-exemplary: #4fb8ad;
+    --sev-high: #e8695a; --sev-med: #e0a33e; --sev-low: #8a8a93;
+    --ok: #5fbd88; --warn: #e0a33e; --focus: #7d9bff;
+  }
+}
+
+/* Explicit dark, even when the OS says light. */
+:root[data-theme="dark"] {
+  --bg: #121215; --surface: #1a1a1f; --border: #2c2c33; --text: #ececef;
+  --muted: #9b9ba4; --faint: #6e6e77; --accent: #7d9bff; --track: #26262c;
+  --band-poor: #e8695a; --band-developing: #e0a33e; --band-good: #cbb52f;
+  --band-strong: #5fbd88; --band-exemplary: #4fb8ad;
+  --sev-high: #e8695a; --sev-med: #e0a33e; --sev-low: #8a8a93;
+  --ok: #5fbd88; --warn: #e0a33e; --focus: #7d9bff;
+}
+
+/* A spacing scale, so rhythm is chosen rather than improvised per component. */
+:root {
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+  --radius: 10px;
+  --hairline: 1px;
+}
+
+* { box-sizing: border-box; }
+
+/* Every figure in the UI is tabular: columns of numbers must align on the
+   decimal, and a proportional 1 next to a proportional 8 makes a table of
+   scores look broken. */
+.num, table td, table th, .gauge-value, .stat-value {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.55 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--accent); }
+
+/* Focus must be visible for keyboard operation — never `outline: none`. */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--s5) var(--s8); }
+
+h1, h2, h3 { margin: 0; font-weight: 600; line-height: 1.2; }
+h1 { font-size: 19px; letter-spacing: -0.02em; }
+/* Section headings are small and quiet: the numbers below them carry the page,
+   so a loud heading competes with its own content. */
+h2 {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 var(--s3);
+}
+h3 { font-size: 13px; margin: 0 0 var(--s2); }
+
+nav.top {
+  display: flex; align-items: center; gap: var(--s4);
+  border-bottom: var(--hairline) solid var(--border);
+  padding: var(--s3) var(--s5);
+  position: sticky; top: 0; background: var(--bg); z-index: 5;
+}
+nav.top a {
+  color: var(--muted); text-decoration: none; font-size: 13px;
+  padding: var(--s1) 0; border-bottom: 2px solid transparent;
+}
+nav.top a:hover { color: var(--text); }
+/* The active tab is marked by weight and a rule, not a filled pill — one less
+   shape competing with the data below. */
+nav.top a[aria-current="page"] {
+  color: var(--text); font-weight: 600; border-bottom-color: var(--text);
+}
+.spacer { flex: 1; }
+
+/* Two containers, with different jobs — the distinction is the whole system.
+   Boxing everything is what made this look like every other dashboard; boxing
+   nothing makes a form impossible to use. */
+
+/* DATA: a rule and a label. No box. Figures organise themselves in columns the
+   way a printed table does. */
+.ruled { border-top: var(--hairline) solid var(--text); padding-top: var(--s3); }
+.ruled-soft { border-top: var(--hairline) solid var(--border); padding-top: var(--s3); }
+.ruled + .ruled, .ruled-soft + .ruled-soft { margin-top: var(--s6); }
+
+/* INTERACTIVE or TRANSIENT: forms, live progress, expandable detail. These
+   genuinely need an edge — a control with no boundary is hard to aim at. */
+.panel {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s4) var(--s5);
+}
+.panel + .panel { margin-top: var(--s3); }
+
+/* `card` is kept as an alias so no route renders unstyled, but new code should
+   pick `ruled` or `panel` deliberately. */
+.card { composes: panel; }
+.card {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s4) var(--s5);
+}
+.card + .card { margin-top: var(--s3); }
+
+.grid { display: grid; gap: var(--s3); }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid.three { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+/* Asymmetric on purpose. An even split reads as a dashboard; a wide measure
+   column with a narrow rail reads as a page. */
+.grid.headline { grid-template-columns: 1fr 1fr; gap: var(--s7); }
+.grid.split { grid-template-columns: 1.35fr 1fr; gap: var(--s7); }
+@media (max-width: 860px) {
+  .grid.headline, .grid.split { grid-template-columns: 1fr; gap: var(--s5); }
+}
+
+section.block { margin-top: var(--s6); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: var(--s2) var(--s3); border-bottom: var(--hairline) solid var(--border); }
+th {
+  position: sticky; top: 52px; background: var(--bg); z-index: 1;
+  font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted);
+}
+/* Figures right-align; labels do not. Scanning a column of scores depends on it. */
+td.num, th.num { text-align: right; }
+th button {
+  background: none; border: 0; padding: 0; font: inherit; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+}
+tbody tr:hover { background: var(--surface); }
+
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.small { font-size: 13px; }
+
+/* Bands carry a LABEL as well as a colour: colour alone excludes colour-blind
+   viewers and dies in a greyscale print of a deck. */
+.band { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.band::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.band-poor { color: var(--band-poor); }
+.band-developing { color: var(--band-developing); }
+.band-good { color: var(--band-good); }
+.band-strong { color: var(--band-strong); }
+.band-exemplary { color: var(--band-exemplary); }
+
+.controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0; }
+input, select, button {
+  font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px;
+}
+button { cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.pager { display: flex; gap: 8px; align-items: center; justify-content: flex-end; margin-top: 12px; }
+
+.state { padding: 40px 0; text-align: center; color: var(--muted); }
+.skeleton { background: var(--track); border-radius: 6px; height: 14px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.55 } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none } }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+  border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; color: var(--muted);
+}
+.caveat {
+  font-size: 12.5px; color: var(--muted); border-left: 2px solid var(--border);
+  padding-left: 10px; margin-top: 10px; max-width: 70ch;
+}
+
+/* Chip row: the fastest path from a 93-row table to one product's pages.
+   Chips are buttons, not links, and carry aria-pressed so a screen reader
+   reports which filter is active rather than just "All, button". */
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 12px; }
+.chip {
+  border-radius: 999px; padding: 3px 11px; font-size: 12.5px;
+  background: var(--bg); color: var(--muted);
+}
+.chip:hover { border-color: var(--muted); }
+.chip[aria-pressed="true"] {
+  background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600;
+}
+.chip[aria-pressed="true"] .faint { color: rgba(255, 255, 255, 0.75); }
+
+/* Group headers sit inside the table so a group reads as part of the same
+   column grid, not as a separate card stack. */
+tr.grouphead td {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 10px;
+}
+.groupbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.groupToggle {
+  border: 0; background: none; padding: 0; font: inherit; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px; color: var(--text);
+}
+.linkish {
+  border: 0; background: none; padding: 0; color: var(--accent);
+  margin-left: auto; text-decoration: underline;
+}
+
+/* ------------------------------------------------------------ score rows --- */
+
+.row {
+  display: grid; grid-template-columns: 1fr 108px 56px 42px;
+  align-items: center; gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: var(--hairline) solid var(--border);
+}
+.row:last-child { border-bottom: 0; }
+.row-label { font-size: 13px; }
+.row-track { background: var(--track); border-radius: 999px; height: 6px; overflow: hidden; }
+.row-fill { height: 100%; border-radius: 999px; transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+@media (prefers-reduced-motion: reduce) { .row-fill { transition: none; } }
+.row-value { font-size: 13px; font-weight: 600; text-align: right; }
+.row-count { font-size: 12px; color: var(--faint); text-align: right; }
+
+@media (max-width: 560px) {
+  .row { grid-template-columns: 1fr 72px 44px; }
+  .row-count { display: none; }
+}
+
+/* ------------------------------------------------------------- findings --- */
+
+.finding { padding: var(--s3) 0; border-bottom: var(--hairline) solid var(--border); }
+.finding:last-child { border-bottom: 0; }
+.finding-head { display: flex; align-items: center; gap: var(--s2); }
+.finding-key {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; letter-spacing: -0.01em;
+}
+.finding-body { font-size: 12.5px; color: var(--muted); margin-top: var(--s1); max-width: 62ch; }
+.pill {
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+  border-radius: 999px; padding: 2px 8px; border: var(--hairline) solid currentColor;
+}
+
+/* Page load: one staggered reveal, then nothing moves again. */
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.reveal { animation: rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+/* --------------------------------------------------------------- measure --- */
+
+.measure { position: relative; }
+
+.measure-label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: var(--s3);
+}
+
+/* A serif for the display figure against a sans body and a mono for keys.
+   Three roles, each doing one job — the pairing is what gives the page a voice
+   without loading a typeface the self-contained export cannot fetch. */
+.measure-figure {
+  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-size: clamp(56px, 9vw, 82px);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  font-variant-numeric: lining-nums tabular-nums;
+  display: flex; align-items: baseline; gap: var(--s2);
+}
+.measure-of {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px; letter-spacing: 0.04em; color: var(--faint);
+}
+
+.scale { position: relative; height: 16px; margin-top: var(--s4); }
+.scale-rule {
+  position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--track);
+}
+.scale-tick {
+  position: absolute; top: 3px; width: 1px; height: 10px; background: var(--border);
+}
+.scale-marker {
+  position: absolute; top: 2px; width: 3px; height: 12px; border-radius: 1px;
+  transform: translateX(-1px);
+  animation: slide 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes slide { from { opacity: 0; transform: translateX(-1px) scaleY(0.3); } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scale-marker { animation: none; } }
+
+.scale-legend { position: relative; height: 14px; }
+.scale-legend span {
+  position: absolute; transform: translateX(-50%);
+  font-size: 10px; color: var(--faint); font-variant-numeric: tabular-nums;
+}
+
+.measure-meta {
+  display: flex; gap: var(--s3); flex-wrap: wrap;
+  font-size: 12px; color: var(--muted); margin-top: var(--s3);
+}
+.measure-sub { font-size: 12px; color: var(--faint); margin-top: var(--s1); }
+
+/* Prose sits at a readable measure. The caveats on this page are the part most
+   worth reading, so they are typeset rather than shrunk into a footnote. */
+.note {
+  font-size: 13.5px; line-height: 1.6; color: var(--muted);
+  max-width: 64ch; margin: var(--s4) 0 0;
+}
+.note strong { color: var(--text); }
+
+/* Findings hang their figure in the margin, editorial style. */
+.finding { display: grid; grid-template-columns: 1fr auto; gap: var(--s3) var(--s4); }
+.finding-fig {
+  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-size: 22px; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums;
+  text-align: right; line-height: 1.1;
+}
+
+/* ------------------------------------------------------- page furniture --- */
+
+/* Every page opens the same way: a quiet eyebrow, a title, then the numbers.
+   Consistency here is most of what makes a site feel like one site. */
+.page-head { margin: var(--s7) 0 var(--s5); }
+.eyebrow {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: var(--s2);
+}
+.page-head h1 { font-size: 24px; letter-spacing: -0.025em; }
+.page-head .sub { font-size: 13px; color: var(--muted); margin-top: var(--s2); }
+
+/* Figures used inline on detail pages: smaller cousins of the Overview's. */
+.figure-row { display: flex; gap: var(--s7); flex-wrap: wrap; }
+.figure { min-width: 110px; }
+.figure-value {
+  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-size: 34px; line-height: 1; letter-spacing: -0.03em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.figure-label {
+  font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--muted); margin-top: var(--s2);
+}
+.figure-note { font-size: 12px; color: var(--faint); margin-top: 2px; }
+
+/* Disclosure blocks share one look wherever they appear. */
+details.item {
+  border-top: var(--hairline) solid var(--border);
+  padding: var(--s3) 0;
+}
+details.item > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: baseline; gap: var(--s2); flex-wrap: wrap;
+}
+details.item > summary::-webkit-details-marker { display: none; }
+details.item > summary::before {
+  content: "+"; color: var(--faint); font-family: ui-monospace, monospace;
+  width: 12px; flex: none;
+}
+details.item[open] > summary::before { content: "−"; }
+details.item > summary:hover { color: var(--text); }
+
+/* Links inside data read as data, not as navigation chrome. */
+a.quiet { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+a.quiet:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+.meta-row {
+  display: flex; gap: var(--s4); flex-wrap: wrap;
+  font-size: 12px; color: var(--muted);
+}

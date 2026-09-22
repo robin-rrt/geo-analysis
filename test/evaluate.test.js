@@ -175,3 +175,42 @@ test("falls back to exact-match with no scope, and reports a null tier", () => {
 test("an empty scope array behaves as no scope", () => {
   assert.equal(decideRetrieval({ citedUrls: [], expectedUrls: ["https://d.co/a"], scopeUrls: [] }).tier, null);
 });
+
+test("fidelity excludes answers that never identified the subject", () => {
+  // The case that motivated this: a probe asked about "Confidential HTTP", the
+  // model searched, found nothing, and answered a careful generic question
+  // about TLS and idempotency keys. Scoring that as a bad ANSWER reports a
+  // discoverability problem as bad writing.
+  const rows = [
+    row({ fidelity: 80 }),
+    row({ fidelity: 78 }),
+    row({ fidelity: 8 }), // answered a different subject entirely
+  ];
+  rows[2].subject_identified = false;
+
+  const s = summarizeResults(rows);
+  assert.equal(s.avg_fidelity, 79, "the headline must cover only attributed answers");
+  assert.ok(s.avg_fidelity_all < s.avg_fidelity, "the unfiltered figure is kept for audit");
+  assert.equal(s.unattributed_count, 1);
+});
+
+test("a wrong answer still counts — only a wrong SUBJECT is excluded", () => {
+  // Wrong details mean the documentation is unclear, which is exactly what
+  // fidelity should report. Only a missed subject is a different measurement.
+  const rows = [row({ fidelity: 80 }), row({ fidelity: 10 })];
+  rows[1].subject_identified = true;
+  const s = summarizeResults(rows);
+  assert.equal(s.avg_fidelity, 45);
+  assert.equal(s.unattributed_count, 0);
+});
+
+test("runs graded before the flag existed keep their original number", () => {
+  // Backward compatibility matters here: silently re-basing historical fidelity
+  // would move every trend line for a reason unrelated to the docs.
+  const rows = [row({ fidelity: 60 }), row({ fidelity: 40 })];
+  for (const r of rows) delete r.subject_identified;
+  const s = summarizeResults(rows);
+  assert.equal(s.avg_fidelity, 50);
+  assert.equal(s.avg_fidelity_all, 50);
+  assert.equal(s.unattributed_count, 0);
+});

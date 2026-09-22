@@ -146,3 +146,27 @@ vite.config.ts.timestamp-*
 results/dashboard.html
 results/dashboard-data.json
 results/products/
+
+# runs/ is the source of truth and stays local — it is large and regenerable.
+results/runs/
+
+# dashboard/ is a projection of runs/ and stays OUT of git. It was briefly
+# committed so Vercel could build from the repo; that put 80,270 lines of
+# generated JSON into a 7,000-line change and would have conflicted on every
+# branch that ran anything. `scripts/deploy-vercel.mjs` uploads it directly
+# instead, so the data never needs to be versioned.
+results/dashboard/
+
+# Build outputs.
+public-dist/
+.vercel/
+
+# The UI build IS committed: `geo-audit serve` serves prebuilt assets so that
+# installing the CLI never requires a bundler. Contributors touching ui/ run
+# Vite; users never do. dist-export/ is regenerated on publish.
+!ui/dist
+!ui/dist/**
+ui/dist-export/
+ui/node_modules/
+.vercel
+.env*

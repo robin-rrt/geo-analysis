@@ -1,0 +1,590 @@
+import { describe, test, expect, beforeEach, vi } from "vitest";
+import { render, screen, fireEvent, within } from "@testing-library/react";
+import { MemoryRouter, Routes, Route, useSearchParams } from "react-router-dom";
+import { FidelityBadge } from "../components/FidelityBadge.jsx";
+import { Band } from "../components/Band.jsx";
+import { DataTable } from "../components/DataTable.jsx";
+import { applyTheme, storedTheme, THEMES } from "../components/ThemeToggle.jsx";
+import { segmentsFor, discontinuities } from "../lib/trends.js";
+import { nextAction, explicitActions } from "../components/PageActions.jsx";
+import { aggregatableTargets, weakestFirst } from "../components/ProductScores.jsx";
+import { ScaleBar } from "../charts/ScaleBar.jsx";
+import { bandColour, bandName } from "../lib/bands.js";
+import { ScoreRows } from "../components/ScoreRows.jsx";
+import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
+
+const assert_equal = (a, b) => expect(a).toBe(b);
+
+describe("FidelityBadge", () => {
+  test("throws when rendered without a grader — the invariant that keeps numbers comparable", () => {
+    // No TypeScript here, so the rule is enforced at runtime. A silent default
+    // is how an incomparable number reaches a slide.
+    expect(() => render(<FidelityBadge value={70} />)).toThrow(/requires graderModel/);
+  });
+
+  test("renders the value together with its grader", () => {
+    render(<FidelityBadge value={68.5} graderModel="claude-sonnet-5" probeCount={6} />);
+    expect(screen.getByText("69")).toBeTruthy();
+    expect(screen.getByText(/sonnet-5/)).toBeTruthy();
+  });
+
+  test("an unprobed page is stated, not shown as zero", () => {
+    render(<FidelityBadge value={null} />);
+    expect(screen.getByText("not probed")).toBeTruthy();
+  });
+});
+
+describe("Band", () => {
+  test("carries a text label, never colour alone", () => {
+    const { container } = render(<Band band="Strong" />);
+    expect(screen.getByText("Strong")).toBeTruthy();
+    expect(container.querySelector(".band-strong")).toBeTruthy();
+  });
+});
+
+describe("theme", () => {
+  beforeEach(() => localStorage.clear());
+
+  test("explicit choice overrides the OS in both directions", () => {
+    const root = document.createElement("html");
+    applyTheme("dark", root);
+    expect(root.getAttribute("data-theme")).toBe("dark");
+    applyTheme("light", root);
+    expect(root.getAttribute("data-theme")).toBe("light");
+    // System removes the attribute so the media query governs again.
+    applyTheme("system", root);
+    expect(root.hasAttribute("data-theme")).toBe(false);
+  });
+
+  test("defaults to system and rejects junk", () => {
+    expect(storedTheme({ getItem: () => null })).toBe("system");
+    expect(storedTheme({ getItem: () => "purple" })).toBe("system");
+    expect(THEMES).toContain("system");
+  });
+});
+
+const rows = Array.from({ length: 60 }, (_, i) => ({
+  key: `k${i}`,
+  title: `Page ${i}`,
+  score: i,
+}));
+const columns = [
+  { key: "title", label: "Page" },
+  { key: "score", label: "Score" },
+];
+
+function renderTable(initial = "/") {
+  let search;
+  function Probe() {
+    [search] = useSearchParams();
+    return null;
+  }
+  const utils = render(
+    <MemoryRouter initialEntries={[initial]}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <DataTable rows={rows} columns={columns} searchKeys={["title"]} />
+              <Probe />
+            </>
+          }
+        />
+      </Routes>
+    </MemoryRouter>,
+  );
+  return { ...utils, getSearch: () => search };
+}
+
+describe("DataTable", () => {
+  test("paginates rather than rendering everything", () => {
+    renderTable();
+    expect(screen.getByText("Page 0")).toBeTruthy();
+    expect(screen.queryByText("Page 40")).toBeNull();
+    expect(screen.getByText(/Page 1 of 3/)).toBeTruthy();
+  });
+
+  test("state round-trips through the URL so a view is shareable", () => {
+    const { getSearch } = renderTable();
+    fireEvent.click(screen.getByLabelText("Sort by Score"));
+    expect(getSearch().get("sort")).toBe("score");
+    fireEvent.click(screen.getByText("Next"));
+    expect(getSearch().get("page")).toBe("2");
+  });
+
+  test("a pasted URL reproduces the view", () => {
+    // Sort explicitly by score: the default sort is by title, which is a string
+    // compare, so "Page 10" precedes "Page 2" and row order is not numeric.
+    renderTable("/?sort=score&dir=asc&page=3&size=25");
+    expect(screen.getByText(/Page 3 of 3/)).toBeTruthy();
+    expect(screen.getByText("Page 50")).toBeTruthy();
+    expect(screen.queryByText("Page 0")).toBeNull();
+  });
+
+  test("search narrows and reports the denominator", () => {
+    renderTable();
+    fireEvent.change(screen.getByLabelText("Search"), { target: { value: "Page 42" } });
+    expect(screen.getByText(/1 of 60/)).toBeTruthy();
+  });
+
+  test("a search matching nothing says so instead of going blank", () => {
+    renderTable();
+    fireEvent.change(screen.getByLabelText("Search"), { target: { value: "zzzz" } });
+    expect(screen.getByText(/No rows match/)).toBeTruthy();
+  });
+});
+
+describe("trend segmentation in the client", () => {
+  const pt = (at, fidelity, grader, known = true) => ({
+    at, fidelity, graderModel: grader, fingerprint: `${grader}|x|y|web`, protocolKnown: known, runId: at,
+  });
+
+  test("a grader change splits the line rather than joining it", () => {
+    // Joining these would render a ~12-point model swap as a regression.
+    const segs = segmentsFor(
+      [pt("2026-01-01", 70, "claude-opus-4-8"), pt("2026-02-01", 72, "claude-opus-4-8"), pt("2026-03-01", 60, "claude-sonnet-5")],
+      "fidelity",
+    );
+    expect(segs).toHaveLength(2);
+    expect(segs[0].points).toHaveLength(2);
+  });
+
+  test("the change is marked, not smoothed over", () => {
+    const marks = discontinuities([pt("2026-01-01", 70, "claude-opus-4-8"), pt("2026-03-01", 60, "claude-sonnet-5")]);
+    expect(marks).toHaveLength(1);
+    expect(marks[0].reason).toMatch(/grader changed/);
+  });
+
+  test("unknown-protocol points are never joined to a known line", () => {
+    const segs = segmentsFor([pt("2025-12-01", 55, null, false), pt("2026-01-01", 70, "claude-sonnet-5")], "fidelity");
+    expect(segs).toHaveLength(2);
+  });
+});
+
+describe("next action for a page", () => {
+  test("no probe set — offer to generate and grade", () => {
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: false });
+    assert_equal(a.key, "generate");
+    assert_equal(a.stages.join(","), "probes,test");
+  });
+
+  test("probes exist but nothing graded — grade only, never regenerate", () => {
+    // Regenerating would pay a second time for a probe set already bought.
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: false });
+    assert_equal(a.key, "test");
+    assert_equal(a.stages.join(","), "test");
+    expect(a.label).toContain("6");
+  });
+
+  test("a probe run that graded nothing does NOT count as tested", () => {
+    // This is the failure mode that hid behind a green tick: every probe
+    // errored, a summary was still written, and the page looked measured.
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(a.key).not.toBe("retest");
+  });
+
+  test("already graded — re-running is offered quietly", () => {
+    const a = nextAction({ probeSet: { present: true, count: 6 }, tested: true });
+    assert_equal(a.key, "retest");
+    expect(a.secondary).toBe(true);
+    expect(a.force).toBe(true);
+  });
+});
+
+describe("next action precedence", () => {
+  test("an already-measured page is never pushed to regenerate as the PRIMARY action", () => {
+    // A page can hold results without the probe set that produced them — every
+    // page imported from the correlation study does. Checking "has probes?"
+    // before "measured?" told the user to re-pay for a measured page.
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: true });
+    expect(a.secondary).toBe(true);
+    assert_equal(a.key, "regenerate");
+  });
+
+  test("an unmeasured page with no probes is the primary generate action", () => {
+    const a = nextAction({ probeSet: { present: false, count: 0 }, tested: false });
+    assert_equal(a.key, "generate");
+    expect(a.secondary).toBeUndefined();
+  });
+
+  test("re-measuring always forces, so it cannot silently reuse and do nothing", () => {
+    for (const page of [
+      { probeSet: { present: true, count: 6 }, tested: true },
+      { probeSet: { present: false, count: 0 }, tested: true },
+    ]) {
+      expect(nextAction(page).force).toBe(true);
+    }
+  });
+});
+
+describe("grouping rules", () => {
+  test("a page's product is its first URL segment", () => {
+    assert_equal(productOf({ url: "https://docs.chain.link/cre/guides/workflow/using-randomness" }), "cre");
+    assert_equal(productOf({ url: "https://docs.chain.link/data-feeds/price-feeds" }), "data-feeds");
+  });
+
+  test("the markdown endpoint is the same product, not a second one", () => {
+    // /cre.md and /cre are one product. Splitting them put three real pages in
+    // groups of one.
+    assert_equal(productOf({ url: "https://docs.chain.link/cre.md" }), "cre");
+    assert_equal(productOf({ url: "https://docs.chain.link/cre.md" }), productOf({ url: "https://docs.chain.link/cre" }));
+  });
+
+  test("a page with no audit yet is labelled, never dropped", () => {
+    assert_equal(productOf({ url: null }), UNGROUPED);
+    assert_equal(productOf({ url: "not a url" }), UNGROUPED);
+  });
+
+  test("a single-page run groups with its product's sweep", () => {
+    // The whole point of sharing the taxonomy: these two must land together.
+    const sweep = productOfRun({ target: { type: "product", name: "ace" } });
+    const single = productOfRun({ target: { type: "page", name: "https://docs.chain.link/ace/getting-started" } });
+    assert_equal(sweep, single);
+  });
+
+  test("a watchlist stays its own bucket — it can span products", () => {
+    assert_equal(productOfRun({ target: { type: "watchlist", name: "correlation-study" } }), "correlation-study (watchlist)");
+  });
+
+  test("biggest group first, unplaceable rows last", () => {
+    const groups = sortGroups([
+      { key: UNGROUPED, rows: [1, 2, 3, 4, 5] },
+      { key: "ace", rows: [1] },
+      { key: "cre", rows: [1, 2, 3] },
+    ]);
+    expect(groups.map((g) => g.key)).toEqual(["cre", "ace", UNGROUPED]);
+  });
+
+  test("an ordinal grouping keeps its own order, not the biggest bucket first", () => {
+    // Sorting bands by population puts "Good" above "Strong" and the column
+    // stops reading as a quality scale.
+    const groups = sortGroups(
+      [
+        { key: "Good", rows: [1, 2, 3, 4, 5] },
+        { key: "Poor", rows: [1] },
+        { key: "Strong", rows: [1, 2] },
+      ],
+      ["Exemplary", "Strong", "Good", "Developing", "Poor"],
+    );
+    expect(groups.map((g) => g.key)).toEqual(["Strong", "Good", "Poor"]);
+  });
+
+  test("a key missing from an explicit order sorts last, not first", () => {
+    const groups = sortGroups(
+      [{ key: "surprise", rows: [1] }, { key: "Poor", rows: [1] }],
+      ["Strong", "Poor"],
+    );
+    expect(groups.map((g) => g.key)).toEqual(["Poor", "surprise"]);
+  });
+
+  test("a mean ignores rows that carry no value rather than counting them as zero", () => {
+    assert_equal(meanOf([{ s: 10 }, { s: null }, { s: 20 }], (r) => r.s), 15);
+    assert_equal(meanOf([{ s: null }], (r) => r.s), null);
+  });
+});
+
+const groupedRows = [
+  ...Array.from({ length: 5 }, (_, i) => ({ key: `c${i}`, title: `CRE ${i}`, product: "cre", score: i })),
+  ...Array.from({ length: 2 }, (_, i) => ({ key: `a${i}`, title: `ACE ${i}`, product: "ace", score: i })),
+];
+const GROUPS = [
+  { key: "product", label: "Product", of: (r) => r.product },
+  { key: "score", label: "Score band", of: (r) => (r.score > 2 ? "high" : "low") },
+];
+
+function renderGrouped(initial = "/") {
+  let search;
+  function Probe() {
+    [search] = useSearchParams();
+    return null;
+  }
+  const utils = render(
+    <MemoryRouter initialEntries={[initial]}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <DataTable
+                rows={groupedRows}
+                columns={columns}
+                searchKeys={["title"]}
+                groups={GROUPS}
+                groupSummary={(rs) => `${rs.length} pages`}
+              />
+              <Probe />
+            </>
+          }
+        />
+      </Routes>
+    </MemoryRouter>,
+  );
+  return { ...utils, getSearch: () => search };
+}
+
+describe("DataTable grouping", () => {
+  test("groups by the first option with no URL state, biggest first", () => {
+    renderGrouped();
+    const heads = screen.getAllByRole("button", { expanded: true });
+    expect(heads[0].textContent).toMatch(/cre/);
+    expect(heads[1].textContent).toMatch(/ace/);
+    expect(screen.getByText("CRE 0")).toBeTruthy();
+    expect(screen.getByText("ACE 0")).toBeTruthy();
+  });
+
+  test("a group header carries its own count and summary", () => {
+    renderGrouped();
+    expect(screen.getByText("5 pages")).toBeTruthy();
+    expect(screen.getByText("2 pages")).toBeTruthy();
+  });
+
+  test("collapsing hides a group's rows but keeps the header", () => {
+    renderGrouped();
+    const creHead = screen.getAllByRole("button", { expanded: true })[0];
+    fireEvent.click(creHead);
+    expect(screen.queryByText("CRE 0")).toBeNull();
+    expect(screen.getByText("ACE 0")).toBeTruthy();
+  });
+
+  test("a chip focuses one group and round-trips through the URL", () => {
+    const { getSearch } = renderGrouped();
+    // Scoped to the chip row: the group header carries the same label, and an
+    // ambiguous query here would pass by accident on whichever came first.
+    const chips = screen.getByRole("group", { name: /filter by product/i });
+    fireEvent.click(within(chips).getByRole("button", { name: /^ace/i }));
+    assert_equal(getSearch().get("g"), "ace");
+    expect(screen.getByText("ACE 0")).toBeTruthy();
+    expect(screen.queryByText("CRE 0")).toBeNull();
+  });
+
+  test("a pasted focused URL reproduces the view", () => {
+    renderGrouped("/?group=product&g=ace");
+    expect(screen.getByText("ACE 0")).toBeTruthy();
+    expect(screen.queryByText("CRE 0")).toBeNull();
+    // Focused mode is flat, so there is no group header to expand.
+    expect(screen.queryAllByRole("button", { expanded: true })).toHaveLength(0);
+  });
+
+  test("switching grouping clears the focused group", () => {
+    // Otherwise `g=ace` survives into a grouping that has no `ace` bucket and
+    // the table goes silently empty.
+    const { getSearch } = renderGrouped("/?group=product&g=ace");
+    fireEvent.change(screen.getByLabelText("Group by"), { target: { value: "score" } });
+    assert_equal(getSearch().get("group"), "score");
+    assert_equal(getSearch().get("g"), null);
+  });
+
+  test("grouping off falls back to the flat table", () => {
+    renderGrouped("/?group=none");
+    expect(screen.queryAllByRole("button", { expanded: true })).toHaveLength(0);
+    expect(screen.getByText("CRE 0")).toBeTruthy();
+    expect(screen.getByText("ACE 0")).toBeTruthy();
+  });
+
+  test("search narrows the chip counts so a chip never promises excluded rows", () => {
+    renderGrouped();
+    fireEvent.change(screen.getByLabelText("Search"), { target: { value: "CRE" } });
+    // ace is gone entirely; cre keeps its five.
+    expect(screen.queryByRole("button", { name: /^ace/i })).toBeNull();
+    expect(screen.getByText(/1 group/)).toBeTruthy();
+    const chips = screen.queryByRole("group", { name: /filter by product/i });
+    // One group left means no chip row at all — nothing to choose between.
+    assert_equal(chips, null);
+  });
+});
+
+describe("DataTable default sort", () => {
+  test("a view's natural order applies with no URL state", () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <DataTable rows={rows} columns={columns} defaultSort={{ key: "score", dir: "desc" }} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("Page 59")).toBeTruthy();
+    expect(screen.queryByText("Page 0")).toBeNull();
+  });
+
+  test("the URL still wins over the default", () => {
+    render(
+      <MemoryRouter initialEntries={["/?sort=score&dir=asc"]}>
+        <DataTable rows={rows} columns={columns} defaultSort={{ key: "score", dir: "desc" }} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("Page 0")).toBeTruthy();
+  });
+});
+
+describe("explicit re-run controls", () => {
+  test("both controls exist on every page, whatever its state", () => {
+    for (const page of [
+      { probeSet: { present: false, count: 0 }, tested: false },
+      { probeSet: { present: true, count: 6 }, tested: false },
+      { probeSet: { present: true, count: 6 }, tested: true },
+    ]) {
+      const keys = explicitActions(page).map((a) => a.key);
+      expect(keys).toEqual(["regen-probes", "redo-test"]);
+    }
+  });
+
+  test("they are genuinely different operations, not one button twice", () => {
+    const [probes, test] = explicitActions({ probeSet: { present: true, count: 6 }, tested: true });
+    expect(probes.stages).toEqual(["probes"]);
+    expect(test.stages).toEqual(["test"]);
+    expect(probes.icon).not.toBe(test.icon);
+    expect(probes.short).not.toBe(test.short);
+  });
+
+  test("both force, or they would silently reuse and do nothing", () => {
+    // Without force, resume would find the existing artifact and skip — the
+    // button would appear to work and change nothing.
+    for (const a of explicitActions({ probeSet: { present: true, count: 6 }, tested: true })) {
+      expect(a.force).toBe(true);
+    }
+  });
+
+  test("re-running the test is disabled when there is no probe set to run", () => {
+    const [, test] = explicitActions({ probeSet: { present: false, count: 0 }, tested: false });
+    expect(test.disabled).toBe(true);
+    // ...and enabled once a set exists.
+    const [, ok] = explicitActions({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(ok.disabled).toBe(false);
+  });
+
+  test("regenerating is labelled for what it does on a page with no probes yet", () => {
+    const [fresh] = explicitActions({ probeSet: { present: false, count: 0 }, tested: false });
+    expect(fresh.label).toBe("Generate probes");
+    const [again] = explicitActions({ probeSet: { present: true, count: 6 }, tested: false });
+    expect(again.label).toBe("Regenerate probes");
+  });
+
+  test("every control carries a text label, never an icon alone", () => {
+    for (const a of explicitActions({ probeSet: { present: true, count: 6 }, tested: true })) {
+      expect(a.label.length).toBeGreaterThan(0);
+      expect(a.short.length).toBeGreaterThan(0);
+      expect(a.why.length).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe("per-product scores", () => {
+  const p = (o) => ({ type: "product", name: "x", pages: { audited: 5, probed: 0 }, dimensions: [], ...o });
+
+  test("single-page targets are excluded — the Pages table already lists those", () => {
+    const rows = aggregatableTargets([
+      p({ name: "ccip" }),
+      p({ type: "page", name: "https://docs.chain.link/ace" }),
+      p({ type: "watchlist", name: "release-critical" }),
+    ]);
+    expect(rows.map((r) => r.name)).toEqual(["ccip", "release-critical"]);
+  });
+
+  test("a target with nothing audited is not shown as a product with no score", () => {
+    const rows = aggregatableTargets([p({ name: "empty", pages: { audited: 0, probed: 0 } })]);
+    expect(rows).toHaveLength(0);
+  });
+
+  test("dimensions sort weakest first — that ordering is the actionable part", () => {
+    const sorted = weakestFirst([
+      { name: "strong", weight: 10, mean: 8.1 },
+      { name: "weak", weight: 12, mean: 2.1 },
+      { name: "mid", weight: 8, mean: 5 },
+    ]);
+    expect(sorted.map((d) => d.name)).toEqual(["weak", "mid", "strong"]);
+  });
+
+  test("sorting does not mutate the caller's array", () => {
+    const dims = [{ name: "a", mean: 9 }, { name: "b", mean: 1 }];
+    weakestFirst(dims);
+    expect(dims[0].name).toBe("a");
+  });
+});
+
+describe("measure scale", () => {
+  test("band colour tracks the score, and an absent value is not band-coloured", () => {
+    assert_equal(bandColour(90), "var(--band-exemplary)");
+    assert_equal(bandColour(72), "var(--band-strong)");
+    assert_equal(bandColour(56), "var(--band-good)");
+    assert_equal(bandColour(41), "var(--band-developing)");
+    assert_equal(bandColour(10), "var(--band-poor)");
+    // Not measured must not borrow a band colour — that would read as a score.
+    assert_equal(bandColour(null), "var(--faint)");
+    assert_equal(bandColour(undefined), "var(--faint)");
+  });
+
+  test("an unmeasured figure says so instead of rendering zero", () => {
+    const { container } = render(<ScaleBar value={null} label="Answer fidelity" />);
+    expect(screen.getByText("—")).toBeTruthy();
+    expect(screen.getByText("not measured")).toBeTruthy();
+    // No marker at all, rather than one parked at zero.
+    expect(container.querySelector(".scale-marker")).toBeNull();
+  });
+
+  test("a measured figure shows one decimal, its band, and its position", () => {
+    const { container } = render(<ScaleBar value={57.04} label="Page quality" />);
+    expect(screen.getByText("57.0")).toBeTruthy();
+    expect(screen.getByText("Page quality")).toBeTruthy();
+    expect(screen.getByText("Good")).toBeTruthy();
+    // Position is what a ring cannot show: 57 sits just inside Good.
+    expect(container.querySelector(".scale-marker").style.left).toBe("57.04%");
+  });
+
+  test("band names agree with band colours at the thresholds", () => {
+    // A boundary that disagrees between colour and label is the bug nobody
+    // notices until a score lands exactly on 70.
+    for (const v of [85, 70, 55, 40, 0]) {
+      expect(bandName(v)).toBeTruthy();
+      expect(bandColour(v)).toContain("var(--band-");
+    }
+    assert_equal(bandName(70), "Strong");
+    assert_equal(bandName(69.9), "Good");
+  });
+});
+
+describe("score rows", () => {
+  test("an absent value renders a dash, never a zero-length bar reading as zero", () => {
+    const { container } = render(<ScoreRows rows={[{ label: "ccip", value: null, count: 12 }]} />);
+    expect(screen.getByText("—")).toBeTruthy();
+    expect(container.querySelector(".row-fill")).toBeNull();
+  });
+
+  test("values render to one decimal with their count", () => {
+    render(<ScoreRows rows={[{ label: "vrf", value: 61.84, count: 13 }]} />);
+    expect(screen.getByText("61.8")).toBeTruthy();
+    expect(screen.getByText("13")).toBeTruthy();
+  });
+});
+
+describe("design language consistency", () => {
+  test("data sections use rules, control surfaces use panels — the distinction holds", async () => {
+    // Boxing everything made this look like every other dashboard; boxing
+    // nothing makes a form impossible to aim at. Both primitives must exist and
+    // stay distinct, or the site drifts back to one undifferentiated look.
+    const fs = await import("node:fs");
+    const css = fs.readFileSync("src/theme/tokens.css", "utf8");
+    expect(css).toContain(".ruled {");
+    expect(css).toContain(".panel {");
+    // `card` survives only as an alias so nothing renders unstyled.
+    expect(css).toContain(".card {");
+  });
+
+  test("every route opens with the same furniture", async () => {
+    const fs = await import("node:fs");
+    const routes = ["Overview", "Pages", "PageDetail", "Runs", "RunDetail", "Activity", "NewRun"];
+    for (const r of routes) {
+      const src = fs.readFileSync(`src/routes/${r}.jsx`, "utf8");
+      // Overview leads with figures rather than a title block; every other page
+      // uses the shared header so navigation feels like one site.
+      if (r === "Overview") continue;
+      expect(src, `${r} is missing the shared page header`).toContain("page-head");
+    }
+  });
+
+  test("figures share one treatment across pages", async () => {
+    const fs = await import("node:fs");
+    for (const r of ["PageDetail", "RunDetail"]) {
+      const src = fs.readFileSync(`src/routes/${r}.jsx`, "utf8");
+      expect(src, `${r} should use the shared figure treatment`).toContain("figure-value");
+    }
+  });
+});

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Belt and braces: the header in vercel.json is what search engines
+         actually honour, but this survives the file being copied elsewhere. -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <title>GEO — documentation measurement</title>
+    <script>
+      // Resolve the theme BEFORE first paint, or the page flashes the wrong one.
+      try {
+        var t = localStorage.getItem("geo-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="/assets/index-BXqOqe2x.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BuyiDVAC.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

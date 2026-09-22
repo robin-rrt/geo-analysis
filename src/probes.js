@@ -32,6 +32,7 @@ export const PROBES_SCHEMA = {
           "id",
           "prompt",
           "archetype",
+          "context_mode",
           "paraphrase_of",
           "expected_source_urls",
           "answer_key",
@@ -39,6 +40,13 @@ export const PROBES_SCHEMA = {
         properties: {
           id: str,
           prompt: str,
+          // What the probe is actually testing. Without this, a question whose
+          // subject the engine cannot identify is scored as a bad ANSWER, and
+          // two different failures are averaged into one meaningless number.
+          context_mode: {
+            type: "string",
+            enum: ["self-contained", "cold"],
+          },
           archetype: {
             type: "string",
             enum: [

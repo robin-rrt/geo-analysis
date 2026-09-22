@@ -1,0 +1,167 @@
+{
+  "key": "data-feeds-developer-responsibilities-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Developer Responsibilities: Market Integrity and Application Code Risks",
+    "url": "https://docs.chain.link/data-feeds/developer-responsibilities.md",
+    "analyzedAt": "2026-09-21T11:47:26.049Z",
+    "contentType": "developer documentation / risk-disclosure & responsibilities (conceptual, non-reference)",
+    "score": 59.5,
+    "band": "Developing",
+    "weightedTotal": 59.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a conceptual risk-disclosure page defining what developers — not Chainlink node operators — are responsible for when integrating Data Feeds. Its biggest strength is crisp, liftable term definitions (\"Market Integrity Risks are those associated with external market conditions…\") in a clean, well-chunked structure. Its biggest opportunity is discoverability: the page carries **zero structured metadata** (no JSON-LD, missing canonical, no dates) and no symptom/question-phrased headings, so it will lose retrieval to concept-titled queries even though it holds the answer. Honest verdict: solid prose that reads well but is under-instrumented for machine ingestion and under-matched to how developers actually ask liability questions.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (JSON-LD `TechArticle` + canonical + dates)",
+        "mapsTo": "machine-readability & E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured — \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `inLanguage`, and a self-referential `canonical` URL; surface a visible \"Last updated\" line.",
+        "why": "structured freshness/authority signals raise agent trust and parse reliability; absent canonical risks duplicate-attribution loss."
+      },
+      {
+        "priority": 1,
+        "title": "Add question- and liability-phrased headings/FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new section near top, plus reworded H3s",
+        "issue": "all headings concept-titled (\"Market Integrity Risks\"); no query-shaped entry point",
+        "change": "add a short FAQ with headings such as \"Who is responsible if a Chainlink price feed is manipulated?\", \"Is Chainlink liable for oracle price errors?\", \"What must developers check before integrating a Data Feed?\" — answer-first in one sentence each.",
+        "why": "developers query liability by natural question; concept-titled prose loses this retrieval even though the answer (\"Developers are solely responsible…\") is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Market Integrity vs Application Code risk comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "under \"Developer Responsibilities\"",
+        "issue": "two risk classes described only in parallel prose; no extractable side-by-side",
+        "change": "table with columns Risk type · Definition · Example factors · Developer mitigation, one row each; put the canonical mitigation links in-cell.",
+        "why": "tables let engines extract *reasons* and build justified answers; improves lift for \"types of Data Feed risk\" queries."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to risk factors",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Market Integrity Risks\" paragraph",
+        "issue": "\"assets with high market risk, such as those with low liquidity\" — qualitative only, vague quantifier \"most\"",
+        "change": "cite the defined Data Feed risk categories (Low/Medium/High Market Risk labels) inline and name the concrete checks recommended (data-quality checks, circuit breakers, staleness/heartbeat thresholds) as bulleted specifics.",
+        "why": "quantitative/named specifics are among the highest-lift changes; qualitative prose underperforms."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary-source / canonical citations",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "manipulation-types sentence and audit bullets",
+        "issue": "measured — \"0 to primary sources\"",
+        "change": "link definitions of manipulation types and audit expectations to authoritative references (e.g., a glossary or standards page) rather than only the education-hub explainer.",
+        "why": "primary-source inlinks raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Tighten the answer-first opening",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "first paragraph",
+        "issue": "opens with feed-marketing framing before the responsibility claim",
+        "change": "lead with the liftable one-liner: \"Developers — not Chainlink node operators — are solely responsible for monitoring and mitigating market integrity and application code risks when integrating Chainlink Data Feeds.\"",
+        "why": "a self-contained first sentence resists parametric-prior substitution and is the sentence engines quote."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"most\" (measured) with no threshold; otherwise no keyword stuffing or fluff.",
+      "No unresolved cross-references; \"(Image: Image)\" placeholder at end is a rendering artifact worth removing but not a content defect.",
+      "No stale-date signal — but this is because **no date exists at all** (a metadata gap, not staleness)."
+    ],
+    "offPageNotes": [
+      "Page references `/llms.txt`; confirm this page is listed there so agents can discover it as the canonical responsibilities source.",
+      "Site-level: canonical URL and JSON-LD are typically template-controlled — fix at the docs framework layer so all conceptual pages inherit `TechArticle` schema and `dateModified`.",
+      "CLI should pass raw `<head>` on the next run; head metadata could not be verified here, so schema/canonical absence is inferred from served HTML only."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

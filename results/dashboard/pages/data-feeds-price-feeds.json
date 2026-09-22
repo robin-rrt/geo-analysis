@@ -1,0 +1,158 @@
+{
+  "key": "data-feeds-price-feeds",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Price Feeds",
+    "url": "https://docs.chain.link/data-feeds/price-feeds",
+    "analyzedAt": "2026-09-21T11:49:25.383Z",
+    "contentType": "developer documentation / concept hub (landing page)",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Opens with a liftable sentence — \"Chainlink Data Feeds provide data that is aggregated from many data sources by a decentralized set of independent node operators.\" But it answers *Data Feeds*, not *Price Feeds* (the page's own title), leaving the implied question unanswered in the first chunk."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean H1/H2, no level skips, tight \"What's next\" list. Fine for its size, but only 2 sections means little retrievable surface."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. 0 numerals, vague quantifiers \"many\"/\"some\". No mention of typical decimals (8), heartbeat/deviation thresholds, number of feeds, or supported networks."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "6 internal links to relevant concept/reference pages — good hub linking. 0 external/primary sources; acceptable for a hub but no authoritative anchor."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "The Data Feeds sentence is quotable; there is no crisp one-sentence definition of a Price Feed itself."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong — valid `TechArticle` + `BreadcrumbList`, canonical URL, `inLanguage`, full og/twitter set. Deductions: `datePublished`==`dateModified` (no genuine freshness signal), auto-templated `about` (\"Content about using/data/feeds\") and stopword-laden `keywords`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code. Defensible for a hub, but the page's own description (\"how to use … in your smart contracts\") invites a minimal read example."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Low. Doesn't address \"what is a price feed,\" \"how do I read a price feed,\" \"how often do feeds update,\" or error/symptom phrasings; it defers everything to child pages."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed beyond disambiguating Data Feeds vs Price Feeds."
+      }
+    ],
+    "summary": "This is a thin concept-hub stub (110 words, 2 sections, 0 code, 0 numerals) whose main job is to route readers to `using-data-feeds`, `historical-data`, addresses, and API reference. Its biggest strength is clean metadata and a serviceable opening definition; its biggest weakness is that a page titled \"Price Feeds\" never defines a *price feed* specifically and carries zero concrete specifics (decimals, heartbeat, deviation threshold, network/feed counts) — exactly the quantitative facts generative engines lift. As-is it will be outranked on \"what is a Chainlink Price Feed\" queries by pages that state the fact concretely, and it barely covers the symptom/how-to queries users actually type.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical one-sentence definition of \"Price Feed\" as the first liftable line",
+        "mapsTo": "quotable canonical definitions / answer-first extractability",
+        "tier": null,
+        "where": "Immediately under the `# Price Feeds` H1, before the current Data Feeds sentence.",
+        "issue": "Page titled \"Price Feeds\" opens with a *Data Feeds* definition; no price-feed definition exists.",
+        "change": "Add e.g. \"A Chainlink Price Feed is an on-chain contract that reports the aggregated market price of an asset pair (e.g. ETH/USD), updated by a decentralized network of node operators and readable via the `AggregatorV3Interface.latestRoundData()` function.\"",
+        "why": "Gives engines a self-contained answer to \"what is a Chainlink Price Feed\" in the first chunk, resisting parametric-prior substitution."
+      },
+      {
+        "priority": 1,
+        "title": "Inject concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "New sentence/bullets after the definition.",
+        "issue": "0 numerals; vague \"many\"/\"some\".",
+        "change": "State typical facts: price feeds return values with 8 decimals (some pairs use 18), update on a deviation threshold or heartbeat, and are live across major EVM networks — link to the addresses page for the exact list. Replace \"many data sources\" with a concrete count/range where known.",
+        "why": "Quantitative claims are among the highest-lift changes for citation; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/how-to phrased subheadings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Between the intro and \"What's next\".",
+        "issue": "Content matches concept titles, not the questions devs type.",
+        "change": "Add short H2/H3s like \"How do I read the latest price?\", \"How often do Price Feeds update?\", \"Price Feed vs Data Feed — what's the difference?\", each with a 1–2 sentence answer that links to the deep-dive page.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal runnable read example",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "Under a \"How do I read the latest price?\" heading.",
+        "issue": "0 code blocks on a page describing smart-contract usage.",
+        "change": "Include a short Solidity snippet calling `latestRoundData()` on `AggregatorV3Interface` with imports and a labeled network, or explicitly one-line-defer to `using-data-feeds` with the canonical function named inline.",
+        "why": "Agents extract the canonical API; naming `latestRoundData()` here blocks generic-substitute answers."
+      },
+      {
+        "priority": 3,
+        "title": "Fix freshness and templated schema fields",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `TechArticle` + frontmatter.",
+        "issue": "`dateModified` equals `datePublished`; `about` entries are auto-templated (\"Content about using\"); `headline` is \"Using Data Feeds\" on a page titled \"Price Feeds\".",
+        "change": "Stamp a real `dateModified` on edits; replace `about` with meaningful entities (\"Chainlink Price Feeds\", \"AggregatorV3Interface\", \"Data Feeds\"); align `headline` with the page title.",
+        "why": "Accurate entities and visible freshness raise E-E-A-T and entity resolution; low effort, modest lift."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers (\"many data sources\", \"some exceptions\") with no numbers.",
+      "Title/content mismatch: \"Price Feeds\" page whose body and schema `headline` describe generic Data Feeds.",
+      "Stale-date signal: `datePublished` identical to `dateModified`.",
+      "Auto-generated schema `about`/`keywords` (e.g. \"Content about data\", stopwords \"How\"/\"your\")."
+    ],
+    "offPageNotes": [
+      "Site-level: ensure `llms.txt` and sitemap list this hub and its children so the canonical-hub pattern is discoverable.",
+      "Freshness cadence is a site-generator concern — the identical timestamps suggest generator-stamped dates rather than genuine revision tracking.",
+      "The CLI should pass raw `<head>`/full rendered body; the extremely low word count is consistent with a stub, but confirm no content was truncated before treating query-coverage gaps as final."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

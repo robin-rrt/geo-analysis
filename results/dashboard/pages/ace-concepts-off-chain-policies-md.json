@@ -1,0 +1,177 @@
+{
+  "key": "ace-concepts-off-chain-policies-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Off-Chain Policy Execution",
+    "url": "https://docs.chain.link/ace/concepts/off-chain-policies.md",
+    "analyzedAt": "2026-09-21T16:33:22.091Z",
+    "contentType": "developer documentation / conceptual overview",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 61,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition — \"Off-chain policy execution lets you enforce compliance rules that depend on data or systems outside the blockchain.\" Each section leads with its answer. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong hierarchy (1 H1, H2s, no level skips, 0 sections over 600 words). Weak spot: 0 tables — the managed-vs-custom distinction is the page's core decision and lives in prose/bullets, not an extractable table."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak. 15 numerals but 0 with units, no version strings, no thresholds/latencies/limits. Good specific: \"permits are single-use and do not expire.\" Missing quantitative detail on risk thresholds, rate/usage limits, Beta scope."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "11 internal links, well-chosen (reference contract, guides). 0 external — no link to TRM, DON docs, or Keystone Forwarder canonical definitions, which would raise attributability."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. \"The permit serves as cryptographic proof that the off-chain checks passed.\" Crisp and liftable. Permit and off-chain policy both defined near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak per measured facts — 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified` in head (only \"Last Updated: 2026-07-17\" in body). Head metadata not captured; CLI should pass raw `<head>` to confirm."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "No code blocks. Conceptual page, so partially N/A, but the Evaluation API call flow is described verbatim without a single request/response snippet an agent could adapt."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers what/why/how and both models. Missing troubleshooting and symptom-phrased entry points (e.g., the permit-revert case is buried in prose, not a heading)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clear and consistent overall. Minor: \"off-chain\" and \"offchain\" are both used, which can fragment entity resolution."
+      }
+    ],
+    "summary": "This is a clean, well-structured conceptual page explaining ACE off-chain policy execution, with a strong lifted-answer intro and clear numbered flows for both the managed and custom models. Its single biggest strength is answer-first extractability; its biggest opportunity is a managed-vs-custom comparison table plus machine-readable metadata (no JSON-LD, missing canonical, dates only in body). The honest verdict: solid conceptual prose that an engine can quote, but under-instrumented for retrieval and thin on concrete numbers.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a managed-vs-custom comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "After the intro's two-bullet list, before \"Why off-chain policies?\"",
+        "issue": "The core choice is split across prose bullets: \"Managed wallet risk screening (MVP)\" vs \"Custom offchain integrations.\"",
+        "change": "Add a table with rows: use case, who hosts infrastructure, availability (MVP/Beta), permit lifetime, setup path (link), example providers.",
+        "why": "Tables let engines extract *reasons* and build justified \"which should I use\" answers; the current bullets don't chunk as a decision unit."
+      },
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability (\"API-able\")",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "Measured facts show 0 JSON-LD, canonical MISSING, no `dateModified` in head.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified` (surface the body's 2026-07-17), canonical URL, and `inLanguage`.",
+        "why": "Structured metadata and visible freshness raise parse-ability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom-phrased heading for the permit-revert case",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Within \"Managed wallet risk screening.\"",
+        "issue": "Key failure mode is buried: \"will revert if the caller does not have a valid permit.\"",
+        "change": "Add an H3 like \"Why does my protected function revert without a permit?\" answering it in the first sentence.",
+        "why": "Devs/agents query by symptom/error; concept-titled prose loses that retrieval even when the answer is present."
+      },
+      {
+        "priority": 2,
+        "title": "Inject concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Managed wallet risk screening\" and \"Custom offchain integrations.\"",
+        "issue": "Qualitative-only: \"risk thresholds,\" \"usage limits,\" with 0 numerals carrying units.",
+        "change": "State permit properties explicitly (single-use, non-expiring in Beta), name the threshold types (global risk, unknown-risk, category-specific), and any known limits.",
+        "why": "Quantitative/specific claims are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal Evaluation API request example",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "Step 1 of the managed flow (\"calls the ACE Evaluation API with...\").",
+        "issue": "The call is described in prose with named parameters but no snippet.",
+        "change": "Add a fenced, language-tagged example showing the request body (caller, target, function, chain, permit params) and the polled `status` values (`rejected`, `ready`).",
+        "why": "Copy-pasteable, complete snippets are directly liftable by coding agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add authoritative external links",
+        "mapsTo": "cited, authoritative references",
+        "tier": null,
+        "where": "First mentions of \"TRM Wallet Screening,\" \"Keystone Forwarder,\" \"Vault DON.\"",
+        "issue": "0 external links; these entities are unlinked.",
+        "change": "Link each to its canonical source/definition.",
+        "why": "Inline authoritative references raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Normalize \"off-chain\"/\"offchain\" spelling",
+        "mapsTo": "terminology consistency",
+        "tier": null,
+        "where": "Throughout (title/intro use \"off-chain\"; bullets use \"offchain\").",
+        "issue": "Mixed spelling of the central term.",
+        "change": "Pick one form site-wide and apply consistently.",
+        "why": "Consistent naming aids entity resolution and reduces ambiguity."
+      }
+    ],
+    "antiPatterns": [
+      "Two `(Image: Image)` placeholders with no alt text or caption — invisible to engines; add descriptive captions of the flow each diagram shows.",
+      "Mixed \"off-chain\"/\"offchain\" terminology (noted above).",
+      "No stale-content or keyword-stuffing issues; prose is clean and non-promotional."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-page — good; confirm it lists this URL.",
+      "Site-level JSON-LD/canonical emission and freshness cadence are template concerns beyond this page.",
+      "Third-party citations (e.g., TRM docs linking back) are earned/off-page and not scored here."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

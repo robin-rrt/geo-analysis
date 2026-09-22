@@ -1,0 +1,663 @@
+{
+  "key": "cre-guides-operations-monitoring-workflows-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Monitoring & Debugging Workflows",
+    "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+    "analyzedAt": "2026-09-21T13:22:02.376Z",
+    "contentType": "developer documentation / operational guide (UI walkthrough + troubleshooting)",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 63,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working: the intro is self-contained (\"you can monitor its execution history, performance metrics, and logs through the CRE web interface\"). Weak: several section leads describe the UI (\"The top section displays…\") rather than answering the implied question a dev would ask, e.g. \"Where do I find failed executions?\""
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 20 sections, median 55 words, 0 over 600, 3 tables, 35 bullets — near-ideal chunk boundaries for RAG."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak: mostly qualitative UI description; only 1 numeral carries units and vague quantifiers \"most\"/\"quickly\" appear. Missing: log-retention window, metric refresh interval, max time range in the dropdown, credit-unit definition."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Adequate for a UI guide: 8 internal links to sibling operations pages. No external/primary-source links, but few apply here."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Decent: the Events-vs-Logs distinction is crisp (\"The Events tab shows system-level events only\"). Could add a one-line canonical definition of \"CRE credit.\""
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no `dateModified` in schema, no og/twitter tags. The head could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Fragmentary by design: 3 blocks, 1 untagged (the log-output block), and the TS/Go snippets show no imports. Fine as illustrations, but not runnable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Working: symptom-phrased scenarios (\"Workflow not executing\", \"Execution failures\" with Symptoms/Causes/Resolution). Missing common error-string queries devs actually paste."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent product naming (CRE, Workflow Registry, credits), unambiguous prose."
+      }
+    ],
+    "summary": "This is a clean, well-structured operational guide for monitoring and debugging deployed CRE workflows via the web UI. Its biggest strength is scannability and symptom-phrased troubleshooting (20 headings, 0 level skips, a dedicated \"Common debugging scenarios\" section). Its biggest opportunity is machine-readability: the served HTML carries no JSON-LD, no canonical URL, and no schema-level dates, so the in-body \"Last Updated: 2025-11-04\" is invisible to parsers. The page is genuinely useful; it under-indexes on retrievability signals and concrete specifics rather than on prose quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Emit page-level JSON-LD (`TechArticle`) with canonical URL and dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "\"JSON-LD: 0 blocks · canonical MISSING · dateModified absent\"",
+        "change": "Add a `TechArticle` block with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, and a self-referential `canonical`. Mirror the visible \"Last Updated\" into `dateModified`.",
+        "why": "Schema + canonical + freshness are core E-E-A-T/trust signals engines use to select and date-rank sources."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-string headings under debugging scenarios",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Common debugging scenarios\"",
+        "issue": "scenarios titled by concept (\"Execution failures\") not by the strings devs paste.",
+        "change": "Add H3s or bolded lead lines such as \"Why does my workflow show no recent executions?\", \"Execution failed with an onchain revert\", \"Logs tab is empty but Events show Success\". Keep the existing Symptoms/Causes/Resolution structure under each.",
+        "why": "Devs and agents query by symptom; question-phrased headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each section with an answer-first sentence",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Recent executions\", \"Activity chart\", \"Logs tab\"",
+        "issue": "\"The top section displays the most recent workflow executions…\"",
+        "change": "Recast leads as answers, e.g. \"To find a specific failed run, use Recent executions at the top of the Workflows dashboard — it lists the latest runs across all workflows with status and timestamp.\"",
+        "why": "A self-contained first sentence is what engines lift verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to UI descriptions",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Activity chart, Execution history, Overview",
+        "issue": "vague quantifiers \"most\"/\"quickly\"; no numeric limits.",
+        "change": "State the available time ranges in the dropdown (e.g. \"24h / 7d / 30d\"), the \"last 24h\" window already referenced, log retention duration, and define a CRE credit unit. Replace \"quickly identify failures\" with the concrete filter action.",
+        "why": "Quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Tag the untagged code fence and label the log block",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Example log output\" block",
+        "issue": "\"1 untagged\" fence; no language hint.",
+        "change": "Tag it as `text`/`log` and add a one-line caption (\"Sample Logs-tab output; `result` values are user-emitted\").",
+        "why": "Labeled fences parse cleanly and are attributed correctly by agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short definition of \"CRE credit\" near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "\"Credits Used\" / \"Total Workflow Spend\"",
+        "issue": "credits referenced repeatedly but never defined.",
+        "change": "One liftable sentence: \"A CRE credit is the billing unit consumed per execution; Total Workflow Spend is the cumulative credits across all runs.\"",
+        "why": "Crisp canonical definitions get quoted and resolve entity ambiguity."
+      },
+      {
+        "priority": 3,
+        "title": "Cross-link the log helpers to their API reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "references to `runtime.log()` / `logger.Info()`",
+        "issue": "0 external/primary-source links; API helpers unlinked.",
+        "change": "Link `runtime.log()` (TS) and `logger.Info()` (Go) to their SDK reference pages.",
+        "why": "Inline links to canonical API pages raise attributability and anchor the correct helper against generic ecosystem substitutes."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"most\", \"quickly\" where a specific number/action would serve.",
+      "One untagged code fence (log output).",
+      "Illustrative code snippets omit imports/config — acceptable here but not agent-runnable.",
+      "No unresolved cross-references, no marketing fluff, no keyword stuffing, no walls of prose."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-body — good; confirm it lists this page.",
+      "Site-level fix: the raw `<head>` (JSON-LD, canonical, og tags) was not captured; the CLI should pass it for a full metadata read, and the template should inject `TechArticle` schema site-wide.",
+      "Freshness cadence: surface `dateModified` in machine-readable form, not only as in-body text."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+      "source_title": "Monitoring & Debugging Workflows",
+      "probe_set_id": "41ce77d50834",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T14:32:00.364Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 45.5,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.5,
+        "hallucination_free": 3.7,
+        "relevance": 1.3,
+        "structure": 4
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 167522,
+          "output_tokens": 10060,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 15,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 7133,
+          "output_tokens": 5082,
+          "cache_creation_input_tokens": 3501,
+          "cache_read_input_tokens": 31839,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites the expected monitoring-workflows source page and instead references unrelated CLI/SDK references."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 5,
+            "structure": 6
+          },
+          "fidelity": 43,
+          "hallucinations": [
+            {
+              "claim": "cre execution list",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre execution status",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre execution events",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre execution logs",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "the response includes a workflow_execution_id",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Sources: ... the CLI Reference (execution commands) ... and the Core SDK Reference",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Click a workflow row to view Performance, Overview, and Execution history",
+            "Explicit mention of the Events tab (system-level events) as distinct from Logs tab"
+          ],
+          "unverifiable_from_source": [
+            "cre execution list/status/events/logs CLI commands",
+            "workflow_execution_id being included in trigger response"
+          ],
+          "verdict": "The UI-based monitoring steps are accurate, but the answer invents an entire CLI workflow (cre execution list/status/events/logs) and a workflow_execution_id field that are not in the source, which is exactly the kind of fabricated-command hallucination the docs warn against, making it unsafe to ship as-is.",
+          "prompt": "How do I monitor my deployed workflow's execution history and logs in CRE?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about monitoring workflow execution history and logs in CRE (Chainlink Runtime Environment).There's a dedicated page. Let me fetch its details.Let me get more detail on the specific commands and UI steps.You can monitor a deployed CRE workflow's execution history and logs in **two ways** — through the CRE UI (web dashboard) or through the CRE CLI (terminal). Here's how each works:\n\n## Option 1: The CRE UI (Web Dashboard)\n\nThis is the most visual approach:\n\n1. **Log in to the CRE UI** at `app.chain.link/cre/discover`.\n2. **Navigate to the Workflows section** by clicking **Workflows** in the left sidebar, or go directly to `app.chain.link/cre/workflows`.\n3. The **Workflows dashboard** displays three main sections:\n   - **Recent executions** – the most recent workflow runs across all your workflows\n   - **Activity chart** – visualizes successful and unsuccessful executions over a selected time period\n   - **All workflows table** – lists your workflows\n4. To dig into a specific run, **click on your workflow**, open the **Execution tab** for recent runs, then **click an Execution ID** to view detailed logs and events for that specific run. Each execution shows information like its **timestamp** (when the execution occurred), status, and a dedicated **Logs tab**.\n\n## Option 2: The CRE CLI (Terminal)\n\nThe CLI lets you inspect deployed workflow runs directly from your terminal. The key commands are:\n\n- **`cre execution list`** — List recent executions; you can filter by workflow, status, and time range\n- **`cre execution status`** — Show detailed status for a single execution\n- **`cre execution events`** — Show the capability event timeline for an execution\n- **`cre execution logs`** — Show the log lines emitted during an execution\n\n## About the logs themselves\n\nFor logs to appear, your workflow code must emit them properly. Because CRE workflows are compiled to **WebAssembly (WASM)**, `console.log`/`console.error` produce no output — instead you use `runtime.log()` (TypeScript) or the `logger` (Go). These logged messages show up both in simulation output and in the **CRE UI Logs tab** for deployed workflows.\n\n## Tip: Tracking a specific run\n\nWhen you trigger a deployed workflow, the response includes a **`workflow_execution_id`**. Copy this ID to track that specific execution — you can then look up its logs, events, and details in the CRE UI or via the CLI commands above.\n\n---\n\nIf you'd like, I can walk you through a specific example — for instance, filtering `cre execution list` by status to find failed runs, or setting up structured logging in your workflow code. Would TypeScript or Go be more relevant for you?\n\n*Sources: Chainlink CRE documentation — \"Monitoring & Debugging Workflows,\" the CLI Reference (execution commands), \"Triggering Deployed Workflows,\" and the Core SDK Reference.*",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 47192,
+              "output_tokens": 2472,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1519,
+              "output_tokens": 1771,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5489,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search tool hit a usage limit and it could not confirm details against the live docs, making this probe inconclusive."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 5,
+            "relevance": 3,
+            "structure": 7
+          },
+          "fidelity": 48,
+          "hallucinations": [
+            {
+              "claim": "runtime.Logger() / runtime.log() output goes",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "runtime.log() (TypeScript) and logger.Info() (Go) output appears in the Logs tab — Go's logger.Info() is never mentioned",
+            "Logs display timestamp, log level, and custom message in chronological order"
+          ],
+          "unverifiable_from_source": [
+            "Logs also appear in the terminal when running locally via the CRE CLI simulator",
+            "Events tab may include report generation / on-chain write outcomes",
+            "Log panel might be labeled 'Console' or 'Execution logs' in current UI"
+          ],
+          "verdict": "The answer gets the general Logs-vs-Events distinction roughly right but invents a nonexistent 'runtime.Logger()' function, omits the Go logger.Info() detail and log-format specifics, never cites the source, and openly admits it couldn't verify against live docs — not safe to ship without verification.",
+          "prompt": "Where do my custom runtime.log() messages show up in the CRE UI, and how are they different from the Events tab?",
+          "archetype": "constrained",
+          "answer": "I wasn't able to pull up the live Chainlink CRE documentation just now (my search tool hit its usage limit), so I can't cite the current docs directly. Let me give you my best understanding based on how the CRE tooling is structured, and I'd recommend double‑checking against the official docs at `docs.chain.link` since the UI evolves quickly.\n\n## Where `runtime.Logger()` / `runtime.log()` output goes\n\nMessages you emit with the runtime logger inside your workflow code are **your workflow's application/debug logs**. In the CRE UI these typically surface in the **Logs** view for a given workflow execution (sometimes labeled \"Console\" or \"Execution logs\"), and also in the terminal when you run the workflow locally via the CRE CLI simulator. They are the free‑form, developer‑authored strings that show exactly what your code chose to print at a given point in execution.\n\nKey characteristics:\n- Free-form text you control (log levels, messages, values).\n- Tied to a specific workflow **run/execution**.\n- Meant for **debugging and observability** of your own logic.\n\n## How that differs from the Events tab\n\nThe **Events tab** is not your custom text — it's a **structured, system-generated record of what happened to the workflow**. Rather than arbitrary messages, it shows lifecycle and orchestration events such as:\n- Trigger firing / when a run was initiated,\n- Execution start/completion and status (success, failure, error),\n- Capability/step transitions and consensus-related milestones,\n- Report generation / on‑chain write outcomes.\n\nSo the practical distinction:\n\n| | `runtime.Logger()` logs | Events tab |\n|---|---|---|\n| Source | Written by **you** in workflow code | Emitted by the **CRE runtime/platform** |\n| Content | Arbitrary text / debug values | Structured lifecycle & status events |\n| Purpose | Debugging your logic | Auditing what the system did and when |\n| Granularity | Wherever you place a log call | Defined execution milestones |\n\n**Rule of thumb:** if you want to know *why your code did something* or inspect intermediate values, look at the log output; if you want to know *whether/when a run triggered, progressed, and completed*, look at the Events tab.\n\nA couple of things worth verifying in the current docs, since I couldn't confirm them live:\n1. The exact label of the log panel in the current UI (Logs vs. Console) and whether logs are filterable by level.\n2. Whether logs are retained/persisted for remote (deployed) executions the same way they appear in the local simulator, since retention behavior sometimes differs between local runs and deployed workflows.\n\nIf you can tell me whether you're running locally via the CRE CLI or viewing a deployed workflow in the hosted UI, I can tailor the guidance — and once my search access is back I can confirm the specifics against the official documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34110,
+              "output_tokens": 2180,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1405,
+              "output_tokens": 1557,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5489,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never mentions Chainlink CRE and instead asks which generic workflow platform is being used, indicating retrieval/subject identification failed."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 3,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 18,
+          "hallucinations": [
+            {
+              "claim": "n8n, Zapier, Make, Airflow, GitHub Actions, Azure/AWS/GCP pipelines, Temporal, dbt Cloud, etc.",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Execution logging disabled... Some tools let you turn off saving successful/failed executions",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Workflow may be paused — check the Status field",
+            "Trigger may not be firing (invalid cron schedule or no matching onchain events)",
+            "Workflow may have been recently deployed and not yet triggered",
+            "Verify the workflow Status is PENDING (active)",
+            "Use Workflow Simulation to test locally"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize this is about Chainlink CRE workflows and instead asks generic clarifying questions about unrelated platforms, making it useless for the actual product in question.",
+          "prompt": "my workflow shows no recent executions in the dashboard, what's wrong?",
+          "archetype": "error-debug",
+          "answer": "I'd be happy to help troubleshoot this, but \"no recent executions in the dashboard\" can have very different causes depending on your setup. To point you in the right direction, could you share a few details?\n\n**1. What platform/tool is this?**\n- n8n, Zapier, Make, Airflow, GitHub Actions, Azure/AWS/GCP pipelines, Temporal, dbt Cloud, etc.\n\n**2. Is the workflow supposed to be running on a schedule, a trigger, or manually?**\n- If scheduled (cron/interval), is the schedule active?\n- If triggered (webhook, event, file drop), is the trigger firing?\n\n**3. Is the workflow itself *active/enabled*?**\n- Many tools distinguish between \"saved\" and \"active.\" A common cause is a workflow that's saved but toggled off.\n\n---\n\nWhile you gather those, here are the **most common culprits** across platforms:\n\n| Cause | What to check |\n|---|---|\n| **Workflow is inactive/disabled** | Look for an \"Active\" toggle or enabled status |\n| **Scheduler/trigger not firing** | Verify cron syntax, timezone, or that the webhook URL is being called |\n| **Executions ran but were filtered out** | Check dashboard date range, status filter, or environment (prod vs. dev) |\n| **Execution logging disabled** | Some tools let you turn off saving successful/failed executions |\n| **The worker/runner is down** | Check that the execution engine, scheduler, or self-hosted instance is actually running |\n| **Errors before logging** | A failure at trigger/startup may never create an execution record |\n| **Looking at the wrong instance/project** | Wrong account, tenant, branch, or environment |\n\nIf you can tell me **which platform** you're on (and paste any error messages or a screenshot description), I can give you specific, step-by-step diagnostics — and I can search for current documentation or known issues for that tool if helpful.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5908,
+              "output_tokens": 785,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1075,
+              "output_tokens": 420,
+              "cache_creation_input_tokens": 3501,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not retrieve or cite the source and instead asked the user to clarify which product 'CRE' refers to."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 10,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 30,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Use the ALL dropdown filter on the Execution tab to show only failures",
+            "Click the failed Execution ID",
+            "Check the Events tab to see which step failed",
+            "Review the Logs tab for error messages"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize the Chainlink CRE product referenced in the prompt and instead asks for clarification, providing no useful information from the source docs.",
+          "prompt": "CRE dashboard filter show only failed executions debug failures",
+          "archetype": "terse/keyword",
+          "answer": "I'd be happy to help, but I need a bit more context to give you an accurate answer. \"CRE\" and its dashboard could refer to several different platforms, and the steps to filter for failed executions differ significantly between them. Could you clarify which product/environment you mean?\n\nCommon possibilities include:\n\n- **Google Cloud Run / Cloud Run Executions (Jobs)** — filtering executions by status in the Cloud Console\n- **Chainlink Runtime Environment (CRE)** — workflow/execution dashboards\n- **Salesforce CRE** or a custom internal **Customer Reliability Engineering** dashboard\n- **CrowdStrike / other security tooling**\n- A **custom internal dashboard** your team built (Grafana, Kibana, Datadog, etc.)\n\nTo point you to the exact filter and debugging steps, it would help to know:\n\n1. **Which platform/tool** is the \"CRE dashboard\"? (vendor name, or is it internal?)\n2. **What UI are you in** — a web console, Grafana/Kibana, an internal web app?\n3. **What are you trying to debug** — failed job runs, failed pipeline steps, API errors, etc.?\n4. Do you have **screenshots, logs, or a data export** you can share?\n\nIf you can share any of the above (especially a screenshot of the dashboard or a sample of the execution data/logs), I can give you specific filter settings and help you dig into the root cause of the failures.\n\nAlternatively, if you'd like, I can **search the web** for documentation on a specific platform — just let me know which one.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5903,
+              "output_tokens": 752,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 949,
+              "output_tokens": 239,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5489,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never engaged with the Chainlink CRE documentation and cited no source."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 2,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 13,
+          "hallucinations": [
+            {
+              "claim": "has an \"Executions\" tab / Zap History / Temporal Web UI etc.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Log in to app.chain.link and open the Workflows section",
+            "The dashboard shows Recent executions, an Activity chart (green = success, red = failure), and an All workflows table",
+            "Click a workflow to see its Performance chart and Overview (Status, Workflow ID, Owner, Total Runs, Registered On, Total Workflow Spend)",
+            "The Execution tab lists all runs with Status, Time Triggered, and Credits Used",
+            "Click an Execution ID to see Events and Logs tabs"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize this is about Chainlink CRE workflows and instead asks the user to identify a generic workflow automation tool, completely missing the source content — not safe or useful for this prompt.",
+          "prompt": "I just deployed my first workflow and I'm not totally sure where to go to see if it's running okay or if something broke. Can you walk me through what the monitoring page shows me?",
+          "archetype": "verbose/beginner",
+          "answer": "I'd love to help you get comfortable checking on your workflow! Before I walk you through it, I need to know a bit more, because the \"monitoring page\" looks different depending on what tool you deployed your workflow on.\n\nCould you tell me which platform you're using? For example:\n\n- **n8n** – has an \"Executions\" tab\n- **Zapier** – has a \"Zap History\" / \"Task History\" page\n- **Make (Integromat)** – has a scenario \"History\" and detail panels\n- **Apache Airflow** – has the DAGs view, Grid/Graph views\n- **Temporal** – has a Web UI with workflow executions\n- **GitHub Actions** – has an \"Actions\" tab with run logs\n- **AWS Step Functions**, **Azure Logic Apps**, **Google Cloud Workflows**, etc.\n- Or an internal/custom tool at your company\n\nIf you can let me know the platform (and paste a screenshot or describe what you're seeing on screen, if that's easier), I can walk you through exactly what each panel means—things like:\n\n- **Run/execution history** (did it succeed, fail, or is it still running)\n- **Status indicators** (green/red, success/error counts)\n- **Logs and step-by-step detail** (where to click to see what happened at each step)\n- **Error messages and how to read them**\n- **Timing/duration and scheduling info** (when it last ran, when it runs next)\n- **Alerts or notifications** you can set up\n\nWhich tool are you working in?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5938,
+              "output_tokens": 626,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1068,
+              "output_tokens": 372,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5489,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it is answering about a different product (HubSpot) and does not cite or use the Chainlink source at all."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 8,
+          "hallucinations": [
+            {
+              "claim": "7 day total enrollment: the number of enrolled records in the past 7 days",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Enrollment over time report shows the performance of enrolled records",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "[Object-type] enrolled: the number of records currently enrolled in the workflow",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Completed workflow: the number of records that completed the final action",
+              "type": "other",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Status (e.g., PENDING, PAUSED)",
+            "Workflow ID (unique identifier in the Workflow Registry, truncated, click to copy)",
+            "Workflow Owner (wallet address that deployed and owns the workflow)",
+            "Total Runs (cumulative executions since deployment)",
+            "Registered On (timestamp of first deployment)",
+            "Total Workflow Spend (cumulative credits consumed)"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misidentifies the product as HubSpot workflows instead of Chainlink CRE workflows, making it entirely irrelevant and unsafe to ship.",
+          "prompt": "What information does the workflow Overview panel display when I open a specific workflow's details page?",
+          "archetype": "paraphrase",
+          "answer": "Based on HubSpot's documentation, here's what the Overview panel shows when you open a specific workflow's details page. (I'm assuming you're asking about HubSpot workflows — let me know if you meant a different platform.)\n\n## The Overview panel\n\nThe Overview panel summarizes your workflow's enrollment activity and performance. It includes:\n\n**Enrollment summary metrics**\n- 7 day total enrollment: the number of enrolled records in the past 7 days based on your account's timezone.\n\n**Enrollment over time report**\n- The Enrollment over time report shows the performance of enrolled records in the workflow in the selected time period.\n\nWithin that report, you can review:\n- [Object-type] enrolled: the number of records currently enrolled in the workflow. [Object-type] lost: when a record is lost, this means that one of the following has occurred: the record was manually unenrolled, the record met the workflow's criteria and was not sent a marketing email, the record was on a suppression list, the record was removed by enrollment in another workflow, or the record was removed by the unenrollment setting.\n- The records were lost due to contacts unsubscribing from an email, hard bouncing, or by marking an email as spam.\n- Completed workflow: the number of records that completed the final action in the workflow.\n\n## What else is on the details page\n\nBeyond the Overview panel, the details page is where you monitor overall activity. After creating your workflow and turning it on, you navigate to the workflow details page to view the events that have occurred in the workflow, including action logs and enrollment history.\n\nYou can also drill into individual records: to view the complete workflow history, hover over the record you want to see the history of, then click Enrollment details. In the right panel, review the record's workflow history. To view the details of an event, click the name of the event to expand it.\n\nWould you like details on any specific part, such as the enrollment history, action logs, or performance metrics?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 68471,
+              "output_tokens": 3245,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1117,
+              "output_tokens": 634,
+              "cache_creation_input_tokens": 5489,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 26.7,
+      "unattributed_count": 4,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

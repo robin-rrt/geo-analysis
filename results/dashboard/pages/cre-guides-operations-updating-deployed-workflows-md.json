@@ -1,0 +1,667 @@
+{
+  "key": "cre-guides-operations-updating-deployed-workflows-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Updating Deployed Workflows",
+    "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+    "analyzedAt": "2026-09-21T13:22:48.470Z",
+    "contentType": "developer documentation / operational guide",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a concise, well-structured operational guide on redeploying CRE workflows, opening with a clean self-contained answer and using tight sections that chunk cleanly for RAG. Its single biggest strength is answer-first extractability; its biggest opportunity is machine-readable metadata (no JSON-LD, no canonical URL, no structured dates) plus symptom-phrased coverage for the high-value \"workflow ID changed after update\" query. Honest verdict: solid best-practice docs that will retrieve reasonably on concept-titled queries but leave discoverability and trust signals on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a symptom-phrased section for the workflow-ID-change failure",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "the opening CAUTION box on workflow ID",
+        "issue": "critical info is buried in a caution admonition, not a retrievable heading",
+        "change": "add an H3 like `### Why does my consumer contract reject calls after updating a workflow?` that answers first: \"Updating changes the workflow ID (a hash of binary + config); update the expected ID in your consumer contract.\"",
+        "why": "devs/agents query by symptom; a heading matching the error scenario wins retrieval that a caution box loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add a registry comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"What happens during an update\" / Prerequisites",
+        "issue": "onchain vs private registry behavior is scattered across prose bullets",
+        "change": "insert a 2-column table (onchain `ethereum-mainnet` vs `private`) rows: auth model, transaction sent?, `--unsigned` support, gas/funding needed.",
+        "why": "tables let engines extract reasons and build justified comparative answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "measured 0 JSON-LD blocks, canonical MISSING, no structured dates",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-01-23`, `inLanguage`, and a canonical `<link>`; surface the last-updated date as structured metadata, not just body text.",
+        "why": "structured metadata and freshness signals raise parseability and trust for agents."
+      },
+      {
+        "priority": 3,
+        "title": "Name the tempting-wrong pattern as a Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Updating a workflow\"",
+        "issue": "engines may infer a dedicated `cre workflow update` command exists",
+        "change": "add one line: \"There is no `cre workflow update` command — you update by re-running `cre workflow deploy` with the same name.\"",
+        "why": "preempts a plausible generic-idiom hallucination when the page is skimmed or answered from priors."
+      },
+      {
+        "priority": 3,
+        "title": "Add concrete specifics to the update process",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"What happens during an update\" and the funded-wallet prerequisite",
+        "issue": "\"funded with ETH … to pay gas\" gives no magnitude; no CLI version noted",
+        "change": "add a typical gas/cost order-of-magnitude if stable, and state the minimum `cre` CLI version this behavior applies to.",
+        "why": "quantitative claims are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Show expected output for the deploy command",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "the `bash` fence",
+        "issue": "single command with no confirmation of success signal",
+        "change": "add a short comment or follow-on block showing the CLI's success line and where the new workflow ID is printed.",
+        "why": "runnable, verifiable snippets improve agent trust and completion accuracy."
+      }
+    ],
+    "antiPatterns": [
+      "No structured freshness signal: \"Last Updated: 2026-01-23\" is body text only; dateModified absent from metadata.",
+      "No comparison table where an onchain-vs-private contrast clearly warrants one.",
+      "Otherwise clean: no keyword stuffing, no marketing fluff, no unresolved cross-references, no ambiguous entities."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-body — good site-level signal; confirm this page is listed there.",
+      "Canonical URL and JSON-LD are typically template/site-level; coordinate the schema fix with the docs platform layer.",
+      "Head metadata could not be verified from the supplied content; pass raw `<head>` in future runs for a complete metadata read."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+      "source_title": "Updating Deployed Workflows",
+      "probe_set_id": "8b86a4d2a9dc",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T14:47:17.831Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 63.8,
+      "retrieval_hit_rate": 0.5,
+      "retrieval_hit_rate_effective": 0.5,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4.7,
+        "hallucination_free": 5,
+        "relevance": 5.3,
+        "structure": 7.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 273409,
+          "output_tokens": 13599,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 19,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 7977,
+          "output_tokens": 9667,
+          "cache_creation_input_tokens": 1756,
+          "cache_read_input_tokens": 23114,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 9,
+            "structure": 9
+          },
+          "fidelity": 80,
+          "hallucinations": [
+            {
+              "claim": "The new deployment replaces the previous version in the Workflow Registry contract.",
+              "type": "contradiction",
+              "severity": "low"
+            },
+            {
+              "claim": "Workflow ownership: You must be the owner of the workflow (the account that originally deployed it). Only the workflow owner can update it.",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Redeploy with the same workflow name and same deployment-registry target"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer is largely accurate and well-structured, correctly covering the redeploy command, workflow ID change caution, and best practices, but it oversimplifies the registry-target nuance and the ownership/authorization prerequisite, which could mislead developers using the private registry.",
+          "prompt": "How do I update a deployed workflow in Chainlink CRE?",
+          "archetype": "direct-howto",
+          "answer": "To update a deployed workflow in Chainlink CRE, you redeploy it using the same workflow name. Here's how it works:\n\n## The basic process\n\nWhen you update a deployed workflow, you redeploy it with the same workflow name. The new deployment replaces the previous version in the Workflow Registry contract. You do this with a command like `cre workflow deploy my-workflow --target production-settings`.\n\nBehind the scenes, deployment performs three steps: your updated workflow code is compiled to WASM, the new binary and configuration files are uploaded to the CRE Storage Service, and a new registration is created.\n\n## Important things to know\n\n**No version history / no rollback:** Currently, CRE does not maintain version history—each deployment overwrites the previous one. When you redeploy a workflow with the same name, it completely replaces the previous deployment. You cannot roll back to a previous version through the CLI.\n\n**The workflow ID changes:** The workflow ID changes each time you update a workflow. This is because the workflow ID is a hash derived from the workflow binary and configuration. If your consumer contract uses the workflow ID for validation, make sure to update the expected workflow ID after each update.\n\n## Prerequisites\n\nBefore updating, ensure you have:\n- A deployed workflow: The workflow must already exist in the Workflow Registry.\n- Workflow ownership: You must be the owner of the workflow (the account that originally deployed it). Only the workflow owner can update it.\n\n## Recommended best practices\n\n- Test locally first: Always test your changes using cre workflow simulate before deploying to production.\n- Pause before updating (optional): If you want to ensure no triggers fire during the update, pause the workflow first using cre workflow pause.\n- Monitor after deployment: Check that the updated workflow executes correctly after deployment.\n- Keep track of changes: Maintain your own version control (e.g., Git tags) to track workflow versions.\n\n## Multi-sig wallets\n\nIf you deploy through a multi-sig wallet, the deploy command supports multi-sig wallets through the --unsigned flag. When using this flag, the CLI generates raw transaction data that you can submit through your multi-sig wallet interface instead of sending the transaction directly.\n\nFor full details, see the [Updating Deployed Workflows](https://docs.chain.link/cre/guides/operations/updating-deployed-workflows) guide in the Chainlink documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 42641,
+              "output_tokens": 2148,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1255,
+              "output_tokens": 1742,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3744,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows",
+              "https://docs.chain.link/cre/guides/operations/deploying-workflows",
+              "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states its search tool hit rate limits before confirming the wallet/gas details, flagging the probe as inconclusive."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 5,
+            "relevance": 7,
+            "structure": 8
+          },
+          "fidelity": 60,
+          "hallucinations": [
+            {
+              "claim": "the default private, Chainlink-hosted Workflow Registry",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "a new registration transaction is sent to the Workflow Registry",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "only the account that originally deployed the workflow can update it",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Set deployment-registry to \"private\" in workflow.yaml"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink provides a separate guide, 'Deploying to the Onchain Registry'",
+            "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts"
+          ],
+          "verdict": "The answer correctly notes that funded wallets are only needed for the onchain registry, but it wrongly claims the private registry is the CLI default and omits the required workflow.yaml setting, plus it admits the search tool hit rate limits, making it unsafe to ship without verification.",
+          "prompt": "Using the private Chainlink-hosted registry, how do I redeploy a workflow and does it need a funded wallet?",
+          "archetype": "constrained",
+          "answer": "Based on the Chainlink CRE (Chainlink Runtime Environment) documentation, here's how redeployment works with the default private, Chainlink-hosted Workflow Registry:\n\n## Redeploying (Updating) a Workflow\n\nIn CRE, \"updating\" a deployed workflow simply means **redeploying it using the same workflow name**. According to Chainlink's \"Updating Deployed Workflows\" documentation:\n\n- When you update a deployed workflow, you redeploy it with the same workflow name, and the new deployment **replaces the previous version** in the Workflow Registry. CRE does not currently maintain version history—each deployment overwrites the previous one.\n- The command is the same as an initial deploy:\n  ```\n  cre workflow deploy my-workflow --target production-settings\n  ```\n- Behind the scenes: your code is compiled to WASM, the new binary and config are uploaded to the CRE Storage Service, a new registration transaction is sent to the Workflow Registry, and the previous version is replaced.\n- **Status is preserved** — if the workflow was paused it stays paused; if it was active it stays active and immediately resumes responding to triggers.\n\n### Important caveats\n- **You must be the workflow owner** — only the account that originally deployed the workflow can update it, and the workflow must already exist in the registry.\n- **The workflow ID changes on every update**, because the ID is a hash derived from the workflow binary and configuration. If your consumer contract validates against a specific workflow ID, you must update the expected ID after each redeploy.\n\n## Does it need a funded wallet?\n\nThis is where the choice of registry matters:\n\n- **Private Chainlink-hosted registry (the default):** Deployment/redeployment is handled through the CRE CLI and the Chainlink-hosted Workflow Registry. Because Chainlink hosts this registry, you generally do **not** need a funded wallet or to pay gas to deploy or redeploy — the registration is managed on the hosted infrastructure.\n- **Onchain Registry:** Chainlink provides a separate guide, \"Deploying to the Onchain Registry,\" precisely because that path differs — deploying directly to an onchain Workflow Registry contract is a real blockchain transaction and **does require a funded wallet to cover gas**.\n\nSo if you're using the private Chainlink-hosted registry, redeploying is just `cre workflow deploy <same-name>` and does not require you to fund a wallet for gas. A funded wallet is only needed when you deploy to the onchain registry.\n\n---\n\n**A note on accuracy:** I was able to fully confirm the redeployment mechanics from Chainlink's \"Updating Deployed Workflows\" documentation. For the wallet/gas distinction, my search tool hit rate limits before I could pull the exact wording from the \"Deploying Workflows\" and \"Deploying to the Onchain Registry\" pages, so I'd recommend verifying the funded-wallet detail directly on those two pages:\n- https://docs.chain.link/cre/guides/operations/updating-deployed-workflows\n- https://docs.chain.link/cre/guides/operations/deploying-workflows\n- https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts\n\nWould you like me to retry the search to confirm the exact wording on the wallet-funding requirement?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 127933,
+              "output_tokens": 4840,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1633,
+              "output_tokens": 1921,
+              "cache_creation_input_tokens": 3744,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not perform a live search due to rate limiting, making the response self-flagged as unverified."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 6,
+            "relevance": 3,
+            "structure": 6
+          },
+          "fidelity": 48,
+          "hallucinations": [
+            {
+              "claim": "--target production",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "often `project.yaml` / `workflow.yaml`",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "cre workflow deploy my-workflow --target production-settings",
+            "Run from your project directory"
+          ],
+          "unverifiable_from_source": [
+            "Targets (e.g., staging, production) are typically defined in your project config file",
+            "the CLI's flags have changed across versions"
+          ],
+          "verdict": "The answer captures the general shape of the redeploy command but substitutes an unverified target name (production vs. the doc's production-settings) and explicitly admits it could not confirm against the live docs, so it should not be shipped as-is without verification.",
+          "prompt": "show me the cre command to redeploy my-workflow to production",
+          "archetype": "code-first",
+          "answer": "I wasn't able to run a live search to confirm against the current docs, so let me give you the command based on how the Chainlink **CRE CLI** (`cre`) works, and please double‑check against your project's config.\n\n## Redeploying a workflow to production\n\n```bash\ncre workflow deploy my-workflow --target production\n```\n\nA few things to keep in mind:\n\n- **`my-workflow`** should match the workflow name/directory in your project.\n- **`--target production`** selects the deployment target. Targets (e.g., `staging`, `production`) are typically defined in your project config file (often `project.yaml` / `workflow.yaml`), so `production` must exist there.\n- Redeploying uses the same `deploy` command — it will register/update the workflow under the same name rather than needing a separate \"redeploy\" verb.\n\nYou'll usually need to be authenticated first:\n\n```bash\ncre login\ncre workflow deploy my-workflow --target production\n```\n\n⚠️ **A caveat:** I couldn't verify this against the live CRE documentation just now (my search calls were rate‑limited), and the CLI's flags have changed across versions. To confirm the exact syntax for your installed version, run:\n\n```bash\ncre workflow deploy --help\n```\n\nIf you can tell me which tool `cre` refers to in your setup (e.g., Chainlink CRE vs. another platform) or paste the output of `cre --help`, I can give you the exact command.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34622,
+              "output_tokens": 1745,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 795,
+              "output_tokens": 1550,
+              "cache_creation_input_tokens": 3744,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the source URL despite correctly covering its content."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 68,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "setExpectedWorkflowId(...) as the consumer contract setter method",
+            "setExpectedAuthor and setExpectedWorkflowName as validation checks",
+            "MockForwarder used in cre workflow simulate that omits metadata",
+            "Forwarder address configured via constructor and updatable by owner"
+          ],
+          "verdict": "The core diagnosis (workflow ID changes on redeploy and must be updated in the consumer contract) is correct and matches the source, but the answer adds specific function names and simulation/mocking details not present in the given source page, which should be verified before a developer relies on them.",
+          "prompt": "My consumer contract validation started failing after I updated my CRE workflow — what's wrong?",
+          "archetype": "error-debug",
+          "answer": "I'll search for information about this issue since it involves a specific technology and workflow setup.I found the answer. This is a well-documented behavior in Chainlink CRE. Here's what's almost certainly happening:\n\n## The most likely cause: your workflow ID changed\n\nWhen you update a workflow, its ID changes, and that breaks any consumer contract that validates against the *old* ID. The workflow ID changes each time you update a workflow. This is because the workflow ID is a hash derived from the workflow binary and configuration.\n\nSo even a minor code or config change produces a new hash. If your consumer contract was configured with `setExpectedWorkflowId(...)` pointing at the previous ID, incoming reports from your updated workflow will now be rejected during validation.\n\n## How to fix it\n\nIf your consumer contract uses the workflow ID for validation, make sure to update the expected workflow ID after each update.\n\nAlso keep in mind how updates work, since this is why the ID rotated in the first place: When you update a deployed workflow, you redeploy it with the same workflow name. The new deployment replaces the previous version in the Workflow Registry contract. Currently, CRE does not maintain version history—each deployment overwrites the previous one.\n\nThe fix is to call your consumer contract's setter (e.g. `setExpectedWorkflowId`) with the **new** workflow ID after each redeploy, ideally as a standard step in your update process.\n\n## Two other things worth checking\n\n1. **Are you validating on other metadata too?** Consumer contracts commonly verify workflow ID, author, and name. If any of those changed (or if the forwarder address changed), validation would similarly fail. The forwarder address is configured at deployment via the constructor and provides your first line of defense. After deploying your contract, the owner can configure additional security checks or update the forwarder address if needed.\n\n2. **Is this failing in simulation vs. on real deployment?** These are treated differently. When using cre workflow simulate, do not configure metadata-based validation checks (setExpectedWorkflowId, setExpectedAuthor, setExpectedWorkflowName). The simulation uses a MockForwarder that doesn't provide this metadata. If you added metadata validation and then tried to simulate, that mismatch alone would cause failures.\n\n## Quick diagnostic\n\n- If the failure is on a **live/testnet deployment** → almost certainly the stale workflow ID. Update the expected ID on the consumer contract.\n- If the failure is in **`cre workflow simulate`** → remove/skip the metadata validation setters, since the MockForwarder doesn't supply that metadata.\n\nIf you can share the exact revert message or error your validation is throwing, I can help you pinpoint which check (ID, author, name, forwarder, or chain selector) is the one rejecting the report.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 37006,
+              "output_tokens": 1844,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1300,
+              "output_tokens": 2020,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3744,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows",
+              "https://docs.chain.link/cre/guides/operations/using-multisig-wallets",
+              "https://docs.chain.link/cre/reference/cli/workflow"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 8,
+            "structure": 8
+          },
+          "fidelity": 63,
+          "hallucinations": [
+            {
+              "claim": "The Workflow Registry contract lives on Ethereum Mainnet at `0x4Ac54353FA4Fa961AfcC5ec4B118596d3305E7e5`",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "your linked wallet (via `cre account link-key`) must be set up",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "The `--unsigned` flag can be added to **any** workflow management command (activate, pause, deploy, etc.), and also to `cre secrets` commands.",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "Workflow deployment is currently in Early Access, so your account/key must be approved",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "set `workflow-owner-address` to your actual multi-sig contract address",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "make sure an `ethereum-mainnet` RPC URL is set under `rpcs` in your `project.yaml`",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The `--unsigned` flag applying to activate/pause/secrets commands",
+            "The `workflow-owner-address` config field",
+            "RPC configuration under `rpcs` in project.yaml",
+            "The Workflow Registry contract address",
+            "`cre account link-key` command",
+            "Early Access status of workflow deployment"
+          ],
+          "verdict": "Mostly accurate and well-cited on the core --unsigned/multi-sig mechanics, but it invents a specific contract address and a nonexistent `cre account link-key` command and overstates where --unsigned applies, so it should not be shipped without verifying those extra details.",
+          "prompt": "cre workflow update multisig onchain --unsigned",
+          "archetype": "terse/keyword",
+          "answer": "It looks like you're trying to update a deployed CRE (Chainlink Runtime Environment) workflow that's owned by a multi-sig wallet on the onchain Workflow Registry, using the `--unsigned` flag. A couple of important things to know, because the exact command syntax is slightly different from what you typed:\n\n## Key points\n\n**1. There's no separate `multisig onchain` subcommand.** To update a workflow you simply **redeploy it with the same workflow name**. Per the Chainlink docs ([\"Updating Deployed Workflows\"](https://docs.chain.link/cre/guides/operations/updating-deployed-workflows)), you update a workflow by running:\n\n```bash\ncre workflow deploy my-workflow --target production-settings --unsigned\n```\n\nThe deploy command recompiles your workflow to WASM, uploads the new artifacts to the CRE Storage Service, submits a new registration transaction to the Workflow Registry contract, and replaces the previous version. The workflow's status (active or paused) is preserved.\n\n**2. The `--unsigned` flag is what makes it multi-sig compatible.** Instead of sending the transaction directly, the CLI generates the raw transaction calldata that you then submit through your multi-sig wallet interface (e.g., Gnosis Safe). See [\"Using Multi-sig Wallets\"](https://docs.chain.link/cre/guides/operations/using-multisig-wallets).\n\n## Typical flow for a multi-sig owned workflow\n\n1. **Set the owner address.** In your `project.yaml` or `workflow.yaml`, set `workflow-owner-address` to your actual multi-sig contract address (replace any placeholder like `\"(optional) Multi-signature contract address\"`).\n\n2. **Confirm the registry target.** For the onchain registry, your `workflow.yaml` should have `deployment-registry: \"onchain:ethereum-mainnet\"` (the CLI defaults to `onchain` if omitted). The Workflow Registry contract lives on Ethereum Mainnet at `0x4Ac54353FA4Fa961AfcC5ec4B118596d3305E7e5`.\n\n3. **Be logged in and have RPC configured.** Run `cre whoami` to confirm you're authenticated (or `cre login`), and make sure an `ethereum-mainnet` RPC URL is set under `rpcs` in your `project.yaml`.\n\n4. **Run the deploy with `--unsigned`:**\n   ```bash\n   cre workflow deploy my-workflow --target production-settings --unsigned\n   ```\n   The CLI will print the transaction details (To address, calldata, value) instead of sending it.\n\n5. **Submit via your multi-sig.** Copy the generated To-address and calldata into your Safe/multi-sig transaction, collect the required signatures, and execute.\n\n## Notes\n- The `--unsigned` flag can be added to **any** workflow management command (activate, pause, deploy, etc.), and also to `cre secrets` commands.\n- Optionally, `cre workflow pause my-workflow` first if you want to ensure no triggers fire during the update.\n- Workflow deployment is currently in Early Access, so your account/key must be approved and your linked wallet (via `cre account link-key`) must be set up.\n\nCould you confirm whether you're doing an **update to an existing workflow** (use `deploy` as above) or a different operation like activate/pause? If you tell me the exact workflow name and target, I can give you the precise command. You can also see the full command reference at the [Workflow Commands](https://docs.chain.link/cre/reference/cli/workflow) page.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25278,
+              "output_tokens": 2036,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1676,
+              "output_tokens": 2280,
+              "cache_creation_input_tokens": 3744,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never engages with the CRE documentation and cites no source, instead asking generic clarifying questions about unrelated platforms."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 2,
+            "relevance": 0,
+            "structure": 5
+          },
+          "fidelity": 18,
+          "hallucinations": [
+            {
+              "claim": "Blue-green deployment — run the new version alongside the old, then switch traffic over.",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Canary release — send a small percentage of traffic/runs to the new version first",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "I'll re-deploy the previous Git tag\" ... should be decided in advance",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Test locally first with cre workflow simulate",
+            "Optionally pause the workflow before updating with cre workflow pause",
+            "Redeploy with the same workflow name",
+            "Monitor after deployment",
+            "Keep your own version control (e.g., Git tags) since CRE has no version history",
+            "Workflow status (active/paused) is preserved"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer never recognizes this is about Chainlink CRE and instead asks the user to clarify what platform they're using (Airflow, AWS Lambda, etc.), then gives generic DevOps advice including rollback/canary strategies that contradict CRE's actual no-rollback, no-version-history behavior—unsafe to ship as-is.",
+          "prompt": "I'm new to this. I already have a workflow running and I made some code changes. What's the recommended safe way to push my updated version live without breaking things?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question—and it's smart to think about safety before pushing changes live. Since you mentioned you're new, let me walk through the general principles of safe deployment, and I'll note where things depend on your specific setup.\n\n## The core idea: never overwrite a working version directly\n\nThe safest approaches all share one principle: **keep your current working version intact until the new one is proven good.** That way, if something breaks, you can instantly go back.\n\n## A safe, step-by-step approach\n\n**1. Version your code (if you aren't already)**\nUse Git so every change is tracked. Commit your changes with a clear message. This alone gives you a safety net—you can always revert to the last working commit.\n\n**2. Test somewhere that isn't production**\nBefore going live, run your updated version in a separate environment:\n- A **local/dev** run with sample data\n- A **staging** environment that mirrors production as closely as possible\n\nVerify the outputs match what you expect.\n\n**3. Deploy in a way you can undo**\nCommon patterns, from simplest to more advanced:\n- **Keep the old version as a backup** — the minimum viable safety net. Save a copy of the currently-live version before replacing it.\n- **Blue-green deployment** — run the new version alongside the old, then switch traffic over. If it breaks, switch back instantly.\n- **Canary release** — send a small percentage of traffic/runs to the new version first, watch for errors, then gradually roll it out fully.\n\n**4. Have a rollback plan ready**\nKnow *exactly* how you'll revert before you deploy. \"I'll re-deploy the previous Git tag\" or \"I'll switch back to the blue environment\" should be decided in advance.\n\n**5. Monitor after deploying**\nWatch logs, error rates, and outputs right after going live. Problems usually show up in the first few minutes/runs.\n\n---\n\nTo give you **specific, actionable steps** rather than general advice, it would help to know a bit more:\n\n1. **What kind of workflow is it?** For example:\n   - A data pipeline / orchestrator (Airflow, Prefect, Dagster, n8n, GitHub Actions)?\n   - A web app or API service?\n   - A cloud function (AWS Lambda, etc.)?\n2. **Where does it run?** (Your own server, a cloud platform, a managed service?)\n3. **Are you using version control (Git) already?**\n4. **Is there a separate test/staging setup, or just the one live environment?**\n\nTell me those details and I can give you a concrete, tailored checklist for your exact situation. 🙂",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5929,
+              "output_tokens": 986,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1318,
+              "output_tokens": 591,
+              "cache_creation_input_tokens": 3744,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 56.2,
+      "unattributed_count": 1,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "key": "ace-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Chainlink ACE Overview",
+    "url": "https://docs.chain.link/ace.md",
+    "analyzedAt": "2026-09-21T16:32:22.464Z",
+    "contentType": "developer documentation / product overview (conceptual landing page)",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured conceptual overview of Chainlink ACE that leads with a crisp, liftable definition and uses question-phrased headings that match how developers query. Its strongest GEO asset is clarity and answer-first structure; its biggest opportunities are near-zero machine-readable metadata (no JSON-LD, no canonical URL, no `dateModified` in `<head>`) and thin concrete specifics — 13 numerals but **0 with units** and no supported-network/version/limit data. Honest verdict: a strong prose page held back by missing schema and quantitative detail, both fixable without touching the voice.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD with canonical URL and dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "\"JSON-LD: 0 block(s) · canonical: MISSING · dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD carrying `headline`, `dateModified: 2026-07-17` (already shown in body), `about: \"Chainlink ACE\"`, and `url`/`mainEntityOfPage` set to the canonical `https://docs.chain.link/ace`.",
+        "why": "Structured metadata and a visible freshness signal are direct E-E-A-T/trust inputs engines use to select and attribute sources."
+      },
+      {
+        "priority": 1,
+        "title": "Inject concrete specifics with units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Key features\" and \"ACE Platform\"",
+        "issue": "0 of 13 numerals carry units; no networks, counts, or limits.",
+        "change": "State the supported EVM chains by name, the number of pre-built policies in the library, and the three named APIs' functions (Coordinator, Evaluation, Reporting). Replace vague \"across every EVM chain\" with the actual supported-chain set.",
+        "why": "Quantitative, named specifics are among the highest-lift changes for retrieval and citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add a summary table of the three managers",
+        "mapsTo": "structural scannability / justification structure",
+        "tier": null,
+        "where": "\"ACE Platform\" section",
+        "issue": "three managers described in prose bullets; 0 tables on page.",
+        "change": "Add a 3-row table — Manager | Interface (UI/API) | Purpose — mirroring Policy/Identity/Reporting Manager. Add a second small table for delegated vs self-signing.",
+        "why": "Tables let engines extract discrete, comparable facts and build justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative external citations for compliance terms",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"What problems does ACE solve?\" and \"Key features\"",
+        "issue": "0 external/primary links despite KYC/AML/sanctions/accredited-investor claims.",
+        "change": "Link \"sanctions screening\" to the TRM Wallet Screening source, and \"accredited investor\"/KYC/AML to their canonical definitions or standards.",
+        "why": "Inline primary-source links raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the \"What is ACE?\" section with a one-line canonical two-layer statement",
+        "mapsTo": "quotable canonical definitions / answer-first",
+        "tier": null,
+        "where": "\"What is ACE?\"",
+        "issue": "current lead is good but the two-layer split is spread across a sentence + two subsections.",
+        "change": "Keep the existing sentence but ensure the first liftable line names both layers explicitly: \"ACE has two layers — onchain smart contracts (PolicyEngine, Cross-Chain Identity) and the ACE Platform (Policy, Identity, Reporting Managers).\"",
+        "why": "A single self-contained sentence resists parametric substitution when the section is skimmed."
+      },
+      {
+        "priority": 3,
+        "title": "Add one minimal integration snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "near the \"How it works\" example or a link-out to `ace-compatible`",
+        "issue": "0 code blocks; agents have no anchor for what a \"protected function\" looks like.",
+        "change": "Add a short, language-tagged Solidity snippet showing a function guarded by the PolicyEngine call, or surface the first snippet from the ACE-compatible guide.",
+        "why": "Even one complete, tagged snippet improves agent parsing and grounds the concept."
+      }
+    ],
+    "antiPatterns": [
+      "Body-only freshness: \"Last Updated: 2026-07-17\" is present but not machine-exposed via metadata.",
+      "One unresolved media reference: \"(Image: Image)\" placeholder in \"How it works\" carries no alt text or caption for engines to read.",
+      "No marketing fluff, keyword stuffing, or walls of prose detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; confirm this page is listed in it and in the sitemap.",
+      "Canonical URL and og/twitter tags are typically template/site-level; fix at the docs framework layer, not per page.",
+      "The CLI should pass raw `<head>` on the next run — head metadata \"could not be verified\" here, so the schema/canonical findings rest solely on the served-HTML scan."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

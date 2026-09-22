@@ -1,0 +1,20 @@
+{
+  "key": "ace-reference-api-reporting-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": null,
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": null,
+    "probes": {}
+  }
+}

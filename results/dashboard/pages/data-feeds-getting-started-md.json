@@ -1,0 +1,167 @@
+{
+  "key": "data-feeds-getting-started-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Consuming Data Feeds",
+    "url": "https://docs.chain.link/data-feeds/getting-started.md",
+    "analyzedAt": "2026-09-21T11:48:25.876Z",
+    "contentType": "developer documentation / tutorial (getting-started guide)",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 105,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 105,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 84,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 70,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 48,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 36,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 80,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 50,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 64,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a clean, task-oriented tutorial for reading a Chainlink price feed in Solidity, and its single greatest strength is a complete, copy-pasteable contract with imports, pragma, address, and a working Remix flow (dimension 7). Its biggest opportunity is discoverability: the page carries no JSON-LD, no canonical URL, and no visible last-updated date, and its headings are phrased as tutorial steps (\"Examine the sample contract\") rather than as the questions and error strings developers actually type. No probe results were provided, so scoring is from page text alone; the honest verdict is a solid-but-not-optimized page whose retrieval and metadata layers lag its strong content.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a short troubleshooting block",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "end of \"Compile, deploy, and run\"; step 9 body",
+        "issue": "answers to common failures are buried in prose: \"Running in a JavaScript VM will not work\"; decimals explanation inside step 9.",
+        "change": "add an H2 \"Troubleshooting\" with H3s phrased as queries — \"Why does my answer have no decimal point?\", \"Why does deployment fail in the JavaScript VM?\", \"Remix deployed the wrong contract\" — each opening with the one-sentence fix already present in the text.",
+        "why": "developers and agents query by symptom, not by tutorial step; question-titled sections win retrieval that step-titled prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Convert feed-specific specifics into a table and add concrete numbers",
+        "mapsTo": "concrete statistics & specifics; scannability",
+        "tier": null,
+        "where": "intro paragraph and step 9",
+        "issue": "\"answer decimal length and expected value ranges might change\"; decimals shown only as a single inline example.",
+        "change": "add a small table (feed → decimals → example raw/scaled value) and state feed update parameters numerically (e.g. heartbeat in seconds, deviation threshold %) with an inline link to the addresses page.",
+        "why": "quantitative claims with units are among the highest-lift changes; tables let engines extract structured reasons."
+      },
+      {
+        "priority": 1,
+        "title": "Add first-liftable canonical sentences for the key API",
+        "mapsTo": "quotable canonical definitions; answer-first; parametric-prior resistance",
+        "tier": null,
+        "where": "start of \"Examine the sample contract\"",
+        "issue": "the section explains the contract before stating what the canonical call is.",
+        "change": "open with a self-contained sentence: \"To read a Chainlink price feed in Solidity, call `latestRoundData()` on an `AggregatorV3Interface` bound to the feed's proxy address; it returns `(roundId, answer, startedAt, updatedAt, answeredInRound)`.\" Name the wrong pattern explicitly (e.g. do not call `latestAnswer()`, which is deprecated).",
+        "why": "a crisp canonical statement resists the model substituting a generic/deprecated call from its training prior."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured — 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: Solidity`, and a `<link rel=\"canonical\">`; surface a \"Last updated\" line in the rendered page.",
+        "why": "structured metadata and freshness signals raise agent parseability and E-E-A-T trust."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with figures",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro and step-9 explanation",
+        "issue": "\"many independent Chainlink node operators\"; \"several oracle nodes.\"",
+        "change": "state the actual aggregation model where known (e.g. node-count range or a link to the decentralized-data-model spec) instead of unquantified \"many/several.\"",
+        "why": "qualitative-only prose underperforms specifics in generative retrieval."
+      },
+      {
+        "priority": 3,
+        "title": "Add an authoritative reference link for `AggregatorV3Interface`",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "first component bullet under the contract",
+        "issue": "only the raw GitHub file is linked.",
+        "change": "also link the API reference page for `AggregatorV3Interface` and the Data Feeds decimals reference.",
+        "why": "inline canonical-definition links raise citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"many\"/\"several\" where a number is available.",
+      "Image steps are placeholders in the extracted text (\"(Image: …)\") — verify alt text exists in the served HTML so agents get the described state.",
+      "No stale-content or keyword-stuffing issues; prose is clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; confirm this page is listed in it.",
+      "JSON-LD/canonical/date tags are template/site-level concerns; verify by passing raw `<head>` to the CLI, since head metadata could not be captured here.",
+      "Third-party citations and earned links to this getting-started page are off-page and not scored."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

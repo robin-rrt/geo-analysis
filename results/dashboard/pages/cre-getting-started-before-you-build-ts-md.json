@@ -1,0 +1,714 @@
+{
+  "key": "cre-getting-started-before-you-build-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Before You Build",
+    "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+    "analyzedAt": "2026-09-21T13:19:48.347Z",
+    "contentType": "developer documentation / conceptual guide (gotchas + next-steps)",
+    "score": 70,
+    "band": "Good",
+    "weightedTotal": 70.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured \"gotchas before you build\" page for CRE TypeScript workflows: tight sections, WRONG/CORRECT code pairs, and strong answer-first section leads. Its single biggest strength is scannability (15 clean sections, 0 heading-level skips, median 54 words — ideal RAG chunks). Its biggest opportunity is machine-readability metadata (no JSON-LD, missing canonical URL, no head-level dates) plus symptom-phrased retrieval hooks. A subtler risk: some advice here inverts common ecosystem priors (e.g. \"use `Math.random()`\", \"use `Number` is wrong\"), so an engine answering from training priors instead of this page will likely give the *opposite* answer — this page must defend those claims aggressively.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased subheadings to each gotcha",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Working with Solidity integers\", \"Safe decimal scaling\", \"Working with time\", \"Working with randomness\"",
+        "issue": "concept-titled headings like \"Working with time\" don't match how devs query.",
+        "change": "add an H3 or bolded lead phrased as the symptom, e.g. under integers: \"**Why does my large number lose its last digits? (silent precision loss)**\"; under time: \"**Why do DON nodes disagree on `Date.now()`?**\"",
+        "why": "devs/agents search by symptom string (\"silent precision loss\", \"nodes disagree timestamp\"); the answers are present verbatim but not retrievable under concept titles."
+      },
+      {
+        "priority": 1,
+        "title": "Harden the parametric-prior-inverting claims with explicit Don'ts",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Working with randomness\" and \"Working with time\"",
+        "issue": "\"use `Math.random()` inside the CRE WASM runtime\" contradicts the ecosystem prior (devs are told to *never* use `Math.random`/`Date.now`).",
+        "change": "lead each section with a one-line canonical statement and name the wrong pattern: \"**Do use `runtime.now()`. Don't use `Date.now()` — it breaks DON consensus.**\" For randomness, explicitly state that VRF/external RNG is *not* required inside the runtime and why.",
+        "why": "when retrieval is skimmed, engines fall back to priors and will invert this exact advice; a first-liftable canonical + named Don't blocks the substitution."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and head-level dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured facts show 0 JSON-LD, canonical MISSING, no `dateModified` in head.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-02-04`, `inLanguage: en`, and a `<link rel=\"canonical\">` to the non-`.md` URL.",
+        "why": "structured metadata + visible freshness raises parse-trust and E-E-A-T for agents; the in-body date isn't machine-discoverable."
+      },
+      {
+        "priority": 2,
+        "title": "Convert inline HTML links to markdown and add primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Library compatibility\" (Noble), \"Safe decimal scaling\" (viem)",
+        "issue": "0 external/primary links detected; existing refs are raw `<a>` tags.",
+        "change": "use markdown links for `viem.sh/docs/utilities/parseUnits` and Noble, and add primary references for QuickJS and WebAssembly where \"compiles to WebAssembly and runs in a QuickJS environment\" appears.",
+        "why": "inline authoritative citations raise citation rate and let engines attribute the claim."
+      },
+      {
+        "priority": 3,
+        "title": "Add version specifics and units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Library compatibility\", viem examples",
+        "issue": "no version strings; measured facts show 0 numerals with units.",
+        "change": "state the tested viem version and CRE SDK version (e.g. \"viem ≥ 2.x\") near first use.",
+        "why": "version-pinned facts are high-lift specifics and make snippets reproducible for agents."
+      },
+      {
+        "priority": 3,
+        "title": "Define \"DON\" on first use",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "\"Working with time\" (first \"all nodes in the DON\")",
+        "issue": "acronym used unexpanded.",
+        "change": "\"all nodes in the DON (Decentralized Oracle Network)\".",
+        "why": "aids entity resolution and lets the sentence stand alone when lifted."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"some\"/\"most\" (e.g. \"Some NPM packages won't work\") — minor; acceptable in context but could be quantified.",
+      "Inline references implemented as raw HTML `<a>` rather than markdown, hiding them from link/citation parsers.",
+      "No stale-content issue: page carries a 2026-02-04 in-body date (though not in machine-readable metadata)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good; ensure this page's canonical (non-`.md`) URL is listed there.",
+      "JSON-LD/canonical/og injection is a site-template concern, not authorable in the markdown body; route the P2 metadata fix through the docs platform.",
+      "The CLI should pass raw `<head>` next run — head metadata could not be verified here, so schema/canonical absence is inferred from the served HTML only."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+      "source_title": "Before You Build",
+      "probe_set_id": "85861e93572d",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T13:52:55.634Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 43.7,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4,
+        "hallucination_free": 3.2,
+        "relevance": 3.2,
+        "structure": 7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 308172,
+          "output_tokens": 20485,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 27,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 12676,
+          "output_tokens": 15471,
+          "cache_creation_input_tokens": 3150,
+          "cache_read_input_tokens": 30084,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/type-conversions-ts",
+              "https://docs.chain.link/cre-templates/multi-chain-token-manager"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites unrelated pages (type-conversions-ts, multi-chain-token-manager) instead of the expected before-you-build-ts source."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 4,
+            "structure": 9
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "The CRE TypeScript SDK is built on Protocol Buffers",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "CRE defines a dedicated `BigInt` protobuf type specifically to represent arbitrarily large integers",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "See the [SDK Type Conversions reference](https://docs.chain.link/cre/reference/sdk/type-conversions-ts)",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "the [Multi-Chain Token Manager](https://docs.chain.link/cre-templates/multi-chain-token-manager)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Read decimals() from the token contract via a CRE EVM read (or configure it per-token)",
+            "Runtime form uses native bigint... JSON form (TypeJson) uses string",
+            "Watch hex/BigInt boundaries when encoding calldata... let viem's ABI encoders handle the encoding"
+          ],
+          "verdict": "The core guidance (use viem's parseUnits/formatUnits with strings/bigint to avoid precision loss) is accurate and well-explained, but the answer fabricates SDK internals (protobuf 'BigInt' type, TypeJson) and cites two URLs not present in the source, so it should not be shipped without verifying those specific claims against actual CRE SDK docs.",
+          "prompt": "How do I safely convert human-readable token amounts to onchain fixed-point integers in a CRE TypeScript workflow?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink CRE docs and standard EVM tooling, here's how to do this safely. The core rule: **never let a floating-point `number` touch a token amount.** Do all conversion with strings and `BigInt`.\n\n## The problem\n\nA \"human-readable\" amount like `12.5 USDC` is not what lives onchain. Tokens store balances as integers scaled by their `decimals` value (USDC = 6, most ERC-20 = 18). So `12.5 USDC` onchain is `12500000` (12.5 × 10⁶). JavaScript's `number` type is an IEEE-754 double and silently loses precision above 2⁵³, so multiplying `12.5 * 10**18` will give you a wrong integer. This is the classic source of \"off by a few wei\" (or much worse) bugs.\n\n## How CRE represents these values\n\nThe CRE TypeScript SDK is built on Protocol Buffers, and this matters for how you pass amounts around. There are two representations of every value:\n\n- **Runtime form** — uses native `bigint` (and `Uint8Array` for bytes). This is what you get back from `.result()` calls (balances, gas, block numbers, etc.).\n- **JSON form (`TypeJson`)** — uses `string`. This is what you pass *into* SDK methods when building request objects.\n\nCRE defines a dedicated `BigInt` protobuf type specifically to represent arbitrarily large integers such as account balances and token amounts, precisely so these values never round-trip through a lossy `number`. The practical guidance from the docs is: **use the Json (string) variants when constructing requests inline, and use the runtime (`bigint`) types when processing responses.** See the [SDK Type Conversions reference](https://docs.chain.link/cre/reference/sdk/type-conversions-ts).\n\n## Recommended approach\n\n### 1. Get the token's actual `decimals` — don't hardcode 18\n\nRead `decimals()` from the token contract via a CRE EVM read (or configure it per-token). Hardcoding 18 is the most common real-world bug because USDC/USDT are 6 and WBTC is 8.\n\n### 2. Use `parseUnits` from viem for the conversion\n\n`viem` is the standard EVM library and handles the string-based decimal math correctly, returning a `bigint`:\n\n```ts\nimport { parseUnits, formatUnits } from \"viem\";\n\n// human string -> onchain integer (bigint)\nconst amount: bigint = parseUnits(\"12.5\", 6); // 12500000n for USDC\n\n// onchain integer -> human string (for display/logging only)\nconst display: string = formatUnits(amount, 6); // \"12.5\"\n```\n\nKey points:\n- **Pass the amount as a *string*** (`\"12.5\"`), never a JS number literal. `parseUnits(12.5, ...)` would already have lost precision before the call.\n- `parseUnits` rejects/truncates extra fractional digits beyond `decimals`, so validate user input length first if you need to reject over-precise amounts rather than silently truncate.\n\n### 3. Hand the value to the CRE SDK as a string in request objects\n\nBecause request objects use the JSON representation, serialize your `bigint` back to a string when populating a contract-call argument:\n\n```ts\nconst amountArg = amount.toString(); // \"12500000\"\n```\n\nWhen you later read a balance back from `.result()`, it arrives as a native `bigint`, so you can compare/arithmetic directly with the value `parseUnits` produced.\n\n## Safety checklist\n\n1. **Never use `number`, `parseFloat`, `Number()`, or `Math.*` on amounts.** Stay in `string` → `bigint`.\n2. **Fetch `decimals` dynamically** rather than assuming 18.\n3. **Validate input format** (numeric, non-negative, fractional digits ≤ decimals) before calling `parseUnits`.\n4. **Do arithmetic in `bigint`** (`+`, `-`, `*`, `/` on BigInts), remembering `bigint` division truncates toward zero — decide explicitly how you round.\n5. **Use `formatUnits` only for display/logging**, never as an intermediate step you convert back from.\n6. **Watch hex/BigInt boundaries** when encoding calldata — a known bug class is mishandling hex strings and BigInts in TypeScript blockchain code, so let viem's ABI encoders handle the encoding rather than building hex by hand.\n\nA minimal end-to-end helper for a workflow:\n\n```ts\nimport { parseUnits } from \"viem\";\n\nfunction toOnchainAmount(human: string, decimals: number): string {\n  if (!/^\\d+(\\.\\d+)?$/.test(human)) throw new Error(\"invalid amount\");\n  const [, frac = \"\"] = human.split(\".\");\n  if (frac.length > decimals) throw new Error(\"too many decimal places\");\n  return parseUnits(human, decimals).toString(); // string for the SDK request\n}\n```\n\nIf you can share which template you're basing your workflow on (e.g., the [Multi-Chain Token Manager](https://docs.chain.link/cre-templates/multi-chain-token-manager)), I can tailor the exact SDK call and where the string vs. `bigint` boundary falls in that flow.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 46624,
+              "output_tokens": 3697,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2373,
+              "output_tokens": 1893,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and instead names several other doc pages (SDK Reference, migration guide) that do not match the expected source, so retrieval of the actual page appears to have failed."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 3,
+            "relevance": 3,
+            "structure": 8
+          },
+          "fidelity": 48,
+          "hallucinations": [
+            {
+              "claim": "CRE uses Javy to compile TypeScript workflows into WASM, bundling the JavaScript with an embedded QuickJS engine",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "import { bigintToProtoBigInt, blockNumber, protoBigIntToBigint } from \"@chainlink/cre-sdk\"",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "The CRE TypeScript SDK uses Viem's encodeAbiParameters to properly encode data according to the contract's ABI before generating the report",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "const report = await runtime.report(payload).result()\\nawait evm.writeReport({ receiver: RECEIVER_ADDRESS, report, gasLimit: \"200000\" }).result()",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "This matches the pattern shown in the official CLF→CRE migration guide, where a price is turned into a BigInt and encoded as a uint256",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Example: 10000000000000001n stays exact while 10000000000000001 silently becomes 10000000000000000"
+          ],
+          "unverifiable_from_source": [
+            "Number.MAX_SAFE_INTEGER (2⁵³ − 1 ≈ 9.007×10¹⁵) as the precision threshold",
+            "CRE SDK generates Type/TypeJson protobuf representations with BigInt helpers",
+            "JSON.parse coercion issue for large integers arriving over HTTP",
+            "balance.balance from balanceAt is already a native bigint"
+          ],
+          "verdict": "The core recommendation (use bigint with the n suffix, avoid JS number) is correct and matches the source, but the answer is padded with numerous specific SDK function names, imports, and internal compiler details (Javy, protoBigInt helpers, encodeAbiParameters usage, runtime.report/evm.writeReport signatures) that are not present in the cited source and are not verifiable, making it risky to ship without independent verification of those APIs.",
+          "prompt": "Using TypeScript in a CRE workflow, how should I send large integer values to a smart contract without losing precision?",
+          "archetype": "constrained",
+          "answer": "## Short answer\n\nNever route a large integer through a JavaScript `number`. In the QuickJS/WASM environment that CRE compiles to, a `number` is an IEEE‑754 double, so it can only hold integers exactly up to `Number.MAX_SAFE_INTEGER` (2⁵³ − 1 ≈ 9.007×10¹⁵). A Solidity `uint256`/`int256` is vastly larger, so anything above that silently rounds. Use JavaScript's native **`bigint`** end‑to‑end, and let the CRE SDK / Viem handle ABI encoding.\n\n## The mechanics in a TypeScript CRE workflow\n\n**1. Build the value as a `bigint`, never a float.**\n\nThe common footgun is doing arithmetic on a `number` first (e.g. `res.json().price * 100`) and only converting afterward — you've already lost precision. If your source is a decimal string or already an integer string, go straight to `BigInt`:\n\n```ts\n// Good: string -> bigint, no float step\nconst amount = BigInt(\"123456789012345678901234567890\")   // uint256-safe\nconst scaled = BigInt(priceString) * 10n ** 18n           // integer math stays exact\n```\n\nOnly use the `Math.round(x * 100)` → `BigInt(...)` pattern (as in the migration examples) when the input genuinely fits in a safe `number` first.\n\n**2. Encode with Viem's `encodeAbiParameters`, passing the `bigint` directly.**\nThe CRE TypeScript SDK uses Viem's encodeAbiParameters to properly encode data according to the contract's ABI before generating the report. Viem expects a `bigint` for `uint256`/`int256`:\n\n```ts\nimport { encodeAbiParameters } from \"viem\"\n\nconst payload = encodeAbiParameters(\n  [{ type: \"uint256\" }],\n  [amount]        // <-- bigint, exact\n)\nconst report = await runtime.report(payload).result()\nawait evm.writeReport({ receiver: RECEIVER_ADDRESS, report, gasLimit: \"200000\" }).result()\n```\n\nThis matches the pattern shown in the official CLF→CRE migration guide, where a price is turned into a `BigInt` and encoded as a `uint256` before `runtime.report(...)`.\n\n**3. When you touch SDK request/response objects, use the protobuf `BigInt` helpers.**\n\nThe CRE SDK generates two representations of every type: Type (e.g., CallMsg), runtime types using Uint8Array, protobuf BigInt, and protobuf Message objects, and TypeJson (e.g., CallMsgJson), JSON-serializable types using string, number, and plain objects used for serialization and I/O. As the docs put it, as a developer, you always use JSON types, and the SDK automatically converts between representations when crossing WASM boundaries.\n\nFor large integers specifically, the SDK defines a dedicated protobuf type: BigInt is a CRE-specific protobuf type used to represent arbitrarily large integers, appearing in block numbers, account balances, gas values, and other EVM-related fields, encoding a signed arbitrary-precision integer as two fields. Convert with the provided helpers rather than casting to `number`:\n\n```ts\nimport { bigintToProtoBigInt, blockNumber, protoBigIntToBigint } from \"@chainlink/cre-sdk\"\n\nconst block = blockNumber(12345678n)          // native bigint -> protobuf form (for requests)\nconst num = protoBigIntToBigint(header.header.blockNumber)  // protobuf -> native bigint (for responses)\n```\n\n`blockNumber()` is a convenience alias for `bigintToProtoBigInt()`. Note that some values already come back as native bigints — for example, `balance.balance` from `balanceAt` is already a native bigint, so no conversion is needed.\n\n## Things to watch out for\n\n- **Runtime compatibility:** CRE uses Javy to compile TypeScript workflows into WASM, bundling the JavaScript with an embedded QuickJS engine, and QuickJS is not Node.js—it provides core ECMAScript functionality but not the full Node.js API surface. Native `bigint` (ES2020) is core ECMAScript, so it works; but `node:crypto` and similar are not available. The best way to verify compatibility is to test with `cre workflow simulate`, which runs your workflow in the same WASM environment as production.\n\n- **JSON parsing:** If a large integer arrives over HTTP inside a JSON body, `JSON.parse` will coerce it into a `number` and corrupt it before you ever see it. Where possible, read that field as a **string** and wrap it in `BigInt(...)`, rather than letting it be parsed as a numeric literal.\n\n- **Serialization for logs/config:** `bigint` is not natively `JSON.stringify`‑able, so convert to string (`amount.toString()`) at I/O boundaries and back to `bigint` for math/encoding.\n\n- **Match Solidity types exactly:** the ABI type you encode (`uint256` vs `int256`, and struct field ordering/types) must line up with the contract's expected struct — the docs stress that field names and types must match your Solidity struct exactly.\n\n### Rule of thumb\nKeep the value as a `bigint` from the moment you obtain it, do all arithmetic in `bigint`, encode it as `uint256`/`int256` via `encodeAbiParameters`, and only stringify at JSON boundaries. That keeps full 256‑bit precision through the workflow → report → contract path.\n\nPrimary references: Chainlink CRE docs — \"SDK Reference: Type Conversions,\" \"SDK Reference (overview),\" \"TypeScript Runtime Environment,\" and \"Migrate from Chainlink Functions to Chainlink CRE.\"",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 46351,
+              "output_tokens": 3485,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2372,
+              "output_tokens": 3407,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search/retrieval quota was exhausted and it is answering from general knowledge rather than the cited doc."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 6,
+            "relevance": 3,
+            "structure": 8
+          },
+          "fidelity": 55,
+          "hallucinations": [
+            {
+              "claim": "CRE exposes deterministic/host-mediated primitives through the SDK rather than letting you call Node's crypto directly",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "grep -rEn \"require\\(['\\\"]crypto['\\\"]\\)|from ['\\\"](node:)?crypto['\\\"]\" node_modules",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Check if the package relies on Node.js built-ins and test with cre workflow simulate",
+            "TypeScript code compiles to WebAssembly and runs in a QuickJS environment, not Node.js (QuickJS never mentioned)"
+          ],
+          "unverifiable_from_source": [
+            "Determinism/consensus rationale tied specifically to crypto.randomBytes and key generation",
+            "SDK-provided capabilities as an alternative to Node crypto",
+            "Recommendation to use npm ls / grep to trace offending dependency"
+          ],
+          "verdict": "The answer correctly diagnoses the Node-vs-WASM root cause and even suggests Noble-family libraries, but it openly admits it couldn't retrieve the docs, omits the key QuickJS terminology and the cre workflow simulate testing step, and adds several unverified debugging tips, so it should not be treated as authoritative without checking the official page.",
+          "prompt": "why does my npm package fail when running in a CRE typescript workflow — node crypto not found",
+          "archetype": "error-debug",
+          "answer": "I wasn't able to pull live documentation (my search quota got exhausted), so let me answer from how the Chainlink Runtime Environment (CRE) works architecturally. I'll be upfront that this is based on general knowledge of CRE/WASM runtimes rather than a cited doc.\n\n## Why it happens\n\nA CRE TypeScript workflow does **not** run on Node.js. When you build a workflow, your TS/JS is compiled and bundled into a **WebAssembly (WASM) module** that executes inside CRE's deterministic sandbox. That sandbox deliberately does *not* expose Node's standard library.\n\nSo when an npm package (or your own code) does something like:\n\n```js\nconst crypto = require(\"crypto\");      // or\nimport crypto from \"node:crypto\";\n```\n\n…there's no Node runtime to provide the `crypto` built-in, and the bundler/runtime throws \"node crypto not found\" (or a \"Module not found: crypto\" / \"Cannot find module 'node:crypto'\" style error).\n\nThe reasons this is intentional:\n- **Determinism** — workflows must produce identical output across nodes reaching consensus. Native crypto sources of randomness (`crypto.randomBytes`, key generation, etc.) are non-deterministic and would break consensus.\n- **Sandboxing / no host access** — WASM has no ambient access to OS-level APIs. `fs`, `net`, `os`, `child_process`, `crypto`, etc. simply aren't polyfilled.\n\n## How to diagnose which dependency is the culprit\n\nIt's usually a transitive dependency, not your own code. Find what's importing `crypto`:\n\n```bash\n# See which package pulls in node crypto\ngrep -rEn \"require\\(['\\\"]crypto['\\\"]\\)|from ['\\\"](node:)?crypto['\\\"]\" node_modules --include=*.js -l | head\n\n# Or trace the dependency tree\nnpm ls <suspect-package>\n```\n\nCommon offenders: packages doing hashing/signing/UUIDs (`uuid`, `jsonwebtoken`, `bcrypt`, `ethers`/`web3` sub-deps, anything using `randomBytes`).\n\n## How to fix it\n\n**Option 1 — Use CRE-provided capabilities instead of Node crypto.**\nCRE exposes deterministic/host-mediated primitives through the SDK rather than letting you call Node's `crypto` directly. If you need hashing, randomness, or HTTP, use the SDK's provided APIs/capabilities so the operation stays consensus-safe. Reach for the SDK equivalent before trying to polyfill.\n\n**Option 2 — Swap the dependency for a pure-JS / WASM-safe one.**\nReplace packages that depend on Node built-ins with pure-JavaScript implementations that don't touch `node:crypto`, e.g.:\n- Hashing: `js-sha3`, `js-sha256`, `@noble/hashes`\n- Curves/signing: `@noble/curves`, `@noble/secp256k1`\n- UUID: generate deterministically or via an SDK-provided source rather than `crypto.randomUUID`\n\nThe `@noble/*` family is popular here specifically because it's dependency-free pure JS.\n\n**Option 3 — Confirm your bundler isn't trying to polyfill Node.**\nDon't add a `crypto` browser polyfill to \"make the error go away\" — that reintroduces non-determinism. The correct path is removing the Node-crypto dependency, not shimming it.\n\n## Quick checklist\n1. Reproduce and read the full build/run error to see the exact module (`crypto` vs `node:crypto`).\n2. `npm ls` / grep to find the offending (usually transitive) package.\n3. Replace it with a pure-JS lib, or move that logic to an SDK capability.\n4. Rebuild the workflow WASM and re-run.\n\nIf you can paste (a) the exact error text, (b) the offending `import`/`require`, and (c) the package that pulls in `crypto`, I can tell you the precise replacement. Also, if you let me know which CRE SDK version you're on, I can point you to the right SDK primitive — and I'd recommend confirming the specifics against the current official CRE docs, since the SDK surface is evolving quickly.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 33897,
+              "output_tokens": 2473,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1914,
+              "output_tokens": 1755,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source URL, instead referencing different non-determinism/consensus doc pages."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "The CRE SDK provides tools like `consensusMedianAggregation` and `ConsensusAggregationByFields`",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "never use Go's time package functions in DON mode",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Go maps are designed to iterate in random order for security reasons ... leading to divergent capability calls",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Detailed Go-language time.Now() divergence behavior",
+            "Non-deterministic channel handling guidance (select vs sequential checks)",
+            "LLM call determinism guidance requiring structured JSON output",
+            "Existence/behavior of consensusMedianAggregation and ConsensusAggregationByFields functions"
+          ],
+          "verdict": "The core recommendation (use runtime.now() instead of Date.now() for DON consensus) is correct, but the answer pads the response with unverified/likely-fabricated SDK function names and Go-specific details not present in the cited source, making it risky to ship as-is without further verification.",
+          "prompt": "CRE workflow timestamps consensus best practice",
+          "archetype": "terse/keyword",
+          "answer": "Based on the Chainlink documentation, here's the consensus best practice for handling timestamps in CRE (Chainlink Runtime Environment) workflows.\n\n## The core problem\n\nWhen a CRE workflow runs in **DON mode**, multiple nodes execute the same code independently and must reach consensus on the result before proceeding. If nodes execute different code paths, they generate different request IDs for capability calls, and consensus fails. The failure pattern is: code diverges → different request IDs → no quorum → workflow fails.\n\nTimestamps are one of the most common causes of this divergence because nodes have different system clocks, causing divergence when calling time.Now() or similar functions.\n\n## Best practices for timestamps\n\n**1. Never use raw system-clock/time functions in DON mode.** The docs are explicit: never use Go's time package functions in DON mode (and equivalently, avoid `Date.now()` / `new Date()` in TypeScript). Each node would get a slightly different value, breaking consensus.\n\n**2. Use the runtime-provided time instead.** Rather than the system clock, use the workflow runtime's time method (`runtime.now()` in TS / the runtime equivalent in Go), which returns a value nodes can agree on rather than each node's local clock.\n\n**3. Apply consensus aggregation to timestamps that come from external data.** When your workflow fetches data containing timestamps (e.g., a price feed's `timestamp` field via HTTP), each node's fetch may return slightly different values. Run these through consensus aggregation. The CRE SDK provides tools like `consensusMedianAggregation` and `ConsensusAggregationByFields`, letting you aggregate specific fields (e.g., take the **median** of numeric `price`/`timestamp` fields, or require `identical` values for fields that must match exactly). Median aggregation is the typical choice for timestamps and prices because it tolerates minor per-node variation while producing a single agreed value.\n\n## Related non-determinism pitfalls to avoid\n\nThe same \"identical code path\" requirement means you should also watch for these adjacent issues that often accompany timestamp bugs:\n\n- **Map iteration order:** Go maps are designed to iterate in random order for security reasons — each time you iterate over a map, the order may be different, meaning different nodes will process items in different sequences, leading to divergent capability calls and consensus failure.\n- **Non-deterministic channel handling:** Process channels in a fixed, deterministic order instead of using select — check channels sequentially in a consistent order across all nodes.\n- **Randomness:** Use CRE's built-in random source so all nodes generate the same sequence of random values, enabling consensus.\n- **LLM calls:** Free-text responses from LLMs will vary across nodes, making it impossible to reach agreement on the output — request structured output (such as JSON with specific fields) rather than free-form text, then use consensus aggregation on the structured fields.\n\n## Summary\n\nThe consensus best practice for CRE workflow timestamps is:\n1. Don't read the OS clock (`time.Now()` / `Date.now()`) inside DON-mode workflow logic.\n2. Use the runtime's deterministic time (`runtime.now()`).\n3. For timestamps carried in fetched data, aggregate them across nodes with median (or field-based) consensus aggregation so all nodes converge on one agreed value.\n\n**Reference docs:** Chainlink's \"Avoiding Non-Determinism in Workflows\" (docs.chain.link/cre/concepts/non-determinism-ts and -go) and \"SDK Reference: Consensus & Aggregation\" (docs.chain.link/cre/reference/sdk/consensus-ts) cover this in detail with code examples.\n\nNote: \"CRE\" is overloaded — this answer assumes the **Chainlink Runtime Environment**. If you meant a different CRE (e.g., a Temporal/workflow-engine context, or another platform), let me know and I'll adjust.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 49949,
+              "output_tokens": 3472,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1661,
+              "output_tokens": 2094,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/workflow/using-randomness",
+              "https://docs.chain.link/cre/concepts/non-determinism-go"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites a different randomness/non-determinism page instead of the expected before-you-build-ts source, and its guidance contradicts that source's TypeScript-specific instructions."
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 1,
+            "relevance": 3,
+            "structure": 6
+          },
+          "fidelity": 30,
+          "hallucinations": [
+            {
+              "claim": "So Math.random() (TS) or Go's raw math/rand are off the table.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object.",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "For cryptographic randomness, use Go's crypto/rand package.",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "you'd want to look at Chainlink's dedicated verifiable randomness (VRF) offering instead.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "using time.Now() returns different values on each node — the fix is to use runtime.Now()",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "Go maps are designed to iterate in random order for security reasons.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use Math.random() inside the CRE WASM runtime",
+            "The CRE runtime overrides Math.random() with a consensus-safe generator"
+          ],
+          "unverifiable_from_source": [
+            "If you misuse it, the SDK will panic with the error: 'random cannot be used outside the mode it was created in'",
+            "Once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode."
+          ],
+          "verdict": "Unsafe to ship as-is: for the TypeScript workflow the user described, the source explicitly says use Math.random() (overridden by the CRE runtime for consensus-safety), but this answer flatly contradicts that, tells the user Math.random() is 'off the table', and invents a Go-specific runtime.Rand() API and VRF/crypto-rand recommendations that don't appear in the source page at all.",
+          "prompt": "I'm new to this — I want my CRE workflow to pick a random winner but I heard random stuff can break things across the nodes. What's the right way to generate random values so everything stays consistent?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question — and your instinct is exactly right. Let me explain why \"normal\" randomness breaks CRE workflows and what to use instead.\n\n## Why regular randomness breaks things\n\nCRE workflows don't run on a single machine. During execution, each node in a DON performs the requested task independently. Their results are then cryptographically verified and aggregated via a Byzantine Fault Tolerant (BFT) consensus protocol. The problem is that if each node generates its own random number the \"normal\" way, they'll all get different values and never agree on a result.\n\nThis is why code that produces different output per node — Date.now(), Math.random(), non-deterministic iteration, or reading mutable global state — will cause the workflow to fail at the consensus step. So `Math.random()` (TS) or Go's raw `math/rand` are off the table.\n\n## The right way: `runtime.Rand()`\n\nCRE gives you a built-in, consensus-safe random generator. CRE provides randomness through the runtime.Rand() method, which returns a standard Go *rand.Rand object. This random generator is managed by the CRE platform to ensure all nodes generate the same sequence of random values, enabling consensus while still providing unpredictability across different workflow executions.\n\nIn other words, the platform coordinates the seed so every node produces the *same* sequence — that's what keeps everything consistent for your \"pick a random winner\" logic.\n\nHere's the basic pattern (Go):\n\n```go\n// Get the random generator from the runtime\nrnd, err := runtime.Rand()\nif err != nil {\n    return err\n}\n\n// Use it with standard Go rand methods\nrandomInt := rnd.Intn(100) // random winner index in [0, 100)\n```\n\nA couple of practical notes from the docs:\n- **You can reuse it.** Once you call runtime.Rand() and get a *rand.Rand object, you can reuse it within the same execution mode.\n- **Watch the execution mode.** If you misuse it, the SDK will panic with the error: \"random cannot be used outside the mode it was created in\". This is intentional—it prevents subtle consensus bugs.\n\n## Important security caveat\n\nSince you're picking a winner, know that this generator is **not** cryptographically secure. runtime.Rand() returns a seeded pseudo-random number generator (Go's math/rand). The seed is coordinated by the CRE platform so that all nodes in the DON produce the same sequence — that is what makes consensus possible — but it is not cryptographically secure. The docs are explicit that you should not use it for key generation, signature nonces, or any security-sensitive purpose. For cryptographic randomness, use Go's crypto/rand package.\n\nFor a simple raffle/winner picker in a workflow, `runtime.Rand()` is the intended tool. If the outcome is high-value and adversaries have strong incentives to manipulate it, you'd want to look at Chainlink's dedicated verifiable randomness (VRF) offering instead.\n\n## Bonus: the same principle applies elsewhere\n\nRandomness isn't the only source of non-determinism to watch out for. The same guide notes that using time.Now() returns different values on each node — the fix is to use `runtime.Now()` for a consensus timestamp. Also, Go maps are designed to iterate in random order for security reasons. Each time you iterate over a map, the order may be different. This means different nodes will process items in different sequences, leading to divergent capability calls and consensus failure. The fix there is to extract map keys, sort them, then iterate in the sorted order.\n\n**TL;DR:** Use `runtime.Rand()` (never `Math.random()` / raw `math/rand`) so all nodes generate the same values and consensus holds. Just remember it's pseudo-random, not cryptographically secure — fine for a basic winner picker, but reach for crypto/rand or Chainlink VRF if the stakes are high.\n\nAre you building in **Go or TypeScript**? I can tailor the exact code snippet if you let me know.\n\nThe official reference is here: https://docs.chain.link/cre/guides/workflow/using-randomness and the broader non-determinism guide is at https://docs.chain.link/cre/concepts/non-determinism-go",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25643,
+              "output_tokens": 2083,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1914,
+              "output_tokens": 1485,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly admits it could not retrieve the exact CRE docs sample and substitutes a fabricated Go solution instead of the documented TypeScript/viem pattern."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 1,
+            "relevance": 1,
+            "structure": 3
+          },
+          "fidelity": 13,
+          "hallucinations": [
+            {
+              "claim": "func toHumanWRONG(rawAmount *big.Int, decimals uint8) float64",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "func toHumanString(rawAmount *big.Int, decimals uint8) string",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "func toHumanBigFloat(rawAmount *big.Int, decimals uint8) *big.Float",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Here's the key precision pitfall ... inside a CRE workflow (Go).",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "For the canonical template, see Chainlink's CRE \"Read Data Feeds\" template and the \"Token Units and Decimals\" page",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Import formatUnits from viem",
+            "Wrong: Number(totalSupply) / 1e18 causes precision loss",
+            "Correct: formatUnits(totalSupply, 18) is string-based with no precision loss",
+            "formatUnits returns \"1.5\" for 1500000000000000000n"
+          ],
+          "unverifiable_from_source": [
+            "Go-based big.Int/big.Float scaling patterns for CRE workflows",
+            "CRE data-feed template reading decimals() and latestAnswer() from Chainlink Data Feeds"
+          ],
+          "verdict": "Not safe to ship: the answer completely ignores the documented TypeScript/viem pattern (parseUnits/formatUnits) and instead fabricates an entire Go-based solution with invented function names, none of which appear in or align with the source page.",
+          "prompt": "Show me the correct vs incorrect code for scaling a token amount down from onchain to a human-readable value in a CRE workflow.",
+          "archetype": "code-first",
+          "answer": "Here's the key precision pitfall and the correct pattern for converting an on-chain integer token amount into a human-readable decimal value inside a CRE workflow (Go).\n\n## The core problem\n\nOn-chain, token amounts and feed answers are stored as unsigned/signed integers with an implied number of `decimals` (e.g. 18 for most ERC-20s, 8 for many price feeds). To display them you divide by `10^decimals`. The mistake almost everyone makes is doing that division in `float64`, which silently loses precision because a `float64` can only represent integers exactly up to 2^53 (~9.007×10^15). A raw 18-decimal balance easily exceeds that.\n\nThis scaling is exactly what the CRE data-feed template does — it reads `decimals()` and `latestAnswer()` from Chainlink Data Feeds (e.g. BTC/USD, ETH/USD) and logs the scaled values, so getting the scaling math right matters.\n\n## ❌ Incorrect — float64 division\n\n```go\n// rawAmount is *big.Int coming back from the chain read (e.g. 123456789012345678901)\n// decimals is uint8 (e.g. 18)\n\nfunc toHumanWRONG(rawAmount *big.Int, decimals uint8) float64 {\n    // Converting a large *big.Int to float64 loses precision immediately.\n    amt := new(big.Float).SetInt(rawAmount)\n    f, _ := amt.Float64()                 // <-- already lossy for big values\n    return f / math.Pow(10, float64(decimals))\n}\n```\n\nWhy it's wrong:\n- `math.Float64()` / `math.Pow` operate in binary floating point. For an 18-decimal token, the low-order digits get rounded away, so a balance like `123.456789012345678901` comes back as something like `123.45678901234568`.\n- `math.Pow(10, 18)` is itself not guaranteed exact.\n- Results are non-deterministic across platforms/optimizations — a serious issue in a CRE workflow, where **DON nodes must reach consensus on identical outputs**. Any float rounding divergence can break consensus.\n\n## ✅ Correct — arbitrary-precision with `big.Int` / `big.Float`\n\nIf you want an exact decimal *string* for display:\n\n```go\nimport (\n    \"math/big\"\n    \"strings\"\n)\n\n// toHumanString scales rawAmount down by 10^decimals with no precision loss.\nfunc toHumanString(rawAmount *big.Int, decimals uint8) string {\n    if decimals == 0 {\n        return rawAmount.String()\n    }\n\n    // Work on the absolute value; track sign separately.\n    neg := rawAmount.Sign() < 0\n    abs := new(big.Int).Abs(rawAmount)\n\n    divisor := new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(decimals)), nil)\n\n    intPart := new(big.Int)\n    fracPart := new(big.Int)\n    intPart.QuoRem(abs, divisor, fracPart) // exact integer division + remainder\n\n    // Left-pad the fractional part to `decimals` digits, then trim trailing zeros.\n    frac := fracPart.String()\n    frac = strings.Repeat(\"0\", int(decimals)-len(frac)) + frac\n    frac = strings.TrimRight(frac, \"0\")\n\n    out := intPart.String()\n    if frac != \"\" {\n        out += \".\" + frac\n    }\n    if neg {\n        out = \"-\" + out\n    }\n    return out\n}\n```\n\nIf you genuinely need a numeric type for further math, use `big.Float` (or `big.Rat`) and only convert to `float64` at the very end for non-critical display:\n\n```go\nfunc toHumanBigFloat(rawAmount *big.Int, decimals uint8) *big.Float {\n    divisor := new(big.Float).SetInt(\n        new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(decimals)), nil),\n    )\n    amt := new(big.Float).SetPrec(256).SetInt(rawAmount) // high precision\n    return new(big.Float).Quo(amt, divisor)\n}\n```\n\n## Why the correct version matters in CRE specifically\n\n1. **Determinism / consensus** — CRE workflows run across a DON, and node outputs are aggregated. Integer/`big` arithmetic is deterministic; binary float rounding is not reliably so. Keep the human-readable conversion out of any value used for consensus, or do it with `big` types.\n2. **No silent truncation** — `Exp` builds an exact `10^decimals`, and `QuoRem` gives you exact quotient + remainder, so all 18 digits survive.\n3. **Read `decimals()` from the contract, don't hardcode it** — feeds and tokens differ (8 vs 18, etc.). Hardcoding is a common source of off-by-10^n bugs.\n\n## Rules of thumb\n- Keep raw amounts as `*big.Int` end-to-end; scale down **only at the display/output boundary**.\n- Never cast a large `*big.Int` to `float64` before dividing.\n- Build `10^decimals` with `big.Int.Exp`, not `math.Pow`.\n- Prefer returning a **string** for exact human-readable display; use `big.Float`/`big.Rat` if you need to keep computing.\n\nOne caveat: I wasn't able to reliably pull the exact code sample from Chainlink's CRE docs during this session, so treat the snippets above as the correct idiomatic Go pattern rather than a verbatim copy. For the canonical template, see Chainlink's CRE \"Read Data Feeds\" template and the \"Token Units and Decimals\" page in the Chainlink docs, which cover the `decimals()`-based scaling directly.\n\nWant me to show the equivalent correct/incorrect versions in the TypeScript CRE SDK (using `BigInt` vs `Number`) as well?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 105708,
+              "output_tokens": 5275,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2442,
+              "output_tokens": 1973,
+              "cache_creation_input_tokens": 5138,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        }
+      ],
+      "avg_fidelity_all": 43.7,
+      "unattributed_count": 0,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

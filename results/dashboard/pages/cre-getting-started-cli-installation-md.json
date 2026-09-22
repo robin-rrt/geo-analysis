@@ -1,0 +1,155 @@
+{
+  "key": "cre-getting-started-cli-installation-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Installing the CRE CLI",
+    "url": "https://docs.chain.link/cre/getting-started/cli-installation.md",
+    "analyzedAt": "2026-09-21T13:20:57.807Z",
+    "contentType": "developer documentation / section landing (stub) page",
+    "score": 30,
+    "band": "Poor",
+    "weightedTotal": 30,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "Opens with a routing sentence (\"These guides explain how to install…\"), not an answer. An engine lifting this chunk learns the CLI exists but not how to install it. Weak."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Single H1, single 31-word section, no level skips — clean but there is essentially nothing to chunk. No install steps to structure into H2s per platform."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "Measured 3 numerals, 0 with units, no version strings. For an install page, the absence of a minimum version, supported OS list, or download size is a real gap."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "One internal link (to `llms.txt`); no link to a release page, package registry, or the actual install guides it references."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "The CRE CLI / Chainlink Developer Platform CLI equivalence is a good, liftable entity-resolution statement — the page's strongest asset."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, no canonical URL, no og/twitter tags. A visible \"Last Updated: 2025-11-04\" is present and useful; head metadata could not be verified (CLI should pass raw `<head>`)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 1,
+        "weighted": 1,
+        "analysis": "Zero code blocks. An install page with no install command is the core defect for agent-runnability."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Title matches \"how do I install CRE CLI\" but body delivers no answer — no OS-specific steps, no verification, no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Strong; consistent naming, unambiguous prose. No action needed beyond expansion."
+      }
+    ],
+    "summary": "This is a 36-word landing stub for the \"Installing the CRE CLI\" section — it defines the CRE CLI and points readers to other guides, but contains no actual installation steps, commands, prerequisites, or platform coverage. Its one real strength is a clean entity definition (\"Chainlink Developer Platform CLI, also referred to as the CRE CLI\"); its overwhelming weakness is that a page titled *Installing the CRE CLI* answers zero of the questions an agent installing the CLI would ask. As indexed, this URL will lose retrieval on install queries to whatever child guide actually contains the commands, and if retrieved it cannot satisfy the intent. The honest verdict: this is an incomplete hub page, not a citable answer.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add the actual install commands to this page",
+        "mapsTo": "code completeness / query-intent coverage",
+        "tier": null,
+        "where": "body, below the intro sentence",
+        "issue": "\"These guides explain how to install the Chainlink Developer Platform CLI\"",
+        "change": "Add tagged, copy-pasteable fenced blocks per platform (e.g. macOS/Linux `curl`/`brew` install, Windows, and a `npm`/binary option as applicable), each labeled by language and OS, followed by a `cre --version` verification command with expected output.",
+        "why": "Install pages are retrieved and cited only when they contain the runnable command; the current stub cannot satisfy the intent it titles."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/query-phrased H2 headings",
+        "mapsTo": "query/intent coverage, symptom-phrased retrieval",
+        "tier": null,
+        "where": "new section headings",
+        "issue": "single H1, no sub-questions surfaced",
+        "change": "Add H2s such as \"Install the CRE CLI on macOS/Linux\", \"Install on Windows\", \"Verify the installation\", and \"Troubleshooting: `command not found: cre`\" / \"permission denied\".",
+        "why": "Devs and agents query by task and error string; concept-only titles lose retrieval that question-phrased headings win."
+      },
+      {
+        "priority": 2,
+        "title": "State concrete version and platform specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro or a \"Requirements\" block",
+        "issue": "0 version strings, 0 numerals with units",
+        "change": "Name the minimum supported CLI version, supported OS/architectures (e.g. arm64/amd64), and any runtime prerequisite versions.",
+        "why": "Quantitative specifics are among the highest-lift retrieval signals and let engines answer \"which OS/version\" queries."
+      },
+      {
+        "priority": 2,
+        "title": "Link to primary/authoritative sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "body",
+        "issue": "only one internal link (to `llms.txt`)",
+        "change": "Add inline links to the GitHub releases page / package registry entry and to the child install guides this page routes to.",
+        "why": "Attributable, primary-source links raise credibility and citation rate; they also give retrieval a canonical download target."
+      },
+      {
+        "priority": 3,
+        "title": "Add page-level structured metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "no JSON-LD, no canonical URL, no og tags",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified` (already shown as 2025-11-04), a canonical URL, and `inLanguage`.",
+        "why": "Structured metadata and E-E-A-T signals make the page easier for agents to parse and trust; note the visible \"Last Updated\" is a good start."
+      }
+    ],
+    "antiPatterns": [
+      "**Wall-of-nothing / router stub:** the page is a cross-reference to unnamed \"guides\" without providing the steps itself — an unresolved-reference pattern (\"these guides explain…\") that an engine cannot follow to an answer."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good site-level signal; ensure this URL and its child install guides are listed there.",
+      "Site-level JSON-LD/canonical emission appears absent in served HTML; a template-level fix would benefit this and sibling pages.",
+      "If this is intentionally an index page, consider making the child guide with the actual commands the canonical target and internal-linking it prominently, so retrieval lands on the page that can answer."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {}
+  }
+}

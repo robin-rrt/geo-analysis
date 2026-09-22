@@ -1,0 +1,636 @@
+{
+  "key": "cre-release-notes-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Release Notes (CRE)",
+    "url": "https://docs.chain.link/cre/release-notes.md",
+    "analyzedAt": "2026-09-21T13:27:24.091Z",
+    "contentType": "developer documentation / changelog (release notes)",
+    "score": 71,
+    "band": "Good",
+    "weightedTotal": 71.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Each section opens with a self-contained claim, e.g. \"CRE CLI version 1.32.0 is now available,\" and no section depends on prior context. Minor: the page intro is generic (\"This page provides detailed release notes for CRE\") rather than a liftable summary of what CRE is."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 1 H1, max depth H3, 0 level skips, median 87 words/section, none over 600 — near-ideal RAG chunk boundaries. Weakness: 0 tables; scattered \"Required versions\" lines would be far more extractable as a matrix."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong. Real limits (\"execution concurrency (10 → 50)\", \"gas limit (5M → 10M)\", \"5 KB → 50 KB\"), full version strings, named networks. Vague quantifiers (\"several\", \"various\", \"significant\") appear but are rare."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Strong; no action needed. 64 links to `github.com` release tags/compares plus 98 internal links to guides and reference pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Adequate. One crisp CRE definition exists (\"CRE is the all-in-one orchestration layer...\"), but it is buried in the oldest (Nov 4, 2025) entry at page bottom rather than near the top where engines skim."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, MISSING canonical, absent `datePublished`/`dateModified`, 0 og/twitter tags. The body carries \"Last Updated: 2026-09-03\" and an `llms.txt` link, but none of this is in machine-readable head metadata (head could not be verified — CLI should pass raw `<head>`)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak for the category. 0 fenced code blocks; commands appear only as inline spans. Migration-relevant changes (e.g. the `encrypt_output` field move in Go SDK v1.3.0) would be far more agent-usable as fenced before/after snippets."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Covers \"what changed in vX\", \"how to update\", known issues, and bug fixes. Gap: no symptom/question-phrased headings for common upgrade queries (\"which versions support Solana mainnet\", \"how do I fix the empty .env known issue\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent product/entity naming (CRE, CLI, Go SDK, TS SDK) aids entity resolution."
+      }
+    ],
+    "summary": "This is a well-structured, densely factual changelog for the Chainlink Runtime Environment (CRE), covering CLI, Go SDK, and TypeScript SDK releases. Its biggest strength is verifiable specificity: 76 clean sections, 236 numerals, explicit version strings, and 64 primary-source GitHub links make almost every claim attributable. Its biggest opportunity is machine-readable metadata — no JSON-LD, canonical URL, or head-level `dateModified` were served — and the absence of a consolidated version-compatibility table that engines could lift to answer \"which SDK version do I need for network X.\" The honest verdict: strong on-page substance held back by missing structured metadata and one high-value missing artifact (a compatibility matrix).",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD with dateModified and canonical",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / template",
+        "issue": "Measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified` (mirror the visible `2026-09-03`), `inLanguage`, and a `canonical` link to `https://docs.chain.link/cre/release-notes`.",
+        "why": "Structured freshness and canonical signals raise agent trust (E-E-A-T) and disambiguate this as the authoritative changelog versus GitHub mirrors."
+      },
+      {
+        "priority": 1,
+        "title": "Add a version-compatibility matrix table",
+        "mapsTo": "machine-scannability & justification structure; query coverage",
+        "tier": null,
+        "where": "new section near top, above the chronological entries",
+        "issue": "Compatibility data is scattered across \"Required versions\" lines (e.g. \"Hyperliquid Mainnet: CLI v1.7.0+, Go SDK v1.7.0+, TS SDK v1.4.0+\").",
+        "change": "Add a table with columns `Network` / `Min CLI` / `Min Go SDK` / `Min TS SDK`, consolidating every \"Required versions\" note.",
+        "why": "Tables are highly liftable; this directly answers \"which version supports network X,\" a query the prose currently forces engines to reconstruct from many sections."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased headings for upgrade and troubleshooting queries",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "intro area or a short \"Common questions\" section",
+        "issue": "Sections are titled by version (\"CLI v1.5.0\") not by user intent; the empty-`.env` known issue is buried in one release.",
+        "change": "Add anchored H2s like \"How do I update the CRE CLI?\" and \"Fixing 'environment variables not bound' without a .env file,\" linking to the relevant release entries.",
+        "why": "Devs and agents query by symptom/error string; concept- and version-titled prose loses retrieval that question-phrased headings win."
+      },
+      {
+        "priority": 2,
+        "title": "Fence the migration-relevant code and command examples",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "e.g. Go SDK v1.3.0 (`encrypt_output` move), TS SDK v1.0.3 import-style change",
+        "issue": "Measured \"0 fenced block(s)\"; breaking-change guidance is prose-only.",
+        "change": "Add tagged fenced blocks (```` ```go ````, ```` ```ts ````) showing the before/after for breaking changes and a `cre update` example.",
+        "why": "Fenced, language-tagged snippets are parsed as runnable units by coding agents; prose migration notes are not."
+      },
+      {
+        "priority": 2,
+        "title": "Surface the CRE canonical definition near the top",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "page intro (currently \"This page provides detailed release notes for CRE\")",
+        "issue": "The liftable definition sits in the bottom-most Nov 2025 entry.",
+        "change": "Add one sentence to the intro: \"The Chainlink Runtime Environment (CRE) is the orchestration layer for building, simulating, and deploying onchain workflows via the CRE CLI and Go/TypeScript SDKs.\"",
+        "why": "A crisp definition in the first liftable chunk anchors the entity and defends against parametric priors when only the top of the page is skimmed."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with specifics where cheap",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "entries using \"various internal improvements\", \"significant changes\", \"various small improvements and bug fixes\"",
+        "issue": "Vague quantifiers flagged: \"several, various, most, significant\".",
+        "change": "Where a concrete count/area exists, name it (e.g. \"three reliability fixes across context propagation, secret handling, and registry types\"); otherwise leave and link the GitHub compare.",
+        "why": "Quantitative specifics outperform qualitative prose in generative retrieval and citation."
+      }
+    ],
+    "antiPatterns": [
+      "Repeated boilerplate: the identical \"How to update\" block appears in nearly every CLI section. Harmless for humans but adds low-value duplicated chunks; consider linking to a single canonical update section instead.",
+      "Mild vague quantifiers (\"various small improvements and bug fixes\") in several minor-version entries.",
+      "No stale-content or broken cross-reference issues found; internal anchors resolve."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page top — good; confirm it lists this release-notes URL.",
+      "Head metadata could not be verified from the provided content; the CLI should pass raw `<head>` so canonical/JSON-LD/OG presence can be confirmed rather than inferred.",
+      "GitHub release pages are strong third-party corroborators already linked; no earned-media gap here."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/release-notes.md",
+      "source_title": "Release Notes",
+      "probe_set_id": "ea07ffbc5b95",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T15:41:10.951Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 65.3,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.2,
+        "hallucination_free": 5.5,
+        "relevance": 3,
+        "structure": 6.2
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 214967,
+          "output_tokens": 12636,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 20,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 8356,
+          "output_tokens": 9112,
+          "cache_creation_input_tokens": 25015,
+          "cache_read_input_tokens": 139409,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page (release notes), relying instead on unspecified CLI reference/utility pages."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 8,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 68,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Running any CRE command auto-detects if a newer version is available and prompts you to update",
+            "For a first-time install, follow the CLI Installation guide"
+          ],
+          "unverifiable_from_source": [
+            "Verifying your version with `cre version` showing 'cre version {CRE_CLI_VERSION}'",
+            "Manual reinstall via Windows PowerShell installer or downloading binaries from the GitHub releases page"
+          ],
+          "verdict": "The core update command (`cre update`) is correct, but the answer omits the documented auto-detect/prompt behavior, doesn't cite the expected release-notes page, and adds unverified extra steps, making it only partially faithful to the source.",
+          "prompt": "How do I update the CRE CLI to the latest version?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about updating the CRE CLI to the latest version.Let me look at the utility commands and CLI reference pages for update instructions.There's a \"Utility Commands\" page which likely mentions the update command. Let me get the full content of that and the installation pages.I have the key information. The CRE CLI has a built-in update command. Let me confirm the exact syntax.Based on the Chainlink documentation, updating the CRE CLI is straightforward because the tool has a built-in update command.\n\n## The easy way: `cre update`\n\nThe CRE CLI includes a dedicated update utility command. Updates the CRE CLI to the latest version. This command automatically downloads and installs the newest release, making it easy to stay up to date.\n\nSimply run:\n\n```bash\ncre update\n```\n\nThis handles fetching and installing the newest release for you, so you don't need to manually re-download binaries.\n\n## Verifying your version\n\nAfter updating, you can confirm which version you're running. When you run the version command, you should see version information: cre version {CRE_CLI_VERSION}.\n\n```bash\ncre version\n```\n\n## Alternative: manual reinstall\n\nIf you prefer (or if the automatic update doesn't work in your environment), you can reinstall the latest release manually. The CRE CLI is publicly available on GitHub, and you can download the appropriate binary from the releases page:\n\n- **Windows:** The easiest way to install the CRE CLI is using the installation script. Open PowerShell and run the script; if you prefer to install manually or the automatic installation doesn't work for your environment, download cre_windows_amd64.zip from the releases page, then rename and add it to your PATH.\n- **macOS/Linux:** Visit the releases page and download the appropriate binary archive for your operating system and architecture. On Linux, the binary depends on both your architecture and OS version.\n\nFor most users, though, `cre update` is the recommended and simplest approach.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 49092,
+              "output_tokens": 1916,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1012,
+              "output_tokens": 2098,
+              "cache_creation_input_tokens": 27003,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search tool hit a usage limit and it could not verify any API details, so this probe is inconclusive for retrieval quality."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 8,
+            "relevance": 0,
+            "structure": 4
+          },
+          "fidelity": 30,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Go SDK v1.18.0 added Confidential Workflows support",
+            "Use the TEE runtime `cre.TeeRuntime`",
+            "Use `cre.HandlerInTee` to run workflow logic inside a secure enclave"
+          ],
+          "unverifiable_from_source": [
+            "EGo from Edgeless Systems targets Intel SGX",
+            "Gramine runs unmodified binaries in SGX",
+            "AWS Nitro Enclaves, Azure Confidential Computing / Constellation, Google Confidential Space",
+            "Temporal, Cadence, Argo workflow engines and enclave deployment pattern",
+            "Oasis Sapphire, Phala, Secret Network confidential contract platforms"
+          ],
+          "verdict": "The answer never recognizes this is about Chainlink CRE's Confidential Workflows feature and instead speculates about unrelated generic confidential-computing frameworks, so it is not safe to ship — it omits the actual required `cre.TeeRuntime`/`cre.HandlerInTee` guidance entirely.",
+          "prompt": "Using the Go SDK, how do I make my workflow run confidentially inside a secure enclave?",
+          "archetype": "constrained",
+          "answer": "I'll research this for you, since \"workflow,\" \"Go SDK,\" and \"secure enclave\" could refer to a few different technologies. Let me search.I wasn't able to run web searches to confirm the specifics (the search tool hit its usage limit), and I want to avoid inventing API details that might be wrong. The phrase \"workflow run confidentially inside a secure enclave\" via a \"Go SDK\" doesn't map to one single, unambiguous product, so let me lay out what I can say reliably and ask a clarifying question.\n\n## First, which platform do you mean?\n\n\"Secure enclave\" + \"workflow\" + \"Go SDK\" could point at a few different things, and the exact code depends heavily on which:\n\n1. **A confidential-computing runtime for Go** (running your whole Go process inside a TEE). The most prominent Go-native one is **EGo** from Edgeless Systems, which targets Intel SGX. There's also **Gramine** (runs unmodified binaries in SGX), **AWS Nitro Enclaves**, **Azure Confidential Computing / Constellation**, and **Google Confidential Space**.\n2. **A workflow-orchestration engine** (e.g., Temporal, Cadence, Argo) where \"workflow\" is a first-class concept and you want the workers to run inside an enclave. In that case there usually isn't an enclave-specific SDK call — you deploy the *worker* into a confidential VM/enclave and the workflow code is unchanged.\n3. **A blockchain/confidential-contract platform** (e.g., Oasis Sapphire, Phala, Secret Network) where \"confidential\" and \"enclave\" are core concepts.\n\nBecause I can't verify which one you're on, here's the general shape for the most common interpretations, so you can tell me which fits.\n\n## If you mean a Go confidential-computing runtime (e.g., EGo-style, SGX)\n\nThe typical pattern is: you don't change your workflow *logic* — you change how it's **compiled and launched** so the process runs inside the enclave, plus you set up **remote attestation** so callers can verify it's genuinely running in a trusted enclave. Conceptually:\n\n- Build the Go binary with the enclave toolchain instead of plain `go build`.\n- Provide an enclave configuration (heap size, allowed environment/files, signer key).\n- Sign the enclave.\n- Run it under the enclave runtime.\n- Expose an attestation/quote so clients can verify before sending secrets.\n\nI don't want to paste exact command names/flags from memory in case they've changed, but that's the workflow. I can give you the precise, current commands once you confirm the runtime.\n\n## If you mean a workflow engine (Temporal/Cadence/Argo, etc.)\n\nThere is generally **no enclave-specific SDK call**. You keep your workflow/activity definitions as-is and instead:\n- Deploy the **worker process** into a confidential VM or enclave.\n- Handle attestation and key release at the infrastructure layer, not in the workflow code.\n\n## What would help me give you exact code\n\nCould you tell me:\n- The **name of the SDK/framework** (e.g., EGo, Gramine, Temporal, Oasis, Nitro Enclaves)?\n- The **hardware/cloud target** (Intel SGX, AMD SEV-SNP, AWS Nitro, Azure/GCP confidential VMs)?\n- Whether \"workflow\" means *your application logic generally*, or a *specific workflow engine's Workflow type*?\n\nWith those, I can walk you through the exact `import` paths, build/run commands, and attestation code for your case.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 33890,
+              "output_tokens": 3184,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1693,
+              "output_tokens": 905,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 27003,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs at all despite claiming to have searched CLI documentation, so the expected source was never actually surfaced."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 8
+          },
+          "fidelity": 45,
+          "hallucinations": [
+            {
+              "claim": "used specifically when simulating workflows that have an HTTP trigger",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "the local server listens on a configurable port (valid range 1–65535)",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "you're prompted to select which trigger to test (cron, HTTP, or EVM log)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "You keep it running and testing until you stop it manually with Ctrl-C",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "pass the extra flag --broadcast to broadcast the transactions to the blockchain",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Introduced in CLI v1.19.0",
+            "Handles HTTP POST requests on port 2000 or matching EVM log trigger events",
+            "--evm-receipt-timeout (default 1m) controls how long the simulator waits for an EVM transaction receipt"
+          ],
+          "unverifiable_from_source": [
+            "prompted to select which trigger to test (cron, HTTP, or EVM log)",
+            "stop it manually with Ctrl-C",
+            "--broadcast flag for broadcasting transactions"
+          ],
+          "verdict": "The answer misstates the scope of --listen (claims HTTP-only when the source also covers EVM log triggers), fabricates a configurable port range contradicting the fixed port 2000, omits the --evm-receipt-timeout detail and version info, and never cites the source—so it is not safe to ship as-is.",
+          "prompt": "cre workflow simulate --listen flag what does it do",
+          "archetype": "terse/keyword",
+          "answer": "Let me search specifically for the `--listen` flag details.I found the key details. Let me verify with the CLI reference documentation.Based on the Chainlink CRE CLI documentation, here's what the `--listen` flag does:\n\n## The `--listen` flag in `cre workflow simulate`\n\nThe `--listen` flag is used specifically when simulating workflows that have an **HTTP trigger**. The Listen flag keeps the HTTP trigger server running after each execution so it can process additional requests until the user interrupts (ctrl-C).\n\n### Why this matters\n\nNormally, when you run `cre workflow simulate`, the CLI compiles your workflow to WebAssembly and executes it once. The CLI compiles your workflow to WebAssembly (WASM), you're prompted to select which trigger to test (cron, HTTP, or EVM log), the workflow runs locally making real calls to configured RPCs and HTTP endpoints, and the simulator displays logs from your workflow and the final execution result.\n\nFor an HTTP-triggered workflow, a single execution isn't always convenient — you often want to fire multiple HTTP requests at your workflow to test different payloads or behaviors. The `--listen` flag turns the simulation into a **persistent local HTTP server**, so instead of running once and exiting, it stays up and re-runs your workflow every time it receives an incoming HTTP request. You keep it running and testing until you stop it manually with **Ctrl-C**.\n\n### Related flags you'll often use alongside it\n\n- **HTTP trigger port** — the local server listens on a configurable port (valid range 1–65535), letting you direct your test requests to a specific port.\n- **`--broadcast`** — since simulate defaults to a dry run, when simulating workflows that write to the blockchain, remember to pass the extra flag --broadcast to broadcast the transactions to the blockchain. This is useful in combination with `--listen` if you want your repeated HTTP-triggered executions to actually submit onchain transactions.\n\nIn short: `--listen` transforms the HTTP-trigger simulation from a one-shot run into a continuously running local server that handles repeated requests, which is handy for iterative, interactive testing of HTTP-triggered workflows.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 64832,
+              "output_tokens": 2110,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1160,
+              "output_tokens": 1663,
+              "cache_creation_input_tokens": 27003,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or engages with the CRE release-notes source and substitutes unrelated third-party secrets-manager APIs."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 1,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 10,
+          "hallucinations": [
+            {
+              "claim": "the helper you want is **`BatchGetSecretValue`**",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "In the Go v2 SDK, the method lives on the Secrets Manager client (`secretsmanager.Client`)",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "**Keeper Secrets Manager** — `sm.GetSecrets([]string{})` returns the records",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "**Dapr secret stores** — there's a bulk secrets endpoint",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Go SDK v1.16.0 added batch secret fetching",
+            "Use `runtime.GetSecrets()` to fetch multiple secrets in a single call"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "Not safe to ship: the answer never recognizes this as a CRE/Chainlink Go SDK question and instead invents a detailed but entirely unrelated answer about AWS/GCP/Keeper/Dapr secrets APIs, completely missing the documented `runtime.GetSecrets()` helper.",
+          "prompt": "I want to fetch several secrets in my Go workflow in one call instead of one at a time — is there a helper for that?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for information about batch-fetching secrets in Go to point you to the right helper.Yes — most secret providers offer a batch helper so you don't loop with one call per secret. The right one depends on which secrets backend you're using, but here are the common ones:\n\n## AWS Secrets Manager (most likely)\n\nIf you're on AWS, the helper you want is **`BatchGetSecretValue`**. It retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20 secrets. To retrieve a single secret, you call GetSecretValue instead.\n\nThis was purpose-built for your exact situation. Previously, if you had an application that used Secrets Manager and needed to retrieve multiple secrets, you had to write custom code to first identify the list of needed secrets by making a ListSecrets call, and then call GetSecretValue on each individual secret. Now, you don't need to run ListSecrets and loop. The new BatchGetSecretValue API reduces code complexity when retrieving secrets, reduces latency by running bulk retrievals, and reduces the risk of reaching Secrets Manager service quotas.\n\nHow to select secrets: to choose which secrets to retrieve, you can specify a list of secrets by name or ARN, or you can use filters. And it handles partial failures gracefully — if Secrets Manager encounters errors such as AccessDeniedException while attempting to retrieve any of the secrets, you can see the errors in Errors in the response.\n\nIn the Go v2 SDK, the method lives on the Secrets Manager client (`secretsmanager.Client`), and there's also a `NewBatchGetSecretValuePaginator` if you're fetching enough secrets to paginate. Something like:\n\n```go\nimport (\n    \"context\"\n    \"github.com/aws/aws-sdk-go-v2/config\"\n    \"github.com/aws/aws-sdk-go-v2/service/secretsmanager\"\n)\n\ncfg, _ := config.LoadDefaultConfig(context.TODO())\nclient := secretsmanager.NewFromConfig(cfg)\n\nout, err := client.BatchGetSecretValue(context.TODO(), &secretsmanager.BatchGetSecretValueInput{\n    SecretIdList: []string{\"secret1\", \"secret2\", \"secret3\"},\n})\n// out.SecretValues has the resolved secrets; out.Errors has any failures\n```\n\n**Two important caveats:**\n\n1. **Permissions are unchanged.** Though you can use this feature to retrieve multiple secrets in one API call, the access controls for Secrets Manager secrets remain unchanged. This means IAM principals need the same permissions as if they were to retrieve each of the secrets individually. Concretely, you need secretsmanager:BatchGetSecretValue, and you must have secretsmanager:GetSecretValue for each secret. If you use filters, you must also have secretsmanager:ListSecrets.\n\n2. **Caching still helps.** AWS recommends that you cache your secret values by using client-side caching, because caching secrets improves speed and reduces your costs. For Go applications, you can use the Secrets Manager Go-based caching component or call the SDK directly with GetSecretValue or BatchGetSecretValue.\n\n## Other backends\n\nIf you're not on AWS, the equivalent helper varies:\n\n- **Google Cloud Secret Manager** — the Go client works one secret per `GetSecret`/`AccessSecretVersion` call, so you'd batch concurrently yourself rather than via a single native bulk call.\n- **Keeper Secrets Manager** — `sm.GetSecrets([]string{})` returns the records with the specified UIDs, or all records shared with the Secrets Manager client if no UIDs are provided.\n- **Dapr secret stores** — there's a bulk secrets endpoint where the bulk secrets endpoint retrieves all secrets accessible in a secret store with a single API call, which is useful for loading all application configuration secrets at startup rather than making individual calls for each key.\n\nIf you let me know which secrets backend your Go workflow talks to (AWS, GCP, Vault, Dapr, Keeper, etc.), I can give you the exact function signature and a complete working snippet.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25361,
+              "output_tokens": 2088,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1839,
+              "output_tokens": 536,
+              "cache_creation_input_tokens": 27003,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/release-notes"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 9,
+            "relevance": 8,
+            "structure": 8
+          },
+          "fidelity": 83,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Explicit statement that this feature was introduced in TS SDK v1.1.0 (the answer only says \"CRE SDK\" generically, not the specific version)"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer correctly explains the cause and fix for the cre-setup error without fabricating any APIs, but it omits the specific version (TS SDK v1.1.0) and adds an unrelated Go SDK v1.3.0 note that is accurate but off-topic, making it usable but slightly imprecise.",
+          "prompt": "My workflow build fails with an error that cre-setup has not been run — what changed and how is that surfaced?",
+          "archetype": "error-debug",
+          "answer": "This is a change in the **Chainlink Runtime Environment (CRE)** SDK. Here's what happened and how it shows up:\n\n## What changed\n\nThe CRE SDK added a new, clearer diagnostic error. The SDK now provides a descriptive error when cre-setup has not been run before attempting to compile a workflow.\n\nPreviously, if you tried to compile/build a workflow without having completed the required setup step, you'd get a less helpful failure. Now the SDK explicitly surfaces the missing-setup condition as the cause.\n\n## How it's surfaced\n\nThe error appears at **compile/build time** for your workflow. When you invoke a build (e.g., as part of `cre workflow` compilation), the SDK checks whether `cre-setup` has been completed. If it hasn't, instead of an opaque failure, the SDK returns a descriptive error telling you that the setup step is the blocker — pointing you to run the setup before compiling.\n\n## What to do about it\n\nThe fix is simply to run the `cre-setup` step before you build/compile the workflow. Note this appeared alongside other SDK changes worth checking if you're on a recent version — notably, Go SDK version 1.3.0 updates the Confidential HTTP capability types, where the encrypt_output field has moved from ConfidentialHTTPRequest to HTTPRequest, so any workflows using ConfidentialHTTPRequest.encrypt_output should set this field on the inner HTTPRequest instead.\n\nIf you'd like, I can point you to the exact CLI/SDK version where this error message was introduced, or walk through the `cre-setup` step itself. You can also see full details in the [CRE release notes](https://docs.chain.link/cre/release-notes).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 29643,
+              "output_tokens": 1730,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 967,
+              "output_tokens": 1097,
+              "cache_creation_input_tokens": 27003,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states no files were uploaded and treats the question as generic, never citing or engaging with the actual CRE release-notes source."
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 4,
+            "relevance": 1,
+            "structure": 6
+          },
+          "fidelity": 33,
+          "hallucinations": [
+            {
+              "claim": "e.g. `@cre/capabilities`",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "import { HTTPClient } from \"@x/capabilities\"",
+              "type": "wrong_import",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "TS SDK v1.0.2 introduced direct imports (e.g., `import { HTTPClient } from \"@chainlink/cre-sdk\"`)",
+            "Both the direct-import and namespace patterns remain fully supported",
+            "As of TS SDK v1.0.3, all SDK example workflows use direct imports"
+          ],
+          "unverifiable_from_source": [
+            "General SDK design tradeoffs around tree-shaking, discoverability, and bundle size",
+            "Recommendation to ship both patterns via subpath exports as a design pattern"
+          ],
+          "verdict": "The answer never recognizes this as a question about the Chainlink CRE TypeScript SDK's documented release notes, instead treating it as a generic SDK design question, inventing fictitious package paths, and explicitly asking the user to identify which SDK this is — unsafe to ship as a docs answer.",
+          "prompt": "Should I use the namespace pattern (cre.capabilities.HTTPClient) or direct imports for the TypeScript SDK?",
+          "archetype": "comparison",
+          "answer": "No files were uploaded, so I'll answer this as a general TypeScript SDK design question. This is a judgment call, and the right answer depends on your priorities. Here's how I'd think about it.\n\n## Short answer\n\nFor a TypeScript SDK, **prefer direct/named imports as the primary public API**, and optionally offer a namespace object as a convenience layer on top. Direct imports are more idiomatic in modern TS/ESM, more tooling-friendly, and better for bundle size.\n\n## Tradeoffs\n\n**Namespace pattern — `cre.capabilities.HTTPClient`**\n\nPros:\n- Great **discoverability**: typing `cre.` triggers autocomplete that reveals the whole API surface, which is nice for newcomers.\n- Clear **grouping/mental model** — capabilities, clients, utils are visually organized.\n- Single, stable import statement (`import { cre } from \"...\"`), fewer lines to manage.\n- Reads well in docs and examples.\n\nCons:\n- **Hurts tree-shaking.** Accessing everything through one big object graph makes it harder for bundlers to eliminate unused code, so consumers may ship more than they use. This is the biggest practical downside for a client-side/edge SDK.\n- Encourages deep coupling to the namespace structure; renaming a sub-namespace is a breaking change for everyone.\n- Slightly noisier at call sites (`cre.capabilities.HTTPClient` vs `HTTPClient`).\n- Can be awkward to type/extend and to mock in tests.\n\n**Direct imports — `import { HTTPClient } from \"@x/capabilities\"`**\n\nPros:\n- **Tree-shakable** by default with ESM + a good bundler.\n- Idiomatic modern TypeScript; matches how most well-regarded SDKs ship today.\n- Easy to alias (`import { HTTPClient as Http }`), mock, and refactor.\n- Subpath exports let you version and organize modules cleanly.\n\nCons:\n- Slightly less discoverable — users must know what to import or lean on docs/IDE.\n- More import lines, and potential name collisions that require aliasing.\n\n## Recommendation\n\nOffer **both, with direct imports as the source of truth:**\n\n1. Ship individual named exports (ideally via package `exports`/subpaths, e.g. `@cre/capabilities`) as the canonical API.\n2. Optionally provide a `cre` aggregation object that re-exports those same symbols, so people who want the namespace ergonomics get them — while power users and bundle-size-sensitive apps import directly.\n\n```ts\n// namespace.ts (convenience)\nexport * as capabilities from \"./capabilities\";\nexport * as clients from \"./clients\";\n// consumers: import { cre } from \"@cre\"  OR  import { HTTPClient } from \"@cre/capabilities\"\n```\n\nCaveats:\n- **Avoid TypeScript `namespace {}` blocks** for this — those are a legacy construct. Use ES modules and namespace *objects* instead.\n- If your SDK is primarily server-side (Node, no bundling concern) and API discoverability is paramount, the namespace-first approach is more defensible.\n- If it targets browsers, edge runtimes, or size-sensitive environments, lean harder toward direct imports.\n\nIf you can tell me which SDK this is (the `cre.capabilities` naming looks like it could be a specific runtime/workflow SDK) and whether it's for Node, browser, or edge, I can give a more targeted recommendation — or review the actual code if you upload it.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 12149,
+              "output_tokens": 1608,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1685,
+              "output_tokens": 1156,
+              "cache_creation_input_tokens": 27003,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 44.8,
+      "unattributed_count": 3,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

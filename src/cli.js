@@ -503,11 +503,17 @@ async function cmdDashboard(argv) {
     for (const f of ["index.json", "runs.json", "timeseries.json"]) {
       if (fs.existsSync(path.join(src, f))) fs.copyFileSync(path.join(src, f), path.join(dest, "data", f));
     }
-    const pagesDir = path.join(src, "pages");
+    // Per-page AND per-run detail. Omitting the run files published a site
+    // whose Run pages 404 — the export must carry everything the static client
+    // knows how to fetch.
     let copied = 0;
-    if (fs.existsSync(pagesDir)) {
-      for (const f of fs.readdirSync(pagesDir)) {
-        fs.copyFileSync(path.join(pagesDir, f), path.join(dest, "data", "pages", f));
+    for (const sub of ["pages", "runs"]) {
+      const from = path.join(src, sub);
+      if (!fs.existsSync(from)) continue;
+      const to = path.join(dest, "data", sub);
+      fs.mkdirSync(to, { recursive: true });
+      for (const f of fs.readdirSync(from)) {
+        fs.copyFileSync(path.join(from, f), path.join(to, f));
         copied++;
       }
     }

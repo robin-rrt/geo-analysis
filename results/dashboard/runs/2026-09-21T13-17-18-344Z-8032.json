@@ -1,0 +1,2413 @@
+{
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "startedAt": "2026-09-21T13:17:18.345Z",
+  "endedAt": "2026-09-21T13:30:31.859Z",
+  "target": {
+    "type": "product",
+    "name": "cre",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": null,
+    "analystEffort": "high",
+    "graderModel": null,
+    "probeModel": null,
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "unknown|unknown|medium|web",
+  "status": "complete",
+  "counts": {
+    "pages": 43,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T13-17-18-344Z-8032",
+    "target": {
+      "type": "product",
+      "name": "cre",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": null,
+      "analystEffort": "high",
+      "graderModel": null,
+      "probeModel": null,
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T13:17:18.345Z",
+    "endedAt": "2026-09-21T13:30:31.859Z",
+    "elapsedMs": 793514,
+    "counts": {
+      "pages": 43,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "cre-md",
+        "url": "https://docs.chain.link/cre.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 59313
+        },
+        "elapsedMs": 59795,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-account-md",
+        "url": "https://docs.chain.link/cre/account.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 43540
+        },
+        "elapsedMs": 43918,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-md",
+        "url": "https://docs.chain.link/cre/capabilities.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 50710
+        },
+        "elapsedMs": 53022,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-confidential-http-go-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 59152
+        },
+        "elapsedMs": 60073,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-confidential-http-ts-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56163
+        },
+        "elapsedMs": 56867,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-evm-read-write-md",
+        "url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52312
+        },
+        "elapsedMs": 52887,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-http-md",
+        "url": "https://docs.chain.link/cre/capabilities/http.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 44755
+        },
+        "elapsedMs": 45798,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-capabilities-triggers-md",
+        "url": "https://docs.chain.link/cre/capabilities/triggers.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 53969
+        },
+        "elapsedMs": 54461,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-before-you-build-go-md",
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 54782
+        },
+        "elapsedMs": 55254,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-before-you-build-ts-md",
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 70262
+        },
+        "elapsedMs": 70468,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-build-with-ai-go-md",
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 63060
+        },
+        "elapsedMs": 63641,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-build-with-ai-ts-md",
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 50047
+        },
+        "elapsedMs": 50549,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-cli-installation-md",
+        "url": "https://docs.chain.link/cre/getting-started/cli-installation.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 44579
+        },
+        "elapsedMs": 45550,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-getting-started-overview-md",
+        "url": "https://docs.chain.link/cre/getting-started/overview.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55670
+        },
+        "elapsedMs": 56211,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-activating-pausing-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 54410
+        },
+        "elapsedMs": 55342,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-deleting-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/deleting-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 45138
+        },
+        "elapsedMs": 45704,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-deploying-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52659
+        },
+        "elapsedMs": 53178,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-monitoring-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56223
+        },
+        "elapsedMs": 56911,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-simulating-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51205
+        },
+        "elapsedMs": 52269,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-updating-deployed-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 50647
+        },
+        "elapsedMs": 51116,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-operations-using-multisig-wallets-md",
+        "url": "https://docs.chain.link/cre/guides/operations/using-multisig-wallets.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 53344
+        },
+        "elapsedMs": 53932,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-secrets-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55530
+        },
+        "elapsedMs": 56034,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-confidential-http-client-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51692
+        },
+        "elapsedMs": 52189,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-evm-client-overview-go-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 50130
+        },
+        "elapsedMs": 50586,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-evm-client-overview-ts-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 44099
+        },
+        "elapsedMs": 44643,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-http-client-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55157
+        },
+        "elapsedMs": 56088,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-randomness-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-randomness.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 42045
+        },
+        "elapsedMs": 42497,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-guides-workflow-using-triggers-overview-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 46469
+        },
+        "elapsedMs": 46960,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-key-terms-md",
+        "url": "https://docs.chain.link/cre/key-terms.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 62992
+        },
+        "elapsedMs": 63795,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-organization-md",
+        "url": "https://docs.chain.link/cre/organization.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 43986
+        },
+        "elapsedMs": 44343,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-reference-cli-md",
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58997
+        },
+        "elapsedMs": 59698,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-reference-project-configuration-go-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52598
+        },
+        "elapsedMs": 53617,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-reference-project-configuration-ts-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51906
+        },
+        "elapsedMs": 52684,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-reference-sdk-overview-go-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 48977
+        },
+        "elapsedMs": 49447,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-reference-sdk-overview-ts-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56111
+        },
+        "elapsedMs": 56696,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-release-notes-md",
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 64197
+        },
+        "elapsedMs": 66188,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-service-quotas-md",
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 60215
+        },
+        "elapsedMs": 60945,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-support-feedback-md",
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 38666
+        },
+        "elapsedMs": 39353,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-supported-networks-go-md",
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52711
+        },
+        "elapsedMs": 53688,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-supported-networks-ts-md",
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55879
+        },
+        "elapsedMs": 56612,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-templates-md",
+        "url": "https://docs.chain.link/cre/templates.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 48970
+        },
+        "elapsedMs": 49636,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-go-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58573
+        },
+        "elapsedMs": 59558,
+        "probeSummary": null
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-ts-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 59735
+        },
+        "elapsedMs": 60808,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "cre",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 308,
+      "inScope": 43,
+      "failed": 0
+    },
+    "notes": [
+      "curated index lists 43 of 265 pages under /cre/ — 222 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/cre",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/ai-audit-firewall",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/automated-liquidation-protection",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/automated-portfolio-rebalancing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/aws-cre-pricefeeds-por",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/bring-your-own-data",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/circuit-breaker",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/custom-data-feed",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/event-reactor",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/hello-confidential-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/indexer-block-trigger",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/indexer-data-fetch",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/keeper-bot",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/kv-store",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/multi-chain-token-manager",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/prediction-market",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/prediction-market-demo",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/read-data-feeds",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/stablecoin-ace-ccip",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/tokenized-asset-servicing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/vault-harvester",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre-templates/x402-price-alerts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/account",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/account.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/account/cli-login",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/account/confidential-workflows-access",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/account/creating-account",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/account/deploy-access",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/account/managing-auth",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/evm-read-write",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/http",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/http.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/solana-write",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/triggers",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/triggers.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/confidential-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/consensus-computing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/finality-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/finality-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/non-determinism-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/non-determinism-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/concepts/typescript-wasm-runtime",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/demos/prediction-market",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/cli-installation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/cli-installation.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/cli-installation/macos-linux",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/cli-installation/windows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-1-project-setup-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-1-project-setup-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-2-fetching-data-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-2-fetching-data-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-3-reading-onchain-value-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-3-reading-onchain-value-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-4-writing-onchain-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/part-4-writing-onchain-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/custom-build",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/custom-rust-plugins-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deleting-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deleting-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-to-private-registry-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-to-private-registry-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/understanding-limits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/using-multisig-wallets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/using-multisig-wallets.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/verifying-workflows-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/verifying-workflows-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/building-a-library-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/building-a-library-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets/managing-secrets-1password",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets/using-secrets-deployed",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets/using-secrets-simulation-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets/using-secrets-simulation-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/time-in-workflows-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/time-in-workflows-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client/making-requests-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client/making-requests-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-workflows/making-workflow-confidential-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-workflows/making-workflow-confidential-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/forwarder-directory-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/forwarder-directory-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/generating-bindings-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/generating-bindings-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/building-consumer-contracts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/generating-reports-single-values",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/generating-reports-structs",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/submitting-reports-onchain",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/using-write-report-helpers",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/writing-data-onchain",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/get-request-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/get-request-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/post-request-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/post-request-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/submitting-reports-http-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/submitting-reports-http-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/verifying-reports-offchain-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client/verifying-reports-offchain-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-randomness-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-randomness-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-randomness.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/forwarder-directory-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/forwarder-directory-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/generating-bindings-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/generating-bindings-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/onchain-write-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/onchain-write-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-solana-client/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/cron-trigger-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/cron-trigger-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/evm-log-trigger-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/evm-log-trigger-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/local-testing-tool",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/testing-in-simulation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/triggering-deployed-workflows",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/key-terms",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/key-terms.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization/inviting-members",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization/linking-keys",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization/understanding-organizations",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/privacy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cla-migration-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cla-migration-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/clf-migration-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/clf-migration-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/account",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/authentication",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/execution",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/project-setup-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/project-setup-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/registry",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/secrets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/templates",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/utilities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli/workflow",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/gelato-migration-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/gelato-migration-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/authentication",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/common-queries",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/enums",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/errors",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/inputs",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/objects",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/pagination",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/queries",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/graphql-api/quickstart",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/confidential-http-client-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/confidential-http-client-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/confidential-workflows-client-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/confidential-workflows-client-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/consensus-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/consensus-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/core-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/core-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/evm-client-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/evm-client-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/http-client-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/http-client-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/solana-client-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/solana-client-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/cron-trigger-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/cron-trigger-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/evm-log-trigger-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/evm-log-trigger-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/http-trigger-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/http-trigger-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/overview-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/triggers/overview-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/type-conversions-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/release-notes",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/service-quotas",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/support-feedback",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/crec",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/account-abstraction",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/channels",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/confidence-levels",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/drafts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/eip712-signing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/event-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/extensions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/multi-event-finality",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/operations",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/queries",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/smart-accounts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/verifiable-events",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/concepts/watchers",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/extensions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/extensions/dta",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/extensions/dta/events",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/extensions/dta/fund-and-distributors",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/extensions/dta/subscriptions-redemptions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/getting-started/authentication",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/getting-started/prerequisites",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/getting-started/quickstart-send-operation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/getting-started/quickstart-watch-events",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/getting-started/sdk-installation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/channels/manage-channels",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/events/decode-data",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/events/poll-and-search",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/events/verify-signatures",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/operations/batch-transactions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/operations/build-and-sign",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/operations/drafts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/operations/signing-transparency",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/operations/submit-and-track",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/queries/execute-a-query",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/aws-kms",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/custom",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/fireblocks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/hashicorp-vault",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/local",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/signers/privy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/wallets/create-and-manage",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/wallets/manage-signers",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/watchers/create-with-abi",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/watchers/create-with-service",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/guides/watchers/manage-lifecycle",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/private-beta",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/error-handling",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/event-payloads",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/go-sdk",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/lifecycles",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/rest-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/sdk-configuration",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/reference/service-limits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/release-notes",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/crec/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      }
+    ],
+    "failures": []
+  }
+}

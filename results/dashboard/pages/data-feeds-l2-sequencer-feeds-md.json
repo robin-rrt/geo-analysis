@@ -1,0 +1,178 @@
+{
+  "key": "data-feeds-l2-sequencer-feeds-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "L2 Sequencer Uptime Feeds",
+    "url": "https://docs.chain.link/data-feeds/l2-sequencer-feeds.md",
+    "analyzedAt": "2026-09-21T11:49:06.187Z",
+    "contentType": "developer documentation / integration guide + reference",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "The page leads with a caution notice and three paragraphs of context before defining the product; the canonical definition (\"continuously monitors and records the last known status of the sequencer\") is buried mid-intro. Add a one-sentence answer-first lead."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean hierarchy — 19 headings, 1 H1, max depth H4, 0 level skips, no section over 600 words. Weakness: 0 tables; the 11-network address list and the 0/1 status semantics both belong in tables for clean extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — 74 numerals, 22 hex identifiers, `30s` OCR rounds, `GRACE_PERIOD_TIME = 3600`, versioned contract links. No action needed beyond removing vague \"many/fast\" where a number fits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — 20 links, 4 to primary GitHub sources plus the Arbitrum Nitro spec. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The status semantics (`0` = up, `1` = down) and the Arbitrum-vs-other `startedAt` behavior are crisp and liftable, but the top-level definition is diffuse. Tighten it near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak and measured: 0 JSON-LD blocks, canonical MISSING, no `dateModified`/`datePublished`, no og/twitter tags, head metadata not captured. This is the largest measured gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — single `sol` block with SPDX, pragma, import, addresses, and inline network config; the \"identifiers never assigned\" flag is a false positive from comment text. Fix only the stale in-comment URL."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers what/why/how/example/outage handling well, but no question- or symptom-phrased headings (e.g. `startedAt` returns 0, `GracePeriodNotOver` revert) that match how devs actually search."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent contract naming and unambiguous prose. No action needed."
+      }
+    ],
+    "summary": "This is a solid, technically dense integration guide covering why L2 sequencer uptime feeds exist, how the relay mechanism works per network, and a complete runnable consumer contract. Its biggest strengths are concrete specifics (real proxy addresses, 30s OCR cadence, 3600s grace period, primary-source GitHub links) and a complete, copy-pasteable Solidity example. The biggest opportunities are structural/retrieval: the Supported Networks block is a list of one-line H3s that should be a table, there is no answer-first TL;DR, no symptom-phrased troubleshooting headings, and the served HTML carries zero JSON-LD, no canonical URL, and no freshness dates.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Convert Supported Networks to a table",
+        "mapsTo": "machine-scannability & chunkability",
+        "tier": null,
+        "where": "`## Supported Networks`",
+        "issue": "11 networks are one-line H3s: \"Arbitrum Mainnet: 0xFdB6…\"",
+        "change": "Replace with a 3-column table — Network | Proxy address | Explorer link — one row per chain. Keep addresses verbatim.",
+        "why": "Tables are extracted and cited far more reliably than heading-per-item lists; an engine answering \"what is the OP sequencer feed address\" can lift one row."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "after the code block, near the `startedAt`/grace-period notes",
+        "issue": "answers exist in prose but under no query-shaped heading, e.g. \"returns `0` only on Arbitrum\"",
+        "change": "Add H3s such as `### Why does startedAt return 0?`, `### Why does my call revert with GracePeriodNotOver?`, `### Why does the feed report SequencerDown?` with the existing answers beneath.",
+        "why": "Devs and agents query by error string and symptom; question-titled sections win retrieval that concept prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first TL;DR / canonical definition at the top",
+        "mapsTo": "answer-first extractability, quotable definitions",
+        "tier": null,
+        "where": "immediately under the H1, before the caution notice",
+        "issue": "definition is buried: \"your applications can integrate a **Sequencer Uptime Data Feed**, which…\"",
+        "change": "Add one lead sentence: \"A Chainlink L2 Sequencer Uptime Feed is an on-chain feed that reports whether an L2 sequencer is up (`answer == 0`) or down (`answer == 1`), letting contracts pause during downtime and enforce a grace period.\" Keep the caution notice directly after.",
+        "why": "A self-contained first liftable sentence resists parametric-prior substitution and gives engines a clean verbatim quote."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and freshness dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "measured — 0 JSON-LD, canonical MISSING, no `dateModified`.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `about`, and a self-referential `canonical`. Surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise agent parseability and E-E-A-T trust; note the CLI should pass raw `<head>` so this can be re-verified."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the stale URL inside the code comment",
+        "mapsTo": "citations / accuracy",
+        "tier": null,
+        "where": "constructor comment in the Solidity block",
+        "issue": "`https://docs.chain.link/docs/data-feeds/l2-sequencer-feeds` (extra `/docs/` segment)",
+        "change": "Replace with `https://docs.chain.link/data-feeds/l2-sequencer-feeds`.",
+        "why": "Agents copy comment URLs verbatim; a broken canonical path degrades trust and self-reference."
+      },
+      {
+        "priority": 2,
+        "title": "Tabulate the status/return semantics",
+        "mapsTo": "quotable canonical definitions, scannability",
+        "tier": null,
+        "where": "\"The `sequencerUptimeFeed` object returns the following values\" list",
+        "issue": "`answer` 0/1 and `startedAt` behavior are in nested bullets.",
+        "change": "Add a small table — Field | Meaning | Notes — with `answer` (0 up / 1 down) and `startedAt` (Arbitrum-vs-other behavior).",
+        "why": "Makes the most-queried facts a single extractable unit."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with numbers where known",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "intro (\"optimizing… reducing fees… fast transaction confirmations\") and \"many ZK-rollups\"",
+        "issue": "measured vague quantifiers: \"many, fast\"",
+        "change": "Where a figure exists (e.g. confirmation time, number of supported networks = 11), state it; otherwise leave prose unchanged rather than pad.",
+        "why": "Quantitative claims are among the highest-lift edits for citation."
+      }
+    ],
+    "antiPatterns": [
+      "Stale/incorrect self-referential URL inside the code comment (`/docs/` path).",
+      "Minor vague quantifiers (\"many\", \"fast\") in the intro.",
+      "Supported Networks presented as heading-per-item rather than a table (extraction hazard, not stuffing).",
+      "No unresolved cross-references, no marketing fluff, no walls of prose (max section 449 words). Code is complete with imports."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at top — good; ensure this page is listed in it and in the sitemap.",
+      "JSON-LD, canonical, and og/twitter tags are template/site-level; the fix belongs in the docs framework `<head>`, not the body.",
+      "Freshness cadence: given the \"no longer expanding\" availability notice, a visible `dateModified` is especially valuable so engines don't cite this as stale-by-omission."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

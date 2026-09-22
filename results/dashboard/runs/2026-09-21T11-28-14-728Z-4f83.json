@@ -1,0 +1,101 @@
+{
+  "runId": "2026-09-21T11-28-14-728Z-4f83",
+  "startedAt": "2026-09-21T11:28:14.729Z",
+  "endedAt": "2026-09-21T11:31:35.043Z",
+  "target": {
+    "type": "watchlist",
+    "name": "correlation-study",
+    "productScope": null
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "complete",
+  "counts": {
+    "pages": 10,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": null,
+  "ledger": {
+    "target": {
+      "type": "watchlist",
+      "name": "correlation-study",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 10,
+      "inScope": 10,
+      "failed": 0
+    },
+    "notes": [
+      "The 10 pages measured in the pre-registered correlation study (2026-09-18), kept as a routine-check set."
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/resources/fund-your-contract",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-automation/overview/service-limits",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/datalink",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/getting-started/conceptual-overview",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/resources/link-token-contracts",
+        "source": "watchlist",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "key": "ace-concepts-policy-ordering-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Policy Ordering and Composition",
+    "url": "https://docs.chain.link/ace/concepts/policy-ordering.md",
+    "analyzedAt": "2026-09-21T16:34:16.217Z",
+    "contentType": "developer documentation / conceptual guide",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-written conceptual page explaining how Chainlink ACE policy chains execute and how ordering affects security. Its biggest strength is clean, answer-first prose with crisp verbatim-liftable definitions (Reject/Allow/Continue, terminal outcomes, default result). Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and — most damaging — the three diagrams that carry the core teaching content render as \"(Image: Image)\" with no alt text or captions, so an engine loses the visual reasoning entirely. Structuring the outcome and default-result facts into tables and adding symptom-phrased headings would raise both extraction and retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add alt text / captions to the three diagrams",
+        "mapsTo": "machine-readability, answer-first extractability",
+        "tier": null,
+        "where": "\"Ordering example\" (Ordering A, Ordering B images) and \"How the engine evaluates a chain\" (sequence diagram)",
+        "issue": "all three render as `(Image: Image)` with no text equivalent",
+        "change": "add descriptive captions/alt text spelling out each diagram's flow, e.g. \"Sequence: PolicyEngine runs extractors once, then evaluates each policy in order; first Reject reverts, first Allow approves and skips the rest, Continue defers.\" The sequence-diagram content has no textual equivalent anywhere on the page.",
+        "why": "engines cannot read raster diagrams; the core evaluation model is currently unretrievable except from prose fragments."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased heading for the default-result failure mode",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"The default result\" section / CAUTION callout",
+        "issue": "the failure (\"your transactions will revert unexpectedly\") is buried in body text, not a heading",
+        "change": "add an H3 such as \"Why do my transactions revert when all policies return Continue?\" and answer in the first sentence (default result set to reject).",
+        "why": "devs/agents query by symptom; a question-phrased heading wins retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the three outcomes and default-result options to tables",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Why order matters\" (Reject/Allow/Continue) and \"The default result\" (`true`/`false`)",
+        "issue": "decision-critical data is in bullet prose; 0 tables on page",
+        "change": "a 3-row Outcome | Return value | Effect on chain table, and a 2-row `desired_default_allow` | Behavior | When to use table.",
+        "why": "tables let engines extract reasons and build justified comparative answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "measured facts show 0 JSON-LD, canonical MISSING, no dateModified in head",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-03-31` (already in body), and a canonical `<link>`; expose the last-updated date as visible HTML too.",
+        "why": "structured metadata and visible freshness raise agent parse-trust; low effort, site-template-level."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete gas/positioning specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Keep chains short\"",
+        "issue": "\"each policy in the chain costs gas\" — no figures",
+        "change": "give an order-of-magnitude per-policy gas overhead or state that extractors run once regardless of chain length with a concrete cost example, if available.",
+        "why": "quantitative claims are among the highest-lift additions; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short config snippet for `desired_default_allow`",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"The default result\"",
+        "issue": "field named but never shown in a settable form (0 code blocks on page)",
+        "change": "add a small labeled snippet or API/UI call showing where `desired_default_allow` is set per target contract.",
+        "why": "an agent completing a config task needs a copy-pasteable form of the field, not prose."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"most\" in \"the most common approach for composable policy chains\" — acceptable but could be quantified or softened.",
+      "Images with no alt text / captions (also captured under P1) — content loss for non-visual consumers.",
+      "No stale-content or fluff issues; prose is clean and undated-in-head only (body carries the date)."
+    ],
+    "offPageNotes": [
+      "The page references `/llms.txt` — good site-level signal; ensure it lists this URL.",
+      "Canonical URL and JSON-LD are likely template/site-level concerns rather than author-editable; flag to the docs platform team.",
+      "CLI did not capture `<head>` — pass raw head HTML for a definitive metadata read; the body-level \"Last Updated\" suggests dates may exist but aren't machine-exposed."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

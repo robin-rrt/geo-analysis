@@ -1,0 +1,237 @@
+{
+  "runId": "2026-09-22T13-04-49-689Z-6fb3",
+  "startedAt": "2026-09-22T13:04:49.690Z",
+  "endedAt": "2026-09-22T13:04:52.636Z",
+  "owner": {
+    "pid": 24857,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "dta-technical-standard",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "partial",
+  "counts": {
+    "expected": 7,
+    "pages": 0,
+    "failed": 7
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-04-49-689Z-6fb3",
+    "target": {
+      "type": "product",
+      "name": "dta-technical-standard",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "partial",
+    "startedAt": "2026-09-22T13:04:49.690Z",
+    "endedAt": "2026-09-22T13:04:52.636Z",
+    "elapsedMs": 2946,
+    "counts": {
+      "pages": 0,
+      "failed": 7,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/dta-technical-standard.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXT9qiRta23ng2KX6ao\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXT9EkYjZNcP113WGBY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTA2ssdnzX46uaugom\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDm76Sv8P1RRNWdH8\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDr52iDWtYJLvF2iu\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDhPb3EPt2TKhndeo\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTGq9uRJ3z3R4ohJin\"}"
+      }
+    ]
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "dta-technical-standard",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 15,
+      "inScope": 7,
+      "failed": 7
+    },
+    "notes": [
+      "curated index lists 7 of 8 pages under /dta-technical-standard/ — 1 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/dta-technical-standard",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/dta-technical-standard.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXT9qiRta23ng2KX6ao\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXT9EkYjZNcP113WGBY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTA2ssdnzX46uaugom\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDm76Sv8P1RRNWdH8\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDr52iDWtYJLvF2iu\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTDhPb3EPt2TKhndeo\"}"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTGq9uRJ3z3R4ohJin\"}"
+      }
+    ]
+  }
+}

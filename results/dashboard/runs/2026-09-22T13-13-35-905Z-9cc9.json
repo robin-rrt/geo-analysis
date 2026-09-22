@@ -1,0 +1,534 @@
+{
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "startedAt": "2026-09-22T13:13:35.906Z",
+  "endedAt": "2026-09-22T13:18:40.779Z",
+  "owner": {
+    "pid": 28233,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "vrf",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 13,
+    "pages": 13,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 2.0189,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-13-35-905Z-9cc9",
+    "target": {
+      "type": "product",
+      "name": "vrf",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-22T13:13:35.906Z",
+    "endedAt": "2026-09-22T13:18:40.779Z",
+    "elapsedMs": 304873,
+    "counts": {
+      "pages": 13,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 2.0189,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "vrf-md",
+        "url": "https://docs.chain.link/vrf.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 48236
+        },
+        "elapsedMs": 48737,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-best-practices-md",
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52933
+        },
+        "elapsedMs": 53445,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-billing-md",
+        "url": "https://docs.chain.link/vrf/v2-5/billing.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 71091
+        },
+        "elapsedMs": 72929,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-direct-funding-get-a-random-number-md",
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51309
+        },
+        "elapsedMs": 52100,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-getting-started-md",
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56092
+        },
+        "elapsedMs": 56771,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-migration-from-v1-md",
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 65698
+        },
+        "elapsedMs": 66517,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-migration-from-v2-md",
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 69684
+        },
+        "elapsedMs": 70390,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-overview-direct-funding-md",
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51479
+        },
+        "elapsedMs": 52157,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-overview-subscription-md",
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56937
+        },
+        "elapsedMs": 57714,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-security-md",
+        "url": "https://docs.chain.link/vrf/v2-5/security.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56043
+        },
+        "elapsedMs": 56752,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-subscription-create-manage-md",
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 57288
+        },
+        "elapsedMs": 57940,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-subscription-get-a-random-number-md",
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58068
+        },
+        "elapsedMs": 58781,
+        "probeSummary": null
+      },
+      {
+        "key": "vrf-v2-5-supported-networks-md",
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 83651
+        },
+        "elapsedMs": 85741,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "vrf",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 49,
+      "inScope": 13,
+      "failed": 0
+    },
+    "notes": [
+      "curated index lists 13 of 36 pages under /vrf/ — 23 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/vrf",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/api-reference",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/introduction",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/arbitrum-cost-estimation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/examples/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/estimating-costs",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/programmatic-subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/ui",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      }
+    ],
+    "failures": []
+  }
+}

@@ -1,0 +1,780 @@
+{
+  "key": "cre-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Chainlink Runtime Environment (CRE)",
+    "url": "https://docs.chain.link/cre.md",
+    "analyzedAt": "2026-09-21T13:17:18.828Z",
+    "contentType": "developer documentation / product overview (conceptual landing page)",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 60.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a bolded canonical definition (\"**Chainlink Runtime Environment (CRE)** is the all-in-one orchestration layer…\") and each section leads with its answer. \"How CRE runs your workflows\" opens with a soft dependency (\"Now that you understand what CRE is…\") — minor."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 14 headings, 1 H1, max depth H3, 0 level skips, sections median 114 words (max 201) — ideal RAG chunk sizes."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 12 numerals, **0 with units**, no version strings, no count of supported chains, no consensus fault-tolerance threshold (e.g. \"tolerates up to f faulty of 3f+1 nodes\"). Prose is qualitative (\"institutional-grade\", \"most powerful\")."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Middling. Only 2 external links (webassembly.org, chain.link/terms); **0 to primary sources**. BFT consensus is asserted repeatedly with no link to a canonical definition or paper."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. The glossary table (Workflow, Handler, Trigger, Capability, Consensus…) is a highly liftable one-liner set, and key terms are bolded at first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured: 0 JSON-LD blocks, canonical MISSING, no `TechArticle` schema, 0 og/twitter tags. Body carries \"Last Updated: 2026-01-20\" and a Source URL (good), but `<head>` could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Poor. Measured 0 fenced blocks. The only code is an unrendered MDX component (`triggerCallbackGo`, `triggerCallbackTs`) that produces nothing in the served markdown. An agent gets no imports, no handler signature, no copy-pasteable example."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for an overview: covers \"what is CRE\", \"what can I do now\", \"how does it run workflows\". No FAQ/troubleshooting and no symptom/error-phrased entry points — acceptable for a landing page but limits retrieval on task queries."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent entity naming (DON, Workflow DON, Capability DON, Workflow, Capability). Mild marketing tone (\"most powerful feature\")."
+      }
+    ],
+    "summary": "This is the CRE overview/landing page: a well-structured, cleanly written conceptual introduction with an excellent liftable glossary table and crisp bolded definitions. Its single biggest GEO strength is answer-first structure and chunkability — most sections open with a self-contained claim an engine can quote. Its single biggest opportunity is **code**: the `.md` served to LLMs contains zero rendered code — the trigger/callback example is an unrendered `<CodeHighlightBlockMulti>` JSX component, so agents reading this page get no runnable snippet at all. Combined with thin quantitative specifics and absent structured metadata, this holds an otherwise-strong page in the Good band.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Render real, complete code instead of the MDX component",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"The trigger-and-callback model\" → `<CodeHighlightBlockMulti … />`",
+        "issue": "Served markdown shows the JSX component, not code — agents see zero snippet.",
+        "change": "Emit fenced ` ```go ` and ` ```typescript ` blocks with the full example inline (imports, `handler(cron.Trigger, callback)`, callback signature, a `runtime.report()` call). Ensure the `.md` export inlines component code rather than the component tag.",
+        "why": "A page teaching the \"trigger-and-callback model\" that ships no liftable, runnable code cannot be synthesized into a working answer by a coding agent — this is the largest fidelity gap on the page."
+      },
+      {
+        "priority": 2,
+        "title": "Add structured metadata (JSON-LD `TechArticle` + canonical)",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no `dateModified`.",
+        "change": "Add a `TechArticle` JSON-LD block with `headline`, `dateModified: 2026-01-20`, `inLanguage: en`, and a canonical `<link>` to `https://docs.chain.link/cre`. Surface the existing \"Last Updated\" date into schema.",
+        "why": "Machine-parseable freshness and canonical signals raise agent trust (E-E-A-T) and prevent duplicate-URL ambiguity between `/cre` and `/cre.md`."
+      },
+      {
+        "priority": 2,
+        "title": "Inject concrete specifics into the consensus and platform claims",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Built-in consensus for every operation\" and \"Why build on CRE?\"",
+        "issue": "\"Byzantine Fault Tolerant (BFT) consensus protocol\" with no numbers; \"any supported blockchain\" uncounted.",
+        "change": "State the fault threshold (e.g. \"tolerates up to f Byzantine nodes in a 3f+1 DON\"), the number/list of supported chains, SDK languages with min versions, and that workflows compile to WASM. Replace \"most powerful feature\" with a measurable claim.",
+        "why": "Quantitative claims are among the highest-lift changes for citation; \"any chain\" is unciteable, \"supported on N chains including X, Y, Z\" is."
+      },
+      {
+        "priority": 2,
+        "title": "Link core concepts to primary/authoritative sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "first mention of \"Byzantine Fault Tolerant (BFT)\" and \"Decentralized Oracle Network (DON)\"",
+        "issue": "0 links to primary sources; BFT asserted without reference.",
+        "change": "Inline-link BFT to a canonical definition and DON to the Chainlink whitepaper/architecture page; keep the WebAssembly link.",
+        "why": "Cited authoritative references raise credibility and citation rate for the claims that carry them."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short FAQ / symptom-phrased entry points",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "after \"Where to go next?\"",
+        "issue": "No question-phrased headings (\"How do I request deploy access?\", \"Can I test without approval?\", \"Is workflow state persisted between runs?\").",
+        "change": "Add 3–4 H3 questions answered in one sentence each, reusing existing facts (e.g. \"Callbacks are stateless — no persistent state between executions\").",
+        "why": "Devs/agents query by question and symptom; question-titled sections win retrieval that concept prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Resolve the soft cross-reference dependency",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"How CRE runs your workflows\"",
+        "issue": "\"Now that you understand what CRE is, let's explore…\"",
+        "change": "Replace with a self-contained lead, e.g. \"CRE executes each workflow across a DON using a trigger-and-callback model.\"",
+        "why": "Removes a chunk-boundary dependency so the section stands alone when retrieved in isolation."
+      }
+    ],
+    "antiPatterns": [
+      "**Unrendered code component** — `<CodeHighlightBlockMulti>` leaks into the served markdown instead of code; the single most impactful defect.",
+      "**Mild marketing phrasing** — \"institutional-grade\", \"most powerful feature\", \"all-in-one\" — soften toward measurable claims (report, don't over-penalize).",
+      "**Vague quantifier** — \"most\" flagged in measured facts; replace with a specific where possible.",
+      "No keyword stuffing, no walls of prose, no stale-date issues (body dated 2026-01-20)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; verify it lists this page with an accurate description.",
+      "Confirm `/cre` vs `/cre.md` canonicalization at the site level so engines don't split citation credit across both URLs.",
+      "`<head>` metadata could not be captured; re-run with raw `<head>` passed through for a definitive schema/og read before assuming absence beyond the measured JSON-LD."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre",
+      "source_title": "Chainlink Runtime Environment (CRE)",
+      "probe_set_id": "309a6a013539",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T13:22:42.671Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 44.5,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4,
+        "hallucination_free": 3,
+        "relevance": 4,
+        "structure": 6.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 260879,
+          "output_tokens": 16764,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 28,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 11811,
+          "output_tokens": 15866,
+          "cache_creation_input_tokens": 3589,
+          "cache_read_input_tokens": 32279,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer claims to search for information but cites no source URLs, and the expected source page was not retrieved."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 5
+          },
+          "fidelity": 35,
+          "hallucinations": [
+            {
+              "claim": "cre workflow simulate my-workflow --target staging-settings",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "--non-interactive --trigger-index=0 --evm-tx-hash=0x... --evm-event-index=0",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "cre init",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Go version 1.25.3 or higher if using Go, or Bun if using TypeScript",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "workflow.yaml file with correct paths to your workflow code, config, and secrets",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "CRE_ETH_PRIVATE_KEY=0000...0001",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "pass the extra flag --broadcast to broadcast the transactions",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "pass the file to cre workflow simulate with the --limits flag",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "check the smartcontractkit/cre-templates repository",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Create an account at app.chain.link/cre/discover"
+          ],
+          "unverifiable_from_source": [
+            "Prerequisites list (CRE account login, project root directory)",
+            "Trigger selection prompts (cron-trigger, evm LogTrigger) during simulation",
+            "RPC URL configuration in project.yaml for blockchain interactions"
+          ],
+          "verdict": "The answer correctly conveys that simulation is available now without deployment approval, but it fabricates a large number of specific CLI commands, flags, file names, and version numbers not present in the source, and fails to cite the source, making it risky to ship as-is.",
+          "prompt": "How do I start building and simulating a CRE workflow without needing deployment approval?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about building and simulating CRE workflows without deployment approval.You're in luck—CRE (Chainlink Runtime Environment) is specifically designed so you can build and test workflows entirely locally, before any deployment. Here's how it works.\n\n## What local simulation is\n\nWorkflow simulation is a local execution environment that compiles your workflow to WebAssembly (WASM) and runs it on your machine. It allows you to test and debug your workflow logic before deploying it. The simulator makes real calls to public testnets and live HTTP endpoints, giving you high confidence that your code will work as expected when deployed.\n\nThis means you get realistic results without ever pushing to a decentralized network. You can test workflow logic during development to validate that your code behaves correctly before deploying, debug errors in a controlled environment to catch and fix issues locally without deploying to a live network, test different trigger types by manually selecting and testing how your workflow responds to cron, HTTP, or EVM log triggers, and verify onchain interactions by testing read and write operations against real testnets.\n\n## Prerequisites\n\nBefore you start, you'll need a few things in place. You must have a CRE account and be logged in with the CLI, you must have the CRE CLI installed on your machine, and you must run commands from your project root directory. You'll also need a language runtime — Go version 1.25.3 or higher if using Go, or Bun if using TypeScript.\n\n## Step-by-step to your first simulation\n\n**1. Scaffold a project.** The CRE CLI provides an init command to scaffold a new project. It's an interactive process that will ask you for a project name, a workflow template, and a name for your first workflow. A good starting choice is a Hello World template.\n\n**2. Understand the goal of Part 1.** You'll go from an empty directory to a fully initialized CRE project and simulate your first, minimal workflow. The goal is to get a quick \"win\" and familiarize yourself with the core project structure and development loop. You'll initialize a new project using cre init, explore the generated project structure and workflow code, configure your workflow for simulation, and run your first local simulation with cre workflow simulate.\n\n**3. Run the simulation.** The core command is:\n\n```\ncre workflow simulate my-workflow --target staging-settings\n```\n\nThe cre workflow simulate command compiles your workflow and executes it locally. The CLI compiles your workflow to WebAssembly (WASM). When you run cre workflow simulate with a target, the CLI reads the configuration from that section of the config file.\n\n## Configuration you'll likely need\n\n- **Valid workflow.yaml:** Your workflow directory must contain a workflow.yaml file with correct paths to your workflow code, config, and secrets (optional).\n- **RPC URLs (for blockchain interactions):** If your workflow interacts with blockchains, configure RPC endpoints in your project.yaml for the target you're using. Without this, the simulator cannot register the EVM capability and your workflow will fail.\n- **A private key:** The simulator requires a private key to initialize its environment, even for a minimal workflow. If your workflow doesn't write onchain, you can use a dummy key such as CRE_ETH_PRIVATE_KEY=0000...0001, but if your workflow performs chain writes the key must be valid and funded.\n\n## Handling triggers during simulation\n\nWhen you run a simulation, you'll be prompted to pick which trigger to fire. You'll see a prompt to select a trigger such as a cron-trigger or an evm LogTrigger. For a Cron Trigger you choose the schedule option, and for a Log Trigger you provide example inputs like a transaction hash and log event index. You can also run non-interactively by passing flags directly:\n\n```\ncre workflow simulate my-workflow \\\n  --target=test-settings \\\n  --non-interactive \\\n  --trigger-index=0 \\\n  --evm-tx-hash=0x... \\\n  --evm-event-index=0\n```\n\nFor log-trigger workflows, providing a transaction hash containing the event means simulation does not have to wait for a live event.\n\n## Useful extras\n\n- **Broadcasting writes:** When simulating workflows that write to the blockchain, remember to pass the extra flag --broadcast to broadcast the transactions to the blockchain.\n- **Testing production limits:** You can inspect the default production limits used during simulation, redirect the output to a file, edit the values you want to adjust, then pass the file to cre workflow simulate with the --limits flag.\n\n## The key point on deployment approval\n\nYou never need deployment approval to iterate. While you wait, you can continue building and simulating workflows using cre workflow simulate. Only when you're satisfied do you move on with `cre workflow deploy`. For runnable end-to-end examples, check the `smartcontractkit/cre-templates` repository.\n\n**In short:** install the CLI, log in, run `cre init` to scaffold a project, add a (dummy or funded) private key and RPC URLs as needed, then run `cre workflow simulate` — everything runs locally on your machine while still making real calls to testnets and APIs, all with zero deployment required.\n\nWould you like specifics for a particular language (Go or TypeScript) or trigger type?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32123,
+              "output_tokens": 2654,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2189,
+              "output_tokens": 5279,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5577,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/core-ts",
+              "https://www.npmjs.com/package/@chainlink/cre-sdk"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cited a different sub-page (SDK core-ts reference) and an npm page instead of the expected /cre source page."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 6,
+            "structure": 8
+          },
+          "fidelity": 63,
+          "hallucinations": [
+            {
+              "claim": "Handlers: functions that process trigger events and execute your business logic as provided in a callback function",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "new cre.capabilities.HTTPClient()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "new cre.capabilities.EVMClient(chainSelector)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "runtime.runInNodeMode()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "resolve with .result() (TypeScript) or .Await() (Go)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "It is typically called within your initWorkflow function.",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "initWorkflow / Config code structure and returning an array of handler() calls",
+            "cron.trigger(...) lowercase method vs source's cron.Trigger",
+            "Runtime ('DON Mode') terminology",
+            "Per-trigger callback signature reference details"
+          ],
+          "verdict": "The high-level trigger-and-callback explanation is faithful to the source, but the answer bolts on several specific SDK method/class names (HTTPClient, EVMClient, runInNodeMode, .result()/.Await(), initWorkflow) that are not present in the cited ground-truth page and were not sourced from it, so a developer should not trust the code specifics without independent verification.",
+          "prompt": "Using the CRE SDK, how do I structure a workflow with the trigger-and-callback model?",
+          "archetype": "constrained",
+          "answer": "I'll search for information about the CRE SDK and its trigger-and-callback model for workflows.The CRE (Chainlink Runtime Environment) SDK uses a **trigger-and-callback model** to structure workflows. Here's how it works and how to structure one.\n\n## The core concepts\n\nThe model consists of three main pieces that fit together:\n\nA trigger is an event source that starts a workflow execution — this represents the \"when\" of the workflow. The callback is a function that contains your business logic; inside the callback, you invoke capabilities using SDK clients, representing the \"what\" of the workflow. The handler connects a trigger to a callback, forming a complete workflow definition. You can define multiple triggers and callbacks, and reuse callbacks across multiple triggers.\n\nPut differently, each workflow consists of Triggers: events that initiate workflow execution (cron schedules, HTTP requests, etc.); Handlers: functions that process trigger events and execute your business logic as provided in a callback function; and Capabilities: built-in services for interacting with external systems.\n\n## How execution flows\n\nOnce deployed, when a trigger fires, the Workflow DON orchestrates the execution of your callback function on every node in the network. Each execution is independent and stateless—your callback runs, performs its work, returns a result, and completes.\n\n## Structuring the workflow in code\n\nThe `handler()` function is what ties everything together. The handler() function is the cornerstone of every workflow. It registers a handler that links a specific trigger to a callback function containing your workflow logic. It is typically called within your initWorkflow function.\n\nA typical TypeScript structure looks like this (based on the SDK reference):\n\n```typescript\nimport { handler, type Runtime } from \"@chainlink/cre-sdk\"\n\nconst initWorkflow = (config: Config) => {\n  return [\n    handler(\n      // 1. A configured trigger — determines WHEN the workflow runs\n      triggerInstance,      // e.g., cron.trigger(...)\n      // 2. The callback function — WHERE your workflow logic lives\n      myCallbackFunction\n    ),\n  ]\n}\n```\n\nThis mirrors the documented pattern where the handler links a configured trigger (which determines WHEN the workflow runs) with the callback function to execute when the trigger fires (WHERE your workflow logic lives).\n\n## Inside the callback: invoking capabilities\n\nWithin your callback, you access CRE's capabilities through the SDK. You access capabilities through the cre namespace — for example, `new cre.capabilities.HTTPClient()` or `new cre.capabilities.EVMClient(chainSelector)`. More broadly, through the CRE SDK you can write workflows in TypeScript or Golang that assemble various capabilities, such as HTTPClient for web API calls and EVMClient for onchain reads and writes; CRE supports multiple Triggers, such as cron jobs, HTTP calls, or onchain events; and Callbacks contain your custom business logic that runs in response to a trigger.\n\n## Key runtime details to keep in mind\n\n- **Runtime context**: Your callback receives a runtime object. Runtime (\"DON Mode\") is passed to your main trigger callback and represents the DON's execution context; it is used for operations that are already guaranteed to be Byzantine Fault Tolerant (BFT). For tasks requiring node-level execution, use runtime.runInNodeMode() to execute functions that require individual node processing, such as fetching data from different sources for consensus aggregation.\n\n- **Async operations**: The handler is single-threaded; SDK capability calls return an object that you resolve with .result() (TypeScript) or .Await() (Go).\n\n- **Per-trigger callback signatures**: Each trigger type requires a specific callback signature — see the Triggers reference for the exact signature required for each trigger type.\n\n## Summary of the structure\n\n1. **Define a trigger** (the \"when\") — e.g., `cron.trigger(...)`, an HTTP trigger, or an onchain log trigger.\n2. **Write a callback** (the \"what\") — your business logic that invokes capabilities via the `cre` namespace, resolving async calls with `.result()` / `.Await()`.\n3. **Wire them with `handler()`** inside your `initWorkflow`/init function, returning one or more handlers (you can add multiple triggers and reuse callbacks).\n\nYou then compile the workflow (to WebAssembly) and deploy it via the CRE CLI, after which the Workflow DON watches for your triggers and orchestrates callback execution across the network with built-in consensus.\n\nFor authoritative, version-specific details and per-trigger signatures, the best references are the official [CRE SDK Core reference](https://docs.chain.link/cre/reference/sdk/core-ts) and the [@chainlink/cre-sdk npm page](https://www.npmjs.com/package/@chainlink/cre-sdk).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 47855,
+              "output_tokens": 3134,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2138,
+              "output_tokens": 4959,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5577,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://api.example.com/data"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; the answer only cites a placeholder example URL."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "fidelity": 38,
+          "hallucinations": [
+            {
+              "claim": ".result() method to resolve pending capability calls",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": ".Await() to resolve the pending call",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "evm.Client, solana.Client, http.Client, HTTPClient",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Runtime<C> (\"DON Mode\") is passed to your main trigger callback",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "NodeRuntime type ... provided by runtime.runInNodeMode()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "use runtime.log() to output messages... console.log does not work in the WASM environment",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the trusted results in your business logic",
+            "Optionally perform final actions like writing back to a blockchain"
+          ],
+          "unverifiable_from_source": [
+            "developers can securely manage secrets for API keys",
+            "Each trigger type requires a specific callback signature. See the Triggers reference"
+          ],
+          "verdict": "The answer captures the general trigger-callback and async/consensus idea but fabricates numerous specific SDK method and client names not present in the source, and fails to cite the expected source page, making it risky to ship as-is to a developer.",
+          "prompt": "Show me the pattern my callback should follow to invoke capabilities and use their results in CRE.",
+          "archetype": "code-first",
+          "answer": "I'll research the CRE (Chainlink Runtime Environment) callback pattern for invoking capabilities. Let me search for current documentation.Let me get the specific code pattern details from the SDK references.Here's the pattern your CRE callback should follow when invoking capabilities and consuming their results.\n\n## The core model: trigger → callback\n\nCRE uses a trigger-and-callback design. A trigger is an event source that starts a workflow execution—this represents the \"when\" of the workflow. The callback is a function that contains your business logic. Inside the callback, you invoke capabilities using SDK clients—this represents the \"what\" of the workflow. The handler connects a trigger to a callback, forming a complete workflow definition. You can define multiple triggers and callbacks, and reuse callbacks across multiple triggers.\n\nEach execution is self-contained: each execution is independent and stateless—your callback runs, performs its work, returns a result, and completes. Inside your callback, you create SDK clients and invoke capabilities.\n\n## The invocation pattern\n\nYou never talk to capability DONs directly. As a developer, you do not interact with these capability DONs directly. Instead, you invoke them through the developer-friendly interfaces provided by the CRE SDKs (Go and TypeScript), such as the evm.Client, the solana.Client, or the http.Client. The SDK handles the low-level complexity of communicating with the correct DON and processing the consensus-verified result, allowing you to focus on your business logic.\n\nCalls are asynchronous and you resolve them to get the value. Each capability call is an asynchronous operation that returns a Promise—a placeholder for a future result. This allows you to pipeline multiple capability calls and run them in parallel. The way you wait for that result differs per SDK: developers can securely manage secrets for API keys, and handle asynchronous operations with .result() or .Await(). Specifically for TypeScript, operations return an object with a .result() method that you call to wait for the result.\n\nSo the general shape is:\n\n**1. Handler registration** — bind a trigger to your callback (the callback signature depends on the trigger type). Each trigger type requires a specific callback signature. See the Triggers reference for the exact signature required for each trigger type.\n\n**2. Inside the callback** — you receive the runtime execution context. Runtime<C> (\"DON Mode\") is passed to your main trigger callback and represents the DON's execution context. It is used for operations that are already guaranteed to be Byzantine Fault Tolerant. When you use the Runtime, you ask the network to execute something, and CRE handles the underlying complexity to ensure you get back one final, secure, and trustworthy result.\n\n**3. Create clients and invoke** — instantiate a client (`http.Client`, `evm.Client`, etc.), call the capability, then resolve the async handle.\n\nA conceptual TypeScript sketch following the documented pattern:\n\n```typescript\n// 1. Callback receives the runtime execution context\nconst onCronTrigger = (runtime: Runtime<Config>): string => {\n  runtime.log(\"Workflow started\")\n\n  // 2. Create an SDK client inside the callback\n  const httpClient = new HTTPClient()\n\n  // 3. Invoke the capability -> returns a Promise/handle\n  const pending = httpClient.sendRequest(runtime, { url: \"https://api.example.com/data\" })\n\n  // 4. Resolve it to get the consensus-verified result\n  const response = pending.result()\n\n  runtime.log(`Got result: ${response}`)\n  return \"done\"\n}\n```\n\nThe Go equivalent uses `.Await()` instead of `.result()` to resolve the pending call.\n\n## Node mode for custom aggregation\n\nIf your callback needs each node to do independent work and then aggregate, you drop into node mode. The NodeRuntime type is used exclusively inside a runtime.runInNodeMode() block and is provided by that function—you do not receive this type directly in your handler's callback. The Consensus & Aggregation reference covers how to combine those per-node results.\n\n## Why the results are trustworthy\n\nThe payoff of this pattern is built-in consensus on every call. One of CRE's most powerful features is that every capability execution automatically includes consensus. When your workflow invokes a capability (like fetching data from an API or reading from a blockchain), multiple independent nodes perform the operation. For every capability you invoke, CRE handles the underlying process of having a dedicated DON execute the task, reach consensus, and return the verified result.\n\n## Quick reference checklist\n\n1. **Define a trigger** (cron, HTTP, onchain event) — the \"when.\"\n2. **Write a callback** with the signature that matches the trigger; it receives the `Runtime` context.\n3. **Register the handler** linking trigger → callback.\n4. **Inside the callback:** create SDK clients (`http.Client`, `evm.Client`, `solana.Client`), invoke capabilities.\n5. **Resolve async handles** with `.result()` (TypeScript) or `.Await()` (Go); pipeline multiple calls to run in parallel.\n6. **Use `runInNodeMode()`** only when you need per-node work plus custom aggregation.\n7. **Return your result** — CRE finalizes it via BFT consensus.\n\nOne logging note for TS: use runtime.log() to output messages from your workflow—this is the only way to produce visible logs, since console.log does not work in the WASM environment.\n\nWould you like me to pull the exact, complete callback signatures for a specific trigger type (cron, HTTP, or EVM log event) or a full working Go vs. TypeScript example?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 39512,
+              "output_tokens": 3041,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2317,
+              "output_tokens": 2931,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5577,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page and introduced procedural details absent from it."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 7
+          },
+          "fidelity": 40,
+          "hallucinations": [
+            {
+              "claim": "Visit app.chain.link/cre/request-access to fill out the request form",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "You'll receive a confirmation email, and the Chainlink team will follow up",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "`cre whoami` will show your enabled status",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "linked your EOA or multi-sig wallet ... by running `cre account link-key`",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "authenticated (logged in via `cre login` or using an API key/`CRE_API_KEY`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "use `cre workflow deploy` to deploy workflows to the Workflow Registry",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "continue developing and simulating workflows locally with `cre workflow simulate`",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "It will ask: \"Deployment access is not yet enabled for your organization. Request deployment access?\"",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Deployment includes lifecycle management: deploy, activate, pause, update, delete",
+            "Monitoring and debugging via logs, events, and metrics in the CRE UI"
+          ],
+          "unverifiable_from_source": [
+            "registering a workflow with an onchain Workflow Registry contract"
+          ],
+          "verdict": "The answer correctly identifies that deploy access requires approval via `cre account access` but then fabricates numerous CLI commands, a web form URL, and an email confirmation process not present in the source, making it unsafe to ship as-is.",
+          "prompt": "How do I request deploy access so I can run my CRE workflows on a Chainlink DON?",
+          "archetype": "direct-howto",
+          "answer": "The first result is exactly on point. Let me get the details.I have the information I need. Let me get the search index for citations.Deploying CRE workflows to a Chainlink DON currently requires **Early Access approval** for your organization. Deploying workflows to a Chainlink DON requires Early Access approval. Here's how to request it.\n\n## Two ways to request deploy access\n\nYou can request access in two ways: From the CLI — Run `cre account access` to check your status or submit a request directly from your terminal. From the web — Visit app.chain.link/cre/request-access to fill out the request form.\n\n### Option 1: From the CLI\n\n1. Check your current status by running `cre account access`. If your organization does not have deploy access, `cre account access` will prompt you to submit a request. It will ask: \"Deployment access is not yet enabled for your organization. Request deployment access?\"\n2. After confirming, you'll be asked to briefly describe what you're building — a short description of your use case and what you're building with CRE.\n\nNote that you don't have to trigger this manually — you don't need to run `cre account access` proactively; the CLI will prompt you to request access automatically.\n\n### Option 2: From the web\n\nVisit **app.chain.link/cre/request-access** and fill out the form. When requesting Early Access, you'll be asked to share details about your project and use case—this helps the team provide better support as you build with CRE.\n\n## After you submit\n\nYou'll receive a confirmation email, and the Chainlink team will follow up once your request has been reviewed.\n\n## You can keep building while you wait\n\nDeploy access is only needed for the actual deployment step. Deploy access is only required for `cre workflow deploy`. You can continue developing and simulating workflows locally with `cre workflow simulate` while your request is under review.\n\n## Once you're approved\n\nOnce your organization is granted deploy access, `cre whoami` will show your enabled status. At that point you can deploy, but make sure the rest of your setup is ready. To deploy, you'll also need to be authenticated (logged in via `cre login` or using an API key/`CRE_API_KEY`, verifiable with `cre whoami`) and to have linked your EOA or multi-sig wallet to your account by running `cre account link-key`.\n\nThen you can run the deploy command: use `cre workflow deploy` to deploy workflows to the Workflow Registry. When you deploy a workflow, you register your locally tested code with the onchain Workflow Registry contract, which makes your workflow \"live\" so it can activate and respond to triggers across a Decentralized Oracle Network (DON).\n\nFor full details, see the \"Requesting Deploy Access\" and \"Deploying Workflows\" pages in the Chainlink CRE documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 52380,
+              "output_tokens": 2140,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1314,
+              "output_tokens": 2698,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5577,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL and admits it hit a search-tool limit mid-research."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 53,
+          "hallucinations": [
+            {
+              "claim": "In the SDK, this is done via `runInNodeMode`",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "`consensusMedianAggregation` computes the median of numeric results",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "using `ConsensusAggregationByFields` you might apply `median` to a numeric `price` field",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "a sufficient majority of nodes (a Byzantine Quorum) return the exact same value",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "any step that could differ between nodes must go through consensus",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Every capability execution automatically includes consensus",
+            "Results are validated and aggregated via Byzantine Fault Tolerant (BFT) consensus"
+          ],
+          "unverifiable_from_source": [
+            "runInNodeMode API and its usage pattern",
+            "consensusMedianAggregation as a named function",
+            "ConsensusAggregationByFields for field-based aggregation",
+            "Byzantine Quorum terminology for identical-value consensus"
+          ],
+          "verdict": "The answer captures the general spirit of CRE's consensus model but introduces specific SDK function names and mechanics (runInNodeMode, consensusMedianAggregation, ConsensusAggregationByFields, Byzantine Quorum) that are not present in the cited source page, and never cites the source, making it risky to ship as-is without verification against actual SDK docs.",
+          "prompt": "cre workflow consensus how it works",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about this. Let me look it up.Let me get the detailed content on consensus.Let me get more conceptual detail on how consensus works in the DON.# How Consensus Works in Chainlink CRE Workflows\n\nCRE (Chainlink Runtime Environment) runs your workflow across a **decentralized network of independent nodes** (a DON) rather than on a single machine. Because each node runs the same code independently, CRE needs a way to reconcile any differences between nodes and agree on a single, trustworthy result before acting on it. That reconciliation process is **consensus**.\n\n## The core problem: non-determinism\n\nWhen a workflow does something like call an external API, different nodes can legitimately get slightly different answers (e.g., a price that ticks between requests, timestamps, or randomness). If nodes disagree, they can't produce a single unified output. Consensus exists to resolve this.\n\n## Node Mode + Aggregation\n\nThe mechanism has two parts:\n\n1. **Node Mode** — you wrap the non-deterministic work (like fetching data) in a function that each node executes on its own. In the SDK, this is done via `runInNodeMode`, where each node fetches data (for example, a price from an API) independently.\n\n2. **Consensus aggregation** — you attach an aggregation strategy that tells the DON how to combine all the nodes' individual results into one agreed value. You create a consensus aggregation strategy by specifying how to aggregate each field of an object, where each value is a field aggregation function.\n\n## Aggregation strategies\n\nCRE offers built-in strategies for combining node results:\n\n- **Median** — `consensusMedianAggregation` computes the median of numeric results from all nodes, and supports types such as number, bigint, and Date. This is ideal for numeric data like prices, since the median is robust against outliers or a few misbehaving nodes.\n\n- **Identical (Byzantine Quorum)** — this strategy ensures that a sufficient majority of nodes (a Byzantine Quorum) return the exact same value. Use this when results must match exactly (e.g., a status flag or a discrete value).\n\n- **Field-based aggregation** — for structured objects, you can apply different aggregation functions to different fields. For example, using `ConsensusAggregationByFields` you might apply `median` to a numeric `price` field and `identical` to other fields within the same object.\n\n## The overall flow\n\nPutting it together:\n\n1. A trigger (e.g., a cron schedule or an event) starts the workflow on the DON.\n2. Each node independently runs the node-mode function — for instance, each node uses an HTTP client to send a request to the configured API URL and parses the response.\n3. The DON runs the chosen aggregation strategy across all node results, producing a **single consensus value**. In the median example, `runInNodeMode(fetchPrice, consensusMedianAggregation())().result()` yields one agreed \"median price\" that the rest of the workflow uses.\n4. The workflow continues deterministically from that single agreed-upon value (e.g., writing it on-chain).\n\n## Why it matters\n\nThe key idea is that **any step that could differ between nodes must go through consensus** before the workflow relies on it. By having many independent nodes fetch data and then mathematically agreeing on a result, CRE removes single points of failure and prevents any one node (or a small number of faulty/malicious nodes) from corrupting the outcome — which is the same DON-plus-consensus trust model that underpins Chainlink's other services.\n\n---\n\n**Want to go deeper?** I hit a search-tool limit mid-research, so if you'd like, I can pull the specifics on:\n- How the aggregated report gets signed and written on-chain (OCR reporting)\n- Handling non-determinism and randomness safely in workflows\n- Full code examples for field-based aggregation\n\nLet me know which area you'd like expanded.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 55891,
+              "output_tokens": 2958,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1723,
+              "output_tokens": 2906,
+              "cache_creation_input_tokens": 3589,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the live documentation, so it relied on general knowledge instead of the source."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 4,
+            "relevance": 2,
+            "structure": 6
+          },
+          "fidelity": 38,
+          "hallucinations": [
+            {
+              "claim": "omits the required first step of creating a CRE account before installing the CLI",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Deploy to a testnet. Once local simulation works, deploy to a supported test network and trigger it.",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "A great first project is a simple scheduled (cron) workflow that fetches a value (e.g., a price from an API)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Authenticate / configure credentials if the CLI requires linking to a Chainlink account or project.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Create your CRE account (required for all CLI commands)",
+            "Follow the Getting Started Guide to build your first workflow, or run the Custom Data Feed Demo for a quick start"
+          ],
+          "unverifiable_from_source": [
+            "CRE workflows are commonly written in Go",
+            "Need for wallet/testnet funds and MetaMask setup",
+            "Recommendation for Git and VS Code",
+            "Need to verify install via CLI version/help command"
+          ],
+          "verdict": "The answer admits it couldn't access the actual docs and substitutes generic, partly speculative guidance that omits the required account-creation step and glosses over the deploy-approval requirement, making it unsafe to follow as an authoritative CRE onboarding guide.",
+          "prompt": "I'm brand new to Chainlink CRE and I don't really know where to begin. What are the first things I should do to get set up and eventually build my first workflow?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for the latest information on getting started with Chainlink CRE so I can give you accurate setup steps.I attempted to pull up the latest official documentation for you, but I hit a rate limit on my search tool and wasn't able to retrieve live results. Rather than guess at specifics that may have changed, let me give you a solid, general roadmap for getting started with **Chainlink CRE (Chainlink Runtime Environment)** — and I'll flag exactly where you should verify against the official docs.\n\n> ⚠️ **Important:** Chainlink CRE is a newer, fast-evolving platform. Commands, package names, and CLI flags change frequently. Always cross-check the exact steps against the official documentation at **docs.chain.link** (look for the CRE / Chainlink Runtime Environment section). Treat the steps below as an orientation, not exact copy-paste commands.\n\n## What Chainlink CRE actually is\nCRE is Chainlink's environment for building **workflows** — programs that can react to triggers (time schedules, on-chain events, HTTP, etc.), run off-chain computation, and then take actions like writing back on-chain or calling external systems. If you've used Chainlink Functions or Automation before, CRE is a more general, unified programming model that builds on those ideas.\n\n## Phase 1 — Get your fundamentals in place\nBefore touching CRE specifically, make sure you're comfortable with:\n- **A supported language runtime.** CRE workflows are commonly written in **Go** (and increasingly other languages via SDKs). Confirm which SDK/language the current docs recommend for beginners.\n- **Basic blockchain/EVM concepts** — wallets, testnets, gas, RPC endpoints, and testnet funds (faucets).\n- **Git and a code editor** (VS Code is a common choice).\n- **A crypto wallet** (e.g., MetaMask) with some **testnet tokens** for the network you'll deploy to.\n\n## Phase 2 — Set up your environment\n1. **Install the CRE CLI.** This is the primary tool for scaffolding, running, simulating, and deploying workflows. Grab it from the official Chainlink installation instructions.\n2. **Authenticate / configure credentials** if the CLI requires linking to a Chainlink account or project.\n3. **Verify the install** by running the CLI's version/help command to make sure your PATH is set up correctly.\n4. **Install the language SDK** (e.g., the Go module for CRE) that the workflow code depends on.\n\n## Phase 3 — Understand the workflow model\nA CRE workflow generally has these building blocks:\n- **Triggers** — what starts the workflow (a cron schedule, an on-chain log/event, an HTTP request, etc.).\n- **Compute / logic** — the off-chain code that runs when triggered.\n- **Capabilities** — the actions your workflow can invoke (reading data, writing on-chain, calling external APIs).\n- **Configuration** — a config file describing the workflow, its triggers, and target networks.\n\nSpend a little time reading the conceptual overview before coding — it makes the \"hello world\" example click much faster.\n\n## Phase 4 — Build and run your first workflow\n1. **Start from an official example/template.** Don't build from scratch first — scaffold or clone the \"getting started\" sample workflow the docs provide.\n2. **Run it locally / in simulation mode.** The CLI typically lets you simulate a workflow so you can test logic without deploying. This is the fastest feedback loop.\n3. **Deploy to a testnet.** Once local simulation works, deploy to a supported test network and trigger it.\n4. **Observe the output** — logs, on-chain transactions, or returned data — to confirm the full loop worked.\n\nA great \"first project\" is a simple **scheduled (cron) workflow** that fetches a value (e.g., a price from an API) and logs or writes it — it exercises triggers, compute, and a capability without much complexity.\n\n## Phase 5 — Grow from there\n- Move from a time trigger to an **on-chain event trigger**.\n- Add **write-back-on-chain** capability so your workflow takes real actions.\n- Explore combining multiple capabilities and handling secrets/API keys securely.\n\n## Recommended starting checklist\n1. Read the CRE overview/concepts page on docs.chain.link.\n2. Install prerequisites (language runtime, Git, editor, wallet + testnet funds).\n3. Install and verify the CRE CLI.\n4. Scaffold the official starter workflow.\n5. Run it in local simulation.\n6. Deploy to testnet and trigger it.\n7. Modify the example to learn how triggers and capabilities work.\n\nIf you'd like, tell me:\n- Your preferred programming language and OS, and\n- What you're hoping your first workflow will *do* (e.g., price feed, event reaction, cross-chain action),\n\n…and I can sketch out a more concrete plan or example structure tailored to that. I can also retry the live documentation search in a bit once my search tool resets, so you get the exact current commands.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 33118,
+              "output_tokens": 2837,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2130,
+              "output_tokens": 1619,
+              "cache_creation_input_tokens": 3589,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        }
+      ],
+      "avg_fidelity_all": 44.5,
+      "unattributed_count": 0,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

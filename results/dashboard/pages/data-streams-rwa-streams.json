@@ -1,0 +1,20 @@
+{
+  "key": "data-streams-rwa-streams",
+  "runId": "2026-09-22T13-05-19-414Z-f490",
+  "audit": null,
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": null,
+    "probes": {}
+  }
+}

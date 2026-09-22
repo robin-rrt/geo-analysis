@@ -1,0 +1,117 @@
+{
+  "runId": "2026-09-21T15-55-17-638Z-9018",
+  "startedAt": "2026-09-21T15:55:17.638Z",
+  "endedAt": "2026-09-21T16:01:51.084Z",
+  "owner": {
+    "pid": 36772,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "page",
+    "name": "https://docs.chain.link/ccip/getting-started/evm",
+    "productScope": null
+  },
+  "stages": [
+    "test"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "complete",
+  "counts": {
+    "pages": 1,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T15-55-17-638Z-9018",
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/ccip/getting-started/evm",
+      "productScope": null
+    },
+    "stages": [
+      "test"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T15:55:17.638Z",
+    "endedAt": "2026-09-21T16:01:51.084Z",
+    "elapsedMs": 393446,
+    "counts": {
+      "pages": 1,
+      "failed": 0,
+      "reused": 1,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "ccip-getting-started-evm",
+        "url": "https://docs.chain.link/ccip/getting-started/evm",
+        "stages": {
+          "probes": "reused",
+          "test": "ran"
+        },
+        "durations": {
+          "test": 393435
+        },
+        "elapsedMs": 393444,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 53.3,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/ccip/getting-started/evm",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 1,
+      "inScope": 1,
+      "failed": 0
+    },
+    "notes": [],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/ccip/getting-started/evm",
+        "source": "explicit",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

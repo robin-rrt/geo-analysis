@@ -1,0 +1,178 @@
+{
+  "key": "data-feeds-historical-data-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Getting Historical Data",
+    "url": "https://docs.chain.link/data-feeds/historical-data.md",
+    "analyzedAt": "2026-09-21T11:48:29.091Z",
+    "contentType": "developer documentation / reference (how-to + code)",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a solid, code-rich how-to page for reading Chainlink historical feed data via `getRoundData`, with complete Solidity/JavaScript/Python examples and real addresses. Its biggest strength is code completeness and structural chunkability; its biggest opportunity is discoverability — the page has zero JSON-LD, no canonical URL, no dates, and no symptom/question-phrased headings, so it under-retrieves against the queries devs actually type (\"getRoundData reverts\", \"how to get historical price data\"). The canonical API (`getRoundData`) is present but arrives late in each section rather than in the first liftable sentence, leaving it vulnerable to generic parametric answers.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a troubleshooting block",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 near end + rename existing sections",
+        "issue": "no headings match \"how do I…\" or error-string queries; revert behavior hidden in prose.",
+        "change": "Add an H2 \"How to get historical price data in Solidity\" and a \"Troubleshooting\" H2 with entries phrased as symptoms: \"`getRoundData` reverts / returns empty\", \"Why is my `roundId` not incremental?\", \"`updatedAt` is 0 — round not complete\". Answer each in the first sentence.",
+        "why": "devs and agents query by symptom; question-titled sections win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle`, canonical URL, and last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "JSON-LD: 0 blocks; canonical MISSING; dateModified absent.",
+        "change": "Emit a `TechArticle` block with `headline`, `about` (\"Chainlink Data Feeds historical data\"), `programmingLanguage` (Solidity/JavaScript/Python), canonical `https://docs.chain.link/data-feeds/historical-data`, and a visible `dateModified`.",
+        "why": "structured metadata + freshness signals raise parse-ability and E-E-A-T trust for agents choosing sources."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each section with the canonical API in the first liftable sentence",
+        "mapsTo": "answer-first + parametric-prior resistance",
+        "tier": null,
+        "where": "intro and *Historical rounds* opening",
+        "issue": "\"As shown in the decentralized model, the consumer contracts call the proxy contract…\" delays the answer.",
+        "change": "Open with: \"To read historical Chainlink feed data, call `getRoundData(uint80 roundId)` on the `AggregatorV3Interface` proxy. `roundId` values are not incremental — you must know a valid one.\" Then explain the model.",
+        "why": "puts the canonical API in the chunk an engine lifts first, resisting generic \"loop from round 1\" priors."
+      },
+      {
+        "priority": 2,
+        "title": "Name the common-but-wrong pattern as an explicit Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "*Historical rounds* / Solidity example",
+        "issue": "\"roundId is NOT incremental\" lives only in a code comment.",
+        "change": "Add a visible callout: \"Don't assume `roundId` starts at 0 or increments by 1 — proxy roundIds encode a phase in the high 64 bits. Compute valid roundIds using the phase formula below.\"",
+        "why": "explicitly naming the wrong assumption blocks the model from synthesizing the generic incrementing-loop answer."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify the deviation/heartbeat table",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "deviation/heartbeat table",
+        "issue": "\"trigger an update every *X* minutes / hours\" — no numbers.",
+        "change": "Give a concrete example row, e.g. \"ETH/USD on Ethereum Mainnet: 0.5% deviation, 3600s heartbeat,\" with a link to the feed's live parameters.",
+        "why": "quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Fix the \"can can\" typo and add a `getRoundData` one-line definition",
+        "mapsTo": "clarity + quotable definitions",
+        "tier": null,
+        "where": "*Historical rounds* first paragraph; *getRoundData return values* heading",
+        "issue": "\"historical data can can be stored\"; no crisp definition of the function.",
+        "change": "Correct the typo; add \"`getRoundData(roundId)` returns the answer and timestamps recorded for a specific past round.\" before the bullet list.",
+        "why": "clean prose is independently rewarded; a self-contained definition is verbatim-liftable."
+      },
+      {
+        "priority": 3,
+        "title": "Show expected output for the runnable examples",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "JavaScript and Python blocks",
+        "issue": "examples call `getRoundData` but show no returned shape.",
+        "change": "Add a comment showing the expected tuple, e.g. `# (roundId, answer, startedAt, updatedAt, answeredInRound)` with sample values.",
+        "why": "expected output lets agents validate correct usage without executing."
+      }
+    ],
+    "antiPatterns": [
+      "Minor typo: \"historical data can can be stored.\"",
+      "Placeholder/uppercase comment noise in code (SPDX/THIS/EXAMPLE/HARDCODED) flagged by scan — harmless boilerplate, not keyword stuffing; no change needed.",
+      "Key gotcha (\"roundId is NOT incremental\") buried in code comments rather than surfaced as retrievable prose.",
+      "No stale-content risk visible, but absence of any date means freshness is unverifiable."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Site-level JSON-LD/schema injection and a consistent `dateModified` cadence are platform concerns beyond this single page.",
+      "CLI should pass raw `<head>` next run — head metadata could not be verified, so the metadata score reflects the served HTML only."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

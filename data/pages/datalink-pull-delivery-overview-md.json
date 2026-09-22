@@ -1,0 +1,167 @@
+{
+  "key": "datalink-pull-delivery-overview-md",
+  "runId": "2026-09-22T13-10-14-434Z-5184",
+  "audit": {
+    "title": "DataLink (Pull Delivery)",
+    "url": "https://docs.chain.link/datalink/pull-delivery/overview.md",
+    "analyzedAt": "2026-09-22T13:11:16.204Z",
+    "contentType": "developer documentation / overview hub page",
+    "score": 53,
+    "band": "Developing",
+    "weightedTotal": 52.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opening — \"DataLink pull-based feeds provide access to specialized data from Data Providers through offchain retrieval with onchain verification capabilities.\" Self-contained and liftable. Section leads (\"How It Works\", \"Getting Started\") are also clean."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; clear H2/H3 hierarchy, 0 level skips, numbered steps and bullets. Only gap: no comparison table (e.g., REST vs WebSocket) where one would aid extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 7 numerals, 0 with units, no latency/frequency/network counts, no version strings. \"Real-time\", \"on-demand\", \"battle-tested\" are qualitative-only."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "7 internal links, 0 external/primary. No link to the Data Streams verifier spec or any canonical standard despite repeated \"cryptographically signed/verify\" claims."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The lead sentence and the \"Pull-based delivery\" bullet are quotable; \"DataLink\" itself lacks a crisp standalone gloss distinguishing it from Data Streams."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. Measured: 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent, 0 og/twitter tags. No freshness or E-E-A-T signal for engines to trust."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code blocks. Acceptable for a hub page, but even a minimal REST fetch snippet would raise agent-runnability and retrieval for \"how do I fetch a DataLink report.\""
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"what is\", \"how it works\", \"getting started\". No troubleshooting/FAQ, no symptom-phrased entries."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; unambiguous, consistent product naming (DataLink, Data Streams, DONs). No action needed."
+      }
+    ],
+    "summary": "This is a clean, well-structured overview/navigation hub for DataLink Pull Delivery — it opens with a serviceable one-sentence definition and cleanly routes to Architecture, Tutorials, and Reference. Its biggest GEO strength is scannability (8 headings, 0 level skips, tight sections). Its biggest weakness is the total absence of machine-readable metadata (no JSON-LD, no canonical URL, no dates) combined with thin specifics (268 words, 0 units, 0 version strings, 0 external citations). As a hub page it does its navigation job, but it gives engines little liftable substance and no freshness/authority signals — verdict: functional but under-optimized for direct citation.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Emit TechArticle JSON-LD + canonical + dateModified",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "Measured — \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Add a `TechArticle` JSON-LD block with `headline`, `about: \"DataLink Pull Delivery\"`, canonical URL `https://docs.chain.link/datalink/pull-delivery/overview`, and a visible/structured `dateModified`.",
+        "why": "Structured metadata and freshness signals raise parse-ability and E-E-A-T trust, directly improving citation eligibility."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete specifics to Key Characteristics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Key Characteristics\" bullets",
+        "issue": "\"Pull-based delivery: Fetch data on-demand via REST API or real-time via WebSocket\" — no numbers.",
+        "change": "Add quantified facts: supported network count, report update frequency/latency, verifier-contract chains, SDK languages (Go/Rust) with versions. Even \"verification on N EVM chains\" beats zero.",
+        "why": "Quantitative claims are among the highest-lift changes for generative visibility; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a crisp DataLink-vs-Data-Streams distinction",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "below the lead sentence",
+        "issue": "The page repeatedly ties DataLink to Data Streams (\"same underlying infrastructure\") but never states what makes DataLink distinct in one liftable sentence.",
+        "change": "Add one sentence: \"DataLink differs from Data Streams by sourcing specialized datasets from individual Data Providers rather than aggregated market feeds, while reusing the same APIs, SDKs, and verifier contracts.\"",
+        "why": "Defends against parametric priors that would collapse DataLink into the more common Data Streams idiom."
+      },
+      {
+        "priority": 2,
+        "title": "Add a REST vs WebSocket vs Onchain comparison table",
+        "mapsTo": "structural scannability & justification structure",
+        "tier": null,
+        "where": "\"Choose Your Integration Method\"",
+        "issue": "Three bullets give options but no decision factors — \"REST API: Fetch reports on-demand for periodic updates\".",
+        "change": "Convert to a 3-row table: Method | Use when | Latency | Trade-off. Let engines extract *reasons*.",
+        "why": "Comparison tables let engines build justified answers to \"should I use REST or WebSocket for DataLink.\""
+      },
+      {
+        "priority": 2,
+        "title": "Add external/primary citations",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Onchain verification\" bullet and \"How It Works\" step 2",
+        "issue": "0 external links; verification claims are unattributed.",
+        "change": "Link \"verify report integrity using verifier contracts\" to the canonical verifier-contract reference/spec page; link \"cryptographically signed reports\" to the Data Streams verification spec.",
+        "why": "Inline authoritative references raise credibility and citation rate for the claims they support."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short symptom/FAQ block",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "end of page",
+        "issue": "No troubleshooting or \"how do I…\" entries; devs query by symptom.",
+        "change": "Add 2–3 Q-phrased headings, e.g. \"How do I fetch a DataLink report via REST?\", \"Which networks support onchain verification?\", each answering in the first sentence with a link.",
+        "why": "Symptom/question-phrased headings win retrieval that concept-titled prose loses."
+      }
+    ],
+    "antiPatterns": [
+      "Mild marketing qualifiers — \"battle-tested\", \"familiar developer experience\", \"proven infrastructure\" — replace or quantify; they carry no extractable fact.",
+      "No dated/freshness signal (stale-risk), per measured \"dateModified absent\".",
+      "No hard cross-reference errors, no keyword stuffing, no ambiguous pronouns — prose is clean."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are almost certainly template/site-level fixes — apply once across `docs.chain.link` rather than per page.",
+      "`llms.txt` is already referenced at the top of the page — good; ensure this overview and its child pages are indexed there.",
+      "The CLI should pass raw `<head>` so metadata can be fully verified; here it \"could not be captured,\" so absence is inferred from the served HTML measurement, not head inspection."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-10-14-434Z-5184",
+    "probes": {}
+  }
+}

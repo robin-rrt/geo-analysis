@@ -1,0 +1,156 @@
+{
+  "key": "ccip-service-limits-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Service Limits",
+    "url": "https://docs.chain.link/ccip/service-limits.md",
+    "analyzedAt": "2026-09-22T13:42:40.967Z",
+    "contentType": "developer documentation / navigation hub (index page)",
+    "score": 46,
+    "band": "Developing",
+    "weightedTotal": 46.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Opens with a serviceable orientation sentence — \"This section outlines the operational limits for Chainlink CCIP across different blockchain architectures.\" But the implied question (\"what are the limits?\") is deferred to sub-pages; no liftable answer lives here."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean — 1 H1, one coherent section, 4 descriptive bullets, 0 level skips. Fine for a hub, but no summary table where the highest-value extraction would occur."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. 0 numerals with units, 0 version strings — a limits page with no limits. This is the dominant deficiency."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "5 internal links, all descriptive and correctly scoped; 0 external/primary sources. Adequate for a hub."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "No crisp one-liner defining \"CCIP service limits\" for verbatim lift."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, canonical MISSING, no `datePublished`/`dateModified` in head (a body \"Last Updated: 2025-09-03\" exists but isn't machine-exposed). CLI should pass raw `<head>` to confirm."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code — not applicable for an index page; not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Covers the \"index\" intent only. Misses symptom/spec queries like \"CCIP max message size,\" \"CCIP rate limit per lane,\" \"CCIP max data bytes.\""
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Consistent naming (\"Chainlink CCIP\"), no jargon debt."
+      }
+    ],
+    "summary": "This is a thin navigation hub that routes to four platform-specific CCIP service-limit pages (EVM, Solana, Aptos, network-specific). Its clearest strength is clean, unambiguous prose and a sensible link structure; its biggest weakness is that a page literally titled \"Service Limits\" contains **zero actual limit values** (83 words, 3 numerals, 0 with units) — so it cannot be retrieved or cited for any concrete \"what is the max X\" query, which is exactly how developers and agents ask about limits. As an index it works; as a citable answer it does not. The honest verdict: acceptable hub, but a missed opportunity to become the canonical liftable summary of CCIP's core limits.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a cross-platform limits summary table",
+        "mapsTo": "concrete statistics & machine-scannability",
+        "tier": null,
+        "where": "After the intro sentence, before or replacing the bullet list.",
+        "issue": "Page titled \"Service Limits\" contains 0 limit values.",
+        "change": "Add a table with the handful of highest-traffic limits (e.g. max message data bytes, max token amounts per message, gas limit ceilings) per family, each row linking to the detailed sub-page. Even 5–8 canonical numbers make this page directly citable.",
+        "why": "Quantitative specifics are the highest-lift change; a limits hub with numbers becomes the retrievable answer instead of a dead-end redirect."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/spec-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New H2s within the page.",
+        "issue": "No headings match how limits are queried (\"what is the maximum…\").",
+        "change": "Add H2s like \"What is the maximum CCIP message size?\", \"CCIP rate limits per lane\", \"Which chains have special limits?\" — each answering in the first sentence then linking deeper.",
+        "why": "Devs/agents query by symptom and spec, not by \"service limits\" — question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add a quotable canonical definition",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "First sentence.",
+        "issue": "No self-contained definition of \"CCIP service limits.\"",
+        "change": "Lead with a crisp one-liner, e.g. \"CCIP service limits are the per-message, per-lane, and per-network operational maximums (message size, token amounts, and rate limits) that Chainlink CCIP enforces on cross-chain transactions.\"",
+        "why": "A verbatim-liftable definition near first use outperforms diffuse pointer prose."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "JSON-LD 0 blocks, canonical MISSING, no machine dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified: 2025-09-03`, `inLanguage`, and a self-referential canonical URL; expose the \"Last Updated\" as a machine-readable date.",
+        "why": "Structured metadata and freshness signals raise parseability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 3,
+        "title": "Link one external primary source",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Intro or a \"See also\" line.",
+        "issue": "0 external/primary references.",
+        "change": "Link the CCIP architecture/spec or best-practices page where limit rationale is defined.",
+        "why": "Primary-source links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "**Title/content mismatch:** page named \"Service Limits\" states no limits — the main substantive gap, not stuffing or fluff.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references, no ambiguous entities. Prose is clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good site-level signal; ensure it lists the sub-pages too.",
+      "Head metadata could not be verified from the provided content; CLI should pass raw `<head>` for a definitive read of canonical/schema/date tags.",
+      "Whether this hub or the deeper EVM/SVM/Aptos pages get cited is partly a site-internal-linking (canonical-hub) concern; ensure sub-pages link back up to this index."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

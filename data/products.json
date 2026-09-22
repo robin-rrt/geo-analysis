@@ -1,0 +1,1145 @@
+{
+  "generatedAt": "2026-09-22T13:53:04.929Z",
+  "products": [
+    {
+      "name": "datalink",
+      "type": "product",
+      "runId": "2026-09-22T13-10-14-434Z-5184",
+      "status": "partial",
+      "at": "2026-09-22T13:13:34.424Z",
+      "pages": {
+        "audited": 10,
+        "probed": 0,
+        "inScope": 10
+      },
+      "score": {
+        "mean": 47.5,
+        "min": 18,
+        "max": 60
+      },
+      "fidelity": null,
+      "bands": {
+        "Poor": 2,
+        "Good": 3,
+        "Developing": 5
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 6,
+          "pages": 10
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 6.5,
+          "pages": 10
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 3,
+          "pages": 10
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 4.2,
+          "pages": 10
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5.3,
+          "pages": 10
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 2.1,
+          "pages": 10
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 3.4,
+          "pages": 10
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 4.7,
+          "pages": 10
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.4,
+          "pages": 10
+        }
+      ]
+    },
+    {
+      "name": "data-streams",
+      "type": "product",
+      "runId": "2026-09-22T13-29-05-693Z-f68e",
+      "status": "complete",
+      "at": "2026-09-22T13:36:04.861Z",
+      "pages": {
+        "audited": 20,
+        "probed": 0,
+        "inScope": 20
+      },
+      "score": {
+        "mean": 52.1,
+        "min": 32,
+        "max": 77
+      },
+      "fidelity": null,
+      "bands": {
+        "Good": 7,
+        "Poor": 6,
+        "Developing": 4,
+        "Strong": 3
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 5.5,
+          "pages": 20
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 6.3,
+          "pages": 20
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4.1,
+          "pages": 20
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.2,
+          "pages": 20
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 4.9,
+          "pages": 20
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 4.1,
+          "pages": 20
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 4.8,
+          "pages": 20
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5,
+          "pages": 20
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.1,
+          "pages": 20
+        }
+      ]
+    },
+    {
+      "name": "dta-technical-standard",
+      "type": "product",
+      "runId": "2026-09-22T13-07-40-558Z-8ba1",
+      "status": "complete",
+      "at": "2026-09-22T13:10:12.889Z",
+      "pages": {
+        "audited": 7,
+        "probed": 0,
+        "inScope": 7
+      },
+      "score": {
+        "mean": 53.1,
+        "min": 49,
+        "max": 59
+      },
+      "fidelity": null,
+      "bands": {
+        "Developing": 5,
+        "Good": 2
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 7
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 7
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 3.3,
+          "pages": 7
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 3.6,
+          "pages": 7
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 6.7,
+          "pages": 7
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 2.3,
+          "pages": 7
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 4.6,
+          "pages": 7
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5.6,
+          "pages": 7
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.7,
+          "pages": 7
+        }
+      ]
+    },
+    {
+      "name": "chainlink-automation",
+      "type": "product",
+      "runId": "2026-09-22T13-18-42-268Z-0fe5",
+      "status": "complete",
+      "at": "2026-09-22T13:23:22.827Z",
+      "pages": {
+        "audited": 15,
+        "probed": 0,
+        "inScope": 15
+      },
+      "score": {
+        "mean": 53.5,
+        "min": 37,
+        "max": 64
+      },
+      "fidelity": null,
+      "bands": {
+        "Developing": 7,
+        "Good": 7,
+        "Poor": 1
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 5.9,
+          "pages": 15
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 6.9,
+          "pages": 15
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4.9,
+          "pages": 15
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.3,
+          "pages": 15
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5.2,
+          "pages": 15
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 2.7,
+          "pages": 15
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 4.5,
+          "pages": 15
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5.3,
+          "pages": 15
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.1,
+          "pages": 15
+        }
+      ]
+    },
+    {
+      "name": "ccip",
+      "type": "product",
+      "runId": "2026-09-22T13-36-06-374Z-1fe0",
+      "status": "partial",
+      "at": "2026-09-22T13:52:56.565Z",
+      "pages": {
+        "audited": 35,
+        "probed": 0,
+        "inScope": 35
+      },
+      "score": {
+        "mean": 56.2,
+        "min": 40,
+        "max": 73
+      },
+      "fidelity": null,
+      "bands": {
+        "Developing": 17,
+        "Good": 14,
+        "Strong": 4
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 6.1,
+          "pages": 35
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.1,
+          "pages": 35
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4.7,
+          "pages": 35
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.4,
+          "pages": 35
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5.3,
+          "pages": 35
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 3.5,
+          "pages": 35
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5.1,
+          "pages": 35
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5.4,
+          "pages": 35
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.8,
+          "pages": 35
+        }
+      ]
+    },
+    {
+      "name": "data-feeds",
+      "type": "product",
+      "runId": "2026-09-21T11-46-21-727Z-9213",
+      "status": "complete",
+      "at": "2026-09-21T11:54:52.748Z",
+      "pages": {
+        "audited": 25,
+        "probed": 1,
+        "inScope": 25
+      },
+      "score": {
+        "mean": 56.8,
+        "min": 28,
+        "max": 67
+      },
+      "fidelity": {
+        "mean": 60.7,
+        "graders": [
+          "claude-sonnet-5"
+        ]
+      },
+      "bands": {
+        "Good": 18,
+        "Developing": 3,
+        "Poor": 4
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 6.2,
+          "pages": 25
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 6.9,
+          "pages": 25
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4.7,
+          "pages": 25
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.9,
+          "pages": 25
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 6.1,
+          "pages": 25
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 3.6,
+          "pages": 25
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5.3,
+          "pages": 25
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5.1,
+          "pages": 25
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.6,
+          "pages": 25
+        }
+      ]
+    },
+    {
+      "name": "chainlink-functions",
+      "type": "product",
+      "runId": "2026-09-22T13-23-24-508Z-8d9a",
+      "status": "complete",
+      "at": "2026-09-22T13:29:04.260Z",
+      "pages": {
+        "audited": 16,
+        "probed": 0,
+        "inScope": 16
+      },
+      "score": {
+        "mean": 57.8,
+        "min": 41,
+        "max": 67
+      },
+      "fidelity": null,
+      "bands": {
+        "Developing": 5,
+        "Good": 11
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 6.3,
+          "pages": 16
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.3,
+          "pages": 16
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 5.7,
+          "pages": 16
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 6.1,
+          "pages": 16
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5.8,
+          "pages": 16
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 2.8,
+          "pages": 16
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5.1,
+          "pages": 16
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 5.4,
+          "pages": 16
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.8,
+          "pages": 16
+        }
+      ]
+    },
+    {
+      "name": "https://docs.chain.link/ace/getting-started",
+      "type": "page",
+      "runId": "2026-09-22T12-56-21-269Z-3886",
+      "status": "interrupted",
+      "at": "2026-09-22T12:59:20.675Z",
+      "pages": {
+        "audited": 1,
+        "probed": 0,
+        "inScope": 1
+      },
+      "score": {
+        "mean": 60,
+        "min": 60,
+        "max": 60
+      },
+      "fidelity": null,
+      "bands": {
+        "Good": 1
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 6,
+          "pages": 1
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4,
+          "pages": 1
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5,
+          "pages": 1
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5,
+          "pages": 1
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 6,
+          "pages": 1
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6,
+          "pages": 1
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 8,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "cre",
+      "type": "product",
+      "runId": "2026-09-21T13-17-18-344Z-8032",
+      "status": "complete",
+      "at": "2026-09-21T13:30:31.859Z",
+      "pages": {
+        "audited": 43,
+        "probed": 41,
+        "inScope": 43
+      },
+      "score": {
+        "mean": 61.2,
+        "min": 10,
+        "max": 72
+      },
+      "fidelity": {
+        "mean": 52.6,
+        "graders": [
+          "claude-sonnet-5"
+        ]
+      },
+      "bands": {
+        "Good": 29,
+        "Developing": 5,
+        "Strong": 7,
+        "Poor": 2
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7.3,
+          "pages": 43
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.9,
+          "pages": 43
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 5.2,
+          "pages": 43
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.2,
+          "pages": 43
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 6.8,
+          "pages": 43
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 3.3,
+          "pages": 43
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5,
+          "pages": 43
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6,
+          "pages": 43
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 8.1,
+          "pages": 43
+        }
+      ]
+    },
+    {
+      "name": "ace",
+      "type": "product",
+      "runId": "2026-09-21T16-32-21-335Z-e21f",
+      "status": "partial",
+      "at": "2026-09-21T16:36:26.280Z",
+      "pages": {
+        "audited": 12,
+        "probed": 0,
+        "inScope": 12
+      },
+      "score": {
+        "mean": 61.7,
+        "min": 39,
+        "max": 72
+      },
+      "fidelity": null,
+      "bands": {
+        "Good": 10,
+        "Strong": 1,
+        "Poor": 1
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7.3,
+          "pages": 12
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.8,
+          "pages": 12
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 5,
+          "pages": 12
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.4,
+          "pages": 12
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 7.3,
+          "pages": 12
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 3.4,
+          "pages": 12
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 4.6,
+          "pages": 12
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6.3,
+          "pages": 12
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 8.3,
+          "pages": 12
+        }
+      ]
+    },
+    {
+      "name": "vrf",
+      "type": "product",
+      "runId": "2026-09-22T13-13-35-905Z-9cc9",
+      "status": "complete",
+      "at": "2026-09-22T13:18:40.779Z",
+      "pages": {
+        "audited": 13,
+        "probed": 0,
+        "inScope": 13
+      },
+      "score": {
+        "mean": 61.8,
+        "min": 54,
+        "max": 67
+      },
+      "fidelity": null,
+      "bands": {
+        "Good": 11,
+        "Developing": 2
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 13
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.5,
+          "pages": 13
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 6.4,
+          "pages": 13
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 6.5,
+          "pages": 13
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 6.2,
+          "pages": 13
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 2.9,
+          "pages": 13
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5.1,
+          "pages": 13
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6.2,
+          "pages": 13
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.8,
+          "pages": 13
+        }
+      ]
+    },
+    {
+      "name": "correlation-study",
+      "type": "watchlist",
+      "runId": "2026-09-21T11-28-14-728Z-4f83",
+      "status": "complete",
+      "at": "2026-09-21T11:31:35.043Z",
+      "pages": {
+        "audited": 9,
+        "probed": 9,
+        "inScope": 9
+      },
+      "score": {
+        "mean": 62.1,
+        "min": 44,
+        "max": 76
+      },
+      "fidelity": {
+        "mean": 53.5,
+        "graders": [
+          "claude-sonnet-5"
+        ]
+      },
+      "bands": {
+        "Good": 6,
+        "Developing": 1,
+        "Strong": 2
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7.1,
+          "pages": 9
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7.3,
+          "pages": 9
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4.2,
+          "pages": 9
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5.1,
+          "pages": 9
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 6.6,
+          "pages": 9
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 6.8,
+          "pages": 9
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 4.9,
+          "pages": 9
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6,
+          "pages": 9
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 7.6,
+          "pages": 9
+        }
+      ]
+    },
+    {
+      "name": "https://docs.chain.link/ace",
+      "type": "page",
+      "runId": "2026-09-21T16-30-22-663Z-6e71",
+      "status": "complete",
+      "at": "2026-09-21T16:31:19.111Z",
+      "pages": {
+        "audited": 1,
+        "probed": 1,
+        "inScope": 1
+      },
+      "score": {
+        "mean": 70,
+        "min": 70,
+        "max": 70
+      },
+      "fidelity": {
+        "mean": 35.7,
+        "graders": [
+          "claude-sonnet-5"
+        ]
+      },
+      "bands": {
+        "Strong": 1
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 9,
+          "pages": 1
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 8,
+          "pages": 1
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 4,
+          "pages": 1
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 5,
+          "pages": 1
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 8,
+          "pages": 1
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 8,
+          "pages": 1
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 5,
+          "pages": 1
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 9,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "https://docs.chain.link/ccip/getting-started/evm",
+      "type": "page",
+      "runId": "2026-09-21T14-48-30-952Z-7771",
+      "status": "complete",
+      "at": "2026-09-21T14:50:36.934Z",
+      "pages": {
+        "audited": 1,
+        "probed": 1,
+        "inScope": 1
+      },
+      "score": {
+        "mean": 72,
+        "min": 72,
+        "max": 72
+      },
+      "fidelity": {
+        "mean": 53.3,
+        "graders": [
+          "claude-sonnet-5"
+        ]
+      },
+      "bands": {
+        "Strong": 1
+      },
+      "dimensions": [
+        {
+          "name": "Answer-first extractability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Structural scannability & chunkability",
+          "weight": 15,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Concrete statistics & specifics",
+          "weight": 12,
+          "mean": 8,
+          "pages": 1
+        },
+        {
+          "name": "Citations & authoritative references",
+          "weight": 10,
+          "mean": 8,
+          "pages": 1
+        },
+        {
+          "name": "Quotable canonical definitions",
+          "weight": 8,
+          "mean": 5,
+          "pages": 1
+        },
+        {
+          "name": "Machine-readability & metadata",
+          "weight": 12,
+          "mean": 7,
+          "pages": 1
+        },
+        {
+          "name": "Code completeness & agent-runnability",
+          "weight": 10,
+          "mean": 9,
+          "pages": 1
+        },
+        {
+          "name": "Query/intent coverage",
+          "weight": 10,
+          "mean": 6,
+          "pages": 1
+        },
+        {
+          "name": "Clarity, fluency & terminology consistency",
+          "weight": 8,
+          "mean": 8,
+          "pages": 1
+        }
+      ]
+    },
+    {
+      "name": "https://docs.chain.link/vrf/v2-5/overview",
+      "type": "page",
+      "runId": "2026-09-21T16-29-17-781Z-dbfa",
+      "status": "partial",
+      "at": "2026-09-21T16:29:18.306Z",
+      "pages": {
+        "audited": 0,
+        "probed": 0,
+        "inScope": 0
+      },
+      "score": null,
+      "fidelity": null,
+      "bands": {},
+      "dimensions": []
+    }
+  ]
+}

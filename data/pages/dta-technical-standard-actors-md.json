@@ -1,0 +1,167 @@
+{
+  "key": "dta-technical-standard-actors-md",
+  "runId": "2026-09-22T13-07-40-558Z-8ba1",
+  "audit": {
+    "title": "DTA Technical Standard: Actors",
+    "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+    "analyzedAt": "2026-09-22T13:07:40.713Z",
+    "contentType": "developer documentation / conceptual reference",
+    "score": 51,
+    "band": "Developing",
+    "weightedTotal": 50.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong. Every actor section opens self-contained: \"The Transfer Agent manages the processing of subscription & redemption orders...\" No back-references. No action needed beyond a summary table."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong hierarchy (7 headings, 1 H1, max H3, 0 level skips, 21 bullets, all sections under 160 words). Weakness: 0 tables — a role×responsibility comparison table is the obvious missing extractable unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. 0 numerals, and vague quantifiers \"various\" and \"a number of\" flagged. Parameters like `navTTL`, \"rate limits,\" and \"regular intervals (e.g., end of day)\" are named but never quantified."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Weak. Only 1 internal link (llms.txt). Named entities — ACE, DTA Request Management, DTA Request Settlement, NAV feed — are not linked to their canonical pages, breaking entity resolution."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. Each role has a one-sentence verbatim-liftable definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak per measured facts: no JSON-LD, no canonical, no `dateModified`. Note: raw `<head>` was not captured, so site-level schema may exist but is unverifiable here."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable; conceptual page, no code expected. Scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for \"what/who does X\" intent, but no headings phrased as the questions agents actually ask (e.g., \"Who deploys the DTA Request Settlement contract?\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming (\"DTA technical standard,\" \"DTA Request Settlement\") aids entity resolution."
+      }
+    ],
+    "summary": "This is a clean, well-structured conceptual page defining the four onchain roles (Transfer Agent, Fund Administrator, Fund Distributor, Fund Issuer) plus supporting offchain participants in Chainlink's DTA technical standard. Its biggest GEO strength is answer-first section leads — each actor opens with a crisp, liftable definition. Its biggest opportunity is the near-total absence of retrieval and trust signals: zero JSON-LD/canonical/date metadata, one internal link only, no external citations to the referenced entities (ACE, DTA Request Management/Settlement, navTTL), and zero concrete specifics. As a conceptual overview it reads well for humans but underperforms for generative retrieval and cross-entity linking.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a role×responsibility comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "under \"Key actors part of the Chainlink DTA,\" before the H3 sections",
+        "issue": "0 tables; responsibilities are split across four prose+bullet blocks",
+        "change": "add a table with columns Actor | Deploys/owns | Key responsibilities | Onchain contract touched, one row per actor",
+        "why": "tables are high-lift extractable units engines quote to build \"who does what\" answers in one chunk."
+      },
+      {
+        "priority": 1,
+        "title": "Link named entities to their canonical pages",
+        "mapsTo": "cited, authoritative references / entity resolution",
+        "tier": null,
+        "where": "\"using Chainlink's Automated Compliance Engine (ACE)\", \"DTA Request Management\", \"DTA Request Settlement\", \"onchain NAV feed\"",
+        "issue": "only 1 internal link on the whole page",
+        "change": "inline-link each first mention of ACE, DTA Request Management, DTA Request Settlement, and NAV feed to their respective docs pages",
+        "why": "inline links to canonical definitions raise citation rate and let engines resolve these entities to the right products, not generic ones."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"defining all operational rules like the payment method, processing model (navTTL), rate limits, and timezones\"",
+        "issue": "\"rate limits,\" \"navTTL,\" \"regular intervals\" named but never quantified",
+        "change": "give navTTL a one-line definition with its unit/default, state a representative rate-limit value or range, and quantify \"regular intervals\" (e.g., \"once per NAV cycle / end of day\")",
+        "why": "quantitative claims are among the highest-lift changes for source visibility; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased subheadings or an FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "end of page or as H3s",
+        "issue": "sections are concept-titled (\"Transfer Agent\"), not query-phrased",
+        "change": "add a short FAQ: \"Who deploys the DTA Request Settlement contract?\", \"Is a transfer agent required in the UK/EU/Singapore?\", \"How do end investors interact with the DTA?\" — each answered in one liftable sentence (the jurisdiction answer already exists in prose)",
+        "why": "agents query by question/symptom; question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add page-level structured metadata",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured facts show no JSON-LD, no canonical, no dateModified",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `about` (DTA actors), canonical URL, and a visible `dateModified`",
+        "why": "structured metadata and freshness signals make the page easier to parse and trust; verify whether the site template already injects these before treating as absent."
+      },
+      {
+        "priority": 3,
+        "title": "Add a one-line TL;DR under the H1",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "directly after \"# DTA Technical Standard: Actors\"",
+        "issue": "opening sentence describes the standard, not the four actors this page enumerates",
+        "change": "add \"The Chainlink DTA standard defines four onchain roles — Transfer Agent, Fund Administrator, Fund Distributor, and Fund Issuer — plus offchain participants.\"",
+        "why": "a self-contained enumerating sentence is the ideal chunk for \"who are the DTA actors\" queries."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"various fund tokens,\" \"a number of offchain or external participants\" — replace with specifics or drop.",
+      "Named entities (ACE, DTA Request Management/Settlement, NAV feed) referenced without links — mild unresolved-reference risk for cross-page entity resolution.",
+      "No stale/undated content flag beyond the missing `dateModified` metadata (a machine-readability issue, not content rot)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good site-level signal; confirm this page is listed in it.",
+      "Site-level JSON-LD/canonical may be injected by the template but could not be verified; CLI should pass raw `<head>` for a definitive read.",
+      "Cross-linking from the sibling DTA pages (Request Management, Request Settlement, ACE) *into* this actors page would establish it as the canonical hub for role definitions."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-07-40-558Z-8ba1",
+    "probes": {}
+  }
+}

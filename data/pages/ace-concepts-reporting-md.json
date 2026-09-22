@@ -1,0 +1,177 @@
+{
+  "key": "ace-concepts-reporting-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Reporting Manager",
+    "url": "https://docs.chain.link/ace/concepts/reporting.md",
+    "analyzedAt": "2026-09-21T16:34:31.706Z",
+    "contentType": "developer documentation / conceptual reference",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 54.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a cleanly written conceptual page explaining Chainlink ACE's Reporting Manager — what it indexes, what the Reporting API exposes, and how the data pipeline flows. Its biggest strength is structural scannability: 11 well-scoped sections, sensible H2/H3 hierarchy, no oversized chunks, and consistent entity naming. Its biggest opportunity is machine-readability and agent-runnability: zero JSON-LD, a missing canonical, no head-level dates, no comparison table, and — for a page describing an HTTP API with named parameters — zero example requests. The honest verdict: prose quality is Strong-band, but retrieval/trust signals and concrete API examples drag it into Developing.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a runnable Reporting API example",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"What you can query\" or a new \"Example query\" subsection",
+        "issue": "page describes filters and params but shows 0 fenced blocks",
+        "change": "add a tagged `bash` curl example hitting the Transactions endpoint with chain/time-range/policy filters, plus a trimmed JSON response showing a transaction record. Include the base URL and auth header placeholder.",
+        "why": "agents and engines lift complete, copy-pasteable requests; a described-but-unshown API is unusable to coding agents."
+      },
+      {
+        "priority": 1,
+        "title": "Lead the page with a canonical definition",
+        "mapsTo": "Answer-first extractability, Quotable definitions",
+        "tier": null,
+        "where": "directly under the H1, before \"Why reporting matters\"",
+        "issue": "*\"This page explains what the Reporting Manager provides…\"*",
+        "change": "open with a self-contained sentence: \"The Reporting Manager is Chainlink ACE's managed indexer that records every onchain policy evaluation and exposes it as a queryable, read-only audit trail via the Reporting API.\"",
+        "why": "the first liftable sentence defends against parametric priors and gives engines a verbatim definition to quote."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased heading for the \"managed contracts only\" limit",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "the NOTE block and \"Beta scope\"",
+        "issue": "the answer to \"why isn't my contract in Reporting API results\" is buried in a NOTE",
+        "change": "add an H3 like \"Why don't my self-deployed contracts appear in the Reporting API?\" restating that only ACE-Platform-deployed contracts are indexed.",
+        "why": "devs query by symptom; a question-phrased heading wins retrieval that a NOTE loses."
+      },
+      {
+        "priority": 2,
+        "title": "Convert resource types + filters to a table",
+        "mapsTo": "Structural scannability",
+        "tier": null,
+        "where": "\"What you can query\"",
+        "issue": "four resource types and their filter fields are prose+bullets",
+        "change": "add a table: Resource | Query by | Point-in-time (`as_of` / `from`-`to`) | Key fields returned.",
+        "why": "tables let engines extract structured reasons and build justified comparisons."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete API specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "\"How data flows\" and \"Beta scope\"",
+        "issue": "0 numerals with units; no latency, limits, or pagination",
+        "change": "state indexing latency (e.g. typical seconds to availability), any rate limits, default/max page size, and data-retention window if known.",
+        "why": "quantitative claims are among the highest-lift additions for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative/external references",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "first mention of `PolicyRunComplete`",
+        "issue": "0 external / primary-source links",
+        "change": "link `PolicyRunComplete` to its event/ABI reference and link the Reporting API base to the OpenAPI/Interactive Reference at first use.",
+        "why": "inline links to primary sources raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Emit page-level metadata",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "JSON-LD absent, canonical MISSING, no head `dateModified`",
+        "change": "add `TechArticle` JSON-LD with `dateModified` mirroring the body \"2026-03-31\", a self-referential canonical, and `inLanguage`.",
+        "why": "structured metadata and freshness signals improve agent parsing and E-E-A-T trust."
+      }
+    ],
+    "antiPatterns": [
+      "Meta-opener instead of an answer (\"This page explains…\") at the top of the page.",
+      "Key limitation (\"managed contracts only\") reachable only via a NOTE, not a heading — a discoverability gap, not fluff.",
+      "No other anti-patterns: no keyword stuffing, no marketing fluff, no unresolved cross-references, no undifferentiated walls (median section 60 words)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced from the page — good site-level signal; confirm this page is listed in it.",
+      "Head metadata could not be verified from the served HTML; pass raw `<head>` in the CLI for a definitive read on canonical/schema/dates.",
+      "Canonical URL and JSON-LD are typically templated site-wide — fix at the template level rather than per page."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

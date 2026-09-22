@@ -1,0 +1,168 @@
+{
+  "key": "ccip-billing-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Billing",
+    "url": "https://docs.chain.link/ccip/billing.md",
+    "analyzedAt": "2026-09-22T13:37:04.942Z",
+    "contentType": "developer documentation / reference (billing & fee model)",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 62.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This page is a well-structured, formula-driven explanation of the CCIP billing model with a concrete network-fee table (percentages and USD amounts by lane) — its strongest GEO asset. The two biggest opportunities are (1) missing machine-readable metadata (no JSON-LD, no canonical URL, no `dateModified` in the served `<head>`) and (2) no symptom/question-phrased headings for how developers actually query fees (\"how do I estimate CCIP fees\", \"why is my CCIP fee so high\"). Honest verdict: solid reference content that under-indexes on discoverability and agent-parsability relative to its quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata (JSON-LD + canonical + dates)",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured facts: \"JSON-LD: 0 block(s) … canonical: MISSING … dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `about: \"Chainlink CCIP billing\"`, and a self-referential `<link rel=\"canonical\">`; surface the last-updated date in a machine-visible field, not just body text.",
+        "why": "structured metadata and visible freshness raise parse-trust and citation rate; canonical prevents `.md`/HTML duplicate dilution."
+      },
+      {
+        "priority": 1,
+        "title": "Add question/symptom-phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 near the end, plus rephrase existing anchors",
+        "issue": "no headings match \"how do I estimate CCIP fees\" / \"why is my CCIP fee so high\"",
+        "change": "Add H2 \"How do I estimate a CCIP fee?\" (lead with: call `getFee` on the router) and a FAQ covering \"Is unspent gas refunded?\" (No), \"Which tokens can pay fees?\" (LINK + gas tokens/wrapped ERC-20), \"Why does Solana add a fee?\" (0.10 USD ATA generation).",
+        "why": "developers/agents query by symptom, not concept titles; question-phrased sections win retrieval that formula prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "State the canonical fee fact in the first liftable sentence",
+        "mapsTo": "answer-first extractability / quotable definition",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"The CCIP billing model uses the `feeToken` specified in the message…\"",
+        "change": "Precede with a self-contained sentence: \"CCIP charges a single fee on the source blockchain, calculated as blockchain fee + network fee, and payable in LINK or a supported gas token (or its wrapped ERC-20).\"",
+        "why": "gives engines one verbatim-liftable canonical claim; resists parametric priors about per-hop or destination-side billing."
+      },
+      {
+        "priority": 2,
+        "title": "Fix broken/typo markup",
+        "mapsTo": "clarity / code correctness",
+        "tier": null,
+        "where": "\"Determine Token Handling Mechanism\" note and the `gas usage` formula",
+        "issue": "`(/ccip/directory/testnet)` is not a link; trailing backtick in `gas for token transfers``",
+        "change": "Make it `[testnet](/ccip/directory/testnet)`; remove the stray backtick.",
+        "why": "malformed links break internal-graph traversal; formula typos degrade agent extraction."
+      },
+      {
+        "priority": 2,
+        "title": "Tag the formula fences and add one worked example",
+        "mapsTo": "code completeness / concrete specifics",
+        "tier": null,
+        "where": "all 5 fenced blocks",
+        "issue": "measured facts: \"5 untagged … languages: [none]\"; no numeric worked example",
+        "change": "Tag blocks (e.g. ```text``` or ```` ```solidity ```` where applicable) and add one end-to-end example computing a fee for a named lane using table values.",
+        "why": "labeled blocks and a concrete calculation are highly liftable and quotable."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with numbers or drop them",
+        "mapsTo": "concrete specifics / fluency",
+        "tier": null,
+        "where": "intro",
+        "issue": "\"significantly reduce friction\", \"quickly scale CCIP to more blockchains\"",
+        "change": "Cut the marketing framing or replace with a concrete fact (e.g., number of supported fee tokens/chains).",
+        "why": "quantitative claims outrank qualitative prose; fluff is neutral-to-negative."
+      }
+    ],
+    "antiPatterns": [
+      "Marketing-flavored qualifiers (\"significantly reduce friction\", \"quickly scale\") in the intro.",
+      "Untagged code/formula fences (5 of 5, per measured facts).",
+      "One broken link (`/ccip/directory/testnet`) and one stray backtick in a formula.",
+      "No stale-content risk in body (dated 2025-05-19), but the date is not machine-exposed."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good; confirm this page is indexed there under a billing/fee entry.",
+      "Site-level: absence of JSON-LD and canonical appears template-wide; a shared docs-layout fix would lift many pages at once.",
+      "Freshness cadence: the fee table is time-sensitive (USD/percentage values) — ensure `dateModified` updates whenever the table changes so engines don't cite stale figures."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

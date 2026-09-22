@@ -1,0 +1,167 @@
+{
+  "key": "ace-getting-started-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Getting Started with ACE",
+    "url": "https://docs.chain.link/ace/getting-started.md",
+    "analyzedAt": "2026-09-21T16:35:11.900Z",
+    "contentType": "developer documentation / getting-started navigation hub",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 55.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a routing/hub page that directs ACE users to one of three managers via a clean comparison table and explicit \"which one do I need?\" decision guidance — its strongest GEO asset. Its single biggest gap is that it never defines what \"ACE\" is or expands the acronym, so an engine landing here cannot lift a canonical \"ACE is X\" statement and cannot resolve the entity. Metadata is thin (no JSON-LD, no canonical, no schema-level dates), and specifics are sparse. Honest verdict: a competent nav page that will route well but underperforms on entity-defining and machine-readability signals that generative engines reward.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical \"ACE is…\" opener",
+        "mapsTo": "quotable canonical definitions, answer-first extractability, entity resolution",
+        "tier": null,
+        "where": "Directly under the H1, before \"ACE offers three managers.\"",
+        "issue": "Acronym never expanded; page has no self-contained definition of ACE.",
+        "change": "Add one to two sentences, e.g. \"The Automated Compliance Engine (ACE) is Chainlink's onchain compliance framework for attaching policies, managing identities, and querying compliance data across chains. ACE exposes three managers: Policy, Identity, and Reporting.\"",
+        "why": "Gives engines a verbatim-liftable definition and lets them resolve \"ACE\" to the product instead of falling back to generic priors."
+      },
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no schema dates.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-04-15`, `inLanguage: en`, and a `canonical` link to the non-`.md` URL. Mirror the visible last-updated into schema.",
+        "why": "Structured freshness/canonical signals raise agent trust and parseability; currently invisible to machines despite existing in body text."
+      },
+      {
+        "priority": 2,
+        "title": "Add a \"What is ACE?\" symptom/query heading",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New H2 above the manager table.",
+        "issue": "No section phrased as the definitional query devs/agents type.",
+        "change": "Add `## What is ACE?` containing the canonical definition from P1.",
+        "why": "Heading-as-question wins retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading-level skip",
+        "mapsTo": "structural scannability & chunkability",
+        "tier": null,
+        "where": "First subsection after H1.",
+        "issue": "Measured 1 level skip (H1 → H3).",
+        "change": "Promote \"Shared first step,\" \"Not sure which Manager…,\" and \"Background reading\" to H2, or introduce an H2 wrapper before the first H3.",
+        "why": "Consistent hierarchy gives chunkers clean, predictable section boundaries."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Many organizations use both managers\"; beta context.",
+        "issue": "\"many,\" \"most,\" and no concrete scope numbers.",
+        "change": "State concrete facts where available — e.g. supported networks/chains for CCIDs, the exact count of account-setup steps (\"four steps\" is good; keep and reuse), and beta availability specifics (link already exists to Beta Scope; surface 1–2 key limits inline).",
+        "why": "Quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Name Reporting Manager's read-only API constraint inline",
+        "mapsTo": "concrete specifics, quotable definitions",
+        "tier": null,
+        "where": "Reporting Manager table row.",
+        "issue": "\"read-only API\" is good but unquantified.",
+        "change": "Add what it returns (transaction history, policy configs, identity states — already listed) plus the auth model or rate context if known.",
+        "why": "Sharpens a liftable, attributable claim for compliance-verification queries."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"many\"/\"most\" (dimension 3) — minor; replace with counts where possible.",
+      "Undefined acronym: \"ACE\" never expanded on-page — hurts entity resolution.",
+      "No stale-content risk: visible \"Last Updated: 2026-04-15\" present (but not machine-exposed)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-body — good site-level signal; confirm it lists this hub and its child quick-starts.",
+      "Canonical URL and JSON-LD are template/site-level fixes; the CLI should pass raw `<head>` so metadata can be fully verified rather than inferred absent.",
+      "Ensure the winning parent/index pages link into this hub with the \"Automated Compliance Engine (ACE)\" full name as anchor text to reinforce entity resolution across the site."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

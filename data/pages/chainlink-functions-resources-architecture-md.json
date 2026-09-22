@@ -1,0 +1,178 @@
+{
+  "key": "chainlink-functions-resources-architecture-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions Architecture",
+    "url": "https://docs.chain.link/chainlink-functions/resources/architecture.md",
+    "analyzedAt": "2026-09-22T13:24:21.390Z",
+    "contentType": "developer documentation / architecture reference (conceptual)",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 60.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Section leads are reasonable (\"Chainlink Functions do not require your consumer contracts to hold LINK tokens…\"), but the page opens under \"Request and Receive Data\" with a comparison (\"This model is similar to the Basic Request Model\") rather than a self-contained one-sentence definition of the architecture. No TL;DR."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean hierarchy — 11 headings, 1 H1, max depth H3, 0 level skips. Weak spot: **0 tables** despite the Concepts list and subscription lifecycle being ideal table candidates; one section runs 684 words."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Present but thin — \"Subscription ID: 64-bit unsigned integer,\" \"within 5 minutes,\" version strings `v1.3.0`/`v0.8`. Only 1 of 28 numerals carries units. No throughput/latency/gas figures."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Strong; no action needed. 15 links to primary sources (contract source, ethereum.org account docs)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — `Effective balance = Subscription balance - Subscription reservation` and the Subscription ID definition are verbatim-liftable. The top-level \"what is this architecture\" definition is missing."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent, no head metadata captured. This is the clearest scored deficit."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "0 fenced code blocks. Method names (`sendRequest`, `transferAndCall`, `onTokenTransfer`, `cancelSubscription`, `functions-sub-transfer`) appear inline but never as a runnable or copyable snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Solid lifecycle coverage (create → fund → add/remove consumer → cancel → transfer ownership), but no troubleshooting/FAQ and no symptom-phrased headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming of FunctionsRouter/FunctionsCoordinator/DON aids entity resolution."
+      }
+    ],
+    "summary": "This is a well-written conceptual architecture page for Chainlink Functions with strong primary-source citations (15 of 28 links point to canonical Solidity contracts on GitHub) and crisp entity definitions in the Concepts block. Its biggest GEO liabilities are structural for machines: zero JSON-LD/`TechArticle` schema, no canonical URL, no visible last-updated date, and heavy reliance on unrendered diagrams (\"(Image: Image)\") to carry the request/receive sequence. The single highest-lift opportunity is converting the diagram-dependent flows and the subscription-concepts prose into extractable tables plus adding a short answer-first TL;DR so engines can lift the architecture in one chunk.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema + canonical + dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "Measured: \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent.\"",
+        "change": "Emit a `TechArticle` block with `headline`, `dateModified`, `about: \"Chainlink Functions\"`, and a self-referential `url`/canonical tag.",
+        "why": "Structured metadata and visible freshness signals raise parseability and E-E-A-T trust for retrieval."
+      },
+      {
+        "priority": 1,
+        "title": "Convert the diagram-driven request flow into text-extractable steps",
+        "mapsTo": "answer-first extractability, structural scannability",
+        "tier": null,
+        "where": "\"Request and Receive Data\" (the 9-step sequence) and each subscription subsection.",
+        "issue": "Diagrams render as \"(Image: Image)\"; engines cannot read the flow from the image.",
+        "change": "The numbered steps already exist in prose — keep them, and add a one-line caption per image alt-text describing what the diagram shows so no information lives only in the image.",
+        "why": "Any content trapped in an image is invisible to text retrieval; captions convert it to liftable prose."
+      },
+      {
+        "priority": 1,
+        "title": "Add a TL;DR / canonical definition under the H1",
+        "mapsTo": "answer-first extractability, quotable definitions",
+        "tier": null,
+        "where": "immediately after `# Chainlink Functions Architecture`.",
+        "issue": "Page opens with \"This model is similar to the Basic Request Model,\" a dependency, not a definition.",
+        "change": "Add 2–3 sentences: \"Chainlink Functions uses a request-and-receive architecture: a consumer contract calls `sendRequest` on the FunctionsRouter; a Decentralized Oracle Network executes the source code off-chain in per-node Deno sandboxes; nodes aggregate results via OCR and return one response through a callback.\"",
+        "why": "A self-contained opening chunk is the unit engines lift for \"what is Chainlink Functions architecture.\""
+      },
+      {
+        "priority": 2,
+        "title": "Table-ize the subscription Concepts and lifecycle",
+        "mapsTo": "structural scannability, machine-scannability",
+        "tier": null,
+        "where": "\"Concepts\" bullet list and the create/fund/add/remove/cancel subsections.",
+        "issue": "Measured: \"0 table(s)\"; 8 concept terms sit in a flat bullet list.",
+        "change": "Add a term/definition table for the Concepts, and a lifecycle table (Action · Method called · Who can call · Notes).",
+        "why": "Tables let engines extract reasons and map actions to API calls cleanly."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal interface snippet for the consumer contract",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "step 3 of the request flow (\"should inherit the FunctionsClient contract\").",
+        "issue": "Measured: \"0 fenced block(s)\"; no code for an inheritance/callback pattern developers must implement.",
+        "change": "Add a short Solidity fence showing `contract X is FunctionsClient` with the `handleOracleFulfillment`/`_fulfillRequest` signature and pragma `^0.8.x`, labeled `solidity`.",
+        "why": "Agents completing tasks lift copy-pasteable, language-tagged snippets; the canonical inheritance pattern resists generic substitutions."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased headings or a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "end of Subscription management, and inline.",
+        "issue": "No content phrased as the questions devs type (e.g., \"Why do multiple API calls hit my endpoint?\", \"Can I cancel a subscription with in-flight requests?\").",
+        "change": "Add H3s or an FAQ using those exact questions; the answers already exist in body Notes (\"multiple simultaneous calls will occur,\" \"Subscriptions cannot be canceled while there are in-flight requests\").",
+        "why": "Symptom-phrased headings win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 3,
+        "title": "Add units/specifics where currently qualitative",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Serverless Environment and timeout notes.",
+        "issue": "Only 1 of 28 numerals carries units; throttling/limits described qualitatively.",
+        "change": "State concrete limits where known (request timeout = 5 minutes is already good; add DON node count, max source-code size, or callback gas limit if applicable).",
+        "why": "Quantitative claims are among the highest-lift changes for citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Information trapped in images: multiple \"(Image: Image)\" placeholders carry sequence/architecture content with no alt-text or caption.",
+      "Undated content: no visible last-updated signal; the closing \"This guide will be updated as soon as…\" note has no date to anchor it.",
+      "One over-long section (684 words) in \"Request and Receive Data\" — borderline wall of prose; the numbered list mitigates it.",
+      "No keyword stuffing or marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this page is listed in it.",
+      "JSON-LD and canonical tags are template/site-level controls; the CLI should pass raw `<head>` next run to verify (head metadata was not captured here).",
+      "Diagram alt-text is partly a CMS/rendering concern — confirm images ship descriptive `alt` attributes site-wide."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

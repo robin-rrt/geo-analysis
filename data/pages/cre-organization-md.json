@@ -1,0 +1,670 @@
+{
+  "key": "cre-organization-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Organization",
+    "url": "https://docs.chain.link/cre/organization.md",
+    "analyzedAt": "2026-09-21T13:25:27.754Z",
+    "contentType": "developer documentation / section index (hub page)",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 55.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opener — \"CRE organizations enable teams to collaborate on workflow development and deployment\" is a clean, self-contained definition. Both sentences are liftable."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean H1→H2, no level skips, bulleted link list with one-line descriptors. Appropriate for a hub; single 44-word section chunks well."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 3 numerals, none with units, no version or limit. No member cap, no role count, no quota figures that would make the page quotable."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "4 internal links, 0 external/primary. Fine as navigation, but no authoritative anchor raises credibility zero."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — the \"shared workspace where multiple members can deploy workflows, link wallet addresses, and monitor execution activity\" sentence is verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no `dateModified` in head (only a body \"Last Updated: 2025-11-04\" line), no `inLanguage`. Head could not be verified; CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code; acceptable for a pure index page — not a real defect here."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers the concept and its three sub-topics, but no symptom-, error-, or \"how do I…\" phrasing. The \"(Owner only)\" hint is the only permission signal."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent use of \"organization,\" \"workflow,\" \"member.\" No action needed."
+      }
+    ],
+    "summary": "This is a thin index/hub page whose primary job is to define \"CRE organization\" and route readers to three child guides. Its biggest strength is a crisp, liftable opening definition; its biggest weakness is that it carries almost no standalone substance — 89 words, zero structured metadata, no external citations, and no concrete numbers — so it is far more likely to be a retrieval waypoint than a cited source. Judged as a section landing page it is acceptable; judged as a citable GEO asset it under-delivers because the canonical facts it could own (roles, permission model, member limits) live only in child pages.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (`TechArticle`/`CollectionPage` JSON-LD + canonical)",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "\"JSON-LD: 0 block(s) … canonical: MISSING · dateModified absent\"",
+        "change": "Emit JSON-LD with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, `mainEntity` linking the three guides; add `<link rel=\"canonical\">`. Surface the last-updated date in machine-readable form, not just body text.",
+        "why": "Structured metadata and visible freshness raise E-E-A-T and parseability for agents; the body-only date is invisible to schema consumers."
+      },
+      {
+        "priority": 1,
+        "title": "Add the canonical facts this hub should own",
+        "mapsTo": "concrete statistics & specifics + parametric-prior resistance",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"3 numerals, 0 with units\" — no member limits, no role enumeration.",
+        "change": "Add one liftable sentence naming the concrete model, e.g. \"An organization supports roles X and Y; members are invited by an Owner and can link N wallet addresses.\" Put the exact role names and any limits in the first liftable sentence.",
+        "why": "Quantitative/specific claims are the highest-lift change; without them an engine answers \"how do CRE org roles work?\" from training priors, not this page."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase the link descriptors as the questions users ask",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Organization guides\" list",
+        "issue": "Concept-titled entries — \"Understanding Organizations\", \"Linking Wallet Keys\".",
+        "change": "Keep titles but expand descriptors into symptom/how-to phrasing: \"How do I add a team member? (Owner only)\", \"How do I link a wallet address to deploy workflows?\"",
+        "why": "Devs and agents retrieve by \"how do I…\" phrasing; question-shaped anchors win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-line canonical answer for each sub-topic on this page",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "under \"Organization guides\"",
+        "issue": "Page delegates every answer to child pages; nothing standalone beyond the intro.",
+        "change": "Add a 1-sentence answer per bullet (e.g. \"Only Owners can invite members.\") so the hub itself is citable, not just a redirect.",
+        "why": "A self-contained answer near the link lets an engine cite this page directly instead of bouncing."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative external reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "intro",
+        "issue": "\"0 external, 0 to primary sources\".",
+        "change": "Link the canonical CRE concept/overview page (or platform docs) where \"organization\" is formally defined.",
+        "why": "Even one primary-source link raises credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Freshness date (\"Last Updated: 2025-11-04\") present only in body prose, not in machine-readable metadata — invisible to schema parsers.",
+      "No other anti-patterns: no keyword stuffing, no marketing fluff, no unresolved cross-references, prose is clean."
+    ],
+    "offPageNotes": [
+      "The page already references `/llms.txt` — good site-level signal; ensure it lists these org child pages.",
+      "Canonical URL and JSON-LD are typically templated at the site level; fix in the docs framework rather than per-page.",
+      "Head metadata could not be verified from the captured content — pass raw `<head>` to the CLI for a complete metadata read."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/organization.md",
+      "source_title": "Organization",
+      "probe_set_id": "ac206b592183",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T15:14:49.715Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 48,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 2,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.8,
+        "hallucination_free": 5.8,
+        "relevance": 2.7,
+        "structure": 4.8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 289306,
+          "output_tokens": 12992,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 28,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6768,
+          "output_tokens": 7381,
+          "cache_creation_input_tokens": 293,
+          "cache_read_input_tokens": 15799,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 8,
+            "structure": 8
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "cre workflow deploy <workflow-folder-path> [flags]",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre workflow deploy my-workflow --target production-settings",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "the owner will be automatically derived from the CRE_ETH_PRIVATE_KEY in your .env file",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "monitor all workflows via the CRE dashboard at app.chain.link/cre/workflows",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "upload to the CRE Storage Service, and the final onchain transaction",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "There are two roles that govern collaboration: Owner and Members with specific descriptions of their duties",
+            "The Owner is the person who first created the organization account"
+          ],
+          "verdict": "The answer correctly states the core organization concept from the source but adds fabricated CLI syntax, env var names, and dashboard URLs not found in the provided page, making it risky to ship as-is for a developer relying on exact commands.",
+          "prompt": "How do I set up my team to collaborate on CRE workflow deployment?",
+          "archetype": "direct-howto",
+          "answer": "This is about Chainlink Runtime Environment (CRE). Let me get the details on organizations and team collaboration.Based on the Chainlink documentation, here's how to set up your team to collaborate on CRE (Chainlink Runtime Environment) workflow deployment:\n\n## Use a CRE Organization\n\nCRE organizations enable teams to collaborate on workflow development and deployment. An organization provides a shared workspace where multiple members can deploy workflows, link wallet addresses, and monitor execution activity together.\n\n## Understand the roles\n\nThere are two roles that govern collaboration:\n\n- **Owner** — Every organization has exactly one Owner—the person who first created the organization account. The Owner is responsible for inviting members and managing the organization.\n- **Members** — Members are users invited by the Owner to join the organization.\n\nAdditional roles with more granular permissions may be added in future releases to provide more flexible access control for larger teams.\n\n## Setup steps\n\n1. **Create your account and organization** — The first person creates an account, which establishes the organization and makes them the Owner.\n\n2. **Invite team members** — As the Owner, add teammates as Members to the shared organization.\n\n3. **Link wallet keys** — Each member links their wallet address so they can deploy workflows. When deploying, if you are deploying from a standard EOA, you can leave this field unchanged—the owner will be automatically derived from the CRE_ETH_PRIVATE_KEY in your .env file.\n\n4. **Deploy workflows** — Members deploy from their project root using the CLI: from your project root directory, run the deploy command with the path to your workflow folder: `cre workflow deploy <workflow-folder-path> [flags]`. For example, targeting a specific environment: `cre workflow deploy my-workflow --target production-settings`.\n\n5. **Monitor together** — The team can monitor all workflows via the CRE dashboard at `app.chain.link/cre/workflows` to view execution activity across the organization.\n\nDuring deployment, the CLI will provide detailed logs of the deployment process, including the compilation, upload to the CRE Storage Service, and the final onchain transaction.\n\nFor step-by-step instructions on account creation, inviting members, and linking wallet keys, see the official Chainlink docs at docs.chain.link/cre/organization. Would you like me to walk through any specific step in more detail?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 62570,
+              "output_tokens": 2567,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1161,
+              "output_tokens": 3218,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2281,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/account",
+              "https://docs.chain.link/cre/guides/operations/deploying-workflows"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page (cre/organization) was not cited; the answer instead cites two different, unverified Chainlink URLs."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 3,
+            "structure": 8
+          },
+          "fidelity": 43,
+          "hallucinations": [
+            {
+              "claim": "cre account link-key",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre whoami",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre login",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre account access",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre account list-key",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow deploy <workflow-folder-path> [flags]",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "workflow-owner-address field",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "CRE_ETH_PRIVATE_KEY in your .env file",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Private Registry option that requires no wallet for registry management",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Linking wallet keys connects your wallet address to deploy and manage workflows",
+            "See the Linking Wallet Keys guide"
+          ],
+          "unverifiable_from_source": [
+            "Prerequisites around cre whoami/cre login authentication",
+            "Early Access gating via cre account access",
+            "cre account link-key and list-key command details",
+            "Funding requirement with ETH on Ethereum Mainnet",
+            "Workflow Registry contract mechanics and lifecycle operations",
+            "Multi-sig wallet handling via project.yaml/workflow.yaml",
+            "Unlinking being destructive and irreversible",
+            "Private Registry option requiring no wallet"
+          ],
+          "verdict": "The answer invents a detailed, plausible-sounding CLI workflow and file/parameter names that are not present in or verifiable against the provided index page, and it fails to cite or reference the actual Linking Wallet Keys guide, making it risky to ship as authoritative documentation.",
+          "prompt": "Using CRE, how do I link my wallet address so I can deploy workflows?",
+          "archetype": "constrained",
+          "answer": "Here's how to link a wallet address in CRE (Chainlink Runtime Environment) so you can deploy workflows.\n\n## Prerequisites\n\nBefore you can link a key, make sure you're authenticated with the CLI. You must be logged in to run any CLI commands—run `cre whoami` in your terminal to verify you're logged in, or run `cre login` to authenticate.\n\nYou'll also need deployment access, since this is currently gated. Workflow deployment is currently in Early Access—run `cre account access` or visit app.chain.link/cre/request-access to submit a request.\n\n## Linking your wallet\n\nThe relevant command lives under the `cre account` group. The `cre account` commands manage your linked public key addresses for workflow operations—they allow you to link wallet addresses to your CRE account, list linked addresses, and unlink them when needed.\n\nTo link your wallet, use:\n\n```\ncre account link-key\n```\n\n`cre account link-key` links a public key address to your account, while `cre account list-key` lists workflow owners linked to your organization.\n\nAfter linking, you can confirm it worked by listing your keys, which shows details such as the label, owner address, verification status, chain selector, and the Workflow Registry contract address for the linked wallet.\n\n## How the linked wallet is used at deploy time\n\nLinking your key is a required step in the deployment flow. You must have linked your EOA or multi-sig wallet to your account by running `cre account link-key`, and you need a funded wallet—the account you deploy from must be funded with ETH on Ethereum Mainnet to pay the gas fees for the onchain registration.\n\nOnce linked, that wallet becomes the identity behind your workflows. The public onchain registry is the Workflow Registry contract on Ethereum Mainnet, and deploying to it records your workflow onchain—your linked wallet address becomes the workflow owner, and every lifecycle operation (deploy, activate, pause, update, delete) submits a transaction to that contract.\n\nFor a standard EOA, the CLI derives the owner automatically. If you are deploying from a multi-sig wallet, you specify your multi-sig address in the `workflow-owner-address` field; if you are deploying from a standard EOA, you can leave this field unchanged—the owner will be automatically derived from the `CRE_ETH_PRIVATE_KEY` in your `.env` file.\n\nThen deploy with:\n\n```\ncre workflow deploy <workflow-folder-path> [flags]\n```\n\nFor example, to target the production-settings environment: `cre workflow deploy my-workflow --target production-settings`.\n\n## A note on multi-sig wallets\n\nIf you're using a multi-sig, the process differs slightly. You add your multi-sig wallet address to your `project.yaml` or `workflow.yaml` under the target you're using (e.g., `workflow-owner-address: \"<your-multi-sig-address>\"`). When managing workflows with a multi-sig wallet, the CRE CLI can generate raw transaction data that you submit through your multi-sig wallet interface instead of signing and sending the transaction directly.\n\n## ⚠️ Important warning about unlinking\n\nBe careful with the unlink operation, as it's destructive: unlinking is a destructive operation that removes the address from the Workflow Registry contract and deletes all workflows registered under that address—this action cannot be undone.\n\n---\n\n**Summary of steps:**\n1. Log in: `cre login` (verify with `cre whoami`)\n2. Request/confirm Early Access: `cre account access`\n3. Link your wallet: `cre account link-key`\n4. Ensure the wallet is funded with ETH on Ethereum Mainnet for gas\n5. Deploy: `cre workflow deploy <workflow-folder-path> --target <environment>`\n\nFor full details, see Chainlink's docs on [Account Management](https://docs.chain.link/cre/reference/cli/account) and [Deploying Workflows](https://docs.chain.link/cre/guides/operations/deploying-workflows). If you'd prefer not to deal with wallets and gas at all, note there's also a Private Registry option that requires no wallet for registry management.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 72357,
+              "output_tokens": 3018,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1735,
+              "output_tokens": 2202,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2281,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not find documentation matching 'CRE' and never cites the expected source."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 6,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 25,
+          "hallucinations": [
+            {
+              "claim": "generic steps like 'Click \"Invite,\" \"Add member,\" or \"Add colleague.\"'",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Inviting team members adds colleagues to your organization",
+            "This action is Owner only",
+            "See the Inviting Team Members guide"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize Chainlink CRE entirely and offers only generic, unverified guidance, making it unsafe and unhelpful for a developer seeking the actual CRE documentation.",
+          "prompt": "How do I add colleagues to my CRE organization?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about adding colleagues to a CRE organization.The search results don't point to a specific \"CRE\" product. Let me refine the search to identify the exact platform.I wasn't able to find documentation that clearly matches a product called \"CRE\" from my searches, so I want to make sure I point you in the right direction rather than guess.\n\n\"CRE\" can refer to several different things, and the steps for adding colleagues will differ depending on which one you mean. Could you clarify which of these (or something else) you're using?\n\n- **A specific SaaS/CRE application** (e.g., a commercial real estate platform, or a tool that uses \"CRE\" branding)\n- **Google Cloud's Customer Reliability Engineering / a cloud console org**\n- **An internal or industry-specific \"CRE\" tool** at your company\n\nThat said, most platforms follow a similar pattern for adding colleagues to an organization. Typically you would:\n\n1. Sign in and open your **account settings** or **organization/workspace settings**.\n2. Look for a **\"Members,\" \"Team,\" \"Users,\" or \"People\"** section.\n3. Click **\"Invite,\" \"Add member,\" or \"Add colleague.\"**\n4. Enter their **email address**, choose a **role/permission level**, and send the invite.\n5. Your colleague accepts the emailed invitation to join.\n\nIf you can tell me the full name of the CRE product (or share a link to it), I can search for the exact step-by-step instructions for that specific platform.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 41480,
+              "output_tokens": 1404,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 793,
+              "output_tokens": 263,
+              "cache_creation_input_tokens": 293,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not find a clear match for 'CRE' and asks for clarification instead of citing the expected source."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 10,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 30,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Understanding Organizations covers how organizations work including roles, permissions, and shared resources"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize CRE as Chainlink's product and never surfaces the relevant documentation, making it unusable for the developer's actual question.",
+          "prompt": "CRE org roles permissions shared resources",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about this topic to give you an accurate answer.Your query \"CRE org roles permissions shared resources\" is quite terse, and I want to make sure I give you a useful answer rather than guessing. My searches didn't surface a single, obvious product or platform called \"CRE\" tied to organization roles, permissions, and shared resources — the term is used many different ways.\n\nCould you clarify what **\"CRE\"** refers to in your case? A few possibilities:\n\n- **A specific software/SaaS platform** named CRE (e.g., a cloud, DevOps, or ML tool) where you're trying to understand its org-level role and permission model\n- **Commercial Real Estate (CRE)** software, where \"shared resources\" might mean shared documents, properties, or portfolios\n- **Cloud Runtime Environment / Cloudera Runtime / another acronym** in a specific vendor's ecosystem\n- A **generic concept** — i.e., you want to understand how organizations, roles, permissions (RBAC), and shared resources generally work together\n\nIt would also help to know **what you're trying to do**, for example:\n\n- Set up or configure roles and permissions for a team\n- Understand how shared resources are accessed across an org\n- Compare how different platforms handle this\n- Troubleshoot an access/permission issue\n\nOnce you let me know the specific product (and ideally a link or vendor name) and your goal, I can search the relevant documentation and give you a precise, well-sourced answer.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 27504,
+              "output_tokens": 1322,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 752,
+              "output_tokens": 280,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2281,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer states its search/retrieval tool hit a usage limit and it could not fetch the actual doc content, relying instead on general knowledge."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 6
+          },
+          "fidelity": 43,
+          "hallucinations": [
+            {
+              "claim": "Creating Your Account** — `docs.chain.link/cre/account/creating-account`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Installing the CRE CLI** — `docs.chain.link/cre/getting-started/cli-installation`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Part 1: Project Setup & Simulation** — `docs.chain.link/cre/getting-started/part-1-project-setup-go`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Billing/ownership and identity at the org level",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Projects that group related workflows and their configuration/resources",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Shared workspace where multiple members can deploy workflows, link wallet addresses, and monitor execution activity together",
+            "Start with the guides: Understanding Organizations, Linking Wallet Keys, Inviting Team Members"
+          ],
+          "unverifiable_from_source": [
+            "CRE overview page and Getting Started: Overview page",
+            "Creating Your Account page",
+            "Installing the CRE CLI page",
+            "Part 1: Project Setup & Simulation tutorial",
+            "Billing/ownership and identity at the org level",
+            "Projects grouping workflows and resources"
+          ],
+          "verdict": "The answer correctly identifies the topic but explicitly admits it couldn't retrieve the real page, then substitutes a fabricated reading path and feature list (CLI install, account creation, billing, projects) not present in the source, while omitting the source's actual specifics (linking wallet addresses, monitoring execution, and the three named guides) — not safe to ship without verification against the real docs.",
+          "prompt": "I'm new to Chainlink CRE and my whole team needs to work together on building and shipping workflows — what does an organization actually give us and where do I start?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for current information about Chainlink CRE organizations and getting started, since this is a specific technical topic that's evolving.Let me fetch the most relevant documentation pages to get accurate details.I wasn't able to pull the full text of the docs pages (my search tool hit its usage limit mid-session), so I'll give you an orientation based on the Chainlink documentation structure I found and general CRE knowledge — and point you to the exact pages to read. Since I couldn't retrieve the detailed page content, treat the specifics below as a map to verify against the live docs, especially as CRE is still evolving.\n\n## What an Organization is in CRE\n\nIn Chainlink CRE, an **Organization** is the top-level container that your whole team works within — think of it as your shared workspace. It's the boundary that ties together your people, your projects, and the workflows you deploy. The relevant doc page is **\"Understanding Organizations\"** (`docs.chain.link/cre/organization/understanding-organizations`), and there's a broader **Organization** section (`docs.chain.link/cre/organization`).\n\nAt a high level, an organization typically gives your team:\n\n- **A shared workspace** where projects and workflows live, so everyone on the team is operating in the same context rather than isolated personal setups.\n- **Members and roles** — you invite teammates into the organization, and access is governed by roles/permissions so the right people can build, deploy, and administer.\n- **Projects** that group related workflows and their configuration/resources.\n- **Workflows** — the actual programs you build, simulate, and deploy to the CRE network.\n- **Billing/ownership and identity** at the org level, so deployments and resource usage are attributed to the organization rather than an individual.\n\n## Where to start (recommended reading order)\n\nBased on the CRE docs structure, here's the path I'd follow:\n\n1. **CRE overview** — `docs.chain.link/cre` — to understand what the Chainlink Runtime Environment is and what workflows are conceptually.\n2. **Getting Started: Overview** — `docs.chain.link/cre/getting-started/overview` — the entry point for hands-on setup.\n3. **Creating Your Account** — `docs.chain.link/cre/account/creating-account` — set up your individual account first.\n4. **Understanding Organizations** — `docs.chain.link/cre/organization/understanding-organizations` — then create or join your team's organization and get your teammates invited with appropriate roles.\n5. **Installing the CRE CLI** — `docs.chain.link/cre/getting-started/cli-installation` (there's a Windows-specific page too) — the CLI is the primary tool for building, simulating, and deploying workflows locally.\n6. **Part 1: Project Setup & Simulation** — `docs.chain.link/cre/getting-started/part-1-project-setup-go` — a guided tutorial (Go-based) that walks you through creating a project, running it in simulation, and iterating before deploying.\n\n## Practical tips for a team just starting out\n\n- **One person sets up the organization first**, then invites the rest of the team. Decide early who holds owner/admin rights versus who just builds and deploys.\n- **Everyone installs the CLI locally** and authenticates against the same organization, so your projects and workflows land in the shared workspace.\n- **Start in simulation.** The getting-started tutorial emphasizes building and simulating workflows locally before deploying to the network — a good habit for a team so you catch issues cheaply.\n- **Organize by projects** so related workflows stay grouped and permissions/config are easier to reason about as the team grows.\n\nIf you tell me which language/stack your team is using (the getting-started tutorial is Go-oriented) and whether you're the one setting up the org or joining an existing one, I can tailor the next steps. I'd also recommend confirming the current details on the pages above, since I couldn't fetch their live contents this session and CRE's onboarding flow is actively changing.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 44678,
+              "output_tokens": 3280,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1709,
+              "output_tokens": 2240,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2281,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not find relevant information and asks the user to clarify what CRE means, indicating retrieval failure."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 10,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 30,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Only the Owner can invite team members",
+            "Inviting Team Members guide covers adding colleagues"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to identify Chainlink's CRE platform entirely and provides no useful information, making it unusable for the developer's question.",
+          "prompt": "Who is allowed to invite new members into a CRE organization?",
+          "archetype": "paraphrase",
+          "answer": "There are no uploaded files in this conversation, so let me search for information about this.I wasn't able to find a clear, authoritative answer to your question. The term \"CRE\" is ambiguous, and my searches surfaced several unrelated things (e.g., the Counselors of Real Estate professional association, CRE Finance Council, and various generic \"organization invite members\" software docs), none of which specifically define who can invite new members into a \"CRE organization\" in the sense you seem to mean.\n\nThere were also no uploaded files or documents in this conversation that I could reference to answer the question.\n\nTo help you accurately, could you clarify what **CRE** refers to in your context? For example:\n- A specific software platform or SaaS product (and if so, which one)?\n- An internal tool or system at your company?\n- A particular organization/association?\n\nIf you have documentation, a screenshot, or a file describing the CRE platform's roles and permissions, feel free to upload it and I'll pinpoint exactly which roles (e.g., Owner, Admin, etc.) are allowed to invite new members.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 40717,
+              "output_tokens": 1401,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 618,
+              "output_tokens": 209,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2281,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 38.2,
+      "unattributed_count": 3,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

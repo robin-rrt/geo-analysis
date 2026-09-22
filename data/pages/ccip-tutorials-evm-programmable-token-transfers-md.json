@@ -1,0 +1,178 @@
+{
+  "key": "ccip-tutorials-evm-programmable-token-transfers-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Transfer Tokens with Data",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/programmable-token-transfers.md",
+    "analyzedAt": "2026-09-22T13:45:15.215Z",
+    "contentType": "developer documentation / tutorial (EVM smart-contract walkthrough)",
+    "score": 70,
+    "band": "Good",
+    "weightedTotal": 70.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a strong, complete CCIP tutorial: one fully-imported Solidity contract, real router/LINK/token addresses, live chain selectors, and a clear deploy→send→verify→explain flow with 9 primary-source links. Its biggest GEO weakness is machine-readability — no JSON-LD/`TechArticle` schema, no canonical URL, and no `<head>` metadata was verifiable — compounded by a version inconsistency inside the code (imports pin `@chainlink/contracts@1.4.0` while the install note says `1.6.2`) that an agent will trust literally. The second opportunity is symptom-phrased query coverage: the valuable gas-spike and \"only router can call `_ccipReceive`\" content is buried in prose/NOTE blocks rather than in headings devs actually search. Honest verdict: content quality is Strong; discoverability and metadata are the drag.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fix the contract version inconsistency",
+        "mapsTo": "concrete specifics / code runnability / parametric-prior resistance",
+        "tier": null,
+        "where": "code block imports vs. `Explanation` install note",
+        "issue": "`import {OwnerIsCreator} from \"@chainlink/contracts@1.4.0/…\"` vs. `yarn add @chainlink/contracts-ccip@1.6.2`",
+        "change": "Align the import pin to the version stated in the install tab (and the page's `v1.6.2` framing), or add one sentence explaining why `OwnerIsCreator` resolves from a different package/version.",
+        "why": "Agents copy imports verbatim; a mismatched pin produces a non-compiling answer and undermines the page's authority on the exact API."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "the two `NOTE: Gas price spikes` blocks and the `_ccipReceive` security note",
+        "issue": "failure guidance lives in prose/NOTE callouts, not in searchable headings",
+        "change": "Add H3s such as \"Why does my CCIP transaction fail during gas price spikes?\" and \"Why can only the router call `_ccipReceive`?\", each opening with the one-sentence answer.",
+        "why": "Devs/agents query by symptom and error condition; heading-level questions win retrieval that body prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (none captured)",
+        "issue": "\"JSON-LD: 0 block(s) … canonical: MISSING\"",
+        "change": "Emit `TechArticle` schema with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: Solidity`, and a self-referential `canonical`. Have the CLI pass raw `<head>` to confirm.",
+        "why": "Structured metadata and a canonical URL raise agent trust/parseability and prevent duplicate-URL dilution."
+      },
+      {
+        "priority": 2,
+        "title": "Lead with a canonical definition of the task",
+        "mapsTo": "quotable canonical definitions / answer-first",
+        "tier": null,
+        "where": "top of page, before \"Before you begin\"",
+        "issue": "no self-contained definition of \"programmable token transfer\"",
+        "change": "Add one liftable sentence, e.g. \"A programmable token transfer sends tokens and an arbitrary data payload in a single CCIP message via `ccipSend`, executed on the destination chain through `_ccipReceive`.\"",
+        "why": "Gives engines a verbatim, product-canonical definition that names the real API (`ccipSend`/`_ccipReceive`) rather than a generic bridge idiom."
+      },
+      {
+        "priority": 2,
+        "title": "Name the tempting-wrong fee pattern explicitly",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "`Transferring tokens and data and pay in native`",
+        "issue": "native-fee selection shown only as `address(0)` in a comment",
+        "change": "Add a one-liner: \"To pay fees in native gas, set `feeToken` to `address(0)`; do **not** pass the wrapped-native token address.\" (mirror the LINK case with `address(linkToken)`).",
+        "why": "Makes the canonical fee-token convention liftable and blocks a plausible wrong substitution when the section is skimmed."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short summary above the 2287-word contract",
+        "mapsTo": "chunkability / answer-first",
+        "tier": null,
+        "where": "immediately before the `sol` fence",
+        "issue": "one 2287-word chunk dominates the page",
+        "change": "3–4 bullets naming the key functions (`sendMessagePayLINK`, `sendMessagePayNative`, `_buildCCIPMessage`, `_ccipReceive`) and what each does.",
+        "why": "Gives RAG a small, self-contained chunk that indexes the contract's API surface without swallowing the whole file."
+      },
+      {
+        "priority": 3,
+        "title": "Replace the one opaque link and trim vague quantifiers",
+        "mapsTo": "citations / clarity",
+        "tier": null,
+        "where": "\"check the list of supported tokens [here]\" and closing \"robust, future-proof, and compliant\"",
+        "issue": "opaque anchor text; marketing-adjacent qualifiers",
+        "change": "Retitle the link \"supported tokens for the Avalanche Fuji → Ethereum Sepolia lane\"; cut the \"robust/future-proof\" sentence or make it concrete.",
+        "why": "Descriptive anchors and specific prose improve extraction and reduce fluff penalties."
+      }
+    ],
+    "antiPatterns": [
+      "Version inconsistency between code imports (`1.4.0`) and install instructions (`1.6.2`) — a concrete accuracy risk for agents.",
+      "Mild fluff: \"robust, future-proof, and compliant with CCIP standards\"; vague quantifiers \"various,\" \"some,\" \"significant.\"",
+      "One opaque \"here\" link.",
+      "No stale-content problem: `Last Updated: 2025-05-19` is visible in body (though absent from verifiable metadata)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already linked from the page — good; confirm this tutorial is indexed there.",
+      "Site-level: JSON-LD/canonical are template concerns — fixing them here likely benefits all CCIP tutorials.",
+      "`<head>` metadata could not be verified; have the CLI pass raw `<head>` for a definitive metadata read before assuming absence of og/twitter/schema tags."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

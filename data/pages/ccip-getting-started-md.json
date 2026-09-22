@@ -1,0 +1,156 @@
+{
+  "key": "ccip-getting-started-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Getting Started with Chainlink CCIP",
+    "url": "https://docs.chain.link/ccip/getting-started.md",
+    "analyzedAt": "2026-09-22T13:41:09.496Z",
+    "contentType": "developer documentation / navigation hub (getting-started index)",
+    "score": 51,
+    "band": "Developing",
+    "weightedTotal": 51.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "The page opens on \"Available Blockchain Families\" rather than a one-line answer to its own title. A lifted top chunk explains chain support before it ever defines CCIP or what \"getting started\" entails."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 4 clean headings, 1 H1, 0 level skips, tight bulleted sections all under 51 words. Ideal chunk boundaries for RAG. No action needed beyond content depth."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 3 numerals, none with units, no version strings, no fees, latency, finality times, or count of supported chains. \"Ethereum, Avalanche, Polygon, and other EVM-compatible networks\" is illustrative but unquantified."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 links, all internal, 0 to primary sources. No link to the CCIP whitepaper, architecture spec, or a canonical concept definition."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "No verbatim-liftable definition of CCIP anywhere on the page — the single largest missed opportunity for a getting-started entry point."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, canonical MISSING, no `dateModified` in head (only a body-text \"Last Updated: 2025-05-19\"), no og/twitter tags. Head metadata could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code blocks. Acceptable for a routing hub that delegates to platform guides; not penalized as a defect, scored neutral."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"what can I build\" and \"which chains\" and routes by platform, but omits \"what is CCIP,\" pricing/fees, and any troubleshooting/FAQ entry point."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent \"CCIP\" / product naming, unambiguous prose, clean lists."
+      }
+    ],
+    "summary": "This is a short (179-word) navigation hub routing developers to platform-specific CCIP getting-started guides (EVM, SVM, Aptos). Its biggest strength is clean, well-chunked structure with consistent terminology; its biggest weakness is that it never states what CCIP *is* — there is no quotable, self-contained definition an engine can lift when answering \"what is Chainlink CCIP.\" As a hub page it does its routing job, but as a retrieval target it forfeits the highest-value query (\"what is CCIP / how do I start\") and carries no schema, canonical URL, or authoritative external references. The honest verdict: functional index page, underbuilt for generative retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical CCIP definition as the first liftable sentence",
+        "mapsTo": "quotable canonical definitions / answer-first extractability",
+        "tier": null,
+        "where": "immediately under the H1, before \"Available Blockchain Families\"",
+        "issue": "page jumps to \"CCIP supports multiple blockchain families\" with no definition.",
+        "change": "add 1–2 sentences, e.g. \"Chainlink CCIP (Cross-Chain Interoperability Protocol) is a cross-chain messaging and token-transfer protocol that lets smart contracts send data, tokens, or both between blockchains. This guide routes you to platform-specific setup for EVM, SVM (Solana), and Aptos.\"",
+        "why": "gives engines a self-contained definition to cite for \"what is CCIP\" — the dominant entry query this page currently can't win."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete specifics near the chain list",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Available Blockchain Families\"",
+        "issue": "\"and other EVM-compatible networks\" — no counts or specifics.",
+        "change": "state the number of supported networks/lanes (e.g. \"CCIP supports N+ networks; see the CCIP Directory\") and name the CCIP token standard/pattern. Quantify wherever the Directory allows.",
+        "why": "quantitative claims are among the highest-lift changes for citation; \"other networks\" is unquotable."
+      },
+      {
+        "priority": 2,
+        "title": "Add a \"How do I get started with CCIP?\" and symptom-phrased framing",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Getting Started Guides\"",
+        "issue": "heading is concept-titled, not query-phrased.",
+        "change": "phrase the section lead as the user question (\"How do I get started with CCIP?\") and add one line each on when to pick EVM vs SVM vs Aptos so an engine can extract a *reason* for the choice.",
+        "why": "devs/agents query by task; question-phrased headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Emit JSON-LD `TechArticle` + canonical URL + dateModified",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "canonical MISSING, 0 JSON-LD blocks, dates only in body text.",
+        "change": "add `TechArticle` schema with `headline`, `dateModified` (mirror the 2025-05-19 body value), canonical URL, and `inLanguage`.",
+        "why": "structured metadata and visible freshness raise agent trust/parseability (E-E-A-T)."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative outbound reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "after the CCIP definition",
+        "issue": "0 external/primary-source links.",
+        "change": "link the CCIP architecture/spec or whitepaper as the canonical source for the protocol definition.",
+        "why": "inline primary-source links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Freshness signal (\"Last Updated: 2025-05-19\") lives in body text only, not machine-readable head metadata.",
+      "No undated/stale content, no keyword stuffing, no fluff, no unresolved cross-references — prose is clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure it lists this hub and its three child guides.",
+      "Canonical URL, JSON-LD, and og/twitter tags are template/site-level fixes, not authorable in body content.",
+      "The `.md` endpoint strips `<head>`; pass raw HTML head to the CLI to confirm whether schema/canonical exist on the rendered page before treating them as absent."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

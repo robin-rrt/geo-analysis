@@ -1,0 +1,157 @@
+{
+  "key": "ccip-concepts-cross-chain-token-svm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Cross-Chain Token Standard (SVM)",
+    "url": "https://docs.chain.link/ccip/concepts/cross-chain-token/svm.md",
+    "analyzedAt": "2026-09-22T13:40:18.969Z",
+    "contentType": "developer documentation / section index (hub page)",
+    "score": 48,
+    "band": "Developing",
+    "weightedTotal": 47.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Weak. The first substantive prose is a token-registration NOTE, not an answer; the description — \"provides detailed guidance for integrating tokens…on SVM-based blockchains like Solana\" — describes the section rather than defining the concept. A lead sentence stating what CCT on SVM *is* would stand alone."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Adequate for a hub. Measured facts confirm 1 section, 7 bullets, 0 level skips; the annotated link list is scannable, but a single H1 with no H2 grouping limits chunk richness."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Thin — 3 numerals, 0 with units, no version strings (per measured facts). No supported-network specifics, program counts, or standard version. Expected for an index, but a few anchor facts would help retrieval."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "8 internal links (appropriate for a hub) plus one contact form; 0 links to primary sources such as the SPL token or Solana program specs. Acceptable for navigation, not for authority."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "Weak. Neither \"Cross-Chain Token Standard\" nor \"SVM\" is defined in a liftable one-to-two-sentence form near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts show 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent from head. A body \"Last Updated: 2025-05-19\" exists but is not machine-exposed. `<head>` could not be verified — pass raw head for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable — a hub page needs no snippets; scored neutral, no action needed."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers subtopic navigation but no \"how do I…\", \"what is…\", or error/symptom phrasing. It captures browsing intent, not question intent."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Terminology (CCIP, CCT, SVM, SPL) is used consistently; prose is unambiguous."
+      }
+    ],
+    "summary": "This is a section-index (hub) page routing developers to the seven SVM-specific Cross-Chain Token subpages. Its strength is clean, consistent navigation with a coherent link list; its biggest weakness is the absence of a self-contained, liftable definition of \"Cross-Chain Token Standard on SVM\" — the page opens with a process NOTE and a single vague sentence, so an engine has nothing quotable to synthesize. As a hub it is functional, but it currently competes poorly for retrieval on any conceptual or \"what is\" query and carries no structured metadata to establish trust.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical answer-first definition lead",
+        "mapsTo": "answer-first extractability, quotable canonical definitions",
+        "tier": null,
+        "where": "First line under the H1, before the NOTE block.",
+        "issue": "\"This section provides detailed guidance for integrating tokens…\" — describes the section, defines nothing.",
+        "change": "Open with a self-contained sentence, e.g. \"The Chainlink CCIP Cross-Chain Token (CCT) standard on SVM lets SPL token developers enable their tokens for cross-chain transfer across Solana and other SVM-based chains using token pool programs.\" Then keep the NOTE below it.",
+        "why": "Gives engines a verbatim-liftable definition; defends against parametric priors that would otherwise generalize from EVM CCT docs."
+      },
+      {
+        "priority": 2,
+        "title": "Add structured metadata (JSON-LD + canonical + dates)",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no machine-readable dateModified (measured facts).",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `inLanguage`, and a canonical URL matching the served page.",
+        "why": "Structured freshness and canonical signals raise agent trust (E-E-A-T) and disambiguate this SVM page from its EVM counterpart."
+      },
+      {
+        "priority": 2,
+        "title": "Group links under symptom/intent-phrased subheadings",
+        "mapsTo": "query/intent coverage, structural scannability",
+        "tier": null,
+        "where": "The 7-item link list.",
+        "issue": "Flat list keyed to page titles, not user questions.",
+        "change": "Add short H2/H3 framing such as \"How do I decide my integration path?\" (→ Integration Guide) and \"What are the SPL token requirements?\" (→ Tokens), keeping the existing links as answers.",
+        "why": "Devs and agents query by task/symptom; question-phrased headings win retrieval that title-cased prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Add a few concrete SVM specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Intro paragraph.",
+        "issue": "3 numerals, 0 units, no networks named beyond \"like Solana.\"",
+        "change": "Name the supported SVM networks explicitly and the token pool program types (e.g. BurnMint, LockRelease) with counts where stable.",
+        "why": "Quantitative and named-entity specifics are among the highest-lift retrieval signals."
+      },
+      {
+        "priority": 3,
+        "title": "Add one primary-source reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "First mention of SPL / SVM.",
+        "issue": "0 links to primary sources.",
+        "change": "Inline-link \"SPL tokens\" to the Solana SPL token documentation and \"SVM\" to a canonical Solana VM reference.",
+        "why": "Authoritative outbound links raise citation credibility and aid entity resolution."
+      }
+    ],
+    "antiPatterns": [
+      "Lead content is a process/administrative NOTE ahead of any conceptual answer — pushes the quotable substance down.",
+      "Undated in machine-readable form: \"Last Updated: 2025-05-19\" is body text only, invisible to parsers.",
+      "No keyword stuffing, no marketing fluff, no broken cross-references — clean on those axes."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure this SVM hub and its 7 children are listed there.",
+      "Canonical/JSON-LD emission is likely a site-template concern; fix once at the docs framework level rather than per page.",
+      "The CLI should pass raw `<head>` so metadata presence can be verified rather than inferred as absent."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

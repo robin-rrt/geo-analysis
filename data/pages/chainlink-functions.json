@@ -1,0 +1,1174 @@
+{
+  "key": "chainlink-functions",
+  "runId": "2026-09-21T11-28-14-728Z-4f83",
+  "audit": {
+    "title": "Chainlink Functions",
+    "url": "https://docs.chain.link/chainlink-functions",
+    "analyzedAt": "2026-09-21T11:29:15.747Z",
+    "contentType": "developer documentation / product overview (landing page)",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 61.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": null
+      }
+    ],
+    "summary": "This is the Chainlink Functions overview/landing page — a concise, well-written conceptual entry point with a strong opening definition and clean `TechArticle`/`BreadcrumbList` schema. Its single biggest GEO strength is a self-contained, verbatim-liftable opening definition; its single biggest opportunity is the near-total absence of concrete specifics (0 numerals across 465 words — no node counts, no cost figures, no network counts, no limits), which is the highest-lift content gap for generative retrieval. Honest verdict: a solid, extractable overview that will be cited for \"what is Chainlink Functions,\" but its qualitative-only prose and lack of quantitative anchors leave citation share on the table for the many how-much/how-many queries this page should own.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add concrete quantitative anchors to the overview",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Opening paragraphs / a new \"Key facts\" bullet block after the intro.",
+        "issue": "\"each node in the DON executes the code\" — no numbers anywhere (0 numerals in 465 words).",
+        "change": "State specifics: how many DON nodes execute, the aggregation/consensus threshold, request execution timeout, max source-code/response size, LINK billing basis, and the count of supported networks (e.g. \"supported on N mainnet and M testnet networks\").",
+        "why": "Quantitative claims are among the highest-lift changes for generative citation; this page currently answers zero how-much/how-many queries."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom- and question-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New H2s below \"When to use Chainlink Functions.\"",
+        "issue": "Only concept-titled sections; no \"how do I…\" or cost/limit questions.",
+        "change": "Add sections such as \"How much does a Chainlink Functions request cost?\", \"How many nodes execute my request?\", and \"What data sources can Chainlink Functions access?\" — each opening with a one-sentence answer.",
+        "why": "Devs/agents query by question and symptom; question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Cite primary/authoritative sources for technical claims",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"threshold encryption … multi-party decryption process\" paragraph.",
+        "issue": "0 links to primary sources; cryptographic claims are unattributed.",
+        "change": "Link \"threshold encryption\" and the DON consensus claim to the architecture spec or a canonical primary reference; keep the internal concept link too.",
+        "why": "Inline authoritative references raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Convert \"Supported networks\" from a pointer into extractable content",
+        "mapsTo": "structural scannability; specifics",
+        "tier": null,
+        "where": "`## Supported networks`.",
+        "issue": "\"See the Supported Networks page to find a list…\" — nothing liftable on-page.",
+        "change": "Inline a short table or bullet list naming the primary supported chains (with mainnet/testnet), then link out for the full list.",
+        "why": "A network-name table is a high-value extraction target for \"which chains support Chainlink Functions\" queries."
+      },
+      {
+        "priority": 3,
+        "title": "Add one minimal, complete request example",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "After the intro or under a new \"Minimal example\" H2.",
+        "issue": "0 fenced code blocks on the product's landing page.",
+        "change": "Include a short, language-tagged Solidity or JS snippet showing a source-code request → fulfillment, with imports; label network.",
+        "why": "Complete, copy-pasteable snippets are what coding agents extract; even one anchors the page for task-completion queries."
+      },
+      {
+        "priority": 3,
+        "title": "Make freshness a real signal",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD dates / visible page footer.",
+        "issue": "`datePublished` and `dateModified` are identical (never revised or generator-stamped).",
+        "change": "Emit a true last-reviewed date and surface a visible \"Last updated\" line.",
+        "why": "Distinct, visible freshness signals support E-E-A-T and trust for agents parsing the page."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"several\" and \"most\" used in place of counts (e.g. \"several community examples\").",
+      "Auto-generated `about` schema values (\"Content about chainlink\" / \"Content about functions\") — placeholder-quality metadata.",
+      "Stale-signal risk: identical publish/modify timestamps.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean on those fronts."
+    ],
+    "offPageNotes": [
+      "Site-level `llms.txt` and sitemap coverage not assessable from this page; confirm the Functions section is enumerated.",
+      "Third-party citation (e.g. useChainlinkFunctions.com) is earned/off-page; not scored here.",
+      "CLI should pass raw `<head>` (provided here) — metadata was fully verifiable; the auto-template `about` values are a site-generator fix, not page-authored."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/chainlink-functions",
+      "source_title": "Chainlink Functions",
+      "probe_set_id": "f66a44ecf23f",
+      "model_tested": "claude-opus-4-8",
+      "mode": "closed",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "0bbc797e0e35",
+      "run_at": "2026-09-18T15:12:54.495Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 70.7,
+      "retrieval_hit_rate": null,
+      "retrieval_hit_rate_effective": null,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 6,
+        "hallucination_free": 6.3,
+        "relevance": 7.2,
+        "structure": 8.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 215,
+          "output_tokens": 6369,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9091,
+          "output_tokens": 15234,
+          "cache_creation_input_tokens": 1177,
+          "cache_read_input_tokens": 17813,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://functions.chain.link",
+              "https://api.coingecko.com/api/v3/simple/price?ids=${coinId",
+              "https://api.example.com/data",
+              "https://docs.chain.link/chainlink-functions/supported-networks",
+              "https://docs.chain.link/chainlink-functions",
+              "https://github.com/smartcontractkit/functions-toolkit"
+            ],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 8,
+            "structure": 9
+          },
+          "fidelity": 78,
+          "hallucinations": [
+            {
+              "claim": "Router | `0xb83E47C2bC239B3bf370bc41e1459A34b41238D0`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "DON ID | `fun-ethereum-sepolia-1`",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "npm install @chainlink/functions-toolkit @chainlink/contracts",
+            "import {FunctionsClient} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol\"",
+            "req.initializeRequestForInlineJavaScript(source)",
+            "Functions.makeHttpRequest and Functions.encodeUint256 JS API",
+            "Gateway-hosted vs self-hosted secrets details",
+            "Router address, DON ID, and gas limit specifics for Sepolia",
+            "fulfillRequest callback signature and behavior"
+          ],
+          "verdict": "The answer captures the source's core concepts (DON execution, aggregation, LINK-funded subscriptions) correctly, but layers on extensive code, addresses, and API specifics not present in or verifiable from this overview page, some of which (exact router/DON ID values) could be outdated or wrong and should be double-checked before shipping.",
+          "prompt": "How do I use Chainlink Functions to fetch data from an external API in my smart contract?",
+          "archetype": "direct-howto",
+          "answer": "# Using Chainlink Functions to Fetch External API Data\n\nChainlink Functions lets your smart contracts execute custom JavaScript code off-chain and bring the results on-chain. Here's how to set it up.\n\n## Prerequisites\n\n1. **Install dependencies:**\n```bash\nnpm install @chainlink/functions-toolkit @chainlink/contracts\n```\n\n2. **Create a subscription** at [functions.chain.link](https://functions.chain.link) and fund it with LINK tokens.\n\n## Step 1: Write Your Consumer Contract\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {FunctionsClient} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol\";\nimport {FunctionsRequest} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol\";\n\ncontract APIConsumer is FunctionsClient {\n    using FunctionsRequest for FunctionsRequest.Request;\n\n    bytes32 public lastRequestId;\n    bytes public lastResponse;\n    bytes public lastError;\n\n    // Router address depends on network (see Chainlink docs)\n    constructor(address router) FunctionsClient(router) {}\n\n    function sendRequest(\n        string memory source,      // JavaScript source code\n        string[] memory args,      // Arguments passed to JS\n        uint64 subscriptionId,\n        uint32 gasLimit,\n        bytes32 donID\n    ) external returns (bytes32 requestId) {\n        FunctionsRequest.Request memory req;\n        req.initializeRequestForInlineJavaScript(source);\n        \n        if (args.length > 0) {\n            req.setArgs(args);\n        }\n\n        lastRequestId = _sendRequest(\n            req.encodeCBOR(),\n            subscriptionId,\n            gasLimit,\n            donID\n        );\n        return lastRequestId;\n    }\n\n    // Callback function invoked by the DON with results\n    function fulfillRequest(\n        bytes32 requestId,\n        bytes memory response,\n        bytes memory err\n    ) internal override {\n        lastResponse = response;\n        lastError = err;\n        // Process your data here\n    }\n}\n```\n\n## Step 2: Write the JavaScript Source Code\n\nThis runs off-chain on the Chainlink DON (Decentralized Oracle Network):\n\n```javascript\n// Example: fetch a crypto price\nconst coinId = args[0]; // e.g., \"bitcoin\"\n\nconst apiResponse = await Functions.makeHttpRequest({\n    url: `https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`\n});\n\nif (apiResponse.error) {\n    throw Error(\"API request failed\");\n}\n\nconst price = apiResponse.data[coinId].usd;\n\n// Return value must be encoded as bytes\nreturn Functions.encodeUint256(Math.round(price * 100));\n```\n\n## Step 3: Handling API Keys (Secrets)\n\nFor APIs requiring authentication, use **encrypted secrets**:\n\n```javascript\n// Access secrets in your JS code\nconst apiKey = secrets.apiKey;\n\nconst apiResponse = await Functions.makeHttpRequest({\n    url: \"https://api.example.com/data\",\n    headers: { \"Authorization\": `Bearer ${apiKey}` }\n});\n```\n\nSecrets are encrypted and can be hosted via:\n- **Gateway-hosted secrets** (uploaded to DON)\n- **Self-hosted secrets** (via URL reference)\n\n## Step 4: Deploy and Configure\n\n1. Deploy your contract with the correct **Router address** for your network.\n2. Add your contract as a **consumer** to your subscription.\n3. Get your network's **DON ID** and **gas limit** from the [docs](https://docs.chain.link/chainlink-functions/supported-networks).\n\n## Key Network Parameters (Example: Sepolia)\n\n| Parameter | Value |\n|-----------|-------|\n| Router | `0xb83E47C2bC239B3bf370bc41e1459A34b41238D0` |\n| DON ID | `fun-ethereum-sepolia-1` |\n| Callback gas limit | Up to 300,000 |\n\n*(Always verify current values in official docs.)*\n\n## Important Considerations\n\n- **Decoding responses:** Match your encoding/decoding types (`encodeUint256`, `encodeString`, etc.).\n- **Asynchronous flow:** The response arrives in a separate transaction via `fulfillRequest`, not immediately.\n- **Costs:** You pay in LINK for computation + gas for the callback.\n- **Result aggregation:** Multiple DON nodes execute your code and agree on results for reliability.\n\n## Helpful Resources\n\n- [Official Chainlink Functions Docs](https://docs.chain.link/chainlink-functions)\n- [Functions Toolkit (for local simulation/testing)](https://github.com/smartcontractkit/functions-toolkit)\n\nWould you like me to walk through a **complete working example** (e.g., fetching weather data) or help with the **off-chain simulation setup** for testing before deployment?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34,
+              "output_tokens": 1761,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2341,
+              "output_tokens": 3615,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://api.example.com/data",
+              "https://docs.chain.link/chainlink-functions"
+            ],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 9
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "const { SecretsManager } = require(\"@chainlink/functions-toolkit\");",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "await secretsManager.uploadEncryptedSecretsToDON({ ... slotId: 0, minutesUntilExpiration: 4320 })",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "secretsLocation: Location.DONHosted, // or Location.Remote for Gist",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "return Functions.encodeString(apiResponse.data.result);",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Chainlink Functions lets you include secret values encrypted using threshold encryption",
+            "Secrets can only be decrypted via a multi-party decryption process involving participation from other DON nodes",
+            "This enables providing API keys or sensitive values to your source code for authenticated APIs"
+          ],
+          "unverifiable_from_source": [
+            "SecretsManager class and its methods (encryptSecrets, encryptSecretsUrls, uploadEncryptedSecretsToDON)",
+            "gatewayUrls, slotId, minutesUntilExpiration parameters",
+            "Functions.makeHttpRequest and Functions.encodeString API calls",
+            "@chainlink/functions-toolkit and @chainlink/env-enc packages",
+            "Location.DONHosted / Location.Remote enum values"
+          ],
+          "verdict": "The answer is well-structured and practically useful but never states the core security mechanism from the source (threshold encryption, multi-party DON decryption) and instead relies heavily on specific SDK functions, classes, and parameters not present in or verifiable from the given source page, so it should not be shipped as a faithful representation of this documentation without independent verification.",
+          "prompt": "How can I pass a secret API key to my Chainlink Functions request securely?",
+          "archetype": "direct-howto",
+          "answer": "# Passing Secrets to Chainlink Functions Securely\n\nChainlink Functions provides several methods for handling secrets like API keys securely. Here are the main approaches:\n\n## Method 1: Encrypted Secrets (Recommended)\n\nChainlink Functions supports **encrypted secrets** that are never exposed on-chain.\n\n### Option A: Gist-Hosted Encrypted Secrets\n\n```javascript\nconst { SecretsManager } = require(\"@chainlink/functions-toolkit\");\n\n// Initialize the secrets manager\nconst secretsManager = new SecretsManager({\n  signer,\n  functionsRouterAddress: routerAddress,\n  donId: donId,\n});\nawait secretsManager.initialize();\n\n// Encrypt your secrets\nconst secrets = { apiKey: process.env.API_KEY };\nconst encryptedSecretsObj = await secretsManager.encryptSecrets(secrets);\n\n// Upload to Gist and encrypt the URL\nconst encryptedSecretsUrls = await secretsManager.encryptSecretsUrls([\n  gistUrl,\n]);\n```\n\n### Option B: DON-Hosted Secrets (Most Secure)\n\nSecrets are uploaded directly to the Decentralized Oracle Network nodes.\n\n```javascript\n// Encrypt and upload secrets to the DON\nconst encryptedSecretsObj = await secretsManager.encryptSecrets(secrets);\n\nconst { version } = await secretsManager.uploadEncryptedSecretsToDON({\n  encryptedSecretsHexstring: encryptedSecretsObj.encryptedSecrets,\n  gatewayUrls: gatewayUrls,\n  slotId: 0,\n  minutesUntilExpiration: 4320, // Max 72 hours (or 5 min on testnets)\n});\n```\n\n## Accessing Secrets in Your Function Code\n\nIn your JavaScript source code that runs on the DON:\n\n```javascript\n// Access the secret via the secrets object\nconst apiKey = secrets.apiKey;\n\nconst apiResponse = await Functions.makeHttpRequest({\n  url: \"https://api.example.com/data\",\n  headers: {\n    \"Authorization\": `Bearer ${apiKey}`,\n  },\n});\n\nif (apiResponse.error) {\n  throw Error(\"Request failed\");\n}\n\nreturn Functions.encodeString(apiResponse.data.result);\n```\n\n## Passing Secrets in Your Request\n\nWhen sending the request from your consumer contract setup:\n\n```javascript\nconst request = {\n  source: sourceCode,\n  codeLocation: Location.Inline,\n  secretsLocation: Location.DONHosted, // or Location.Remote for Gist\n  secrets: encryptedSecretsReference,\n  args: [arg1, arg2],\n};\n```\n\n## Key Security Best Practices\n\n| Practice | Description |\n|----------|-------------|\n| **Never hardcode** | Don't put API keys directly in source code |\n| **Use environment variables** | Load secrets from `.env` files locally |\n| **Prefer DON-hosted** | More secure than Gist-hosted options |\n| **Set expiration** | Secrets expire automatically for safety |\n| **Rotate keys** | Regularly update your API keys |\n\n## Environment Setup\n\n```bash\n# .env file (never commit this!)\nAPI_KEY=your_secret_key_here\nPRIVATE_KEY=your_wallet_private_key\n```\n\n```javascript\nrequire(\"@chainlink/env-enc\").config();\n// or\nrequire(\"dotenv\").config();\n```\n\n⚠️ **Important:** Add `.env` to your `.gitignore` file to prevent accidentally committing secrets.\n\n## Additional Resources\n\n- [Chainlink Functions Secrets Documentation](https://docs.chain.link/chainlink-functions)\n- Use `@chainlink/env-enc` for encrypting your local environment variables\n\nWould you like me to elaborate on any specific method, such as the complete setup for DON-hosted secrets or the consumer contract integration?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 30,
+              "output_tokens": 1327,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1754,
+              "output_tokens": 3567,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://functions.chain.link",
+              "https://docs.chain.link/chainlink-functions"
+            ],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 8,
+            "relevance": 9,
+            "structure": 9
+          },
+          "fidelity": 85,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Add consumer contracts step as part of subscription setup",
+            "Cost breakdown into Gas costs, DON fee, and Premium fee",
+            "Reserved/blocked funds mechanic tied to callbackGasLimit",
+            "Functions Toolkit / programmatic subscription management",
+            "Functions Subscription Manager UI details at functions.chain.link"
+          ],
+          "verdict": "The core billing facts (fund a LINK subscription, billing occurs on DON fulfillment) match the source and are correctly ordered, but the answer adds several specific mechanics (fee breakdown, gas reservation, callbackGasLimit) that, while plausible and not contradicting the source, are not verifiable from this particular page.",
+          "prompt": "Chainlink Functions billing — how do I pay for requests?",
+          "archetype": "terse/keyword",
+          "answer": "# Chainlink Functions Billing\n\nChainlink Functions uses a **subscription-based** billing model paid in **LINK tokens**.\n\n## How It Works\n\n1. **Create a subscription** — You fund a subscription account with LINK\n2. **Add consumer contracts** — Authorize your smart contracts to use that subscription\n3. **Requests draw from the balance** — Each request deducts costs from your funded subscription\n\n## Setting Up\n\nYou can manage subscriptions through:\n- **Functions Subscription Manager UI** at [functions.chain.link](https://functions.chain.link)\n- **Programmatically** via the Functions Toolkit / contracts\n\nBasic steps:\n```\n1. Connect wallet on a supported network\n2. Create subscription (small LINK approval required)\n3. Fund it with LINK\n4. Add your consumer contract address\n```\n\n## What You Pay For\n\nEach request cost includes several components:\n\n| Component | Description |\n|-----------|-------------|\n| **Gas costs** | Callback gas to fulfill the request on-chain (reimbursed to the node) |\n| **DON fee** | Payment to the Decentralized Oracle Network for computation |\n| **Premium fee** | Platform fee for the service |\n\n## Important: Cost Estimation & Reserved Funds\n\n- When a request is made, funds are **temporarily blocked/reserved** based on the `callbackGasLimit` and current gas prices to guarantee payment.\n- After fulfillment, the **actual cost** is deducted and the remainder is released back to your subscription balance.\n- Make sure your subscription has enough LINK to cover the reserved amount, or the request will fail.\n\n## Tips\n\n- Keep a **buffer of LINK** in your subscription to avoid failed requests during gas spikes.\n- Set a reasonable `callbackGasLimit` — too high blocks excess funds unnecessarily.\n- Monitor balances via the Subscription Manager.\n\n---\n\nFor exact current fees and supported networks, check the official docs:\n👉 [docs.chain.link/chainlink-functions](https://docs.chain.link/chainlink-functions)\n\nWant help with the code to create/fund a subscription or make a request?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 26,
+              "output_tokens": 718,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1078,
+              "output_tokens": 1479,
+              "cache_creation_input_tokens": 1177,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/chainlink-functions"
+            ],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 7,
+            "relevance": 7,
+            "structure": 9
+          },
+          "fidelity": 73,
+          "hallucinations": [
+            {
+              "claim": "OpenWeatherMap, WeatherAPI, Tomorrow.io, NOAA, etc.",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Consider Chainlink Automation alongside Functions to trigger checks on a schedule",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "It can connect to password-protected data sources and Web2 systems like AWS S3, Firebase, or Google Cloud Storage",
+            "It can transform data before consumption and connect to decentralized databases like IPFS"
+          ],
+          "unverifiable_from_source": [
+            "OpenWeatherMap, WeatherAPI, Tomorrow.io, NOAA as specific weather API examples",
+            "Chainlink Automation alongside Functions for scheduled checks",
+            "Start on a testnet like Sepolia",
+            "Limits on execution time and response size"
+          ],
+          "verdict": "The answer accurately explains the request/response and subscription model and is well structured, but it omits key connectivity examples from the source (AWS S3, Firebase, Google Cloud Storage, IPFS, password-protected sources) and introduces unverified specifics like named weather APIs and Chainlink Automation, making it only partially faithful to the source.",
+          "prompt": "I'm new to this. I want my smart contract to get weather data for an insurance app — can Chainlink Functions help and what kinds of things can it connect to?",
+          "archetype": "verbose/beginner",
+          "answer": "# Chainlink Functions for Weather Data\n\nGreat use case! Weather-based insurance (often called \"parametric insurance\") is one of the most popular applications for this kind of technology. Let me break it down.\n\n## Can Chainlink Functions Help?\n\n**Yes.** Chainlink Functions is specifically designed to let smart contracts fetch data from external APIs and run custom computation off-chain. This is exactly what you'd need, since:\n\n- Smart contracts **can't** natively call the internet (they're deterministic and isolated)\n- Weather data lives in traditional Web2 APIs\n- Chainlink Functions bridges this gap securely\n\n## How It Works (Simplified)\n\n1. Your smart contract sends a **request** to Chainlink Functions\n2. A **decentralized network of nodes** each fetches the data and runs your JavaScript code\n3. The nodes reach **consensus** on the result\n4. The verified result is returned **on-chain** to your contract\n\nThat consensus step is important — it means you're not trusting a single node or a single data source.\n\n## What Can It Connect To?\n\nChainlink Functions can connect to virtually **any public or authenticated HTTP API**, including:\n\n- **Weather APIs** — OpenWeatherMap, WeatherAPI, Tomorrow.io, NOAA, etc.\n- **APIs requiring API keys** (secrets are handled securely, not exposed on-chain)\n- Multiple APIs in one request (useful for **cross-checking sources**)\n\nYou can also run **custom JavaScript** to process the data — averaging multiple sources, converting units, or applying thresholds before returning a result.\n\n## Practical Tips for Insurance Apps\n\n- **Use multiple data sources** and aggregate them — relying on one weather API is a single point of failure, which is risky for insurance payouts\n- **Store your API keys as encrypted secrets**, not in plain code\n- Consider **Chainlink Automation** alongside Functions to trigger checks on a schedule (e.g., \"check rainfall daily\")\n- Be mindful of **API terms of service** — some prohibit redistribution of data\n\n## A Few Things to Know as a Beginner\n\n- Functions runs on testnets and mainnets — **start on a testnet** (like Sepolia)\n- You'll need **LINK tokens** to pay for requests\n- There are **limits** on execution time and response size, so keep computation lean\n\n## Where to Start\n\nThe official [Chainlink Functions documentation](https://docs.chain.link/chainlink-functions) has starter templates and tutorials — including examples that call weather-style APIs.\n\n---\n\nWould you like a simple example of what the request code might look like, or an explanation of how parametric insurance logic (like automatic payouts) would connect to this?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 55,
+              "output_tokens": 897,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1376,
+              "output_tokens": 2267,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/chainlink-functions",
+              "https://functions.chain.link",
+              "https://www.npmjs.com/package/@chainlink/functions-toolkit",
+              "https://functions.chain.link/playground",
+              "https://github.com/smartcontractkit/functions-hardhat-starter-kit"
+            ],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 7,
+            "structure": 8
+          },
+          "fidelity": 55,
+          "hallucinations": [
+            {
+              "claim": "The `@chainlink/functions-toolkit` npm package includes a `simulateScript` function",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "The Functions Hardhat Starter Kit provides Ready-made scripts for local simulation",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Create a Functions subscription via the [Functions UI](https://functions.chain.link)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Basic JavaScript and Solidity prerequisite knowledge requirements",
+            "Use of Hardhat or Foundry dev frameworks",
+            "Deploying to Sepolia or Polygon Amoy testnets",
+            "Existence of a 'Functions UI' separate from the Playground"
+          ],
+          "verdict": "The answer correctly points to the Getting Started guide, Tutorials, and Playground but fabricates a toolkit/simulateScript function and a Hardhat starter kit not mentioned in the source, making it risky to ship as-is without further verification.",
+          "prompt": "Where do I start with Chainlink Functions and where can I test my code before deploying?",
+          "archetype": "direct-howto",
+          "answer": "# Getting Started with Chainlink Functions\n\n## Where to Start\n\n**1. Official Documentation**\nThe best starting point is the [Chainlink Functions docs](https://docs.chain.link/chainlink-functions). Work through:\n- The **conceptual overview** to understand how Functions work\n- The **Getting Started** tutorial\n- The **tutorials section** for practical examples (API calls, computation, etc.)\n\n**2. Prerequisites to Have Ready**\n- Basic **JavaScript** knowledge (your Functions source code runs in a JS environment)\n- **Solidity** basics (for the consumer contract)\n- A wallet with **testnet funds** (LINK and native gas tokens)\n- Familiarity with a dev framework like **Hardhat** or **Foundry**\n\n**3. Set Up a Subscription**\n- Create a Functions subscription via the [Functions UI](https://functions.chain.link)\n- Fund it with LINK\n- Add your consumer contract as an authorized consumer\n\n---\n\n## Where to Test Your Code\n\n**1. Local Simulation (recommended first step)**\nUse the **Chainlink Functions Toolkit** to simulate execution locally before spending any gas:\n- The [`@chainlink/functions-toolkit`](https://www.npmjs.com/package/@chainlink/functions-toolkit) npm package includes a `simulateScript` function\n- This runs your JavaScript in a local sandbox mimicking the DON environment\n- Great for iterating quickly on your source code logic\n\n**2. Functions Playground**\nThe [Chainlink Functions Playground](https://functions.chain.link/playground) lets you:\n- Test JavaScript code directly in the browser\n- Pass arguments and secrets\n- See the output without any setup — perfect for quick experiments\n\n**3. Starter Kit / Hardhat Examples**\nThe [Functions Hardhat Starter Kit](https://github.com/smartcontractkit/functions-hardhat-starter-kit) provides:\n- Ready-made scripts for local simulation\n- End-to-end request examples\n- A structure you can adapt for your own project\n\n**4. Testnet Deployment**\nOnce local sims pass, deploy to a supported testnet (e.g., **Sepolia**, **Polygon Amoy**) to test the full on-chain round trip before mainnet.\n\n---\n\n## Suggested Workflow\n\n1. Prototype JS logic in the **Playground**\n2. Move to **local simulation** with the toolkit for automated/repeatable tests\n3. Deploy consumer contract + test on **testnet**\n4. Verify results, then go to **mainnet**\n\n---\n\nWould you like a walkthrough of setting up local simulation, or a sample consumer contract to get started?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32,
+              "output_tokens": 902,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1416,
+              "output_tokens": 2681,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 8,
+            "relevance": 7,
+            "structure": 8
+          },
+          "fidelity": 75,
+          "hallucinations": [
+            {
+              "claim": "Your compute needs fit within the limits — execution time, memory, and code size constraints apply",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "You want to become a node operator and potentially earn fees serving others",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Cost model | Pay per request",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "A minority of the network cannot manipulate the response sent back to your contract"
+          ],
+          "unverifiable_from_source": [
+            "Execution time, memory, and code size constraints for Chainlink Functions",
+            "Becoming a node operator to earn fees serving others",
+            "Pay-per-request cost model framing vs subscription funding described in source"
+          ],
+          "verdict": "The answer gives a reasonable, well-structured comparison that aligns with the source's overall recommendation to prefer Chainlink Functions, but it omits the key source claim about consensus preventing a minority of nodes from manipulating results and introduces some unverified specifics (limits, node-operator fees), so it's mostly safe but not fully faithful to the source.",
+          "prompt": "Should I use Chainlink Functions or run my own Chainlink node to do custom offchain computation?",
+          "archetype": "comparison",
+          "answer": "# Chainlink Functions vs. Running Your Own Node\n\nThe right choice depends on your specific needs. Here's a breakdown to help you decide.\n\n## Use Chainlink Functions if...\n\n- **You want minimal infrastructure overhead** — no servers to maintain, monitor, or secure\n- **You're doing serverless-style computation** — fetching from APIs, running JavaScript, aggregating data\n- **You want faster time-to-market** — significantly less setup than running a node\n- **Your compute needs fit within the limits** — execution time, memory, and code size constraints apply\n- **You want decentralized execution out of the box** — computation runs across a DON (Decentralized Oracle Network)\n\n## Run Your Own Node if...\n\n- **You need full control** over the runtime environment, dependencies, and hardware\n- **Your computation exceeds Functions' limits** — heavy compute, long-running jobs, large libraries\n- **You want to become a node operator** and potentially earn fees serving others\n- **You have specialized requirements** — custom external adapters, specific data sources, unique job specs\n- **You have the DevOps capacity** to handle uptime, security, key management, and maintenance\n\n## Key Trade-offs\n\n| Factor | Chainlink Functions | Own Node |\n|--------|--------------------|---------| \n| Setup effort | Low | High |\n| Maintenance | Managed by DON | Your responsibility |\n| Flexibility | Constrained | Very high |\n| Decentralization | Built-in (DON) | Single node unless you build redundancy |\n| Cost model | Pay per request | Infrastructure + operational costs |\n\n## My General Recommendation\n\n**Start with Chainlink Functions** unless you have a specific reason not to. Most custom offchain computation use cases fit well within it, and you avoid the substantial burden of node operations. Only move to running your own node if you hit real limitations or have operator-specific goals.\n\n---\n\nTo give you a more tailored answer, it would help to know:\n\n1. **What kind of computation** are you running? (API calls, data processing, ML inference, etc.)\n2. **How resource-intensive** is it? (execution time, memory, dependencies)\n3. **What's your team's DevOps experience?**\n4. **Is decentralization a hard requirement** for your use case?\n\nWant me to dig into any of these areas?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38,
+              "output_tokens": 764,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1126,
+              "output_tokens": 1625,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "source_url": "https://docs.chain.link/chainlink-functions",
+      "source_title": "Chainlink Functions",
+      "probe_set_id": "f66a44ecf23f",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "0bbc797e0e35",
+      "run_at": "2026-09-18T15:46:56.774Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 65.5,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 1,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 6.3,
+        "hallucination_free": 5.7,
+        "relevance": 5.5,
+        "structure": 8.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 210797,
+          "output_tokens": 13698,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 17,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 11169,
+          "output_tokens": 16718,
+          "cache_creation_input_tokens": 1177,
+          "cache_read_input_tokens": 17813,
+          "web_search_requests": 0,
+          "service_tier": "batch"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://functions.chain.link",
+              "https://api.example.com/data?symbol=${args[0",
+              "https://github.com/smartcontractkit/functions-hardhat-starter-kit"
+            ],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer references the docs.chain.link/chainlink-functions page only as plain text, not as a proper citation link."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 7,
+            "structure": 9
+          },
+          "fidelity": 78,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Specific function names like FunctionsClient, FunctionsRequest, initializeRequestForInlineJavaScript, encodeCBOR, _sendRequest, fulfillRequest",
+            "Import paths such as '@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol'",
+            "Details on Functions.makeHttpRequest, Functions.encodeUint256, setArgs, setDONHostedSecrets, addSecretsReference",
+            "Specific workflow steps (deploy, fund subscription, call sendRequest, read fulfillRequest) and gas/billing mechanics",
+            "Reference to Functions Toolkit / Hardhat starter kit for local testing"
+          ],
+          "verdict": "The answer's high-level explanation of the DON/subscription flow matches the source and is not contradicted, but the extensive code and API details go far beyond what the overview page states, so a developer should verify those specifics against the actual Chainlink Functions API docs before relying on them.",
+          "prompt": "How do I use Chainlink Functions to fetch data from an external API in my smart contract?",
+          "archetype": "direct-howto",
+          "answer": "# Using Chainlink Functions to Fetch External API Data\n\nChainlink Functions lets your smart contract execute custom JavaScript code off-chain (on a Decentralized Oracle Network) and receive the result on-chain. Here's how to set it up.\n\n## 1. Prerequisites\n\n- A **Functions subscription** created and funded with LINK at [functions.chain.link](https://functions.chain.link)\n- Your consumer contract added to that subscription\n- The router address, DON ID, and subscription ID for your target network\n\n## 2. Write Your Consumer Contract\n\nYou inherit from `FunctionsClient` and use the `FunctionsRequest` library to build and send requests.\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {FunctionsClient} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol\";\nimport {FunctionsRequest} from \"@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol\";\n\ncontract APIConsumer is FunctionsClient {\n    using FunctionsRequest for FunctionsRequest.Request;\n\n    bytes32 public s_lastRequestId;\n    bytes public s_lastResponse;\n    bytes public s_lastError;\n\n    // Router address - set per network (e.g. Sepolia)\n    constructor(address router) FunctionsClient(router) {}\n\n    // Your JavaScript source lives on-chain as a string\n    string source =\n        \"const res = await Functions.makeHttpRequest({\"\n        \"url: `https://api.example.com/data?symbol=${args[0]}`\"\n        \"});\"\n        \"if (res.error) { throw Error('Request failed'); }\"\n        \"return Functions.encodeUint256(Math.round(res.data.price * 100));\";\n\n    function sendRequest(\n        uint64 subscriptionId,\n        string[] calldata args,\n        bytes32 donID,\n        uint32 gasLimit\n    ) external returns (bytes32 requestId) {\n        FunctionsRequest.Request memory req;\n        req.initializeRequestForInlineJavaScript(source);\n\n        if (args.length > 0) {\n            req.setArgs(args);\n        }\n\n        s_lastRequestId = _sendRequest(\n            req.encodeCBOR(),\n            subscriptionId,\n            gasLimit,\n            donID\n        );\n        return s_lastRequestId;\n    }\n\n    // The DON calls this back with your result\n    function fulfillRequest(\n        bytes32 requestId,\n        bytes memory response,\n        bytes memory err\n    ) internal override {\n        require(s_lastRequestId == requestId, \"unexpected request ID\");\n        s_lastResponse = response;\n        s_lastError = err;\n    }\n}\n```\n\n## 3. Key Concepts\n\n**The JavaScript source** — This runs off-chain on every DON node. Use the injected `Functions` object:\n- `Functions.makeHttpRequest({ url, method, headers, params, data })` for API calls\n- `Functions.encodeUint256()`, `encodeInt256()`, `encodeString()` to encode your return value into `bytes`\n\n**Arguments** — `setArgs()` passes non-secret parameters to your script (accessed via the `args` array). For API keys and other secrets, use **encrypted secrets** (uploaded to the DON via `setDONHostedSecrets()` / `addSecretsReference()`, never plaintext on-chain).\n\n**Callback pattern** — Requests are asynchronous. You send a request, get a `requestId`, and the DON later invokes `fulfillRequest()`. Keep decoding logic there, and use `abi.decode()` on the `response` bytes to recover your value.\n\n**Gas & billing** — Set an appropriate `gasLimit` for the callback. Costs (DON execution + callback gas) are paid in LINK from your subscription.\n\n## 4. Typical Workflow\n\n1. Develop and test your JS locally using the [Functions Toolkit / Hardhat starter kit](https://github.com/smartcontractkit/functions-hardhat-starter-kit) with simulation before deploying.\n2. Deploy your consumer contract with the correct **router address**.\n3. Create/fund a subscription and add your contract as a consumer.\n4. Call `sendRequest()` and read the result once `fulfillRequest()` fires.\n\n## Important Considerations\n\n- **Consensus:** Each DON node runs your code independently and results are aggregated, so your API responses should be deterministic (avoid timestamps or values that change between calls).\n- **Data providers:** Respect API rate limits and terms of service — many nodes hit your endpoint simultaneously.\n- **Don't over-return data:** Encode only the minimal value you need on-chain to save gas.\n\n---\n\nSince Chainlink updates its contracts and network configs (router addresses, DON IDs, supported chains) fairly often, I'd recommend verifying the current library version and network parameters against the official docs at **docs.chain.link/chainlink-functions**. \n\nWould you like me to search for the latest network addresses/DON IDs, or show a full example including encrypted secrets for an authenticated API?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5912,
+              "output_tokens": 1854,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2268,
+              "output_tokens": 3445,
+              "cache_creation_input_tokens": 1177,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL despite discussing its content."
+          },
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 8
+          },
+          "fidelity": 48,
+          "hallucinations": [
+            {
+              "claim": "Call encryptSecrets() on your secrets object.",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "call uploadEncryptedSecretsToDON() with a slot ID and expiration",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "call encryptSecretsUrls() after hosting the encrypted file",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Create a SecretsManager instance with your signer and the router/DON ID",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "specifying a slot ID and a TTL (time-to-live / expiration)",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "set the secretsLocation (DONHosted or Remote) and reference encryptedSecretsReference",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "encrypt them using the DON's public key. Only the DON can decrypt your secrets",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Chainlink Functions lets you include secret values encrypted using threshold encryption",
+            "Secrets can only be decrypted via a multi-party decryption process involving participation from other DON nodes"
+          ],
+          "unverifiable_from_source": [
+            "DON-hosted vs user-hosted secrets distinction",
+            "Using @chainlink/functions-toolkit NPM package for encryption/upload workflow",
+            "Hosting encrypted secrets file on a private GitHub Gist",
+            "DON-hosted secrets have a maximum expiration window requiring re-upload"
+          ],
+          "verdict": "The answer is practically useful and mostly plausible but introduces many specific APIs, parameters, and workflow details not present in (and out of scope for) the cited source page, and omits the source's exact language on threshold encryption and multi-party decryption, so it should not be treated as fully faithful to this documentation page.",
+          "prompt": "How can I pass a secret API key to my Chainlink Functions request securely?",
+          "archetype": "direct-howto",
+          "answer": "I have enough information. Let me answer based on the Chainlink documentation.\n\n## Passing Secrets Securely in Chainlink Functions\n\nThe golden rule first: You should not use secrets or any sensitive information in the arguments field of a request. Chainlink Functions provides a mechanism to pass encrypted secrets to your source code without revealing them publicly. Never hardcode API keys directly into your JavaScript source code or pass them as plaintext arguments, since request data is visible on-chain.\n\nChainlink Functions gives you two main ways to handle secrets, both of which encrypt the values before they ever leave your machine.\n\n### How the encryption works\n\nWhen you use secrets, you encrypt them using the DON's public key. Only the DON can decrypt your secrets, and the decryption happens within the secure environment of the nodes. This means the plaintext value is never exposed publicly at any stage.\n\n### Option 1: DON-hosted secrets (recommended for most cases)\n\nWith this approach, you encrypt the secrets and then upload the encrypted blob directly to the DON, which stores them until they expire.\n\n- You encrypt your secrets (e.g., `{ apiKey: \"your-key\" }`) with the DON's public key.\n- You upload the encrypted secrets to the DON, specifying a **slot ID** and a **TTL (time-to-live / expiration)**.\n- Your request then references the secrets by slot ID and version rather than including them directly.\n- In your JavaScript source code, you access them via the `secrets` object, e.g. `secrets.apiKey`.\n\nThis avoids relying on any external hosting; the encrypted secrets live within the DON itself for the duration you specify.\n\n### Option 2: User-hosted (self-hosted) secrets\n\nHere you encrypt the secrets and host the encrypted file yourself at a publicly reachable URL (for example, a private GitHub Gist or your own cloud storage), then pass a reference to that location in your request.\n\n- You encrypt the secrets with the DON public key, producing an encrypted file.\n- You host that encrypted file somewhere the DON can fetch it (the URL is also encrypted when passed).\n- Because the file is encrypted with the DON's public key, only the DON can decrypt it—so even a public Gist URL doesn't leak your key.\n\nGist-based hosting is convenient for testing, while self-hosting on your own infrastructure gives you more control for production.\n\n### Typical workflow using the Functions Toolkit\n\nUsing the `@chainlink/functions-toolkit` NPM package, the general steps are:\n\n1. Create a `SecretsManager` instance with your signer and the router/DON ID.\n2. Call `encryptSecrets()` on your secrets object.\n3. For DON-hosted: call `uploadEncryptedSecretsToDON()` with a slot ID and expiration, and note the returned version.\n   For user-hosted: call `encryptSecretsUrls()` after hosting the encrypted file.\n4. In your request, set the `secretsLocation` (DONHosted or Remote) and reference `encryptedSecretsReference`.\n5. Access the value in your source code via `secrets.apiKey`.\n\n### Practical tips\n\n- **Rotate and expire:** Set a reasonable TTL on DON-hosted secrets and re-upload/rotate keys periodically. Keep in mind DON-hosted secrets have a maximum expiration window, so long-running deployments need a re-upload strategy.\n- **Keep your own keys out of source control:** Store the API key in a local `.env` file (loaded at encryption time) and never commit it.\n- **Never put secrets in `args`:** Arguments are passed in plaintext and are publicly visible.\n\nIf you tell me which environment you're working in (e.g., Hardhat starter kit, the Functions Toolkit in a Node script, or the CLI), I can give you a concrete code snippet for encrypting and uploading your API key.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 36164,
+              "output_tokens": 2332,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1672,
+              "output_tokens": 3418,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/chainlink-functions/resources/billing",
+              "https://docs.chain.link/chainlink-functions/resources/subscriptions"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites the billing and subscriptions sub-pages instead of the expected chainlink-functions overview page."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 8,
+            "relevance": 6,
+            "structure": 9
+          },
+          "fidelity": 78,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Subscription ID is a 64-bit unsigned integer",
+            "Functions Billing Registry Contract as the fund-holding contract",
+            "Billing is done in two steps (request estimate/block then receive final billing)",
+            "Gas cost and premium fee breakdown details",
+            "Overestimated gas price safety buffer, callback gas limit, gas overhead specifics",
+            "Cannot cancel a subscription with in-flight requests; funds sent to receiver address",
+            "Workflow step suggesting funding with 0.1 LINK as an example amount"
+          ],
+          "verdict": "The core billing claims (fund a subscription with LINK, billed on DON fulfillment) match the source, but the answer adds many specific mechanics not present in the given source page and cites different docs pages instead of the expected overview page, so it should be double-checked against Chainlink's actual billing docs before shipping.",
+          "prompt": "Chainlink Functions billing — how do I pay for requests?",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for current information on how Chainlink Functions billing works.Let me retry the search.The result is a JSON string. Let me parse it properly.Let me get the detailed billing content from the most relevant results.I have enough detail to answer comprehensively.\n\n## Paying for Chainlink Functions Requests\n\nChainlink Functions uses a **prepaid subscription model** funded with LINK tokens. Here's how it works:\n\n### The subscription account\nTo pay for requests, you fund a subscription account with LINK, and your subscription is billed when the DON fulfills your requests. Chainlink Functions do not require your consumer contracts to hold LINK tokens and send them to oracles when making requests. Instead, you must create a subscription account and fund it to pre-pay for your Chainlink Functions requests, so your consumer contracts don't need to hold LINK when calling Chainlink Functions.\n\nThe funds are actually held in a dedicated contract: the Subscriptions Contract (aka Functions Billing Registry Contract) is the contract that holds user funds to pay for Chainlink Functions requests.\n\nKey facts about the account:\n- A Subscription ID uniquely identifies each account — it's a 64-bit unsigned integer representing the unique identifier of the Subscription account.\n- Any account can add LINK tokens to the subscription balance, but only the owner can add approved consuming contracts or withdraw funds.\n- Requests from consumer contracts will continue to be funded until the balance runs out, so be sure to maintain sufficient funds in your Subscription balance to pay for the requests and keep your applications running.\n\n### How billing happens (two steps)\nBecause Functions follows a Request and Receive Data model, billing is done in two steps: During the request step, the cost to fulfill a request is estimated and blocked on the subscription balance by adding it to the subscription reservation. During the receive step, the exact fulfillment cost is calculated, then billed to the subscription account, and the subscription reservation is removed.\n\nSo you need to maintain a sufficient amount of LINK in your subscription balance to send requests.\n\n### What the cost consists of\nTotal costs break down into two components, both paid in LINK:\n- **Gas cost** — this cost is paid back to the transmitter oracle in LINK for fulfilling the request.\n- **Premium fees** — these fees are paid in LINK to compensate nodes for their work and for the maintenance of the FunctionsRouter contract.\n\nThe gas cost portion depends on variables like the current gas price, a deliberately overestimated gas price (a safety buffer for price fluctuations), the callback gas used, the callback gas limit, and gas overhead.\n\n### Typical workflow\n1. Create a subscription and note its Subscription ID.\n2. Fund your subscription (for instance, 0.1 LINK) and confirm the transaction.\n3. Add your consumer contract(s) to the subscription.\n4. Make requests — costs are automatically deducted from the balance as the DON fulfills them.\n\nOne caveat when winding down: You cannot cancel a subscription if there are in-flight requests (requests that still need to be fulfilled); when you do cancel, remaining funds are sent to a receiver address you specify.\n\nYou can find full details, including exact cost formulas, on Chainlink's [Functions Billing](https://docs.chain.link/chainlink-functions/resources/billing) and [Managing Subscriptions](https://docs.chain.link/chainlink-functions/resources/subscriptions) documentation pages.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 51457,
+              "output_tokens": 2197,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1524,
+              "output_tokens": 1913,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page despite covering much of its content."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 6,
+            "structure": 8
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "official Chainlink sample repo (`smartcontractkit/functions-insurance`) ... `ParametricInsurance` contract",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "pulls temperature data from three different weather APIs for New York City",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "reach consensus (using a protocol called OCR 2.0)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "real integrations exist with things like AWS Data Exchange, and providers like Shamba pull satellite/climate data from sources such as NASA, NOAA, ESA, and JAXA",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Chainlink Functions is being sunset — around June 30, 2026 ... in favor of the newer Chainlink Runtime Environment (CRE)",
+              "type": "other",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "It can connect to password-protected data sources and Web2 systems like AWS S3, Firebase, or Google Cloud Storage",
+            "It can transform data before consumption and connect to decentralized databases like IPFS"
+          ],
+          "unverifiable_from_source": [
+            "people typically pair Chainlink Functions with Chainlink Automation for scheduled triggers",
+            "the JavaScript sent can't import arbitrary external libraries"
+          ],
+          "verdict": "The answer correctly conveys the general purpose and mechanics of Chainlink Functions but pads the response with numerous specific, unverifiable-or-likely-fabricated details (a named GitHub repo, a specific contract, named third-party data providers, a protocol name, and an unconfirmed product sunset date) and omits two required source facts (IPFS, AWS S3/Firebase/Google Cloud Storage), plus it never cites the expected source page, making it risky to ship as-is without fact-checking.",
+          "prompt": "I'm new to this. I want my smart contract to get weather data for an insurance app — can Chainlink Functions help and what kinds of things can it connect to?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question — and yes, Chainlink Functions is a natural fit for a weather-based insurance app. Let me break it down in beginner-friendly terms.\n\n## The core problem it solves\n\nSmart contracts can't reach out to the internet on their own. On their own, they're \"blind\" to anything happening off-chain — including weather data. Chainlink Functions bridges that gap: it lets your smart contract fetch real-world data from APIs and run custom computation off-chain, then deliver a trusted result back on-chain.\n\n## How it actually works\n\nThe flow is fairly simple to picture:\n\n1. **Your contract sends a request** containing JavaScript source code to a **Decentralized Oracle Network (DON)** — a group of independent Chainlink nodes.\n2. **Each node runs that code** in its own serverless sandbox — so, for example, each node independently calls your weather API and gets the temperature or rainfall.\n3. **The nodes compare answers and reach consensus** (using a protocol called OCR 2.0) so no single node can feed your contract a bad number. One node then posts the agreed result back on-chain.\n\nThat decentralization is the whole point for insurance: a payout shouldn't hinge on one server that could fail or be manipulated.\n\n## Why this matters for parametric insurance\n\nYour use case is a textbook example of **parametric insurance** — insurance that pays out automatically when a measurable trigger is hit, rather than requiring a manual claims adjuster. Common examples: crop/drought coverage, flood, flight delay, and travel insurance.\n\nThere's even an official Chainlink sample repo (`smartcontractkit/functions-insurance`) that does almost exactly what you're describing: a `ParametricInsurance` contract that pulls temperature data from **three different weather APIs** for New York City and pays out clients if, say, the temperature drops below a threshold for three consecutive days. Pulling from multiple weather sources is a smart pattern — it reduces the risk of one API being wrong or down, and reduces \"basis risk\" (the gap between what the trigger measures and the actual loss).\n\n## What Chainlink Functions can connect to\n\nPretty much any standard web (HTTP) API. Some relevant capabilities:\n\n- **Any public API** — it can `GET` and `POST`, aggregate results from several sources, and transform the data before returning it on-chain. Weather providers like WorldWeatherOnline, Weatherbit, OpenWeather, etc. all work.\n- **Authenticated / paid APIs** — most good weather APIs need an API key. Functions lets you include secrets (like API keys) using **threshold encryption**, so the key is split across DON nodes and no single node can read it. This keeps your key safe while still letting the code authenticate.\n- **Enterprise data sources** — real integrations exist with things like AWS Data Exchange, and providers like Shamba pull satellite/climate data from sources such as NASA, NOAA, ESA, and JAXA for exactly this kind of insurance.\n\n## A few things worth knowing as a newcomer\n\n- **Payment:** You fund a Chainlink Functions \"subscription\" with **LINK tokens**, and you're charged when the DON processes your requests.\n- **Automation:** Functions fetches data on request. To make payouts happen *automatically* on a schedule (e.g., check the weather every day), people typically pair it with **Chainlink Automation**, which can trigger the request and settlement without manual intervention.\n- **Constraints:** The JavaScript you send can't import arbitrary external libraries, and it's meant for fetching + light computation, not heavy processing.\n- **⚠️ Important timing note:** Chainlink has announced that **Chainlink Functions is being sunset — around June 30, 2026** (testnets a bit earlier) — in favor of the newer **Chainlink Runtime Environment (CRE)**, which they say does everything Functions does and more. If you're starting a brand-new project today, it's worth reading the CRE docs and the migration guide first so you don't build on something you'll have to migrate soon.\n\n## Suggested next steps\n\n1. Look at the official `functions-insurance` sample repo and the \"Build a Parametric Insurance Smart Contract With Chainlink\" tutorial — both are weather-based and close to your goal.\n2. Try the getting-started tutorial on a testnet (Sepolia) first, using free testnet LINK.\n3. Evaluate whether to build on CRE instead of classic Functions given the sunset timeline.\n\nWould you like me to sketch out what the request logic might look like (e.g., calling a weather API and returning rainfall to your contract), or explain the parametric trigger design in more detail?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 64947,
+              "output_tokens": 3163,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1984,
+              "output_tokens": 3457,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/chainlink-functions/getting-started",
+              "https://docs.chain.link/chainlink-functions/resources/architecture",
+              "https://docs.chain.link/chainlink-functions/tutorials",
+              "https://functions.chain.link/playground"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected main Chainlink Functions overview page was not cited; the answer relied on related sub-pages instead."
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 6,
+            "structure": 9
+          },
+          "fidelity": 73,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Set up a wallet on a testnet (Sepolia) with testnet ETH and LINK",
+            "GettingStartedFunctionsConsumer.sol contract in Remix",
+            "faucets.chain.link/sepolia as the funding source",
+            "Chainlink Functions Hardhat Starter Kit and npx hardhat functions-simulate-script command",
+            "Chainlink Functions Toolkit NPM package and simulateScript function",
+            "Playground limitation to vanilla JavaScript without external module imports"
+          ],
+          "verdict": "The answer correctly covers the core path (Getting Started guide, Tutorials, Playground) matching the source, but adds many specific technical details (Sepolia setup, contract names, Hardhat/Toolkit commands) that aren't verifiable from this source page, and it never cites the main Chainlink Functions overview page that was expected, so it's mostly safe but should be double-checked against the actual sub-pages before shipping.",
+          "prompt": "Where do I start with Chainlink Functions and where can I test my code before deploying?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information on how to get started with Chainlink Functions and testing options.Let me get more detail from the key pages about getting started and testing/simulation.I have enough information to answer. Let me pull the relevant content details.I have everything I need. Here's a complete answer.\n\n## Getting Started with Chainlink Functions\n\nChainlink Functions is a serverless developer platform that lets your smart contracts run custom computation and fetch off-chain data. It eliminates the need for you to manage your own Chainlink node and provides decentralized offchain computation and consensus, ensuring that a minority of the network cannot manipulate the response sent back to your smart contract.\n\n**Start with the official docs.** The [Getting Started guide](https://docs.chain.link/chainlink-functions/getting-started) walks you through the essentials. To get started with Chainlink Functions you set up your web3 wallet and fund it with testnet tokens, and simulate a Chainlink Function on the Chainlink Functions Playground.\n\nThe typical first-project flow looks like this:\n\n1. **Set up a wallet on a testnet.** You'll test on Sepolia, so you must have an Ethereum web3 wallet with enough testnet ETH and LINK tokens. Testnet ETH is the native gas fee token on Sepolia, used to pay for gas whenever you make a transaction, while LINK tokens pay the Chainlink Functions Decentralized Oracle Network (DON) for processing your request.\n2. **Get testnet funds.** Request testnet LINK and ETH from faucets.chain.link/sepolia, then open the GettingStartedFunctionsConsumer.sol contract in Remix.\n3. **Fund a subscription.** To pay for requests, you fund a subscription account with LINK, and your subscription is billed when the DON fulfills your requests.\n\nIt's also worth reading the [architecture page](https://docs.chain.link/chainlink-functions/resources/architecture) and the [Tutorials page](https://docs.chain.link/chainlink-functions/tutorials), which show you different GET and POST requests that run on Chainlink Functions.\n\n## Where to Test Your Code Before Deploying\n\nTesting (simulating) first is strongly recommended. Before making a Chainlink Functions request from your smart contract, it is always a good practice to simulate the source code off-chain to make any adjustments or corrections.\n\nYou have a few options:\n\n**1. Chainlink Functions Playground (easiest — browser-based)**\nThe [Playground](https://functions.chain.link/playground) is the quickest way to start. Use this playground to simulate Chainlink Functions within the browser, call APIs, and execute demo requests. This sandbox environment is the best way to experiment with Chainlink Functions without deploying a smart contract to a test network. Its key features include simulating Chainlink Functions by executing custom JavaScript directly in your browser, real-time execution of source code with its provided arguments, calling APIs to test HTTP requests to external data sources, and output visualization showing both console logs and the final returned output.\n\nTo use it, enter any source code, arguments, and secrets you would like to use. Keep in mind it's a simulation: the code you run in this demo environment is a simulation only, and there may be minor differences to the real Chainlink Functions environment. For instance, you are limited to vanilla JavaScript and cannot use all the features of Chainlink Functions, such as imports of external modules.\n\n**2. Local simulation tools (for real project development)**\nFor a full development workflow, the docs list two additional options: the Chainlink Functions Hardhat Starter Kit, where you use the `npx hardhat functions-simulate-script` command to simulate your Functions JavaScript source code, and the Chainlink Functions Toolkit NPM package, which you import into your JavaScript/TypeScript project and then use the `simulateScript` function to simulate your source code.\n\n### Suggested path\n- **Just exploring?** Jump straight into the [Playground](https://functions.chain.link/playground) and try one of the built-in examples. By utilizing the Chainlink Functions Playground, you verify your code to make sure it works before you put that into your contracts.\n- **Building a real project?** Follow the [Getting Started guide](https://docs.chain.link/chainlink-functions/getting-started) on Sepolia, and use the Hardhat Starter Kit or the Functions Toolkit NPM package to simulate locally before deploying on-chain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 46401,
+              "output_tokens": 2679,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1961,
+              "output_tokens": 2392,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and the expected Chainlink Functions overview page was not retrieved or referenced."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 8
+          },
+          "fidelity": 58,
+          "hallucinations": [
+            {
+              "claim": "Execution time limits (on the order of seconds)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Memory limits",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Response size limits (returned bytes are capped)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Limited/no arbitrary npm packages — you get a sandboxed runtime",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "No persistent state between runs",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "A minority of the network cannot manipulate the response sent back to your contract"
+          ],
+          "unverifiable_from_source": [
+            "Custom logic typically goes in an External Adapter — a small web service you write",
+            "Chainlink Automation / CCIP / Data Feeds as alternative products",
+            "Cost: pay per request in LINK; no fixed infra cost"
+          ],
+          "verdict": "The answer's overall recommendation and rationale align with the source, but it fabricates specific execution/memory/response limits not present in the page and fails to cite the expected source, making it only partially safe to ship without verification.",
+          "prompt": "Should I use Chainlink Functions or run my own Chainlink node to do custom offchain computation?",
+          "archetype": "comparison",
+          "answer": "The short answer: **for the vast majority of use cases, use Chainlink Functions.** Running your own node only makes sense in narrow, specialized scenarios. Here's how to think about the decision.\n\n## Quick decision guide\n\n**Use Chainlink Functions if:**\n- You want to run custom JavaScript that fetches from APIs and/or does light computation, then returns a result onchain\n- You don't want to operate infrastructure (no servers, no node ops, no DevOps burden)\n- Your computation fits within the execution limits (see constraints below)\n- You want faster time-to-market and lower operational risk\n\n**Consider running your own node (or a custom External Adapter) if:**\n- You need heavy/long-running computation that exceeds Functions' limits\n- You have strict data-source access requirements (private credentials, licensed data feeds, on-prem systems) that you must control end-to-end\n- You want to *sell* data/computation as a node operator on the network, or participate in a specific decentralized oracle network (DON)\n- You need full control over execution environment, libraries, or persistent state\n\n## Key trade-offs\n\n### Chainlink Functions\n- **Serverless model** — you write JS, the DON executes it across multiple nodes and aggregates the result. No infrastructure to run.\n- **Decentralized by default** — computation runs across a DON, not a single point of failure.\n- **Constraints to check** (verify current numbers in the docs, they change):\n  - Execution time limits (on the order of seconds)\n  - Memory limits\n  - Limited/no arbitrary npm packages — you get a sandboxed runtime with some bundled capabilities\n  - Response size limits (returned bytes are capped)\n  - No persistent state between runs\n- **Cost**: pay per request in LINK; no fixed infra cost.\n- **Best for**: API aggregation, transformations, signing/verification logic, pulling web2 data into contracts.\n\n### Running your own Chainlink node\n- **You operate the infrastructure**: node, database, RPC connections, monitoring, key management, uptime, security patching.\n- **Custom logic typically goes in an External Adapter** — a small web service you write (any language) that the node calls. This gives you *unlimited* computation, arbitrary dependencies, persistent state, and private data access.\n- **Centralization caveat**: a single self-run node is a single point of trust/failure unless you set up redundancy or join a DON.\n- **Real operational overhead**: this is a meaningful DevOps commitment (security, availability, LINK/gas management, alerting).\n- **Best for**: proprietary data providers, heavy compute, regulated/private data pipelines, or being a professional node operator.\n\n## A middle path worth knowing\n- **External Adapters + Functions**: In many cases you can keep the heavy or credentialed work in your own backend service, and use **Functions** merely to call *your* endpoint. This gives you custom compute without operating a full node — you only run a stateless web service.\n- **Chainlink Automation / CCIP / Data Feeds**: if your \"custom computation\" is actually a common pattern (scheduled triggers, price data, cross-chain messaging), a purpose-built product may beat both options.\n\n## My recommendation\nStart with **Chainlink Functions**. Prototype your computation as JavaScript and see whether it fits the execution/memory/response limits. \n- If it fits → you're done, no infra needed.\n- If it doesn't fit but the bottleneck is just heavy compute or private data → move that logic into your **own backend/External Adapter** and still call it *from* Functions.\n- Only stand up and operate your **own node** if you have a genuine requirement for full execution control, want to be a node operator, or have data-sovereignty constraints that rule out the DON model.\n\n---\n\nA few questions that would let me give you a sharper recommendation:\n1. What does the computation actually do (data sources, rough CPU/time, any private credentials)?\n2. How often does it run, and how latency-sensitive is it?\n3. Do you have a team/appetite for running production infrastructure?\n4. What chain(s) are you deploying to?\n\nNote: Chainlink's product limits and pricing change over time — I'd confirm the current Functions execution/memory/response caps in the official docs before committing. Want me to search for the latest specs?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5916,
+              "output_tokens": 1473,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1760,
+              "output_tokens": 2093,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3165,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-28-14-728Z-4f83",
+    "probes": {
+      "closed": "2026-09-18T18-00-00-000Z-study",
+      "web": "2026-09-18T18-00-00-000Z-study"
+    }
+  }
+}

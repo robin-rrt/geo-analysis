@@ -1,0 +1,648 @@
+{
+  "key": "cre-guides-operations-simulating-workflows-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Simulating Workflows",
+    "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+    "analyzedAt": "2026-09-21T13:22:29.157Z",
+    "contentType": "developer documentation / CLI task guide",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 68.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition; most sections lead with the canonical command or fact (e.g., \"The `--listen` flag keeps the simulator alive…\"). No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 26 headings, 1 H1, max depth H3, 0 level skips, no section over 600 words. One gap: 0 tables where the interactive-vs-non-interactive and flag reference beg for one."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good; real port (`2000`), versioned trigger IDs (`http-trigger@1.0.0-alpha`), tx hashes, chain selectors, timestamps. Measured facts note 0 numerals carry units and no version strings detected in prose — specificity lives mostly in code."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak. 22 links, all internal; 0 counted external. The WebAssembly and faucets links are raw inline HTML anchors, not markdown, so they aren't parsed as citations — and no primary CLI/spec source is linked."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"Workflow simulation is a local execution environment that compiles your workflow to WebAssembly (WASM) and runs it on your machine\" is crisply liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, `inLanguage` absent, no `dateModified` in head (only \"Last Updated: 2026-06-11\" in body). No `<head>` captured — CLI should pass raw head for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; every command is complete and target-flagged, expected output shown. Minor: 7 untagged fences (the output blocks) render as plain text rather than labeled."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Developing. Good lifecycle coverage (when-to-use → usage → output → limitations → next steps) but no dedicated troubleshooting/error section; failure strings like \"simulator cannot register the EVM capability\" appear only inline."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent naming of `cre`, flags, and CRE entities. No action needed."
+      }
+    ],
+    "summary": "This is a clean, well-chunked CLI task guide for `cre workflow simulate`, with a strong opening definition, complete copy-pasteable bash examples, and realistic sample output. Its biggest GEO strength is answer-first section leads paired with runnable snippets; its biggest opportunities are (1) zero structured metadata — no JSON-LD/`TechArticle`, no canonical URL, dates only in body text — and (2) missing symptom/error-phrased troubleshooting sections that would win retrieval for how developers actually query CLI failures. Honest verdict: solid best-practice docs that leave measurable retrieval lift on the table in metadata and query coverage.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a symptom/error-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 before \"Limitations\"",
+        "issue": "failure text buried in prose: \"the simulator cannot register the EVM capability and your workflow will fail\"",
+        "change": "add `## Troubleshooting` with H3s phrased as queries: \"Simulation fails: EVM capability not registered\", \"Why is my transaction hash all zeros?\", \"Solana simulation errors without CRE_ETH_PRIVATE_KEY\", each with a one-line cause + fix. The zero-address and Solana-key facts already exist — surface them as their own retrievable units.",
+        "why": "devs/agents query by error string, not concept; heading-level matches win retrieval that body prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema + canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no `dateModified` in head",
+        "change": "emit `TechArticle` with `headline`, `dateModified: 2026-06-11` (already in body), `inLanguage: en`, and a self-referential `<link rel=\"canonical\">`.",
+        "why": "structured freshness/authority signals raise E-E-A-T and agent parse-trust; currently unverifiable to a machine."
+      },
+      {
+        "priority": 2,
+        "title": "Convert flag and mode references into scannable tables",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Interactive vs non-interactive modes\" and \"Additional flags\"",
+        "issue": "flags described in prose-plus-code only; 0 tables on page",
+        "change": "add a flag table (`Flag | Alias | Purpose | Example`) covering `--listen`, `--broadcast`, `--engine-logs`, `--target`, `--verbose`, `--non-interactive`, `--trigger-index`; and a small interactive-vs-non-interactive comparison table.",
+        "why": "tables let engines extract flag semantics as discrete, quotable rows and build justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Fix external references to be parseable, cited links",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "intro (WebAssembly) and `--broadcast` caution (faucets)",
+        "issue": "raw HTML anchors not counted as citations; 0 external/primary sources detected",
+        "change": "convert to markdown links `[WebAssembly (WASM)](https://webassembly.org)` and `[faucets.chain.link](https://faucets.chain.link)`; add a link to the canonical CLI reference for `simulate` at first mention.",
+        "why": "inline links to canonical/primary sources raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add a TL;DR canonical-command line at the top",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "immediately under the H1, before \"When to use\"",
+        "issue": "the actual command (`cre workflow simulate <name>`) first appears under \"Basic usage\"",
+        "change": "add one liftable line: \"To simulate a workflow locally, run `cre workflow simulate <workflow-name-or-path> --target <settings>`; it compiles to WASM and executes on your machine against live testnets.\"",
+        "why": "puts the canonical API in the first liftable sentence so skimmed/unretrieved answers don't invent a generic command."
+      },
+      {
+        "priority": 3,
+        "title": "Label output code fences",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "all sample-output blocks (7 untagged fences)",
+        "issue": "output blocks are untagged",
+        "change": "tag console output as ```` ```text ```` (or ```` ```console ````) to distinguish input commands from expected output.",
+        "why": "clear input/output separation helps agents parse what to run vs what to expect."
+      }
+    ],
+    "antiPatterns": [
+      "Mild vague quantifier (\"some limitations\", \"some edge cases\") — acceptable, but \"Simplified environment\" bullet could name a concrete example.",
+      "No stale-content or keyword-stuffing issues; prose is clean and undated only at the machine layer (body date present)."
+    ],
+    "offPageNotes": [
+      "Page references `/llms.txt` — good site-level signal; verify it lists this URL.",
+      "`dateModified`, canonical, and `TechArticle` schema are site-template concerns; fixing them site-wide lifts every CRE doc, not just this page.",
+      "No `<head>` was captured in this run — pass raw `<head>` to the CLI to confirm whether canonical/og/schema exist before assuming absence."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+      "source_title": "Simulating Workflows",
+      "probe_set_id": "f0816aa76221",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T14:32:02.362Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 64.6,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.2,
+        "hallucination_free": 4.7,
+        "relevance": 5.2,
+        "structure": 7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 311215,
+          "output_tokens": 14627,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 24,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9760,
+          "output_tokens": 8145,
+          "cache_creation_input_tokens": 5568,
+          "cache_read_input_tokens": 42174,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited even though the content closely follows it."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 55,
+          "hallucinations": [
+            {
+              "claim": "cre workflow simulate-limits command lets you inspect the default production limits",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "[SIMULATION] messages are system-level messages from the simulator",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "a runtime.log() call",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "deploy with cre workflow deploy",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "run cre whoami to verify you're logged in, or run cre login to authenticate",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "before deploying them to the Workflow Registry",
+            "cre workflow deploy command name",
+            "cre whoami and cre login commands"
+          ],
+          "verdict": "The answer captures the core workflow-simulation steps accurately but introduces several fabricated command names and log-tag details not present in the source, making it risky to ship without verification.",
+          "prompt": "How do I simulate a workflow locally with the CRE CLI before deploying it?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about simulating workflows locally with the CRE CLI.Let me get the details from the simulation guide and CLI reference.I have enough information to provide a comprehensive answer.\n\n## Simulating a Workflow Locally with the CRE CLI\n\nThe CRE CLI provides the `cre workflow simulate` command to test workflows locally before deploying them to the Workflow Registry. The `cre workflow simulate` command compiles your workflow and spins up a local simulation environment, letting you catch problems before going onchain.\n\n### Basic command\n\nThe simplest form points at your workflow folder and (optionally) a target configuration:\n\n```bash\ncre workflow simulate my-workflow --target staging-settings\n```\n\nThis command compiles your code to WebAssembly, uses the target configuration from workflow.yaml, and spins up a local simulation environment.\n\n### Prerequisites\n\nBefore running a simulation, make sure the following are in place:\n\n- Project configuration: You must run the command from your project root directory.\n- Valid workflow.yaml: Your workflow directory must contain a workflow.yaml file with correct paths to your workflow code, config, and secrets (optional).\n- RPC URLs configured: If your workflow interacts with blockchains, configure RPC endpoints in your project.yaml for the target you're using. Without this, the simulator cannot register the EVM capability and your workflow will fail.\n- Private key: Set CRE_ETH_PRIVATE_KEY in your .env file if your workflow performs onchain writes.\n\n### Interactive mode\n\nIf your workflow defines more than one trigger, the simulator runs interactively. In interactive mode, the simulator prompts you to select a trigger and provide necessary inputs. You'll see output similar to this, where you select a trigger by number and follow any trigger-specific prompts:\n\n```\nWorkflow compiled\n🚀 Workflow simulation ready. Please select a trigger:\n1. cron Trigger\n2. http Trigger\n3. evm LogTrigger\nEnter your choice (1-3):\n```\n\nIf your workflow defines only a single trigger, after the workflow compiles, the simulator detects the single trigger you defined in your code and immediately runs the workflow.\n\n### Non-interactive mode\n\nFor automation, you can skip the prompts. Non-interactive mode allows you to run simulations without prompts, making it ideal for CI/CD pipelines or automated testing. In this mode you select which handler to run using the `--trigger-index` flag:\n\n- Specify --trigger-index to select which handler to run (0-based position: 0 = first handler, 1 = second, etc.), and provide trigger-specific flags as needed.\n- The --trigger-index flag selects which handler in your workflow to execute. Handlers are created in your InitWorkflow function using cre.Handler(), where each handler connects a trigger to a callback function. If your workflow has only one handler, use --trigger-index 0.\n\n### Reading the output\n\nThe simulator produces two categories of log messages:\n\n- [USER LOG] is the output from your own code—for example, a runtime.log() call. This is where you look for your custom log messages.\n- [SIMULATION] messages are system-level messages from the simulator showing its internal state (initialization, trigger execution, completion).\n\n### Useful flags\n\n- **Broadcasting real transactions:** To actually broadcast transactions during simulation, use the --broadcast flag; when using --broadcast, your wallet (specified by CRE_ETH_PRIVATE_KEY in .env) must be funded.\n- **Custom limits:** The `cre workflow simulate-limits` command lets you inspect the default production limits used during cre workflow simulate and prints them as JSON to stdout, which you can use as a starting point for a custom limits file. Redirect the output to a file, edit the values you want to adjust, then pass the file to cre workflow simulate with the --limits flag.\n\n### What you can validate\n\nSimulating lets you exercise your workflow end-to-end without deploying. You can test different trigger types—manually selecting and testing how your workflow responds to cron, HTTP, or EVM log triggers—and verify onchain interactions by testing read and write operations against real testnets.\n\n### After simulating: deploying\n\nOnce you're satisfied, deploy with `cre workflow deploy`. Note that deploying requires authentication, whereas simulation does not — running the deploy command requires you to be logged in with the CRE CLI; run `cre whoami` to verify you're logged in, or run `cre login` to authenticate. In fact, the docs suggest you can continue building and simulating workflows using `cre workflow simulate` even while waiting on other steps.\n\n---\n\n**Tip:** If you're new to CRE, the best starting point is the official Getting Started guide, which walks you through setting up your first project, configuring your environment, and running your first simulation step by step.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 39989,
+              "output_tokens": 2881,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2055,
+              "output_tokens": 2853,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 7556,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre/guides/operations/simulating-workflows"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 9,
+            "structure": 8
+          },
+          "fidelity": 70,
+          "hallucinations": [
+            {
+              "claim": "The simulator requires a private key to initialize its environment, even for workflows that don't interact with the blockchain yet.",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "cre login requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set CRE_API_KEY instead.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow build is an optional step to compile to WASM independently, which is useful in CI/CD pipelines",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "you can also set CRE_TARGET",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "CRE_API_KEY environment variable for headless authentication",
+            "cre login browser requirement",
+            "CRE_TARGET environment variable",
+            "cre workflow build command for separate compilation"
+          ],
+          "verdict": "Core CI/CD non-interactive simulation steps (--non-interactive, --trigger-index, trigger-specific flags) are accurate and well-presented, but the answer adds several unverified or contradicted claims (CRE_API_KEY auth, private-key requirement generalization, a 'cre workflow build' command) not found in the source, so it should be reviewed before shipping as authoritative guidance.",
+          "prompt": "Using the CRE CLI in a CI/CD pipeline, how do I run a workflow simulation without interactive prompts?",
+          "archetype": "constrained",
+          "answer": "To run a CRE workflow simulation in a headless CI/CD environment, you need to handle two things: **authentication** (since browser login isn't available) and **suppressing the interactive prompts** that the simulator normally shows.\n\n## 1. Authenticate without a browser\n\ncre login requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set CRE_API_KEY instead. So in your pipeline, provide the `CRE_API_KEY` environment variable rather than running `cre login`.\n\n## 2. Use `--non-interactive` with the right trigger flags\n\nBy default the simulator is interactive. The cre workflow simulate command compiles your workflow and executes it locally. During trigger selection, you're prompted to select which trigger to test (cron, HTTP, or EVM log). To bypass these prompts, pass `--non-interactive` together with flags that supply what would otherwise be prompted for:\n\n- **`--trigger-index`** — selects which trigger/handler to run (required in non-interactive mode)\n- **`--http-payload`** — supplies the request body for HTTP triggers\n- **`--evm-tx-hash`** and **`--evm-event-index`** — supply the log-trigger inputs for EVM log triggers\n- **`--target`** — selects the environment/config to load (you can also set `CRE_TARGET`)\n\nAccording to the skill reference, for HTTP triggers, EVM log triggers, or multiple handlers, the CLI may also prompt for a request body, a transaction hash, or which handler to run. Pass --http-payload, --evm-tx-hash, --evm-event-index, and for full non-interactive mode --non-interactive with --trigger-index.\n\n### Example — simple cron trigger\n\n```bash\nexport CRE_API_KEY=\"your_api_key\"\ncre workflow simulate my-workflow \\\n  --non-interactive \\\n  --trigger-index 0 \\\n  --target staging-settings\n```\n\nThis matches real-world usage, e.g. cre workflow simulate hello-cron --target staging-settings --non-interactive --trigger-index 0.\n\n### Example — EVM log trigger\n\ncre workflow simulate my-workflow --non-interactive --trigger-index 1 --evm-tx-hash 0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e --evm-event-index 0 --target staging-settings\n\n## 3. Important behavioral notes\n\n- **Onchain writes are dry-run by default.** By default, cre workflow simulate performs a dry run for onchain write operations. It simulates the transaction to confirm it would succeed, but does not broadcast it to the network. This results in a successful log with an empty transaction hash (0x). To send a real transaction, use the --broadcast flag. In CI you'll usually want to leave `--broadcast` **off** so your pipeline doesn't send live transactions.\n\n- **A private key may still be required.** The simulator requires a private key to initialize its environment, even for workflows that don't interact with the blockchain yet. Set `CRE_ETH_PRIVATE_KEY` (e.g., from a CI secret) if your workflow performs onchain writes.\n\n- **Run from the project root** with a valid `workflow.yaml`, since the CLI resolves config, code, and secrets paths relative to your project configuration.\n\n## 4. Optional: split build and simulate\n\nFor pipelines, you can also compile independently. cre workflow build is an optional step to compile to WASM independently, which is useful in CI/CD pipelines, and you can inspect the default limits and pass a custom limits file via cre workflow simulate ./my-workflow --limits ./my-limits.json --target staging-settings if you want to test against production limits.\n\n**Minimal CI recipe:**\n\n```bash\nexport CRE_API_KEY=\"$CRE_API_KEY\"          # headless auth\nexport CRE_ETH_PRIVATE_KEY=\"$SEPOLIA_KEY\"  # if onchain writes are used\n\ncre workflow simulate my-workflow \\\n  --non-interactive \\\n  --trigger-index 0 \\\n  --target staging-settings\n# add --http-payload / --evm-tx-hash / --evm-event-index depending on trigger type\n# omit --broadcast to keep writes as dry-runs\n```\n\nFor the full flag list, the [CLI Workflow Commands reference](https://docs.chain.link/cre/reference/cli/workflow) and the [Simulating Workflows guide](https://docs.chain.link/cre/guides/operations/simulating-workflows) are the authoritative sources.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 44207,
+              "output_tokens": 2533,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2018,
+              "output_tokens": 2497,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 7556,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL despite closely mirroring its content."
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 6,
+            "relevance": 6,
+            "structure": 9
+          },
+          "fidelity": 70,
+          "hallucinations": [
+            {
+              "claim": "run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Because this workflow performs an onchain write, by default the simulate command performs a dry run",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "cre whoami command exists",
+            "cre login command exists",
+            "the log's position within its transaction's receipt (0-based), not the block-level log index"
+          ],
+          "verdict": "The core simulate command and flag usage are accurate and match the source, but the answer adds unverified CLI commands (cre whoami/cre login) and an unfounded assumption about the workflow performing an onchain write, and it fails to cite the source, making it mostly but not fully safe to ship as-is.",
+          "prompt": "Show me the command to simulate a workflow with an EVM log trigger in non-interactive mode",
+          "archetype": "code-first",
+          "answer": "Here's the command to simulate a workflow with an EVM log trigger in **non-interactive mode** using the CRE CLI:\n\n```bash\ncre workflow simulate my-workflow \\\n  --non-interactive \\\n  --trigger-index 1 \\\n  --evm-tx-hash 0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e \\\n  --evm-event-index 0 \\\n  --target staging-settings\n```\n\n**What each flag does:**\n\n- **`--non-interactive`** — Runs without the interactive trigger-selection menu.\n- **`--trigger-index`** — Selects which handler to run (0-based). --trigger-index is required when --non-interactive is enabled. In the example above, if your EVM log trigger handler is the second handler in your workflow, use --trigger-index 1.\n- **`--evm-tx-hash`** — The transaction hash containing the log to replay. The simulator fetches the log from your configured RPC and passes it to your callback function.\n- **`--evm-event-index`** — --evm-event-index 0 means you want the first event from that transaction. Note that this is the log's position within its transaction's receipt (0-based), not the block-level log index.\n- **`--target`** — The settings/environment target to use (e.g., `staging-settings`, `test-settings`).\n\n**Important note on dry runs:** By default, cre workflow simulate performs a dry run for onchain write operations. If your workflow performs an onchain write and you want to actually broadcast the transaction, add the `--broadcast` flag. Because this workflow performs an onchain write, by default the simulate command performs a dry run and will not broadcast the transaction without this flag.\n\nYou'll also need to be authenticated — run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate.\n\nA minimal version of the same command looks like this:\n\n```bash\ncre workflow simulate my-workflow \\\n  --target=test-settings \\\n  --non-interactive \\\n  --trigger-index=0 \\\n  --evm-tx-hash=0x... \\\n  --evm-event-index=0\n```\n\nThe value of `--trigger-index` depends on where your EVM log handler sits in your workflow's handler list.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 92130,
+              "output_tokens": 1523,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1218,
+              "output_tokens": 1496,
+              "cache_creation_input_tokens": 7556,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source URL despite accurately reproducing its content."
+          },
+          "scores": {
+            "accuracy": 10,
+            "hallucination_free": 10,
+            "relevance": 7,
+            "structure": 9
+          },
+          "fidelity": 90,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "The answer is accurate, complete, and well-structured, faithfully reflecting the source's explanation of dry-run behavior and the --broadcast flag, though it fails to cite the source URL.",
+          "prompt": "My workflow's onchain write shows a transaction hash of all zeros (0x0000...) during simulation and never actually hits the chain. What's wrong?",
+          "archetype": "error-debug",
+          "answer": "This is **expected default behavior**, not a bug. It relates to Chainlink CRE (Chainlink Runtime Environment) workflows and the `cre workflow simulate` command.\n\n## What's happening\n\nBy default, the CRE simulator does not send onchain writes to the network. By default, the simulator performs a dry run for onchain write operations. It prepares the transaction but does not broadcast it to the blockchain. Because nothing is actually broadcast, the transaction is prepared but not sent. You'll see a zero address (0x0000...) as the transaction hash.\n\nSo a log line like this is the normal \"success but not broadcast\" signal:\n\n2025-10-24T23:01:50Z [USER LOG] Write report transaction succeeded: 0x0000000000000000000000000000000000000000000000000000000000000000\n\nIn other words, it simulates the transaction to confirm it would succeed, but does not broadcast it to the network. This results in a successful log with an empty transaction hash (0x). The dry run is confirming your write *would* succeed — it just intentionally stops short of committing anything to chain.\n\n## The fix\n\nAdd the `--broadcast` flag to actually send the transaction:\n\n```bash\ncre workflow simulate my-workflow --broadcast --target staging-settings\n```\n\nTo actually broadcast transactions during simulation, use the --broadcast flag: cre workflow simulate my-workflow --broadcast --target staging-settings. Once you do, you'll get a real hash instead of zeros — for example: The transaction is actually sent to the blockchain. You'll see a real transaction hash: 0x1013abc0b6f345fad15b19a56cabbbaab2a2aa94f81eb3a709058adf18a4f23f.\n\n## Before you broadcast — fund your wallet\n\nThe most common reason `--broadcast` then fails is an unfunded signing wallet. When using --broadcast, your wallet (specified by CRE_ETH_PRIVATE_KEY in .env) must be funded with the native token of the chain you're writing to (e.g., Sepolia ETH for Ethereum Sepolia testnet). Visit faucets.chain.link to get your testnet tokens.\n\nGuidance on when to use each mode: Use --broadcast when you want to test the complete end-to-end flow, including actual onchain state changes, on a testnet.\n\n## Keep in mind about simulation\n\nEven with `--broadcast`, simulation isn't a full production run. Simulation runs on a single node (your local machine) rather than across a DON. There is no actual consensus or quorum, it is simulated.\n\n**Bottom line:** The all-zeros hash means your simulation is working correctly in dry-run mode — it validated the write without spending gas. Add `--broadcast` (with a funded wallet) to push a real transaction to the chain and get a genuine transaction hash back.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 23810,
+              "output_tokens": 1543,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1432,
+              "output_tokens": 706,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 7556,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "http://localhost"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it hit a search tool usage limit and could not confirm the port, and it did not cite the expected source page."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 5
+          },
+          "fidelity": 38,
+          "hallucinations": [
+            {
+              "claim": "TriggerInfoAndBeforeStart struct includes TriggerFunc, TriggerWithPayload func(*httptypedapi.Payload), and a ListenSupported bool",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "The `--listen` flag is specific to the **HTTP trigger**.",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "For HTTP triggers it starts a local HTTP server on port 2000",
+            "For EVM log triggers it watches the chain and re-runs on each matching log"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "Not safe to ship: it fails to state the documented port 2000, wrongly limits --listen to HTTP triggers only, and fabricates internal Go struct details not present in the source.",
+          "prompt": "cre workflow simulate --listen what does it do http port",
+          "archetype": "terse/keyword",
+          "answer": "Based on my searches, here's what I found about the `--listen` flag on `cre workflow simulate` (Chainlink CRE CLI):\n\n## What `cre workflow simulate` does\n\nThe cre workflow simulate command compiles your workflow and executes it locally. The process works in stages: Compilation — the CLI compiles your workflow to WebAssembly (WASM); and Trigger selection — you're prompted to select which trigger to test. Normally it lets you test different trigger types by manually selecting and testing how your workflow responds to cron, HTTP, or EVM log triggers, and verify onchain interactions against real testnets.\n\n## What `--listen` changes\n\nThe `--listen` flag is specific to the **HTTP trigger**. Instead of the default interactive prompt (where you manually pick a trigger and paste a payload once), `--listen` puts the simulator into a server mode: it starts a **local HTTP server** and keeps running, so you can send real HTTP requests to that endpoint to fire the workflow's HTTP trigger repeatedly (e.g., via `curl` or Postman) as if a real request came in.\n\nThis is reflected in the CLI's internal structure, which distinguishes a one-shot trigger from a listening/server-driven trigger: the TriggerInfoAndBeforeStart struct includes TriggerFunc, TriggerWithPayload func(*httptypedapi.Payload), and a ListenSupported bool — the `TriggerWithPayload` path plus `ListenSupported` is what backs the `--listen` HTTP mode.\n\n## About the HTTP port\n\nI was not able to confirm the **exact default port** from the documentation in my searches (I hit the search tool's usage limit before I could pull the HTTP-trigger page detail). So rather than guess a number, I'd recommend verifying it directly:\n\n- Run `cre workflow simulate --help` (or `cre workflow simulate --listen --help`) — the port and any `--port`/address flag will be listed there.\n- When you start `--listen`, the CLI prints the listening address/port in the console output; watch for a line like `listening on http://localhost:<port>`.\n\nIf you can paste the output of `cre workflow simulate --help`, I can tell you exactly what the flag expects and the default port.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 57574,
+              "output_tokens": 3086,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1180,
+              "output_tokens": 1151,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 7556,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.sim.ai/triggers/api",
+              "https://docs.sim.ai/execution/api"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and relied on a competitor/aggregator (Sim.ai) instead of the actual Chainlink CRE source."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 0,
+            "structure": 3
+          },
+          "fidelity": 8,
+          "hallucinations": [
+            {
+              "claim": "API Trigger block as the start of your workflow... docs.sim.ai/triggers/api",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "curl -X POST https://<your-sim-endpoint>/api/workflows/<id>/execute",
+              "type": "fabricated_function",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "HTTP triggers require a JSON payload",
+            "In interactive mode the simulator prompts for JSON (enter directly or provide a file path)",
+            "In non-interactive mode use --http-payload with a JSON string or file path (@./payload.json)",
+            "Prerequisites: CRE account and CLI login, CRE CLI installed, run from project root, valid workflow.yaml, RPC URLs in project.yaml if interacting with blockchains"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer addresses an entirely different product (Sim.ai) instead of Chainlink CRE's workflow simulator, making it unusable and unsafe to ship to a developer asking about CRE's --http-payload simulation flow.",
+          "prompt": "I'm pretty new to all this and I want to test my workflow with an HTTP trigger by sending it some JSON data. How would I go about doing that with the simulator, and what do I need set up first?",
+          "archetype": "verbose/beginner",
+          "answer": "I'd be happy to help, but \"the simulator\" and \"HTTP trigger\" workflows could refer to a few different platforms. Let me search for the most relevant documentation so I give you accurate steps.Sim.ai looks like a strong match for \"the simulator.\" Let me dig into its docs for HTTP/API triggers and testing.Let me pull the detailed content from the key Sim.ai docs pages.I couldn't pull the full page text on my last few searches (I hit a search rate limit), so let me give you the practical workflow based on what I found, and point you to the exact Sim.ai docs pages to confirm the details. If you're actually using a different platform than **Sim (sim.ai)**, let me know and I'll adjust.\n\n## What you need set up first\n\nTo test an HTTP/API trigger by sending JSON, you generally need these pieces in place:\n\n1. **An API (HTTP) Trigger block as the start of your workflow.** In Sim this is the [API Trigger](https://docs.sim.ai/triggers/api) block. It's the entry point that turns your workflow into a callable HTTP endpoint.\n\n2. **A defined Input Format (schema).** On the trigger block you declare the fields you expect in the incoming JSON (name + type, e.g. `email` as string, `count` as number). This is important because those fields become variables (like `<api.input.email>`) that the rest of your workflow references. If you don't define them, the downstream blocks won't have anything to read.\n\n3. **A deployed workflow + an API key.** The endpoint only becomes live once you deploy the workflow, and requests must be authenticated with an API key (typically sent in a header). So before real HTTP testing you'll want to deploy and grab that key.\n\n## Two ways to test\n\n**Option A — the simulator / Run button (easiest for beginners).**\nInside the workflow editor, use the **Run** action. It lets you supply sample input matching your defined Input Format and executes the workflow immediately, without you having to construct a real HTTP request or manage the API key. This is the fastest way to confirm your logic works and to see how the JSON maps into your blocks. Start here.\n\n**Option B — a real HTTP request (tests the live endpoint).**\nOnce deployed, you send an actual `POST` request to the workflow's endpoint. A typical `curl` looks like:\n\n```bash\ncurl -X POST https://<your-sim-endpoint>/api/workflows/<id>/execute \\\n  -H \"Content-Type: application/json\" \\\n  -H \"X-API-Key: YOUR_API_KEY\" \\\n  -d '{\"email\": \"test@example.com\", \"count\": 3}'\n```\n\nThe JSON body's keys should match the fields you defined in the Input Format. You can do the same thing from Postman if you prefer a GUI over the command line.\n\n## Suggested order for a first run\n\n1. Add the API Trigger, define a couple of input fields.\n2. Wire it to at least one downstream block (and optionally a Response block so you get output back).\n3. Use the **Run** button with sample JSON to confirm it works.\n4. Deploy, copy your endpoint + API key, then send a real request with `curl`/Postman.\n\nThe most relevant docs to verify the exact field names and auth header are the **[API Trigger](https://docs.sim.ai/triggers/api)** page and the **[External API / execution](https://docs.sim.ai/execution/api)** page.\n\nOne thing that'll help me tighten this up: **are you on Sim (sim.ai), or a different tool?** And do you already have a workflow built, or are you starting from scratch? That'll let me give you exact click-by-click steps.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 53505,
+              "output_tokens": 3061,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1857,
+              "output_tokens": 509,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 7556,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 55.2,
+      "unattributed_count": 1,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "key": "ccip-tutorials-evm-cross-chain-tokens-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Cross-Chain Token (CCT) Tutorials",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/cross-chain-tokens.md",
+    "analyzedAt": "2026-09-22T13:44:30.096Z",
+    "contentType": "developer documentation / tutorial index (hub page)",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Opens with process framing — \"Before diving into the tutorials, it's important first to understand the overall procedure\" — not a self-contained answer. No lead sentence defining CCT or the three-step flow crisply."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Reasonable heading set and 17 bullets, but the measured **1 level skip** (H1 jumps to H3 \"Understanding the Procedure\") breaks hierarchy, and there is **0 tables** where a mechanism-comparison table would help extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Only 6 numerals, 0 with units; the numbered 3-step procedure is the strongest concrete content. No rate-limit numbers, no supported-network counts despite linking a rate-limits tutorial."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "22 internal links, well-targeted (TokenAdminRegistry API, token-pools, ERC20 concept). Zero external/primary references — acceptable for a hub, but a link to the CCT standard/spec would raise authority."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "No crisp CCT definition; \"CCT standard\" is only linked, never stated. An engine cannot lift a one-sentence answer to \"what is a Cross-Chain Token?\" from this page."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured **0 JSON-LD blocks, canonical MISSING, no head captured**. Body carries `Last Updated: 2025-05-19` but no machine-readable dateModified. Weakest dimension."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "0 code blocks — appropriate for an index page, scored neutral, not penalized as a defect."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers lifecycle (deploy → register → configure → rate-limit → multi-network) but uses concept-titled headings, no \"how do I\" / \"vs\" / error-phrased sections, no FAQ."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent terminology (CCT, EOA, Smart Account, Burn & Mint). No action needed."
+      }
+    ],
+    "summary": "This is a well-linked navigation hub that routes developers to CCT tutorials by tooling (Remix/Hardhat/Foundry) and mechanism (Burn & Mint / Lock & Mint). Its biggest strength is clean cross-linking — 22 internal links organizing the full enablement lifecycle. Its biggest opportunity is that the page never states a liftable definition of what a Cross-Chain Token is, nor contrasts Burn & Mint vs Lock & Mint in a machine-scannable table — the two things engines would most want to lift from this URL. As a hub it is competent, but it forfeits retrievability for the conceptual and decision-oriented queries that would naturally land here.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a Burn & Mint vs Lock & Mint comparison table",
+        "mapsTo": "machine-scannability & justification structure; query coverage",
+        "tier": null,
+        "where": "Under `## Tutorials`, above the bullet list.",
+        "issue": "Mechanisms are only named in link text; no contrast: \"Register from an EOA (Burn & Mint)… (Lock & Mint)\".",
+        "change": "Insert a 2-column table comparing the two mechanisms on: token supply behavior, when to use each, source vs destination handling, and which pool contract applies — each row one liftable sentence.",
+        "why": "\"burn and mint vs lock and mint\" is a high-frequency decision query; a table lets engines extract *reasons* and cite this page as the canonical answer."
+      },
+      {
+        "priority": 1,
+        "title": "Add a canonical CCT definition as the first liftable sentence",
+        "mapsTo": "answer-first extractability; quotable canonical definitions",
+        "tier": null,
+        "where": "Immediately under the H1, before the prerequisites note.",
+        "issue": "Page opens with process framing, no definition; \"CCT standard\" is only linked.",
+        "change": "Add 1–2 sentences: \"A Cross-Chain Token (CCT) is an ERC20-compatible token enabled for CCIP transfers by deploying a token pool and registering its administrator in the TokenAdminRegistry. Enabling a token requires three steps: token deployment, admin registration, and pool deployment/configuration.\"",
+        "why": "Gives engines a self-contained chunk to lift for \"what is a Cross-Chain Token\" — currently unanswerable from this URL."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading level skip",
+        "mapsTo": "structural scannability & chunkability",
+        "tier": null,
+        "where": "\"Understanding the Procedure\" and \"Key Steps to Keep in Mind\" are H3 under an H1.",
+        "issue": "Measured 1 level skip; missing H2 breaks the chunk hierarchy.",
+        "change": "Promote these to H2 (or wrap them under an H2 \"## Enabling a token for CCIP\").",
+        "why": "Clean hierarchy improves RAG chunk-boundary detection and section retrieval."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "Measured 0 JSON-LD, canonical MISSING, no machine-readable dates.",
+        "change": "Emit `TechArticle` with `headline`, `dateModified: 2025-05-19`, `inLanguage: en`, and a self-referential `canonical`. (Verify head — the CLI should pass raw `<head>` for a full read.)",
+        "why": "Structured metadata and visible freshness raise agent trust (E-E-A-T) and parse reliability."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/intent-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "New sub-sections or reworded tutorial labels.",
+        "issue": "Concept-titled headings (\"Understanding the Procedure\") miss how devs query.",
+        "change": "Add short H2/H3s like \"How do I enable my ERC20 token for CCIP?\" and \"Which mechanism should I use — Burn & Mint or Lock & Mint?\" linking to the relevant tutorials.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Add concrete specifics to the procedure",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Key Steps\" list and the rate-limits bullet.",
+        "issue": "0 numerals with units; no network or limit specifics.",
+        "change": "Name the current CCT contract version (`v1.6.1`, already referenced), and one-line what rate limits control (capacity/refill rate) with the parameter names.",
+        "why": "Quantitative, versioned specifics are among the highest-lift changes for citation."
+      }
+    ],
+    "antiPatterns": [
+      "Heading level skip (H1 → H3), breaking chunk hierarchy.",
+      "\"Image: Image\" placeholder — the process diagram carries no alt text or textual equivalent, so its content is invisible to engines; add a text summary of the diagram steps.",
+      "No stale-content risk: `Last Updated: 2025-05-19` present in body (though not machine-readable)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this URL is listed in it.",
+      "Canonical URL and JSON-LD are template/site-level concerns; fixing once in the docs framework propagates across sibling tutorial pages.",
+      "As a hub, this page should be internally linked from the CCT concept/overview pages so it wins the canonical-hub position for \"CCT tutorials\" queries."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "key": "ace-concepts-key-terms-md",
+  "runId": "2026-09-21T16-32-21-335Z-e21f",
+  "audit": {
+    "title": "Key Terms and Concepts",
+    "url": "https://docs.chain.link/ace/concepts/key-terms.md",
+    "analyzedAt": "2026-09-21T16:33:23.982Z",
+    "contentType": "developer documentation / glossary reference",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Every term leads with its definition (\"A 32-byte identifier that uniquely represents an entity across multiple EVM blockchains\"), no back-references."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong chunking (median 42 words/section, max 76, none over 600), but the page skips H2 entirely (H1 → 50× H3), the one measured level skip. No grouping headers or index table to aid navigation."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good for a glossary: `bytes32`, `keccak256(\"common.kyc\")`, ERC-20/165/3643, EIP-712, 32-byte. Weakened by 0 numerals carrying units and the vague quantifier \"most.\""
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "71 links (67 internal, 4 external); heavy, correct internal cross-linking. Only 1 primary source (github crec-sdk) plus one Wikipedia ISO link; ERC/EIP standards are named but not linked to their specs."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Crisp one-to-two-sentence definitions are the page's entire purpose and are cleanly liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no `dateModified`/`inLanguage` in head, 0 og/twitter tags. A visible \"Last Updated: 2026-07-17\" exists in body but not as machine metadata."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "0 fenced blocks; appropriate for a glossary, and inline code (`transfer(address,uint256)`, `runPolicy`) is used well. Scored mid because the content type doesn't demand runnable snippets."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Term headings map well to \"what is X\" queries, and coverage of the ACE lifecycle is broad. No acronym-expansion aliases in headings for symptom/abbreviation search, no FAQ/troubleshooting angle."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean and consistent overall, but the CRE Connect Wallet definition reads circularly: \"Your wallet owns the CRE Connect Wallet, and the CRE Connect Wallet owns all your ACE contracts.\""
+      }
+    ],
+    "summary": "This is a well-built ACE glossary: 50 term sections, each opening with a self-contained, quotable definition and densely cross-linked to concept pages — near-ideal structure for RAG chunking and verbatim citation. Its single biggest strength is answer-first extractability; every H3 is a coherent, standalone retrievable unit. Its single biggest opportunity is machine-readability: with zero JSON-LD, no canonical URL, and no head-level dates, a glossary that is textbook material for `DefinedTermSet`/`DefinedTerm` schema is leaving structured-data lift on the table. Honest verdict: strong content, under-instrumented for machines.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add `DefinedTermSet` / `DefinedTerm` JSON-LD",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently 0 JSON-LD blocks)",
+        "issue": "\"JSON-LD: 0 block(s)\" — glossary has no structured data.",
+        "change": "Emit one `DefinedTermSet` with each term as a `DefinedTerm` (`name`, `description`, `url` anchor). This is the schema type purpose-built for glossaries and directly exposes each definition to engines.",
+        "why": "Structured metadata raises parse-trust and lets engines cite individual terms as canonical definitions rather than skimming prose."
+      },
+      {
+        "priority": 1,
+        "title": "Add canonical URL and head-level dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`<head>`",
+        "issue": "\"canonical: MISSING · datePublished absent / dateModified absent.\"",
+        "change": "Add `<link rel=\"canonical\">` to the page URL and a `dateModified` (2026-07-17) matching the visible body date; set `inLanguage`.",
+        "why": "Freshness and canonical signals feed E-E-A-T and prevent duplicate-URL dilution during retrieval."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading level skip / add H2 grouping",
+        "mapsTo": "structural scannability",
+        "tier": null,
+        "where": "whole page (H1 → H3, no H2)",
+        "issue": "\"1 level skip(s)\"; 50 flat H3s.",
+        "change": "Introduce H2 grouping headers (e.g. \"Platform & APIs\", \"Identity & Credentials\", \"Policies & Enforcement\", \"Standards\") with terms as H3 under them, or alphabetical H2 buckets.",
+        "why": "Removes the skip and gives engines a clean hierarchy for section-level retrieval and disambiguation."
+      },
+      {
+        "priority": 2,
+        "title": "Link ERC/EIP standards to primary specs",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "ERC-20, ERC-165, ERC-3643, EIP-712 entries",
+        "issue": "Standards named but only 1 primary-source link on the page.",
+        "change": "Inline-link each to its canonical spec (eips.ethereum.org / ERC-3643 spec) alongside the existing internal reference links.",
+        "why": "Primary-source citations raise credibility and citation rate for standards-related answers."
+      },
+      {
+        "priority": 2,
+        "title": "Repair the circular CRE Connect Wallet definition",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "\"CRE Connect Wallet\" entry",
+        "issue": "\"Your wallet owns the CRE Connect Wallet, and the CRE Connect Wallet owns all your ACE contracts.\"",
+        "change": "Name the owning entity explicitly (e.g. \"Your organization's owner wallet owns the CRE Connect Wallet, which in turn owns all your ACE contracts…\").",
+        "why": "Removes an ambiguous entity chain that risks an inverted synthesized ownership answer."
+      },
+      {
+        "priority": 3,
+        "title": "Add acronym aliases to acronym-heavy headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "CCID, DON, KYC, AML, PII, PoR headings (already expand inline)",
+        "issue": "Symptom/abbreviation queries (\"what is a CCID chainlink\") rely on body text.",
+        "change": "Keep expansions in the heading (already done for most) and ensure the first sentence restates the acronym verbatim; consider adding \"PoR\" alias next to \"Proof of Reserve.\"",
+        "why": "Matches how devs actually query by abbreviation, improving retrieval hit rate."
+      },
+      {
+        "priority": 3,
+        "title": "Replace the vague quantifier",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "Mapper entry (\"In most cases, the PolicyEngine's built-in… is sufficient\")",
+        "issue": "vague quantifier \"most.\"",
+        "change": "Specify the condition (\"Name-based mapping is sufficient unless parameters must be transformed or combined before evaluation\").",
+        "why": "Concrete conditions outperform qualitative hedges in extracted answers."
+      }
+    ],
+    "antiPatterns": [
+      "Heading level skip (H1 → H3) — see P2.",
+      "One circular/ambiguous entity definition (CRE Connect Wallet) — see P2.",
+      "Vague quantifier \"most\" in the Mapper entry — see P3.",
+      "No keyword stuffing, marketing fluff, unresolved cross-references, or stale content detected; internal anchors resolve to real terms."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at page top — good; confirm the glossary and its anchors are indexed there.",
+      "Head metadata could not be verified from the served HTML (\"none captured\"); the CLI should pass raw `<head>` for a full read before treating schema/canonical as truly absent.",
+      "Site-level: ensure `TechArticle`/`DefinedTermSet` emission is templated across all `ace/concepts` pages, not patched per-page."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T16-32-21-335Z-e21f",
+    "probes": {}
+  }
+}

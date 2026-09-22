@@ -1,0 +1,178 @@
+{
+  "key": "chainlink-functions-tutorials-api-post-data-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "POST Data to an API",
+    "url": "https://docs.chain.link/chainlink-functions/tutorials/api-post-data.md",
+    "analyzedAt": "2026-09-22T13:27:10.362Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 60.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a solid, well-linked Chainlink Functions tutorial covering the full setup→run→examine lifecycle for sending a GraphQL POST request through a DON. Its biggest strength is dense authoritative citation (18 external links, 8 to primary sources) plus concrete run output showing real costs and hex responses. Its biggest opportunities are missing machine-readable metadata (no JSON-LD, canonical, or dates) and an empty section heading (`FunctionsConsumerExample.sol`) that produces a dead retrieval chunk. Honest verdict: retrievable and useful, but under-instrumented for machine parsing and thin on symptom/query-phrased entry points.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fill or remove the empty `FunctionsConsumerExample.sol` heading",
+        "mapsTo": "structural chunkability / answer-first",
+        "tier": null,
+        "where": "`## Examine the code` → `### FunctionsConsumerExample.sol`",
+        "issue": "heading with no body — a dead retrieval chunk.",
+        "change": "add 2–4 sentences describing the consumer contract (its `sendRequest`/`fulfillRequest` role and where to get it) or link/inline the Solidity, or delete the heading.",
+        "why": "empty sections retrieve as noise and waste a chunk boundary; each section should be one coherent retrievable unit."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/intent-phrased headings and a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "near top and end of page",
+        "issue": "no \"how do I…\" or error-phrased entry points; devs query by symptom.",
+        "change": "add H2s like \"How do I send a POST/GraphQL request with Chainlink Functions?\" and a troubleshooting entry, e.g. \"Error: response exceeds 256 bytes\" → explain the encoding limit.",
+        "why": "symptom-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add page metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter (site-level template)",
+        "issue": "measured — no JSON-LD, no canonical, no dates.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: JavaScript`, and a canonical URL; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise parseability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Lead with the canonical API and the 256-byte constraint",
+        "mapsTo": "answer-first / parametric-prior resistance",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "canonical helper `Functions.makeHttpRequest` and the 256-byte limit surface only mid-page.",
+        "change": "add a first-liftable sentence: \"Use `Functions.makeHttpRequest` to send the POST request; the DON can return at most 256 bytes.\" Name the wrong pattern (raw `fetch`/`axios`) as a Don't.",
+        "why": "defends against engines substituting generic Node HTTP idioms when the page is skimmed."
+      },
+      {
+        "priority": 2,
+        "title": "Show `source.js` inline instead of deferring to \"self-explanatory\"",
+        "mapsTo": "code completeness",
+        "tier": null,
+        "where": "`#### source.js`",
+        "issue": "\"The code is self-explanatory\" — code not shown on page.",
+        "change": "embed the full `source.js` with imports and language tag; the walkthrough already narrates its steps.",
+        "why": "complete, on-page, runnable snippets are cited and reused; a link-out is not liftable."
+      },
+      {
+        "priority": 3,
+        "title": "Tag the two untagged fences and pin versions",
+        "mapsTo": "code completeness / specifics",
+        "tier": null,
+        "where": "GraphQL body/query blocks; import list",
+        "issue": "2 untagged blocks; ethers linked as v5 but toolkit/Node versions absent.",
+        "change": "tag blocks as `graphql`; add a versions line (e.g. `@chainlink/functions-toolkit` version, Node ≥18).",
+        "why": "labeled languages and version specifics improve parsing and answer precision."
+      },
+      {
+        "priority": 3,
+        "title": "Add a Sepolia identifiers table",
+        "mapsTo": "scannability / specifics",
+        "tier": null,
+        "where": "step 1 of `makeRequestSepolia` walkthrough",
+        "issue": "`routerAddress`, `donId`, `gasLimit`, `explorerUrl` described in prose only.",
+        "change": "add a small table with the actual Sepolia values.",
+        "why": "tables let engines extract discrete facts and are highly citable."
+      }
+    ],
+    "antiPatterns": [
+      "Empty section heading (`FunctionsConsumerExample.sol`) — undifferentiated/dead chunk.",
+      "\"The code is self-explanatory\" appears twice — filler that defers rather than informs.",
+      "Vague quantifier \"several\" flagged; low impact but avoidable.",
+      "Two untagged code fences."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced on-page — good; ensure it lists this URL for index discoverability.",
+      "Site-level `TechArticle` schema and a freshness/last-updated cadence are template concerns beyond this single page.",
+      "CLI should pass raw `<head>` next run — head metadata could not be verified here, so the metadata score reflects absence in the served HTML, not a confirmed template gap."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

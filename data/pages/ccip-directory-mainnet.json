@@ -1,0 +1,177 @@
+{
+  "key": "ccip-directory-mainnet",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Directory - Mainnet",
+    "url": "https://docs.chain.link/ccip/directory/mainnet",
+    "analyzedAt": "2026-09-22T13:40:31.340Z",
+    "contentType": "developer documentation / reference directory (index/listing page)",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a CCIP mainnet directory/index page: a listing of 78 supported networks (with per-chain lane and token counts) and 275 tokens, backed by an excellent `DataCatalog` JSON-LD block that enumerates all 78 chains with canonical URLs. Its biggest GEO strength is machine-readable structured data; its biggest weakness is the near-total absence of framing prose — no answer-first sentence, no definition of CCIP or \"lane,\" and most of the listing hidden behind \"See more\" so the rendered text exposes only 14 of 78 chains and 24 of 275 tokens. The honest verdict: a strong data substrate wrapped in prose too thin to win the \"does CCIP support X?\" and \"what chains/tokens does CCIP support?\" queries this page should own.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an answer-first intro paragraph with headline stats",
+        "mapsTo": "answer-first extractability, quotable definitions, concrete specifics",
+        "tier": null,
+        "where": "directly under `# CCIP Directory`, before `## Networks mainnet (78)`",
+        "issue": "page jumps straight to a listing; no liftable summary sentence.",
+        "change": "add 2–3 sentences, e.g. \"The Chainlink CCIP mainnet directory lists every blockchain and token supported by the Cross-Chain Interoperability Protocol in production. As of the last update, CCIP supports 78 mainnet networks and 275 tokens. Each network page lists its active lanes (source→destination routes) and supported tokens.\"",
+        "why": "gives engines a self-contained, quotable answer to \"what/how many does CCIP support\" — the dominant query this page should win."
+      },
+      {
+        "priority": 1,
+        "title": "Expose the full network and token lists (don't gate behind \"See more\")",
+        "mapsTo": "query/intent coverage, machine-readability",
+        "tier": null,
+        "where": "`## Networks mainnet (78)` and `## Tokens (275)`",
+        "issue": "rendered content shows only 14/78 chains and 24/275 tokens; the rest is client-side hidden.",
+        "change": "render the complete lists in server HTML (progressive disclosure via CSS, not omission), so a skim or RAG chunk can confirm \"is Zircuit / is GHO supported?\"",
+        "why": "retrieval and extraction fail on entities absent from served text; a page that omits 82% of tokens can't answer most support-check queries."
+      },
+      {
+        "priority": 1,
+        "title": "Add token enumeration to structured data",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD",
+        "issue": "`DataCatalog` enumerates all 78 chains but no tokens; the 275 tokens exist only as (mostly hidden) link cards.",
+        "change": "add the token list as `Dataset`/`DefinedTermSet` entries (name + URL) mirroring the chain datasets.",
+        "why": "makes token-support facts API-able for agents even when body text is collapsed."
+      },
+      {
+        "priority": 2,
+        "title": "Add a summary comparison table of networks",
+        "mapsTo": "structural scannability, concrete specifics",
+        "tier": null,
+        "where": "top of `## Networks mainnet`",
+        "issue": "0 tables; lane/token counts sit in link cards that don't extract cleanly.",
+        "change": "a `Network | Lanes | Tokens | Chain page` table for all 78 rows.",
+        "why": "tables are high-lift for engines extracting comparative/quantitative answers (\"which chain has the most lanes?\")."
+      },
+      {
+        "priority": 2,
+        "title": "Define \"lane\" and \"token pool\" inline",
+        "mapsTo": "quotable canonical definitions, citations",
+        "tier": null,
+        "where": "in the new intro or a one-line note above the network list",
+        "issue": "\"77 lanes | 206 tokens\" appears with no definition of \"lane.\"",
+        "change": "\"A lane is a directional route between a source and destination chain,\" linked to the CCIP architecture/concepts page.",
+        "why": "supplies a crisp liftable definition and an authoritative internal citation, both currently absent."
+      },
+      {
+        "priority": 2,
+        "title": "Add question-phrased subheadings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "section headings",
+        "issue": "headings are entity labels (\"Networks mainnet (78)\"), not questions users type.",
+        "change": "add/rename to \"Which networks does CCIP support on mainnet?\" and \"Which tokens does CCIP support on mainnet?\"",
+        "why": "symptom/question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Surface a visible last-updated line",
+        "mapsTo": "machine-readability, freshness",
+        "tier": null,
+        "where": "near the H1",
+        "issue": "freshness lives only in metadata (`dateModified` 2026-09-21); no on-page signal.",
+        "change": "render \"Last updated: 2026-09-21\" visibly.",
+        "why": "visible freshness raises trust/E-E-A-T for a fast-changing directory."
+      }
+    ],
+    "antiPatterns": [
+      "**Content hidden from extraction:** \"See more\" collapses omit 82% of tokens and 82% of chains from served text — the single largest retrieval risk here.",
+      "**Wall-free but definition-free:** no undefined-jargon walls, but key terms (\"lane\") are used without any definition.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean on those."
+    ],
+    "offPageNotes": [
+      "Consider an `llms.txt` entry pointing agents at the CCIP directory as the canonical source for supported-network/token facts.",
+      "The `DataCatalog` schema is a genuine asset — ensure the sibling `directory/testnet` and per-chain pages cross-link back to this hub to reinforce it as the canonical directory (canonical-hub pattern).",
+      "Site-level: the measured \"datePublished/dateModified absent\" applies to the Article-type date; adding those to a `TechArticle`/`Dataset` wrapper would remove the ambiguity across tooling."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

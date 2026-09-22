@@ -1,0 +1,167 @@
+{
+  "key": "ccip-tutorials-evm-send-arbitrary-data-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Send Arbitrary Data",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/send-arbitrary-data.md",
+    "analyzedAt": "2026-09-22T13:45:30.028Z",
+    "contentType": "developer documentation / tutorial (CCIP cross-chain messaging)",
+    "score": 68,
+    "band": "Good",
+    "weightedTotal": 68,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a complete, well-structured CCIP tutorial with a fully runnable Solidity contract, concrete addresses/chain selectors, and dense links into API-reference and best-practice pages — best-in-class on code and specifics. Its biggest GEO weaknesses are missing machine-readable metadata (no JSON-LD, no canonical URL, dates only in body text) and tutorial-style openers that bury the liftable answer, plus a lack of symptom-phrased headings that agents query on. The honest verdict: strong developer content whose retrieval and extraction lag its substance — surgical fixes to answer-first leads and query-phrased headings would move it into the Strong band.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new `## Troubleshooting` H2 before `## Explanation`, or H3s under it",
+        "issue": "custom errors defined in code but no heading targets them; only diffuse gas-spike notes exist",
+        "change": "add H3s such as \"Why does sendMessagePayLINK revert with NotEnoughBalance\", \"SenderNotAllowlisted / SourceChainNotAllowlisted error\", \"My CCIP transaction failed during gas price spikes\", each with a one-line cause + fix.",
+        "why": "devs and agents query by error string, not concept; error-titled sections win retrieval that body-text mentions lose."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first TL;DR at the top",
+        "mapsTo": "answer-first extractability, quotable canonical definitions",
+        "tier": null,
+        "where": "immediately under the H1, before \"In this tutorial, you will…\"",
+        "issue": "\"In this tutorial, you will use Chainlink CCIP to send data…\" — framing, not answer",
+        "change": "add 2–3 liftable sentences: \"To send arbitrary data across chains with CCIP, build an `EVM2AnyMessage` struct and call the router's `ccipSend` function, paying fees in LINK (`feeToken = LINK`) or native gas (`feeToken = address(0)`). This tutorial deploys a `Messenger` contract between Avalanche Fuji and Ethereum Sepolia.\"",
+        "why": "gives engines a self-contained, verbatim-liftable canonical answer and names the exact API instead of a generic description."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site-template level)",
+        "issue": "measured — 0 JSON-LD blocks, canonical MISSING, `dateModified` absent",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: Solidity`, and a `<link rel=\"canonical\">`. Surface the last-updated date as visible HTML too.",
+        "why": "structured metadata and freshness signals raise agent trust and parseability (E-E-A-T); note this is likely fixed once in the docs template."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the LINK vs native decision with a comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of `## Tutorial` or a new \"Choosing a fee token\" block",
+        "issue": "the LINK-vs-native distinction is spread across two parallel prose sections",
+        "change": "add a 2-row table: fee token | `feeToken` value | funding step | when to use. E.g. `LINK | address(s_linkToken) | fund 70 LINK | recommended during gas spikes`; `Native | address(0) | fund 1 AVAX | simpler, no approve`.",
+        "why": "lets an engine extract the *reason* to pick each path and build a justified answer."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "gas-spike notes and best-practices closers",
+        "issue": "\"significantly higher,\" \"robust, future-proof,\" \"some AVAX tokens\"",
+        "change": "where a real figure exists, state it; otherwise cut the adjective. \"robust, future-proof, and compliant\" → \"backward-compatible with future CCIP upgrades.\"",
+        "why": "quantitative/precise claims outperform qualitative prose; vague hedges are neutral-to-negative."
+      },
+      {
+        "priority": 3,
+        "title": "Add a crisp definition of the message struct near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "first mention of `EVM2AnyMessage` in the Explanation",
+        "issue": "struct is used before it is defined in one liftable sentence",
+        "change": "\"`EVM2AnyMessage` is the CCIP struct describing a cross-chain message: receiver, data, tokenAmounts, extraArgs, and feeToken.\"",
+        "why": "gives engines a canonical definition to quote for \"what is EVM2AnyMessage.\""
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"significantly,\" \"robust,\" \"some\" (minor; see P3).",
+      "Duplicated best-practices/gas-spike blocks repeated verbatim across the LINK and native sections — acceptable for standalone chunking, but adds length without new information.",
+      "No unresolved cross-references, no keyword stuffing, no marketing fluff, code is complete with imports — clean."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/twitter tags are almost certainly template-level; fix once across the docs site rather than per page.",
+      "`llms.txt` is already referenced at the top — good; ensure this page is listed there for discoverability.",
+      "The CLI should pass raw `<head>` on future runs; head metadata could not be verified here, so the metadata score reflects the served-HTML measurement only."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

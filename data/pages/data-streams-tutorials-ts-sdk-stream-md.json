@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-tutorials-ts-sdk-stream-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Stream and decode Data Streams reports via WebSocket using the TypeScript SDK",
+    "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+    "analyzedAt": "2026-09-22T13:35:08.780Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 68,
+    "band": "Good",
+    "weightedTotal": 67.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured, code-heavy TypeScript tutorial for streaming and decoding Data Streams reports over WebSocket. Its biggest strength is a complete, copy-pasteable runnable example paired with real terminal output and a clear decoded-fields table — excellent for agent execution. Its biggest opportunities are missing machine-readable metadata (no JSON-LD, canonical, or dates on the served markdown) and the absence of symptom/error-phrased headings that catch how developers actually query WebSocket streaming failures. Honest verdict: solid best-in-class tutorial content held back on retrieval-facing signals rather than substance.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "After \"High Availability (HA) mode,\" add an H2 \"Troubleshooting.\"",
+        "issue": "No section matches error-phrased queries; code catches auth and reconnect failures but nothing is queryable.",
+        "change": "Add H3s phrased as questions/errors: \"Error: authentication failed — check API_KEY and USER_SECRET,\" \"Stream keeps disconnecting and reconnecting,\" \"HA mode not working on testnet,\" each with the one-line fix already implied in the code.",
+        "why": "Developers and agents query by error string; concept-titled prose loses retrieval that error-phrased headings win."
+      },
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata / freshness signal",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page head / frontmatter.",
+        "issue": "Measured — 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: [\"TypeScript\",\"Bash\"]`, and a canonical URL; surface a visible \"Last updated\" line. Confirm whether the HTML page already carries these before treating as absent.",
+        "why": "Structured metadata and freshness raise agent parseability and E-E-A-T trust."
+      },
+      {
+        "priority": 2,
+        "title": "Lead HA-mode section with the canonical constraint first",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "\"High Availability (HA) mode\" opening.",
+        "issue": "Constraint (\"Mainnet only\") is in a NOTE callout, not the first liftable sentence.",
+        "change": "Open the section body with: \"HA mode is available only on mainnet endpoints (not testnet) and maintains at least 2 concurrent WebSocket connections to different origins.\"",
+        "why": "A skimmed/retrieved chunk should carry the constraint verbatim so engines don't hallucinate testnet HA support."
+      },
+      {
+        "priority": 2,
+        "title": "Add a primary-source citation for the payload/ABI claim",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Payload for onchain verification.\"",
+        "issue": "\"This payload is ABI-encoded and contains the report header...\" with no link to the VerifierProxy spec/contract.",
+        "change": "Inline-link \"`VerifierProxy.verify()`\" to the canonical contract reference and the report-schema spec.",
+        "why": "Attributable claims to primary sources raise citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-line canonical definition of a Data Streams report",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "Intro paragraph, near first use of \"reports.\"",
+        "issue": "\"report\" is used throughout but never crisply defined on-page.",
+        "change": "Add: \"A Data Streams report is a DON-signed, ABI-encoded price payload delivered in real time and verifiable onchain via VerifierProxy.\"",
+        "why": "A self-contained definition is liftable verbatim into answers."
+      },
+      {
+        "priority": 3,
+        "title": "Fix back-references and typo",
+        "mapsTo": "clarity & answer-first",
+        "tier": null,
+        "where": "\"Explanation\" subsections; \"Fore further reference.\"",
+        "issue": "\"The example above demonstrates...\" creates a chunk dependency; \"Fore\" is a typo.",
+        "change": "Replace \"the example above\" with \"the single-stream example in this tutorial\"; correct \"Fore\" → \"For.\"",
+        "why": "Removes cross-reference dependencies so chunks stand alone."
+      }
+    ],
+    "antiPatterns": [
+      "Minor unresolved cross-reference: \"The example above\" / \"the basic example\" in the Explanation and HA sections.",
+      "One typo (\"Fore further reference\") — small entity/fluency ding.",
+      "No stale-content marker (no dateModified), so freshness cannot be signaled.",
+      "No keyword stuffing or marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is indexed there.",
+      "JSON-LD/canonical/date signals are likely site-template-controlled; verify whether the HTML variant emits `TechArticle` schema the `.md` endpoint strips before treating as a page-level defect.",
+      "Primary-source authority (specs, contract references) is partly an information-architecture decision across the Data Streams docs set, not this page alone."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

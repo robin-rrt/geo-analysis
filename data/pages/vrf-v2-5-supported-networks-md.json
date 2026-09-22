@@ -1,0 +1,169 @@
+{
+  "key": "vrf-v2-5-supported-networks-md",
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "audit": {
+    "title": "Supported Networks (Chainlink VRF v2.5)",
+    "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+    "analyzedAt": "2026-09-22T13:17:17.127Z",
+    "contentType": "developer documentation / reference (network & contract parameter tables)",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 66,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Intro cleanly states purpose (\"VRF v2.5 coordinators for subscription funding are available on several networks\"), and each network table is a self-contained retrievable unit. Weak: no per-network lead sentence naming the chain and its coordinator address in liftable prose — the answer lives only inside a component-heavy table."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 29 headings, 1 H1, max depth H3, 0 level skips, median 263 words/section, all under 600. The Subscription/Direct-funding tab split duplicates item labels but keeps each panel coherent."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 9,
+        "weighted": 10.8,
+        "analysis": "Excellent and the page's core asset — real addresses, key hashes, gas overheads (e.g., `435` per word, `2,500,000` max gas limit), premium percentages per token."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Links to block explorers, faucets, PegSwap, CCIP; but 0 primary-source links — no ERC-677 spec for the \"not ERC-677 compatible\" claim, no inline link to the VRF v2.5 subscription/direct-funding concept pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "\"Coordinator parameters\" section gives crisp, liftable per-field definitions (`minimumRequestConfirmations`, `stalenessSeconds`, etc.). Good."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified. For a page whose addresses change over time, the missing freshness signal is a real trust gap. (Head metadata was not captured — CLI should pass raw `<head>` to confirm.)"
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No fenced code blocks. Largely acceptable for a data-reference page, but values are wrapped in `<Address>`/`<CopyText>` MDX components rather than plain-text-labeled fields, which risks noisy extraction; no copy-paste config snippet showing how a coordinator/key hash slots into a request."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Per-network lookup is well served by headings. Missing: chain IDs as visible labels, a cross-network summary table, and any FAQ/troubleshooting (\"which key hash do I pick?\", \"what's the max gas limit?\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean and consistent. Minor: several mainnet tables carry \"paying with **testnet** ETH\" labels (Ronin Mainnet, Soneium Mainnet), a copy-paste artifact."
+      }
+    ],
+    "summary": "This is a dense, high-value reference page: 36 tables of VRF v2.5 coordinator addresses, LINK tokens, key hashes, premium percentages, and gas overheads across ~13 mainnet/testnet deployments, with clean H2/H3 structure and exceptional concrete-specifics density (101 numerals per 1k words, 156 hex identifiers). Its single biggest GEO strength is that data density and per-network chunkability; its biggest opportunity is discoverability by **chain ID** and by parameter-name queries — the values devs actually search for (e.g., \"chain 137\", \"max gas limit VRF v2.5\") are buried inside `urlId` attributes or table rows with no top-level lookup surface. Metadata is the other weak spot: no JSON-LD, no canonical, and — critically for a page of mutable contract addresses — no visible last-updated signal.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a top-of-page cross-network summary table with visible chain IDs",
+        "mapsTo": "symptom/query coverage, answer-first extractability",
+        "tier": null,
+        "where": "after \"Coordinator parameters\", before the Arbitrum section",
+        "issue": "chain IDs exist only inside `urlId=\"137_0x...\"` attributes — not visible, not queryable",
+        "change": "add a table `Network | Chain ID | VRF Coordinator | Explorer` covering all listed networks, with chain IDs as plain text (Ethereum 1, Arbitrum 42161, Base 8453, Polygon 137, BNB 56, Avalanche 43114, OP 10, Ronin 2020, Soneium 1868, plus testnets).",
+        "why": "engines and agents query by chain ID; a visible summary table is the single most liftable object and defends against retrieving the wrong network's address."
+      },
+      {
+        "priority": 1,
+        "title": "Add a visible \"Last updated\" date and TechArticle JSON-LD",
+        "mapsTo": "machine-readability & metadata (E-E-A-T, freshness)",
+        "tier": null,
+        "where": "page head / top of body",
+        "issue": "dateModified absent; canonical MISSING; 0 JSON-LD blocks",
+        "change": "render a visible `Last updated: YYYY-MM-DD`, add a canonical URL, and emit `TechArticle` JSON-LD with `dateModified`.",
+        "why": "contract addresses are mutable; a freshness signal materially raises the odds an engine trusts and cites these values over stale training priors."
+      },
+      {
+        "priority": 2,
+        "title": "Name the tempting-wrong pattern: do not reuse VRF v2 addresses",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "page never warns against the common substitution of older-version coordinators/addresses",
+        "change": "add one liftable sentence — \"These addresses are for VRF v2.5 only; VRF v2 coordinator addresses are not compatible and must not be reused.\" plus \"Always copy addresses from this page rather than from model memory.\"",
+        "why": "when retrieval fails, models hallucinate plausible-but-wrong contract addresses; an explicit Don't reduces confident inversions on the highest-severity fact type (addresses)."
+      },
+      {
+        "priority": 2,
+        "title": "Add a short FAQ / parameter-lookup section",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "after the summary table",
+        "issue": "no coverage of \"how do I choose a key hash?\", \"what is the max gas limit?\", \"what does 30 gwei key hash mean?\"",
+        "change": "add 3–5 Q-phrased H3s with one-sentence answers (e.g., \"Max Gas Limit is 2,500,000 across all VRF v2.5 networks\"; \"The gwei prefix on a key hash selects the gas lane / max gas price the oracle will use\").",
+        "why": "symptom/concept-phrased headings win retrieval that network-name headings miss, even when the number is already in a table."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary-source and concept citations inline",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"not ERC-677 compatible\" note; intro",
+        "issue": "claim \"not ERC-677 compatible\" and key parameters cite no spec",
+        "change": "link ERC-677 to its spec, and link the subscription vs direct-funding methods to their canonical concept pages at first mention.",
+        "why": "attributable claims raise citation rate and let engines justify the distinction."
+      },
+      {
+        "priority": 3,
+        "title": "Fix mislabeled premium rows on mainnet tables",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "Ronin Mainnet, Soneium Mainnet subscription panels",
+        "issue": "\"Premium percentage (paying with **testnet** ETH)\" on mainnet tables",
+        "change": "correct to the mainnet native token label.",
+        "why": "prevents an engine from emitting a nonsensical \"testnet ETH on mainnet\" answer."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"several networks\" where an exact count (and the summary table) would be stronger.",
+      "Undated content on a page of mutable contract addresses — a staleness risk.",
+      "Data values locked inside MDX components (`<Address>`, `<CopyText>`) rather than plain-text-labeled fields; extraction depends on rendering fidelity.",
+      "Minor label copy-paste error (\"testnet ETH\" on mainnet tables).",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean on those."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already linked at the top — good site-level signal; ensure this page is indexed there.",
+      "JSON-LD, canonical, and freshness cadence are largely template/site-level concerns; fixing them benefits every VRF reference page, not just this one.",
+      "Third-party citation/authority (block explorers already link out) is off-page and not scored here."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-13-35-905Z-9cc9",
+    "probes": {}
+  }
+}

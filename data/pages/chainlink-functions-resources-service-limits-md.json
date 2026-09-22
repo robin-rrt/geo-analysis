@@ -1,0 +1,157 @@
+{
+  "key": "chainlink-functions-resources-service-limits-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions Service Limits",
+    "url": "https://docs.chain.link/chainlink-functions/resources/service-limits.md",
+    "analyzedAt": "2026-09-22T13:25:20.233Z",
+    "contentType": "developer documentation / reference (limits table)",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 63.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Table rows are self-contained (`Maximum callback gas limit … 300,000`), each answering one implied question. Weak: no opening canonical sentence naming the page's subject before the table."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "One clean table is the right format for limits, but the page is a single H1 with no H2/H3 subsections — nothing to anchor symptom/topic queries to. 551-word single section chunks acceptably as one unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 9,
+        "weighted": 10.8,
+        "analysis": "Strong; no action needed. Measured 20 numerals, 8 with units — this is the page's core value."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "One external link ([Deno](https://deno.land/)); zero primary-spec links. CBOR row and the 300,000 gas figure could cite sources."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Descriptions are decent but verbose (\"The maximum amount of gas that you can set for Chainlink Functions to fulfill your callback function\"); no crisp top-line definition of the concept."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts: 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent, 0 og tags. Head metadata could not be verified — the CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "No code blocks; genuinely not needed for a limits table. Scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Facts cover the lifecycle but there are no \"how do I…/what is the max…\" headings or FAQ; retrieval leans on numeric-match luck rather than phrasing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent \"Chainlink Functions\"/\"DON\" usage, unambiguous prose."
+      }
+    ],
+    "summary": "This is a pure reference page: a single well-formed table of Chainlink Functions service limits, dense with concrete quantitative values (300,000 gas, 30 KB request size, 5 HTTP queries, 2160h/72h secret TTL). Its biggest strength is specificity — every row is a liftable fact with units. Its biggest opportunity is discoverability plumbing: zero JSON-LD, missing canonical URL, no visible last-updated date, and no question-phrased entry points, so retrieval depends entirely on the table happening to match a numeric query. Honest verdict: strong data, thin machine-readability and query surface — solid but not agent-optimal.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an answer-first canonical lead sentence",
+        "mapsTo": "answer-first extractability, parametric-prior resistance",
+        "tier": null,
+        "where": "immediately below the H1, before the callout/table",
+        "issue": "page jumps from title straight to a shutdown callout and table; no liftable summary.",
+        "change": "add one sentence, e.g. \"Chainlink Functions enforces the following per-request and per-subscription service limits: a 300,000 callback gas cap, 30 KB max request size, 10-second execution time, 5 HTTP requests, and a 5-minute request fulfillment timeout.\"",
+        "why": "gives engines a single self-contained chunk to quote when the table isn't fully ingested, defending against generic-prior guesses about limits."
+      },
+      {
+        "priority": 1,
+        "title": "Add question-phrased subheadings grouping the table",
+        "mapsTo": "query/intent coverage, symptom-phrased retrieval",
+        "tier": null,
+        "where": "split or precede table sections with H2s",
+        "issue": "single H1, \"1 headings\" measured — no phrasing matches how devs query.",
+        "change": "add H2 anchors like \"What is the maximum callback gas limit?\", \"How many HTTP requests can a Function make?\", \"How long can Chainlink Functions source code run?\", \"How long do DON-hosted secrets last?\" — either as section headers over grouped rows or a short FAQ list echoing the table values.",
+        "why": "headings phrased as the exact queries win retrieval that concept-titled table cells lose, even when the answer is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` / frontmatter and a visible byline",
+        "issue": "measured — 0 JSON-LD, canonical MISSING, dateModified absent.",
+        "change": "emit `TechArticle` JSON-LD with `dateModified`, set `<link rel=\"canonical\">` to the page URL, and surface a visible \"Last updated: YYYY-MM-DD\" line. Limits change; freshness signals matter here.",
+        "why": "structured metadata and freshness raise parse-trust for agents; a limits page with no date is easily treated as stale."
+      },
+      {
+        "priority": 2,
+        "title": "Cite primary sources for key limits",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "CBOR row, callback gas row, Deno runtime row",
+        "issue": "\"1 external link, 0 primary sources\" measured.",
+        "change": "link \"encoded request\" to the CBOR spec (RFC 8949) and the Deno runtime reference where relevant; keep the existing architecture cross-link.",
+        "why": "inline authoritative links raise citation rate and attributability of the numeric claims."
+      },
+      {
+        "priority": 3,
+        "title": "Tighten row descriptions into liftable one-liners",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "long description cells (e.g. Maximum duration of a request)",
+        "issue": "multi-clause descriptions dilute the quotable core.",
+        "change": "front-load each description with a crisp lead clause (\"Request fulfillment timeout — a request that exceeds 5 minutes times out and is not charged.\"), keeping detail after.",
+        "why": "crisp self-contained statements are lifted verbatim more often than diffuse prose."
+      }
+    ],
+    "antiPatterns": [
+      "Shutdown callout (`<ChainlinkFunctions callout=\"shutdown\" />`) renders as an unresolved component in the served markdown — confirm it produces meaningful text for crawlers, not an empty element.",
+      "No visible date on a page whose values are version-/policy-dependent (staleness risk).",
+      "No keyword stuffing, fluff, or broken cross-references — clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Site-level schema/canonical templating likely governs the missing JSON-LD and canonical tag — fix at the template layer, not just this page.",
+      "Ensure internal links from related Functions pages (architecture, getting-started) point here as the canonical limits hub to win the \"outranked by sibling\" scenario."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

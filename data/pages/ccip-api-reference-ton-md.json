@@ -1,0 +1,155 @@
+{
+  "key": "ccip-api-reference-ton-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Contract Interface Reference Documentation (TON)",
+    "url": "https://docs.chain.link/ccip/api-reference/ton.md",
+    "analyzedAt": "2026-09-22T13:36:56.594Z",
+    "contentType": "developer documentation / API reference index (version landing page)",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 55,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working: the `<Aside>` gives a self-contained scope statement an engine can lift verbatim. Weak: there's no one-sentence definition of \"CCIP on TON\" up top before the version list."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong; 5 clean headings, 1 H1, 0 level skips, sensible bullet chunks. No action needed beyond size, which is fine for an index."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak: measured 0 numerals in prose; only qualitative feature bullets (\"configurable gas limits,\" \"native GRAM fee payments\") with no numeric limits, chain IDs, or version-date specifics."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak: 3 internal links, 0 external. No link to the CCIP conceptual overview, the TON docs, or a primary spec to anchor entity resolution."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Partial: the scope aside is quotable, but neither \"CCIP\" nor \"TON Starter Kit\" gets a crisp inline definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, dateModified/datePublished absent (head not captured — CLI should pass raw `<head>`). No freshness signal for an \"unaudited\" utilities claim that will age."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable in substance; an index page carries no code. Scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Partial: answers \"what versions exist\" and \"does TON support token transfers.\" Missing \"how do I send a CCIP message from TON,\" \"TON supported chains,\" and error/symptom phrasings — those live in sub-pages but no signposting question-headings route to them."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; unambiguous, consistent product naming (\"CCIP v1.6.0,\" \"TON Starter Kit\")."
+      }
+    ],
+    "summary": "This is a thin (145-word) version-landing/index page whose job is to route readers to the CCIP v1.6.0 TON reference and to state platform scope. Its biggest strength is a crisp, liftable scope statement — \"TON currently supports arbitrary message passing only. Token transfers are not yet supported.\" — that directly answers a common capability query. Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no visible last-updated date were found, so agents get no structured trust signals. Honest verdict: appropriate as a hub, but under-optimized on metadata and on symptom/how-to query coverage; both are cheap, high-value fixes given the page's routing role.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\"",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `about: [\"Chainlink CCIP\",\"TON\"]`, `version: \"1.6.0\"`, a canonical `https://docs.chain.link/ccip/api-reference/ton`, and a rendered \"Last updated\" date.",
+        "why": "structured metadata and freshness signals raise parse-ability and E-E-A-T trust, which agents weight when choosing a source to cite."
+      },
+      {
+        "priority": 1,
+        "title": "Lead with a one-sentence canonical definition",
+        "mapsTo": "answer-first extractability / quotable definitions",
+        "tier": null,
+        "where": "immediately under the H1, before \"Available Versions\"",
+        "issue": "page opens into a version list with no self-contained \"what is this\"",
+        "change": "add e.g. \"Chainlink CCIP on TON enables cross-chain arbitrary messaging between TON and EVM-based chains, with fees paid in native GRAM (nanoGRAM). Token transfers are not yet supported.\"",
+        "why": "a crisp first liftable sentence defends against parametric priors and gives engines a quotable capability summary."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/how-to question headings that route to sub-pages",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new short section or reworded \"Documentation Structure\" bullets",
+        "issue": "concept-titled bullets (\"Router Interface (sending messages and fee estimation)\") miss how devs query",
+        "change": "phrase as questions linking to the v1.6.0 sub-docs: \"How do I send a CCIP message from TON?\", \"How do I estimate CCIP fees on TON?\", \"What CCIP error codes does TON return?\"",
+        "why": "symptom/how-to headings win retrieval that concept-titled prose loses, and turn this hub into an entry point."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative external/conceptual links",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "intro and Starter Kit paragraph",
+        "issue": "0 external links; \"CCIP\" and \"TON\" are unanchored entities",
+        "change": "link \"CCIP\" to the CCIP conceptual overview and \"TON\" to official TON documentation; keep the internal `/ccip/api-reference/ton/v1.6.0` links.",
+        "why": "inline links to canonical concept pages improve entity resolution and citation credibility."
+      },
+      {
+        "priority": 3,
+        "title": "Add concrete specifics to the feature bullets",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Latest Release\" bullet list",
+        "issue": "measured 0 numerals in prose; \"Configurable gas limits\" is vague",
+        "change": "state the release date, the fee-token denomination precision (nanoGRAM = 1e-9 GRAM), and any default/max gas limit or supported EVM chain count where known.",
+        "why": "quantitative specifics are among the highest-lift changes for generative retrieval and citation."
+      }
+    ],
+    "antiPatterns": [
+      "Stale/undated content risk: an \"unaudited TypeScript utilities\" claim with no dateModified will silently age. No keyword stuffing, fluff, or unresolved cross-references detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced on-page — good site-level signal; ensure this URL is listed in it and in the sitemap.",
+      "Head metadata could not be verified from the supplied content; run the CLI with raw `<head>` passthrough to confirm canonical/schema state before acting on the metadata score.",
+      "Site-level: ensure the version hub is internally linked from the CCIP API reference overview so it inherits authority (canonical-hub pattern)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

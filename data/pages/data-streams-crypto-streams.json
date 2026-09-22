@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-crypto-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Cryptocurrency Data Streams",
+    "url": "https://docs.chain.link/data-streams/crypto-streams",
+    "analyzedAt": "2026-09-22T13:29:56.744Z",
+    "contentType": "developer documentation / reference index (stream catalog)",
+    "score": 40,
+    "band": "Developing",
+    "weightedTotal": 40,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a reference index page whose entire value — the catalog of crypto stream names, IDs, and network verifier addresses — is client-side rendered and appears in the served markup only as `Loading...`. The measured facts confirm this: 90 words total, 0 tables, 0 bullets, 0 numerals, 0 hex identifiers. The single biggest strength is clean, valid `TechArticle` + `BreadcrumbList` JSON-LD and a correct canonical; the single biggest opportunity — dominating everything else — is that a generative engine or agent fetching this page retrieves almost no substantive content and cannot see a single stream ID. Honest verdict: the schema is agent-ready but the body is not, so this page will be under-cited relative to its actual authority as *the* canonical source for Chainlink crypto stream IDs.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Server-render (or statically embed) the stream catalog",
+        "mapsTo": "concrete specifics, answer-first extractability, query coverage",
+        "tier": null,
+        "where": "`## Mainnet Crypto Streams` section (currently renders as `Loading...`)",
+        "issue": "`Loading...` — the entire ID table is client-side only.",
+        "change": "Emit the stream table (asset pair, stream ID, verifier network, address) as static HTML/markdown in the served response, or provide an SSR fallback. Even a `<noscript>` table would let crawlers and LLMs read the IDs.",
+        "why": "Retrieval is the dominant loss; a page that returns 90 words and no IDs cannot be cited for the facts it exists to provide. This single change unlocks dimensions 1, 3, and 8 simultaneously."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first lead sentence with a canonical definition",
+        "mapsTo": "answer-first, quotable definitions",
+        "tier": null,
+        "where": "Directly under the H1, before the top-of-book caveat.",
+        "issue": "Page opens with an edge-case caveat, not a definition.",
+        "change": "Add: \"Chainlink Cryptocurrency Data Streams provide high-frequency, low-latency market data for crypto asset pairs, each identified by a unique stream ID and verifiable onchain. This page lists every available crypto stream, its ID, and its verifier network.\" Then keep the top-of-book note.",
+        "why": "Gives engines a liftable, self-contained definition and states the page's purpose in the first chunk."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase a section/heading around symptom and lookup queries",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New H2 or intro line.",
+        "issue": "No heading matches \"how do I find a stream ID for X.\"",
+        "change": "Add an H2 such as \"How to find a crypto stream ID and verifier address\" and one line pointing to the filterable table and the discovery endpoint.",
+        "why": "Headings phrased as the actual lookup question win retrieval that a bare catalog loses."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the auto-generated schema `keywords` and `about`",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`TechArticle` JSON-LD.",
+        "issue": "`\"keywords\":\"list, available, Data, Streams, crypto, streams, and, their, ID.\"` and templated `about` (\"Content about data\").",
+        "change": "Replace with meaningful entities: `\"Chainlink Data Streams, crypto price feeds, stream ID, verifier proxy, onchain report verification\"`; set `about` names/descriptions to real concepts.",
+        "why": "Aids entity resolution; the current tokens include a stopword and legitimize nothing. Low effort."
+      },
+      {
+        "priority": 2,
+        "title": "Emit a real `dateModified`",
+        "mapsTo": "machine-readability & metadata (freshness)",
+        "tier": null,
+        "where": "JSON-LD + frontmatter.",
+        "issue": "`datePublished` == `dateModified` (identical, generator-stamped).",
+        "change": "Wire `dateModified` to the catalog's last content update so freshness reflects when streams were added/changed.",
+        "why": "A catalog that changes should show it; visible freshness is a trust/E-E-A-T signal for a list that agents must trust as current."
+      },
+      {
+        "priority": 3,
+        "title": "Add one concrete worked example inline",
+        "mapsTo": "code completeness, concrete specifics",
+        "tier": null,
+        "where": "After the intro, before the table.",
+        "issue": "No example stream ID or usage anywhere on the page.",
+        "change": "Show one full row in prose, e.g. \"For example, the ETH/USD stream ID is `0x000...` on Arbitrum Mainnet (verifier proxy `0x...`).\" with a link to the fetch/decode tutorial.",
+        "why": "A single concrete, hex-bearing example is highly liftable and survives even if the dynamic table fails to render."
+      }
+    ],
+    "antiPatterns": [
+      "**Wall-behind-JavaScript:** primary content served as `Loading...`; the most severe issue here.",
+      "**Stale/undifferentiated dates:** `datePublished` identical to `dateModified`.",
+      "**Auto-generated metadata cruft:** `keywords` contain a stopword (\"and\") and tokenized fragments; `about` entries use the \"Content about X\" template.",
+      "No keyword stuffing or marketing fluff detected in the prose itself."
+    ],
+    "offPageNotes": [
+      "Confirm `docs.chain.link` exposes an `llms.txt` and that this catalog (or its API discovery endpoint) is listed there, so agents can find stream IDs via a machine-readable route independent of JS rendering.",
+      "Consider linking this page prominently from the Data Streams hub and tutorial pages as the canonical stream-ID reference (canonical-hub pattern) to consolidate citations here rather than on aggregator pages.",
+      "The CLI passed `<head>` — metadata was fully verified; the empty body reflects genuine client-side rendering, not a fetch artifact."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "key": "ccip-getting-started-svm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Getting Started (Solana)",
+    "url": "https://docs.chain.link/ccip/getting-started/svm.md",
+    "analyzedAt": "2026-09-22T13:42:03.821Z",
+    "contentType": "developer documentation / getting-started hub page",
+    "score": 46,
+    "band": "Developing",
+    "weightedTotal": 46,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Opens well — \"Chainlink CCIP supports Solana through the Solana Virtual Machine (SVM), enabling cross-chain interoperability\" is a clean liftable sentence. Weak point: the \"Getting Started\" section is a single-sentence redirect with no self-contained answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean H2 hierarchy, 0 level skips, sensible bullets. Sections are coherent but so short (median 39 words) that several chunks carry little standalone value."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Poor — 3 numerals, 0 with units, no version strings, no chain selectors, no mainnet/devnet names, no program IDs. This is the highest-lift gap."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "3 links, 1 opaque (\"here\"), 0 primary sources. No link to Solana docs, SVM spec, or the CCIP architecture/config pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The SVM support sentence and the CCT bullet are liftable; adequate for a page this size."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, no canonical URL, no `inLanguage`, no og/twitter tags. A visible \"Last Updated: 2025-08-22\" exists in body but not as structured `dateModified`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "No code blocks. For a \"Getting Started\" page, at least a minimal install/config or chain-selector snippet is expected; agents get nothing runnable here."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Covers \"what can I build\" and \"how do I start\" at a surface level; no troubleshooting, no \"which networks are supported,\" no prerequisites. Lifecycle is truncated at \"use.\""
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Consistent naming of CCIP/SVM/CCT."
+      }
+    ],
+    "summary": "This is a thin (172-word) landing/hub page that introduces CCIP support for Solana and routes readers to tutorials. Its biggest strength is a clean, quotable opening definition and clear structure; its biggest weakness is near-total absence of concrete specifics (no supported networks, addresses, chain selectors, or versions) and no code, which starves generative engines of liftable, attributable facts. As a getting-started page it under-delivers on the setup→use→debug lifecycle and will lose retrieval to richer sibling/tutorial pages. Honest verdict: functional as a signpost, weak as a standalone GEO asset.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add concrete supported-network specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Under \"Solana (SVM) Support in CCIP\"",
+        "issue": "\"enabling cross-chain interoperability between Solana and other blockchain families\" — no specifics",
+        "change": "Add a table/list naming supported Solana networks (e.g., Solana mainnet-beta, Devnet), their CCIP chain selectors, router program IDs, and the earliest supported release/version. State any current limitations (e.g., token-only vs. arbitrary messaging status) with numbers.",
+        "why": "Quantitative, entity-specific facts are the highest-lift change for citation; this page currently offers none."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-/intent-phrased headings and an FAQ",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "New H2s after \"What You Can Build\"",
+        "issue": "No coverage of \"Which Solana networks does CCIP support?\", \"How do I send a message from Solana to an EVM chain?\", prerequisites, or common setup errors",
+        "change": "Add short Q-phrased H2/H3 sections mirroring how devs query, each answered in the first sentence, then linking to the relevant tutorial.",
+        "why": "Question-phrased headings win symptom/intent retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Fix opaque links and add primary-source citations",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "\"Getting Started with Solana CCIP\" and the SVM support paragraph",
+        "issue": "\"SVM tutorials can be found [here]\" — opaque anchor; 0 primary sources",
+        "change": "Replace \"here\" with descriptive text (\"see the **Solana (SVM) CCIP tutorials**\"); add inline links to the CCIP architecture page, the CCT standard page, and the canonical Solana/SVM documentation.",
+        "why": "Descriptive, authoritative links raise credibility and citation rate; opaque anchors carry no retrieval signal."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and structured dateModified",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` (site-level template)",
+        "issue": "JSON-LD 0 blocks; canonical MISSING; dateModified absent (only body \"Last Updated\")",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-08-22`, `inLanguage: en`, and a self-referential canonical URL.",
+        "why": "Structured metadata and visible freshness signals improve agent parsing and E-E-A-T trust."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal runnable starting snippet",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Getting Started with Solana CCIP\"",
+        "issue": "0 code blocks on a getting-started page",
+        "change": "Add one language-tagged snippet showing a minimal CCIP-on-Solana action (e.g., resolving a chain selector or the router program ID with a config), with imports/versions.",
+        "why": "Getting-started queries expect copy-pasteable starters; agents cannot act on prose-only redirects."
+      }
+    ],
+    "antiPatterns": [
+      "Opaque link text: \"SVM tutorials can be found **here**.\"",
+      "Thin redirect section: \"Getting Started with Solana CCIP\" is a one-line pointer with no standalone content.",
+      "Freshness date present in body text but not machine-readable (`dateModified` absent)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good; ensure this URL is listed in it and in the sitemap.",
+      "JSON-LD/canonical are site-template concerns; the CLI should pass raw `<head>` so schema can be verified rather than inferred absent.",
+      "As a hub page, its retrieval value depends on internal links from the richer SVM tutorial pages pointing back here (canonical-hub pattern) — an off-page linking task."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

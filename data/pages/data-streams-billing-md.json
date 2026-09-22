@@ -1,0 +1,157 @@
+{
+  "key": "data-streams-billing-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Streams Billing",
+    "url": "https://docs.chain.link/data-streams/billing.md",
+    "analyzedAt": "2026-09-22T13:29:06.419Z",
+    "contentType": "developer documentation / billing reference (stub)",
+    "score": 37,
+    "band": "Poor",
+    "weightedTotal": 36.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "The opening sentence is self-contained and quotable, but it answers only \"what billing model?\" — not the dominant \"how much?\" intent. Adequate for what little it covers."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Single section, no H2/H3, no table, no bullets (measured: 1 heading, 0 tables, 0 bullets). Fine for 87 words, but there is nothing to chunk or extract as reasons."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "Measured 0 numerals, 0 units, no version/network detail. For a billing page this is the critical failure — no prices, tiers, verification limits, or currency."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "2 links, both to contact/typeform forms; 0 to primary sources. No link to a pricing spec, terms, or a canonical Data Streams overview."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "\"Chainlink Data Streams uses a subscription-based billing option\" is liftable. The deprecation note is also crisply stated."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified. Head metadata could not be verified from served HTML — CLI should pass raw `<head>`. A billing page especially needs a visible last-updated signal."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code expected on a billing page; neutral."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Covers \"what is the billing model\" and flags the deprecated pay-per-verification model, but misses \"how much does it cost,\" \"what networks are supported,\" \"how do I subscribe,\" and any FAQ/troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Clear and unambiguous; consistent use of \"Chainlink Data Streams.\" Strong; minor issue is the leftover `{\" \"}` JSX artifact in the deprecation note."
+      }
+    ],
+    "summary": "This is an 87-word stub that tells the reader Data Streams uses a subscription-based billing model and directs everything else to a \"contact us\" form. Its one genuine strength is a clean, liftable opening claim (\"Chainlink Data Streams uses a subscription-based billing option\"). Its biggest opportunity is that a *billing* page contains zero concrete pricing facts — no prices, tiers, units, supported networks, or examples — so any generative engine asked \"how much does Chainlink Data Streams cost?\" cannot cite this page for an answer and will fall back on parametric priors or third-party sources. Honest verdict: content-starved; retrieval may work but there is almost nothing here to synthesize.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add concrete billing specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "body, after the subscription-model sentence.",
+        "issue": "\"Contact us to learn more about Mainnet pricing\" — page has 0 numerals.",
+        "change": "Add whatever can be published: what a subscription meters (per-report, per-verification, monthly tier), supported networks/chains, currency/payment token, and any published limits. Even a small table (Item | What's billed | Notes) gives engines extractable facts.",
+        "why": "Quantitative billing facts are the single highest-lift change; a billing page with zero numbers cannot be cited for cost questions."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/query-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "replace the flat single section with H2s.",
+        "issue": "no headings match how users ask (\"how much does Data Streams cost?\").",
+        "change": "Add H2s such as \"How much does Chainlink Data Streams cost?\", \"What billing model does Data Streams use?\", \"Is pay-per-verification still supported?\", \"How do I start a subscription?\"",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses, even when the answer is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` and canonical/last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`.",
+        "issue": "measured 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` schema with `dateModified`, a canonical URL, and a visible \"Last updated\" line. Deprecation notices make freshness signals especially valuable here.",
+        "why": "Structured metadata and visible freshness raise agent trust (E-E-A-T) and let engines date the deprecation claim."
+      },
+      {
+        "priority": 2,
+        "title": "Make the deprecation a first-class, liftable statement",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "the CAUTION block.",
+        "issue": "\"The pay-per-verification billing model has been deprecated\" buried in a callout with a JSX artifact `{\" \"}`.",
+        "change": "Surface a plain sentence: \"As of [date], the pay-per-verification model is deprecated; Data Streams now bills via subscription only.\" Remove the `{\" \"}` artifact.",
+        "why": "A dated, self-contained deprecation claim prevents engines from confidently citing the old model from stale priors."
+      },
+      {
+        "priority": 3,
+        "title": "Link to primary/canonical sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "body.",
+        "issue": "both links are contact forms; 0 authoritative references.",
+        "change": "Add inline links to the Data Streams overview/architecture page and any published pricing or terms page, not only to the typeform.",
+        "why": "Internal links into a canonical hub raise credibility and help this thin page inherit retrieval authority."
+      }
+    ],
+    "antiPatterns": [
+      "Wall-of-nothing stub: an entire page whose primary intent (cost) is deflected to a contact form.",
+      "JSX rendering artifact `{\" \"}` leaks into prose in the deprecation note.",
+      "Undated deprecation claim (\"has been deprecated\" with no date/version)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this billing URL is indexed there.",
+      "Site-level JSON-LD/canonical injection and a freshness cadence for billing/deprecation pages are template-level fixes beyond this page.",
+      "Whether pricing can be published at all may be a business/legal constraint; if so, the page should still name what is billed even if not the dollar amounts."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

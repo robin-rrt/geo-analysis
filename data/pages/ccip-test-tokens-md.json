@@ -1,0 +1,167 @@
+{
+  "key": "ccip-test-tokens-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Test Tokens - Faucets for EVM and Solana",
+    "url": "https://docs.chain.link/ccip/test-tokens.md",
+    "analyzedAt": "2026-09-22T13:42:50.443Z",
+    "contentType": "developer documentation / how-to reference",
+    "score": 62,
+    "band": "Good",
+    "weightedTotal": 62.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a clean, well-structured how-to page for minting CCIP test tokens on EVM and Solana testnets, with a strong comparison table for CCIP-BnM vs CCIP-LnM and concrete rate-limit facts. Its single biggest strength is scannability — flat heading hierarchy, no section over 600 words, one crisp token-comparison table. Its biggest opportunity is discoverability: with no JSON-LD, no canonical URL, and concept-titled (not symptom-titled) headings, the page is harder for engines to parse and to retrieve on the symptom queries developers actually type. Honest verdict: solid content that will lose retrieval races it should win.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/how-to phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "section headings throughout (`Quick Start`, `About CCIP Test Tokens`, `LINK Token Faucets`)",
+        "issue": "headings are concept-titled (\"About CCIP Test Tokens\", \"General Process\").",
+        "change": "add question-form H3s that mirror real queries: \"How do I get CCIP-BnM test tokens on Sepolia?\", \"How do I mint test tokens on Solana Devnet?\", \"Where do I get LINK for CCIP fees?\", \"Why is my drip/mint failing?\"",
+        "why": "engines retrieve on the query string; question-phrased headings win retrieval that concept titles lose even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured — \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", dates absent from schema.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-08-19`, `inLanguage`, and a `<link rel=\"canonical\">` to the non-`.md` URL.",
+        "why": "structured metadata and visible freshness raise parse-trust and citation rate; the body already has the date — expose it machine-readably."
+      },
+      {
+        "priority": 2,
+        "title": "Make the EVM Quick Start chunk self-contained",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Quick Start › EVM Chains\"",
+        "issue": "\"Call the `drip` function directly on token contracts using the interface below.\"",
+        "change": "lead with the full answer: name that addresses come from the CCIP Directory, state the mint amount (1 CCIP-BnM = `1e18`), and link the Directory in the first sentence.",
+        "why": "a lifted chunk must stand alone; today it depends on context \"below\" and elsewhere."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify EVM mint amount and per-token limits",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Block Explorer Method\" and the token table",
+        "issue": "EVM `drip` mints `1e18` but prose never states \"1 token\"; Solana limit hedged as \"about once every 3 hours\".",
+        "change": "state \"each EVM `drip` call mints 1 token (1e18 wei)\"; if the Solana cadence is exactly 3 hours, drop \"about\".",
+        "why": "quantitative claims are among the highest-lift changes; vague quantifiers underperform."
+      },
+      {
+        "priority": 2,
+        "title": "Add a short troubleshooting/FAQ section",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H2 near the end",
+        "issue": "no coverage of failure modes beyond CAUTION callouts.",
+        "change": "add Q&A entries: \"drip reverts / no tokens received\", \"rate limit — how long to wait\", \"token not showing in wallet\" (link the existing MetaMask import guide), \"wallet can't switch to testnet\".",
+        "why": "devs and agents query by symptom/error; these sections capture retrieval that prose misses."
+      },
+      {
+        "priority": 3,
+        "title": "Link one primary/canonical CCIP concept source",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"About CCIP Test Tokens\" intro",
+        "issue": "0 links to primary/canonical definitions (measured).",
+        "change": "link \"cross-chain testing\"/burn-and-mint terms to the canonical CCIP architecture/concepts page.",
+        "why": "inline authoritative references raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier: \"rate‑limited to about once every 3 hours per wallet\" — replace with the exact cadence if known.",
+      "Code snippet missing context: the Solidity `drip` block shows no imports or contract scope (measured: 1 of 1 block needing imports shows none) — acceptable as an interface excerpt, but label it as such.",
+      "No stale content or keyword stuffing detected; date is present and recent."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this page is listed in it.",
+      "Canonical URL and JSON-LD may be injected site-wide at the template level; verify with raw `<head>` (not captured here) before treating as a per-page absence.",
+      "Freshness cadence: the 2025-08-19 date should be surfaced as `dateModified` schema site-wide, not only in body text."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

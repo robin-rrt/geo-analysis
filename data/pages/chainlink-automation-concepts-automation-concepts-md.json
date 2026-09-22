@@ -1,0 +1,168 @@
+{
+  "key": "chainlink-automation-concepts-automation-concepts-md",
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Automation Concepts",
+    "url": "https://docs.chain.link/chainlink-automation/concepts/automation-concepts.md",
+    "analyzedAt": "2026-09-22T13:18:42.911Z",
+    "contentType": "developer documentation / conceptual overview",
+    "score": 46,
+    "band": "Developing",
+    "weightedTotal": 45.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a short (261-word) conceptual overview of Chainlink Automation, introducing upkeeps, the three trigger types, and Automation Nodes. Its strength is a clean, chunkable bulleted breakdown of triggers with links out to guides; its biggest weakness is thin, non-self-contained openers (\"These are the jobs...\", \"Before you explore...\") that don't lead with liftable definitions, compounded by absent metadata (no JSON-LD, canonical, or dates). The honest verdict: structurally sound but too thin and preamble-heavy to win citations for \"what is a Chainlink upkeep/trigger\" queries — it defines concepts adequately but never in a first, standalone sentence an engine can quote.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Lead each section with a self-contained definition",
+        "mapsTo": "Answer-first extractability, parametric-prior resistance",
+        "tier": null,
+        "where": "\"Upkeeps and triggers\" and \"Automation nodes\" section openers",
+        "issue": "\"These are the jobs or tasks that you execute onchain.\"",
+        "change": "Open with \"An **upkeep** is a registered onchain job that Chainlink Automation executes automatically when its **trigger** condition is met.\" Open the nodes section with a one-sentence definition of an Automation Node before the service description.",
+        "why": "Engines lift the first sentence of a section; an ambiguous-pronoun opener is not quotable and defaults answers to generic priors."
+      },
+      {
+        "priority": 1,
+        "title": "Add question-phrased headings/subheadings",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "section headings",
+        "issue": "concept-titled headings miss \"how do I…/what is…\" retrieval",
+        "change": "Add H3s or FAQ entries such as \"What is a Chainlink upkeep?\", \"Which trigger type should I use?\", \"Do time-based triggers need AutomationCompatibleInterface?\" (answer: no — already stated in body).",
+        "why": "Symptom/question-phrased headings win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add a trigger comparison table",
+        "mapsTo": "Machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Upkeeps and triggers\"",
+        "issue": "three triggers described in prose bullets only",
+        "change": "Add a table: Trigger type | When it fires | Requires `AutomationCompatibleInterface` | Example use case. Time-based = No; custom logic / log = Yes.",
+        "why": "Tables let engines extract decision reasons and the compatibility distinction cleanly."
+      },
+      {
+        "priority": 2,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "0 JSON-LD, canonical MISSING, no dateModified",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, canonical URL, and `inLanguage`; surface a visible \"Last updated\" line.",
+        "why": "Freshness and schema raise agent trust/parseability (E-E-A-T); measured facts confirm all are currently absent."
+      },
+      {
+        "priority": 3,
+        "title": "Cite primary sources",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Prerequisites (\"ERC-677 Token standard\")",
+        "issue": "0 links to primary sources",
+        "change": "Link ERC-677 to the canonical EIP alongside the internal token-contracts page; link `AutomationCompatibleInterface` to its reference/source.",
+        "why": "Inline authoritative references raise citation rate and attributability."
+      },
+      {
+        "priority": 3,
+        "title": "Replace the vague quantifier and add specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "custom logic bullet",
+        "issue": "\"and many more\"",
+        "change": "Drop \"many more\"; instead name the `checkUpkeep`/`performUpkeep` functions the interface requires and state the count of coded examples linked.",
+        "why": "Concrete parameters and named methods outperform qualitative prose in generative retrieval."
+      }
+    ],
+    "antiPatterns": [
+      "Ambiguous pronoun opener: \"These are the jobs or tasks…\" (entity unclear until second clause).",
+      "Vague quantifier: \"any one of our coded examples… and many more.\"",
+      "Navigational preamble as the page's first content (\"Before you explore…\") rather than a definition.",
+      "Undated content (no visible last-updated signal)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; confirm it lists this URL.",
+      "Canonical URL and JSON-LD are template/site-level concerns; fix in the docs layout, not just this page.",
+      "Head metadata could not be verified from the provided content — pass raw `<head>` to the CLI for a definitive metadata read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
+    "probes": {}
+  }
+}

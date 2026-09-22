@@ -1,0 +1,483 @@
+{
+  "runId": "2026-09-22T13-04-59-252Z-866b",
+  "startedAt": "2026-09-22T13:04:59.253Z",
+  "endedAt": "2026-09-22T13:05:05.135Z",
+  "owner": {
+    "pid": 24918,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "vrf",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "partial",
+  "counts": {
+    "expected": 13,
+    "pages": 0,
+    "failed": 13
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-04-59-252Z-866b",
+    "target": {
+      "type": "product",
+      "name": "vrf",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "partial",
+    "startedAt": "2026-09-22T13:04:59.253Z",
+    "endedAt": "2026-09-22T13:05:05.135Z",
+    "elapsedMs": 5882,
+    "counts": {
+      "pages": 0,
+      "failed": 13,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/vrf.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTqyxRE1x4BHR9nYD1\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTr5fDdT5mK7v5Zs71\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTsjsPCEEEakK4orUY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTvDh8YWTkVZtHPsHF\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTw34P4BzJ4e5txF9B\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTwHwJYR2DypCm615X\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTyyfYcMoQNmKwLJ2L\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTzXf72dD2tDJQKq6N\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTztytUny1NTVibfFC\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU35wrDw2TG77jqmqb\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU44UvpjRhHwyVGy49\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU5138nMEZUgqa29h6\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXUC8ug8xUpiKBYKuTi\"}"
+      }
+    ]
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "vrf",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 49,
+      "inScope": 13,
+      "failed": 13
+    },
+    "notes": [
+      "curated index lists 13 of 36 pages under /vrf/ — 23 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/vrf",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/api-reference",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/introduction",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v1/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/arbitrum-cost-estimation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/examples/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/direct-funding/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/estimating-costs",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/get-a-random-number",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/programmatic-subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/examples/test-locally",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2/subscription/ui",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/vrf.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTqyxRE1x4BHR9nYD1\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/best-practices.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTr5fDdT5mK7v5Zs71\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/billing.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTsjsPCEEEakK4orUY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTvDh8YWTkVZtHPsHF\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/getting-started.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTw34P4BzJ4e5txF9B\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTwHwJYR2DypCm615X\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/migration-from-v2.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTyyfYcMoQNmKwLJ2L\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/direct-funding.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTzXf72dD2tDJQKq6N\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview/subscription.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXTztytUny1NTVibfFC\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/security.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU35wrDw2TG77jqmqb\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/create-manage.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU44UvpjRhHwyVGy49\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXU5138nMEZUgqa29h6\"}"
+      },
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/supported-networks.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXUC8ug8xUpiKBYKuTi\"}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "key": "chainlink-functions-api-reference-functions-client-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "FunctionsClient API Reference",
+    "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-client.md",
+    "analyzedAt": "2026-09-22T13:23:25.111Z",
+    "contentType": "developer documentation / Solidity API reference",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 51.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "The lede is solid — \"Consumer contract developers inherit FunctionsClient ... to create Chainlink Functions requests.\" Weak: Events/Errors sections open with a bare code fence and no sentence, so a lifted chunk explains nothing."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; clean H2/H3/H4, 0 level skips, 4 parameter tables, no oversized sections. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — only 2 prose numerals; the `donId` parameter row has an empty description, and there is no gas guidance, no `callbackGasLimit` bounds, no network/router specifics."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate — links to the exact versioned source contract (`contracts-v1.3.0`) and the NPM package. Could add a link to the Functions architecture/Router concept page."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Method one-liners are decent (\"Sends a Chainlink Functions request to the stored router address\") but Events and the Error have none."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags, no declared programmingLanguage despite 7 Solidity fences. Head metadata could not be verified; CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak — all 7 fences are single-line signatures; 0 substantive blocks. No runnable inheritance example showing a consumer contract implementing `_sendRequest` + `fulfillRequest`."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak — pure reference; no \"when does OnlyRouterCanFulfill revert\", no \"how do I send a Functions request\", no troubleshooting. Symptom queries around the error string will miss."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — consistent naming (`FunctionsClient`, `DON`, `Router`), unambiguous prose. Terse but clean."
+      }
+    ],
+    "summary": "This is a machine-generated Solidity API reference for the `FunctionsClient` contract: clean heading hierarchy, tidy parameter tables, and a direct link to the canonical source contract on GitHub. Its biggest GEO strength is structural chunkability; its biggest weakness is that several sections are bare signatures with no liftable explanation (`RequestSent`, `RequestFulfilled`, `OnlyRouterCanFulfill`), which starves both retrieval and synthesis. Combined with wholly absent page metadata (no JSON-LD, canonical, or dates), this reads as a thin stub that engines will struggle to cite over higher-context sibling pages. Honest verdict: functionally correct but under-annotated — small surgical additions would raise it materially.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Annotate the empty Events and Error sections",
+        "mapsTo": "answer-first extractability, quotable definitions",
+        "tier": null,
+        "where": "`### RequestSent`, `### RequestFulfilled`, `### OnlyRouterCanFulfill`",
+        "issue": "each section is a bare signature, e.g. `event RequestSent(bytes32 id)` with no text.",
+        "change": "add one liftable sentence under each, e.g. \"`RequestSent` is emitted when `_sendRequest` successfully forwards a request to the Router; `id` is the generated request ID.\" For the error: \"`OnlyRouterCanFulfill` reverts when any address other than the configured Functions Router calls `handleOracleFulfillment`.\"",
+        "why": "empty chunks cannot be retrieved or synthesized; a self-contained sentence per anchor wins retrieval and gives an engine something to quote."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom-phrased troubleshooting note for the revert",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "near `### OnlyRouterCanFulfill`",
+        "issue": "developers search the literal error string, not the concept name.",
+        "change": "add an H3 or callout: \"Why am I getting `OnlyRouterCanFulfill()`?\" followed by the cause (a non-Router caller invoked fulfillment) and the fix (verify the router address passed to the constructor).",
+        "why": "symptom/error-string headings capture retrieval that concept-titled reference prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Fill the empty `donId` parameter description",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "`_sendRequest` → Parameters table, `donId` row (Description blank)",
+        "issue": "`| donId | bytes32 | |` — no description.",
+        "change": "\"The DON ID for the Functions DON that will execute the request (e.g. the network-specific `bytes32`-encoded identifier).\"",
+        "why": "an empty cell is a visible gap; concrete parameter detail is high-lift for agents assembling a call."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal runnable inheritance example",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "after the intro paragraph",
+        "issue": "0 substantive code blocks; no example of using the contract.",
+        "change": "add a ~15-line Solidity block with SPDX header, pragma `^0.8`, `import {FunctionsClient} from \"@chainlink/contracts/...\"`, a contract inheriting it, a constructor passing `router`, and an overridden `fulfillRequest`.",
+        "why": "copy-pasteable, import-complete snippets are what coding agents extract and run."
+      },
+      {
+        "priority": 2,
+        "title": "Add page-level machine-readable metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page head / frontmatter",
+        "issue": "no JSON-LD, canonical MISSING, no dateModified.",
+        "change": "emit `TechArticle`/`APIReference` JSON-LD, a `<link rel=\"canonical\">`, and a visible last-updated date; declare `programmingLanguage: Solidity`.",
+        "why": "structured metadata and freshness signals raise parseability and E-E-A-T trust for retrieval."
+      },
+      {
+        "priority": 3,
+        "title": "Link the Router/architecture concept on first mention",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "intro paragraph, \"stored router address\" and \"DON\"",
+        "issue": "key entities `Router` and `DON` are unlinked.",
+        "change": "inline-link `Router` and `DON` to their canonical concept pages.",
+        "why": "internal links to canonical definitions improve entity resolution and citation credibility."
+      }
+    ],
+    "antiPatterns": [
+      "Bare-signature sections with no accompanying prose (`RequestSent`, `RequestFulfilled`, `OnlyRouterCanFulfill`) — undifferentiated stubs that resist retrieval.",
+      "Empty table cell (`donId` description) — a visible content gap.",
+      "No dated/versioned page-level metadata (page cites `contracts-v1.3.0` in a link but shows no dateModified)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and `og`/`twitter` tags are likely governed by the site template — fixes here benefit every auto-generated API page, not just this one.",
+      "The page already references `/llms.txt`; ensure this URL is listed there so agents discover it.",
+      "Auto-generated reference pages sitewide would benefit from a template change that injects the NatSpec `@notice`/`@dev` text into every Event and Error section, not just Methods."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

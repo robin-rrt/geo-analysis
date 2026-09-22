@@ -1,0 +1,167 @@
+{
+  "key": "ccip-getting-started-aptos-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Getting Started (Aptos)",
+    "url": "https://docs.chain.link/ccip/getting-started/aptos.md",
+    "analyzedAt": "2026-09-22T13:41:46.945Z",
+    "contentType": "developer documentation / landing-overview page",
+    "score": 49,
+    "band": "Developing",
+    "weightedTotal": 49,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "\"Aptos Support in CCIP\" opens with a self-contained claim — good. But \"Getting Started with Aptos CCIP\" delivers no answer, only a link; that section is empty of liftable content."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean H1→H2 hierarchy, 0 level skips, well-formed bullet list of build patterns. Strong for its size; each section is a coherent chunk. No table where a supported-lanes/networks table would help."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 3 numerals, 0 with units, 0 hex identifiers, no version strings. Names \"Move\" and \"Fungible Asset standard\" but no Aptos version, network (mainnet/testnet) coverage, chain selectors, or router addresses."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "3 links, 0 to primary sources; no link to the Aptos Move docs, the Fungible Asset (FA) standard spec, or the CCT standard page. One opaque \"here\" link."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The opening sentence is a clean, verbatim-liftable definition. No definitions offered for \"Fungible Asset standard\" or \"CCT\" at first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "No JSON-LD, canonical MISSING, no og/twitter tags. A visible \"Last Updated: 2025-08-22\" and llms.txt pointer are present in-body. Head metadata could not be verified — CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "0 code blocks. Acceptable for a pure overview, but even a minimal \"install / connect to Aptos testnet\" snippet would raise agent utility."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers \"what is CCIP on Aptos\" and \"what can I build,\" but no \"how do I…\", no supported-networks answer, no troubleshooting/FAQ."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Terminology (CCIP, Move, Fungible Asset, CCT) is consistent."
+      }
+    ],
+    "summary": "This is a thin (193-word) overview/landing page introducing CCIP support for Aptos and routing readers to tutorials. Its biggest strength is clean, consistent prose with a liftable opening definition (\"Chainlink CCIP supports Aptos through the Move programming language…\"); its biggest weakness is that it carries almost no concrete specifics (no supported networks, chain selectors, addresses, versions, or code) and terminates in an opaque \"tutorials can be found here\" hand-off. As an overview node it is serviceable, but for generative retrieval it is under-specified: an engine has little quotable, attributable substance to cite beyond the one-sentence definition.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a concrete \"Aptos networks & specifics\" block",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "under \"Aptos Support in CCIP\"",
+        "issue": "\"supports Aptos through the Move programming language\" — no networks, versions, or identifiers.",
+        "change": "Add a short table or bullets: supported Aptos networks (mainnet/testnet), the relevant chain selector(s), router/onramp module addresses, and the Aptos/Move version tested. Include units.",
+        "why": "Quantitative, version- and network-specific facts are the highest-lift change for retrieval and citation."
+      },
+      {
+        "priority": 1,
+        "title": "Replace the opaque \"here\" hand-off with an answer-first section",
+        "mapsTo": "answer-first extractability + query coverage",
+        "tier": null,
+        "where": "\"Getting Started with Aptos CCIP\"",
+        "issue": "\"Aptos tutorials can be found here.\"",
+        "change": "Open with a self-contained sentence naming the first concrete step (e.g. \"To transfer tokens from Aptos to an EVM chain, deploy an FA-compliant token and configure it via the CCT standard — see the [Aptos CCIP tutorials](/ccip/tutorials/aptos).\"). Use descriptive link text, not \"here.\"",
+        "why": "Engines cannot lift a bare link; descriptive anchors and answer-first leads win retrieval that pointer prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H2s",
+        "issue": "all headings are concept-titled (\"Aptos Support in CCIP\").",
+        "change": "Add sections phrased as user queries: \"Which Aptos networks does CCIP support?\", \"How do I transfer a token from Aptos to an EVM chain?\", \"Does CCIP support the Aptos Fungible Asset standard?\"",
+        "why": "Devs and agents query by question/symptom; question-phrased headings capture retrieval concept titles miss."
+      },
+      {
+        "priority": 2,
+        "title": "Add inline citations to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Aptos Support in CCIP\"",
+        "issue": "\"Fungible Asset standard\" and \"Move programming language\" are unlinked; 0 primary-source links.",
+        "change": "Link \"Move\" to the Aptos Move docs, \"Fungible Asset standard\" to its canonical Aptos spec, and \"CCT Standard\" to the CCIP CCT page.",
+        "why": "Inline authoritative links raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Add page-level structured metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "JSON-LD 0 blocks, canonical MISSING, no og tags.",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified` (2025-08-22 already visible), a canonical URL, and `inLanguage`. Surface last-updated in rendered HTML too.",
+        "why": "Structured metadata and freshness signals improve agent parseability and E-E-A-T trust. (Site-level; see below.)"
+      },
+      {
+        "priority": 3,
+        "title": "Define CCT at first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "\"Cross-Chain Token (CCT) Standard\" bullet",
+        "issue": "CCT introduced without a one-line definition.",
+        "change": "Add a crisp clause: \"The CCT standard lets token issuers make their tokens transferable across CCIP-supported chains without a lock/mint bridge.\"",
+        "why": "A self-contained definition near first use is verbatim-liftable."
+      }
+    ],
+    "antiPatterns": [
+      "Opaque link text: \"Aptos tutorials can be found **here**\" — 1 opaque anchor confirmed by measured facts.",
+      "Thin content: 193 words total; the final section carries no substantive content beyond a link.",
+      "No stale-content issue: \"Last Updated: 2025-08-22\" is present in-body (good)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/twitter tags are absent from the served HTML — likely a site-template/theme concern rather than this page alone; fix at the docs-platform layer.",
+      "Head metadata could not be verified from the provided content; run the CLI with raw `<head>` passthrough for a definitive metadata read.",
+      "`llms.txt` is already referenced — good site-level signal; ensure this page is enumerated in it and in the sitemap."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

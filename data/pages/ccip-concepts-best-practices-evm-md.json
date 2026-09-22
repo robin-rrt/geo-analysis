@@ -1,0 +1,178 @@
+{
+  "key": "ccip-concepts-best-practices-evm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Best Practices (EVM)",
+    "url": "https://docs.chain.link/ccip/concepts/best-practices/evm.md",
+    "analyzedAt": "2026-09-22T13:38:35.126Z",
+    "contentType": "developer documentation / best-practices guide",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong. Most sections open with the actionable claim, e.g. \"If `extraArgs` are left empty, a default of *200000* `gasLimit` will be set.\" A few sections (\"Evaluate the security…\") open with hedged prose that doesn't state the practice crisply."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Clean H2→H4 hierarchy, median 47 words/section, 0 sections over 600 words. Weakness: **0 tables** — role permissions and the `allowOutOfOrderExecution` Optional/Required matrix are prose/bullets where a table would extract far better."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Mixed. Good specifics exist (200000 default gasLimit, 8 vs 18 decimals, `10^10` scaling, 50%/30% thresholds) but the facts block flags **0 numerals with units** and vague quantifiers (\"various\", \"most\"). Deprecation \"early 2026\" is imprecise."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; links to Ethereum execution-apis, Foundry, Hedera docs, and GitHub source. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — \"The **token admin** is responsible for configuring token pools across blockchains…\" is liftable. Some roles (rebalancer, rate limit admin) defined; CCIP itself is not defined on-page for a cold reader."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Facts confirm 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified`, no og/twitter tags. Head metadata could not be verified — CLI should pass raw `<head>`. This is largely a site-template fix but directly lowers agent trust/E-E-A-T signals."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak for the format — 1 fenced block, untagged, non-runnable (`Scaled Fee = getFee() * 10^10`). This is a prose best-practices page so low code is expected, but the one block should be language-tagged and the Hedera example would benefit from a real snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Fair. Broad lifecycle coverage (verify → gas → liquidity → monitor → chain-specific), but headings are concept-named, not question/symptom-named; no FAQ or troubleshooting framing for error strings devs actually paste."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong and consistent. One rendering glitch: `\\*\\* Delegate Rate Limit Admin Role \\*\\*` shows broken bold markup."
+      }
+    ],
+    "summary": "This is a well-structured, action-oriented best-practices reference for building on CCIP over EVM chains, strong on internal cross-linking (18 internal, 14 external, 3 primary-source links) and clean sectioning (37 headings, 0 level skips, 0 oversized sections). Its biggest GEO strength is chunkability: nearly every section is a self-contained retrievable unit. Its biggest opportunity is machine-readability — the served HTML carries **no JSON-LD, no canonical URL, and no schema dates** despite a visible \"Last Updated: 2025-05-19\" — compounded by concept-titled (not symptom-titled) headings that miss the way developers actually query. Honest verdict: solid, agent-friendly content undermined by missing structured metadata and query-phrasing gaps that cost retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a short FAQ",
+        "mapsTo": "Symptom-phrased query coverage",
+        "tier": null,
+        "where": "Section headings throughout; new \"FAQ / Troubleshooting\" H2 near the end.",
+        "issue": "Concept titles like \"Verify sender\", \"Using `extraArgs`\" miss \"how do I…\" and error-string queries.",
+        "change": "Add question-form subheadings or FAQ entries: \"Why did my CCIP message revert on a Required out-of-order lane?\", \"Why is my Hedera fee 10^10 too small?\", \"How do I estimate gasLimit for ccipReceive?\". Keep the answer in the first sentence.",
+        "why": "Symptom-phrased headings win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle` JSON-LD with canonical URL and dates",
+        "mapsTo": "Machine-readability (\"API-able\")",
+        "tier": null,
+        "where": "Page `<head>` (site template).",
+        "issue": "Facts show 0 JSON-LD, canonical MISSING, dateModified absent despite visible \"Last Updated: 2025-05-19\".",
+        "change": "Add a `TechArticle` block with `headline`, `dateModified: 2025-05-19`, `inLanguage`, and a self-referencing `canonical`. Surface the last-updated date in structured markup, not just body text.",
+        "why": "Structured metadata and freshness signals raise parse-ability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Convert role permissions to a comparison table",
+        "mapsTo": "Machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Best Practices for Cross-Chain Token (CCT) Administration\".",
+        "issue": "token admin, token pool owner, rate limit admin, rebalancer defined across scattered bullets; 0 tables on page.",
+        "change": "Add a table: Role | Can do | Assign to | Function(s) (e.g. `setRateLimitAdmin()`, `provideLiquidity`).",
+        "why": "Tables let engines extract discrete role→permission reasons and build justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Tabulate the `allowOutOfOrderExecution` decision matrix",
+        "mapsTo": "Machine-scannability; answer-first",
+        "tier": null,
+        "where": "\"Setting `allowOutOfOrderExecution`\" → Best Practices.",
+        "issue": "Optional/Required × true/false logic is nested bullets, easy to mis-synthesize.",
+        "change": "Table: Lane property (Optional/Required) | Allowed values | Behavior | Reverts? Lead with the canonical rule \"On Required lanes you **must** set `true`.\"",
+        "why": "Reduces the chance an engine inverts the Required-lane rule — a high-severity error."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers and add units/precision",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Ensure Sufficient Liquidity\" (\"various threshold levels\"); deprecation note \"early 2026\".",
+        "issue": "Facts flag vague quantifiers and 0 numerals with units.",
+        "change": "State thresholds numerically inline (already partly done: 50%/30%); give the deprecation a concrete quarter/date if known; add units to gas figures (\"200000 gas units\").",
+        "why": "Quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Tag and complete the one code block; add a runnable Hedera snippet",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Required Fee Scaling\".",
+        "issue": "Untagged block `Scaled Fee = getFee() * 10^10` is pseudocode, not runnable.",
+        "change": "Tag as `text` or provide a `javascript`/`solidity` snippet: `const scaledFee = fee * 10n ** 10n;` with the `ccipSend` `msg.value` usage.",
+        "why": "Copy-pasteable, language-labeled code is preferentially cited by coding agents."
+      },
+      {
+        "priority": 3,
+        "title": "Fix broken bold markup",
+        "mapsTo": "Clarity & fluency",
+        "tier": null,
+        "where": "\"Best Practices for Token Pool Owners…\" bullet.",
+        "issue": "`\\*\\* Delegate Rate Limit Admin Role \\*\\*` renders literally.",
+        "change": "Correct to `**Delegate Rate Limit Admin Role**`.",
+        "why": "Clean presentation is independently rewarded by engines."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers (\"various threshold levels\", \"most EVM chains\") — minor.",
+      "One untagged, non-runnable fenced code block.",
+      "Broken markdown emphasis on the \"Delegate Rate Limit Admin Role\" bullet.",
+      "No stale-content issue: \"Last Updated: 2025-05-19\" is present in body (but not in schema)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/date tags are almost certainly controlled by the site template — fix once at the layout level to benefit all docs pages.",
+      "The page already references `/llms.txt`; ensure this page is listed there so agents can discover it.",
+      "CLI should pass raw `<head>` on future runs — head metadata could not be verified here, so the metadata score reflects served-HTML absence, not confirmed omission."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

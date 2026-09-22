@@ -1,0 +1,179 @@
+{
+  "key": "ccip-concepts-best-practices-ton-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Best Practices (TON)",
+    "url": "https://docs.chain.link/ccip/concepts/best-practices/ton.md",
+    "analyzedAt": "2026-09-22T13:39:04.505Z",
+    "contentType": "developer documentation / best-practices reference",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 68.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured, specifics-dense best-practices page for TON CCIP receivers, with strong answer-first section leads and concrete GRAM/nanoGRAM figures that generative engines can lift verbatim. Its two biggest opportunities are (1) missing machine-readable metadata (no JSON-LD, no canonical URL, no `<head>` dates captured) and (2) the absence of symptom/error-phrased headings that agents actually query by — the page describes \"message stuck in-progress,\" `LowValue`, and `Unauthorized` failures only inside prose and CAUTION callouts. A comparison table for the EVM-vs-TON `gasLimit` semantics would also convert an easily-confused distinction into an extractable unit. Honest verdict: solid Good, held back by metadata and query-coverage gaps rather than content quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased headings for the failure modes",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "New H3s under \"Set `MIN_VALUE` correctly\" and a new \"Troubleshooting\" section.",
+        "issue": "Failures described only as prose: \"the message is left in an in-progress state… it cannot be retried.\"",
+        "change": "Add headings phrased as queries: \"Why is my CCIP message stuck in an in-progress state?\", \"Receiver reverts with `LowValue` / `Unauthorized`\", \"Message not retriable after out-of-gas\". Answer in the first sentence under each.",
+        "why": "Agents query by error string and symptom; concept-titled prose loses retrieval the page already answers verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Emit machine-readable metadata",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "Measured — 0 JSON-LD, canonical MISSING, no `dateModified`, `inLanguage` absent.",
+        "change": "Add `TechArticle` JSON-LD with `headline`, `dateModified: 2026-04-07`, `inLanguage: en`, `programmingLanguage: [Tolk, TypeScript]`, and a self-referential canonical URL.",
+        "why": "Structured metadata and visible freshness raise parse-trust and citation eligibility for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Add an EVM-vs-TON `gasLimit` comparison table",
+        "mapsTo": "machine-scannability & parametric-prior resistance",
+        "tier": null,
+        "where": "\"Configure `extraArgs` correctly\".",
+        "issue": "The nanoGRAM-vs-gas-units distinction is spread across two subsections plus a CAUTION; measured 0 tables.",
+        "change": "Add a 2-row table: destination | `gasLimit` unit | helper | default | refund behavior (`buildExtraArgsForEVM`, gas units, `100_000`, no refund vs `buildExtraArgsForTON`, nanoGRAM, `100_000_000n`/0.1 GRAM, surplus returned).",
+        "why": "Engines extract *reasons* from tables; a single unit is the most-confused fact and priors will otherwise default to EVM gas semantics."
+      },
+      {
+        "priority": 2,
+        "title": "De-duplicate and consolidate the tail sections",
+        "mapsTo": "structural chunkability",
+        "tier": null,
+        "where": "\"Monitor your dApps\" (H2 appears twice); generic \"Evaluate…/Review…/Soak test…\" boilerplate.",
+        "issue": "Two identical H2 titles fragment retrieval and dilute the detailed TON monitoring section.",
+        "change": "Rename the second generic \"Monitor your dApps\" to \"General monitoring guidance\" or merge into the detailed section; keep one canonical monitoring anchor.",
+        "why": "Duplicate headings break chunk-to-anchor mapping and split ranking signal."
+      },
+      {
+        "priority": 2,
+        "title": "Give the Tolk snippets minimal runnable context",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "Step 1–3 Tolk blocks under \"Implement all three mandatory receiver protocol steps\".",
+        "issue": "Fragments like `assert(in.senderAddress == st.router)…` with no surrounding handler; 1 untagged block; measured import-needing block shows none.",
+        "change": "Wrap the three asserts in a short `Receiver_CCIPReceive` handler stub showing `st.router`, `MIN_VALUE`, and message context; tag the untagged fence with `tolk`.",
+        "why": "Agents copy runnable units; disconnected asserts can't be assembled without inference."
+      },
+      {
+        "priority": 3,
+        "title": "Name the tempting-wrong pattern as an explicit Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Verify source chain\" / \"Verify sender\".",
+        "issue": "\"Source chain validation is not enforced at the protocol level on TON\" — correct, but relies on the reader inferring the action.",
+        "change": "Add a one-line \"Don't assume the Router validates source/sender for you — it does not on TON; check `sourceChainSelector` and `sender` in your handler.\"",
+        "why": "Skimmed/unretrieved answers default to the EVM idiom where some checks feel implicit; an explicit Don't blocks that substitution."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with numbers where known",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "\"covers most receive operations\", \"small fluctuations\".",
+        "issue": "measured vague quantifiers \"some, most\".",
+        "change": "Where a benchmark exists, cite it (e.g., \"covers a simple store-and-emit receive at ~X nanoGRAM\"); otherwise leave as-is.",
+        "why": "Quantitative claims are among the highest-lift changes for citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Duplicate H2 \"Monitor your dApps\" (two sections with the same title) — hurts chunk disambiguation.",
+      "Generic boilerplate tail sections (\"Evaluate the security…\", \"Review and audit…\", \"Soak test…\") are thin and near-identical to other chains' pages; not stuffing, but low-signal chunks.",
+      "One untagged code fence; Tolk snippets lack surrounding context/imports.",
+      "Minor vague quantifiers (\"some\", \"most\").",
+      "No keyword stuffing or marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good; ensure this URL is listed there.",
+      "`<head>` metadata could not be captured by the crawler; pass raw `<head>` in the CLI to confirm whether canonical/JSON-LD are truly absent vs unrendered before treating dimension 6 as fully failing.",
+      "Site-level freshness cadence and third-party/earned citations (e.g., TON ecosystem docs linking here) are off-page levers that would raise retrieval authority."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

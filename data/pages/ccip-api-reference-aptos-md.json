@@ -1,0 +1,157 @@
+{
+  "key": "ccip-api-reference-aptos-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Move Module Interfaces Reference Documentation (Aptos)",
+    "url": "https://docs.chain.link/ccip/api-reference/aptos.md",
+    "analyzedAt": "2026-09-22T13:36:07.021Z",
+    "contentType": "developer documentation / version-index (reference landing page)",
+    "score": 43,
+    "band": "Developing",
+    "weightedTotal": 42.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Page opens with a title and a version list, not a self-contained answer. The best liftable line — \"Initial release for the Aptos blockchain… Cross-chain messaging from Aptos to EVM-based chains\" — is buried as a sub-bullet. Weak."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong for its size — 4 headings, 1 H1, max depth H3, 0 level skips, tidy bullets. No action needed on hierarchy."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured 0 numerals in prose; only `v1.6.0` present. Feature bullets (\"Configurable gas limits\", \"native APT fee payments\") lack any numbers, limits, or supported-chain lists. Weak."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "2 internal links, 0 external, 0 primary sources. No link to the CCIP concept page, the Aptos Move docs, or the CCIP spec. Weak."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "No one-sentence definition of \"CCIP Move Module Interfaces\" or what the Aptos integration provides. An engine has nothing crisp to lift. Weak."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified. Head metadata could not be verified — CLI should pass raw `<head>`. On the served evidence, this is the lowest dimension."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "No code, expected for an index page — but even a minimal import/module-path reference or a link labeled as the entry module would help agents. Low lift here."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Answers \"what versions exist\" only. Misses \"how do I use CCIP on Aptos\", \"does CCIP support Aptos token transfers\", \"what chains can Aptos send to\". Weak."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; \"CCIP\", \"Aptos\", \"EVM-based chains\", \"Fungible Assets\" used consistently and unambiguously. No action needed."
+      }
+    ],
+    "summary": "This is a thin (100-word) version-index page whose only job is to route readers to the CCIP v1.6.0 Aptos API reference. Its biggest strength is clean, level-skip-free structure and unambiguous prose; its biggest weakness is that it carries almost no liftable substance — no definition of what CCIP-on-Aptos *is*, no metadata, no concrete parameters — so a generative engine landing here gets navigation, not an answer. As an index page this is acceptable UX but weak GEO: it should still contain one canonical, quotable definition and machine-readable metadata so it can be retrieved and cited for \"what is CCIP on Aptos\" style queries rather than being a dead-end pointer.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical, answer-first definition paragraph",
+        "mapsTo": "Quotable canonical definitions / Answer-first extractability",
+        "tier": null,
+        "where": "Immediately under the H1, before \"## Available Versions\".",
+        "issue": "Page opens with a version list; no self-contained statement of what this is.",
+        "change": "Add one lead sentence, e.g. \"Chainlink CCIP on Aptos is a set of Move modules that enable cross-chain messaging and token transfers between Aptos and EVM-based chains, with native APT fee payments and configurable gas limits (current release: v1.6.0).\"",
+        "why": "Gives engines a self-contained, verbatim-liftable answer to \"what is CCIP on Aptos\" — the query this URL should own."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/intent-phrased entry points",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "Under \"## Documentation Structure\" or as short linked H3s.",
+        "issue": "Sections are concept-titled (\"Router Functions\", \"Events\"), not query-phrased.",
+        "change": "Phrase or annotate links as tasks: \"Send a message from Aptos to an EVM chain\", \"Transfer tokens using Aptos Fungible Assets\", \"Handle CCIP errors on Aptos\" — each linking into the v1.6.0 subpage.",
+        "why": "Devs/agents query by task, not by concept name; task-phrased anchors win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and last-updated",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "Measured 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` schema with `name`, `about: \"Chainlink CCIP\"`, `softwareVersion: \"1.6.0\"`, a canonical URL, and a visible \"Last updated\" line. Verify against raw `<head>` (not captured here).",
+        "why": "Structured metadata and freshness signals raise agent trust and parse reliability (E-E-A-T)."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to the feature bullets",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "The v1.6.0 feature list.",
+        "issue": "\"Configurable gas limits and out-of-order execution\" — no values or supported-chain names.",
+        "change": "Name the specific EVM chains supported for Aptos↔EVM, and state any gas-limit range or default; link the Fungible Asset standard.",
+        "why": "Quantitative/named specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Add external/primary-source links",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "First mention of \"Move\", \"Fungible Assets\", and \"CCIP\".",
+        "issue": "0 external links; claims are unattributed.",
+        "change": "Link \"Move modules\" to Aptos Move docs, \"Fungible Assets\" to the Aptos FA standard, and \"CCIP\" to the CCIP concept/overview page.",
+        "why": "Inline authoritative links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Thin content: 100 words total, functioning as a pure pointer with no standalone answer.",
+      "Undated/unversioned metadata (no dateModified) — freshness signal absent.",
+      "No canonical URL and no JSON-LD in served HTML."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure this URL is listed in it.",
+      "Head metadata could not be verified from the provided content; pass raw `<head>` in the CLI for a full metadata read before treating schema/canonical as truly absent.",
+      "As an index page, some GEO weight legitimately lives on the linked v1.6.0 subpage; ensure that page carries the canonical definitions and code this landing page lacks."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-tutorials-rust-sdk-stream-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Stream and decode Data Streams reports via WebSocket using the Rust SDK",
+    "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+    "analyzedAt": "2026-09-22T13:34:34.281Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured, code-complete Rust tutorial that walks the full lifecycle (setup → stream → multi-stream → HA → decode → adapt schemas → verify) with runnable snippets, real endpoint URLs, and inline links to GitHub source lines. Its single biggest GEO strength is code/agent-runnability with authoritative source citations; its single biggest opportunity is machine-readable metadata (no JSON-LD, canonical, or last-updated signals in the served markdown) plus the absence of symptom-phrased troubleshooting headings. The honest verdict: strong content that engines can synthesize, but it forfeits easy retrieval/trust lift on metadata and error-query coverage.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a symptom-phrased Troubleshooting section",
+        "mapsTo": "symptom-query coverage",
+        "tier": null,
+        "where": "new H2 after \"Explanation\"",
+        "issue": "no error-string or failure-phrased headings anywhere on page",
+        "change": "add H3s phrased as errors/questions: \"`API_KEY must be set` panic on startup\", \"Why does HA mode fail on testnet?\", \"WebSocket connection keeps reconnecting\", each with a one-line answer.",
+        "why": "devs/agents query by error string; symptom-titled sections win retrieval that concept prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical, and last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "emit `TechArticle` JSON-LD with `programmingLanguage: Rust`, canonical URL, and a visible `dateModified`; surface a \"Last updated\" line in-page.",
+        "why": "structured metadata + freshness signals raise parse-trust (E-E-A-T) and citation eligibility."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the WebSocket endpoint inconsistency",
+        "mapsTo": "clarity & terminology consistency / specifics accuracy",
+        "tier": null,
+        "where": "second config snippet under \"Set up your API credentials\"",
+        "issue": "`wss://api.testnet-dataengine.chain.link/ws` vs earlier `wss://ws.testnet-dataengine.chain.link`",
+        "change": "make both snippets use the identical, correct testnet WS URL.",
+        "why": "conflicting specifics get synthesized into wrong endpoints; consistent values prevent hallucinated config."
+      },
+      {
+        "priority": 2,
+        "title": "Make the HA snippet self-contained",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Enabling HA mode\" rust block",
+        "issue": "`// ... existing code ...` placeholders and no imports",
+        "change": "show the full import line plus the complete `Config::new(...).with_ws_ha(...)` call as a runnable unit, or link to a full gist.",
+        "why": "agents can't assemble elided code; complete blocks are quoted and executed verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-sentence canonical definition of Data Streams near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"Data Streams Aggregation Network\" used without definition",
+        "change": "add a liftable sentence, e.g. \"Chainlink Data Streams delivers low-latency, pull-based market data reports verifiable onchain.\"",
+        "why": "a self-contained definition survives chunking and gets cited verbatim."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifier \"robust\"",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "\"Error handling: Uses Rust's `Result` type for robust error handling\"",
+        "issue": "\"robust\" is qualitative filler",
+        "change": "state the concrete behavior, e.g. \"propagates errors with the `?` operator and logs them via `warn!` without crashing the loop.\"",
+        "why": "specifics outperform qualitative prose in extraction."
+      }
+    ],
+    "antiPatterns": [
+      "Conflicting endpoint values across two code blocks (WS URL) — accuracy risk for synthesis.",
+      "Elided code (`// ... existing code ...`) in the HA snippet — not standalone-runnable.",
+      "Minor vague quantifiers (\"robust\", \"several\").",
+      "No stale-date evidence, but also no freshness signal at all (undated content)."
+    ],
+    "offPageNotes": [
+      "JSON-LD/canonical/`dateModified` are typically site-template-level; fix at the docs platform layer so all tutorials inherit them.",
+      "`llms.txt` is already referenced at the top — good; ensure this page is listed in it and in the sitemap.",
+      "Earned citations (third-party Rust/Chainlink tutorials linking here) are off-page and not scored, but would raise retrieval rank."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

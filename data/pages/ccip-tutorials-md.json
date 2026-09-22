@@ -1,0 +1,156 @@
+{
+  "key": "ccip-tutorials-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "ChainlinkCCIP Tutorials",
+    "url": "https://docs.chain.link/ccip/tutorials.md",
+    "analyzedAt": "2026-09-22T13:43:43.546Z",
+    "contentType": "developer documentation / navigation hub (tutorial index)",
+    "score": 53,
+    "band": "Developing",
+    "weightedTotal": 53.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opening — \"Chainlink Cross-Chain Interoperability Protocol (CCIP) enables secure cross-chain communication…\" is self-contained and liftable. The page delivers its implied answer (where to find tutorials) up front."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean H1/H2, 0 level skips, a labeled bullet list with per-item descriptions. Appropriate for a hub; no defect for its size."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — 3 numerals, 0 with units, no version strings. Naming EVM/SVM/Aptos/TON is the only concrete anchor. No chain IDs, supported-network counts, or tutorial counts."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "5 internal links, 0 external. Internal routing is the page's purpose, but no link to the canonical CCIP concept/spec page weakens attributability."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — the CCIP definition is crisp and verbatim-usable near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Poor — 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified` in schema (a body-text \"Last Updated: 2026-03-29\" exists but isn't machine-exposed), no og/twitter tags. Biggest measurable gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "No code — expected for an index, but the dimension cannot score high."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers \"CCIP tutorials by platform\" only. No \"how do I send a cross-chain message,\" \"transfer tokens cross-chain,\" or error/symptom entry points that agents actually query."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent \"CCIP\" and platform naming. No action needed."
+      }
+    ],
+    "summary": "This is a thin navigation-hub page (102 words) whose sole job is to route developers to four platform-specific CCIP tutorial sets (EVM, SVM, Aptos, TON). Its biggest strength is a clean, liftable one-sentence CCIP definition and an unambiguous platform-branching list. Its biggest opportunity is metadata and query-coverage: no JSON-LD, missing canonical, and no symptom/how-to phrasing mean it will rarely be *retrieved* as an answer and offers little to synthesize when it is. The honest verdict: adequate as a human router, weak as a generative-engine source — score it as a hub, not a content page, and fix machine-readability first.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle`/`CollectionPage` JSON-LD + canonical",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "Add JSON-LD with `headline`, `dateModified: 2026-03-29`, `inLanguage: en`, `url`/canonical, and `about: Chainlink CCIP`; add `<link rel=\"canonical\">`.",
+        "why": "Structured metadata and a visible freshness signal raise parseability and E-E-A-T, the primary lever on a page with little prose to rank."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/how-to entry points to the routing list",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Available Tutorials\" section",
+        "issue": "list is platform-titled only; devs query by task, not platform",
+        "change": "Add a short \"Common tasks\" sub-list linking into the tutorials: \"Send a cross-chain message,\" \"Transfer tokens across chains,\" \"Send tokens and data together,\" each deep-linking to the relevant EVM/SVM section.",
+        "why": "Task/how-phrased headings win retrieval that platform-titled prose loses, even when the answer lives one click away."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete scope specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"0 with units… version strings: [none]\"",
+        "change": "State the number of supported networks/lanes and name the four VMs with a one-line capability each (e.g., token transfer vs. arbitrary messaging support per platform). Link to the canonical supported-networks page.",
+        "why": "Quantitative specifics are among the highest-lift changes and give engines extractable facts."
+      },
+      {
+        "priority": 2,
+        "title": "Link to the canonical CCIP concept/spec page",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "after the CCIP definition sentence",
+        "issue": "\"0 external / 0 to primary sources\"",
+        "change": "Inline-link \"Cross-Chain Interoperability Protocol (CCIP)\" to the CCIP overview/architecture page (and the CCIP whitepaper if public).",
+        "why": "Attributable claims to canonical sources raise citation rate and let the hub anchor the tutorial cluster."
+      },
+      {
+        "priority": 3,
+        "title": "Expose \"Last Updated\" as a visible dated line, not just body text",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "below H1",
+        "issue": "freshness only in raw source line \"Last Updated: 2026-03-29\"",
+        "change": "Render a visible \"Last updated: 2026-03-29\" and mirror it in `dateModified`.",
+        "why": "Visible freshness signals are independently rewarded and reassure agents the routing is current."
+      }
+    ],
+    "antiPatterns": [
+      "Thin content is acceptable for a hub, but the page borders on a bare link list — mitigated by the strong intro definition. No keyword stuffing, no fluff, no unresolved cross-references.",
+      "Freshness date present but not machine-exposed (metadata gap, noted above)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good site-level signal; ensure this hub and its four children are enumerated there.",
+      "Site-level: confirm the CCIP tutorial children link *back* to this hub (canonical-hub pattern) so retrieval on any tutorial can surface the index.",
+      "Raw `<head>` was not captured; pass it in future runs to verify canonical/schema rather than infer absence."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

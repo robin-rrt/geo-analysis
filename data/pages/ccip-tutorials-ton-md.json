@@ -1,0 +1,20 @@
+{
+  "key": "ccip-tutorials-ton-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": null,
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": null,
+    "probes": {}
+  }
+}

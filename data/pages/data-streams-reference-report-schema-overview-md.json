@@ -1,0 +1,177 @@
+{
+  "key": "data-streams-reference-report-schema-overview-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Streams Report Schema Overview",
+    "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+    "analyzedAt": "2026-09-22T13:32:10.609Z",
+    "contentType": "developer documentation / reference index",
+    "score": 56,
+    "band": "Developing",
+    "weightedTotal": 55.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good — sections open with a direct claim, e.g. \"Cryptocurrency streams deliver high-frequency market data for digital assets.\" Weak: the page opens with a bare `<DataStreams>` component and an llms.txt note rather than a one-sentence definition of what a report schema *is*."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Solid H2/H3 hierarchy, 12 headings, 0 level skips, no section over 262 words. Weak: **0 tables** on a page that is fundamentally a schema comparison — the single highest-lift structural gap."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured 0 prose numerals; \"low latency\" appears undefined, and \"at least once per second\"/\"once per day\" are the only cadence anchors. No field counts, no version-support matrix values, no latency figures."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "29 internal links (all schema/concept pages) — appropriate for a hub, but 0 external/primary sources. NAV, TWAP, and AMM claims could cite canonical definitions."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Strong instances — the ripcord (\"set to true (`1`) by the asset issuer when the consumer should ignore the value\") and NAV (\"total assets minus the total liabilities\") are crisp and liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Head metadata could not be verified from the served content; CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code blocks. A short struct/schema snippet showing field names and types per report would materially help agents; currently field names live only in prose."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers the \"which schema for which asset class\" decision reasonably, but has no explicit decision-phrased heading (e.g. \"Which report schema should I use?\") and no FAQ/troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming (Crypto Standard v2, RWA Advanced v11). No action needed."
+      }
+    ],
+    "summary": "This is a routing/index page that maps Data Streams categories (Crypto, Exchange Rate, RWA, SmartData, Tokenized Asset) to their versioned report schemas and links out to per-schema references. Its biggest strength is clean, consistent terminology and self-contained section leads that name each schema's key fields verbatim — highly liftable. Its biggest opportunity is the total absence of a comparison table plus near-zero concrete specifics (0 prose numerals, \"low latency\" left undefined) on a page whose entire job is \"help me pick the right schema.\" The honest verdict: content is sound but under-structured for extraction, and metadata is absent — this is a Developing page one table and one metadata block away from Good.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a schema comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "Under \"Stream Categories and Report Schemas,\" before the per-category prose.",
+        "issue": "\"Each stream category uses one or more report schemas\" — followed by prose only, 0 tables.",
+        "change": "Add a table with columns: Category · Schema (version) · Key fields · Best-for use case · Reference link. One row per schema (v2, v3, v3-DEX, v7, v8, v9, v10, v11).",
+        "why": "Tables are directly extractable; engines lift a single row to answer \"which schema gives bid/ask for RWA?\" — the page's core query."
+      },
+      {
+        "priority": 1,
+        "title": "Add a decision/symptom-phrased heading",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Near top, above or as the category section.",
+        "issue": "No heading matches \"which report schema should I use for X\".",
+        "change": "Add an H2 \"Which report schema should I use?\" with a short bulleted decision list keyed by asset type (crypto vs DEX-liquidity token vs US equity vs tokenized equity vs staked-asset rate).",
+        "why": "Devs/agents query by intent, not by \"report schema overview\"; concept-titled prose loses retrieval that question-titled sections win."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` + canonical + last-updated",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` schema with `headline`, `about` (each schema/category), canonical URL, and a visible `dateModified`.",
+        "why": "Structured metadata and freshness signals raise parse-ability and trust; their absence is a measured, fixable defect."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify the vague latency/cadence claims",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Exchange Rate and SmartData sections.",
+        "issue": "\"at low latency\" and \"low latency\" (measured vague quantifier), no number.",
+        "change": "State the actual figure, e.g. \"sub-second (≤1s) delivery\" or the true update floor, and give the RWA v11 timestamp precision as \"nanosecond (`lastSeenTimestampNs`)\" consistently.",
+        "why": "Quantitative claims are among the highest-lift changes; \"low latency\" is unciteable."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each schema section with its canonical field set answer-first",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "Each H3 (Crypto Standard v2, v3, etc.).",
+        "issue": "Field lists are embedded mid-paragraph after descriptive prose.",
+        "change": "Open each section with a one-line \"Fields: `price`, `bid`, `ask`, …\" statement before the explanation.",
+        "why": "Puts the liftable fact in the first sentence of each chunk, resisting skimming and parametric substitution."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal schema/struct snippet per report family",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "Within or beside each schema section (or the comparison table).",
+        "issue": "0 code blocks; field types exist only as prose names.",
+        "change": "Add a small fenced, language-tagged block showing each report's fields and types (e.g. Solidity struct or JSON), matching the linked reference.",
+        "why": "Agents copy struct definitions; typed field lists are more reliably parsed than inline prose."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary-source citations for financial concepts",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "NAV, TWAP, LWBA, AMM mentions.",
+        "issue": "0 external/primary links.",
+        "change": "Link TWAP and NAV to canonical definitions and keep LWBA/DEX methodology internal links as-is.",
+        "why": "Attributable claims raise citation rate; currently every reference is internal."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers on a reference page: \"several,\" \"most,\" \"low latency\" — replace with counts/figures.",
+      "Opening content is a bare `<DataStreams section=\"dsNotes\" />` component placeholder and an llms.txt pointer rather than a canonical definition — weak first liftable chunk.",
+      "No dated/last-updated signal; freshness is unverifiable."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at top — good site-level signal; ensure this page is listed in it.",
+      "Site-level: confirm canonical URL emission and `TechArticle` schema are templated across `/data-streams/reference/` pages, not just here.",
+      "Establish a visible freshness cadence (dateModified) across the reference set for E-E-A-T consistency."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

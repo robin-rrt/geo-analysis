@@ -1,0 +1,168 @@
+{
+  "key": "ccip-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Chainlink CCIP - Cross-Chain Interoperability Protocol",
+    "url": "https://docs.chain.link/ccip.md",
+    "analyzedAt": "2026-09-22T13:36:06.956Z",
+    "contentType": "developer documentation / conceptual overview (product landing)",
+    "score": 62,
+    "band": "Good",
+    "weightedTotal": 61.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is the CCIP conceptual landing page: it defines the protocol, its three core capabilities, receiving-account behavior by chain family, and common use cases. Its biggest strength is a crisp, liftable canonical definition and a clean, well-chunked heading structure with a genuinely useful capability/receiver table. Its biggest opportunity is machine-readable metadata — the served HTML carries no JSON-LD, no canonical tag, and no dateModified — combined with thin concrete specifics (only 4 numerals in 1,046 words, with vague quantifiers like \"several\" and \"robust\" standing in for numbers). Honest verdict: solid, quotable overview prose that generative engines can synthesize, held back by missing structured metadata and under-quantified claims.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical + dateModified",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "0 JSON-LD blocks, canonical MISSING, dateModified absent from served HTML.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `inLanguage: en`, and a `canonical` link to `https://docs.chain.link/ccip`. Surface the in-body \"Last Updated\" as machine-readable metadata.",
+        "why": "Structured metadata and visible freshness signals raise E-E-A-T and parse-trust for agents; the date already exists in prose but engines can't read it."
+      },
+      {
+        "priority": 1,
+        "title": "Quantify the security and coverage claims",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"What is Chainlink CCIP?\" and the security-components bullets",
+        "issue": "\"robust security framework\", \"tens of billions\", rate limiting described with no numbers.",
+        "change": "State the supported network count (link to CCIP Directory with the figure), the timelock review-window duration, and rate-limit parameters (capacity/refill rate) or link directly to their spec. Replace \"several core components\" with the explicit count.",
+        "why": "Quantitative claims are among the highest-lift changes for citation; vague quantifiers underperform and are flagged in the measured facts."
+      },
+      {
+        "priority": 2,
+        "title": "Make the page open answer-first",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "top of page, before the two NOTE blocks and the generic interoperability paragraph",
+        "issue": "first liftable content is expert-contact boilerplate, not a CCIP definition.",
+        "change": "Lead with a one-sentence TL;DR: \"Chainlink CCIP is a cross-chain interoperability protocol for transferring tokens, arbitrary messages, or both across N+ blockchains.\" Move the contact NOTEs below it.",
+        "why": "Engines lift the first self-contained sentence of a page; leading with the canonical definition defends against parametric priors that answer with a generic \"bridge\" idiom."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/how-to phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H3s under capabilities or a short FAQ",
+        "issue": "no headings match \"how do I send a message\", \"why can't an EOA receive a message\".",
+        "change": "Add sections titled as the questions devs type — e.g. \"Why can't an EOA receive a CCIP message?\" (answer already in the receiver-table note) and \"What can I send with CCIP?\".",
+        "why": "Symptom/question-phrased headings win retrieval that concept-titled prose loses, even when the answer is present verbatim."
+      },
+      {
+        "priority": 3,
+        "title": "Anchor security claims to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "security-components bullets (Timelock, DONs, Rate Limiting)",
+        "issue": "0 links to primary sources among 9 links.",
+        "change": "Link \"Timelocked Upgrades\" to the RBACTimelock contract/spec, and \"DONs\" to the CCIP architecture spec page rather than only marketing pages.",
+        "why": "Inline links to primary/canonical sources raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Replace the bare image placeholder",
+        "mapsTo": "clarity / machine-readability",
+        "tier": null,
+        "where": "\"(Image: Image)\" after the security bullets",
+        "issue": "placeholder alt text conveys nothing to a text-ingesting engine.",
+        "change": "Give the image descriptive alt text (e.g. \"CCIP defense-in-depth architecture: multiple DONs securing source and destination chains\").",
+        "why": "Descriptive alt text is machine-readable content; \"(Image: Image)\" is dead weight."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers standing in for numbers: \"several core components\", \"wide range of crypto assets\", \"robust security framework\".",
+      "Marketing-tinged opener (\"important for the Web3 ecosystem and traditional systems\") before the concrete definition.",
+      "Placeholder image reference \"(Image: Image)\" with no alt content.",
+      "No stale-content issue: page carries a 2025-05-19 last-updated date (though only in body, not head)."
+    ],
+    "offPageNotes": [
+      "Site-level: the page references `/llms.txt` — good; ensure it lists this URL and the CCIP concept hub.",
+      "Freshness cadence and the \"CCIP UPGRADE\" note should be dated/versioned so engines can distinguish current vs. legacy CCIP; consider a version string once the upgrade completes.",
+      "The CLI should pass raw `<head>` on future runs — the in-body \"Last Updated\" suggests metadata may exist but was not captured/served in a machine-readable slot."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

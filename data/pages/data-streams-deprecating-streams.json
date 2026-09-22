@@ -1,0 +1,169 @@
+{
+  "key": "data-streams-deprecating-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Deprecation of Chainlink Data Streams",
+    "url": "https://docs.chain.link/data-streams/deprecating-streams",
+    "analyzedAt": "2026-09-22T13:30:21.958Z",
+    "contentType": "developer documentation / deprecation reference (tabular listing)",
+    "score": 58,
+    "band": "Developing",
+    "weightedTotal": 58,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a reference page listing which Chainlink Data Streams feeds are scheduled for deprecation, with feed IDs, shutdown dates, and per-stream report schemas. Its biggest strength is dense, specific data (feed IDs, schema versions, decimals, dates) wrapped in valid `TechArticle`/`BreadcrumbList` JSON-LD. Its biggest weakness is that the high-value facts live inside two enormous 1,200-word tables with no answer-first summary, no explanation of *what deprecation means for a user*, and no per-stream/query-phrased anchors — so an engine asked \"is the ETH/USDT Data Stream being deprecated and when?\" has no liftable sentence and a hard-to-chunk table to parse instead. The page is factually rich but structurally under-optimized for retrieval and synthesis.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an answer-first summary block above the first table",
+        "mapsTo": "answer-first extractability, quotable canonical statements",
+        "tier": null,
+        "where": "Immediately after the intro, before \"Mainnet Deprecating Streams.\"",
+        "issue": "\"A list of Data Streams feeds designated for deprecation... can be found below.\"",
+        "change": "Add a self-contained lead: \"As of September 2026, N mainnet and M testnet Chainlink Data Streams feeds are scheduled for deprecation, with shutdown dates ranging from December 2025 to September 2026. After a feed's shutdown date, it stops producing verifiable reports and consumers must migrate to an active stream.\" Include the count and date range.",
+        "why": "Gives engines one liftable sentence that answers the core query; without it, answers must be synthesized from an unchunkable table and often fail."
+      },
+      {
+        "priority": 1,
+        "title": "Define what deprecation means and what users must do",
+        "mapsTo": "query/intent coverage, quotable canonical definitions",
+        "tier": null,
+        "where": "New short H2 \"What happens when a Data Stream is deprecated?\"",
+        "issue": "Page states feeds \"may be scheduled for deprecation\" but never says what breaks or the required action.",
+        "change": "2–3 sentences: what stops on the shutdown date, whether reports still verify, and the migration path (link to selecting-data-streams). Include the recommended action explicitly.",
+        "why": "Covers the \"what should I do\" intent that the current page silently drops; wins symptom queries like \"my Chainlink stream stopped updating.\""
+      },
+      {
+        "priority": 2,
+        "title": "Make each stream individually retrievable",
+        "mapsTo": "structural scannability & chunkability, symptom-query coverage",
+        "tier": null,
+        "where": "Both deprecating-streams tables.",
+        "issue": "Two ~1,200-word single-table sections with repeated nested schema tables; no per-stream anchor.",
+        "change": "Either add an H3 per stream (e.g. \"### ETH/USDT (Mainnet) — deprecating August 19th, 2026\") or, at minimum, a compact top-level summary table (Stream | Network | Shutdown date | Feed ID | Schema) with the verbose schema field tables collapsed/linked out rather than inlined per row.",
+        "why": "Creates clean chunk boundaries and named anchors so \"is BNB/USDT being deprecated\" retrieves a coherent unit instead of a 1k-word blob."
+      },
+      {
+        "priority": 2,
+        "title": "Normalize date formats",
+        "mapsTo": "clarity & terminology consistency, concrete specifics",
+        "tier": null,
+        "where": "All \"Deprecating:\" cells.",
+        "issue": "\"August 19th, 2026\" vs \"February 2026\" vs \"December 2025\" — mixed precision and format.",
+        "change": "Use ISO-style consistent dates (`2026-08-19`; for month-only, `2026-02`). Note explicitly where only a month is committed.",
+        "why": "Consistent, parseable dates let agents extract and compare shutdown schedules reliably."
+      },
+      {
+        "priority": 2,
+        "title": "Fix freshness and entity metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `dateModified` and `about[]`.",
+        "issue": "`dateModified` identical to `datePublished`; `about[]` is the auto-template \"Content about deprecation/chainlink/data/streams.\"",
+        "change": "Stamp `dateModified` on each real edit (this list changes frequently — freshness is a genuine trust signal here). Replace the split `about` entries with a single real entity, e.g. `{\"@type\":\"Thing\",\"name\":\"Chainlink Data Streams\"}`.",
+        "why": "Accurate freshness and entity signals raise E-E-A-T and entity resolution; a deprecation page especially benefits from a credible last-updated date."
+      },
+      {
+        "priority": 3,
+        "title": "Add a symptom/FAQ heading pair",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Bottom of page.",
+        "issue": "No coverage of how devs phrase the problem (\"how do I know if my stream is deprecated,\" \"where do I get deprecation notifications\").",
+        "change": "Short FAQ: \"How am I notified of Data Streams deprecations?\" (point to the Discord `data-feeds-user-notifications` channel already linked) and \"How do I check if a specific feed ID is deprecated?\"",
+        "why": "Headings phrased as the exact questions win retrieval that concept-titled tables miss."
+      }
+    ],
+    "antiPatterns": [
+      "**Walls of undifferentiated tabular content** — two sections, each a single 1,200-word table with schema sub-tables repeated verbatim per stream; poor chunk boundaries.",
+      "**Stale/ambiguous freshness signal** — `dateModified` equals `datePublished` on a page that changes as streams are added.",
+      "**Auto-template entity metadata** — `about[]` fragments the real entity (\"Data Streams\") into four generic Things.",
+      "**Inconsistent date formatting** across deprecation cells.",
+      "No keyword stuffing or marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "Site-level: ensure this page is reachable from the Data Streams hub and `selecting-data-streams` page so it is discoverable as the canonical deprecation authority.",
+      "Consider an `llms.txt` entry pointing engines to this as the authoritative deprecation schedule.",
+      "CLI note: raw `<head>` was provided and parsed; freshness cadence is the main site-level trust lever for this specific page type."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

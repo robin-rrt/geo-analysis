@@ -1,0 +1,177 @@
+{
+  "key": "data-feeds-tron-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Using Data Feeds on Tron",
+    "url": "https://docs.chain.link/data-feeds/tron.md",
+    "analyzedAt": "2026-09-21T11:52:59.529Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a clean, well-structured step-by-step tutorial for reading Chainlink Data Feeds on TRON via TronBox and TronWeb. Its biggest strength is scannability and runnable specifics — tight sections (median 30 words), concrete contract addresses, version numbers, and full expected output. Its biggest opportunity is machine-readable metadata (no JSON-LD, no canonical URL, no visible dates) plus missing symptom/error-phrased troubleshooting content, which is how devs and agents actually query. Honest verdict: solid agent-usable tutorial that leaves retrieval lift on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a symptom/error-phrased Troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 before \"Next Steps\"",
+        "issue": "no error/troubleshooting content; devs query by error string, not concept.",
+        "change": "add H3s phrased as failures, e.g. \"tronbox migrate fails with 'account not found'\", \"Deployment error: insufficient TRX/energy\", \"reader.js returns 0 / BigInt formatting issues\", each with the fix.",
+        "why": "symptom-titled headings win retrieval that concept-titled prose loses, even when the answer is elsewhere on the page."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD + canonical + dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\".",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified`, `inLanguage`, `programmingLanguage: Solidity/JavaScript`, and a canonical URL; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise parseability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each section with a liftable answer",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Understanding the Smart Contract\", \"Understanding the TronWeb Script\"",
+        "issue": "sections open with framing labels, not a self-contained claim.",
+        "change": "start with e.g. \"`DataFeedReader.sol` reads Chainlink price feeds on TRON via `AggregatorV3Interface`, exposing four view functions:\" then the bullets.",
+        "why": "a self-contained first sentence survives chunking and gets quoted verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical one-sentence definition near the top",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro, after first paragraph",
+        "issue": "no crisp definitional sentence for the core entity.",
+        "change": "add \"Chainlink Data Feeds on TRON are decentralized onchain price oracles read through the `AggregatorV3Interface` contract on TRON Nile Testnet and mainnet.\"",
+        "why": "engines lift a crisp canonical statement over diffuse prose."
+      },
+      {
+        "priority": 2,
+        "title": "Tag the 3 untagged code fences",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "deploy output block, `node offchain/reader.js` block, expected-output block",
+        "issue": "\"3 untagged\" fences.",
+        "change": "label as ```` ```bash ```` (commands) and ```` ```text ```` (console output).",
+        "why": "language labels let agents distinguish runnable commands from illustrative output."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with counts",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"The script provides several key features\"",
+        "issue": "\"several\".",
+        "change": "\"The script provides five features:\" (matches the bulleted count).",
+        "why": "quantified claims outperform vague qualifiers for extraction."
+      },
+      {
+        "priority": 3,
+        "title": "Note supported networks/chain IDs explicitly",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro or Prerequisites",
+        "issue": "only Nile Testnet named; no mainnet/chain-ID specifics.",
+        "change": "add a one-line note stating TRON mainnet vs Nile Testnet support and the RPC endpoints used.",
+        "why": "network/chain specifics are high-lift for retrieval on chain-scoped queries."
+      }
+    ],
+    "antiPatterns": [
+      "Minor: vague quantifier \"several\" where an exact count exists.",
+      "Minor: 3 untagged code fences.",
+      "No stale-content flag possible — no dates present to evaluate (itself a metadata gap, scored above)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Site-level JSON-LD and canonical policy likely controlled by the docs template; fix once at template level to propagate.",
+      "Freshness cadence: consider surfacing a visible \"Last updated\" from the CMS across data-feeds pages."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

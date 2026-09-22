@@ -1,0 +1,667 @@
+{
+  "key": "cre-reference-sdk-overview-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "SDK Reference (CRE TypeScript SDK)",
+    "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+    "analyzedAt": "2026-09-21T13:27:05.946Z",
+    "contentType": "developer documentation / reference index (hub page)",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 63.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opening (\"This section provides a detailed technical reference for the public interfaces of the CRE TypeScript SDK\"). Weak: no single liftable sentence defining *what the CRE SDK is* or its canonical install/package fact up top."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; clean H2 hierarchy, 0 level skips, median 42-word sections. The one gap: the module map and Runtime Requirements are bullets where a table would extract better."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good for a hub: `Bun >= 1.2.21`, `TypeScript >= 5.9`, `viem ^2.34.0`, `zod ^3.25.76`. Vague quantifier \"several\" appears once; otherwise specific."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak: 11 links, all internal; the one external (viem.sh) is raw HTML. No links to the npm package, Protocol Buffers spec, Bun, or QuickJS/Javy."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good: `Type` vs `TypeJson` cleanly defined; \"you always use JSON types\" is verbatim-liftable. Could add a one-line SDK definition."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no `dateModified`/`inLanguage` in head, no og/twitter. Body carries \"Last Updated: 2026-02-03\" but it isn't machine-exposed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate: 2 tagged TypeScript blocks, none untagged. The `callContract` example shows no imports and uses truncated placeholders (`\"0x123...\"`, `\"0xabc...\"`) — illustrative, not runnable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate: \"How to read this section\" aids navigation, but no symptom/error-phrased or \"how do I…\" entry points; it's purely conceptual routing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming of `EVMClient`, `HTTPClient`, `Runtime`, no undefined jargon."
+      }
+    ],
+    "summary": "This is a well-structured hub page routing developers to the CRE TypeScript SDK's per-topic references, with clean prose, concrete version pins, and a strong canonical statement (\"As a developer, you always use JSON types.\"). Its biggest GEO strength is scannability — 7 headings, 0 level skips, no oversized sections. Its biggest opportunity is machine-readability: no JSON-LD, missing canonical URL, and no head-level dates mean engines get zero structured trust signals. A secondary gap is that the module index is prose bullets rather than an extractable table, and near-zero external/primary citations weaken attributability.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page head / frontmatter",
+        "issue": "JSON-LD 0 blocks; canonical MISSING; no head-level `dateModified`.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-02-03`, `inLanguage: en`, `programmingLanguage: TypeScript`, and add `<link rel=\"canonical\" href=\"https://docs.chain.link/cre/reference/sdk/overview-ts\">`.",
+        "why": "Structured freshness + canonical signals raise agent trust (E-E-A-T) and prevent duplicate-URL ambiguity."
+      },
+      {
+        "priority": 1,
+        "title": "Convert the module index to a summary table",
+        "mapsTo": "Machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"How to read this section\"",
+        "issue": "6 prose bullets; page has 0 tables.",
+        "change": "Render a 3-column table — Module | Purpose | Key APIs (e.g. `Core SDK | building blocks | handler, Runtime, Report.parse`). Keep the links inline.",
+        "why": "Tables are extracted as discrete rows and let engines answer \"which SDK module handles X\" with a justified, liftable unit."
+      },
+      {
+        "priority": 2,
+        "title": "Add an answer-first SDK definition + install fact at top",
+        "mapsTo": "Answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "opening paragraph",
+        "issue": "opens with \"This section provides a detailed technical reference…\" — no canonical definition or package name up front.",
+        "change": "Lead with: \"The CRE TypeScript SDK is distributed as a single npm package, `@chainlink/cre-sdk`, and requires Bun >= 1.2.21 and TypeScript >= 5.9.\" Move the package fact from lower down into the first liftable sentence.",
+        "why": "Puts the canonical install/package fact in the first chunk so skimmed/unretrieved answers don't invent a wrong package name."
+      },
+      {
+        "priority": 2,
+        "title": "Add external/primary citations",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "\"Package Structure\", \"Understanding TypeScript Types\", \"Runtime Environment\"",
+        "issue": "0 external/primary links; viem reference is raw HTML only.",
+        "change": "Link the npm package (`https://www.npmjs.com/package/@chainlink/cre-sdk`), Protocol Buffers (`https://protobuf.dev`), and Bun (`https://bun.sh`) inline as Markdown links.",
+        "why": "Inline authoritative references raise citation rate and let engines verify claims against primary sources."
+      },
+      {
+        "priority": 2,
+        "title": "Complete or annotate the `callContract` snippet",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Understanding TypeScript Types\" second code block",
+        "issue": "no imports; `\"0x123...\"`, `\"0xabc...\"` placeholders.",
+        "change": "Add the `import { EVMClient } from \"@chainlink/cre-sdk\"` line and either use full example addresses or a `// truncated for brevity` note; label the block network context.",
+        "why": "Agents copy snippets verbatim; imports and non-truncated values make it runnable and reduce hallucinated fill-ins."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/query-phrased entry points",
+        "mapsTo": "Symptom-phrased query coverage",
+        "tier": null,
+        "where": "new short H2 or FAQ near foot",
+        "issue": "no \"how do I…\"/\"what package…\" phrasing; purely conceptual routing.",
+        "change": "Add micro-Q&A headings like \"What npm package is the CRE TypeScript SDK?\" and \"What are the minimum Bun and TypeScript versions?\" answered in one sentence each.",
+        "why": "Devs/agents query by question string; question-phrased headings win retrieval that concept-titled prose misses."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"several\" in \"broken down into several pages\" — replace with the actual count (7).",
+      "Truncated placeholder values in the second code block (`\"0x123...\"`, `\"0xabc...\"`) — acceptable as illustration but flag as non-runnable.",
+      "No keyword stuffing, fluff, or unresolved cross-references detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure it lists this URL.",
+      "Head metadata could not be verified from the served HTML; the CLI should pass raw `<head>` so canonical/date/schema presence can be confirmed rather than inferred.",
+      "Sitewide `TechArticle` schema and a consistent visible last-updated cadence are site-level fixes that would compound this page's metadata gains."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+      "source_title": "SDK Reference",
+      "probe_set_id": "8f1aa588e895",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T15:41:01.291Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 55.7,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5,
+        "hallucination_free": 4.8,
+        "relevance": 4.8,
+        "structure": 7.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 379398,
+          "output_tokens": 16451,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 26,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9519,
+          "output_tokens": 9632,
+          "cache_creation_input_tokens": 1999,
+          "cache_read_input_tokens": 24329,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer describes an internal search process but never cites the expected source URL, so retrieval appears to have failed."
+          },
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 8,
+            "relevance": 6,
+            "structure": 8
+          },
+          "fidelity": 78,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "There are no plans to deprecate either style",
+            "This TypeScript CRE SDK also includes some reference examples (cre-sdk-examples)",
+            "To install, run npm install @chainlink/cre-sdk"
+          ],
+          "verdict": "The answer correctly identifies the package name and import styles matching the source, but it never cites the source URL despite the harness confirming it wasn't retrieved, and includes a few unverified extra claims.",
+          "prompt": "How do I import the CRE TypeScript SDK functions into my workflow? What's the npm package name?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about the CRE TypeScript SDK.Let me retry the search.The result is a JSON string. Let me parse it properly.Let me get more detail on the import styles from the core reference.I have everything I need.\n\n## Importing the CRE TypeScript SDK\n\nThe npm package name is **`@chainlink/cre-sdk`**. The TypeScript SDK is distributed as a single npm package @chainlink/cre-sdk that exports all necessary functionality. The Chainlink Runtime Environment (CRE) SDK for TypeScript enables developers to write decentralized Chainlink Runtime Environment Workflows in TypeScript.\n\n### Two supported import styles\n\nThe CRE TypeScript SDK supports two equivalent import styles. Both are fully supported, produce identical behavior, and can be used interchangeably in your workflows — choose the style that fits your codebase. There are no plans to deprecate either style.\n\n**1. Direct imports** (recommended for new projects):\n\n```typescript\nimport { Runner, HTTPClient, EVMClient, CronCapability, handler } from \"@chainlink/cre-sdk\"\n\n// Use directly\nconst httpClient = new HTTPClient()\nconst evmClient = new EVMClient(chainSelector)\n```\n\n**2. Namespace imports** (access through the `cre` namespace):\n\n```typescript\nimport { cre, Runner } from \"@chainlink/cre-sdk\"\n\n// Access through cre namespace\nconst httpClient = new cre.capabilities.HTTPClient()\nconst evmClient = new cre.capabilities.EVMClient(chainSelector)\n```\n\n### What's available to import\n\nYou can import a wide range of functionality from the single package, including: Capabilities like CronCapability, HTTPCapability, HTTPClient, and EVMClient; core functions like handler for registering handlers; the Runner workflow runner; Runtime and NodeRuntime interface types; consensus helpers like consensusMedianAggregation and consensusIdenticalAggregation; and utilities such as getNetwork, bytesToHex, and hexToBase64.\n\n### A note on the `handler` function\n\nThe handler() function is the cornerstone of every workflow.\n\n### Getting started tip\n\nIf you'd like working examples to build from, the SDK ships with reference workflows. This TypeScript CRE SDK also includes some reference examples (cre-sdk-examples) that can be copied and pasted into your project as needed — though note these are reference TypeScript workflows.\n\nTo install, run `npm install @chainlink/cre-sdk` (or the equivalent with your package manager), then use either import style shown above in your workflow files.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 45211,
+              "output_tokens": 1898,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1358,
+              "output_tokens": 1350,
+              "cache_creation_input_tokens": 1999,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/type-conversions-ts",
+              "https://docs.chain.link/cre/reference/sdk/overview-ts",
+              "https://docs.chain.link/cre/reference/sdk/core-ts"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer admits its search tool failed to retrieve the page content and then gives confident but source-contradicting guidance."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 5,
+            "structure": 7
+          },
+          "fidelity": 38,
+          "hallucinations": [
+            {
+              "claim": "Write your workflow logic against the `Type` (native) representation, not `TypeJson`.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "convert to `Type` (e.g., via the generated `fromJson`/`toJson` conversion helpers)",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "As a developer you always use JSON types (TypeJson)",
+            "The SDK automatically converts between representations when crossing WASM boundaries"
+          ],
+          "unverifiable_from_source": [
+            "timestamps → ISO strings, enums often as strings, etc.",
+            "nested messages → message instances"
+          ],
+          "verdict": "The answer directly contradicts the source's explicit guidance to always use JSON types (TypeJson) and invents conversion helpers, making it unsafe to ship despite being well-structured and citing the right page.",
+          "prompt": "Using the TypeScript SDK, should I use the Type or TypeJson representation when writing my workflow code?",
+          "archetype": "comparison",
+          "answer": "There's a dedicated \"Type Conversions\" reference page. Let me get its content.I wasn't able to pull the full text of the relevant reference page (Chainlink's \"SDK Reference: Type Conversions\" for the CRE TypeScript SDK) — the search tool hit its usage limit mid-session. So rather than fabricate specifics, let me give you guidance based on how these two representations work in that SDK, and point you to the authoritative page to confirm.\n\n## Short answer\n\n**Write your workflow logic against the `Type` (native) representation, not `TypeJson`.**\n\n## Why\n\nThe CRE TypeScript SDK's types are generated from protobuf (via protobuf-es), and each message gets two shapes:\n\n- **`Type`** — the *native* TypeScript representation. Fields use real TS types:\n  - `int64`/`uint64` → `bigint`\n  - `bytes` → `Uint8Array`\n  - nested messages → message instances\n  - timestamps → the message's structured type\n  \n  This is what you want inside workflow code: you get full type safety, no lossy string conversions, and you can do arithmetic/comparisons directly on `bigint`, work with byte arrays natively, etc.\n\n- **`TypeJson`** — the *JSON-serializable* representation, meant for boundaries and interop. Here values are encoded as plain JSON:\n  - `int64`/`uint64` → `string` (to avoid JS number precision loss)\n  - `bytes` → base64 `string`\n  - timestamps → ISO strings, enums often as strings, etc.\n\n  This shape is convenient when you're parsing config, reading/writing HTTP request or response bodies, logging, or otherwise serializing to/from JSON — but it's not ideal for computation because numeric values are strings and bytes are base64.\n\n## Practical rule of thumb\n\n- **Inside the workflow** (business logic, computing values, building reports, handling on-chain/consensus values): use **`Type`**.\n- **At the edges** (config input, HTTP payloads, anything that must be JSON): use **`TypeJson`**, then convert to `Type` (e.g., via the generated `fromJson`/`toJson` conversion helpers) before working with the data.\n\nThis keeps your core logic strongly typed and precise, and confines the string/base64 JSON encoding to the serialization boundary where it belongs.\n\n## Verify against the source\n\nPlease confirm the exact recommendation and the conversion helpers on Chainlink's official reference, since the API can change between SDK versions:\n\n- **SDK Reference: Type Conversions** — `https://docs.chain.link/cre/reference/sdk/type-conversions-ts`\n- **SDK Reference (overview)** — `https://docs.chain.link/cre/reference/sdk/overview-ts`\n- **SDK Reference: Core** — `https://docs.chain.link/cre/reference/sdk/core-ts`\n\nIf you can paste the contents of the \"Type Conversions\" page (or tell me which SDK version you're on), I can give you a more precise, version-specific answer with the exact conversion functions to call.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 144912,
+              "output_tokens": 4781,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1528,
+              "output_tokens": 1070,
+              "cache_creation_input_tokens": 1999,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/overview-ts"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 9,
+            "structure": 8
+          },
+          "fidelity": 73,
+          "hallucinations": [
+            {
+              "claim": "latest version 1.19.1 at the time of the search",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Config files are declared in config.json files co-located with your TypeScript workflow definition, using Zod schemas for type-safe configuration.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "the critical setting is `\"types\": []`",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Every new workflow project ships with a recommended tsconfig.json",
+            "The SDK ships a multi-layered type safety system that catches incompatible API usage"
+          ],
+          "verdict": "The core runtime requirements are stated correctly and match the source, but the answer adds several specific technical claims (package version, config file format, tsconfig settings) that are not present in the source and could mislead a developer.",
+          "prompt": "runtime requirements CRE typescript sdk bun typescript viem zod versions",
+          "archetype": "terse/keyword",
+          "answer": "Based on the official Chainlink documentation, here are the runtime requirements for the CRE (Chainlink Runtime Environment) TypeScript SDK:\n\n## CRE TypeScript SDK — Runtime Requirements\n\nBun: >= 1.2.21; TypeScript: >= 5.9; Dependencies: viem (^2.34.0), zod (^3.25.76).\n\n| Requirement | Version |\n|---|---|\n| **Bun** | >= 1.2.21 |\n| **TypeScript** | >= 5.9 |\n| **viem** | ^2.34.0 |\n| **zod** | ^3.25.76 |\n\n### Additional context\n\n- The SDK is distributed as a single npm package, `@chainlink/cre-sdk`, which enables developers to write decentralized Chainlink Runtime Environment Workflows in TypeScript (latest version 1.19.1 at the time of the search).\n- CRE workflows compile from TypeScript to WebAssembly and run inside a Javy/QuickJS sandbox — not a full Node.js or browser runtime. This is why library compatibility and available Node.js APIs are restricted.\n- The TypeScript SDK integrates with viem for type-safe contract interactions — you define ABIs directly in TypeScript files and use viem's functions for encoding and decoding. TypeScript workflows are compiled to WebAssembly (WASM) using Javy and QuickJS.\n- Config files are declared in config.json files co-located with your TypeScript workflow definition, using Zod schemas for type-safe configuration.\n\nA couple of practical notes on the toolchain setup:\n- Every new workflow project ships with a recommended tsconfig.json, and the critical setting is `\"types\": []` — by default TypeScript auto-includes all @types/* packages from node_modules, which would expose full Node.js and Bun type definitions. Setting types to an empty array prevents this, so only types explicitly provided by @chainlink/cre-sdk are available.\n- This means you get type errors the moment you try to use APIs that won't exist at runtime. The SDK ships a multi-layered type safety system that catches incompatible API usage in the IDE, during type checking, and at build time.\n\nYou can find the full details on the [Chainlink CRE SDK reference page](https://docs.chain.link/cre/reference/sdk/overview-ts).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 33536,
+              "output_tokens": 1539,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1200,
+              "output_tokens": 1430,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3987,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and does not reference the expected overview-ts source page."
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 7
+          },
+          "fidelity": 35,
+          "hallucinations": [
+            {
+              "claim": "encodeCallMsg() — required because the underlying EVM capability expects addresses and data in base64 format, not hex",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "blockNumber(historicalBlock) where historicalBlock is a bigint",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "LAST_FINALIZED_BLOCK_NUMBER, // most common — finalized block",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "LATEST_BLOCK_NUMBER, // latest block",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "hexToBytes(\"0xabcdef\") (returns a Uint8Array)",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use evmClient.callContract(runtime, {...})",
+            "Pass a call object with from, to, and data as hex strings",
+            "blockNumber is passed as a string representation",
+            "You write JSON types and the SDK converts internally"
+          ],
+          "unverifiable_from_source": [
+            "EVMClient constructor taking a chainSelector argument",
+            "getNetwork() usage for chain selector lookup",
+            "encodeFunctionData()/decodeFunctionResult() from viem as the specific ABI helpers used"
+          ],
+          "verdict": "The answer contradicts the source's core message that developers pass plain hex strings and a string blockNumber directly, instead inventing an encodeCallMsg()/blockNumber() wrapper API and block-number constants not present in the source, and it never cites the expected reference page — not safe to ship as-is.",
+          "prompt": "Show me how to call a contract with the EVMClient using hex address and block number in the CRE TS SDK",
+          "archetype": "code-first",
+          "answer": "The most relevant results are the EVM Client SDK reference and the Onchain Read guide. Let me fetch those.Here's how to call a contract with the `EVMClient` using a hex address and a specific block number in the CRE TypeScript SDK.\n\n## Key concepts\n\nThe EVM Client's `callContract()` method executes a view/pure function on a smart contract without creating a transaction. There are two important helpers involved:\n\n- **`encodeCallMsg()`** — required because the underlying EVM capability expects addresses and data in base64 format, not hex. It wraps your `from`, `to` (hex address), and `data` fields.\n- **`blockNumber()`** — converts a native `bigint` into the block-number type expected by the request, letting you read from a specific historical block.\n\nThe SDK relies on **viem** for ABI operations (`encodeFunctionData()`, `decodeFunctionResult()`, `parseAbi()`).\n\n## Full example\n\n```typescript\nimport {\n  EVMClient,\n  getNetwork,\n  encodeCallMsg,\n  blockNumber,\n  bytesToHex,\n  type Runtime,\n} from \"@chainlink/cre-sdk\"\nimport {\n  encodeFunctionData,\n  decodeFunctionResult,\n  zeroAddress,\n} from \"viem\"\nimport { Storage } from \"../contracts/abi\" // your parsed ABI\n\nfunction readStorage(runtime: Runtime<unknown>) {\n  // 1. Look up the network / chain selector\n  const network = getNetwork({\n    chainFamily: \"evm\",\n    chainSelectorName: \"ethereum-testnet-sepolia\",\n  })\n\n  // 2. Instantiate the EVM client with the chain selector\n  const evmClient = new EVMClient(network.chainSelector.selector)\n\n  // 3. The contract address as a 0x-prefixed hex string\n  const contractAddress = \"0xYourContractAddress\"\n\n  // 4. ABI-encode the function call using viem\n  const callData = encodeFunctionData({\n    abi: Storage,\n    functionName: \"get\",\n    args: [],\n  })\n\n  // 5. Choose a specific historical block\n  const historicalBlock = 9767655n\n\n  // 6. Call the contract\n  const contractCall = evmClient\n    .callContract(runtime, {\n      call: encodeCallMsg({\n        from: zeroAddress,        // caller (zeroAddress for view functions)\n        to: contractAddress,      // hex contract address\n        data: callData,           // ABI-encoded call data\n      }),\n      blockNumber: blockNumber(historicalBlock), // specific block number\n    })\n    .result() // blocks until the consensus-verified result is returned\n\n  // 7. Decode the returned bytes into TypeScript types\n  const value = decodeFunctionResult({\n    abi: Storage,\n    functionName: \"get\",\n    data: bytesToHex(contractCall.data),\n  })\n\n  return value\n}\n```\n\n## How it works, step by step\n\n1. **Get network information** — use `getNetwork()` to look up the chain selector and other network details.\n2. **Instantiate the EVM Client** — create an `EVMClient` with the chain selector.\n3. **Encode the function call** — use viem's `encodeFunctionData()` to ABI-encode the call.\n4. **Encode the call message** — `encodeCallMsg()` wraps `from`, `to` (your hex address), and `data` into the base64 format the capability expects.\n5. **Specify the block** — pass `blockNumber(historicalBlock)` where `historicalBlock` is a `bigint`. This reads the contract state at that exact block.\n6. **Call and await** — `callContract(runtime, {...})` returns an object with a `.result()` method; calling `.result()` blocks execution synchronously (within the WASM environment) and waits for the consensus-verified result.\n7. **Decode the result** — use viem's `decodeFunctionResult()` (converting the returned bytes with `bytesToHex()`).\n\n## Block number options\n\nBesides a specific block number via `blockNumber(<bigint>)`, the SDK provides convenience constants:\n\n```typescript\nimport {\n  LAST_FINALIZED_BLOCK_NUMBER,  // most common — finalized block\n  LATEST_BLOCK_NUMBER,          // latest block\n} from \"@chainlink/cre-sdk\"\n\nconst contractCall = evmClient.callContract(runtime, {\n  call: encodeCallMsg({ from: zeroAddress, to: contractAddress, data: callData }),\n  blockNumber: LAST_FINALIZED_BLOCK_NUMBER,\n}).result()\n```\n\nUse `LAST_FINALIZED_BLOCK_NUMBER` for most reads. Specify an **exact block number** (as shown in the main example) for use cases requiring fixed confirmation thresholds (e.g., regulatory compliance) or historical state verification.\n\n## Handy conversion helpers\n\nIf you need to convert your hex address or data manually, the SDK exposes helpers such as `hexToBytes(\"0xabcdef\")` (returns a `Uint8Array`) and `bytesToHex()` for the reverse — useful when preparing data for ABI encoding or decoding results.\n\n---\n\n**References** (from the Chainlink CRE docs):\n- SDK Reference: EVM Client — `docs.chain.link/cre/reference/sdk/evm-client-ts`\n- Guide: Onchain Read — `docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-ts`\n\nI'd recommend confirming the exact `EVMClient` constructor argument and the `Storage` ABI import path against your project setup, since those depend on your specific workflow configuration.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38983,
+              "output_tokens": 3134,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2362,
+              "output_tokens": 2639,
+              "cache_creation_input_tokens": 1999,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states its search tool hit a usage limit and gives a conceptual, unverified answer instead of citing the source."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 5,
+            "relevance": 2,
+            "structure": 6
+          },
+          "fidelity": 40,
+          "hallucinations": [
+            {
+              "claim": "Mode / \"most common\" style aggregation — picks the value the majority of nodes reported.",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "checking that enough nodes participated (a quorum)",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "The Consensus & Aggregation part of the SDK handles this",
+            "Use aggregators like consensusMedianAggregation and ConsensusAggregationByFields",
+            "Use them with runtime.runInNodeMode() to consolidate data from multiple nodes"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer correctly identifies consensus/aggregation as the relevant concept but explicitly admits it couldn't retrieve the docs, omits the actual SDK function names (consensusMedianAggregation, ConsensusAggregationByFields, runInNodeMode), and invents a non-existent 'mode' aggregation and a quorum parameter, making it unsafe to use as an API reference.",
+          "prompt": "I'm new to this — I want my TypeScript workflow to combine data from several nodes into one agreed value. Which part of the CRE SDK handles that and what tools does it give me?",
+          "archetype": "verbose/beginner",
+          "answer": "I wasn't able to pull up live documentation just now (my search tool hit its usage limit), so let me give you a conceptual answer based on how the CRE SDK is designed — but I'd strongly recommend verifying the exact API names against the current official Chainlink CRE docs, since the SDK is evolving quickly and method names may have changed.\n\n## The short answer: **Consensus**\n\nThe part of the CRE SDK you're looking for is the **consensus** mechanism. Here's why it exists and what problem it solves for you as a newcomer:\n\nA CRE workflow doesn't run on just one machine — it runs **redundantly across many nodes** in a decentralized network. Each node independently executes your workflow logic. If a node fetches a price, calls an API, or reads onchain data, each one may come back with a slightly different value (different timestamps, network jitter, a lagging data source, or even a faulty/malicious node). **Consensus** is the layer that takes all those per-node results and reduces them to a **single agreed-upon value** that the network can act on trustlessly.\n\n## What it gives you\n\nConceptually, consensus provides **aggregation strategies** — you tell the SDK *how* the many node values should be collapsed into one. The typical options are:\n\n- **Median aggregation** — sorts the numeric values from all nodes and takes the middle one. This is the go-to for numeric data (like prices) because a few outliers or a faulty node can't skew the result.\n- **Identical / exact-match aggregation** — requires that nodes agree on the *same* value (useful for discrete data, strings, booleans, or structured responses where you expect exact agreement).\n- **Mode / \"most common\" style aggregation** — picks the value the majority of nodes reported.\n\nYou generally wrap the part of your workflow that produces node-varying data (e.g., an HTTP fetch or a capability call) with a consensus/aggregation descriptor, and the runtime handles collecting responses, checking that enough nodes participated (a quorum), and applying your chosen aggregation.\n\n## Why this matters for you\n\nThe key mental model as you start: **anything in your workflow that reads the outside world will differ per node, so it must pass through consensus before you use it.** Deterministic pure computation doesn't need it; external/nondeterministic data does.\n\n## My recommendation\n\nBecause I couldn't verify the current exact identifiers, look in the official CRE TypeScript SDK docs for:\n- the **`consensus`** module/import,\n- the **aggregation helper functions** (median, identical/exact, etc.), and\n- how to specify the **quorum / number of nodes required**.\n\nIf you paste a snippet of the SDK version you're using (or the import lines), I can help you wire up the specific consensus call for your use case. Would you like me to try searching the docs again in a moment for the precise function names?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34487,
+              "output_tokens": 2412,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1410,
+              "output_tokens": 693,
+              "cache_creation_input_tokens": 1999,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it used a different page ('TypeScript WASM Runtime doc') and cites no URLs, so the expected source page was not surfaced."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 4,
+            "structure": 9
+          },
+          "fidelity": 70,
+          "hallucinations": [
+            {
+              "claim": "node:crypto is not supported",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Noble is a popular JavaScript cryptography library with minimal dependencies that works well with QuickJS",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "you can inject a custom Rust crate into the plugin layer that bridges your TypeScript to the CRE runtime",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Sandboxed execution... Deterministic execution: WASM ensures workflows produce consistent results across different nodes",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "See the TypeScript Runtime Environment docs for QuickJS compatibility and verifying library compatibility"
+          ],
+          "unverifiable_from_source": [
+            "node:crypto is not supported",
+            "Noble is a popular JavaScript cryptography library with minimal dependencies",
+            "Rust crate injection into the plugin layer bridging TypeScript to CRE runtime",
+            "Sandboxed execution provides security boundaries between workflow code and CRE runtime",
+            "Deterministic execution ensures consistent results across nodes in the DON",
+            "SDK capabilities do not use Promise/async-await and instead use .result() pattern",
+            "Three-stage compilation pipeline: TypeScript→JavaScript→WASM→Execution details"
+          ],
+          "verdict": "The answer correctly identifies that CRE TypeScript workflows compile to WASM via Javy/QuickJS (matching the source), but it draws most of its detailed claims from a different, uncited page rather than the expected source, and fails to cite any URL, so while topically accurate it is not fully traceable to the given ground truth.",
+          "prompt": "Why can't I use certain Node.js libraries in my CRE TypeScript workflow? How is the code actually run?",
+          "archetype": "error-debug",
+          "answer": "The most relevant is result 1, the TypeScript WASM Runtime doc. Let me get its full content.I have enough to answer. Let me build the citation indices based on the two search results.\n\n## Short answer\n\nYour CRE TypeScript workflow doesn't actually run on Node.js — it runs as a WebAssembly (WASM) module powered by a small embedded JavaScript engine (QuickJS), which lacks most of the Node.js API. So any library that depends on Node.js built-ins won't work.\n\n## How the code is actually run\n\nYour TypeScript workflows are compiled to WebAssembly (WASM) to run in the CRE execution environment. The pipeline has three stages: CRE uses Javy to compile your TypeScript workflows into WASM binaries. The compilation pipeline works as follows: TypeScript → JavaScript: your .ts files are transpiled to JavaScript; JavaScript → WASM: Javy bundles the JavaScript code with an embedded QuickJS engine into a WASM binary; Execution: the WASM binary runs in the CRE runtime environment.\n\nThe key detail is what engine is inside that binary: Javy uses QuickJS, a lightweight JavaScript engine embedded in the WASM binary. QuickJS is not Node.js—it provides core JavaScript (ECMAScript) functionality but does not include the full Node.js API surface.\n\n## Why certain Node.js libraries don't work\n\nBecause QuickJS only implements core ECMAScript and not Node's runtime, not all Node.js built-in modules are available — for example, node:crypto is not supported. Any npm package that reaches for those built-ins (crypto, fs, net, buffers, etc.) will fail. That's why the guidance is: before using third-party NPM packages, verify they don't rely on unsupported Node.js APIs.\n\nThere are also two additional reasons WASM/QuickJS is used, which reinforce the restrictions:\n- Sandboxed execution: WASM runs in an isolated environment, providing security boundaries between your workflow code and the CRE runtime.\n- Deterministic execution: WASM ensures workflows produce consistent results across different nodes in the DON.\n\nDeterminism matters because a workflow runs across many nodes in a decentralized network, so non-deterministic native APIs (random sources, system clocks, network/file access from arbitrary libs) can't be allowed.\n\nOne more workflow-specific quirk: while JavaScript Promise and async/await are supported by QuickJS, SDK capabilities do not use them — the CRE TypeScript SDK uses a custom .result() pattern instead.\n\n## What to do instead\n\n- **Pick QuickJS-friendly libraries.** For crypto specifically, if you need cryptographic functions, Noble is a popular JavaScript cryptography library with minimal dependencies that works well with QuickJS. In general, prefer pure-JS packages with minimal dependencies that don't touch Node built-ins.\n- **Drop down to Rust when JS won't cut it.** When a library you need doesn't work in QuickJS, or you need performance beyond what interpreted JavaScript in WASM can provide, you can inject a custom Rust crate into the plugin layer that bridges your TypeScript to the CRE runtime. The compiled Rust code runs natively within the same WASM binary as your workflow and is exposed as a typed global you call from TypeScript.\n\n**Bottom line:** your workflow isn't executed by Node — it's transpiled to JS, bundled with QuickJS by Javy into a sandboxed, deterministic WASM binary. So libraries assuming the Node.js runtime break; choose pure-JS alternatives or move that functionality into a custom Rust plugin.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 82269,
+              "output_tokens": 2687,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1661,
+              "output_tokens": 3857,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3987,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        }
+      ],
+      "avg_fidelity_all": 55.7,
+      "unattributed_count": 0,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

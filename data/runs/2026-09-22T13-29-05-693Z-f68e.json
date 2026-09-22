@@ -1,0 +1,797 @@
+{
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "startedAt": "2026-09-22T13:29:05.694Z",
+  "endedAt": "2026-09-22T13:36:04.861Z",
+  "owner": {
+    "pid": 34717,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "data-streams",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 20,
+    "pages": 20,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 2.7207,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-29-05-693Z-f68e",
+    "target": {
+      "type": "product",
+      "name": "data-streams",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-22T13:29:05.694Z",
+    "endedAt": "2026-09-22T13:36:04.861Z",
+    "elapsedMs": 419167,
+    "counts": {
+      "pages": 20,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 2.7207,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "data-streams-md",
+        "url": "https://docs.chain.link/data-streams.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55437
+        },
+        "elapsedMs": 55903,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-architecture-md",
+        "url": "https://docs.chain.link/data-streams/architecture.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 73553
+        },
+        "elapsedMs": 74129,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-billing-md",
+        "url": "https://docs.chain.link/data-streams/billing.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 47978
+        },
+        "elapsedMs": 48700,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-crypto-streams",
+        "url": "https://docs.chain.link/data-streams/crypto-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 61933
+        },
+        "elapsedMs": 64276,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-data-sources-md",
+        "url": "https://docs.chain.link/data-streams/data-sources.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52809
+        },
+        "elapsedMs": 53445,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-deprecating-streams",
+        "url": "https://docs.chain.link/data-streams/deprecating-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 70170
+        },
+        "elapsedMs": 72302,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-developer-responsibilities-md",
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 73844
+        },
+        "elapsedMs": 74771,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-exchange-rate-streams",
+        "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 57490
+        },
+        "elapsedMs": 59375,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-market-hours",
+        "url": "https://docs.chain.link/data-streams/market-hours",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 61259
+        },
+        "elapsedMs": 61668,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-reference-data-streams-api-md",
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 59861
+        },
+        "elapsedMs": 60448,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-reference-report-schema-overview-md",
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 68940
+        },
+        "elapsedMs": 69730,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-rwa-streams",
+        "url": "https://docs.chain.link/data-streams/rwa-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 59795
+        },
+        "elapsedMs": 62028,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-smartdata-streams",
+        "url": "https://docs.chain.link/data-streams/smartdata-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56754
+        },
+        "elapsedMs": 58972,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-supported-networks-md",
+        "url": "https://docs.chain.link/data-streams/supported-networks.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51829
+        },
+        "elapsedMs": 52586,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tokenized-asset-streams",
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55163
+        },
+        "elapsedMs": 57371,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tutorials-overview-md",
+        "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 46425
+        },
+        "elapsedMs": 47063,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tutorials-rust-sdk-fetch-md",
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 54943
+        },
+        "elapsedMs": 55784,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tutorials-rust-sdk-stream-md",
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58863
+        },
+        "elapsedMs": 59943,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tutorials-ts-sdk-fetch-md",
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 60259
+        },
+        "elapsedMs": 61220,
+        "probeSummary": null
+      },
+      {
+        "key": "data-streams-tutorials-ts-sdk-stream-md",
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56079
+        },
+        "elapsedMs": 56938,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "data-streams",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 80,
+      "inScope": 20,
+      "failed": 0
+    },
+    "notes": [
+      "curated index lists 20 of 67 pages under /data-streams/ — 47 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/data-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/canton-integration",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/calculated-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/crypto-top-of-book-and-mark-price",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/dex-state-price-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/liquidity-weighted-prices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/crypto-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/deprecating-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/get-support",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/how-report-timestamps-work",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/market-hours",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rate-limits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/candlestick-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/go-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/javascript-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/rust-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/typescript-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/discovery-endpoint",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/interface-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/interface-ws",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/onchain-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/rust-sdk",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/ts-sdk",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v10",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v11",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v2",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v3",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v3-dex",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v4",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v7",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v8",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v9",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/24-5-us-equities-user-guide",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/apac-equities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/handling-market-events-v11",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/selecting-data-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/sign-up",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/smartdata-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/streams-trade",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/streams-trade/interfaces",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams/handling-stock-splits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/evm-onchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/solana-offchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/stellar-onchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/getting-started-hardhat",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/streams-trade-lookup-error-handler",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

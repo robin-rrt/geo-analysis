@@ -1,0 +1,169 @@
+{
+  "key": "ccip-concepts-cross-chain-token-overview-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Cross-Chain Token Standard - Overview",
+    "url": "https://docs.chain.link/ccip/concepts/cross-chain-token/overview.md",
+    "analyzedAt": "2026-09-22T13:39:44.828Z",
+    "contentType": "developer documentation / conceptual overview",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 60.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working — opens with a clean canonical statement: \"The Cross-Chain Token (CCT) standard offers a streamlined and decentralized approach to enabling token transfers across blockchains…\" and each Key Concept leads with its definition. Weak — the opening paragraph is a ~180-word block that buries specifics."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working — 27 headings, 1 H1, no level skips, no section over 600 words (max 435), sensible chunk boundaries. Weak — 0 tables; the four handling mechanisms and rate-limit parameters are prime table candidates, and the \"Token-Specific Transfer Mechanisms\" bullets are long, dense list items."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Working — \"$16 trillion in Total Value Enabled,\" version-gated feature (\"Starting from v1.5.1… zero-downtime upgrades\"), concrete \"10 LINK\" transfer walkthroughs. Weak — measured facts flag 0 numerals with units and vague quantifiers (\"several,\" \"most,\" \"significant\")."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Working — links to chainlist.org, a GitHub primary-source contract, CCIP Directory. Weak — one opaque \"here\" link (measured); no links to the CCIP whitepaper/spec or canonical rate-limit definitions."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong — the Key Concepts section (Token Developer, Token Administrator, EOA, Smart Account, Token Pool) is textbook verbatim-liftable. Minor: a stray double period (\"TokenAdminRegistry..\")."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified`, 0 og/twitter tags in the served head. The visible \"Last Updated\" date is body text only, invisible to parsers."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak but context-adjusted — a concept page legitimately carries little code, but the ETH-transfer procedure references `EthSenderContract.sol` with no inline snippet or config; a short liftable example would help agents."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Working — covers \"what is CCT,\" motivations, mechanisms, native-gas-token transfer steps. Weak — concept-titled headings only; no FAQ/troubleshooting and no symptom- or question-phrased headings (\"How do I transfer ETH cross-chain?\", \"Which token handling mechanism should I use?\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong — unambiguous, consistent naming of CCT/CCIP/token pool entities. Minor redundancy across the benefits subsections."
+      }
+    ],
+    "summary": "This is a well-written conceptual overview of Chainlink's Cross-Chain Token (CCT) standard, strongest in its crisp Key Concepts glossary and consistent terminology — both highly liftable. Its biggest structural weakness is the absence of a comparison table for the four token-handling mechanisms (Burn/Mint, Lock/Mint, Burn/Unlock, Lock/Unlock), which are described in prose an engine must reassemble rather than extract. The single largest GEO liability is machine-readability: no JSON-LD, no canonical URL, and no `dateModified` in the served `<head>` (the \"Last Updated: 2025-05-19\" line lives only in body text). Honest verdict: solid, retrievable content held back by missing metadata and the lack of scannable comparison structures.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a comparison table for the four token-handling mechanisms",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"## Token Handling Mechanisms\"",
+        "issue": "four mechanisms described only in separate prose blocks; 0 tables on page.",
+        "change": "add a table with columns `Mechanism | Source-chain action | Destination-chain action | When to use | Example token`, one row each for Burn/Mint, Lock/Mint, Burn/Unlock, Lock/Unlock (rows populated from existing text — LINK, WETH, USDC).",
+        "why": "tables let engines extract the *reason* for choosing a mechanism and answer \"which mechanism for X\" queries in one liftable unit."
+      },
+      {
+        "priority": 1,
+        "title": "Add question/symptom-phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "the native-gas section and end of page.",
+        "issue": "heading \"Token Handling Mechanisms\" and note \"Transferring Native Gas Tokens\" don't match how devs query.",
+        "change": "retitle to \"How do I transfer native ETH cross-chain with CCIP?\" and add an H2 FAQ (\"Which token handling mechanism should I use?\", \"Do CCTs require liquidity pools?\", \"What are token pool rate limits?\").",
+        "why": "question-phrased headings win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle` JSON-LD with canonical and `dateModified`",
+        "mapsTo": "machine-readability (\"API-able\")",
+        "tier": null,
+        "where": "page `<head>` (site template).",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no dates in served head.",
+        "change": "add JSON-LD `TechArticle` with `headline`, `dateModified: 2025-05-19`, canonical URL, and `inLanguage`; surface the existing \"Last Updated\" as a machine-readable date.",
+        "why": "structured metadata and visible freshness raise parse-trust and E-E-A-T; note this is likely a site-level fix."
+      },
+      {
+        "priority": 2,
+        "title": "Add a rate-limits parameter table with units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"## Token Pool rate limits\"",
+        "issue": "\"maximum capacity and a refill rate\" described qualitatively; 0 numerals carry units.",
+        "change": "define TPRL parameters in a small table (`Parameter | Meaning | Unit`, e.g. capacity in tokens, refill rate in tokens/second) and link the CCIP Directory as the live-values source.",
+        "why": "quantitative claims with units are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Replace the opaque \"here\" link and add a spec/primary-source citation",
+        "mapsTo": "cited, authoritative references",
+        "tier": null,
+        "where": "Token Manager NOTE (\"Read more about it [here]\") and Motivations.",
+        "issue": "\"[here]\" gives engines no anchor context; measured 1 opaque link.",
+        "change": "relabel to \"Read more about the CCIP Token Manager\"; add an inline link to the CCT/CCIP whitepaper or spec near the first CCT definition.",
+        "why": "descriptive anchor text and primary-source links raise citation rate and disambiguate entities."
+      },
+      {
+        "priority": 3,
+        "title": "Tighten vague quantifiers and lead the intro with specifics",
+        "mapsTo": "fluency & answer-first extractability",
+        "tier": null,
+        "where": "opening paragraph and benefits subsections.",
+        "issue": "\"several,\" \"most,\" \"significant\"; ~180-word opening block.",
+        "change": "front-load a one-sentence definition + one concrete number (e.g. supported-chain count or TVE) as the first liftable line; replace vague quantifiers with figures where known.",
+        "why": "self-contained, specific opening sentences are preferentially lifted; vague qualifiers underperform."
+      }
+    ],
+    "antiPatterns": [
+      "Opaque link text: one \"here\" link (measured).",
+      "Vague quantifiers: \"several,\" \"some,\" \"most,\" \"significant\" (measured).",
+      "Freshness signal present in body (\"Last Updated: 2025-05-19\") but invisible to parsers (no `dateModified`).",
+      "Minor typo: double period after \"TokenAdminRegistry..\".",
+      "No walls-of-prose violation at section level, but the intro paragraph and the LINK bullet are dense single blocks."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/head metadata are almost certainly template/site-level fixes rather than page-authored — coordinate with the docs platform; CLI should pass raw `<head>` for a fuller read.",
+      "`llms.txt` is already referenced at the top of the page — good site-level discoverability signal.",
+      "Image alt text could not be assessed (\"(Image: Image)\" placeholders suggest missing descriptive alt/captions that would otherwise aid extraction of the mechanism diagrams)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

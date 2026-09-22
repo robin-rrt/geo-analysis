@@ -1,0 +1,167 @@
+{
+  "key": "ccip-tools-api",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP API | CCIP Tools Reference",
+    "url": "https://docs.chain.link/ccip/tools/api",
+    "analyzedAt": "2026-09-22T13:43:28.137Z",
+    "contentType": "developer documentation / REST API reference landing page",
+    "score": 62,
+    "band": "Good",
+    "weightedTotal": 62,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a concise, well-structured index page for the CCIP REST API that opens with a clean canonical definition and a scannable Quick Reference table mapping use cases to endpoints. Its biggest GEO strength is structural clarity (5 sections, no level skips, two extraction-ready tables); its biggest opportunity is the single broken/untagged code block and the near-total absence of concrete numbers (rate limits, latencies) — the page says \"be mindful of rate limits\" without stating any. The honest verdict: solid retrieval scaffolding, but a generative engine lifting the curl example would quote mangled code, and agents asking \"what are the rate limits\" get no answer.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fix the corrupted curl code block",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "HTTP Status Codes section, the \"Bash\" fenced block",
+        "issue": "`in scriptscurl -s -o /dev/null -w \"%{http_code}\" \\  \"https://api.ccip.chain.link/v2/message/0x...\"`",
+        "change": "Restore newlines and tag the fence ```` ```bash ````: ```bash # Check response status code curl -s -o /dev/null -w \"%{http_code}\\n\" \\ \"https://api.ccip.chain.link/v2/message/0x...\" ```",
+        "why": "Engines and agents lift code verbatim; a mangled, untagged snippet yields broken output and lowers trust in the whole page."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete rate-limit and latency numbers",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Authentication section",
+        "issue": "\"Please be mindful of rate limits\" — no figure given",
+        "change": "State the actual limits, e.g. \"Public endpoints are rate-limited to N requests/minute per IP; Intent endpoints with `x-api-key` allow M requests/minute.\" Add a typical response latency for Get Lane Latency.",
+        "why": "Quantitative claims are among the highest-lift changes; \"what are CCIP API rate limits\" is a common query this page currently cannot answer."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom-phrased troubleshooting headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "After HTTP Status Codes",
+        "issue": "Status codes are listed but not phrased as the questions devs type",
+        "change": "Add short H3s like \"Why does my request return 404 Not Found?\" (invalid message/intent ID) and \"Why am I getting 500 errors?\" (retry with exponential backoff), each answering in the first sentence.",
+        "why": "Devs and agents query by symptom/error string; question-phrased headings win retrieval that concept prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add `APIReference`/`TechArticle` JSON-LD and a visible last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` JSON-LD and page footer",
+        "issue": "Only `BreadcrumbList` schema; `dateModified` absent",
+        "change": "Emit an `APIReference` (or `TechArticle`) block with `name`, `version` (2.0.0), and `dateModified`; surface a \"Last updated\" line on-page.",
+        "why": "Structured API metadata and freshness signals raise E-E-A-T and parse confidence for agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative external link",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Lead paragraph, on first \"Cross-Chain Interoperability Protocol\" mention",
+        "issue": "0 external/primary-source links",
+        "change": "Link the term to the canonical CCIP concept page and, if published, the OpenAPI/spec URL.",
+        "why": "Inline links to primary sources raise citation rate and let engines resolve the CCIP entity."
+      },
+      {
+        "priority": 3,
+        "title": "State the concrete supported-chain and language specifics inline",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Multi-Chain Support and Quick Reference sections",
+        "issue": "Chain families shown only as icons; \"9 languages\" not enumerated",
+        "change": "Add text list \"Supported chain families: EVM, Solana, Aptos, TON, Canton (5 total)\" and name the 9 code-sample languages.",
+        "why": "Icon-only content is invisible to text-based retrieval; enumerated specifics are liftable."
+      }
+    ],
+    "antiPatterns": [
+      "Corrupted/untagged code snippet (collapsed newlines in the curl example).",
+      "Vague quantifier without a number: \"be mindful of rate limits,\" \"Most … endpoints.\"",
+      "Icon-only Multi-Chain content with no text equivalent for text extractors.",
+      "No visible last-updated/date signal."
+    ],
+    "offPageNotes": [
+      "Site-level: add `APIReference` schema site-wide and an `llms.txt` to steer generative crawlers to canonical CCIP API pages.",
+      "Freshness cadence: surface `dateModified` from the CMS/build so engines see recency across the CCIP Tools section, not just this page."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

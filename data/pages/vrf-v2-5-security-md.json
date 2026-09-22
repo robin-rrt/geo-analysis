@@ -1,0 +1,167 @@
+{
+  "key": "vrf-v2-5-security-md",
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "audit": {
+    "title": "VRF Security Considerations",
+    "url": "https://docs.chain.link/vrf/v2-5/security.md",
+    "analyzedAt": "2026-09-22T13:16:18.992Z",
+    "contentType": "developer documentation / security best-practices guide",
+    "score": 54,
+    "band": "Developing",
+    "weightedTotal": 54,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-written conceptual security checklist for Chainlink VRF v2.5, and its greatest GEO strength is that most headings are already phrased as imperative directives an engine can lift verbatim (\"`fulfillRandomWords` must not revert\", \"Don't accept bids/bets/inputs after you have made a randomness request\"). Its biggest opportunity is that it is almost entirely qualitative: it repeatedly tells developers to \"choose a safe block confirmation time\" and \"keep funded above the minimum\" without a single concrete number, code example, or external reference (ERC-4337 is named but not linked). Combined with absent metadata (no JSON-LD, canonical, or dates), the page is retrievable and quotable for *what to do* but weak on *the specifics agents need to act*. Honest verdict: strong bones, under-specified body — Developing.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Replace vague quantities with concrete figures",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Choose a safe block confirmation time…\" and \"Keep your subscription funded well above the minimum balance\"",
+        "issue": "\"choose an appropriate confirmation time\" / \"well above the minimum balance\"",
+        "change": "State the actual configurable range (e.g. \"`requestConfirmations` accepts 3–200 blocks; defaults and recommended values vary by chain — see the [Supported Networks](/vrf/v2-5/supported-networks) table\") and give a concrete funding heuristic (e.g. \"fund to at least Nx the per-request max cost\").",
+        "why": "Quantitative claims with units are among the highest-lift retrieval signals; qualitative-only prose underperforms and cannot be acted on by agents."
+      },
+      {
+        "priority": 1,
+        "title": "Add a per-chain confirmation-time table",
+        "mapsTo": "machine-scannability / justification structure",
+        "tier": null,
+        "where": "\"Choose a safe block confirmation time, which will vary between blockchains\"",
+        "issue": "section asserts values \"vary between blockchains\" but shows none",
+        "change": "Insert a small table (chain · min confirmations · recommended for high-value apps) or link directly to the network table with the specific column.",
+        "why": "Tables let engines extract reasons and specific values per entity; this directly answers \"how many confirmations for VRF on <chain>\"."
+      },
+      {
+        "priority": 2,
+        "title": "Add short code snippets for the two code-adjacent directives",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Use `requestId` to match…\" and \"Use `VRFConsumerBaseV2Plus`…\"",
+        "issue": "patterns described in prose only; 0 fenced blocks (measured)",
+        "change": "Add a labeled ```solidity``` block showing a `mapping(uint256 => ...)` requestId→request store and a minimal `contract X is VRFConsumerBaseV2Plus` skeleton with imports.",
+        "why": "Complete, copy-pasteable snippets are what coding agents lift; prose descriptions of code are not runnable."
+      },
+      {
+        "priority": 2,
+        "title": "Add inline authoritative links",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "ERC-4337 section; VRF-rewrite claims",
+        "issue": "\"Pre-signed ERC-4337 UserOperations…\" with no link",
+        "change": "Link \"ERC-4337\" to the EIP (`https://eips.ethereum.org/EIPS/eip-4337`) and link `VRFConsumerBaseV2Plus`/`VRFCoordinatorV2_5` to their API reference pages.",
+        "why": "Inline links to primary sources raise credibility and citation rate; the page currently has 0 external references (measured)."
+      },
+      {
+        "priority": 2,
+        "title": "Emit page metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter (site-level template)",
+        "issue": "no JSON-LD, canonical, or dateModified (measured)",
+        "change": "Add `TechArticle` JSON-LD with `dateModified`, a canonical URL, and `inLanguage`. Surface a visible \"Last updated\" line.",
+        "why": "Freshness and schema are E-E-A-T signals engines use to trust and rank security guidance."
+      },
+      {
+        "priority": 3,
+        "title": "Add a symptom-phrased troubleshooting subsection",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "end of page",
+        "issue": "no error-string or \"why is my fulfillment delayed\" framing",
+        "change": "Add H2s like \"Why did my VRF fulfillment never arrive?\" (points to reverting `fulfillRandomWords` and low balance) and \"Why are my fulfillments delayed?\" (concurrent consumers near minimum balance).",
+        "why": "Devs/agents query by symptom, not concept; symptom headings win retrieval that directive-titled prose misses."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers flagged by measurement: \"many, some, significant\" — plus \"some time\", \"appropriate\", \"well above\". Replace with concrete values (see P1).",
+      "No dated/freshness signal on a security page — mild staleness risk for time-sensitive guidance.",
+      "Two sections describe code patterns without providing code."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and last-updated signals are likely controlled by the site template — fix once at the layout level to benefit all VRF pages.",
+      "`llms.txt` is already referenced at the top of the page (good); ensure this security page is enumerated in it.",
+      "Raw `<head>` was not captured — the CLI should pass it so metadata can be fully verified rather than inferred from the served HTML."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-13-35-905Z-9cc9",
+    "probes": {}
+  }
+}

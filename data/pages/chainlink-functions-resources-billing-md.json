@@ -1,0 +1,167 @@
+{
+  "key": "chainlink-functions-resources-billing-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions Billing",
+    "url": "https://docs.chain.link/chainlink-functions/resources/billing.md",
+    "analyzedAt": "2026-09-22T13:24:24.460Z",
+    "contentType": "developer documentation / reference (billing & cost model)",
+    "score": 67,
+    "band": "Good",
+    "weightedTotal": 67,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured billing reference for Chainlink Functions with strong worked examples: two full cost-calculation walkthroughs, 9 tables, and 68 numerals with real gwei/LINK/USD figures. Its biggest GEO strength is concrete, quotable arithmetic (a request costing \"0.2425 LINK\" is exactly the kind of specific an engine cites). Its biggest opportunity is discoverability: no JSON-LD/`TechArticle` schema, missing canonical URL, no dates, and no summary sentence answering the top query — \"how much does a Chainlink Functions request cost and how is it billed.\" The honest verdict: solid content that is under-instrumented for retrieval and lacks a liftable top-line answer.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (`TechArticle` JSON-LD + canonical + dateModified)",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured facts — \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `about: \"Chainlink Functions billing\"`, and a self-referential canonical URL.",
+        "why": "structured metadata and visible freshness are direct trust/parse signals for agents; absence caps this dimension."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first TL;DR of the billing model",
+        "mapsTo": "answer-first extractability / quotable canonical statement",
+        "tier": null,
+        "where": "immediately under `# Chainlink Functions Billing`, before \"Request costs\"",
+        "issue": "page opens into mechanics with no one-line summary of cost = gas + premium.",
+        "change": "add one liftable sentence, e.g. \"A Chainlink Functions request costs gas cost + a USD-denominated premium fee, both paid in LINK from your subscription; the maximum is reserved at request time and the exact amount is charged at fulfillment.\"",
+        "why": "a crisp self-contained claim is what engines quote verbatim and defends against skimmed/parametric answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom-phrased headings for common billing questions",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H3s under relevant sections or a short FAQ",
+        "issue": "no headings matching \"why was I charged less than reserved\" or \"why a cancellation fee.\"",
+        "change": "add H3s like \"Why is the reserved amount larger than the final charge?\" (answer: 99% gas-fluctuation overestimation) and \"Why did canceling my subscription incur a fee?\" (answer: below request threshold).",
+        "why": "symptom-phrased headings win retrieval that concept-titled prose loses, even when the answer is already in body text."
+      },
+      {
+        "priority": 2,
+        "title": "Tag the formula code fences and add a concrete `getConfig` example",
+        "mapsTo": "code completeness / agent-runnability",
+        "tier": null,
+        "where": "the two formula blocks and the fallback-ratio paragraph",
+        "issue": "measured facts — \"2 fenced block(s)… 2 untagged\"; `getConfig` mentioned but not shown.",
+        "change": "tag fences (e.g. ```` ```text ````) and add a short labeled snippet showing a `getConfig` call on FunctionsCoordinator returning the fallback Wei→LINK ratio.",
+        "why": "labeled, runnable snippets are easier for agents to parse and execute."
+      },
+      {
+        "priority": 3,
+        "title": "Link claims to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "callback and contract references (\"`handleOracleFulfillment`\", \"FunctionsRouter contract\")",
+        "issue": "measured facts — \"0 to primary sources.\"",
+        "change": "add inline links to the FunctionsRouter/FunctionsCoordinator contract source or reference API page and to the `handleOracleFulfillment` interface.",
+        "why": "primary-source links raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifier with a specific",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "Cost calculation (fulfillment), step 2",
+        "issue": "\"performs several accounting movements.\"",
+        "change": "enumerate the movements (release reservation, deduct gas cost, deduct premium) or link to the reference detailing them.",
+        "why": "specifics outperform qualitative-only prose in generative answers."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier: \"performs several accounting movements\" (measured facts flag \"several\").",
+      "Untagged code fences (2 of 2) — minor parse-friendliness loss.",
+      "No stale-content risk visible in prose, but absence of any `dateModified` means freshness is unverifiable to an engine."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and freshness signals are largely template/site-level — coordinate with the docs platform, not just this page.",
+      "The page already references `/llms.txt`; ensure this billing URL is listed there for agent discovery.",
+      "Blockchain-specific values (minimum balance, request threshold, cancellation fee) live on the Supported Networks page — ensure that page cross-links back here to reinforce the canonical-hub pattern."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

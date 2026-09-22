@@ -1,0 +1,167 @@
+{
+  "key": "chainlink-functions-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions",
+    "url": "https://docs.chain.link/chainlink-functions.md",
+    "analyzedAt": "2026-09-22T13:23:24.973Z",
+    "contentType": "developer documentation / product overview (concept landing page)",
+    "score": 54,
+    "band": "Developing",
+    "weightedTotal": 54.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is the concept-landing page for Chainlink Functions: strong, fluent prose with a clean, self-contained opening definition that engines can lift verbatim. Its biggest weaknesses are near-total absence of concrete specifics (0 numerals: no request limits, node counts, supported-network counts, or timings) and missing machine-readable metadata (no JSON-LD, no canonical URL, no last-updated). A separate hard flag: the page carries a `callout=\"shutdown\"` component yet describes the product entirely in present tense — a freshness/accuracy risk that outweighs any GEO polish, since generative engines may synthesize an active product that is being deprecated.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Reconcile shutdown status with present-tense claims",
+        "mapsTo": "freshness/accuracy, parametric-prior resistance",
+        "tier": null,
+        "where": "top of page, `<ChainlinkFunctions callout=\"shutdown\" />` vs. body",
+        "issue": "\"Chainlink Functions provides your smart contracts access to…\" (present tense while a shutdown callout renders)",
+        "change": "Add a first-liftable-sentence status line stating the deprecation/shutdown state, timeline, and recommended migration path, and make the callout text machine-readable (not only a component). If still active, say so with a date.",
+        "why": "Engines lift the first self-contained sentence; a page describing a deprecated product as active produces confidently wrong answers — the highest-severity failure class."
+      },
+      {
+        "priority": 2,
+        "title": "Add visible freshness + machine-readable metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "canonical MISSING; `dateModified` absent; 0 JSON-LD blocks",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified`, a canonical URL, and `inLanguage`; surface a visible \"Last updated\" line.",
+        "why": "Freshness and structured metadata raise agent trust (E-E-A-T) and are the cheapest measured deficits to close."
+      },
+      {
+        "priority": 2,
+        "title": "Inject concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro and \"When to use\" sections",
+        "issue": "0 numerals; \"each node in the DON executes the code\" with no counts",
+        "change": "State DON node count / threshold, max request/response byte size, execution timeout, LINK billing granularity, and the number of supported networks — with inline units.",
+        "why": "Quantitative claims are among the highest-lift changes for citation; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers and add a supported-networks summary",
+        "mapsTo": "specifics, scannability",
+        "tier": null,
+        "where": "\"Supported networks\" section and use-case bullets",
+        "issue": "\"several community examples,\" \"almost any Web2 system,\" bare link to networks page",
+        "change": "State the network count (e.g., \"Supported on N mainnets and M testnets\") and add a short table of chain → status inline rather than deferring entirely to another page.",
+        "why": "A self-contained answer with numbers is retrievable; a pure \"see this page\" pointer loses the retrieval that a summarized fact wins."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/intent-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new sections",
+        "issue": "headings are concept-titled (\"When to use\"), not question-shaped",
+        "change": "Add \"How does Chainlink Functions work?\", \"How much does Chainlink Functions cost?\", and a short FAQ/troubleshooting block phrased as user questions.",
+        "why": "Devs and agents query by question/symptom; question-shaped headings win retrieval that concept prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Cite primary sources for cryptographic claims",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "threshold-encryption paragraph",
+        "issue": "\"encrypted using threshold encryption… multi-party decryption process\" unattributed",
+        "change": "Link the architecture/spec page or a canonical reference for threshold encryption and DON consensus.",
+        "why": "Inline authoritative links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers (\"several,\" \"most,\" \"almost any\") where numbers belong.",
+      "Present-tense product description contradicting a `shutdown` callout — a stale/accuracy signal.",
+      "Zero concrete numerals across 596 words of technical prose."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good; ensure it reflects the shutdown status.",
+      "Canonical URL and JSON-LD are template/site-level concerns; the CLI should pass raw `<head>` so metadata can be fully verified (none was captured here).",
+      "Freshness cadence and deprecation banners are site-level; ensure deprecated-product pages are dated and de-emphasized in sitemaps so engines don't over-retrieve them."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

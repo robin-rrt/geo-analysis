@@ -1,0 +1,166 @@
+{
+  "key": "ccip-tutorials-evm-test-ccip-locally-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Test CCIP Locally",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/test-ccip-locally.md",
+    "analyzedAt": "2026-09-22T13:46:15.285Z",
+    "contentType": "developer documentation / hub-and-spoke index page",
+    "score": 51,
+    "band": "Developing",
+    "weightedTotal": 51,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "The opener is liftable: \"Chainlink Local provides a comprehensive set of tools and libraries to test your smart contracts with CCIP locally.\" Sections below are just link pointers (\"For Foundry users, the following guides…\") with no standalone answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong: 6 headings, 1 H1, max depth H3, 0 level skips, no oversized sections (measured). A comparison table of the three environments would convert this from readable to extractable."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak: 3 numerals, 0 with units, no version strings (measured), plus vague quantifiers \"significant\" and \"quickly.\" Nothing quantitative for an engine to anchor on."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for a hub: 5 links, one external to the canonical `github.com/smartcontractkit/chainlink-local` repo. Claims are attributable."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The intro doubles as a serviceable definition; no formal \"Chainlink Local is…\" sentence, but the first line is close enough to lift."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no `TechArticle` schema (measured). A visible \"Last Updated: 2025-05-19\" is present in body text, which helps freshness signalling; head metadata could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "0 fenced blocks (measured). Acceptable for a pure index page, but a single minimal install/import snippet would give agents something runnable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Matches \"test CCIP locally\" and the three toolchains, but no troubleshooting, prerequisites, or symptom-phrased entry points."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Consistent naming of Chainlink Local, CCIP, Foundry/Hardhat/Remix."
+      }
+    ],
+    "summary": "This is a thin (207-word) router page whose only job is to point Foundry, Hardhat, and Remix users to environment-specific CCIP local-testing guides. Its biggest strength is clean, fluent structure with a self-contained opening definition of Chainlink Local; its biggest weakness is that it carries almost no extractable substance — no versions, no requirements, no code, no comparison of the three environments — so a generative engine has little to lift beyond the intro sentence and will usually cite the child guides instead. The honest verdict: fine as human navigation, weak as an independently citable source, and it leaves easy retrieval wins on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an environment comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "under \"Guides for Different Environments,\" above the three subsections",
+        "issue": "three near-identical prose pointers (\"the following guides will help you…\") carry no decision factors.",
+        "change": "insert a 3-row table (Foundry / Hardhat / Remix) with columns like \"Best for,\" \"Setup effort,\" \"Language,\" and a direct link. Give an engine explicit reasons to recommend one path.",
+        "why": "tables let engines extract *reasons* and build justified answers; this is the highest-lift structural change for a router page."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete specifics: versions, prerequisites, supported chains",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro paragraph and/or a new \"Requirements\" section",
+        "issue": "\"quickly set up a local testing environment\" — no numbers, versions, or supported networks (measured: 0 version strings, 0 units).",
+        "change": "state the Chainlink Local package version, minimum Foundry/Hardhat/Node versions, and which CCIP lanes/chains are simulatable locally.",
+        "why": "quantitative specifics are among the highest-lift changes for source visibility; qualitative prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/query-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new short sections or an FAQ block",
+        "issue": "headings are concept-titled (\"Why Use Chainlink Local?\"); devs query by task/error.",
+        "change": "add H2/H3s like \"How do I test CCIP without deploying to a testnet?\" and \"How do I simulate cross-chain message routing locally?\" answered in the first sentence.",
+        "why": "question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle` JSON-LD and a canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "measured 0 JSON-LD blocks, canonical MISSING.",
+        "change": "emit `TechArticle` schema with `headline`, `dateModified` (2025-05-19), and a self-referential `<link rel=\"canonical\">`.",
+        "why": "structured metadata and E-E-A-T signals make the page parseable and trustworthy to agents. (Note: lower impact than P1 items — measurability is not severity.)"
+      },
+      {
+        "priority": 2,
+        "title": "Add one minimal runnable snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "intro or a \"Quick start\" section",
+        "issue": "0 code blocks; page is pure prose pointers.",
+        "change": "include a labeled install command (e.g. the `forge install`/`npm install chainlink-local` line) with the exact package name.",
+        "why": "even one copy-pasteable, correctly named command gives agents an anchor and reduces reliance on child pages."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with concrete claims",
+        "mapsTo": "fluency & specifics",
+        "tier": null,
+        "where": "\"Why Use Chainlink Local?\"",
+        "issue": "\"save you a significant amount of time,\" \"speeding up the development process.\"",
+        "change": "quantify or make specific (e.g. \"run a full CCIP send/receive cycle in-process without waiting for testnet finality\").",
+        "why": "removes qualitative filler engines discount; adds a liftable concrete benefit."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"significant amount of time,\" \"quickly\" (measured).",
+      "Thin content / hub page with little standalone substance — three sections are single-link pointers.",
+      "Missing structured metadata (no JSON-LD, no canonical)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-body — good site-level signal; verify the child guides (`/chainlink-local/build/ccip/*`) link back to this hub to reinforce the canonical-hub pattern.",
+      "Canonical URL and JSON-LD are best set at the template/site level; confirm the CLI passes raw `<head>` so metadata can be fully verified rather than inferred absent."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

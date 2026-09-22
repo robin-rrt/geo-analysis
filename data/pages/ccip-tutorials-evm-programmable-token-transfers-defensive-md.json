@@ -1,0 +1,168 @@
+{
+  "key": "ccip-tutorials-evm-programmable-token-transfers-defensive-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Transfer Tokens with Data - Defensive Example",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/programmable-token-transfers-defensive.md",
+    "analyzedAt": "2026-09-22T13:45:11.682Z",
+    "contentType": "developer documentation / tutorial (EVM smart-contract walkthrough)",
+    "score": 70,
+    "band": "Good",
+    "weightedTotal": 70,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a high-quality, agent-runnable CCIP tutorial: one complete, import-included Solidity contract, concrete addresses, chain selectors, gas limits, and a clear setup→deploy→recover→explain arc. Its single biggest strength is code completeness and concrete specifics; its biggest opportunity is retrieval — the page carries zero structured metadata (no JSON-LD, no canonical, no machine-readable date) and its headings are concept-titled rather than phrased as the error/symptom questions developers actually type. Honest verdict: strong content wrapped in a retrieval-weak shell; the fixes are discoverability, not prose.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Reprocessing of failed messages\" / end of Explanation",
+        "issue": "headings are concept-titled (\"Receiving and processing messages\") — miss error-string queries",
+        "change": "add H3s or a mini-FAQ phrased as queries: \"Why did my CCIP message fail on the destination chain?\", \"How do I recover tokens locked by a failed CCIP message?\", \"What does `MessageFailed` mean?\" — each answered in one lead sentence pointing to `retryFailedMessage`.",
+        "why": "devs/agents query by symptom and error name; concept-titled prose loses retrieval it otherwise deserves."
+      },
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle` JSON-LD with canonical + dateModified",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "0 JSON-LD, canonical MISSING, no machine-readable date despite body \"Last Updated: 2025-05-19\"",
+        "change": "inject `TechArticle` schema with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: Solidity`, canonical URL, `inLanguage: en`.",
+        "why": "structured metadata and visible freshness raise parse-trust and citation rate for agents."
+      },
+      {
+        "priority": 2,
+        "title": "Lead sub-sections with the defensive-specific answer",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Sending messages\" section",
+        "issue": "\"The `sendMessagePayLINK` function is similar to the… tutorial\"",
+        "change": "open with the concrete difference first: \"This contract raises the destination gas limit to 400,000 to cover error-handling logic,\" then reference the base tutorial.",
+        "why": "a lifted chunk must stand alone; cross-reference-first leads break in isolation."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-sentence canonical definition of defensive coding",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "concept explained diffusely across sentences",
+        "change": "add a crisp liftable line: \"Defensive coding in a CCIP receiver means catching processing errors internally so the message never reverts, locking the tokens for later owner recovery instead of losing them.\"",
+        "why": "verbatim-liftable definitions outperform diffuse prose."
+      },
+      {
+        "priority": 3,
+        "title": "Replace opaque link text",
+        "mapsTo": "citations & references",
+        "tier": null,
+        "where": "Before you begin, item 3 — \"supported tokens [here]\"",
+        "issue": "\"here\" (1 opaque link detected)",
+        "change": "\"supported tokens for the Avalanche Fuji lane\".",
+        "why": "descriptive anchors aid link-context extraction."
+      },
+      {
+        "priority": 3,
+        "title": "Trim vague quantifiers",
+        "mapsTo": "concrete specifics / clarity",
+        "tier": null,
+        "where": "\"ensures that your contract is robust,\" \"significantly higher\"",
+        "issue": "vague quantifiers (robust, significant, various, some) flagged",
+        "change": "where possible substitute concrete conditions (e.g. quantify the gas overhead of error handling if measurable); otherwise cut.",
+        "why": "quantitative claims outrank qualitative prose."
+      }
+    ],
+    "antiPatterns": [
+      "One opaque anchor (\"here\").",
+      "Residual vague quantifiers (\"robust,\" \"significant,\" \"various,\" \"some\").",
+      "No stale-content risk: body date present (2025-05-19), but not machine-readable.",
+      "No keyword stuffing, no marketing fluff, no missing imports — clean."
+    ],
+    "offPageNotes": [
+      "Metadata gaps (JSON-LD, canonical, og/date) are site-template level, not authorable in this single page — fix at the docs framework layer.",
+      "`llms.txt` is already referenced at page top — good; ensure this URL is listed there.",
+      "Head metadata \"could not be verified\" from the served HTML; CLI should pass raw `<head>` for a definitive metadata read before trusting the absence of og/canonical tags."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

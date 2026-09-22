@@ -1,0 +1,715 @@
+{
+  "key": "cre-templates-running-demo-workflow-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Running a Demo Workflow",
+    "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+    "analyzedAt": "2026-09-21T13:29:32.122Z",
+    "contentType": "developer documentation / procedural tutorial",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a clean, well-sequenced CRE tutorial walking a developer through scaffolding, configuring, and simulating the Custom Data Feed demo workflow, with realistic terminal output and concrete onchain identifiers. Its biggest GEO strength is structural: flat, coherent sections (median 138 words, zero level skips) that chunk cleanly for retrieval. Its biggest opportunities are missing machine-readable metadata (no JSON-LD, no canonical, no head captured) and the absence of any symptom-phrased troubleshooting section — the exact queries developers fire when a step fails (\"private key error 0x prefix\", \"bun version too low\"). Solid page held back on discoverability, not prose quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after \"5. Run the simulation\" (before \"Exploring the code\")",
+        "issue": "no coverage of failure modes; devs query by error string, not concept.",
+        "change": "add `## Troubleshooting` with H3s phrased as symptoms: \"Error: invalid private key / hex string\", \"bun version too low\", \"simulate hangs / no trigger menu\", \"transaction not broadcast (missing `--broadcast`)\", \"RPC connection failed\". One-line cause + fix each.",
+        "why": "symptom-titled headings win retrieval that concept-titled prose loses, even when the fix exists elsewhere in the body."
+      },
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (template-level)",
+        "issue": "measured facts show 0 JSON-LD blocks, canonical MISSING.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-01-20`, `programmingLanguage: TypeScript`, `about: CRE`, and a self-referential `canonical`.",
+        "why": "structured metadata and freshness signals raise agent parse-trust and E-E-A-T; the visible \"Last Updated\" is not machine-readable as-is."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Path A vs Path B comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of \"5. Run the simulation\", replacing/augmenting the two bullets",
+        "issue": "two contrasting patterns described only in prose bullets; 0 tables on page.",
+        "change": "table with columns Trigger | Direction | Writes onchain? | Key SDK calls | Result, one row per path.",
+        "why": "tables let engines extract reasons and build justified comparative answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add TypeScript snippets to \"Exploring the code\"",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "section \"6. Exploring the code\"",
+        "issue": "`Runner.newRunner()`, `onLogTrigger`, `doPOR` described in prose, no code shown.",
+        "change": "include 3–5 line TS excerpts (with imports) for the `Runner` pattern and the `onLogTrigger` topic-extraction step, tagged `typescript`.",
+        "why": "actual code fences (currently only `bash`) make the TS patterns liftable and runnable by coding agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add canonical one-sentence definitions near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph and start of each Path section",
+        "issue": "\"Custom Data Feed\", \"reactive path\" used before being defined.",
+        "change": "e.g. \"A CRE workflow is a TypeScript program that runs offchain, reaches consensus across nodes, and writes verified results onchain.\" as a standalone first sentence.",
+        "why": "self-contained definitions are lifted verbatim and resist parametric substitution."
+      },
+      {
+        "priority": 3,
+        "title": "Link named dependencies to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"7. Key TypeScript SDK features\"",
+        "issue": "Zod, viem, `ConsensusAggregationByFields` named with 0 external references.",
+        "change": "inline-link viem and Zod to their official docs on first mention.",
+        "why": "authoritative outbound links raise citation credibility."
+      },
+      {
+        "priority": 3,
+        "title": "Remove marketing adjectives",
+        "mapsTo": "clarity & fluency",
+        "tier": null,
+        "where": "step 5 intro, Path B \"How it works\"",
+        "issue": "\"cleverly designed\", \"powerful\", \"institutional-grade smart contracts\".",
+        "change": "delete or replace with factual descriptors.",
+        "why": "fluent, claim-focused prose is rewarded; fluff dilutes liftable content."
+      }
+    ],
+    "antiPatterns": [
+      "Marketing fluff: \"cleverly designed\", \"sophisticated, interconnected institutional-grade smart contracts\", \"powerful event-driven capability\".",
+      "Two vague quantifiers (\"several\", \"some\") where a count would be more specific.",
+      "TypeScript demo with zero TypeScript code fences (all 6 fences are `bash`).",
+      "No stale-content risk: `Last Updated: 2026-01-20` present in body (though not in schema)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are template/site-level — verify via raw `<head>`; the audit could not confirm head metadata.",
+      "`llms.txt` is already linked from the page — good site-level discoverability signal; ensure this page is enumerated in it.",
+      "Consider internal links *into* this page from the CRE getting-started and Using-Triggers hubs to strengthen the canonical-hub pattern."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+      "source_title": "Running a Demo Workflow",
+      "probe_set_id": "b0f98eb6ded5",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T16:35:19.044Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 45,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.8,
+        "hallucination_free": 2.8,
+        "relevance": 1.5,
+        "structure": 5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 186959,
+          "output_tokens": 13675,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 17,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9814,
+          "output_tokens": 9575,
+          "cache_creation_input_tokens": 7053,
+          "cache_read_input_tokens": 49599,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://app.chain.link/cre/install.sh",
+              "https://ethereum-sepolia-rpc.publicnode.com",
+              "https://docs.chain.link/cre/templates/running-demo-workflow-go",
+              "https://docs.chain.link/cre-templates/custom-data-feed"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites a different (Go) template page instead of the expected TypeScript source, indicating a retrieval mismatch."
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 2,
+            "structure": 7
+          },
+          "fidelity": 35,
+          "hallucinations": [
+            {
+              "claim": "Language: select Golang.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "cre generate-bindings evm",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "go mod tidy",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow simulate (without custom-data-feed, --broadcast, --target staging-settings)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "CRE_ETH_PRIVATE_KEY=<your 64-char hex key...>",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "example Solidity contracts (BalanceReader, MessageEmitter, ReserveManager, SimpleERC20)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Install dependencies with bun install --cwd ./demo/custom-data-feed",
+            "Run cre workflow simulate custom-data-feed --broadcast --target staging-settings"
+          ],
+          "unverifiable_from_source": [
+            "curl -sSL https://app.chain.link/cre/install.sh | bash install method",
+            "Go toolchain requirement",
+            "CRE_ETH_PRIVATE_KEY environment variable name",
+            "BalanceReader and SimpleERC20 contract names",
+            "supported chains list (Base, Avalanche) for local simulation",
+            "cre generate-bindings evm command",
+            "go mod tidy step"
+          ],
+          "verdict": "The answer substitutes a Go-based workflow and CLI commands (cre generate-bindings, go mod tidy, plain cre workflow simulate) that contradict the actual TypeScript-based steps and required flags (bun install --cwd, --broadcast --target staging-settings) documented in the source, making it unsafe to follow as-is.",
+          "prompt": "How do I initialize and run the Custom Data Feed demo workflow locally with the CRE CLI?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about the CRE CLI and the Custom Data Feed demo workflow.Let me retry the searches.The relevant pages are the \"Custom Data Feed\" template and \"Running a Demo Workflow.\" Let me get their content.Let me get the detailed steps for both pages.Here's how to initialize and run the Custom Data Feed demo workflow locally with the CRE (Chainlink Runtime Environment) CLI.\n\n## Prerequisites\n\n- **Install the CRE CLI.** You can install it via the official script:\n  ```bash\n  curl -sSL https://app.chain.link/cre/install.sh | bash\n  ```\n- **A CRE account, logged in.** Verify with `cre whoami`, or run `cre login` to authenticate.\n- **Go toolchain**, since this template scaffolds a Go project.\n- A **funded Sepolia private key** if you want the workflow to actually write on-chain (the demo signs and broadcasts transactions on Sepolia).\n\n## Step 1 — Initialize the project\n\nNavigate to the directory where you want the project, then scaffold it:\n\n```bash\ncre init\n```\n\nDuring the interactive prompts:\n- **Language:** select **Golang**.\n- **Workflow template:** select **\"Custom data feed: Updating on-chain data periodically using offchain API data.\"**\n- **Sepolia RPC URL:** press Enter to accept the default public RPC (`https://ethereum-sepolia-rpc.publicnode.com`) or supply your own. The CLI writes this into `project.yaml` automatically (you can edit it later).\n\nThis creates a complete project (a `demo` directory) including example Solidity contracts (`BalanceReader`, `MessageEmitter`, `ReserveManager`, `SimpleERC20`) and the CRE workflow code.\n\n## Step 2 — Configure your private key\n\nOpen the `.env` file in the project root and set your key:\n\n```\nCRE_ETH_PRIVATE_KEY=<your 64-char hex key, no 0x prefix>\n```\n\n- The key must be a **64-character hexadecimal string without the `0x` prefix**, and must be valid and funded if the workflow writes on-chain.\n- If your workflow does **not** perform chain writes, you can leave a dummy placeholder such as `CRE_ETH_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000001`.\n\nThe included `.gitignore` already excludes `.env` from version control.\n\n## Step 3 — Generate contract bindings\n\nFrom the project root (where `project.yaml` lives), generate type-safe Go interfaces from the contract ABIs:\n\n```bash\ncre generate-bindings evm\n```\n\nGenerated bindings appear under `contracts/evm/src/generated/`.\n\n## Step 4 — Sync Go dependencies\n\n```bash\ngo mod tidy\n```\n\n## Step 5 — Run the simulation\n\nExecute the workflow end-to-end locally:\n\n```bash\ncre workflow simulate\n```\n\nYou'll be prompted to choose a trigger:\n- **Cron trigger (option 1):** the workflow executes immediately on its schedule.\n- **EVM log trigger (option 2):** you provide example inputs, e.g.:\n  - Transaction Hash: `0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e`\n  - Log Event Index: `0`\n\nThe simulation then runs and prints its output so you can observe the workflow fetching off-chain data and (optionally) performing chain writes.\n\n## Notes on chain interaction\n\nFor local simulation to read blockchain state or submit transactions, make sure the RPC endpoints for the chains you use are defined in `project.yaml`. Supported chains for local simulation include Ethereum (`ethereum-testnet-sepolia`, `ethereum-mainnet`), Base, and Avalanche variants. If you want to test chain writes fully, you may also deploy the demo contracts to a testnet (e.g., using Foundry).\n\n---\n\n**Important:** This template is an educational, unaudited demo provided \"as is\" — it's not production-ready, so don't use the code as-is in production without your own audits.\n\nYou can find full details in the Chainlink docs:\n- Running a Demo Workflow: `https://docs.chain.link/cre/templates/running-demo-workflow-go`\n- Custom Data Feed template: `https://docs.chain.link/cre-templates/custom-data-feed`\n\nWould you like help with any specific step, such as funding a Sepolia key or configuring the RPC endpoints?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 46982,
+              "output_tokens": 3339,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2176,
+              "output_tokens": 2427,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9041,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it has no access to the specific project/documentation and relies on generic Bun knowledge instead of the source."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 3,
+            "relevance": 1,
+            "structure": 3
+          },
+          "fidelity": 20,
+          "hallucinations": [
+            {
+              "claim": "bun install (without --cwd flag as the primary answer)",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "cd into it first — as Hono's docs illustrate: move into the app directory",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "bun add -d typescript @types/node",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run bun install with the --cwd flag pointing to the workflow directory",
+            "Command is bun install --cwd ./demo/custom-data-feed",
+            "Each CRE TypeScript workflow is a standalone npm package with its own package.json"
+          ],
+          "unverifiable_from_source": [
+            "Bun's performance being up to 30x faster than npm",
+            "Hono's docs example about cd into app directory"
+          ],
+          "verdict": "The answer explicitly admits it could not find the specific documentation and gives a generic Bun tutorial instead of the exact required command, making it unsafe to ship as a response to this prompt.",
+          "prompt": "Using bun, what's the exact command to install the workflow's TypeScript dependencies for the demo?",
+          "archetype": "constrained",
+          "answer": "No files were uploaded, so let me search for this information.I don't have any uploaded files or a specific project/repository in context, so I can't point to an exact \"workflow demo\" you may be referring to. But based on Bun's standard behavior, here's the answer for the common case.\n\n## The command\n\n```\nbun install\n```\n\nThe primary command you will use is bun install, which works similarly to npm install or yarn install but with significant performance improvements. It reads your package.json, migrates your lockfile, and installs from a global cache — up to 30× faster than npm. This installs all dependencies (including TypeScript ones) already declared in the project's `package.json`.\n\nIf the demo lives in a subdirectory, `cd` into it first — as Hono's docs illustrate: move into the app directory and install the dependencies with `cd my-app` then `bun install`.\n\n## If you need to add TypeScript specifically\n\nIf the demo doesn't yet list TypeScript types and you want to add them:\n\n- For general dev dependencies: add a development dependency with `bun add -d typescript @types/node`.\n- For Bun's own API types: to add TypeScript definitions for Bun's built-in APIs to your project, install @types/bun.\n\n---\n\n**A note on precision:** Your phrase \"the workflow's TypeScript dependencies for the demo\" sounds like it refers to a *specific* repository or documentation page. If you can share the repo name, the `README`, or the `package.json`, I can give you the exact command that project intends (e.g., a specific `bun install` invocation, a `--frozen-lockfile` flag for CI, or a scoped install inside a `demo/` folder).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31699,
+              "output_tokens": 1182,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 944,
+              "output_tokens": 441,
+              "cache_creation_input_tokens": 7053,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer claims it searched documentation but cites no source URLs, and the expected source page was not retrieved."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 7
+          },
+          "fidelity": 55,
+          "hallucinations": [
+            {
+              "claim": "--trigger-index 0",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "CRE_ETH_PRIVATE_KEY in .env",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "resulting in an empty transaction hash (0x)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Full command: cre workflow simulate custom-data-feed --broadcast --target staging-settings"
+          ],
+          "unverifiable_from_source": [
+            "the simulator will automatically run it without prompting you to select if only one trigger exists",
+            "It will simulate the transaction and return a successful response"
+          ],
+          "verdict": "The core dry-run/--broadcast guidance is accurate, but the answer invents a --trigger-index flag and a specific env var name not found in the source, and it never cites the expected documentation page, making it only partially safe to ship without verification.",
+          "prompt": "cre workflow simulate onchain write dry run how to broadcast",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about this, as it appears to relate to Chainlink CRE (Chainlink Runtime Environment) workflows.Let me fetch the most relevant documentation pages.I have the answer from the Chainlink CRE documentation.\n\n## Simulating an Onchain Write: Dry Run vs. Broadcast\n\nWhen you run a CRE workflow simulation that includes an onchain write, it does **not** actually send the transaction by default.\n\n**Default behavior (dry run):**\nBy default, `cre workflow simulate` performs a dry run for onchain write operations. It will simulate the transaction and return a successful response, but will not broadcast it to the network, resulting in an empty transaction hash (`0x`).\n\n**To actually broadcast the transaction**, add the `--broadcast` flag:\n\n```bash\ncre workflow simulate my-workflow --broadcast --target staging-settings\n```\n\nBy default, the simulator performs a dry run for onchain write operations. It prepares the transaction but does not broadcast it to the blockchain. To actually broadcast transactions during simulation, use the `--broadcast` flag.\n\nWhen you use `--broadcast`, your workflow will show the complete end-to-end execution, including the final log of the result object containing the transaction hash.\n\n### Important requirement — funded wallet\n\nWhen using `--broadcast`, your wallet (specified by `CRE_ETH_PRIVATE_KEY` in `.env`) must be funded with the native token of the chain you're writing to (e.g., Sepolia ETH for Ethereum Sepolia testnet).\n\n### When to use it\n\nUse `--broadcast` when you want to test the complete end-to-end flow, including actual onchain state changes, on a testnet.\n\n### A note on triggers\n\nIf your workflow has more than one trigger/handler, you may also need to specify which one to run:\n- If your workflow has only one handler, use `--trigger-index 0`. If you have multiple handlers (e.g., one for an HTTP trigger and one for an EVM log trigger), use 0 for the first, 1 for the second, etc., based on their order in your code.\n- If your workflow has only one trigger, the simulator will automatically run it without prompting you to select.\n\n**Summary:** Run `cre workflow simulate <workflow-name> --target <settings>` for a safe dry run (no real transaction), and append `--broadcast` (with a funded wallet) when you want the write to actually be sent onchain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38815,
+              "output_tokens": 1981,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1208,
+              "output_tokens": 1872,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9041,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no sources and does not reference the CRE documentation at all, relying entirely on generic knowledge instead of the source page."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 3,
+            "relevance": 1,
+            "structure": 5
+          },
+          "fidelity": 25,
+          "hallucinations": [
+            {
+              "claim": "viem (privateKeyToAccount) — requires the 0x prefix and expects a full 66-character string",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "some loaders ... keep the quotes as part of the string",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "The private key must be the raw 64-character hexadecimal string",
+            "Do not include the 0x prefix",
+            "The key must belong to an account funded with Sepolia ETH"
+          ],
+          "unverifiable_from_source": [
+            "ethers v6 accepts with or without 0x",
+            "Foundry/cast accepts with or without",
+            "web3.py/eth-account accepts with or without"
+          ],
+          "verdict": "The answer never engages with the Chainlink CRE docs or the explicit, unambiguous instruction to use the raw 64-character key without a 0x prefix, and instead gives generic, library-dependent advice that could actively mislead the user into adding a 0x prefix — unsafe to ship as-is.",
+          "prompt": "I set up the demo but my simulate transaction fails to sign — I put my private key with the 0x prefix in the .env file. What's wrong?",
+          "archetype": "error-debug",
+          "answer": "The 0x prefix is a classic gotcha, but whether it's actually the problem depends on which library you're using — and often it's not the prefix itself but a mismatch with what the loader expects. Here's how to diagnose it.\n\n## The most common culprits\n\n**1. Prefix expectation mismatch**\nDifferent tools want the key in different forms:\n\n- **viem** (`privateKeyToAccount`) — *requires* the `0x` prefix and expects a full 66-character string (`0x` + 64 hex chars). If you strip the prefix, it fails.\n- **ethers v6** (`new Wallet(pk)`) — accepts it *with or without* `0x`.\n- **Foundry / `cast`** — accepts with or without.\n- **web3.py / eth-account** — accepts with or without.\n- Some older or lower-level signers (and many Solana/ed25519 flows) expect raw hex or bytes with **no** prefix, so a `0x` throws \"invalid hex\" or a length error.\n\nSo the first question is: what does your specific library expect? A \"fails to sign\" error with the prefix present usually means the library is *not* auto-stripping it and is treating `0x...` as 66 characters or as invalid hex.\n\n**2. The .env value is being read literally with surrounding quotes or whitespace**\nThis is the sneakiest one. If your `.env` has:\n\n```\nPRIVATE_KEY=\"0xabc123...\"\n```\n\nsome loaders (depending on how they parse) keep the quotes as part of the string, so your signer receives `\"0xabc123...\"` including quote characters. Try without quotes:\n\n```\nPRIVATE_KEY=0xabc123...\n```\n\nAlso watch for a trailing space or newline.\n\n**3. Length is wrong**\nA valid secp256k1 private key is exactly **32 bytes = 64 hex chars**. With `0x` that's 66 characters total. If yours is shorter/longer (e.g., you accidentally copied a truncated key or an address instead of a key), it'll fail to sign regardless of prefix.\n\n## Quick things to try\n\n**Normalize the prefix defensively in code** so it works either way:\n\n```js\n// ethers / viem-safe\nconst raw = process.env.PRIVATE_KEY.trim();\nconst pk = raw.startsWith(\"0x\") ? raw : `0x${raw}`;\n```\n\nor if your library wants it *without*:\n\n```js\nconst pk = raw.startsWith(\"0x\") ? raw.slice(2) : raw;\n```\n\n**Sanity-check what's actually loaded** (never log the real key in production):\n\n```js\nconst k = process.env.PRIVATE_KEY;\nconsole.log(\"len:\", k?.length, \"prefix:\", k?.slice(0, 2));\n// expect len 66 and prefix \"0x\" for viem\n```\n\nIf `len` isn't 66 (or 64 without prefix), or the prefix isn't `0x`, that's your bug — likely quotes, whitespace, or a bad copy-paste.\n\n## To give you an exact answer\n\nCan you tell me:\n- Which library/stack (viem, ethers, Foundry, web3.py, Solana, etc.)?\n- The exact error message from the sign/simulate step?\n- What the `.env` line looks like (masked) and how you load it (`dotenv`, framework built-in, Foundry `--env`)?\n\nWith the actual error text I can pinpoint whether it's the prefix, quoting, or a length issue.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5929,
+              "output_tokens": 1602,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1538,
+              "output_tokens": 1304,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9041,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the source, then guessed an unrelated product."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 1,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 8,
+          "hallucinations": [
+            {
+              "claim": "Reactive Network reactive-smart-contract demo",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "forge create ... DemoReactive.sol:DemoReactive",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "function react(LogRecord calldata log) external vmOnly",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cast send $ORIGIN_ADDR \"emitEvent(uint256)\" 42",
+              "type": "fabricated_function",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "At the trigger menu select option 2 for the EVM Log Trigger",
+            "Provide transaction hash 0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e",
+            "Provide event index 0",
+            "The workflow extracts the emitter address from topics[1] and calls getLastMessage on the MessageEmitter contract",
+            "Path B does not write any data onchain"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misidentifies the product (confusing Chainlink CRE with 'Reactive Network') and fabricates an entirely unrelated toolchain and code, making it unsafe and useless for the actual prompt.",
+          "prompt": "Show me how to run the reactive event handler path of the demo using the EVM log trigger.",
+          "archetype": "code-first",
+          "answer": "I don't have any uploaded files to reference, so let me search for information about this demo to give you accurate guidance.I wasn't able to pull in more than one search result before hitting the search tool's rate limit, and no demo files were uploaded, so I want to be transparent: I'm inferring that you're referring to the **Reactive Network** reactive-smart-contract demo, since \"EVM log trigger\" + \"reactive event handler\" is that platform's terminology. If you actually mean a different project (Chainlink Automation log triggers, a custom repo, etc.), point me to it and I'll adjust.\n\n## What the \"reactive event handler path\" is\n\nIn the Reactive Network model, reactive contracts are compatible with the standard EVM toolchain and can be written in Solidity using custom ABIs defined for event-based execution. The key property is that execution is trust-minimized: the logs are verifiable, emitted on origin chains, and the Reactive Network enforces that only matching, authentic events trigger contract logic.\n\nSo the \"EVM log trigger → reactive event handler\" path is:\n\n```\nOrigin contract emits a log  →  Reactive Network matches your subscription\n   →  calls react(...) on your Reactive Smart Contract (the handler)\n      →  which emits a Callback  →  executed on the destination chain\n```\n\n## Running that path in the demo\n\nThe three moving parts are the **origin** contract (emits events), the **reactive** contract (implements `IReactive.react()` — this is the \"event handler\"), and the **destination/callback** contract.\n\n**1. Configure environment**\n```bash\nexport PRIVATE_KEY=0x...            # deployer key, funded on all chains\nexport ORIGIN_RPC=https://...       # e.g. Sepolia\nexport DESTINATION_RPC=https://...  # destination chain\nexport REACTIVE_RPC=https://...     # Reactive Network RPC\nexport SYSTEM_CONTRACT_ADDR=0x...   # the Reactive system/service contract\n```\n\n**2. Deploy the origin contract** (the one that emits the log you'll subscribe to)\n```bash\nforge create --rpc-url $ORIGIN_RPC --private-key $PRIVATE_KEY \\\n  src/demo/DemoOrigin.sol:DemoOrigin\n# note the deployed ORIGIN_ADDR\n```\n\n**3. Deploy the destination / callback receiver**\n```bash\nforge create --rpc-url $DESTINATION_RPC --private-key $PRIVATE_KEY \\\n  src/demo/DemoDestination.sol:DemoDestination\n# note DESTINATION_ADDR\n```\n\n**4. Deploy the Reactive contract (the handler)** — this is what subscribes to the EVM log trigger. Its constructor typically calls the system contract's `subscribe(chainId, ORIGIN_ADDR, topic_0, ...)`:\n```bash\nforge create --rpc-url $REACTIVE_RPC --private-key $PRIVATE_KEY \\\n  src/demo/DemoReactive.sol:DemoReactive \\\n  --constructor-args $SYSTEM_CONTRACT_ADDR $ORIGIN_ADDR $DESTINATION_ADDR\n```\n\n**5. Fire the trigger** — emit the event on the origin so the log-trigger path fires:\n```bash\ncast send $ORIGIN_ADDR \"emitEvent(uint256)\" 42 \\\n  --rpc-url $ORIGIN_RPC --private-key $PRIVATE_KEY\n```\n\n**6. Observe the handler executing** — the Reactive Network detects the matching log and invokes `react(...)` on your reactive contract, which in turn produces a callback on the destination:\n```bash\ncast logs --rpc-url $DESTINATION_RPC --address $DESTINATION_ADDR\n```\n\nThe handler itself looks roughly like:\n```solidity\nfunction react(LogRecord calldata log) external vmOnly {\n    // decode log.topic_1 / log.data ...\n    bytes memory payload = abi.encodeWithSignature(\"callback(...)\", ...);\n    emit Callback(DESTINATION_CHAIN_ID, destinationAddr, GAS_LIMIT, payload);\n}\n```\n\n## To give you exact commands\n\nThe precise contract names, script paths (many demos ship `Deploy.s.sol` / a Makefile with `make deploy` and `make trigger` targets), and constructor arguments depend on the specific demo repo. If you can:\n\n- share the repo URL or upload the demo folder, or\n- confirm it's the Reactive Network `reactive-smart-contract-demos` repo (and which sub-demo),\n\nI'll give you the exact, verified command sequence rather than this general template.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 57599,
+              "output_tokens": 4050,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2210,
+              "output_tokens": 1014,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9041,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never mentions the Chainlink Forwarder or CRE-specific behavior described in the source, indicating retrieval/subject recognition failed."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 1,
+            "structure": 6
+          },
+          "fidelity": 25,
+          "hallucinations": [
+            {
+              "claim": "A proxy contract — if ReserveManager is deployed behind a proxy... the to is the proxy address",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "An account-abstraction EntryPoint (ERC-4337) — the to would be the EntryPoint / bundler",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "A Multicall or Multicall3 aggregator — batching several calls into one tx",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "A router / entry-point contract (very common — e.g., a Router, Gateway, or Diamond/facet dispatcher)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "This is expected — the transaction is sent to the Chainlink Forwarder contract, not directly to ReserveManager",
+            "The Forwarder verifies the cryptographic signatures and then calls onReport() on the ReserveManager contract",
+            "The ReserveManager state is still updated; you can verify lastTotalMinted and lastTotalReserve via the Read Contract tab"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misses the documented explanation (Chainlink Forwarder contract calling onReport()) and instead speculates about unrelated generic causes like proxies and ERC-4337, making it unsafe and misleading to ship to a developer using this CRE template.",
+          "prompt": "After running Path A, I got a txHash but on Etherscan the transaction's 'to' address isn't the ReserveManager contract I expected. Is something broken?",
+          "archetype": "verbose/beginner",
+          "answer": "Not necessarily broken — a mismatch between the `to` address and the contract you *think* you're calling is one of the most common (and usually benign) sources of confusion when reading transactions on Etherscan. Without seeing what \"Path A\" actually does in your code, here are the most likely explanations, roughly in order of probability:\n\n## 1. You're calling through an intermediary contract\nThe `to` field on Etherscan shows the **immediate recipient** of the transaction, not the final contract that ends up executing your logic. If \"Path A\" routes through any of these, the `to` will be that intermediary, not ReserveManager:\n\n- **A router / entry-point contract** (very common — e.g., a Router, Gateway, or Diamond/facet dispatcher)\n- **A Multicall or Multicall3 aggregator** — batching several calls into one tx\n- **A proxy contract** — if ReserveManager is deployed behind a proxy (Transparent/UUPS/Beacon), the `to` is the *proxy* address and the ReserveManager implementation is only reached via `delegatecall`. This is the single most common cause.\n- **An account-abstraction EntryPoint** (ERC-4337) — the `to` would be the EntryPoint / bundler, and your intended call is buried in the UserOperation.\n\nIn all of these, ReserveManager is still invoked — just as an *internal* call. Check the **\"Internal Txns\"** tab and the decoded **\"Logs\"**/trace on Etherscan; you should see ReserveManager show up there.\n\n## 2. It's a proxy and you're comparing against the implementation address\nIf your config/deploy artifacts point to the ReserveManager *implementation* but you actually send transactions to the *proxy*, the addresses will legitimately differ. Verify which address your SDK/ABI is targeting versus the deployed proxy.\n\n## 3. Wrong network or wrong address in config\nConfirm the tx is on the network you expect (mainnet vs. an L2/testnet) and that the ReserveManager address in your environment matches the deployment address for that specific chain.\n\n## How to confirm quickly\n1. Open the tx on Etherscan → look at the **\"To:\"** line. If it says \"Contract\" with a name, note it.\n2. Click the **\"Internal Txns\"** tab — see whether ReserveManager appears as a called address.\n3. Use the **\"Logs\"** tab — events emitted *by* the ReserveManager address prove it executed.\n4. Optionally, run the tx through Etherscan's **\"State\"** or a tracer (Tenderly) to see the full call tree.\n5. Check whether `to` is a known proxy (Etherscan often shows a \"Read as Proxy\" / \"Write as Proxy\" tab — a strong signal).\n\n## When it *would* indicate a real problem\n- The `to` is an **EOA** (a normal wallet, no code) — then no contract logic ran at all; you likely sent a plain transfer or misconfigured the target.\n- ReserveManager **never appears** in internal txns or logs, and the `to` contract is unrelated to your system.\n- The tx **reverted** (check status) — the routing might be fine but execution failed downstream.\n\n---\n\nIf you can share what \"Path A\" does (the code path, the SDK/router involved, or the tx hash and network), I can pin down exactly why the `to` differs and whether ReserveManager actually executed. In the meantime, my strong first guess is a **proxy or router** sitting in front of ReserveManager, which is expected behavior rather than a bug.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5935,
+              "output_tokens": 1521,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1738,
+              "output_tokens": 1592,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9041,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 28,
+      "unattributed_count": 4,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

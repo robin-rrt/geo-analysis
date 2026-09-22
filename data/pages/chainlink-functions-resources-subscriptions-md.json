@@ -1,0 +1,167 @@
+{
+  "key": "chainlink-functions-resources-subscriptions-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Managing CL Functions Subscriptions",
+    "url": "https://docs.chain.link/chainlink-functions/resources/subscriptions.md",
+    "analyzedAt": "2026-09-22T13:25:21.038Z",
+    "contentType": "developer documentation / task guide (UI walkthrough)",
+    "score": 53,
+    "band": "Developing",
+    "weightedTotal": 53.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a task-oriented walkthrough for managing Chainlink Functions subscriptions (create, fund, add/remove consumers, cancel, time out requests) via the Subscription Manager UI. Its structure is clean — 8 headings, zero level skips, tight sections — but its single biggest GEO liability is that **the actual procedure lives in screenshots**: nearly every step is `(Image: Image)` with no textual description of the button, field, or value. Generative engines and coding agents can't read those images, so the retrievable text tells them *that* a step exists but not *what to do*. Combined with missing metadata (no JSON-LD, no canonical, no dates) and no primary-source citations, the page under-delivers relative to best-in-class agent-ready docs.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Convert screenshot-only steps to text-first instructions",
+        "mapsTo": "answer-first extractability, query coverage",
+        "tier": null,
+        "where": "every `### Create/Fund/Add/Remove/Cancel` section and \"Time out pending requests\"",
+        "issue": "steps resolve to `(Image: Image)` with no textual action",
+        "change": "state the action in text before the image — e.g. \"Click **Actions → Fund subscription**, enter the LINK amount (e.g. `0.1`), then confirm the MetaMask transaction.\" Keep images as supplements.",
+        "why": "engines cannot read images; text-first steps make each procedure retrievable and quotable — the largest single fidelity gain here."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased headings and an FAQ block",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "near \"Cancel a subscription\" and \"Time out pending requests\"",
+        "issue": "the in-flight-request rule is buried in a Note; timeout is concept-titled",
+        "change": "add H3s like \"Why can't I cancel my subscription? (in-flight requests)\" and \"My request is stuck pending — how do I time it out?\"",
+        "why": "devs query by symptom; question-phrased headings win retrieval that concept titles lose even when the answer is present."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics with units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "intro and Fund section",
+        "issue": "0 numerals carry units; no fee/balance figures",
+        "change": "state minimum funding/balance requirements, LINK denomination, the 5-minute timeout threshold in a lead sentence, and the list of supported networks.",
+        "why": "quantitative claims are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "0 JSON-LD, canonical MISSING, no dates (measured)",
+        "change": "emit `TechArticle` schema with `dateModified`, set `<link rel=\"canonical\">`, add a visible \"Last updated\" line.",
+        "why": "structured freshness/authority signals raise agent trust and parseability (E-E-A-T)."
+      },
+      {
+        "priority": 3,
+        "title": "Fix opaque links and add primary-source references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"available [here]\" and step bodies",
+        "issue": "opaque anchor text; 0 primary-source links",
+        "change": "rename to \"the [Functions Subscription Manager](https://functions.chain.link/)\" and link the FunctionsRouter contract reference and a canonical subscriptions concept page.",
+        "why": "descriptive, authoritative links raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Add a CLI/contract alternative for each UI action",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "cancel/timeout sections",
+        "issue": "no runnable path; only the UI is documented inline",
+        "change": "add a short fenced snippet (with function name and params) or a clear cross-link for cancelling/timing out via the FunctionsRouter contract.",
+        "why": "gives agents an executable path instead of image-only navigation."
+      }
+    ],
+    "antiPatterns": [
+      "**Image-dependent walls with no alt text** — nearly every procedural step is `(Image: Image)`, invisible to text-based retrieval.",
+      "**Opaque link text** — \"available [here]\" (1 flagged in measured facts).",
+      "**Undated content** — no dateModified/last-updated signal."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good; confirm it lists this page.",
+      "Site-level JSON-LD/canonical injection likely templated — verify by passing raw `<head>` to the CLI, since head metadata could not be captured here.",
+      "Image `alt` attributes are a site-template concern; populating them would partially mitigate the screenshot-dependency issue globally."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

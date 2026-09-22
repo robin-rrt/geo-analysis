@@ -1,0 +1,179 @@
+{
+  "key": "ccip-getting-started-evm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Get Started with CCIP (EVM)",
+    "url": "https://docs.chain.link/ccip/getting-started/evm.md",
+    "analyzedAt": "2026-09-22T13:42:01.694Z",
+    "contentType": "developer documentation / tutorial (getting-started)",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 63.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Opens with a clean self-contained goal — *\"Build and run a secure cross-chain messaging workflow between two EVM chains using Chainlink CCIP\"* — plus a 3-step outcome list. Toolchain sections lead with a *\"Best for…\"* value statement, which is liftable. Weak spot: procedural steps depend on prior accordions (e.g. \"paste the sender contract code\") so some chunks don't stand alone."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Reasonable H2/H3 hierarchy, but the measured 1 level skip (H2 → `####` under \"Examine the example code\") and 2 sections over 600 words hurt chunk boundaries. The bigger issue is `<Accordion>`/`<Aside>` custom components wrapping nearly all steps — engines that read served HTML may not extract collapsed content cleanly."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — 32 numerals per 1k words, real addresses, chain selector `16015286601757825753`, `solc = \"0.8.24\"`, `gasLimit` 200000, 1 LINK / 70 LINK amounts, 5-minute delivery estimate. Undercut by vague quantifiers (\"several\", \"significant\", \"robust\")."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "39 links, good internal linking into the v1.6.1 API reference (`getFee`, `ccipSend`, `EVM2AnyMessage`) and external to Solidity/Hardhat/Foundry docs. Only 2 primary-source links, but appropriate for a tutorial."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Tutorial has no crisp \"CCIP is…\" definition near first use; a reader lands mid-workflow with no liftable one-liner defining Cross-Chain Interoperability Protocol."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured facts confirm 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified`, 0 og/twitter tags, no head captured. Body-level \"Last Updated: 2025-12-25\" exists but isn't machine-readable metadata. Biggest deduction."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "9 fenced blocks, 0 untagged, imports present in both languages that need them, complete Foundry script with addresses and RPC config. Minor: `RECEIVER_ADDRESS = \"\"` placeholder is expected but unrunnable until filled; no expected console output shown for the verify script."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Good lifecycle coverage and useful gas-spike guidance, but no symptom-phrased headings (\"message not delivered\", \"transaction failed / out of gas\") and no dedicated troubleshooting/FAQ — the answers exist only buried inside `<Aside>` prose."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Generally clean and consistent. Minor defects: \"as of of writing\", `SEPOLIA_ROUTER =0x…` (missing space), and the Hardhat accordion numbering skips (2, 4 shown — steps 1 and 3 appear missing from rendered content)."
+      }
+    ],
+    "summary": "This is a solid, specifics-rich CCIP getting-started tutorial covering the full lifecycle (deploy sender → deploy receiver → send → verify) across three toolchains, with concrete addresses, chain selectors, and version pins. Its biggest GEO strength is concrete specifics (real router addresses, `SEPOLIA_CHAIN_SELECTOR`, `gasLimit` 200000, v1.6.1). Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no head-level date/metadata were served — the page is hard for agents to parse and trust. A secondary concern is that most instructional content is nested inside `<Accordion>` components, which risks being deprioritized or dropped during HTML retrieval/chunking.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical + dateModified",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "Measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2025-12-25`, `programmingLanguage: [Solidity, TypeScript]`, and set `<link rel=\"canonical\" href=\"https://docs.chain.link/ccip/getting-started/evm\">`.",
+        "why": "Structured metadata and visible freshness signals raise agent parseability and E-E-A-T trust; currently unverifiable."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting section",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "new H2 after the toolchain sections",
+        "issue": "Gas-failure guidance is buried in `<Aside type=\"note\">` prose, not a retrievable heading.",
+        "change": "Add `## Troubleshooting` with H3s phrased as queries: \"Message not delivered / `getLastReceivedMessageDetails` returns zero\", \"Transaction failed due to gas price spikes on Sepolia\", \"`cast wallet import` throws env variable error\". Put the fix in the first sentence under each.",
+        "why": "Devs and agents query by symptom/error string; concept-titled prose loses retrieval the page's body already answers."
+      },
+      {
+        "priority": 1,
+        "title": "Surface Accordion content as standard headings",
+        "mapsTo": "Structural scannability & chunkability",
+        "tier": null,
+        "where": "all `<Accordion>` blocks",
+        "issue": "Nearly all steps sit inside custom components that may not extract from served HTML.",
+        "change": "Ensure accordion titles render as real `<h3>`/`<h4>` and bodies are in the DOM (not JS-gated); confirm the `.md` mirror is what engines fetch.",
+        "why": "Collapsed/custom-component content is frequently skipped in chunking; visible semantic headings are retrievable units."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical CCIP definition near the top",
+        "mapsTo": "Quotable canonical definitions",
+        "tier": null,
+        "where": "after the intro bold line",
+        "issue": "No liftable definition of CCIP on-page.",
+        "change": "Add one sentence: \"Chainlink CCIP (Cross-Chain Interoperability Protocol) is a standard for sending messages and tokens between blockchains via a router contract using `ccipSend`.\"",
+        "why": "A crisp self-contained definition is preferentially quoted and defends against generic parametric substitutes."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the Hardhat accordion step gap",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"### Hardhat 3\" section",
+        "issue": "Rendered accordions jump from number 2 (\"Set up the contracts\") to number 4 (\"Verify message delivery\") — the deploy/send step appears missing.",
+        "change": "Restore/confirm the intervening step (create and run the send script) so the Hardhat path is complete end-to-end.",
+        "why": "An agent following this toolchain cannot complete the task; broken procedures produce low-fidelity synthesized answers."
+      },
+      {
+        "priority": 2,
+        "title": "Show expected output for the verify script",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "Hardhat \"Verify message delivery\" accordion",
+        "issue": "Script ends at run command; no sample terminal output shown.",
+        "change": "Add a fenced block showing the success output (`✅ Message ID: 0x…`, `Text: \"Hello World!\"`) and the \"No message received yet\" branch.",
+        "why": "Expected-output examples let engines answer \"what should I see\" and confirm success states."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers and fix typos",
+        "mapsTo": "Concrete specifics / Clarity",
+        "tier": null,
+        "where": "\"significantly higher than normal\", \"as of of writing\", `SEPOLIA_ROUTER =0x…`",
+        "issue": "Vague quantifiers and small errors reduce fluency/precision.",
+        "change": "Quantify where possible (e.g. \"up to N× normal during spikes\"), fix \"as of of writing\" → \"as of writing\", add the missing space in `SEPOLIA_ROUTER = 0x…`.",
+        "why": "Clean, specific prose is independently rewarded; the address typo can corrupt copy-paste extraction."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"several\", \"various\", \"some\", \"significant\", \"robust\" (measured).",
+      "Marketing-flavored closer: *\"ensures that your contract is robust, future-proof, and compliant\"* — low-signal for engines.",
+      "Instructional content locked inside custom `<Accordion>`/`<Aside>` components — extraction risk.",
+      "Apparent step-numbering gap in the Hardhat path (unresolved procedure sequence).",
+      "No keyword stuffing, no padding — good."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; verify this page is listed in it.",
+      "Head-level metadata could not be verified (none captured); the CLI should pass raw `<head>` for a definitive machine-readability read.",
+      "Consider internal links into this page from CCIP concept/overview hubs to reinforce the canonical getting-started entry point (retrieval authority)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

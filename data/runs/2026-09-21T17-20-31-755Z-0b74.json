@@ -1,0 +1,112 @@
+{
+  "runId": "2026-09-21T17-20-31-755Z-0b74",
+  "startedAt": "2026-09-21T17:20:31.756Z",
+  "endedAt": "2026-09-21T17:21:04.129Z",
+  "owner": {
+    "pid": 50291,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "page",
+    "name": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+    "productScope": null
+  },
+  "stages": [
+    "probes"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "complete",
+  "counts": {
+    "expected": 1,
+    "pages": 1,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T17-20-31-755Z-0b74",
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+      "productScope": null
+    },
+    "stages": [
+      "probes"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T17:20:31.756Z",
+    "endedAt": "2026-09-21T17:21:04.129Z",
+    "elapsedMs": 32373,
+    "counts": {
+      "pages": 1,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "cre-capabilities-confidential-http-ts-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "stages": {
+          "probes": "ran"
+        },
+        "durations": {
+          "probes": 31472
+        },
+        "elapsedMs": 32370,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 1,
+      "inScope": 1,
+      "failed": 0
+    },
+    "notes": [],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "source": "explicit",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

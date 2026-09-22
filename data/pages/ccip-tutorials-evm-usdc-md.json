@@ -1,0 +1,168 @@
+{
+  "key": "ccip-tutorials-evm-usdc-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Transfer USDC with Data",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/usdc.md",
+    "analyzedAt": "2026-09-22T13:46:34.099Z",
+    "contentType": "developer documentation / tutorial + reference",
+    "score": 73,
+    "band": "Good",
+    "weightedTotal": 73,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working: opens with a clean liftable definition, *\"USDC is a digital dollar backed 100% and is always redeemable 1:1 for US dollars.\"* Weak: \"How CCIP Works with USDC\" leads with a shared-API claim buried mid-sentence; procedural sections open with \"In this tutorial…\" rather than the answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong: 15 headings, clean H1→H4 with 0 level skips, 4 tables and 64 bullets. Three sections exceed 600 words but these are contiguous contract listings (appropriate). No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong: 118 prose numerals, real router/LINK/USDC addresses, chain selectors (`14767482510784806043`), gas limit `200000`, amounts, and version strings `v1.6.1/v1.6.2`. Minor: vague quantifiers \"various, some, significant, robust\" appear in closing prose."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong: 61 links, 25 external, 5 to primary sources (Circle, GitHub, Remix). One opaque \"here\" link degrades one anchor."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong: crisp definitions for USDC, the \"cold start problem,\" and Native vs. Bridged USDC. No action needed."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified` in head, 0 og/twitter tags. An in-body `Last Updated: 2025-05-19` exists but is not machine-exposed. Largest scoring gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Strong: 3 substantive `sol` blocks, all with imports/SPDX/pragma, 0 placeholders, all reachable via one-click Remix links. The \"unassigned identifiers\" flagged are disclaimer-comment words, not real defects."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good: full lifecycle (setup → deploy → transfer → verify → redeem) plus a gas-spike caveat. Weak: no symptom/error-string headings (\"transaction failed,\" \"insufficient LINK\") and no FAQ; troubleshooting is buried inside NOTE blockquotes."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong: consistent naming of Sender/Staker/Receiver, Avalanche Fuji, Ethereum Sepolia. No undefined jargon."
+      }
+    ],
+    "summary": "This is a strong, code-complete CCIP tutorial covering native vs. bridged USDC transfers with arbitrary data, backed by concrete addresses, chain selectors, and three full runnable Solidity contracts. Its biggest GEO strength is code and specifics; its biggest opportunity is machine-readable metadata (no JSON-LD, canonical, or head dates were served) and symptom-phrased query coverage. The prose quality is best-in-class; the deductions are structural (schema) and retrieval-shaped (error/symptom headings), not content-quality problems.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "the two \"Gas price spikes\" NOTE blockquotes in the Tutorial section",
+        "issue": "troubleshooting hidden as `> **NOTE: Gas price spikes**` inside a blockquote",
+        "change": "promote to a real H3, e.g. `### Why did my USDC CCIP transaction fail on Sepolia?` with the answer-first line \"Transactions can fail during gas price spikes; fund the contract with additional LINK from faucets.chain.link or use a non-Sepolia testnet.\"",
+        "why": "devs/agents query by error symptom; concept-buried answers lose retrieval that a question-titled section wins."
+      },
+      {
+        "priority": 1,
+        "title": "Lead \"How CCIP Works with USDC\" with the canonical fact",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "`### How CCIP Works with USDC`",
+        "issue": "*\"Chainlink CCIP maintains a consistent API regardless of whether…\"* is correct but the API name isn't the first liftable token",
+        "change": "open with \"Chainlink CCIP uses the same `IRouterClient.ccipSend` router API for both Native USDC (CCTP burn-and-mint) and Bridged USDC (lock-and-mint) transfers.\" Name the two mechanisms explicitly in the first sentence.",
+        "why": "a self-contained first sentence naming the canonical API resists a skimmed model substituting a generic bridge pattern."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured \"JSON-LD: 0 blocks · canonical: MISSING · datePublished absent / dateModified absent\"",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: Solidity`, and a self-referential `canonical`; surface the last-updated date in visible HTML too.",
+        "why": "structured metadata and freshness signals raise agent trust/E-E-A-T and parseability. (Note: verify against served head — CLI should pass raw `<head>`.)"
+      },
+      {
+        "priority": 2,
+        "title": "Add a short FAQ block",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "after the Explanation section",
+        "issue": "no \"what is / how do I / can I\" question surface",
+        "change": "add 3–4 Q&A pairs: \"What's the difference between Native and Bridged USDC on CCIP?\", \"How do I pay CCIP fees in LINK vs native?\", \"Can I transfer USDC without data?\" — each answered in one liftable sentence with an internal link.",
+        "why": "question-shaped headings match how engines are prompted and win retrieval body prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Replace opaque anchor text",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"check the list of supported tokens [here]\" and similar",
+        "issue": "measured \"1 link with opaque text\"; multiple \"here\"/\"this\" anchors",
+        "change": "rename to descriptive text, e.g. \"the Avalanche Fuji supported-tokens list.\"",
+        "why": "descriptive anchors improve link-context extraction and citation attribution."
+      },
+      {
+        "priority": 3,
+        "title": "Remove vague quantifiers in closing prose",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"ensures that your contract is robust, future-proof…\" and \"supports a variety of scenarios\"",
+        "issue": "measured vague quantifiers \"various, some, significant, robust\"",
+        "change": "cut or replace with specifics (e.g. link CCIP Service Limits numbers instead of \"robust\").",
+        "why": "quantified claims outperform qualitative prose in generative citation."
+      }
+    ],
+    "antiPatterns": [
+      "Troubleshooting content buried in blockquote NOTEs rather than retrievable headings.",
+      "One opaque \"here\" link; a few \"this\" anchors.",
+      "Mild marketing-flavored qualifiers (\"robust, future-proof\") in the best-practices closer.",
+      "No stale-content issue: content dated 2025-05-19 in body (but not machine-exposed)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, og/twitter, and head dates are site-template concerns — fixing them benefits every CCIP tutorial, not just this page.",
+      "`llms.txt` is already referenced at top of page — good; confirm this URL is listed in it for discoverability.",
+      "Expected-output/console values (e.g. a sample `messageId`, `1,000,000` balance) are shown inline — no earned-citation gap here beyond third-party reference cadence."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

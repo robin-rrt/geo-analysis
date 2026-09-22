@@ -1,0 +1,179 @@
+{
+  "key": "chainlink-functions-tutorials-simple-computation-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Request Computation (Chainlink Functions: Simple Computation)",
+    "url": "https://docs.chain.link/chainlink-functions/tutorials/simple-computation.md",
+    "analyzedAt": "2026-09-22T13:28:06.617Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 60.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Opens well — \"This tutorial shows you how to run computations on the Chainlink Functions DON.\" Weak spot: `### FunctionsConsumerExample.sol` is an empty heading with no liftable content beneath it."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong hierarchy — 7 headings, 1 H1, 0 level skips, no section over 600 words. Weakness: the encoding-helper functions are a bulleted list that would extract better as a table; one heading is empty."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong — real fulfillment cost `0.240613623834519812 LINK`, gas/router/DON identifiers, hex response strings, decoded `453`. 21 prose numerals plus 22 in code."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; no action needed. 18 links, 7 to primary sources (GitHub source files, functions-toolkit README, Remix contract)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Encoding-helper descriptions are crisply liftable (\"Takes a positive JavaScript integer number and returns a Buffer of 32 bytes representing a uint256 type\"). But no self-contained definition of \"Chainlink Functions\" or \"DON\" near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Code fences are all correctly language-tagged, which helps."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Mixed. The run command and full simulated output are excellent and copy-pasteable, but `source.js` and `request.js` are only linked to GitHub — an agent must fetch external files to see the actual code. 2 blocks contain placeholder comments."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers setup → run → examine. Missing: no troubleshooting/FAQ, no error-string coverage (e.g., \"secp256k1 unavailable\", simulation failures, fulfillment code errors)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Clean and consistent. Minor typo: \"access theses values.\""
+      }
+    ],
+    "summary": "This is a clean, well-linked Chainlink Functions tutorial that walks through running a geometric-mean computation on the DON, with strong concrete specifics (real costs, addresses, hex outputs) and heavy primary-source linking (7 GitHub/Remix references). Its single biggest strength is verifiable specificity — actual transaction hashes and LINK costs make claims attributable. Its single biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no freshness dates were served, which weakens agent trust and E-E-A-T signaling. An empty `### FunctionsConsumerExample.sol` heading and code that lives only on GitHub (not inline) also cost retrieval and runnability points. Note: the page carries a `shutdown` callout — a relevance/freshness flag that should be reflected in a visible dated status.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter (none captured)",
+        "issue": "Measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: JavaScript`, a self-referential `canonical`, and add a visible \"Last updated\" line. Confirm the CLI passes raw `<head>` — if the site templates this, verify server-side rendering.",
+        "why": "Structured metadata and freshness signals are what agents parse to establish trust and recency; their absence caps E-E-A-T scoring."
+      },
+      {
+        "priority": 1,
+        "title": "Fill or remove the empty `FunctionsConsumerExample.sol` heading",
+        "mapsTo": "answer-first extractability, scannability",
+        "tier": null,
+        "where": "`## Examine the code` → `### FunctionsConsumerExample.sol`",
+        "issue": "Heading has zero content beneath it",
+        "change": "Either inline the consumer contract (with `sendRequest`/`fulfillRequest` shown) or delete the heading. An empty heading produces a null RAG chunk that can be retrieved and returned as an incomplete answer.",
+        "why": "Empty sections degrade chunk quality and answer-first extraction; every heading should open with a self-contained answer."
+      },
+      {
+        "priority": 2,
+        "title": "Inline the core of `source.js` and `request.js`",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "`#### source.js` and `#### request.js`",
+        "issue": "\"The code is self-explanatory\" — but the code is only on GitHub",
+        "change": "Embed the geometric-mean computation and the `makeRequestSepolia` skeleton (imports, `simulateScript`, `SubscriptionManager`, `sendRequest`, `ResponseListener`) as tagged, copy-pasteable blocks with the router/donId values shown.",
+        "why": "Agents completing tasks cannot follow external links reliably; inline complete snippets are directly liftable and executable."
+      },
+      {
+        "priority": 2,
+        "title": "Add a symptom-phrased Troubleshooting section",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new `## Troubleshooting` (end of page)",
+        "issue": "No error/symptom coverage; devs query by error string",
+        "change": "Add H3s phrased as observed messages/questions: \"secp256k1 unavailable, reverting to browser version\", \"Simulation failed\", \"Why is my fulfillmentCode not 0?\", \"Request not fulfilled after five minutes\". Answer each in the first sentence.",
+        "why": "Symptom-phrased headings win retrieval that concept-titled prose loses, even when the fix is in body text."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the encoding-helper list to a table",
+        "mapsTo": "scannability & justification structure",
+        "tier": null,
+        "where": "`#### source.js`, the `Functions.encodeUint256`/`encodeInt256`/`encodeString` bullets",
+        "issue": "Three parallel helper descriptions in prose bullets (0 tables on page)",
+        "change": "Make a 3-column table: Helper | Input type | Solidity output type. Add `encodeBytes`/`encodeString` variants if applicable.",
+        "why": "Tables let engines extract structured comparisons and pick the right helper for a stated return type."
+      },
+      {
+        "priority": 3,
+        "title": "Add a leading one-sentence canonical definition",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"DON\" and \"Chainlink Functions\" used before a crisp definition",
+        "change": "Add: \"Chainlink Functions is a serverless platform that runs your JavaScript on a Decentralized Oracle Network (DON) and returns the result onchain to your smart contract.\"",
+        "why": "A self-contained definition near first use is verbatim-liftable and defends against generic parametric substitution."
+      },
+      {
+        "priority": 3,
+        "title": "Fix typo \"theses values\"",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "`#### source.js`, first bullet",
+        "issue": null,
+        "change": "\"access **these** values\"",
+        "why": "Clean prose is independently rewarded; typos reduce fluency signals."
+      }
+    ],
+    "antiPatterns": [
+      "Empty heading `### FunctionsConsumerExample.sol` — produces a null retrievable chunk.",
+      "\"The code is self-explanatory\" x2 — defers to external files the reader/agent may not fetch; not a substitute for inline code.",
+      "No visible date on a page carrying a `shutdown` product callout — status ambiguity for freshness-sensitive readers.",
+      "Minor typo (\"theses values\").",
+      "No keyword stuffing or marketing fluff observed."
+    ],
+    "offPageNotes": [
+      "The page references `/llms.txt` — good site-level signal; confirm it lists this URL.",
+      "Site-level JSON-LD/canonical templating may exist but was not served here; verify rendered `<head>` output rather than assuming absence.",
+      "The `shutdown` callout suggests product deprecation — a site-level content-lifecycle decision (archive vs. redirect) that affects long-term retrieval value beyond this page's control."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

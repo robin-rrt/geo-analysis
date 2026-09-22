@@ -1,0 +1,178 @@
+{
+  "key": "data-feeds-selecting-data-feeds-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Selecting Quality Data Feeds",
+    "url": "https://docs.chain.link/data-feeds/selecting-data-feeds.md",
+    "analyzedAt": "2026-09-21T11:50:51.922Z",
+    "contentType": "developer documentation / conceptual risk guidance",
+    "score": 62,
+    "band": "Good",
+    "weightedTotal": 62.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Category sections lead well — \"These are data feeds that follow a standardized data feeds workflow to report market prices.\" The opening intro paragraph is diffuse (liability framing before any definition); implied question \"how do I pick a feed?\" isn't answered in the first sentence."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; no action needed. 1 H1, max depth H4, 0 level skips, 0 sections over 600 words — near-ideal RAG chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Market-hours table and the `$1.05` bound example are excellent. Weakened by vague quantifiers flagged in the facts (\"several,\" \"various,\" \"significant,\" \"wide range\") in the risk-factor bullets where a range or threshold would be more liftable."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Reasonable external links (Aave CAPO proposal, Wikipedia corporate-action/soak-testing, blog.chain.link) but the facts show **0 links to primary sources** and 2 opaque anchors (\"here,\" \"this\")."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good self-contained definitions for \"Bounded Market Price Feeds,\" \"Exchange rate feeds,\" and single-source feeds. The eight risk categories lack a one-line canonical definition each in a scannable form."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak per facts — 0 JSON-LD blocks, canonical missing, no `dateModified`. A risk/policy page especially benefits from a visible last-updated signal. `<head>` could not be verified from the `.md` endpoint."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No fenced blocks. Largely acceptable for a conceptual page, but the shutdown-behavior facts (`latestAnswer` → `0`, `latestRoundData` reverts) would benefit from a minimal tagged snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Broad lifecycle coverage (categories → hours → mitigation → wrapped assets → front-running). Missing symptom-phrased entry points (\"why does my feed return 0?\", \"feed reverts with no data\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent capitalized entity naming (\"Market Pricing Risk,\" \"Data Feed\") aids entity resolution."
+      }
+    ],
+    "summary": "This is a well-structured conceptual page defining Chainlink's data-feed risk categories, market hours, and integration risk-mitigation practices. Its biggest GEO strength is clean chunking — 32 sections, median 150 words, no level skips, and a dense, concrete market-hours table that is highly liftable. Its biggest opportunity is that the eight-category risk taxonomy lives entirely in prose: a single comparison table mapping category → risk level → deprecation eligibility would give engines the structured \"reasons\" they cite. Metadata is the mechanical weak spot (no JSON-LD, no canonical, no dates), though the `.md` endpoint likely strips the `<head>` — verify against the HTML page before treating as absent.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a risk-category comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of `## Data Feed Categories`, above the bullet list",
+        "issue": "eight categories are defined only in separate prose sections; no single extractable unit",
+        "change": "add a table with columns Category | Risk level | Definition (one line) | Deprecation-eligible? | e.g. `🟢 Low | Lowest | Standardized workflow, multiple sources aggregated | No`. Lead each cell with the canonical fact.",
+        "why": "engines cite tables to build justified \"which feed should I use\" answers; this is the page's highest-lift single change."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased subheadings for feed-failure behavior",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "`#### Data Feed Shutdown Policy` NOTE block",
+        "issue": "answer buried under a policy heading — \"calls to the feed will behave as follows\"",
+        "change": "add an H3/H4 phrased as the query, e.g. `### Why does my feed return 0 / latestRoundData revert?` with the two bullets as the answer-first body.",
+        "why": "devs/agents query the error symptom, not \"shutdown policy\"; concept-titled prose loses this retrieval even though the answer is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "facts report 0 JSON-LD blocks, canonical missing, no `dateModified`",
+        "change": "emit `TechArticle` schema with `dateModified` and a `canonical` to the non-`.md` URL; surface a visible \"Last updated\" line. Verify the HTML `<head>` first — the `.md` endpoint may already strip existing tags.",
+        "why": "freshness and schema raise agent trust (E-E-A-T) for a policy page where currency matters."
+      },
+      {
+        "priority": 2,
+        "title": "Replace opaque anchor text",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "`### Unknown and Known Users` (\"you can do so [here]\") and the ETF/Forex NOTE (\"contact us [here]\")",
+        "issue": "2 links with opaque text (\"here\")",
+        "change": "relabel to describe the target, e.g. \"[submit your contact information](…)\".",
+        "why": "descriptive anchors improve link-context extraction and citation attribution."
+      },
+      {
+        "priority": 3,
+        "title": "Tighten the intro to be answer-first",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "first paragraph under the H1",
+        "issue": "opens with \"consider the quality of the data … Ultimately you are responsible…\" before defining anything",
+        "change": "lead with a one-sentence canonical statement: \"Chainlink groups data feeds into eight market-pricing-risk categories (Low → Very High, plus New Token, Custom, Deprecating, Unrated) to signal intended use and data-quality risk.\"",
+        "why": "the first liftable sentence should answer \"how are feeds categorized?\" and resist parametric priors."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal tagged code snippet for shutdown behavior",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "shutdown-behavior NOTE",
+        "issue": "API behavior described in inline prose only",
+        "change": "add a short `solidity`-tagged block showing `latestAnswer()` returning `0` and `latestRoundData()` reverting, with a one-line comment.",
+        "why": "copy-pasteable, language-tagged snippets are preferentially extracted by coding agents."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with ranges where feasible",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Medium/Very High risk-factor bullets (\"Lower or inconsistent asset volume,\" \"extremely low levels\")",
+        "issue": "qualitative-only phrasing underperforms",
+        "change": "where a defined threshold exists, state it (e.g. probationary-period length for New Token feeds, notification lead time — \"two weeks\" is already good, extend that pattern).",
+        "why": "quantitative specifics are among the highest-lift changes for citation."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers flagged in facts (\"many, several, various, some, most, wide range, significant, fast\") — acceptable in a risk-narrative page but reducible in the risk-factor bullets.",
+      "2 opaque link anchors (\"here\"/\"this\").",
+      "No dated/freshness signal on a page whose content (deprecation policy, category assignments) is time-sensitive.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean."
+    ],
+    "offPageNotes": [
+      "The `.md` endpoint appears to serve body only; pass the raw HTML `<head>` through the CLI so schema/canonical/date presence can be confirmed rather than inferred absent.",
+      "`llms.txt` is already referenced at the top — good site-level discoverability signal.",
+      "Category assignments for individual feeds live on other pages (`data.chain.link`); internal links from those feed pages back into this canonical taxonomy would reinforce the hub pattern."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

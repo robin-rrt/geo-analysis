@@ -1,0 +1,168 @@
+{
+  "key": "ccip-tutorials-evm-transfer-tokens-from-contract-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Transfer Tokens Between Chains from Smart Contracts",
+    "url": "https://docs.chain.link/ccip/tutorials/evm/transfer-tokens-from-contract.md",
+    "analyzedAt": "2026-09-22T13:46:23.175Z",
+    "contentType": "developer documentation / tutorial (walkthrough + reference contract)",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Sections open with functional summaries (\"The `transferTokensPayLINK` function undertakes six primary operations\"). Weak spot: the top of the page is procedural setup, not a liftable definition of *how to transfer tokens from a contract via CCIP*."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 10 headings, clean H1→H3 with 0 level skips, 2 argument tables, 23 bullets. The single 1744-word section is the contract block, which is legitimately one unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — real addresses (`0xF694…8177`), chain selector `16015286601757825753`, amounts (`0.001`/`0.002` CCIP-BnM, 70 LINK, 0.2 AVAX), version `v1.6.2`. Flagged vague quantifiers (\"robust\", \"significant\") add no value but do little harm."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — 67 links, 6 to primary sources (soliditylang, ethereum.org, remix, github). One opaque \"here\" link (\"supported tokens [here]\")."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Moderate — the CAUTION on \"transferring tokens\" (lock/burn vs mint/unlock) is genuinely quotable, but core terms (lane, chain selector, EVM2AnyMessage) are linked out rather than defined in one liftable sentence near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified`, no og/twitter tags. Head metadata could not be verified (none captured); the CLI should pass raw `<head>` for a full read. A visible \"Last Updated: 2025-05-19\" exists in body but is not machine-exposed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Strong — one complete contract with SPDX, `pragma 0.8.24`, all imports, custom errors, and a Remix deep link. The \"identifiers never assigned\" flag (SPDX, IERC20, HARDCODED…) is a false positive from the license header comment and disclaimer text, not real code gaps."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good lifecycle (setup → deploy → transfer → verify → troubleshoot gas spikes) but no headings phrased as the errors this contract emits (`NotEnoughBalance`, `DestinationChainNotAllowlisted`, `InvalidReceiverAddress`). Those are the queries devs type when it breaks."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong — consistent naming of Avalanche Fuji / Ethereum Sepolia / CCIP-BnM throughout; unambiguous prose."
+      }
+    ],
+    "summary": "This is a well-structured, code-complete CCIP tutorial that walks a developer from setup through paying fees in both LINK and native gas, with concrete addresses, chain selectors, and a full copy-pasteable Solidity contract. Its biggest GEO strength is code and specifics; its biggest opportunity is retrieval infrastructure — the page carries **zero JSON-LD, no canonical URL, and no symptom-phrased headings** for the custom errors devs will actually paste into a search box. The honest verdict: strong content held back by missing machine-readable metadata and error-string query coverage. No probe results were provided, so this audit is scored from page text and measured facts alone.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/error-string coverage for the contract's custom errors",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new \"Troubleshooting\" H2 near the end, or H3s under Explanation.",
+        "issue": "custom errors defined but never surfaced as searchable headings: `NotEnoughBalance`, `DestinationChainNotAllowlisted`.",
+        "change": "add short Q&A blocks, e.g. `### Transaction reverts with DestinationChainNotAllowlisted` → \"Call `allowlistDestinationChain(16015286601757825753, true)` before transferring; the selector must be allowlisted by the owner.\" Repeat for `NotEnoughBalance` and `InvalidReceiverAddress`.",
+        "why": "devs and agents query by exact revert string; error-titled sections win retrieval that concept prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD with canonical URL and dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (template-level).",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no `dateModified` — measured ground truth.",
+        "change": "emit `TechArticle` schema with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: Solidity`, and a self-referential canonical URL.",
+        "why": "structured metadata and visible freshness raise parse-trust (E-E-A-T) and agent parseability."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the page with a self-contained canonical answer",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "first paragraph, before \"Before you begin\".",
+        "issue": "opens with procedure (\"First, you will pay for the CCIP fees…\") not a liftable definition.",
+        "change": "add one sentence: \"To transfer tokens from a smart contract across chains, call `IRouterClient.ccipSend` with an `EVM2AnyMessage`, paying fees in LINK (`feeToken = address(linkToken)`) or native gas (`feeToken = address(0)`).\"",
+        "why": "puts the canonical API in the first liftable sentence, resisting parametric-prior substitution when the page is only skimmed."
+      },
+      {
+        "priority": 2,
+        "title": "Name the tempting-wrong fee pattern explicitly",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "native-gas section and the `transferTokensPayNative` explanation.",
+        "issue": "native payment is signaled by `address(0)` but not contrasted against the wrong `msg.value`-only assumption.",
+        "change": "add a Don't: \"Do not send `msg.value` without setting `feeToken = address(0)`; the router reads the fee token from the message, and `ccipSend{value: fees}` must match.\"",
+        "why": "explicitly flagging the common-but-wrong pattern prevents engines from synthesizing generic EVM idioms over the CCIP API."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the opaque link and add a fee-token comparison table",
+        "mapsTo": "citations + machine-scannability",
+        "tier": null,
+        "where": "\"supported tokens [here]\" (bullet 3, Before you begin) and Explanation section.",
+        "issue": "one link with opaque text (\"here\"); LINK-vs-native tradeoff is described only in prose.",
+        "change": "rename to \"[supported tokens for the Avalanche Fuji lane]\"; add a 2-row table: fee token | `feeToken` value | funding required | recommended when.",
+        "why": "descriptive anchors and comparison tables let engines extract *reasons* and build justified answers."
+      },
+      {
+        "priority": 3,
+        "title": "Show expected output for a successful transfer",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "after the CCIP explorer verification steps.",
+        "issue": "verification relies on screenshots (`.webp`) that engines cannot read.",
+        "change": "add a small text block of the emitted `TokensTransferred` event fields / expected explorer status (\"Status: Success, Tokens Transferred: 0.001 CCIP-BnM\").",
+        "why": "text-form expected output is agent-verifiable where images are not."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers in prose: \"robust\", \"significant\", \"various\", \"some\" — minor; tighten where trivial (e.g. \"a robust smart contracts suite\" → drop \"robust\").",
+      "One opaque link anchor (\"here\") — see P2.",
+      "Verification steps depend on images with no text equivalent (see P3).",
+      "No true walls-of-prose, no keyword stuffing, no stale/undated content (a Last-Updated is present in body)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; confirm this page is listed in it.",
+      "JSON-LD, canonical tag, and og/twitter emission are template/site-level fixes even though they benefit this page directly.",
+      "Screenshot alt-text and machine-exposed `dateModified` are site-template concerns worth raising with the docs platform owners."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

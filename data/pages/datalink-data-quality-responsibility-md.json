@@ -1,0 +1,167 @@
+{
+  "key": "datalink-data-quality-responsibility-md",
+  "runId": "2026-09-22T13-10-14-434Z-5184",
+  "audit": {
+    "title": "Data Quality, Responsibility & Trust Model",
+    "url": "https://docs.chain.link/datalink/data-quality-responsibility.md",
+    "analyzedAt": "2026-09-22T13:10:15.094Z",
+    "contentType": "developer documentation / conceptual (trust & risk model)",
+    "score": 59,
+    "band": "Developing",
+    "weightedTotal": 58.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a clean, well-structured conceptual page explaining DataLink's single-source trust model, anchored by a strong comparison table that clearly separates Chainlink's role from the Data Provider's. Its biggest GEO strength is that table — a highly liftable, reason-bearing structure engines can quote directly. Its biggest opportunities are the total absence of machine-readable metadata (no JSON-LD, canonical, or dates) and thin citation/specificity, both of which cap retrieval and trust. Honest verdict: a solid page held back by missing schema and by concept-titled (rather than symptom-titled) headings that miss how developers actually query trust/liability questions.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical + dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "\"canonical: MISSING · datePublished absent / dateModified absent · JSON-LD: 0 blocks\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `about: \"DataLink\"`, and a self-referential `canonical`; surface a visible \"Last updated\" line.",
+        "why": "Freshness + schema are direct E-E-A-T/trust signals; their absence suppresses retrieval and citation confidence."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/liability-phrased headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H2/H3s near \"Protocol Responsibilities\"",
+        "issue": "headings are concept-titled (\"Single-Source Data vs. Aggregated Data\") and miss liability queries",
+        "change": "Add sections titled \"Who is responsible if a DataLink feed goes down?\" and \"Is Chainlink liable for DataLink data quality?\" answered in the first sentence.",
+        "why": "Devs/legal reviewers query by question; question-phrased headings win retrieval that concept prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Lead sections with the canonical claim, not the caveat",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Key Differences Summarized\"",
+        "issue": "\"While DataLink leverages the same underlying Chainlink Data Streams infrastructure…\"",
+        "change": "Open with \"For single-source DataLink feeds, the Data Provider — not Chainlink — is solely responsible for data quality,\" then give the transport caveat.",
+        "why": "The liftable first sentence should carry the core fact so skimmed/RAG chunks stand alone."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics on failure behavior",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Data Sources\" table cell / Risk Management list",
+        "issue": "\"if the Data Provider experiences an outage, data flow for that specific feed ceases\" — no quantification",
+        "change": "State what a consumer contract observes on outage (e.g., stale timestamp / no new reports), and quantify redundancy (\"single source = 0 provider-level redundancy\").",
+        "why": "Quantified, unit-bearing claims are among the highest-lift changes; replaces vague \"most/robust.\""
+      },
+      {
+        "priority": 3,
+        "title": "Add authoritative inline links",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "transport claim and disclaimer paragraph",
+        "issue": "0 external links; disclaimer and transport claims unattributed",
+        "change": "Link \"report signing\"/\"secure transport\" to the Data Streams architecture page and the \"as is / as available\" language to the canonical Chainlink terms page.",
+        "why": "Attributable claims raise citation rate and credibility."
+      },
+      {
+        "priority": 3,
+        "title": "Define \"single-source feed\" verbatim near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "term used before a crisp definition",
+        "change": "Add \"A single-source DataLink feed delivers data from exactly one provider, with no cross-source aggregation or outlier detection by Chainlink.\"",
+        "why": "A self-contained definition is easy to lift verbatim into answers."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"most\" and \"robust\" (measured) — replace \"most DataLink feeds\" with a concrete share if known.",
+      "Stale/undated content: no visible or structured last-updated date.",
+      "No unresolved cross-references, no keyword stuffing, no marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this URL is listed in it.",
+      "Site-level: confirm `TechArticle`/`BreadcrumbList` schema is templated across `docs.chain.link`, since this page inherited none.",
+      "The CLI should pass raw `<head>` on future runs — head metadata could not be verified here, so schema/canonical findings rest on the served-HTML measurement."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-10-14-434Z-5184",
+    "probes": {}
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "key": "chainlink-automation-reference-automation-interfaces-md",
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Automation Interfaces",
+    "url": "https://docs.chain.link/chainlink-automation/reference/automation-interfaces.md",
+    "analyzedAt": "2026-09-22T13:22:19.392Z",
+    "contentType": "developer documentation / API reference",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 60.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a Chainlink Automation interface reference covering `AutomationCompatibleInterface` (`checkUpkeep`/`performUpkeep`) with clear parameter breakdowns and primary-source GitHub links. Its biggest strength is a clean, well-chunked structure with authoritative inline citations; its biggest liability is that two of the three interface sections named in the intro — **`## ILogAutomation`** and **`## StreamsLookupCompatibleInterface`** — render as empty headings in the served content, so a retrieval engine that lands there finds nothing to lift. Combined with completely absent structured metadata (no JSON-LD, canonical, or dates), the page under-delivers on machine-readability despite strong prose. Fix the empty sections and add schema, and this comfortably reaches Strong.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fill the empty `ILogAutomation` and `StreamsLookupCompatibleInterface` sections",
+        "mapsTo": "Answer-first extractability, Query coverage",
+        "tier": null,
+        "where": "`## ILogAutomation` and `## StreamsLookupCompatibleInterface` headings",
+        "issue": "both headings have zero body content in the served page",
+        "change": "add, for each, a one-sentence canonical definition + the interface function signature + a GitHub source link, mirroring the `AutomationCompatibleInterface` treatment (e.g., \"`ILogAutomation` lets a log event emitted onchain trigger your upkeep via `checkLog(Log calldata log, bytes memory checkData)`…\").",
+        "why": "empty sections are unretrievable; an engine landing on these anchors returns nothing, and the intro's promises go unfulfilled. Highest-impact fix on the page."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and last-updated date",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "\"JSON-LD: 0 block(s) … canonical: MISSING … dateModified absent\"",
+        "change": "emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `programmingLanguage: Solidity`, and a `<link rel=\"canonical\">`; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise agent trust (E-E-A-T) and parse reliability. Note: `<head>` was not captured, so absence should be confirmed by passing raw head to the CLI."
+      },
+      {
+        "priority": 2,
+        "title": "Make code blocks agent-runnable",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "the three `solidity`/`sol` fences",
+        "issue": "\"of 2 block(s) … 2 show none\" (no imports); inconsistent `sol` vs `solidity` tags",
+        "change": "add `pragma solidity ^0.8.0;` and the `import {AutomationCompatibleInterface} from \"…\";` line to at least one canonical example; standardize the fence tag to `solidity`.",
+        "why": "copy-pasteable, imported snippets are lifted and executed by coding agents; consistent language tags aid parsing."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom-phrased entry points",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "`performUpkeep` idempotency paragraph",
+        "issue": "advice is present but concept-titled (\"Ensure that your `performUpkeep` is *idempotent*\")",
+        "change": "add an H3 or FAQ line phrased as the query, e.g. \"**Why does my upkeep keep performing the same work repeatedly?**\" answered by the idempotency guidance.",
+        "why": "devs/agents query by symptom; question-phrased headings win retrieval that concept prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with numbers",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "performData bullets",
+        "issue": "\"several hundred account balances\", \"a number of addresses\"",
+        "change": "where a real bound exists, state it (e.g., gas-limit ceiling, max array size per upkeep); otherwise keep the concrete \"0 to 49\" style example already present.",
+        "why": "quantitative specifics are among the highest-lift changes for citation."
+      }
+    ],
+    "antiPatterns": [
+      "**Empty content sections** — `## ILogAutomation` and `## StreamsLookupCompatibleInterface` are headings with no body; the intro links to them as if populated.",
+      "**Vague quantifiers** — \"several\", \"a number of\" where a figure would serve.",
+      "**Snippets missing imports/pragma** — all Solidity blocks lack imports; one inconsistent `sol` tag.",
+      "No keyword stuffing, marketing fluff, or stale-cross-reference issues detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good; ensure it indexes this page.",
+      "Site-level: JSON-LD/canonical/date emission is likely template-controlled; fix once at the docs-platform level to benefit all reference pages.",
+      "The empty sections may be populated by a client-side component not present in served HTML — if so, ensure the interface content is server-rendered so retrieval crawlers see it."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
+    "probes": {}
+  }
+}

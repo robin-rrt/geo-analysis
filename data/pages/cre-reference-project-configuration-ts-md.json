@@ -1,0 +1,673 @@
+{
+  "key": "cre-reference-project-configuration-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Project Configuration",
+    "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+    "analyzedAt": "2026-09-21T13:26:30.193Z",
+    "contentType": "developer documentation / configuration reference",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Sections lead well — e.g. \"A target is a top-level key inside both `project.yaml` and `workflow.yaml`.\" Page-level intro is a \"This page explains…\" preamble rather than a liftable definition of the subject; tolerable for a reference."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Numbered H2/H3, three tables, sensible chunk sizes."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good version specificity (`v1.14.0`, `^1.6.0`) and concrete defaults (\"pre-populates a public Sepolia RPC URL\"). Weak spot: the merge/resolution section names no CLI error strings or limits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "9 internal links, all resolving to canonical CRE pages — good internal graph. Zero external/primary references (e.g. YAML spec, viem docs, Infura/Alchemy). Minor for a config page."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Glossary supplies crisp, verbatim-liftable definitions for Project, Workflow, Target, ABI."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, canonical MISSING, `datePublished`/`dateModified` absent from head, 0 og/twitter tags. Body has a date but engines can't rely on it."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong. 7 substantive fenced blocks, 0 untagged, all languages labeled. One placeholder block (`0x...`, `<YOUR-PROJECT-ID>`) is acceptable for config templates."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Covers setup → configure → target → update lifecycle. Missing dedicated troubleshooting phrased as errors; failure info is buried in CAUTION callouts rather than in question/error-titled headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent naming of `project.yaml`/`workflow.yaml`/targets throughout."
+      }
+    ],
+    "summary": "This is a well-structured CRE configuration reference: clean numbered hierarchy, a strong glossary table, and complete YAML examples with a resolution-order walkthrough. Its biggest GEO strength is structural chunkability (17 sections, none over 600 words, 0 level skips). Its biggest opportunities are machine-readable metadata — no JSON-LD, no canonical URL, no `<head>` dates captured despite a visible \"Last Updated: 2026-05-08\" in body — and symptom-phrased query coverage that would win retrieval for the error states devs actually hit. Honest verdict: solid, agent-friendly docs that leave measurable retrieval lift on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add error/symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after §4.2, or promote the CAUTION callouts to headed subsections",
+        "issue": "failure text lives in prose: \"the simulator cannot register the EVM capability and your workflow will fail.\"",
+        "change": "Add H3s phrased as the queries devs type, e.g. \"Why does `cre workflow simulate` fail with no RPC configured?\" and \"Error: target not found in workflow.yaml\" — each opening with the one-sentence fix.",
+        "why": "devs and agents query by symptom/error string; concept-titled prose loses that retrieval even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle` JSON-LD with canonical URL and dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "Measured facts: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"datePublished absent / dateModified absent\".",
+        "change": "Add JSON-LD `TechArticle` with `headline`, `dateModified: 2026-05-08` (already in body), `programmingLanguage: TypeScript`, and a `canonical` link.",
+        "why": "structured metadata and visible freshness signals raise agent trust and parse reliability (E-E-A-T)."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the page with a liftable canonical statement",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "opening paragraph",
+        "issue": "\"This page explains how to manage configuration within…\" — meta, not liftable.",
+        "change": "Prepend a self-contained sentence: \"CRE TypeScript projects are configured through two YAML files — `project.yaml` for global settings and `workflow.yaml` for per-workflow overrides — with environment-specific values grouped under named **targets**.\"",
+        "why": "engines lift the first self-contained sentence; a meta-preamble wastes the highest-value chunk position."
+      },
+      {
+        "priority": 2,
+        "title": "Name the merge failure mode as an explicit Don't",
+        "mapsTo": "parametric-prior resistance / query coverage",
+        "tier": null,
+        "where": "§4.2 How Target Resolution Works",
+        "issue": "\"A mismatch causes the CLI to abort with a clear error message\" — the actual error string is not quoted.",
+        "change": "Quote the real CLI error verbatim and add a \"Don't: define a target in `project.yaml` but omit it from `workflow.yaml`\" bullet.",
+        "why": "verbatim error text is directly retrievable; explicit Don'ts steer models off the common-but-wrong config."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary/external references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "§3.3 secrets, ABI glossary row, env-var interpolation",
+        "issue": "0 external links; \"ABIs are defined directly as TypeScript files using viem\" links nowhere.",
+        "change": "Link viem's ABI docs and the YAML spec at first mention.",
+        "why": "inline authoritative links raise citation rate and claim attributability."
+      },
+      {
+        "priority": 3,
+        "title": "Add a compact `project.yaml` vs `workflow.yaml` decision table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of §3",
+        "issue": "the split between the two files is described across prose and two tables.",
+        "change": "Add a 2-column \"put it in project.yaml / put it in workflow.yaml\" table mapping each setting to its file.",
+        "why": "decision tables let engines extract *reasons* and answer \"which file does X go in?\" directly."
+      }
+    ],
+    "antiPatterns": [
+      "One placeholder block with `0x...` and `<YOUR-PROJECT-ID>` — acceptable for config templates, but pair at least one example with a fully concrete value for copy-paste runnability.",
+      "Vague quantifier \"many\" flagged in prose (\"store many targets\") — minor; harmless in context.",
+      "No walls of prose, no stale/undated content, no ambiguous entities. Otherwise clean."
+    ],
+    "offPageNotes": [
+      "Metadata fixes (JSON-LD, canonical, head-level dates, og tags) are site-template concerns; the CLI should pass raw `<head>` so freshness can be verified rather than assumed absent.",
+      "`/llms.txt` is already referenced — good site-level discoverability signal; ensure this page is listed in it.",
+      "External citation and third-party linking are partly earned/off-page and won't be fixed by this page alone."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+      "source_title": "Project Configuration",
+      "probe_set_id": "8d7583c9b90a",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T15:42:39.607Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 54,
+      "retrieval_hit_rate": 0.5,
+      "retrieval_hit_rate_effective": 0.5,
+      "retrieval_mention_hit_count": 1,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4.7,
+        "hallucination_free": 4.7,
+        "relevance": 5.3,
+        "structure": 6.8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 550148,
+          "output_tokens": 20521,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 30,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9975,
+          "output_tokens": 11504,
+          "cache_creation_input_tokens": 5702,
+          "cache_read_input_tokens": 42844,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite closely mirroring its content."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 7
+          },
+          "fidelity": 53,
+          "hallucinations": [
+            {
+              "claim": "remember to pass extra flag --broadcast to broadcast the transactions to the blockchain",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "The cre init command pre-populates your workflow.yaml with these two common targets as a starting point",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "The Config type in your TypeScript workflow defines the shape of this configuration, giving you type safety across environments.",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "CLI merges the target from project.yaml and workflow.yaml, with workflow.yaml values winning on conflicts"
+          ],
+          "unverifiable_from_source": [
+            "cre init pre-populates workflow.yaml with staging/production targets",
+            "Config type in TypeScript workflow for type safety",
+            "'Part 1: Project Setup & Simulation' guide reference",
+            "--broadcast flag for simulate command"
+          ],
+          "verdict": "The answer correctly explains targets, --target/CRE_TARGET selection, and per-target config paths, but omits the crucial merge-precedence rule and introduces a fabricated --broadcast flag and unverified claims about cre init and a Config type, plus it never cites the source, making it only partially safe to ship.",
+          "prompt": "How do I set up environment-specific settings using targets in a CRE TypeScript project?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about setting up environment-specific settings using targets in a CRE TypeScript project.Let me get more detailed content from the project configuration documentation page.I have enough information. Let me get a bit more detail on the project.yaml vs workflow.yaml structure and how config is loaded in TypeScript code.I have enough information to answer your question.\n\n## Setting Up Environment-Specific Settings with Targets in CRE (TypeScript)\n\nIn the Chainlink Runtime Environment, **targets** are the mechanism for managing environment-specific configuration. A target is a top-level key inside both project.yaml and workflow.yaml. It bundles all settings for a single environment or variant.\n\n### 1. Understand the two configuration files\n\nYour project uses two YAML files that both organize their contents by target:\n\n- **`project.yaml`** — holds project-wide, shared configuration (like RPC endpoints).\n- **`workflow.yaml`** — holds per-workflow settings such as paths to your code, config, and secrets.\n\n### 2. Targets are created for you at init\n\nWhen you scaffold a project, common targets are set up automatically. Target names (staging-settings, production-settings) are environment configuration sets. The cre init command pre-populates your workflow.yaml with these two common targets as a starting point, but you can name targets whatever you want.\n\n### 3. Point each target at its own config file\n\nInside `workflow.yaml`, each target references its own configuration file, so different environments can use different settings. For example, a production target looks like this:\n\nproduction-settings: user-workflow: workflow-name: \"my-workflow-production\" deployment-registry: \"onchain:ethereum-mainnet\" workflow-artifacts: workflow-path: \"./main.ts\" config-path: \"./config.production.json\" secrets-path: \"\"\n\nThe key fields per target are:\n- **config-path**: Each target points to its own config file (config.staging.json or config.production.json). **secrets-path**: The location of your secrets file (empty if you aren't using secrets yet).\n\nSo you'd typically keep parallel files like `config.staging.json` and `config.production.json`, each referenced from its respective target block. The `Config` type in your TypeScript workflow defines the shape of this configuration, giving you type safety across environments.\n\n### 4. Configure RPC endpoints per target in project.yaml\n\nIf your workflow touches a blockchain, set the RPC URLs in `project.yaml` for the target you're using. If your workflow interacts with blockchains, configure RPC endpoints in your project.yaml for the target you're using. Without this, the simulator cannot register the EVM capability and your workflow will fail.\n\n### 5. Handle secrets per environment\n\nSecrets are also declared per target via `secrets-path`. For simulation, secret values are loaded from your .env file or environment variables. For deployed workflows, secrets are managed through the Vault DON using cre secrets commands.\n\n### 6. Select the active target with `--target`\n\nThe CLI decides which environment's settings to use based on the target you pass. The CLI selects the active target using the --target flag. Example: cre workflow simulate my-workflow --target staging-settings. Alternatively, the CRE_TARGET environment variable can be used.\n\nYou use this same flag across commands:\n\n- **Simulate:** cre workflow simulate --target staging-settings --config config.staging.json main.ts. When simulating workflows that write to the blockchain, remember to pass extra flag --broadcast to broadcast the transactions to the blockchain.\n- **Deploy:** cre workflow deploy my-workflow --target production-settings\n\n### Summary workflow\n\n1. Define a target block (e.g. `staging-settings`, `production-settings`) in both `project.yaml` and `workflow.yaml`.\n2. Give each target its own `config-path` (e.g. `config.staging.json`) and, if needed, `secrets-path` and RPC URLs.\n3. Model the config shape with a TypeScript `Config` type for type safety.\n4. Switch environments simply by passing `--target <name>` (or setting `CRE_TARGET`) when you simulate or deploy.\n\nThis design lets you deploy the same workflow to different environments with distinct identities. For full details, the **Project Configuration** reference and the **Part 1: Project Setup & Simulation** guide in the Chainlink docs are the best sources.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 50675,
+              "output_tokens": 3051,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1972,
+              "output_tokens": 2064,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://mainnet.infura.io/v3/",
+              "https://mainnet.infura.io/v3/${INFURA_API_KEY",
+              "https://docs.chain.link/cre/reference/project-configuration-ts"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer claims it was rate-limited and could not re-confirm the syntax, even though it states it already retrieved and cited the correct page, making the probe partly inconclusive."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 9,
+            "structure": 6
+          },
+          "fidelity": 75,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Works across CLI commands like cre workflow simulate and cre workflow deploy (only generically implied, not stated)"
+          ],
+          "unverifiable_from_source": [
+            ".env.example convention for sharing variable names with collaborators",
+            "Injecting INFURA_API_KEY via CI/CD secret store instead of a file",
+            "Explicit recommendation to add .env to .gitignore"
+          ],
+          "verdict": "The core fix (${VAR_NAME} interpolation resolved at runtime) is accurate and matches the source, but the answer's self-contradictory closing caveat about being rate-limited (after claiming it had already fetched the doc) undermines trust and slightly muddies an otherwise correct, usable response.",
+          "prompt": "Using the CRE CLI, how do I keep my Infura API key out of project.yaml but still use it in an RPC URL?",
+          "archetype": "constrained",
+          "answer": "Let me search the Chainlink CRE documentation specifically.The \"Project Configuration\" doc looks most relevant. Let me fetch it.Based on the Chainlink CRE documentation I was able to retrieve, here's how to keep your Infura API key out of `project.yaml` while still using it in an RPC URL.\n\n## The problem\n\nIn `project.yaml`, RPC endpoints are defined under a target's `rpcs` block, and the Infura endpoint normally embeds your key/project ID directly in the URL. A production target might look like this, with the RPC URL containing your project ID: `production-settings:` `account:` `workflow-owner-address: \"0x123...\"` `rpcs:` `- chain-name: ethereum-mainnet` `url: https://mainnet.infura.io/v3/<YOUR-PROJECT-ID>`\n\nHard-coding `<YOUR-PROJECT-ID>` (your Infura key) there means it gets committed to source control — which you want to avoid.\n\n## The solution: environment-variable interpolation with a `.env` file\n\nThe CRE CLI supports referencing environment variables inside your configuration files, and it loads variables from a `.env` file in your project root. So instead of putting the literal key in `project.yaml`, you reference an environment variable in the URL:\n\n```yaml\n# project.yaml\nproduction-settings:\n  rpcs:\n    - chain-name: ethereum-mainnet\n      url: https://mainnet.infura.io/v3/${INFURA_API_KEY}\n```\n\nThen store the actual secret in a `.env` file (kept out of git):\n\n```bash\n# .env\nINFURA_API_KEY=your_real_infura_key_here\n```\n\nAnd make sure it's ignored:\n\n```bash\n# .gitignore\n.env\n```\n\nWhen you run a CRE CLI command against that target (e.g. `--target production-settings`), the CLI resolves `${INFURA_API_KEY}` from your environment / `.env` file at runtime, so the key never appears in the committed `project.yaml`.\n\n## Practical tips\n\n- You can commit a `project.yaml` with the `${INFURA_API_KEY}` placeholder safely, and optionally ship a `.env.example` (with a blank/placeholder value) so collaborators know which variables to set.\n- The same interpolation approach works well with per-environment targets. You can store many targets in one file, which is useful for managing different environments (like simulation vs. production), for example a `staging-settings` target and a `production-settings` target. Each target's RPC URL can reference the same (or a different) environment variable.\n- Because the variable is resolved from the environment, you can also inject `INFURA_API_KEY` from your shell or CI/CD secret store instead of a file, which is preferable for automated deployments.\n\nOne caveat: I was rate-limited before I could re-confirm the exact interpolation token the CRE CLI expects (`${VAR}` vs `$VAR`) directly against the docs page in this session. The `${VAR_NAME}` + `.env` pattern shown above is the standard CRE approach, but I'd suggest double-checking the exact syntax on the [Project Configuration reference page](https://docs.chain.link/cre/reference/project-configuration-ts) to be certain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 221648,
+              "output_tokens": 4709,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1605,
+              "output_tokens": 1215,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states its web search failed and hit a rate limit, so it fabricated the schema instead of using the source."
+          },
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 2,
+            "structure": 6
+          },
+          "fidelity": 25,
+          "hallucinations": [
+            {
+              "claim": "targets:\n  staging:\n    config-path: ./config.staging.json",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "don-id: \"staging-don\"",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "workflow:\n  entrypoint: ./src/index.ts",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "name: my-price-workflow\nauthor: your-team",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "secrets-path: ./secrets.staging.yaml",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Top-level target keys staging-settings and production-settings",
+            "user-workflow.workflow-name for each target",
+            "workflow-artifacts with workflow-path pointing to ./main.ts",
+            "config-path and secrets-path fields correctly nested under workflow-artifacts"
+          ],
+          "unverifiable_from_source": [
+            "don-id field for DON environment selection",
+            "secrets.staging.yaml / secrets.production.yaml naming convention",
+            "config.staging.json content such as schedule, dataFeeds, consumerContract"
+          ],
+          "verdict": "Not safe to ship: the answer explicitly admits it couldn't retrieve docs and then invents an entirely different, incorrect workflow.yaml schema (targets/entrypoint/don-id) that contradicts the actual project-configuration-ts reference.",
+          "prompt": "Show me a workflow.yaml for a TypeScript CRE workflow with staging and production targets.",
+          "archetype": "code-first",
+          "answer": "I'll search for current information about CRE (Chainlink Runtime Environment) TypeScript workflows and the workflow.yaml configuration format.Let me retry the search.I wasn't able to retrieve live documentation — my web searches came back empty and then hit the tool's rate limit, so I can't verify this against the current official Chainlink CRE docs. Because CRE (Chainlink Runtime Environment) and its tooling have been evolving quickly, **please treat the example below as an illustrative template and confirm the exact schema/field names against the current CRE CLI docs before relying on it.**\n\nHere's a representative structure for a TypeScript CRE workflow project with `staging` and `production` targets:\n\n## Project layout\n\n```\nmy-cre-workflow/\n├── project.yaml          # project-level config + targets/environments\n├── workflow.yaml         # workflow definition\n├── config.staging.json   # per-target config\n├── config.production.json\n├── package.json\n├── tsconfig.json\n└── src/\n    └── index.ts          # the workflow entrypoint (TypeScript)\n```\n\n## `workflow.yaml`\n\n```yaml\n# workflow.yaml — defines a single workflow and its per-target settings\nname: my-price-workflow\nauthor: your-team\n\n# Entrypoint for the compiled/bundled TypeScript workflow\nworkflow:\n  entrypoint: ./src/index.ts\n\n# Named deployment targets. The CLI selects one with a --target flag\n# (e.g. `cre workflow deploy --target staging`)\ntargets:\n  staging:\n    # config file passed to the workflow at runtime\n    config-path: ./config.staging.json\n    # secrets/vars references resolved for this environment\n    secrets-path: ./secrets.staging.yaml\n    # which registry / DON environment to deploy to\n    don-id: \"staging-don\"\n\n  production:\n    config-path: ./config.production.json\n    secrets-path: ./secrets.production.yaml\n    don-id: \"production-don\"\n```\n\n## `config.staging.json` (example runtime config)\n\n```json\n{\n  \"schedule\": \"*/30 * * * * *\",\n  \"dataFeeds\": [\"0xStagingFeedAddress\"],\n  \"consumerContract\": \"0xStagingConsumerAddress\",\n  \"environment\": \"staging\"\n}\n```\n\n## `config.production.json`\n\n```json\n{\n  \"schedule\": \"0 * * * * *\",\n  \"dataFeeds\": [\"0xProductionFeedAddress\"],\n  \"consumerContract\": \"0xProductionConsumerAddress\",\n  \"environment\": \"production\"\n}\n```\n\n## Notes on how targets typically work\n\n- The **target** name (`staging` / `production`) is what you pass to the CLI when simulating, deploying, or activating a workflow, so the same code runs against different DONs, contract addresses, and config.\n- Separating `config-path` per target keeps environment-specific values (feed addresses, schedules, consumer contracts) out of the workflow code.\n- Chain-, RPC-, and account-level settings are often kept in a separate project-level file (e.g. `project.yaml` or a `settings`/`cre.yaml`) rather than in `workflow.yaml` — the exact split depends on your CLI version.\n\n### To get the authoritative, current schema\nI'd recommend checking:\n- The official Chainlink CRE documentation (docs.chain.link) for the workflow YAML reference.\n- Running `cre workflow --help` / `cre init` with your installed CLI, which scaffolds a correct, version-matched `workflow.yaml` for you.\n\nWould you like me to also sketch out the accompanying `src/index.ts` TypeScript workflow file, or a `project.yaml` with chain/RPC settings for both targets?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34789,
+              "output_tokens": 2951,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1731,
+              "output_tokens": 2179,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://your-rpc-endpoint"
+            ],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer states it hit a search rate limit and could not pull the full page contents before answering."
+          },
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 7,
+            "structure": 8
+          },
+          "fidelity": 73,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Chain name / selector mismatch between workflow code and config causing registration failure",
+            "Unresolved environment variable for RPC URL causing silent capability failure",
+            "EVM capability failing due to SDK–CLI version mismatch",
+            "Reference to a 'config.yaml' file as an alternative to project.yaml"
+          ],
+          "verdict": "The answer correctly pinpoints the missing-RPC root cause and gives the right config keys (rpcs, chain-name, url in project.yaml), but it pads the response with several speculative, unverified causes and openly admits it hit a search rate limit before fully retrieving the source, so it's directionally useful but not fully verified against the docs.",
+          "prompt": "My CRE workflow simulation fails and can't register the EVM capability. What's wrong with my config?",
+          "archetype": "error-debug",
+          "answer": "I'll help you troubleshoot this. Let me search for information about CRE (Chainlink Runtime Environment) workflow simulation and EVM capability registration issues.Let me fetch the details from the most relevant documentation pages.I've found the relevant Chainlink documentation, but I hit the search rate limit before I could pull the full page contents — and more importantly, **I can't see your actual config yet.** Let me give you the most common causes of \"can't register the EVM capability\" during CRE workflow simulation, and then tell me which applies (or paste your config).\n\n## Most common causes\n\nWhen the CRE simulator fails to register the EVM capability, it's almost always a mismatch between what your workflow *code* asks for and what your *project/config files* provide:\n\n**1. No RPC endpoint defined for the chain**\nThe EVM capability can't be registered in local simulation unless there's an RPC URL for the target chain. Check your project settings file (e.g. `project.yaml` / `config.yaml` under the `rpcs:` section) and make sure you have an entry like:\n```yaml\nrpcs:\n  - chain-name: ethereum-testnet-sepolia\n    url: https://your-rpc-endpoint\n```\n\n**2. Chain name / selector mismatch**\nThe `chainName` (or chain selector) you pass to the EVM client in your workflow code must exactly match the one defined in your config. A typo or using a mainnet name in code while config defines testnet will cause the capability to fail to register.\n\n**3. Unresolved environment variable for the RPC URL**\nIf your config references something like `${ETH_RPC_URL}` but your `.env` isn't loaded or the variable is empty, the capability registration silently fails. Confirm the variable resolves.\n\n**4. EVM capability not declared / SDK–CLI version mismatch**\nMake sure your `@chainlink/cre-sdk` (or Go SDK) version is compatible with your installed `cre` CLI. A version skew often shows up as capabilities failing to register during simulate.\n\n## What I need to actually diagnose it\n\nTo pinpoint the problem, please share:\n\n1. **The exact error message** from the simulation run (the full `cre workflow simulate ...` output).\n2. **Your project settings file** (`project.yaml` / `config.yaml`) — specifically the `rpcs` / capabilities section (redact secrets/URLs).\n3. **The snippet of workflow code** where you instantiate the EVM client (the `chainName`/selector you pass).\n4. Your **CRE CLI version** (`cre --version`) and **SDK version**.\n\nRelevant official docs for reference:\n- Simulating Workflows: `docs.chain.link/cre/guides/operations/simulating-workflows`\n- Project Configuration: `docs.chain.link/cre/reference/project-configuration-ts`\n- EVM Client SDK Reference: `docs.chain.link/cre/reference/sdk/evm-client-go`\n\nIf you paste your config and the error text, I can tell you exactly what's wrong.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 35745,
+              "output_tokens": 2783,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1451,
+              "output_tokens": 3188,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/project-configuration-ts"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 6,
+            "structure": 7
+          },
+          "fidelity": 45,
+          "hallucinations": [
+            {
+              "claim": "the two files hold different, complementary sections under the same target name, so it's less \"override\" and more \"merge by concern\"",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "there's no documented case where the same key is defined in both project.yaml and workflow.yaml and one silently overrides the other",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "The cre init command typically pre-populates your files with staging-settings and production-settings",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "If neither is set, the CLI falls back to a default (when only a single target exists it will use that one)",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "If both define the same key, workflow.yaml value wins",
+            "Target must exist in both files or the CLI aborts"
+          ],
+          "unverifiable_from_source": [
+            "cre init pre-populates staging-settings and production-settings",
+            "CLI falls back to a default target when only one exists"
+          ],
+          "verdict": "The answer directly contradicts the source's explicit rule that workflow.yaml wins on key conflicts and omits the abort-on-mismatch caution, making it unsafe to ship as-is despite good structure.",
+          "prompt": "cre config targets project.yaml vs workflow.yaml override order",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about this, since \"cre\" config with project.yaml and workflow.yaml suggests a specific tool's configuration system.Let me get the full details from the Project Configuration page about target selection and merge order.Based on the Chainlink CRE documentation, here's how targets work across the two files and the selection/override order:\n\n## What a \"target\" is\n\nA target is a top-level key inside both project.yaml and workflow.yaml. It bundles all settings for a single environment or variant. The `cre init` command typically pre-populates your files with `staging-settings` and `production-settings`, but you can name targets whatever you like (e.g., `dev`, `test`, `prod`).\n\n## project.yaml vs workflow.yaml — they don't override each other\n\nThis is the key point: the two files hold **different, complementary sections** under the same target name, so it's less \"override\" and more \"merge by concern\":\n\n- **project.yaml** holds global/environment configuration. If your workflow interacts with blockchains, you configure RPC endpoints in your project.yaml for the target you're using; without this, the simulator cannot register the EVM capability and your workflow will fail. RPCs and cre-cli settings live here.\n- **workflow.yaml** holds workflow-specific metadata. It contains the `user-workflow` section (with `deployment-registry` and `workflow-name`) and the `workflow-artifacts` section (with `workflow-path`, `config-path`, and `secrets-path`).\n\nSo for a given target like `staging-settings`, the CLI reads the RPC/CLI settings from that target block in `project.yaml` and the workflow name/artifact paths from that same target block in `workflow.yaml`. They combine rather than one overwriting the other.\n\n## Target selection (override) order\n\nYou pick which target is active, and the CLI resolves it in a precedence order:\n\n1. The CLI selects the active target using the `--target` flag — e.g., `cre workflow simulate my-workflow --target staging-settings`.\n2. Alternatively, the `CRE_TARGET` environment variable can be used to specify the target.\n3. If neither is set, the CLI falls back to a default (when only a single target exists it will use that one).\n\nIn short: `--target` flag **overrides** `CRE_TARGET`, which overrides the default. When the command runs, it reads the configuration from the matching section (e.g., the `staging-settings` section) of the file.\n\n---\n\n**One caveat:** the source pages I could retrieve cut off the exact wording of the full precedence list, and there's no documented case where the *same key* is defined in both `project.yaml` and `workflow.yaml` and one silently overrides the other — because the schemas cover different sections. If your specific question is about a duplicated key collision (rather than target selection), let me know and I can dig into the CLI's config-merge behavior on the [Project Configuration reference page](https://docs.chain.link/cre/reference/project-configuration-ts) more precisely.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 77550,
+              "output_tokens": 2822,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1382,
+              "output_tokens": 1772,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/release-notes",
+              "https://www.npmjs.com/package/@chainlink/cre-sdk",
+              "https://docs.chain.link/cre/getting-started/part-1-project-setup-ts",
+              "https://docs.chain.link/cre/reference/sdk/overview-ts",
+              "https://github.com/smartcontractkit/cre-sdk-typescript"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not load the documentation due to a rate limit and cites unrelated pages instead of the expected source."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 6,
+            "relevance": 3,
+            "structure": 7
+          },
+          "fidelity": 53,
+          "hallucinations": [
+            {
+              "claim": "bun add @chainlink/cre-sdk@latest",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "CRE TypeScript projects typically use Bun as the runtime and package manager",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "The SDK is early/pre-1.0, so minor version bumps can include breaking API changes",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run bun install from the workflow directory to update bun.lock (directory not specified)",
+            "You can also update the CLI itself with cre update (exact command not given)"
+          ],
+          "unverifiable_from_source": [
+            "source repo: smartcontractkit/cre-sdk-typescript",
+            "CRE Release Notes, npm package page, Getting Started guide, SDK Reference, GitHub repo as verification sources",
+            "Pin, then test recommendation and changelog review advice"
+          ],
+          "verdict": "The answer gives generally reasonable, non-breaking advice but explicitly admits it could not retrieve the actual documentation, cites unrelated URLs instead of the expected source, and deviates from the documented manual-edit-then-bun-install flow with an unverified 'bun add' command, so it should not be trusted as a faithful rendering of the docs.",
+          "prompt": "I'm new to Chainlink CRE and created my project a while ago with an old CLI. How do I update the SDK dependency in my TypeScript workflow so I can use newer features?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for current information on updating the Chainlink CRE SDK dependency in a TypeScript workflow.Let me look at the most relevant sources - the release notes, npm package, and getting started guide.The search tool is rate-limited. Let me wait a bit longer before retrying.I wasn't able to fully load the documentation page contents due to a search rate limit in this session, but I did confirm the key facts (package name, where it lives, and where the official guidance is). Here's a practical answer, with a note on where to verify the exact current version.\n\n## Updating the CRE SDK in a TypeScript workflow\n\nChainlink CRE TypeScript workflows depend on the SDK published on npm as **`@chainlink/cre-sdk`** (source repo: `smartcontractkit/cre-sdk-typescript`). CRE TypeScript projects typically use **Bun** as the runtime and package manager, so most commands below use `bun`, but the equivalent `npm`/`pnpm`/`yarn` commands work too.\n\n### 1. Check what you currently have\nLook in your project's `package.json` under `dependencies`:\n\n```jsonc\n{\n  \"dependencies\": {\n    \"@chainlink/cre-sdk\": \"^0.x.x\"   // your current pinned version\n  }\n}\n```\n\n### 2. Update the SDK dependency\n\n```bash\n# Bun (typical for CRE TS projects)\nbun add @chainlink/cre-sdk@latest\n\n# or npm\nnpm install @chainlink/cre-sdk@latest\n\n# or pin to a specific version instead of \"latest\"\nbun add @chainlink/cre-sdk@<version>\n```\n\nThis rewrites the version in `package.json` and refreshes your lockfile (`bun.lock` / `package-lock.json`). Commit both files.\n\n### 3. Reinstall / rebuild\n\n```bash\nbun install\n```\n\nThen re-run a simulation to make sure your workflow still compiles and runs against the new SDK before deploying.\n\n### 4. Don't forget the CLI itself\nSince you mentioned your project was scaffolded with an **old CLI**, the SDK and the `cre` CLI are versioned separately. Updating the npm dependency gets you newer SDK APIs, but newer SDK features sometimes also require a newer CLI (for simulation, deployment, and secrets commands). It's worth updating the CLI to a compatible version as well so the toolchain matches.\n\n## Important caveats\n\n- **The SDK is early/pre-1.0**, so minor version bumps can include breaking API changes. Read the changelog before jumping several versions.\n- **Pin, then test.** Rather than blindly using `@latest`, check the current published version and its release notes, update to that, and run your simulation.\n\n## Where to verify the exact current version and any migration steps\n\nBecause I couldn't retrieve the live page contents, please confirm the current version and any breaking-change notes here:\n\n- **CRE Release Notes** — https://docs.chain.link/cre/release-notes\n- **npm package (`@chainlink/cre-sdk`)** — https://www.npmjs.com/package/@chainlink/cre-sdk (shows the latest published version)\n- **Getting Started — Part 1: Project Setup (TS)** — https://docs.chain.link/cre/getting-started/part-1-project-setup-ts\n- **SDK Reference (TS)** — https://docs.chain.link/cre/reference/sdk/overview-ts\n- **GitHub repo** — https://github.com/smartcontractkit/cre-sdk-typescript\n\nIf you paste your current `package.json` version and the version you're targeting, I can help you check for specific breaking changes between them.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 129741,
+              "output_tokens": 4205,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1834,
+              "output_tokens": 2164,
+              "cache_creation_input_tokens": 5702,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        }
+      ],
+      "avg_fidelity_all": 54,
+      "unattributed_count": 0,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

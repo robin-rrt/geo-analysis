@@ -1,0 +1,158 @@
+{
+  "key": "data-streams-rwa-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Real World Asset (RWA) Data Streams",
+    "url": "https://docs.chain.link/data-streams/rwa-streams",
+    "analyzedAt": "2026-09-22T13:32:36.031Z",
+    "contentType": "developer documentation / reference listing (stream directory)",
+    "score": 37,
+    "band": "Poor",
+    "weightedTotal": 36.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "The implied question (\"which RWA streams exist and what are their IDs?\") is answered by a table that shows `Loading...` — no liftable answer exists in static HTML. Opening line redirects to a tutorial instead of stating what the page provides."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Clean heading hierarchy, 0 level skips — but sections median 12 words and the core table never materializes server-side, so there is nothing coherent to chunk."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weakest-in-class for a data page: 2 numerals, 0 with units, 0 hex identifiers. A stream directory should be dense with stream IDs, decimals, and 0x verifier addresses; none are present in the served content."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "5 internal links (discovery endpoint, LINK contracts, supported networks) are relevant and appropriate; no external primary sources needed here. Adequate."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "No one-sentence definition of \"RWA Data Streams\" or what \"24/5 Equity Streams\" means. Nothing verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "JSON-LD parses (both blocks valid), canonical + `inLanguage` set. But `datePublished`==`dateModified` (no genuine freshness signal), `keywords` are tokenized fragments (\"list, available, Data...\"), and `about` entries are template junk (\"Content about real\", \"Content about world\") that split \"Real World Asset\" into meaningless Things — actively harmful for entity resolution."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code; a directory page arguably needs none, but a copy-pasteable discovery API call or a sample stream-ID row would raise agent utility."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Targets \"available RWA streams / stream IDs\" but delivers none of it statically; no definition, no \"how do I verify these onchain\" bridge, no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "What little text exists is clear and correctly named, but too thin to score higher."
+      }
+    ],
+    "summary": "This is a reference directory whose entire reason to exist — the list of RWA stream names, stream IDs, and verifier addresses — is rendered client-side and does not appear in the served HTML (the measured facts show 64 words total, 0 tables, 0 bullets, and the body ends at \"Loading...\"). A generative engine or coding agent fetching this URL sees three pointer links and a placeholder, not the data it was sent to find. The single biggest opportunity is therefore not prose polish but **server-side rendering (or a static fallback) of the stream table with IDs and addresses in the HTML**; nothing else on this page matters until the payload is retrievable. Metadata scaffolding (valid `TechArticle` + `BreadcrumbList`, canonical URL) is the one relative strength, though its `about`/`keywords` fields are auto-generated noise.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Render the stream table in static HTML",
+        "mapsTo": "concrete specifics, answer-first extractability, machine-readability",
+        "tier": null,
+        "where": "`## Mainnet RWA Streams` section (currently ends at \"Loading...\")",
+        "issue": "`Filter schemaFilter category ... Loading...` — the actual data is JS-only.",
+        "change": "Server-side render (or provide a `<noscript>`/static fallback of) the full table: stream name, asset, stream ID (0x…), feed schema, decimals, and verifier proxy address per network. Ensure it exists in the DOM at fetch time.",
+        "why": "Engines and agents cannot cite or synthesize data that is absent from the retrieved HTML; this is the difference between the page being useless and authoritative for RWA stream lookups. Highest-lift change on the page."
+      },
+      {
+        "priority": 1,
+        "title": "Add a canonical definition + answer-first opener",
+        "mapsTo": "quotable definitions, answer-first extractability, query coverage",
+        "tier": null,
+        "where": "Directly under the H1, before the tutorial link.",
+        "issue": "Page opens with \"To learn how to use Data Streams, see the … tutorial.\"",
+        "change": "Lead with a self-contained sentence, e.g. \"Chainlink RWA Data Streams deliver low-latency price reports for tokenized real-world assets (equities, ETFs, FX). This page lists every available RWA stream, its stream ID, and the verifier proxy address required for onchain verification.\" Add one line defining \"24/5 Equity Streams.\"",
+        "why": "Gives engines a verbatim-liftable definition and states what the page answers in the first liftable sentence."
+      },
+      {
+        "priority": 2,
+        "title": "Fix auto-generated schema `about`/`keywords`",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`TechArticle` JSON-LD `about` and `keywords`.",
+        "issue": "`about` = \"Content about real\", \"Content about world\", \"Content about asset\" (tokenized fragments); `keywords` = \"list, available, Data, Streams, Real, World, Asset, and, their, ID.\"",
+        "change": "Replace `about` with real entities: `Real World Assets`, `Chainlink Data Streams`, `Tokenized Equities`, `Onchain Verification`. Replace `keywords` with meaningful terms and drop the \"and\"/\"ID.\" fragments.",
+        "why": "Correct entity metadata aids entity resolution and topical trust; the current split-word Things can mislead parsers. (Lower impact than the retrieval fix — metadata cannot rescue an empty payload.)"
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/intent-phrased anchors",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Section headings.",
+        "issue": "Concept-titled headings only (\"Mainnet RWA Streams\", \"Streams Verifier Network Addresses\").",
+        "change": "Add H2/H3s phrased as user queries: \"What is the stream ID for [asset]?\", \"Which verifier proxy address do I use for RWA streams on [network]?\", \"Are RWA equity streams available 24/7 or 24/5?\"",
+        "why": "Devs and agents query by symptom/lookup phrasing; question-shaped headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 3,
+        "title": "Provide a real `dateModified` and a discovery-API example",
+        "mapsTo": "metadata freshness, code/agent-runnability",
+        "tier": null,
+        "where": "JSON-LD dates; a new snippet near the discovery link.",
+        "issue": "`datePublished` == `dateModified` (no revision signal); discovery is a bare link.",
+        "change": "Emit an accurate `dateModified`; add a short, tagged, copy-pasteable curl/SDK call to the discovery endpoint that returns RWA streams programmatically.",
+        "why": "Visible freshness raises E-E-A-T; a runnable discovery call gives agents a machine path to the data even before the table renders."
+      }
+    ],
+    "antiPatterns": [
+      "**Wall-of-placeholder / JS-gated content:** the substantive payload is behind `Loading...` and absent from served HTML.",
+      "**Template-noise structured data:** `about` Things like \"Content about real\" and fragmented `keywords` — auto-generated, not curated.",
+      "**Stale/duplicate date signal:** `datePublished` identical to `dateModified`.",
+      "**Answer-deferring opener:** first line points elsewhere instead of stating what the page delivers."
+    ],
+    "offPageNotes": [
+      "Client-side rendering is a site-level framework decision; a prerender/SSR or `<noscript>` fallback for all Data Streams directory pages would fix this class of page, not just this URL.",
+      "The auto-generated `about`/`keywords`/date templating appears generator-wide — worth correcting at the docs-pipeline level.",
+      "Consider an `llms.txt` and a machine-readable stream registry (JSON/CSV) linked from this page so agents can retrieve IDs/addresses without scraping a rendered table."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

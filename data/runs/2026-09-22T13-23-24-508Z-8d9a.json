@@ -1,0 +1,543 @@
+{
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "startedAt": "2026-09-22T13:23:24.508Z",
+  "endedAt": "2026-09-22T13:29:04.260Z",
+  "owner": {
+    "pid": 32193,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "chainlink-functions",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 16,
+    "pages": 16,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 2.1255,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-23-24-508Z-8d9a",
+    "target": {
+      "type": "product",
+      "name": "chainlink-functions",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-22T13:23:24.508Z",
+    "endedAt": "2026-09-22T13:29:04.260Z",
+    "elapsedMs": 339752,
+    "counts": {
+      "pages": 16,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 2.1255,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "chainlink-functions-md",
+        "url": "https://docs.chain.link/chainlink-functions.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 49354
+        },
+        "elapsedMs": 49820,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-api-reference-functions-client-md",
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-client.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55550
+        },
+        "elapsedMs": 56153,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-api-reference-functions-request-md",
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-request.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58516
+        },
+        "elapsedMs": 59290,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-getting-started-md",
+        "url": "https://docs.chain.link/chainlink-functions/getting-started.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 61298
+        },
+        "elapsedMs": 62304,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-resources-architecture-md",
+        "url": "https://docs.chain.link/chainlink-functions/resources/architecture.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 58239
+        },
+        "elapsedMs": 58968,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-resources-billing-md",
+        "url": "https://docs.chain.link/chainlink-functions/resources/billing.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55943
+        },
+        "elapsedMs": 56603,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-resources-secrets-md",
+        "url": "https://docs.chain.link/chainlink-functions/resources/secrets.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51265
+        },
+        "elapsedMs": 51925,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-resources-service-limits-md",
+        "url": "https://docs.chain.link/chainlink-functions/resources/service-limits.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 57040
+        },
+        "elapsedMs": 57641,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-resources-subscriptions-md",
+        "url": "https://docs.chain.link/chainlink-functions/resources/subscriptions.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 50354
+        },
+        "elapsedMs": 50988,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-service-responsibility-md",
+        "url": "https://docs.chain.link/chainlink-functions/service-responsibility.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 60241
+        },
+        "elapsedMs": 61066,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-supported-networks-md",
+        "url": "https://docs.chain.link/chainlink-functions/supported-networks.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 68793
+        },
+        "elapsedMs": 69514,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-tutorials-md",
+        "url": "https://docs.chain.link/chainlink-functions/tutorials.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51653
+        },
+        "elapsedMs": 52290,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-tutorials-api-multiple-calls-md",
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-multiple-calls.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 62054
+        },
+        "elapsedMs": 62767,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-tutorials-api-post-data-md",
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-post-data.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 55452
+        },
+        "elapsedMs": 56186,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-tutorials-api-query-parameters-md",
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-query-parameters.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52412
+        },
+        "elapsedMs": 53194,
+        "probeSummary": null
+      },
+      {
+        "key": "chainlink-functions-tutorials-simple-computation-md",
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/simple-computation.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 57640
+        },
+        "elapsedMs": 58444,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "chainlink-functions",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 45,
+      "inScope": 16,
+      "failed": 0
+    },
+    "notes": [
+      "curated index lists 16 of 29 pages under /chainlink-functions/ — 13 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/chainlink-functions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-client",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-client.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-request",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-request.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/api-reference/javascript-source",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/getting-started.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/guides/cancel-subscription",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/billing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/billing.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/secrets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/secrets.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/service-limits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/service-limits.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/simulation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/subscriptions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/resources/subscriptions.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/service-responsibility",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/service-responsibility.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/abi-decoding",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-multiple-calls",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-multiple-calls.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-post-data",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-post-data.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-query-parameters",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-query-parameters.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-use-secrets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-use-secrets-gist",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/api-use-secrets-offchain",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/automate-functions",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/automate-functions-custom-logic",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/encode-request-offchain",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/importing-packages",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/simple-computation",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/chainlink-functions/tutorials/simple-computation.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

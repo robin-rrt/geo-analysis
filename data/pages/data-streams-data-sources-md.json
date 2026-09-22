@@ -1,0 +1,167 @@
+{
+  "key": "data-streams-data-sources-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Sources",
+    "url": "https://docs.chain.link/data-streams/data-sources.md",
+    "analyzedAt": "2026-09-22T13:30:02.235Z",
+    "contentType": "developer documentation / conceptual reference",
+    "score": 50,
+    "band": "Developing",
+    "weightedTotal": 49.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong lead: \"Chainlink Data Streams source pricing data from multiple independent aggregators and vendors across asset classes.\" Self-contained and liftable; the table stands alone. Minor: the `<DataStreams section=\"dsNotes\" />` component renders nothing in the served markdown, so any notes it carries are invisible to engines."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "One H1, one coherent table, no level skips. Fine for a page this size, but a single 155-word section with no H2 subheadings limits multi-question retrievability."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Has some numerics (\"3+\", \"Single source from 1\") but 0 carry units and none name actual providers or stream counts. \"3+ market data vendors\" is vaguer than it needs to be."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak: 2 links, none to primary/methodology sources. Claims about aggregation and CEX/DEX sourcing are unattributed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "\"Data Streams,\" \"LWBA,\" \"Crypto State Price,\" and \"Data Link Long Tail\" lack crisp standalone definitions; LWBA is expanded inline only within a table cell."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weakest dimension: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags, no head metadata captured. Nothing signals freshness or entity identity to an agent."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code, and none is needed for this conceptual page; scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Answers \"where does Data Streams get its data?\" well but nothing else — no per-asset FAQ phrasing, no \"is Forex data reliable?\", no methodology questions."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Clean, unambiguous, consistent product naming. Strong; no action needed."
+      }
+    ],
+    "summary": "This is a short, single-table reference page describing where Chainlink Data Streams sources its market data by asset class. Its strength is a clean, liftable summary table with an answer-first lead sentence; its biggest weaknesses are near-absent machine-readable metadata (no JSON-LD, no canonical, no dates) and thin query coverage — the page answers exactly one implied question and offers no symptom- or intent-phrased headings that would win retrieval. The honest verdict: solid bones, but too thin and metadata-poor to be reliably retrieved and cited as-is.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/intent-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Under the H1, before the table.",
+        "issue": "Only one heading (\"Data Sources\"); concept-titled, not question-titled.",
+        "change": "Add H2s such as \"Where does Chainlink Data Streams source crypto prices?\", \"How is Forex / Precious Metals / US Equities data sourced?\", and \"What is Crypto LWBA vs Crypto State Price?\" placing the table row's answer as the first sentence under each.",
+        "why": "Devs/agents query by asset and question, not by the abstract label \"Data Sources\"; question-phrased headings win retrieval this page currently loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter.",
+        "issue": "Canonical MISSING; 0 JSON-LD; dateModified absent.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `about` (Chainlink Data Streams), canonical URL `https://docs.chain.link/data-streams/data-sources`, and a visible `dateModified`.",
+        "why": "Structured metadata and a freshness signal raise parse-trust and citation likelihood; their absence is a measured, fixable defect."
+      },
+      {
+        "priority": 2,
+        "title": "Define the canonical terms inline",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "Above the table.",
+        "issue": "\"Crypto LWBA\", \"Crypto State Price\", \"Data Link Long Tail Crypto\" used without standalone definitions.",
+        "change": "Add one crisp sentence per term, e.g. \"LWBA (Liquidity-Weighted Bid/Ask) reports bid, ask, and mid prices weighted by orderbook liquidity from CEX data.\"",
+        "why": "Verbatim-liftable definitions near first use outperform diffuse table-cell expansions."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative references",
+        "mapsTo": "cited references",
+        "tier": null,
+        "where": "After the intro sentence and in the note block.",
+        "issue": "Sourcing claims (CEX orderbook, DEX pool state) are unattributed; only link is a contact form.",
+        "change": "Link to the Data Streams overview, feed/stream ID reference, and any published data-provider/methodology page.",
+        "why": "Inline primary-source links raise credibility and citation rate for the sourcing claims."
+      },
+      {
+        "priority": 3,
+        "title": "Sharpen specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Table cells.",
+        "issue": "\"3+ market data vendors\" — vague, unitless.",
+        "change": "Where disclosable, state the number of independent sources per asset class or link to the live stream count; add \"as of {date}\".",
+        "why": "Quantitative, dated specifics are among the highest-lift changes for generative visibility."
+      },
+      {
+        "priority": 3,
+        "title": "Surface the hidden component content",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "`<DataStreams section=\"dsNotes\" />`.",
+        "issue": "Renders empty in served markdown; any caveats are invisible to engines.",
+        "change": "Ensure the component's notes render as static text server-side, or inline the key notes.",
+        "why": "Content only in an unrendered component cannot be retrieved or cited."
+      }
+    ],
+    "antiPatterns": [
+      "Thin/undifferentiated content: the entire page is 158 words and one table — borderline too sparse to be a reliable citation target.",
+      "Undated content: no visible last-updated signal for time-sensitive sourcing claims.",
+      "Unrendered component (`dsNotes`) hides potential content from crawlers."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good; verify this page is listed in it and in the sitemap.",
+      "Site-level JSON-LD/canonical defaults may exist but \"could not be verified\" here — the CLI should pass raw `<head>` for a definitive read.",
+      "Consider internal links from the Data Streams overview and feed-reference hub into this page (canonical-hub pattern) to improve its retrieval odds."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

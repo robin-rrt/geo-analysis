@@ -1,0 +1,167 @@
+{
+  "key": "vrf-v2-5-direct-funding-get-a-random-number-md",
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "audit": {
+    "title": "Get a Random Number",
+    "url": "https://docs.chain.link/vrf/v2-5/direct-funding/get-a-random-number.md",
+    "analyzedAt": "2026-09-22T13:14:25.436Z",
+    "contentType": "developer documentation / tutorial (procedural how-to)",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a solid, complete step-by-step tutorial for requesting VRF v2.5 randomness via the direct-funding (Wrapper) method, with a full runnable contract and concrete on-chain values. Its biggest GEO strength is code completeness and concrete specifics (hardcoded Sepolia addresses, gas limits, real cost figures). Its biggest opportunity is discoverability and prior-resistance: the page carries no verifiable structured metadata (0 JSON-LD blocks, missing canonical, no dates) and no symptom-phrased headings, so retrieval and self-standing extractability lag the content quality. Honest verdict: good, agent-usable content whose retrievability and answer-first framing are underbuilt relative to the doc's technical strength.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (TechArticle JSON-LD + canonical + dates)",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\"",
+        "change": "emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `programmingLanguage: Solidity`, and a `<link rel=\"canonical\">`; surface a visible \"Last updated\" line.",
+        "why": "freshness and schema are trust/parse signals engines use to rank and cite; their absence is a verified gap."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 before \"Clean up\"",
+        "issue": "no error-string headings; devs query \"VRF request not fulfilled\" / \"request not found\"",
+        "change": "add \"Troubleshooting\" with H3s like *\"My requestRandomWords transaction succeeds but no random words return\"*, *\"Error: request not found\"*, *\"Callback fails / out of gas\"*, each answered in the first sentence.",
+        "why": "symptom-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each section with a self-contained answer",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Request random values\", \"Fund your contract\"",
+        "issue": "sections open with \"Return to Remix...\" / procedural context",
+        "change": "prepend a one-sentence canonical statement, e.g. \"Call `requestRandomWords(bool enableNativePayment)` to request randomness; VRF returns values via the `fulfillRandomWords()` callback within a few minutes.\"",
+        "why": "a lifted chunk must stand alone to be quoted."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical definition of VRF v2.5 direct funding",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "no crisp liftable definition near first use",
+        "change": "add: \"Direct funding is a VRF v2.5 payment method where the consuming contract pays per request in LINK or native tokens at request time, with no subscription to manage.\"",
+        "why": "gives engines a verbatim answer to \"what is VRF direct funding.\""
+      },
+      {
+        "priority": 2,
+        "title": "Convert request-parameter list to a table",
+        "mapsTo": "machine-scannability",
+        "tier": null,
+        "where": "\"Analyzing the contract\" (797-word section)",
+        "issue": "parameters `callbackGasLimit`/`requestConfirmations`/`numWords` explained in prose bullets; 0 tables on page",
+        "change": "add a table with columns Parameter | Type | Default | Constraint | Notes.",
+        "why": "tables let engines extract reasons and defaults cleanly and split the oversized section."
+      },
+      {
+        "priority": 3,
+        "title": "Name direct funding vs subscription explicitly to resist prior substitution",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "intro / requirements",
+        "issue": "engines may default to the subscription method (the more common VRF idiom)",
+        "change": "add one line: \"This page uses direct funding (`VRFV2PlusWrapperConsumerBase`). If you want a shared subscription instead, use the subscription guide — do not mix the two base contracts.\"",
+        "why": "explicitly names the tempting-wrong alternative as a Don't."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers (\"many, several\") in parameter descriptions — minor; replace with figures where possible.",
+      "One section (797 words) exceeds the 600-word chunk boundary; splitting via the parameter table above resolves it.",
+      "No stale-date risk visible, but also no date at all — undated content is a trust gap."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already linked from the page — good; ensure this URL is enumerated in it.",
+      "Site-level JSON-LD/canonical templating likely governs the missing metadata; fix at the template layer, not per page.",
+      "Freshness cadence: publish and surface `dateModified` sitewide so engines can prefer current VRF v2.5 content over older v2 pages."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-13-35-905Z-9cc9",
+    "probes": {}
+  }
+}

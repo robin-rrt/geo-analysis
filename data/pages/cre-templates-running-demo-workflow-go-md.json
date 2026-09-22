@@ -1,0 +1,623 @@
+{
+  "key": "cre-templates-running-demo-workflow-go-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Running a Demo Workflow",
+    "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+    "analyzedAt": "2026-09-21T13:29:22.963Z",
+    "contentType": "developer documentation / tutorial (CLI walkthrough)",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 69.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured, specifics-rich CLI tutorial that walks a developer through initializing and simulating a CRE Custom Data Feed workflow in Go. Its biggest strength is concrete, runnable detail — real commands, real addresses, full simulator log output with transaction hashes. Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no structured metadata (the useful \"Last Updated: 2025-11-04\" lives only in body text). The most impactful GEO gain, though, is turning buried troubleshooting content (e.g. the \"historical state is not available\" error) into symptom-phrased headings that match how devs and agents actually query.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings for known errors",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Path B, \"Historical Block State\" CAUTION callout",
+        "issue": "`may fail with \"historical state is not available\"` — buried in a callout, not a heading.",
+        "change": "Add an H4/FAQ heading such as `#### Error: \"historical state is not available\" on log trigger read` with the fix (`use rpc.FinalizedBlockNumber instead of blockNumber`) as the first sentence.",
+        "why": "Devs/agents query the error string, not the concept; error-titled sections win retrieval that callout prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", dates absent.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-11-04`, `programmingLanguage: Go`, and a self-referencing canonical URL.",
+        "why": "Structured metadata and freshness signals make the page parseable and trustworthy for agents; the \"Last Updated\" date is currently invisible to machine readers."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Path A vs Path B comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "start of \"6. Run the simulation\"",
+        "issue": "Path distinction is spread across two prose bullets.",
+        "change": "Add a table: columns Trigger / Direction (onchain write vs read-only) / Entry function (`onPORCronTrigger` / `onLogTrigger`) / Menu selection (1 / 2).",
+        "why": "Tables let engines extract the two behaviors as one comparable, citable unit."
+      },
+      {
+        "priority": 2,
+        "title": "Lead \"How it works\" sections with a liftable claim",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"How it works: An event-driven pattern\"",
+        "issue": "`What you just witnessed is a powerful event-driven capability.` — framing, not a fact.",
+        "change": "Open with a self-contained statement, e.g. \"The log-trigger workflow decodes an onchain event, extracts `payload.Data.Emitter`, and uses it to call `GetLastMessage` on the MessageEmitter contract.\"",
+        "why": "A standalone first sentence survives chunking and is directly quotable."
+      },
+      {
+        "priority": 2,
+        "title": "Add crisp canonical definitions near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro and the Forwarder NOTE",
+        "issue": "No one-line definition of the simulator or the Forwarder pattern.",
+        "change": "Add e.g. \"The Chainlink Forwarder is the contract that verifies consensus signatures before delivering workflow data to your target contract via `onReport()`.\"",
+        "why": "Verbatim-liftable definitions raise citation rate over diffuse explanation."
+      },
+      {
+        "priority": 3,
+        "title": "Tag the untagged code fence",
+        "mapsTo": "code completeness",
+        "tier": null,
+        "where": "the interactive trigger-selection block (measured: 1 untagged fence)",
+        "issue": "untagged block reduces language signalling.",
+        "change": "tag as ```` ```text ```` (interactive prompt, not bash).",
+        "why": "Language labels help agents classify and correctly handle non-runnable output."
+      },
+      {
+        "priority": 3,
+        "title": "Link claims to primary/architecture sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Forwarder security pattern paragraph",
+        "issue": "\"core security pattern in CRE\" asserted without a spec link at point of claim.",
+        "change": "inline-link the consensus/architecture reference alongside the existing Onchain Write guide link.",
+        "why": "Attributable claims raise credibility and citation likelihood."
+      }
+    ],
+    "antiPatterns": [
+      "Minor vague quantifiers (\"several\", \"some\") — measured; low impact, no action required.",
+      "Troubleshooting content buried in CAUTION callouts rather than discoverable headings (addressed in P1).",
+      "Otherwise none: no keyword stuffing, no marketing fluff, no unresolved cross-references, dated content present."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/twitter tags are site-template concerns — fixing them here likely requires a docs-platform change, not just this page.",
+      "`llms.txt` is already referenced in the body; confirm this page is listed in it so retrieval systems can discover it.",
+      "CLI note: raw `<head>` was not captured — pass it in future runs to fully verify metadata rather than infer absence."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+      "source_title": "Running a Demo Workflow",
+      "probe_set_id": "a5e358f7ee94",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-21T16:35:19.226Z",
+      "probe_count": 6,
+      "graded_count": 4,
+      "refusal_count": 0,
+      "error_count": 2,
+      "avg_fidelity": 59,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 2.8,
+        "hallucination_free": 5,
+        "relevance": 2.5,
+        "structure": 5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 129605,
+          "output_tokens": 7847,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 9,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6459,
+          "output_tokens": 6865,
+          "cache_creation_input_tokens": 7987,
+          "cache_read_input_tokens": 33517,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "How do I initialize and run the Custom Data Feed demo workflow with the CRE CLI in Go?",
+          "archetype": "direct-howto",
+          "answer": "",
+          "stop": "error",
+          "error": "terminated",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited in the answer."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 63,
+          "hallucinations": [
+            {
+              "claim": "This command generates Go bindings from ABIs (located in projectRoot/contracts/src/abi)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "cd into the demo project directory (explicit `cd demo` command not shown)",
+            "Bindings are generated from ABIs in contracts/evm/src/abi/ into contracts/evm/src/generated/ (wrong path given, output directory omitted)"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "Mostly correct and well-structured but the ABI source path is misstated (missing 'evm' segment) and the explicit 'cd demo' step is omitted, plus the source URL wasn't cited, so it needs a quick fix before shipping to a developer.",
+          "prompt": "Using the CRE CLI, show me the exact commands to generate contract bindings and sync Go dependencies for the demo project.",
+          "archetype": "code-first",
+          "answer": "Based on the Chainlink CRE documentation, here are the exact commands for the demo project:\n\n## 1. Generate contract bindings\n\nRun this from your project root (the directory containing `project.yaml`):\n\n```bash\ncre generate-bindings evm\n```\n\nUse cre generate-bindings to create type-safe Go interfaces for the demo's smart contracts. The demo uses pre-built bindings to interact with the contracts safely. This command generates Go bindings from ABIs (located in projectRoot/contracts/src/abi).\n\n## 2. Sync Go dependencies\n\n```bash\ngo mod tidy\n```\n\nUse go mod tidy to download and sync your workflow's Go dependencies. Your workflow code imports SDK packages and the newly generated contract bindings. Run go mod tidy to automatically download and sync all the required dependencies for the entire project.\n\n## Order and prerequisites\n\nRun `cre generate-bindings evm` **first**, then `go mod tidy`, since the dependency sync needs to account for the newly generated binding files. After that, you are ready to compile and run the workflow.\n\nA few things to note before running these:\n- CRE CLI: You must have the CRE CLI installed.\n- CRE account & authentication: You must have a CRE account and be logged in with the CLI. Run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate.\n- Go: You must have Go version 1.25.3 or higher installed. Check your version with go version.\n\nNote that these are demo contracts — not audited; do not use as-is in production.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 26477,
+              "output_tokens": 1175,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 966,
+              "output_tokens": 1512,
+              "cache_creation_input_tokens": 7987,
+              "cache_read_input_tokens": 1988,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "cre init prompts custom data feed demo — what values do I enter",
+          "archetype": "terse/keyword",
+          "answer": "",
+          "stop": "error",
+          "error": "terminated",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no sources and addresses a different Chainlink product (Automation) than the CRE workflow doc that was expected."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 5,
+          "hallucinations": [
+            {
+              "claim": "checkLog is a view function that will be simulated offchain once a log that matches your LogTriggerConfig has been emitted",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "upkeepNeeded = true; address logSender = bytes32ToAddress(log.topics[1]); performData = abi.encode(logSender);",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Use an archive RPC endpoint for the simulation. This is the core fix.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "if your performGasLimit is too low, the Automation Network will not execute your upkeep",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "if the amount of computation in your checkUpkeep exceeds our checkGasLimit",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "point it at an archive node instead of a standard full node",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "The demo reads from the historical block number of the event log",
+            "Public RPC nodes only keep recent state, so historical reads fail",
+            "Use rpc.FinalizedBlockNumber instead of blockNumber for the contract read"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink Automation debugging script details",
+            "checkLog/checkUpkeep/performUpkeep gas limit mechanics",
+            "Foundry/Hardhat fork block-pinning advice"
+          ],
+          "verdict": "The answer addresses Chainlink Automation's checkLog/upkeep simulation model entirely, never mentioning the CRE workflow, onLogTrigger, Path B, or the documented rpc.FinalizedBlockNumber fix, and instead recommends an archive node upgrade that directly contradicts the source's actual guidance — this is unsafe to ship as-is for this prompt.",
+          "prompt": "My contract read fails during the log trigger simulation with 'historical state is not available'. What's wrong and how do I fix it?",
+          "archetype": "error-debug",
+          "answer": "## What's happening\n\nThe error is coming from the **offchain simulation of your `checkLog` function**, not from your contract logic itself. Here's the key detail about how log‑trigger upkeeps work:\n\ncheckLog is a view function that will be simulated offchain once a log that matches your LogTriggerConfig has been emitted.\n\nCrucially, that simulation runs against the chain **state at the block where the matching log was emitted** — i.e., a *past* block, not the current head. Your `checkLog` (or any external call/`SLOAD` it performs) therefore needs the historical state of that block to be readable.\n\nThe message **\"historical state is not available\"** is a standard RPC error that a node returns when you ask it to `eth_call` against a block whose state it no longer retains. This is almost always because the node backing the simulation is a **full (non‑archive) node**:\n\n- By default, most Ethereum clients keep the last 128 blocks of state data readily accessible, which covers roughly the last 25 to 30 minutes of chain history.\n- By default, these modes prune state data older than 128 blocks, keeping only checkpoints that enable on-request regeneration of historical states. For rapid queries of historical data an archive node is required.\n- Once you go past that window, if you query a block older than 128 blocks, the node cannot reconstruct the state because the trie nodes are gone. The node can still serve block headers, transactions, and receipts, but not state.\n\nSo when the simulation tries to read your contract's state at the (now‑pruned) log block, the node has nothing to serve and returns that error.\n\n## How to fix it\n\n**1. Use an archive RPC endpoint for the simulation.**\nThis is the core fix. Whatever tool is running the read — the Chainlink Automation debugging script, a mainnet fork, or your own `eth_call` — point it at an archive node instead of a standard full node. You need archive access mainly for block explorers, analytics, audits, mainnet forking, and tracing. Historical `checkLog` simulation falls squarely into this category.\n\n- If you're running the **Chainlink Automation debugging script**, set its RPC URL to an archive endpoint (most providers like Alchemy, QuickNode, Infura, etc. offer an archive tier or archive add‑on).\n- If you're testing on a **local fork** (Foundry/Hardhat), fork *at the exact block of the log* rather than an old block, or fork from an archive provider so the target block's state exists.\n\n**2. Reduce dependence on historical state where possible.**\nThe reference `checkLog` implementations are intentionally lightweight/pure — they parse the log and encode `performData` rather than reading lots of contract state. For example, in the canonical sample: upkeepNeeded = true; address logSender = bytes32ToAddress(log.topics[1]); performData = abi.encode(logSender);. If your `checkLog` reads a lot of state or makes external calls, that widens the surface that requires historical state to be available during simulation.\n\n**3. Rule out the other common simulation failures** while you're in there, since the debugging script checks for them too. Note that if your performGasLimit is too low, the Automation Network will not execute your upkeep as it will fail in simulation. Consider increasing your perform upkeep gas limit in the UI. Also, if the amount of computation in your checkUpkeep exceeds our checkGasLimit, your upkeep will not be performed. These produce different errors than yours, but they're worth verifying if the read still misbehaves after switching to archive.\n\n## Quick checklist\n\n1. Confirm the read is happening inside a log‑trigger `checkLog` simulation against a past block — ✅ that's the \"historical state\" clue.\n2. Swap the simulation/debugging RPC from a full node to an **archive node**. ← this resolves the actual error in the vast majority of cases.\n3. If forking locally, fork at the log's block number.\n4. Keep `checkLog` lean and make sure gas limits are set high enough so it isn't rejected for other reasons.\n\nIf you can share which tool is throwing this (the Chainlink debugging script vs. a Foundry/Hardhat fork vs. a raw `eth_call`) and your RPC provider tier, I can give you the exact config change to make.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 52724,
+              "output_tokens": 2873,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1835,
+              "output_tokens": 1310,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9975,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites the source page and instead presents several details (env var name, WASM compilation, deployment status) not found in it."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "fidelity": 55,
+          "hallucinations": [
+            {
+              "claim": "use runtime.report() to generate a cryptographically signed report... then use evmClient.writeReport() to submit that report",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Set CRE_ETH_PRIVATE_KEY in your .env file",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "compiling your workflow to WebAssembly (WASM)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "workflow deployment is currently in Early Access",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "The transaction's to address is the Chainlink Forwarder contract, which calls onReport() on the ReserveManager"
+          ],
+          "unverifiable_from_source": [
+            "compiling your workflow to WebAssembly (WASM)",
+            "CRE_ETH_PRIVATE_KEY as the exact env var name",
+            "workflow deployment is currently in Early Access and requires requesting access",
+            "uploads the compiled binary and config to the CRE Storage Service",
+            "registers the workflow onchain via a transaction to the Workflow Registry contract",
+            "mention of an 'onchain calculator' demo with a single trigger",
+            "error message 'gas required exceeds allowance' for unfunded accounts"
+          ],
+          "verdict": "The answer gives a mostly usable walkthrough with correct broadcast/trigger/Etherscan steps but omits the critical Forwarder/onReport() detail, invents a two-function write pattern that contradicts the source's single-call WriteReportFrom* description, and never cites the source, so it needs correction before shipping to a developer.",
+          "prompt": "I'm brand new to this. I've got the CRE demo project set up and now I want to actually run it and watch it write data to the blockchain — how do I do that and how can I check it worked afterwards?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll look this up for you, since Chainlink CRE is a fairly new and evolving toolset and I want to give you accurate, current steps.Great — welcome to CRE! Since you already have the demo project scaffolded, the good news is that \"running it\" is really just one command, and checking it worked is mostly reading the contract afterward. Here's the full picture.\n\n## What \"running\" the demo actually means\n\nFor the demo workflows, you don't deploy to the live network first — you run them locally with the **simulator**, which still talks to a real testnet (Sepolia) for the reads and writes. The `cre workflow simulate` command compiles your workflow and executes it locally, compiling your workflow to WebAssembly (WASM).\n\n## Before you run: a couple of prerequisites\n\nBecause the demo writes to the chain, make sure these are in place:\n\n- Set `CRE_ETH_PRIVATE_KEY` in your `.env` file if your workflow performs onchain writes. This should be a **funded Sepolia** private key.\n- If your workflow interacts with blockchains, configure RPC endpoints in your `project.yaml` for the target you're using. Without this, the simulator cannot register the EVM capability and your workflow will fail.\n- If you followed the demo setup, you'll also have run `cre generate-bindings` to create type-safe interfaces for the demo's smart contracts, and `go mod tidy` to download and sync your workflow's dependencies (the latter is for the Go version).\n\nIf your account isn't funded, the write will fail. An unfunded account will cause the transaction to fail, often with an error message like \"gas required exceeds allowance.\" If you need more Sepolia ETH, go to faucets.chain.link to get some.\n\n## Running it and watching the write happen\n\nThe key detail for a new user: **simulation does a dry run by default and won't actually write to the chain** unless you tell it to. By default, the simulator performs a dry run for onchain write operations — it prepares the transaction but does not broadcast it. To actually broadcast transactions during simulation, use the `--broadcast` flag.\n\nSo from your **project root directory**, run something like:\n\n```bash\ncre workflow simulate my-calculator-workflow --target staging-settings --broadcast\n```\n\n(Swap in your actual workflow name / target.)\n\nWhat you'll see next depends on the demo. For the **Custom Data Feed demo**, it has two triggers, so it prompts you to pick one: You'll first see a \"Workflow compiled\" message, followed by a trigger selection menu. To run the core path — fetching offchain data and writing it onchain, initiated by the CRON trigger — select the cron-trigger by pressing 1 and then Enter.\n\nThen the important part to watch for: The simulator executes the full end-to-end workflow, and the final logs will show the transaction hash from the successful onchain write. Copy that transaction hash — you'll use it to verify.\n\n(If your demo is the calculator one instead, it typically has a single trigger and because there is only one trigger, the simulator runs it automatically, then logs the result object containing the transaction hash.)\n\n## How to check it actually worked\n\nYou have two easy ways:\n\n**1. Read the contract's stored values on a block explorer.** For the Custom Data Feed demo, the docs point you to the exact contract: navigate to the ReserveManager contract address used in the demo (`0x073671aE6EAa2468c203fDE3a79dEe0836adF032`), go to the Read Contract tab, and check the values for `lastTotalMinted` and `lastTotalReserve`. If those reflect the data your run produced, the write landed.\n\n**2. Look up the transaction hash** from the final logs on Sepolia Etherscan — confirm it succeeded and see the data payload that was written.\n\n## What's happening under the hood (worth knowing)\n\nThe reason there's a signed \"report\" step rather than a plain transaction is that writing onchain is a two-step process: use `runtime.report()` to generate a cryptographically signed report from your workflow data, then use `evmClient.writeReport()` to submit that report to the consumer contract. This is because CRE uses a more secure approach than a traditional web3 app where you'd send a transaction directly — multiple DON nodes must agree on the data, the chain needs cryptographic proof it came from a trusted network, and there must be a verifiable trail of which workflow created the data.\n\n## A note on \"going live\" later\n\nEverything above is local simulation against a testnet, which is the right place to start. Actually **deploying** (so the workflow runs autonomously on the DON) is a separate step and currently gated: workflow deployment is currently in Early Access, and you need to request access. When you get there, deploying uploads the compiled binary and config to the CRE Storage Service and registers the workflow onchain via a transaction to the Workflow Registry contract. But you don't need any of that just to run and verify the demo.\n\n---\n\n**TL;DR for your first run:**\n1. Make sure `CRE_ETH_PRIVATE_KEY` (funded Sepolia key) is in `.env` and RPC is set in `project.yaml`.\n2. From the project root: `cre workflow simulate <workflow-name> --target staging-settings --broadcast`.\n3. Pick the CRON/main trigger if prompted.\n4. Grab the **transaction hash** from the final log.\n5. Verify by reading the contract's stored values (e.g., `lastTotalMinted`/`lastTotalReserve`) or looking up the tx hash on Sepolia Etherscan.\n\nWhich demo did you scaffold — the Custom Data Feed one or the onchain calculator? I can tailor the exact command and verification fields if you tell me.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25374,
+              "output_tokens": 2825,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2581,
+              "output_tokens": 3027,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9975,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": true
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it has no files or context and cannot find the source, so retrieval/search failed."
+          },
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 10,
+            "relevance": 0,
+            "structure": 2
+          },
+          "fidelity": 30,
+          "hallucinations": [],
+          "missing_must_include": [
+            "Path B is triggered by an onchain MessageEmitted event log",
+            "The Go SDK decodes the event log into a strongly-typed struct passed to onLogTrigger",
+            "The code accesses payload.Data.Emitter to get the emitter address",
+            "It uses that emitter address to call GetLastMessage on the MessageEmitter contract",
+            "Path B reads onchain but does not write any data"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to engage with the question at all, claiming no context is available, and provides no information from the source; not shippable.",
+          "prompt": "In the demo's Path B reactive workflow, how does the log trigger use event data to make a follow-up onchain call?",
+          "archetype": "constrained",
+          "answer": "I don't have any files or context available to me right now—the input directory is empty, and there's no demo, repository, or documentation attached to this conversation.To answer your question about \"the demo's Path B reactive workflow\" and how its log trigger uses event data for a follow-up onchain call, I'd need the actual source material, since nothing has been shared with me. This appears to reference a specific project's demo (the terminology—\"Path B,\" \"reactive workflow,\" \"log trigger,\" \"onchain call\"—suggests a particular codebase, tutorial, or documentation).\n\nCould you provide one of the following?\n\n- **The demo files/repository** — upload the relevant code (e.g., workflow definitions, trigger configs, handler scripts) and I'll trace exactly how the log trigger extracts event data and constructs the follow-up call.\n- **The documentation or README** describing Path B.\n- **The name/link of the project** (for example, if this is from a specific SDK like Chainlink CRE, a keeper/automation framework, an indexer, or a smart-contract tooling demo), so I can search for public information about it.\n\nIf you can share any of these, I'll give you a precise walkthrough of how the event log's fields (topics/args) are decoded and passed into the subsequent onchain transaction.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25030,
+              "output_tokens": 974,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1077,
+              "output_tokens": 273,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9975,
+              "web_search_requests": 0,
+              "service_tier": "batch"
+            }
+          },
+          "subject_identified": false
+        }
+      ],
+      "avg_fidelity_all": 38.3,
+      "unattributed_count": 2,
+      "regrade_of": "2026-09-21T13-06-50-707Z-043d"
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-21T16-51-18-946Z-e9a7"
+    }
+  }
+}

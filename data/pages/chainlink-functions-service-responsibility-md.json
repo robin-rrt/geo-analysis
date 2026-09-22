@@ -1,0 +1,178 @@
+{
+  "key": "chainlink-functions-service-responsibility-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions Service Responsibility",
+    "url": "https://docs.chain.link/chainlink-functions/service-responsibility.md",
+    "analyzedAt": "2026-09-22T13:26:09.384Z",
+    "contentType": "developer documentation / conceptual policy (shared-responsibility model)",
+    "score": 48,
+    "band": "Developing",
+    "weightedTotal": 48.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Working — opens with \"Chainlink Functions provides access to trust-minimized compute infrastructure…\" and each section leads with a plain statement of who is responsible. Weak — no single liftable sentence defines the \"shared responsibility model\" itself as a concept."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working — 7 headings, 1 H1, max depth H3, 0 level skips, no section over 240 words (measured). Weak — the developer-vs-node-operator split is ideal for a comparison table; 0 tables present."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — 0 numerals, 0 units (measured), and vague quantifiers (\"several,\" \"when possible,\" \"timely manner\"). No limits, expiration defaults, or DON node counts that would anchor an extractable fact."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Weak — 1 internal link (to llms.txt), 0 external, 0 primary sources (measured). Claims about secrets, subscriptions, DONs, and OCR consensus link to nothing."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Working — the trust-minimized-compute sentence is liftable. Weak — \"service responsibility\" / shared-responsibility model lacks a crisp one-line definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent (measured). Head metadata was not captured, so this could not be fully verified from the served `<head>`; CLI should pass raw `<head>` for a complete read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Not applicable — this is a policy/conceptual page; no code is expected and none is missing. Not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Working — covers \"developer responsibilities\" and \"node operator responsibilities.\" Weak — no \"who is responsible for X\" question phrasing, no FAQ, no coverage of the service shutdown implications a reader would now ask about."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent \"Chainlink Functions\" naming throughout, unambiguous prose. No action needed."
+      }
+    ],
+    "summary": "This is a cleanly written conceptual page defining the shared-responsibility split between developers and node operators for Chainlink Functions. Its biggest strength is clean, consistent prose with a sensible H2/H3 hierarchy; its biggest opportunity is the total absence of a comparison table, citations, and machine-readable metadata — all high-lift GEO factors for a page whose core content (a two-party responsibility split) is table-shaped. Note also that the page carries a `callout=\"shutdown\"` flag, meaning the underlying service is being deprecated: relevance and freshness signals matter more than deep polish here. Honest verdict: solid documentation, under-optimized for generative retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a developer-vs-node-operator responsibility table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of page, after the intro paragraph",
+        "issue": "the split is spread across ~720 words of prose with 0 tables (measured).",
+        "change": "add a 2-column table (Responsibility area | Developer / Node Operator owner) summarizing Data, Code, Secrets, Subscriptions, Node config, Consensus. Put the canonical owner in the first cell of each row.",
+        "why": "tables are directly extractable by engines building a \"who owns what\" answer; a lifted row stands alone."
+      },
+      {
+        "priority": 1,
+        "title": "Add question-phrased H3s",
+        "mapsTo": "symptom/query coverage",
+        "tier": null,
+        "where": "section headings",
+        "issue": "headings are noun labels (\"Data,\" \"Secrets,\" \"Subscriptions\").",
+        "change": "reframe or add subheads like \"Who is responsible for funding a Functions subscription?\" and \"Who secures self-hosted secrets?\"",
+        "why": "devs query by question, not by concept noun; question headings win retrieval that label headings lose."
+      },
+      {
+        "priority": 2,
+        "title": "Add inline citations to canonical docs",
+        "mapsTo": "cited, authoritative references",
+        "tier": null,
+        "where": "mentions of \"threshold encryption,\" \"OCR consensus,\" \"subscriptions,\" \"self-hosted secrets\"",
+        "issue": "0 external/primary links (measured); concepts are named but unlinked.",
+        "change": "link each term to its canonical Chainlink docs page (secrets management, subscriptions, DON architecture) and OCR to its spec.",
+        "why": "inline links to primary sources raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add a crisp shared-responsibility definition",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"both developers and Chainlink service providers share responsibility\" is diffuse.",
+        "change": "add one liftable sentence, e.g. \"Under the Chainlink Functions shared-responsibility model, developers own data quality, code, secrets, and subscription funding, while node operators own DON configuration, execution, and consensus uptime.\"",
+        "why": "a self-contained canonical statement is preferred for verbatim lifting."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page head / frontmatter",
+        "issue": "0 JSON-LD, canonical MISSING, no dates (measured).",
+        "change": "emit `TechArticle` schema with `dateModified`, a canonical URL, and a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals improve agent trust and parseability (E-E-A-T)."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with specifics where they exist",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "node operator bullets and secrets section",
+        "issue": "\"timely manner,\" \"when possible,\" \"latest software versions.\"",
+        "change": "where a concrete value exists (e.g. secret expiration defaults, minimum node count in a DON, funding thresholds), state the number; otherwise link to the page that has it.",
+        "why": "quantitative claims are among the highest-lift retrievable elements."
+      },
+      {
+        "priority": 3,
+        "title": "Surface the service-shutdown status prominently in prose",
+        "mapsTo": "freshness / query coverage",
+        "tier": null,
+        "where": "intro, currently only a `<ChainlinkFunctions callout=\"shutdown\" />` component",
+        "issue": "shutdown status is component-rendered and may not survive text extraction.",
+        "change": "add a plain-text sentence stating the service status and effective date so it is liftable by engines that skip the component.",
+        "why": "deprecation status is the highest-value fact a reader now needs; component-only rendering risks it being invisible to extractors."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"several,\" \"when possible,\" \"timely manner,\" \"latest software versions\" (measured: vague quantifier \"several\" present).",
+      "No dated/freshness signal on a page describing a service in shutdown — stale-risk for generative answers.",
+      "Component-embedded shutdown notice (`<ChainlinkFunctions callout=\"shutdown\" />`) may not extract as text.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean on those."
+    ],
+    "offPageNotes": [
+      "Site-level: `llms.txt` is already referenced (good); ensure this page is indexed there and in the sitemap.",
+      "Head metadata (schema, canonical, dates) could not be verified from the served content — pass raw `<head>` in the CLI for a definitive read.",
+      "Freshness cadence: given the shutdown state, a site-wide dateModified policy would materially help engines avoid presenting deprecated guidance as current."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

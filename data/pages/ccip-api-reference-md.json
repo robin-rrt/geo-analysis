@@ -1,0 +1,157 @@
+{
+  "key": "ccip-api-reference-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP contracts and interfaces reference",
+    "url": "https://docs.chain.link/ccip/api-reference.md",
+    "analyzedAt": "2026-09-22T13:36:06.879Z",
+    "contentType": "developer documentation / navigation hub (API reference index)",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 55,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opening: *\"CCIP provides secure cross-chain messaging and token transfers between blockchain networks.\"* is a self-contained liftable claim. Weak point: the page title promises \"contracts and interfaces reference\" but the top third is about REST APIs, slightly diluting the lead's match to the title's implied question."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Bulleted platform list is scannable. Weak: only 1 heading and 1 section for three distinct topics (REST v1, REST v2, on-chain contracts) — no H2s means the whole page is a single undifferentiated chunk with no per-topic retrieval boundary."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Version labels (v1, v2) and endpoint paths exist, but 0 measured numerals/units; \"Planned for deprecation soon\" has no date or version cutoff. A hub needs fewer specifics, but a concrete deprecation timeline would help."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "11 internal links, appropriate for a hub, but 0 external/primary-source links (no CCIP whitepaper, spec, or standards references to anchor the definition)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "The CCIP one-liner is crisp and verbatim-liftable; good."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weakest dimension: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags, no `inLanguage`. Nothing for an agent to parse for trust or freshness."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code, which is acceptable for a routing page; scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"where are CCIP contracts for chain X\" and the REST-vs-onchain split well. Missing symptom/how-to phrasing (e.g. \"which CCIP API should I use\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming (CCIP, EVM, SVM, Move), no ambiguous references. No action needed."
+      }
+    ],
+    "summary": "This is a short (181-word) navigation hub that routes readers to CCIP's on-chain contract references (EVM, Solana, Aptos, TON) and its two REST APIs. Its biggest strength is a clean, liftable CCIP definition and clear platform disambiguation; its biggest weakness is the near-total absence of machine-readable metadata (no JSON-LD, no canonical URL, no dates) plus a flat single-section structure that gives RAG systems only one coarse chunk. As a hub page its ceiling is inherently lower than a full reference, but adding sub-headings and metadata would materially improve its retrievability as an entry point.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema, canonical URL, and last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "JSON-LD 0 blocks; canonical MISSING; dateModified absent.",
+        "change": "Emit a `TechArticle` block with `headline`, `url` (canonical), `dateModified`, and `inLanguage: en`; add a visible \"Last updated\" line near the H1.",
+        "why": "Structured metadata and freshness signals raise agent trust (E-E-A-T) and parseability; this is the single largest measured gap."
+      },
+      {
+        "priority": 1,
+        "title": "Split the page into H2 sections so each topic is its own chunk",
+        "mapsTo": "structural scannability & chunkability",
+        "tier": null,
+        "where": "whole body (currently 1 heading, 1 section)",
+        "issue": "three distinct topics live in one 175-word chunk.",
+        "change": "Add H2s: `## On-chain contracts and interfaces`, `## REST API v1 (directory & config)`, `## REST API v2 (CCIP Tools)`. Lead each with its answer-first sentence.",
+        "why": "Discrete retrievable units let engines return the correct sub-topic instead of the whole hub, improving citation precision."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/decision-phrased headings for the API choice",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "REST API bullets",
+        "issue": "devs ask \"which CCIP API should I use?\" but no heading matches that.",
+        "change": "Add a short `## Which CCIP API should I use?` with a 3-row table (v1 / v2 / on-chain → use case → status).",
+        "why": "Symptom/decision-phrased headings win retrieval that concept-titled prose loses; a comparison table lets engines extract justified reasons."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague deprecation phrasing with a concrete signal",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Directory and configuration REST API (v1)\" bullet",
+        "issue": "*\"Planned for deprecation soon\"* — no date or version.",
+        "change": "State the deprecation date or milestone if known, or link the exact tracking page; e.g. \"deprecation targeted for [date]; migrate to v2.\"",
+        "why": "Quantified/dated claims are high-lift and prevent engines from synthesizing stale guidance."
+      },
+      {
+        "priority": 3,
+        "title": "Add one external primary-source link for the CCIP definition",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "opening CCIP sentence",
+        "issue": "0 external/primary links; definition is unanchored.",
+        "change": "Link \"CCIP\" to the canonical CCIP overview/spec page (or whitepaper) at first use.",
+        "why": "Authoritative references raise credibility and citation rate for the lifted definition."
+      }
+    ],
+    "antiPatterns": [
+      "Undated content with a soft deprecation claim (\"soon\") — a freshness/staleness risk.",
+      "Single undifferentiated section spanning three topics — mild wall-of-content for chunking.",
+      "No marketing fluff, no keyword stuffing, no ambiguous entities — clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; confirm it lists these sub-references.",
+      "Canonical URL and JSON-LD may be injected site-wide by the docs framework; verify by passing raw `<head>` to the CLI, since none was captured here.",
+      "Sub-page reference docs (EVM/SVM/Aptos/TON) are where deep retrieval will land — ensure this hub links are reciprocated from those pages (canonical-hub pattern)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

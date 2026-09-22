@@ -1,0 +1,177 @@
+{
+  "key": "ccip-concepts-best-practices-svm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Best Practices (SVM)",
+    "url": "https://docs.chain.link/ccip/concepts/best-practices/svm.md",
+    "analyzedAt": "2026-09-22T13:38:39.440Z",
+    "contentType": "developer documentation / best-practices guide",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 66,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured best-practices guide for building CCIP applications on Solana/SVM, with clean hierarchy (26 headings, no level skips) and several strong answer-first section leads. Its biggest strength is quotable canonical guidance (\"you **must** set `allowOutOfOrderExecution` to `true`\"; the token-lock caution). Its biggest opportunity is retrieval discoverability: zero JSON-LD/canonical metadata, no comparison table for the `extra_args` variants, and concept-titled headings that miss the symptom-phrased queries developers actually type (\"why are my SVM tokens locked\", \"invalid caller ccip_receive\"). Solid Good-band page with clear, surgical upside.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an `extra_args` comparison/reference table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "`### Parameter Selection` and the four `Setting …` subsections",
+        "issue": "All parameter guidance is prose/bullets; \"0 table(s)\" in measured facts.",
+        "change": "Add a table with columns Field | Type | Applies to | Required value | Notes, rows for `compute_units`, `accountIsWritableBitmap`, `tokenReceiver`, `allowOutOfOrderExecution` (e.g. row `allowOutOfOrderExecution | bool | SVM | must be true | required source & dest`).",
+        "why": "Engines extract *reasons* and constraints from tables far more reliably than from scattered bullets; makes the SVM-specific rules liftable in one chunk."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "near `Setting tokenReceiver` and `Verify authority and allowed offramp`",
+        "issue": "Headings are concept-titled (\"Verify authority and allowed offramp\"); devs search \"InvalidCaller ccip_receive\" or \"SVM tokens permanently locked\".",
+        "change": "Add H3s such as \"Why are my transferred tokens permanently locked?\" and \"Fixing `InvalidCaller` when the offramp calls `ccip_receive`\", each opening with the one-sentence fix already in the body.",
+        "why": "Symptom-phrased headings win retrieval that concept titles lose, even when the answer is already present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and machine-readable dateModified",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "Measured facts: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-05-19`, `programmingLanguage: [Rust, JavaScript]`, and a canonical link; surface the last-updated date in structured metadata, not just body text.",
+        "why": "Structured freshness and canonical signals raise agent trust and parse reliability. (Note: head metadata could not be verified from the served content — confirm via raw `<head>`.)"
+      },
+      {
+        "priority": 2,
+        "title": "Lead SVM-critical rules with the canonical requirement, answer-first",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "`Setting allowOutOfOrderExecution` and `tokenReceiver` (wallet case)",
+        "issue": "The mandatory rule sits below neutral definition prose (\"controls message ordering guarantees\").",
+        "change": "Open the section with the hard rule: \"On SVM chains you **must** set `allowOutOfOrderExecution` to `true` (source and destination).\" Keep the existing \"Do NOT use an Associated Token Account (ATA)\" as an explicit Don't at the top of the wallet case.",
+        "why": "Models default to the generic EVM idiom (ordered execution, ATA usage) when skimming; putting the SVM-specific canonical fact in the first liftable sentence defends against that prior."
+      },
+      {
+        "priority": 2,
+        "title": "Make the Rust snippet self-contained",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "the `#[derive(Accounts)]` Rust block",
+        "issue": "Measured facts flag identifiers \"never assigned: EXTERNAL_EXECUTION_CONFIG_SEED, ALLOWED_OFFRAMP, STATE_SEED\"; no imports.",
+        "change": "Add `use anchor_lang::prelude::*;`, the seed `const` declarations, and a one-line `Any2SVMMessage` / `CcipReceiverError` reference or link, or a comment pointing to the crate that defines them.",
+        "why": "Complete, compilable snippets are cited and reused by coding agents; undefined constants block copy-paste execution."
+      },
+      {
+        "priority": 2,
+        "title": "Fill in the thin verification sections with a code or concrete check",
+        "mapsTo": "answer-first extractability / concrete specifics",
+        "tier": null,
+        "where": "`Verify source chain` and `Verify sender`",
+        "issue": "Both are prose-only (\"verify the source chain of the incoming CCIP message\") with no how-to.",
+        "change": "Add a short snippet or the exact field to compare (e.g. `message.source_chain_selector` against an allowlist), mirroring the JS example in `Verify destination chain`.",
+        "why": "Concrete, symmetric examples make each section a standalone retrievable unit."
+      },
+      {
+        "priority": 3,
+        "title": "Link to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "first mention of PDAs and Anchor accounts",
+        "issue": "\"0 to primary sources\" in measured facts.",
+        "change": "Add inline links to the Solana PDA documentation and Anchor `#[derive(Accounts)]` reference.",
+        "why": "Inline authoritative citations raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Placeholder comments in the Rust block (`// Additional accounts as needed // ...`) leave the example non-compilable.",
+      "Thin, prose-only sections (`Verify source chain`, `Verify sender`, `Evaluate the security…`) risk being low-value chunks.",
+      "Minor marketing-adjacent phrasing in the intro NOTE (\"Our dedicated team is ready to support your projects\") — harmless but not liftable content."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are largely site-template concerns — fix once at the layout level to benefit all CCIP pages.",
+      "`llms.txt` is already referenced at the top of the page — good; ensure this SVM page is enumerated there.",
+      "Freshness cadence: body shows \"Last Updated: 2025-05-19\"; surface this as machine-readable `dateModified` site-wide."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

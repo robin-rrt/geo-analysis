@@ -1,0 +1,167 @@
+{
+  "key": "data-streams-tutorials-rust-sdk-fetch-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Fetch and decode Data Streams reports using the Rust SDK",
+    "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+    "analyzedAt": "2026-09-22T13:34:12.977Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 70,
+    "band": "Good",
+    "weightedTotal": 70,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Sections open procedurally rather than with a liftable claim; the page has no TL;DR. The Explanation subsections are well-scoped and self-contained. Weak: opening paragraph is a task promise, not a canonical statement."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 13 headings, 1 H1, 0 level skips, median 71 words/section, max 531, none over 600 (measured). Clean H2/H3/H4 hierarchy and a well-formed attribute table. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good code-level specifics (SDK `1.0.3`, `tokio 1.4`, real timestamps, 18-decimal prices, testnet URLs). Weak: measured \"version strings [none]\" in prose and vague quantifiers \"several, most, robust\" present."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — 28 links, 7 to primary sources (rust-lang.org, github.com), with deep links to exact SDK source lines (`config.rs#L131`). No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Attribute table gives crisp per-field definitions. Weak: no one-sentence liftable definition of the Rust SDK itself or of `decode_full_report`'s role near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — measured 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Head could not be verified; CLI should pass raw `<head>` to confirm. This is the largest single scored gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Excellent — 9 fenced blocks, 0 untagged, full `main.rs` with imports, `Cargo.toml`, run command, and expected output. Minor: the second Rust config excerpt omits imports (measured 1 of 2 import-needing blocks shows none), acceptable as an excerpt."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers setup → fetch → decode → adapt → explain. Weak: no troubleshooting/FAQ section and no headings phrased as the errors/questions devs type (e.g. `API_KEY must be set`, \"invalid feed ID\", \"which report version do I use\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Fluent and consistent. Minor: \"feed ID\" vs \"Stream ID\" used for the same value may confuse entity resolution."
+      }
+    ],
+    "summary": "This is a clean, well-structured Rust tutorial with a complete, copy-pasteable end-to-end example, pinned dependency versions, expected terminal output, and github source links into the SDK — genuinely agent-runnable. Its biggest GEO weakness is discoverability: no JSON-LD/`TechArticle` schema or canonical URL in the served HTML, and no symptom- or question-phrased headings that match how developers actually query (error strings, \"how do I decode a v8 report\"). The headline verdict: strong content that will convert well *if retrieved*, but under-instrumented for retrieval and missing troubleshooting coverage.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a troubleshooting section with symptom-phrased H3s",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new section after \"Adapting code for different report schema versions\"",
+        "issue": "no error-string or \"how do I…\" headings; devs/agents query by symptom.",
+        "change": "add H3s like `### \"API_KEY must be set\" panic`, `### Decoding fails / wrong fields returned (report version mismatch)`, `### Invalid feed ID format`, each with a one-line cause and fix.",
+        "why": "headings matching literal error text win retrieval that concept-titled prose loses, even when the answer is already in body text."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD + canonical URL + last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "measured 0 JSON-LD blocks, canonical MISSING, no dateModified.",
+        "change": "emit `TechArticle` schema with `headline`, `programmingLanguage: Rust`, `dateModified`, and a canonical `<link>`; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise parse-ability and E-E-A-T trust for engines and agents."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the page with a liftable canonical statement",
+        "mapsTo": "answer-first extractability, quotable definitions",
+        "tier": null,
+        "where": "first paragraph under H1",
+        "issue": "opens as a task promise (\"you'll learn how to…\"), not a self-contained fact.",
+        "change": "prepend one sentence: \"The Chainlink Data Streams Rust SDK (`chainlink-data-streams-sdk` v1.0.3) fetches and decodes signed reports from the Data Streams Aggregation Network over a REST/WebSocket API.\"",
+        "why": "a crisp, verbatim-liftable definition in the first chunk defends against parametric priors and is quoted more often."
+      },
+      {
+        "priority": 2,
+        "title": "Name the version-mismatch failure as an explicit Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Adapting code for different report schema versions\"",
+        "issue": "current guidance is soft (\"make sure to adjust\").",
+        "change": "add a bold Don't line: \"Don't decode a v8 stream with `ReportDataV3::decode` — it silently mis-parses fields. Match the `ReportDataVn` decoder to the stream's schema version.\"",
+        "why": "naming the tempting-wrong pattern explicitly stops engines from synthesizing the generic (wrong) approach."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Fetching reports\" and \"Error handling\"",
+        "issue": "\"The SDK provides several methods\", \"Rust's robust error handling\".",
+        "change": "\"provides two REST methods (`get_latest_report`, `get_report`)\"; drop \"robust\" or replace with the concrete mechanism.",
+        "why": "quantified, specific prose outperforms qualitative filler in generative retrieval."
+      },
+      {
+        "priority": 3,
+        "title": "Normalize the feed ID / Stream ID terminology",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "code comments, table, and prose",
+        "issue": "same `0x0003…` value is called both \"feed ID\" and \"Stream ID\".",
+        "change": "state once that the terms are interchangeable, or standardize on one.",
+        "why": "consistent entity naming improves entity resolution and reduces ambiguous synthesis."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"several\", \"most\", \"robust\" (measured) — minor, addressed in P3.",
+      "Unassigned identifiers `API_KEY`/`API_SECRET` in code (measured) — acceptable here; they are documented env vars set via `export`, not a real gap.",
+      "No stale-content risk visible, but absence of a dateModified means freshness can't be signaled — covered in P1."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are site-template concerns; the page references `/llms.txt`, which is good — confirm this tutorial is indexed there.",
+      "Head metadata could not be verified from the captured content; re-run with raw `<head>` passed through for a definitive metadata read.",
+      "Deep internal links into this page from the Rust SDK reference and crypto-streams pages would strengthen its canonical-hub standing (earned/internal-link factor)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

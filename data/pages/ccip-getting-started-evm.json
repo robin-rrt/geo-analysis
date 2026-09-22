@@ -1,0 +1,739 @@
+{
+  "key": "ccip-getting-started-evm",
+  "runId": "2026-09-21T14-48-30-952Z-7771",
+  "audit": {
+    "title": "Get Started with CCIP (EVM)",
+    "url": "https://docs.chain.link/ccip/getting-started/evm",
+    "analyzedAt": "2026-09-21T14:48:31.433Z",
+    "contentType": "developer documentation / tutorial (HowTo)",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Opens with a clean bold thesis and a numbered \"you will\" list — good. Weak spot: \"Examine the example code\" opens with meta prose (\"This section goes through the code…\") rather than a self-contained statement of what the Sender does."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clear H2/H3/H4 hierarchy, tabbed environments, one comparison-style argument table; but 4 sections exceed 600 words and 1 level skip exists — the large code sections chunk as single big units."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — 39 numerals/1k words, real addresses, chain selector `16015286601757825753`, `gasLimit: 200_000`, LINK amounts, `v1.6.1`/`0.8.24`. Vague quantifiers (\"several\", \"significant\") appear but are minor."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "97 links, inline references to the v1.6.1 API reference, Solidity ABI spec, and Remix — well attributed. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Weakest dimension. The page never defines CCIP in a liftable sentence; a reader arriving here gets a workflow but no \"Chainlink CCIP is…\" statement an engine can quote."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Valid dual JSON-LD, canonical, og/twitter, visible dates in `<head>` (published 2025-05-19, modified 2025-12-25). Defects: `keywords` string is malformed (`\"CCIP,, EVM, chains,,\"`) and `about` entities are auto-generated junk (\"Content about get\", \"Content about started\")."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Excellent — 0 untagged fences, all import-requiring blocks show imports, addresses/selectors hardcoded, network labeled, expected console output shown. Strong; no action needed."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Full setup→deploy→send→verify lifecycle across three frameworks, but no troubleshooting/FAQ and no symptom-phrased sections. Error strings live only in code."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean and consistent. One friction point: Remix path instructs sending `70` LINK while the script paths fund `1` LINK — an unexplained inconsistency that can confuse humans and agents."
+      }
+    ],
+    "summary": "This is a strong, agent-ready CCIP tutorial: three complete development-environment paths (Hardhat 3, Foundry, Remix), fully runnable code with imports and hardcoded testnet addresses, valid `HowTo`/`TechArticle` schema, and dense specifics (router addresses, chain selectors, `200000` gas limit, version strings). Its biggest GEO strength is code completeness; its biggest opportunity is **symptom/error-phrased query coverage** — the page contains fixes (`NotEnoughBalance`, \"No message received yet\") only inside code, never as retrievable headings, so it will lose symptom-phrased retrievals it could otherwise own. It also lacks a crisp, liftable one-sentence definition of CCIP itself. Honest verdict: best-in-class tutorial content, under-optimized for the way developers and agents query by error and by concept.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a symptom/troubleshooting section with error-string headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after \"Send a cross-chain message using CCIP\", before \"What's next\"",
+        "issue": "fixes exist only inside code — e.g. `revert NotEnoughBalance`, \"No message received yet.\" — never as headings",
+        "change": "add H3s phrased as queries: \"Error: NotEnoughBalance when sending\", \"getLastReceivedMessageDetails returns empty / No message received yet\", \"Transaction fee unexpectedly high on Sepolia\", each with a one-line cause + fix (fund the sender with LINK, wait for CCIP finality, use CCIP Explorer).",
+        "why": "developers and agents query by error string; heading-level matches win retrievals that buried body/code text loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add a liftable canonical definition of CCIP near the top",
+        "mapsTo": "quotable canonical statements",
+        "tier": null,
+        "where": "immediately under the H1 bold line",
+        "issue": "no self-contained \"what is CCIP\" sentence anywhere on the page",
+        "change": "add one sentence, e.g. \"Chainlink CCIP (Cross-Chain Interoperability Protocol) is a messaging standard that lets a contract on one chain send data and tokens to a contract on another chain via a Router contract and `ccipSend`.\" Link \"Router\" to the API reference.",
+        "why": "gives engines a verbatim-quotable definition and anchors the canonical API (`ccipSend`, Router) against generic bridge-idiom priors."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the \"Examine the example code\" section answer-first",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Examine the example code\" intro",
+        "issue": "\"This section goes through the code for the `sender` and `receiver` contracts…\"",
+        "change": "replace with a stand-alone statement: \"The Sender contract calls `IRouterClient.ccipSend` to send an ABI-encoded string cross-chain and pays fees in LINK; the Receiver inherits `CCIPReceiver` and implements `_ccipReceive` to store the message.\"",
+        "why": "a lifted chunk then explains the mechanism without requiring the code block, improving standalone extractability."
+      },
+      {
+        "priority": 2,
+        "title": "Fix malformed JSON-LD `keywords` and junk `about` entities",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`HowTo`/`TechArticle` JSON-LD block",
+        "issue": "`\"keywords\":\"Chainlink, CCIP,, EVM, chains,,…\"` and `about:[{\"name\":\"Get\",\"description\":\"Content about get\"}…]`",
+        "change": "clean the keyword string (remove stray double commas) and replace the auto-generated `about` array with real entities: `Chainlink CCIP`, `Cross-chain messaging`, `Avalanche Fuji`, `Ethereum Sepolia`, `Solidity`.",
+        "why": "malformed metadata and \"Content about get\" entities weaken entity resolution and E-E-A-T signals engines parse."
+      },
+      {
+        "priority": 2,
+        "title": "Resolve the 70 LINK vs 1 LINK inconsistency",
+        "mapsTo": "clarity & concrete specifics",
+        "tier": null,
+        "where": "Remix step 1 (\"send `70` LINK\") vs script paths (\"Funding Sender with 1 LINK\")",
+        "issue": "\"Open MetaMask and send `70` LINK… significantly higher than normal due to gas spikes on Sepolia\"",
+        "change": "normalize the amount across all three paths, or add one sentence explaining why Remix uses 70 while scripts use 1 (fee headroom vs scripted exact fund).",
+        "why": "conflicting quantitative claims on the same page degrade the specificity signal and confuse agents choosing a fund amount."
+      },
+      {
+        "priority": 3,
+        "title": "Add expected `getLastReceivedMessageDetails` output and CCIP delivery-time specifics as prose",
+        "mapsTo": "concrete specifics / query coverage",
+        "tier": null,
+        "where": "\"Verify message delivery\" / \"Read data\"",
+        "issue": "delivery latency stated loosely (\"a few minutes\", \"after 10 minutes\", \"after 5 minutes\") and varies between paths",
+        "change": "state one canonical figure, e.g. \"CCIP finality between Fuji and Sepolia typically takes ~X minutes on testnet,\" and link the CCIP finality/latency reference.",
+        "why": "a single concrete latency number is higher-lift than three inconsistent qualitative estimates."
+      }
+    ],
+    "antiPatterns": [
+      "Malformed `keywords` metadata string (`\"CCIP,, EVM, chains,,\"`) and auto-generated `about` entities (\"Content about get\").",
+      "Inconsistent quantitative guidance: 70 LINK (Remix) vs 1 LINK (scripts); \"5 minutes\"/\"10 minutes\"/\"a few minutes\" for the same delivery step.",
+      "Vague quantifiers (\"several\", \"various\", \"significant\") flagged, but low-severity in an otherwise specific page.",
+      "No keyword stuffing, no marketing fluff, no missing imports — clean on those."
+    ],
+    "offPageNotes": [
+      "Consider an `llms.txt` entry pointing agents to this canonical getting-started page (site-level).",
+      "Internal links *into* this page from the CCIP concept hub and API-reference pages would strengthen its canonical-hub authority (site-level, not fixable on-page alone).",
+      "Measured facts report `datePublished/dateModified absent` while `<head>` and JSON-LD both carry them — verify the served page exposes dates consistently to crawlers; pass raw `<head>` to the harness for a full read."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ccip/getting-started/evm",
+      "source_title": "Get Started with CCIP (EVM)",
+      "probe_set_id": "2e18fdbd3618",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "0bbc797e0e35",
+      "run_at": "2026-09-21T16:01:51.082Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 53.3,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 1,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4.8,
+        "hallucination_free": 3.8,
+        "relevance": 5,
+        "structure": 7.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 159677,
+          "output_tokens": 18360,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 14,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 18252,
+          "output_tokens": 24198,
+          "cache_creation_input_tokens": 17400,
+          "cache_read_input_tokens": 87000,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ccip.chain.link"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source (docs.chain.link/ccip/getting-started/evm) was not cited; the answer only references the CCIP explorer tool page."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "Client.EVMExtraArgsV1({gasLimit: 200_000})",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Deploy a Sender contract on the source chain (Avalanche Fuji)",
+            "Deploy a Receiver contract on the destination chain (Ethereum Sepolia)",
+            "Receiver contract implementing getLastReceivedMessageDetails for verification"
+          ],
+          "unverifiable_from_source": [
+            "Fees: You pay fees in either LINK or the chain's native gas token (e.g., ETH).",
+            "Chain Selector is a unique numeric ID different from the standard EVM chain ID",
+            "Handle failures gracefully: try/catch pattern or storing failed messages for manual reprocessing",
+            "Validate sourceChainSelector and sender against an allowlist"
+          ],
+          "verdict": "The answer captures the general CCIP send/receive flow correctly but uses outdated/incorrect import paths (src/v0.8/ccip/... instead of the source's contracts/... paths) and a different extraArgs struct, which would break compilation if copied verbatim, and it omits the source's specific chain names and verification function—so it is not safe to ship as-is without correction.",
+          "fidelity": 55,
+          "prompt": "How do I send a cross-chain message between two EVM chains using Chainlink CCIP?",
+          "archetype": "direct-howto",
+          "answer": "# Sending Cross-Chain Messages with Chainlink CCIP\n\nChainlink CCIP (Cross-Chain Interoperability Protocol) lets you send messages, tokens, or both between EVM chains. Here's a complete walkthrough.\n\n## Core Concepts\n\n- **Router**: The single entry-point contract you interact with on each chain. It handles sending and receiving.\n- **Chain Selector**: A unique numeric ID CCIP uses to identify each chain (different from the standard EVM chain ID).\n- **Fees**: You pay fees in either **LINK** or the chain's **native gas token** (e.g., ETH).\n- **Receiver**: On the destination chain, your contract must implement `CCIPReceiver` to accept messages.\n\n## 1. Install Dependencies\n\n```bash\nnpm install @chainlink/contracts-ccip\n```\n\n## 2. The Sender Contract (Source Chain)\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {IRouterClient} from \"@chainlink/contracts-ccip/src/v0.8/ccip/interfaces/IRouterClient.sol\";\nimport {Client} from \"@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol\";\nimport {IERC20} from \"@chainlink/contracts-ccip/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol\";\n\ncontract Sender {\n    IRouterClient public router;\n    IERC20 public linkToken;\n\n    constructor(address _router, address _link) {\n        router = IRouterClient(_router);\n        linkToken = IERC20(_link);\n    }\n\n    function sendMessage(\n        uint64 destinationChainSelector,\n        address receiver,\n        string calldata text\n    ) external returns (bytes32 messageId) {\n        // Build the CCIP message\n        Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({\n            receiver: abi.encode(receiver),          // destination contract, ABI-encoded\n            data: abi.encode(text),                  // your payload\n            tokenAmounts: new Client.EVMTokenAmount[](0), // no tokens in this example\n            extraArgs: Client._argsToBytes(\n                Client.EVMExtraArgsV1({gasLimit: 200_000})\n            ),\n            feeToken: address(linkToken)             // pay fees in LINK\n        });\n\n        // Get the fee and approve the router to spend LINK\n        uint256 fee = router.getFee(destinationChainSelector, message);\n        linkToken.approve(address(router), fee);\n\n        // Send it\n        messageId = router.ccipSend(destinationChainSelector, message);\n    }\n}\n```\n\nTo pay in **native gas** instead, set `feeToken: address(0)` and call `ccipSend{value: fee}(...)`.\n\n## 3. The Receiver Contract (Destination Chain)\n\n```solidity\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {Client} from \"@chainlink/contracts-ccip/src/v0.8/ccip/libraries/Client.sol\";\nimport {CCIPReceiver} from \"@chainlink/contracts-ccip/src/v0.8/ccip/applications/CCIPReceiver.sol\";\n\ncontract Receiver is CCIPReceiver {\n    string public lastReceivedText;\n    bytes32 public lastMessageId;\n\n    constructor(address _router) CCIPReceiver(_router) {}\n\n    // Called automatically by the router when a message arrives\n    function _ccipReceive(\n        Client.Any2EVMMessage memory message\n    ) internal override {\n        lastMessageId = message.messageId;\n        lastReceivedText = abi.decode(message.data, (string));\n        // Optionally verify message.sourceChainSelector and\n        // abi.decode(message.sender, (address)) for security\n    }\n}\n```\n\n## 4. Deployment & Sending Flow\n\n1. **Deploy the Receiver** on the destination chain, passing that chain's Router address.\n2. **Deploy the Sender** on the source chain, passing the source Router and LINK addresses.\n3. **Fund the Sender** with LINK (or native token) to cover fees.\n4. **Call `sendMessage`** with the destination chain selector and the deployed Receiver's address.\n5. **Track the message** using the returned `messageId` on the [CCIP Explorer](https://ccip.chain.link).\n\n## Key Best Practices\n\n- **Validate the source**: In `_ccipReceive`, check `sourceChainSelector` and decoded `sender` against an allowlist to prevent spoofed messages.\n- **Set an appropriate `gasLimit`** in `extraArgs` — the execution on the destination costs gas, and too low a limit will cause failures.\n- **Handle failures gracefully**: Consider a try/catch pattern or storing failed messages for manual reprocessing.\n- **Use official addresses**: Router addresses, LINK tokens, and chain selectors are all listed in the Chainlink CCIP Directory.\n\n---\n\nBecause Router addresses, supported chains, and chain selectors change as CCIP adds networks, I'd recommend confirming the exact values for your specific chains. Would you like me to **search for the current Router addresses and chain selectors** for a particular pair of chains (e.g., Ethereum Sepolia → Base Sepolia), or would you like an example that **also transfers tokens** alongside the message?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5913,
+              "output_tokens": 1979,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2714,
+              "output_tokens": 4848,
+              "cache_creation_input_tokens": 17400,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://foundry.paradigm.xyz"
+            ],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer names the expected source in prose but its only actual cited URL is foundry.paradigm.xyz, not the Chainlink docs page."
+          },
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 5,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "forge install smartcontractkit/chainlink-ccip@0e3e0fc5c0f70f0d50dca66b139142ddf3009294 smartcontractkit/chainlink-evm@86aa5a1d34b20eda8d18fe6eb0e4882948e545ba openzeppelin/openzeppelin-contracts@...",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "@chainlink/contracts-ccip/contracts/=node_modules/@chainlink/contracts-ccip/contracts/",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "forge script ./script/Example02.s.sol:DeployBasicMessageReceiver -vvv --broadcast --rpc-url ethereumSepolia",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cast send 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846 \"transfer(address,uint256)\" <SENDER_ADDRESS> 5000000000000000000 --rpc-url avalancheFuji --private-key=$PRIVATE_KEY",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "in the tutorial, you send 70 LINK to the sender contract to pay the CCIP fees",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "as an exercise, you can use them to transfer tokens and data from Avalanche Fuji to Ethereum Sepolia and from Ethereum Sepolia back",
+              "type": "contradiction",
+              "severity": "low"
+            },
+            {
+              "claim": "Foundry starter kit repo: github.com/smartcontractkit/ccip-starter-kit-foundry",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Chainlink CCIP local simulator, an installable package designed to simulate Chainlink CCIP locally within your Hardhat and Foundry projects",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run with forge script ... --broadcast --multi --account PRIVATE_KEY",
+            "Verify with VerifyCrossChainMessage.s.sol"
+          ],
+          "unverifiable_from_source": [
+            "Install Foundry via curl -L https://foundry.paradigm.xyz | bash",
+            "Foundry starter kit repo reference",
+            "CCIP local simulator description",
+            "bidirectional token-transfer exercise claim"
+          ],
+          "verdict": "Not safe to ship: the answer replaces the source's exact forge install, remappings, and forge script run commands with fabricated version-pinned installs, wrong remapping paths, and a nonexistent script/command, which would break a developer following it.",
+          "fidelity": 40,
+          "prompt": "Using Foundry, how do I deploy the CCIP sender and receiver and send a message from Fuji to Sepolia?",
+          "archetype": "constrained",
+          "answer": "I'll search for the latest information on deploying CCIP contracts with Foundry and sending cross-chain messages from Fuji to Sepolia.Let me get the detailed Foundry-specific steps and contract code.I have enough to give a comprehensive answer. Let me pull a bit more on the Foundry setup steps.Based on the official Chainlink documentation, here's how to deploy CCIP sender and receiver contracts with Foundry and send a message from Avalanche Fuji to Ethereum Sepolia. This follows Chainlink's official \"Get Started with CCIP (EVM)\" tutorial, which uses the same two smart contracts and one wallet funded on two CCIP-supported EVM testnets: Avalanche Fuji and Ethereum Sepolia.\n\n## Prerequisites\n\nYou'll need one wallet funded on two CCIP-supported EVM testnets: Avalanche Fuji and Ethereum Sepolia — you will need some native tokens and LINK on both networks. Specifically:\n- **AVAX** on Fuji (to deploy the sender + pay gas)\n- **ETH** on Sepolia (to deploy the receiver + pay gas)\n- **LINK** on Fuji (to pay CCIP fees — the tutorial funds the sender with LINK)\n\nInstall Foundry (`curl -L https://foundry.paradigm.xyz | bash`, then `foundryup`) and verify with `forge --version` and `cast --version`.\n\n## 1. Set up the Foundry project and install dependencies\n\nCreate your project (`forge init ccip-demo`), then install the CCIP contracts. Per the docs, in a Foundry project you can either install the package via NPM/Yarn to avoid pulling extra dependencies, or use `forge install`. If you prefer pure `forge install`, the docs show installing the package with its dependencies:\n\nforge install smartcontractkit/chainlink-ccip@0e3e0fc5c0f70f0d50dca66b139142ddf3009294 smartcontractkit/chainlink-evm@86aa5a1d34b20eda8d18fe6eb0e4882948e545ba openzeppelin/openzeppelin-contracts@0a25c1940ca220686588c4af3ec526f725fe2582 openzeppelin/openzeppelin-contracts@dbb6104ce834628e473d2173bbc9d47f81a9eec3\n\nThen configure remappings in `remappings.txt` / `foundry.toml`, for example: \"@chainlink/contracts-ccip/contracts/=node_modules/@chainlink/contracts-ccip/contracts/\", \"@chainlink/contracts/=node_modules/@chainlink/contracts/\", \"@openzeppelin/[email protected]/=node_modules/@openzeppelin/contracts-4.8.3/\", \"@openzeppelin/[email protected]/=node_modules/@openzeppelin/contracts-5.0.2/\"\n\nConfigure your `foundry.toml` with RPC endpoints so the script can reference them by name:\n\n```toml\n[rpc_endpoints]\nfuji = \"${FUJI_RPC_URL}\"\nsepolia = \"${SEPOLIA_RPC_URL}\"\n```\n\nOne important note about secrets in the Foundry flow: while you pull in RPC URLs via encrypted keystore variables in the Hardhat project, you only encrypt the PRIVATE_KEY in Foundry.\n\n## 2. The key network configuration values\n\nThe tutorial's deployment script hardcodes these official CCIP Directory addresses:\n\n// Avalanche Fuji configuration — FUJI_ROUTER = 0xF694E193200268f9a4868e4Aa017A0118C9a8177; FUJI_LINK = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846; // Ethereum Sepolia configuration — SEPOLIA_ROUTER = 0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59; uint64 SEPOLIA_CHAIN_SELECTOR = 16015286601757825753;\n\nYou can independently confirm these:\n- For Ethereum Sepolia, the Router address is 0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59 — you can find the addresses for each network on the CCIP Directory.\n- For Avalanche Fuji: the router address is 0xF694E193200268f9a4868e4Aa017A0118C9a8177, and the LINK contract address is 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846.\n\n## 3. The deployment script\n\nThe tutorial provides a single forge script that handles the whole flow using forks. Its structure looks like this:\n\n// SPDX-License-Identifier: UNLICENSED pragma solidity 0.8.24; import {Script, console} from \"forge-std/Script.sol\"; import {Sender} from \"../src/Sender.sol\"; import {Receiver} from \"../src/Receiver.sol\"; import {LinkTokenInterface} from \"@chainlink/contracts/src/v0.8/shared/interfaces/LinkTokenInterface.sol\"; contract SendCrossChainMessage is Script { ... uint256 ONE_LINK = 1e18; function run() public { uint256 fujiFork = vm.createFork(vm.rpcUrl(\"fuji\")); uint256 sepoliaFork = vm.createFork(vm.rpcUrl(\"sepolia\")); // Step 1: Deploy Sender on Fuji ...\n\nThe `Sender` contract exposes a `sendMessage` function; the `Receiver` contract is deployed on the destination and configured to accept messages from the sender. Both are the standard example contracts from the tutorial's \"Examine the code\" section.\n\n## 4. Deploy and send\n\nRunning the script executes the end-to-end flow. Conceptually the steps are:\n1. Deploy the `Sender` contract on Avalanche Fuji.\n2. Deploy the `Receiver` contract on Ethereum Sepolia.\n3. Fund the sender with LINK — in the tutorial, you send 70 LINK to the sender contract to pay the CCIP fees.\n4. Call `sendMessage` to send the data cross-chain.\n\nYou run a forge script broadcasting against the relevant RPC, following the same pattern the CCIP starter kit uses:\n\nforge script ./script/Example02.s.sol:DeployBasicMessageReceiver -vvv --broadcast --rpc-url ethereumSepolia\n\nTo fund the sender contract with LINK on Fuji, you can use `cast send` on the LINK token's `transfer` function, as shown in the starter kit: cast send 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846 \"transfer(address,uint256)\" <SENDER_ADDRESS> 5000000000000000000 --rpc-url avalancheFuji --private-key=$PRIVATE_KEY (this sends 5 LINK).\n\nOnce funded, the sender's `sendMessage` transfers the payload. In the tutorial, you send a \"Hello World!\" string from your contract on Avalanche Fuji to the contract you deployed on Ethereum Sepolia.\n\n## 5. Verify delivery\n\nAfter the transaction finalizes on Fuji, CCIP relays the message to the receiver on Sepolia. You can track it using the message ID via the CCIP Explorer, or query `getLastReceivedMessageDetails` on the receiver. In the token-transfer variant of this example, once delivered you'd see something like the received text is Hello World! on the destination side.\n\n## Helpful notes\n\n- **Bidirectional:** these example contracts are designed to work bi-directionally — as an exercise, you can use them to transfer tokens and data from Avalanche Fuji to Ethereum Sepolia and from Ethereum Sepolia back to Avalanche Fuji.\n- **Local testing first:** Consider the CCIP local simulator to iterate before hitting testnet. Enhance your development workflow using the Chainlink CCIP local simulator, an installable package designed to simulate Chainlink CCIP locally within your Hardhat and Foundry projects. It provides a robust smart contracts and scripts suite, enabling you to build, deploy, and execute CCIP token transfers and arbitrary messages on a local Hardhat or Anvil development node, and you can also work on forked nodes.\n- **Gas on the destination:** under normal circumstances, transactions on the Ethereum Sepolia network require significantly fewer tokens to pay for gas; however, during exceptional periods of high gas price spikes, your transactions may fail if not sufficiently funded.\n\n## Reference resources\n\n- **Official tutorial (all three env paths, including the full Sender/Receiver source):** docs.chain.link/ccip/getting-started/evm\n- **Foundry starter kit repo:** github.com/smartcontractkit/ccip-starter-kit-foundry\n- **CCIP Directory** for verifying router addresses and chain selectors per network.\n\nI'd recommend copying the exact `Sender.sol`, `Receiver.sol`, and the `SendCrossChainMessage.s.sol` script from the official Getting Started page rather than reconstructing them, since the docs contain the complete, tested source with the correct import paths for the pinned contract versions.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 61247,
+              "output_tokens": 4451,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 3938,
+              "output_tokens": 5552,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 17400,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ccip.chain.link/msg/${messageId"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; the answer instead cites a malformed template-string URL and appears to rely on unverified/fabricated external references."
+          },
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "arbitrumSepolia: { type: \"http\", chainType: \"l1\", url: configVariable(\"ARB_SEPOLIA_RPC_URL\")",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "ARB_SEPOLIA_CHAIN_SELECTOR = 3478487238524512106n",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "import hardhatToolboxViem from \"@nomicfoundation/hardhat-toolbox-viem\";",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "import {IERC20} from \"@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol\";",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "const logs = parseEventLogs({ abi: sender.abi, eventName: \"MessageSent\", logs: receipt.logs });",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "const sender = await viem.getContractAt(\"Sender\", SENDER_ADDRESS, { client: { wallet: walletClient } });",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "the ccip-starter-kit-hardhat project demonstrates a couple of basic Chainlink CCIP use cases, and the ccip-cross-chain-name-service is an educational example",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Cited URLs: [\"https://ccip.chain.link/msg/${messageId\"]",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use network.connect for avalancheFuji and sepolia",
+            "Deploy Sender with fujiNetwork.viem.deployContract(\"Sender\", [FUJI_ROUTER, FUJI_LINK])",
+            "Fund Sender with 1 LINK via link.write.transfer",
+            "Deploy Receiver with SEPOLIA_ROUTER",
+            "Call sender.write.sendMessage with SEPOLIA_CHAIN_SELECTOR, receiver.address, text"
+          ],
+          "unverifiable_from_source": [
+            "the ccip-starter-kit-hardhat project",
+            "the ccip-cross-chain-name-service project",
+            "EVMExtraArgsV1 usage for older lanes"
+          ],
+          "verdict": "Not safe to ship: the answer replaces the source's Fuji→Sepolia deploy-and-send workflow with a fabricated Sepolia→Arbitrum Sepolia setup, invents a chain selector and plugin/import paths not in the source, and fails to cite the actual documentation page.",
+          "fidelity": 35,
+          "prompt": "Show me the code to send a cross-chain CCIP message with a Hardhat 3 TypeScript script",
+          "archetype": "code-first",
+          "answer": "I'll search for the latest information on this since both Hardhat 3 and Chainlink CCIP have specific, evolving APIs.Let me get the detailed content from the most relevant sources.I have enough to build a complete answer. Let me put together a working example. Note both stacks are new, so I'll give you the current patterns.\n\nBelow is a complete, minimal example of sending a cross-chain CCIP message using a **Hardhat 3** TypeScript script (with the `hardhat-viem` toolbox, which is the default TS setup in Hardhat 3).\n\n## 1. The Sender contract (Solidity)\n\nCCIP messages are sent from an on-chain contract that calls the CCIP Router. Chainlink CCIP lets you send messages, transfer tokens, or both across chains, and the sender wraps its payload in a `Client.EVM2AnyMessage` struct passed to `IRouterClient.ccipSend`.\n\n```solidity\n// contracts/Sender.sol\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.24;\n\nimport {IRouterClient} from \"@chainlink/contracts-ccip/contracts/interfaces/IRouterClient.sol\";\nimport {Client} from \"@chainlink/contracts-ccip/contracts/libraries/Client.sol\";\nimport {IERC20} from \"@chainlink/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol\";\n\ncontract Sender {\n    IRouterClient public immutable router;\n    IERC20 public immutable linkToken;\n\n    event MessageSent(bytes32 messageId);\n\n    constructor(address _router, address _link) {\n        router = IRouterClient(_router);\n        linkToken = IERC20(_link);\n    }\n\n    /// @notice Sends a string across chains, paying fees in LINK.\n    function sendMessage(\n        uint64 destinationChainSelector,\n        address receiver,\n        string calldata text\n    ) external returns (bytes32 messageId) {\n        Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({\n            receiver: abi.encode(receiver),\n            data: abi.encode(text),\n            tokenAmounts: new Client.EVMTokenAmount[](0), // no token transfer\n            extraArgs: Client._argsToBytes(\n                Client.GenericExtraArgsV2({\n                    gasLimit: 200_000,\n                    allowOutOfOrderExecution: true\n                })\n            ),\n            feeToken: address(linkToken)\n        });\n\n        uint256 fee = router.getFee(destinationChainSelector, message);\n        linkToken.approve(address(router), fee);\n\n        messageId = router.ccipSend(destinationChainSelector, message);\n        emit MessageSent(messageId);\n    }\n}\n```\n\n## 2. Hardhat 3 config (TypeScript)\n\nHardhat 3 uses ESM and the new `HardhatUserConfig` with typed network definitions and the viem toolbox.\n\n```typescript\n// hardhat.config.ts\nimport type { HardhatUserConfig } from \"hardhat/config\";\nimport hardhatToolboxViem from \"@nomicfoundation/hardhat-toolbox-viem\";\nimport { configVariable } from \"hardhat/config\";\n\nconst config: HardhatUserConfig = {\n  plugins: [hardhatToolboxViem],\n  solidity: {\n    version: \"0.8.24\",\n    settings: { optimizer: { enabled: true, runs: 200 } },\n  },\n  networks: {\n    sepolia: {\n      type: \"http\",\n      chainType: \"l1\",\n      url: configVariable(\"SEPOLIA_RPC_URL\"),\n      accounts: [configVariable(\"PRIVATE_KEY\")],\n    },\n    arbitrumSepolia: {\n      type: \"http\",\n      chainType: \"l1\",\n      url: configVariable(\"ARB_SEPOLIA_RPC_URL\"),\n      accounts: [configVariable(\"PRIVATE_KEY\")],\n    },\n  },\n};\n\nexport default config;\n```\n\nSet your secrets with `npx hardhat keystore set SEPOLIA_RPC_URL` (and the same for `PRIVATE_KEY`, etc.).\n\n## 3. The send script (TypeScript + viem)\n\nA key change in Hardhat 3 is that you no longer rely on a global `hre`. Instead you import `network` from `hardhat` and call `network.connect()` to get a connection, then access `viem` from it.\n\n```typescript\n// scripts/send-message.ts\nimport { network } from \"hardhat\";\nimport { parseEventLogs } from \"viem\";\n\n// --- Config for Sepolia -> Arbitrum Sepolia ---\nconst SENDER_ADDRESS = \"0xYourDeployedSenderContract\";\nconst ARB_SEPOLIA_CHAIN_SELECTOR = 3478487238524512106n; // dest selector\nconst RECEIVER_ADDRESS = \"0xYourReceiverOnArbitrumSepolia\";\nconst MESSAGE_TEXT = \"Hello from Sepolia via CCIP!\";\n\nasync function main() {\n  // Connect to the source chain defined in hardhat.config.ts\n  const { viem } = await network.connect({ network: \"sepolia\" });\n\n  const [walletClient] = await viem.getWalletClients();\n  const publicClient = await viem.getPublicClient();\n\n  // Get a contract instance bound to the deployed address\n  const sender = await viem.getContractAt(\"Sender\", SENDER_ADDRESS, {\n    client: { wallet: walletClient },\n  });\n\n  console.log(`Sending message from ${walletClient.account.address}...`);\n\n  // Send the CCIP message\n  const txHash = await sender.write.sendMessage([\n    ARB_SEPOLIA_CHAIN_SELECTOR,\n    RECEIVER_ADDRESS,\n    MESSAGE_TEXT,\n  ]);\n\n  console.log(`Tx submitted: ${txHash}`);\n\n  // Wait for confirmation and pull the CCIP messageId from the event\n  const receipt = await publicClient.waitForTransactionReceipt({\n    hash: txHash,\n  });\n\n  const logs = parseEventLogs({\n    abi: sender.abi,\n    eventName: \"MessageSent\",\n    logs: receipt.logs,\n  });\n\n  if (logs.length > 0) {\n    const messageId = (logs[0].args as { messageId: string }).messageId;\n    console.log(`✅ CCIP messageId: ${messageId}`);\n    console.log(`Track it at: https://ccip.chain.link/msg/${messageId}`);\n  }\n}\n\nmain().catch((error) => {\n  console.error(error);\n  process.exitCode = 1;\n});\n```\n\nRun it with:\n\n```bash\nnpx hardhat run scripts/send-message.ts\n```\n\n## Important notes\n\n1. **Fund the Sender contract.** Because fees here are paid in LINK, you must transfer LINK to the deployed `Sender` contract before calling `sendMessage` (the contract approves and pays the router). To pay in native gas instead, set `feeToken: address(0)` and send `value: fee` with the call.\n\n2. **Get the right addresses.** Router addresses, LINK token addresses, and destination chain selectors are network-specific — look them up in the Get Started with CCIP (EVM) directory rather than hardcoding blindly.\n\n3. **Package versions.** Use `@chainlink/contracts-ccip` for the CCIP interfaces/libraries. The import paths shifted across versions, so pin the version and confirm the path (`interfaces/IRouterClient.sol`, `libraries/Client.sol`).\n\n4. **`extraArgs`.** Use `GenericExtraArgsV2` for current CCIP lanes. If you target an older lane you may need `EVMExtraArgsV1` (`_argsToBytes(EVMExtraArgsV1({gasLimit: ...}))`).\n\n5. **Reference starter kits.** For fuller working examples, the ccip-starter-kit-hardhat project demonstrates a couple of basic Chainlink CCIP use cases, and the ccip-cross-chain-name-service is an educational example of how to create a minimal cross-chain name service using Chainlink CCIP — though both currently target Hardhat 2, so you'll adapt the scripts to the `network.connect()` pattern shown above.\n\nWould you like me to also include the **deployment script** for the `Sender` contract, or a matching **`CCIPReceiver`** contract for the destination chain?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 27581,
+              "output_tokens": 4074,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 3770,
+              "output_tokens": 3854,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 17400,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source URL despite covering its content."
+          },
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "many example receivers gate on `allowlistedSourceChains` / `allowlistedSenders`",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "can take anywhere from a couple of minutes to ~20+ minutes depending on the lanes",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Specific delivery time estimates (couple of minutes to ~20+ minutes)",
+            "Allowlisting logic (allowlistedSourceChains/allowlistedSenders) as a common cause of revert",
+            "Fee/config issues like wrong destination chain selector causing revert on source"
+          ],
+          "verdict": "The answer correctly diagnoses the zero-messageId issue (not yet delivered, wrong receiver address, check CCIP Explorer) matching the source's guidance, but it adds unverified specifics (allowlisting, timing estimates) and fails to cite the source page, so it's usable but not fully source-grounded.",
+          "fidelity": 75,
+          "prompt": "my ccip verify script returns no message received, getLastReceivedMessageDetails gives all zeros — what's wrong?",
+          "archetype": "error-debug",
+          "answer": "Great question — an all-zeros `getLastReceivedMessageDetails()` almost always means the receiver's `_ccipReceive()` callback has **never fired on the destination chain yet**. The storage variables are still at their default (zero) values. Here are the most common causes, roughly in order of likelihood:\n\n## 1. The message simply hasn't arrived yet (most common)\nCCIP is **not instant**. Cross-chain delivery waits for source-chain finality plus off-chain DON processing, which can take anywhere from a couple of minutes to ~20+ minutes depending on the lanes.\n\n**Do this first:** grab the transaction hash from your *send* on the source chain and paste it into the **CCIP Explorer** (ccip.chain.link). It will show a status:\n- `Waiting for finality` / `In progress` → just wait and re-run your verify script.\n- `Success` → the message *was* delivered; if you still get zeros, you're querying the wrong place (see below).\n- `Failed` → execution reverted on the destination (see #4).\n\n## 2. You're querying the wrong chain or wrong contract\nYour verify script must call `getLastReceivedMessageDetails()` on the **receiver contract on the destination chain**, not the sender on the source chain. Double-check:\n- The RPC / provider in your script points to the **destination** network.\n- The address is the **deployed receiver**, not the sender.\n- You're reading the same contract instance that was set as the message's `receiver`.\n\n## 3. The message was sent to the wrong receiver address\nIn the `EVM2AnyMessage`, the `receiver` field must be **`abi.encode(receiverAddress)`** (ABI-encoded to `bytes`), not the raw address. If it's malformed or points to a different/EOA address, the callback never reaches your contract. Verify the exact address you encoded matches your deployed receiver.\n\n## 4. Delivery happened but execution reverted on the destination\nIf CCIP Explorer shows the message delivered but your state is still zero, `_ccipReceive` may be reverting. Common reasons:\n- The **sender/source-chain selector isn't allowlisted** in the receiver (many example receivers gate on `allowlistedSourceChains` / `allowlistedSenders`). If you added allowlisting logic, make sure both the source chain selector and the sender address are enabled.\n- An error/revert inside your `_ccipReceive` logic (e.g., decoding a payload shape that doesn't match what was sent).\n\n## 5. Fee / configuration issues that blocked the send\nIf the send itself never fully went through:\n- Insufficient LINK (or native) to cover CCIP fees, so `ccipSend` reverted on source.\n- Wrong **destination chain selector** in the message.\n- Using a router address for a chain that doesn't match your network.\n\n---\n\n### Fastest path to diagnose\n1. Confirm the **send tx succeeded** on the source chain and copy its hash.\n2. Look it up on **CCIP Explorer** — this single step tells you whether the problem is \"not delivered yet,\" \"delivery failed,\" or \"already delivered (so it's a query bug).\"\n3. Based on that status, apply the fixes above.\n\nIf you can share your send code (the `EVM2AnyMessage` struct), your receiver's `_ccipReceive` / allowlist logic, and the CCIP Explorer status for the message, I can pinpoint the exact issue. Would you also like me to look up the current expected finality/delivery times for your specific source→destination lane?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5923,
+              "output_tokens": 1572,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1744,
+              "output_tokens": 1173,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 17400,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source URL despite drawing heavily on its content."
+          },
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Client.EVMExtraArgsV2({ gasLimit: 200_000, allowOutOfOrderExecution: true })",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "sendMessagePayLINK function is protected by the onlyAllowlistedDestinationChain",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Build the EVM2AnyMessage struct (via a _buildCCIPMessage helper)",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "To pay in the native gas token instead, set feeToken to address(0) and supply msg.value on the ccipSend call.",
+            "the gasLimit is set to 0 because the contract only transfers tokens and does not expect function calls",
+            "Extra arguments should be encoded using _argsToBytes(EVMExtraArgsV1) ... or _svmArgsToBytes(SVMExtraArgsV1)",
+            "Any2EVMMessage struct includes destTokenAmounts field",
+            "For a token-only transfer, this is left empty (data field)"
+          ],
+          "verdict": "The answer covers the core EVM2AnyMessage fields correctly but its actual code sample uses the wrong extra-args type (EVMExtraArgsV2 instead of the source's GenericExtraArgsV2) and introduces fabricated function/modifier names not found in the source, plus it never cites the expected source page, so it is not safe to ship as-is without correction.",
+          "fidelity": 55,
+          "prompt": "CCIP send message sender contract sendMessage EVM2AnyMessage fields",
+          "archetype": "terse/keyword",
+          "answer": "I have enough information to answer comprehensively.\n\n## CCIP `EVM2AnyMessage` — Building and Sending a Message from a Sender Contract\n\nWhen you send a Chainlink CCIP message from a sender contract, you construct an `EVM2AnyMessage` struct (from the `Client.sol` library) and pass it to the router's `ccipSend()` function.\n\n### The `EVM2AnyMessage` struct\n\nCCIP messages are built using the EVM2AnyMessage struct from the Client.sol library. The EVM2AnyMessage struct is defined as follows:\n\n```solidity\nstruct EVM2AnyMessage {\n    bytes receiver;\n    bytes data;\n    EVMTokenAmount[] tokenAmounts;\n    address feeToken;\n    bytes extraArgs;\n}\n```\n\n### Field-by-field breakdown\n\n**1. `receiver` (bytes)**\n- The receiver field specifies which program on the destination chain will process the incoming CCIP message. It can be a smart contract or an EOA.\n- The _receiver address is encoded in bytes to accommodate non-EVM destination blockchains with distinct address formats. The encoding is achieved through abi.encode.\n\n**2. `data` (bytes)**\n- The arbitrary payload to send. The data is encoded from a string text to bytes using abi.encode.\n- For a token-only transfer, this is left empty. The data is empty because you only transfer tokens.\n\n**3. `tokenAmounts` (EVMTokenAmount[])**\n- The tokenAmounts is an array. Each element comprises a struct that contains the token address and amount. The `EVMTokenAmount` struct itself has two fields: where the EVMTokenAmount struct consists of two fields, the token contract and the amount to transfer.\n- For a message with no token transfer, pass an empty array: `new Client.EVMTokenAmount[](0)`.\n\n**4. `feeToken` (address)**\n- The feeToken designates the token address used for CCIP fees. Here, address(linkToken) signifies payment in LINK.\n- To pay in the native gas token instead, set `feeToken` to `address(0)` and supply `msg.value` on the `ccipSend` call.\n\n**5. `extraArgs` (bytes)**\n- The extraArgs specify the gasLimit for relaying the CCIP message to the recipient contract on the destination blockchain. In this example, the gasLimit is set to 200000.\n- Extra arguments should be encoded using _argsToBytes(EVMExtraArgsV1), _argsToBytes(GenericExtraArgsV2), or _svmArgsToBytes(SVMExtraArgsV1).\n- The V2 args add out-of-order execution control: struct GenericExtraArgsV2 { uint256 gasLimit; bool allowOutOfOrderExecution; }\n- For a token-only transfer where no receiver function is called, the gasLimit is set to 0 because the contract only transfers tokens and does not expect function calls on the destination blockchain.\n\n### Example: building the message in a sender contract\n\nsendMessage sends the CCIP message. This contains the same logic as before, except no tokens are added to the tokens array, and a string, \"Hey there!\" is abi encoded and passed to the data part of the struct:\n\n```solidity\nClient.EVM2AnyMessage memory evm2AnyMessage = Client.EVM2AnyMessage({\n    receiver: abi.encode(receiver),\n    data: abi.encode(\"Hey there!\"),          // ABI-encoded payload\n    tokenAmounts: new Client.EVMTokenAmount[](0),  // no tokens\n    extraArgs: Client._argsToBytes(\n        Client.EVMExtraArgsV2({\n            gasLimit: 200_000,               // gas for callback on destination\n            allowOutOfOrderExecution: true\n        })\n    ),\n    feeToken: address(s_linkToken)           // pay fees in LINK\n});\n```\n\n### The send flow inside the sender contract\n\nA typical `sendMessage`/`sendMessagePayLINK` function does the following:\n\n1. Build the `EVM2AnyMessage` struct (via a `_buildCCIPMessage` helper).\n2. Computes the fees by invoking the router's getFee function. Ensures your contract balance in LINK is enough to cover the fees.\n3. Grants the router contract permission to deduct the fees from the contract's LINK balance. Dispatches the CCIP message to the destination chain by executing the router's ccipSend function.\n\nWhen paying in native gas instead of LINK: msg.value is set because you pay in native gas.\n\n### Why use a dedicated sender contract?\n\nThe sender contract serves as an entry point between your end user and the router contract from Chainlink. This contract is under your control and can be used to offer more customization possibilities. A common security practice is to gate the send function — for example, the sendMessagePayLINK function is protected by the onlyAllowlistedDestinationChain, ensuring the contract owner has allowlisted a destination chain.\n\n### Note on the receiving side\n\nThe `EVM2AnyMessage` struct used for sending is **not** the same struct received on the destination chain. On the destination blockchain, the router invokes the ccipReceive function which expects an Any2EVMMessage struct. That receive struct is defined as:\n\nstruct Any2EVMMessage { bytes32 messageId; uint64 sourceChainSelector; bytes sender; bytes data; EVMTokenAmount[] destTokenAmounts; }\n\nIf you'd like, I can walk through a complete sender + receiver contract pair, the fee estimation logic, or the differences between the V1 and V2 extra-args encodings.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 33774,
+              "output_tokens": 2906,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2571,
+              "output_tokens": 4002,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 17400,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it will look up documentation but cites no source URL, so retrieval cannot be confirmed."
+          },
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "To work around this, you need to set the gas limit manually to 3000000.",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "There's a fully local option using the CCIP Local Simulator inside Remix, which lets you test everything on Remix's built-in VM without faucets or waiting.",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "These example contracts are designed to work bi-directionally... send data from Avalanche Fuji to Ethereum Sepolia and from Ethereum Sepolia back to Avalanche Fuji.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Step 2 — Deploy the Receiver on Ethereum Sepolia (before deploying the Sender in Step 3)",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "fill in Sepolia's router address (and LINK address if the constructor requires it)",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "You'll need far less than that in practice, but have some LINK ready.",
+            "Under normal circumstances, transactions on the Ethereum Sepolia network require significantly fewer tokens to pay for gas..."
+          ],
+          "verdict": "The answer covers the correct high-level Remix/MetaMask workflow and addresses/values are accurate, but it reverses the source's deployment order, invents an unsupported gas-limit fix, and fabricates a 'CCIP Local Simulator' feature and bidirectional-testing claim not found in the source, and it fails to cite the source despite claiming to look it up—so it needs fact-checking before shipping to a beginner.",
+          "fidelity": 60,
+          "prompt": "I'm new to this and want to try Chainlink CCIP in the browser without installing anything. Can you walk me through deploying the sender and receiver contracts in Remix with MetaMask and sending a Hello World message between the two test networks?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll look up the current Chainlink CCIP documentation so I can give you accurate, up-to-date steps.Great choice — Remix + MetaMask is exactly the \"no-install, in-browser\" path the official Chainlink CCIP docs recommend. Here's a complete walkthrough based on the current getting-started guide. The example sends a \"Hello World!\" string from **Avalanche Fuji** (source) to **Ethereum Sepolia** (destination). Best for Web3-native workflows that prefer a browser-based IDE, you deploy the Sender.sol contract on Avalanche Fuji.\n\n## Before you start: what you'll need\n\n1. **MetaMask** installed as a browser extension, with two testnets available: Avalanche Fuji and Ethereum Sepolia.\n2. **Testnet gas tokens** in your wallet:\n   - Testnet AVAX (for Fuji) — to pay gas when you deploy the sender and send the message.\n   - Testnet ETH (for Sepolia) — to pay gas when you deploy the receiver.\n   - Get these from faucets (e.g., faucets.chain.link).\n3. **Testnet LINK** on Avalanche Fuji — this pays the CCIP cross-chain fee. In the official example, you sent 70 LINK to the sender contract to pay the CCIP fees. (You'll need far less than that in practice, but have some LINK ready.)\n\nYou'll also need two key addresses per network, which you look up on the **CCIP Directory**. Under the Deploy section, fill in the router address and the LINK token contract addresses for your specific blockchain. You can find both of these addresses on the CCIP Directory. For convenience, for Avalanche Fuji, the router address is 0xF694E193200268f9a4868e4Aa017A0118C9a8177 and the LINK address is 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846.\n\n---\n\n## Step 1 — Open the contracts in Remix\n\nGo to **remix.ethereum.org** and open the CCIP `Sender.sol` and `Receiver.sol` example contracts (the getting-started guide has \"Open in Remix\" links that load them for you). Then **compile** each contract using the Solidity compiler tab.\n\n## Step 2 — Deploy the Receiver on Ethereum Sepolia\n\n1. Switch MetaMask to the **Ethereum Sepolia** network.\n2. In Remix, go to the **Deploy & Run Transactions** tab and choose the injected wallet as your environment. In Remix under the Deploy & Run Transactions tab, select Injected Provider - MetaMask in the Environment list. Remix will use the MetaMask wallet to communicate with the network.\n3. In the deploy section, fill in **Sepolia's** router address (and LINK address if the constructor requires it) from the CCIP Directory.\n4. Click **transact/Deploy** and confirm in MetaMask. Check the transaction details to make sure you are deploying the contract to the right network. After you confirm the transaction, the contract address appears in the Deployed Contracts list.\n5. **Note the deployed receiver address** — you'll need it when you send the message.\n\n## Step 3 — Deploy the Sender on Avalanche Fuji\n\n1. Switch MetaMask to the **Avalanche Fuji** network.\n2. Keep the environment as your injected MetaMask provider in Remix. Remix will use the MetaMask wallet to communicate with Avalanche Fuji. Under the Deploy section, fill in the router address and the LINK token contract addresses for your specific blockchain.\n3. Use the **Fuji** router and LINK addresses listed above.\n4. Click **transact** to deploy and confirm in MetaMask. Click the transact button to deploy the contract. MetaMask prompts you to confirm the transaction, then check the transaction details to make sure you are deploying the contract to Avalanche Fuji.\n\n## Step 4 — Fund the Sender contract with LINK\n\nThe sender contract pays the CCIP fee in LINK, so it needs a LINK balance. In MetaMask (on Fuji), send some testnet LINK to the deployed **sender contract address**. You now have one sender contract on Avalanche Fuji and one receiver contract on Ethereum Sepolia, and you send LINK to the sender contract to pay the CCIP fees.\n\n## Step 5 — Send the \"Hello World!\" message\n\n1. Make sure MetaMask is on **Avalanche Fuji**.\n2. In Remix, expand your deployed **sender** contract. Send a Hello World! string from your contract on Avalanche Fuji to the contract you deployed on Ethereum Sepolia: open MetaMask and select the Avalanche Fuji network, then in Remix under the Deploy & Run Transactions tab, expand the first contract in the Deployed Contracts section.\n3. Expand the sendMessage function and fill in the following arguments, then click the transact button to run the function. MetaMask prompts you to confirm the transaction. The arguments are typically the **destination chain selector** for Ethereum Sepolia (found on the CCIP Directory), the **receiver contract address** from Step 2, and the **text** (\"Hello World!\").\n\n> **Tip on gas:** Remix sometimes mis-estimates gas for the send function. Remix IDE fails to estimate the gas properly for the sendMessage function. To work around this, you need to set the gas limit manually to 3000000. If your transaction fails on estimation, set the gas limit manually in Remix.\n\n## Step 6 — Wait for cross-chain delivery\n\nCross-chain messages aren't instant — they wait for finality on the source chain and then get delivered. You can track progress using the CCIP message ID (the transaction produces one) on the **CCIP Explorer**. When the status of the transaction is marked with a \"Success\" status, the CCIP transaction and the destination transaction are complete.\n\n## Step 7 — Read the message on the Receiver\n\n1. Switch MetaMask to **Ethereum Sepolia**.\n2. In Remix, expand your deployed **receiver** contract and read the stored data. Open MetaMask and select the Ethereum Sepolia network. In Remix under the Deploy & Run Transactions tab, expand the receiver contract deployed on Ethereum Sepolia, then click the getLastReceivedMessageDetails function button to read the stored data. In this example, it should be \"Hello World!\".\n\nThat's it — you just sent your first cross-chain data using CCIP.\n\n---\n\n## A few tips for a first-timer\n\n- **The contracts are bidirectional.** These example contracts are designed to work bi-directionally. As an exercise, you can use them to send data from Avalanche Fuji to Ethereum Sepolia and from Ethereum Sepolia back to Avalanche Fuji. So once you've done one direction, reversing it is a great practice run.\n- **Gas spikes can cause failures.** Under normal circumstances, transactions on the Ethereum Sepolia network require significantly fewer tokens to pay for gas; however, during exceptional periods of high gas price spikes, your transactions may fail if not sufficiently funded. Keep a little extra testnet gas on hand.\n- **Want to skip real testnets entirely?** There's a fully local option using the CCIP Local Simulator inside Remix, which lets you test everything on Remix's built-in VM without faucets or waiting. You can successfully test the CCIP getting started guide within a few minutes using Remix IDE, and testing locally is useful to debug your contracts and fix any issues before testing them on testnets, saving you time and resources. This is a nice way to rehearse before touching the real testnets.\n\nIf you'd like, I can walk you through where to find the specific values (chain selectors, router addresses) on the CCIP Directory, or explain what the `sendMessage` and `getLastReceivedMessageDetails` functions do under the hood. Just let me know which part you'd like to dig into.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 25239,
+              "output_tokens": 3378,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 3515,
+              "output_tokens": 4769,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 17400,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T14-48-30-952Z-7771",
+    "probes": {
+      "web": "2026-09-21T15-55-17-638Z-9018"
+    }
+  }
+}

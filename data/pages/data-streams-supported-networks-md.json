@@ -1,0 +1,156 @@
+{
+  "key": "data-streams-supported-networks-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Supported Networks",
+    "url": "https://docs.chain.link/data-streams/supported-networks.md",
+    "analyzedAt": "2026-09-22T13:33:20.306Z",
+    "contentType": "developer documentation / reference (network support matrix)",
+    "score": 46,
+    "band": "Developing",
+    "weightedTotal": 46,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "The Streams Trade section does answer-first well (\"available on the following networks:\" + list). But the primary question — the full supported-networks matrix with addresses — is absent from extractable text."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean hierarchy, 1 H1, 0 level skips, sensible short sections. Undercut by the missing table, which is the natural chunk an engine would extract."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "0 numerals, 0 hex identifiers, no chain IDs, no version strings. For a network reference page this is the highest-lift gap — addresses and chain IDs are exactly what agents query for."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "6 internal links to relevant concept pages (report schema, verification, Automation); no external/primary sources, and no block-explorer links because those live in the missing table."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "\"Chainlink Data Streams provides data access directly via API or WebSocket for offchain use cases\" is a solid liftable definition; Streams Trade is defined at first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "No JSON-LD, canonical MISSING, no datePublished/dateModified, no og/twitter tags, head not captured. Weak across the board."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code blocks; largely not applicable for a networks list, so not penalized heavily."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Title matches \"supported networks\" queries; the Streams Trade list covers that sub-question. But \"is <chain> supported for Data Streams,\" \"verifier proxy address on <network>,\" and chain-ID lookups are unanswerable from the text."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent product naming (Data Streams, Streams Trade, StreamsLookup), unambiguous prose."
+      }
+    ],
+    "summary": "This is a network-support reference page for Chainlink Data Streams, whose entire purpose is to answer \"which networks are supported and what are the verifier proxy addresses.\" The catastrophic problem: the page's own prose promises \"The table below lists all networks supported by Data Streams... each with verifier proxy contracts,\" but the measured facts confirm **0 tables and 0 hex identifiers in the served content** — the core table is injected by the `<DataStreams section=\"dsNotes\" />` component and never rendered into extractable HTML/markdown. A generative engine retrieving this page gets a promise with no payload. The honest verdict: prose quality is fine, but the single most valuable asset on the page is invisible to retrieval, which caps fidelity regardless of how well the rest reads.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Render the supported-networks table as static text",
+        "mapsTo": "answer-first extractability, concrete specifics, machine-scannability",
+        "tier": null,
+        "where": "Body paragraph \"The table below lists all networks supported by Data Streams…\" (`<DataStreams section=\"dsNotes\" />` component)",
+        "issue": "\"The table below lists all networks…\" — but 0 tables and 0 hex identifiers are in the served content.",
+        "change": "Ensure the component server-renders (or provide a static fallback) a real Markdown/HTML table with columns: Network, Chain ID, Verifier Proxy Address, Explorer link. This is the page's core payload and must exist in the raw HTML.",
+        "why": "An engine cannot cite or synthesize content that isn't in the retrieved text; this converts the page from a promise into an answer and injects the numerals/addresses currently scoring 2/10."
+      },
+      {
+        "priority": 2,
+        "title": "Add per-network specifics (chain IDs, address strings)",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "The same networks table and the Streams Trade bullet list.",
+        "issue": "Streams Trade list is name-only: \"Arbitrum, Avalanche, Base, BNB Chain…\" with no chain IDs.",
+        "change": "Append chain IDs to each entry (e.g., \"Arbitrum (42161)\", \"Base (8453)\") and include mainnet/testnet distinctions.",
+        "why": "Quantitative identifiers are among the highest-lift signals and match how agents query (\"verifier proxy on chain 42161\")."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/query-phrased anchors",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New H2/H3 or lead sentences.",
+        "issue": "No headings phrased as the questions users ask.",
+        "change": "Add sections like \"Which networks does Chainlink Data Streams support?\" and \"What is the verifier proxy address for <network>?\" answered in the first sentence.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "JSON-LD: 0 blocks; canonical MISSING; no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, and a self-referential canonical URL; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise agent trust (E-E-A-T) and parse reliability. (Note: head wasn't captured — CLI should pass raw `<head>` to confirm absence.)"
+      },
+      {
+        "priority": 3,
+        "title": "Strengthen the lead definition as a standalone chunk",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "Opening paragraph.",
+        "issue": "The definition is good but the following sentence depends on the unrendered table for meaning.",
+        "change": "Make the first sentence fully self-contained (e.g., \"Chainlink Data Streams is supported on N networks, each with a deployed verifier proxy contract for onchain report verification.\") with the count stated.",
+        "why": "A crisp, number-bearing opening survives skimming and parametric fallback."
+      }
+    ],
+    "antiPatterns": [
+      "**Unresolved cross-reference to missing content:** \"The table below lists all networks…\" points to a table that does not exist in the served output — a broken promise for both readers and engines.",
+      "**Undated content:** No dateModified/datePublished; freshness cannot be signaled on a page whose accuracy (address deployments) is time-sensitive."
+    ],
+    "offPageNotes": [
+      "The `llms.txt` reference is present and good; verify it indexes this page with the network matrix.",
+      "Component-rendered content (`<DataStreams>`) is a site-level rendering-pipeline issue — the fix (server-side rendering / static fallback) is architectural, not editorial, but it dominates this page's GEO ceiling.",
+      "Head metadata could not be verified from the provided content; pass raw `<head>` in the CLI for a complete metadata read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "key": "chainlink-functions-api-reference-functions-request-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "FunctionsRequest library API Reference",
+    "url": "https://docs.chain.link/chainlink-functions/api-reference/functions-request.md",
+    "analyzedAt": "2026-09-22T13:23:25.283Z",
+    "contentType": "developer documentation / API reference (auto-generated from Solidity NatSpec)",
+    "score": 57,
+    "band": "Developing",
+    "weightedTotal": 57.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Sections lead with the signature, which is the right instinct for a reference. Weak spot: `REQUEST_DATA_VERSION` and `DEFAULT_BUFFER_SIZE` sections contain only a type declaration with no value and no one-line description — an empty liftable chunk."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Median 19-word sections, 10 tables, no section over 176 words, zero level skips — ideal RAG chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Version strings present (`0.7.1`, `v1.3.0`, `v0.8`), but prose has only 2 numerals and the numeric constants show no actual values. \"Only Remote secrets are supported\" is a useful specific but buried in a table cell."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Good primary-source link to the pinned `FunctionsRequest.sol` at `contracts-v1.3.0`, plus NPM package links. No link to the CBOR spec despite `encodeCBOR` being central."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "\"Consumer contract developers use the FunctionsRequest library to build their requests\" is a clean canonical opener. The `Location` enum table is highly quotable. Most function descriptions are single terse NatSpec lines."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, no canonical URL, no `datePublished`/`dateModified`, no og/twitter tags (measured). Headings are clean semantic HTML, which salvages the score. The page does reference `/llms.txt`, a positive site-level signal."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "All 16 fences are Solidity signature declarations — no imports, no usage example, no combined flow showing `initializeRequestForInlineJavaScript` → `addDONHostedSecrets` → `setArgs` → `encodeCBOR`. An agent cannot copy-paste anything executable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Covers the full API surface but only in \"what is this signature\" form. No \"how do I build a request\", no explanation of *when* `EmptySource`/`NoInlineSecrets` are thrown, no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Consistent naming (`Request`, `Location`, `DON`), unambiguous prose. Terminology stable across sections."
+      }
+    ],
+    "summary": "This is a clean, well-structured Solidity API reference for the `FunctionsRequest` library — every type, error, and function has a signature-first section with parameter tables, and the heading hierarchy is flawless (28 headings, 0 level skips, 10 tables). Its biggest GEO weakness is a combination of thin metadata (no JSON-LD, canonical, or dates) and missing concrete values: the two constants that carry actual numbers (`REQUEST_DATA_VERSION`, `DEFAULT_BUFFER_SIZE`) show a type but no value, and no section shows a runnable end-to-end request build. The honest verdict: structurally exemplary, but it reads as a signature dump — a generative engine can cite the shape of the API but cannot synthesize *how to use it* or *when each error fires*.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fill in the missing constant values",
+        "mapsTo": "concrete statistics & specifics; answer-first extractability",
+        "tier": null,
+        "where": "`### REQUEST_DATA_VERSION` and `### DEFAULT_BUFFER_SIZE`",
+        "issue": "Both sections show only `uint16 REQUEST_DATA_VERSION` / `uint256 DEFAULT_BUFFER_SIZE` with no value.",
+        "change": "Add the actual constant value and a one-line description, e.g. \"`REQUEST_DATA_VERSION = 1` — the CBOR request-data schema version encoded into every request.\" Same for `DEFAULT_BUFFER_SIZE`.",
+        "why": "Quantitative constants are the single highest-lift specific; an empty declaration is an unliftable chunk that engines skip."
+      },
+      {
+        "priority": 1,
+        "title": "Add a complete runnable request-build example",
+        "mapsTo": "code completeness & agent-runnability; query coverage",
+        "tier": null,
+        "where": "After the intro line, before `## Types and Constants`",
+        "issue": "No section shows the functions used together; all fences are isolated signatures.",
+        "change": "Add one Solidity block with `import {FunctionsRequest} from \"@chainlink/contracts/...\";`, `using FunctionsRequest for FunctionsRequest.Request;`, then `req.initializeRequestForInlineJavaScript(source); req.setArgs(args); bytes memory data = req.encodeCBOR();`.",
+        "why": "Agents read reference docs to complete tasks; a self-contained, import-complete example is the most-cited artifact type and defends against parametric-prior guesses at usage."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/query-phrased headings for the errors and common tasks",
+        "mapsTo": "query/intent coverage; symptom-phrased retrieval",
+        "tier": null,
+        "where": "`## Errors` section and a new FAQ block",
+        "issue": "Errors are listed as bare signatures — `error EmptySource()` — with no trigger condition.",
+        "change": "Under each error add \"Reverts when …\" (e.g. \"`EmptySource` reverts when `source` is an empty string\"). Add short H3s like \"How do I add DON-hosted secrets to a request?\" and \"Why am I getting NoInlineSecrets?\"",
+        "why": "Devs query by error string and \"how do I\"; concept-titled signatures lose retrieval that symptom-phrased headings win."
+      },
+      {
+        "priority": 2,
+        "title": "Add page metadata (JSON-LD, canonical, dates)",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter",
+        "issue": "Measured: 0 JSON-LD blocks, canonical MISSING, dateModified absent.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: \"Solidity\"`, and a `<link rel=\"canonical\">`. Surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise parse-ability and E-E-A-T trust; this is a site-template fix applicable across all API-reference pages."
+      },
+      {
+        "priority": 2,
+        "title": "Promote the \"Only Remote secrets are supported\" constraint",
+        "mapsTo": "concrete specifics; parametric-prior resistance",
+        "tier": null,
+        "where": "`secretsLocation` row in the `Request` table",
+        "issue": "Key constraint \"\\*Only Remote secrets are supported\" is a footnote inside a table cell.",
+        "change": "State it as a standalone sentence under the `Request` struct: \"As of v1.0.0, `secretsLocation` must be `Location.Remote`; `Inline` and `DONHosted` secrets are not supported at the struct level.\"",
+        "why": "A crisp canonical constraint prevents engines from hallucinating inline-secret support from generic priors."
+      },
+      {
+        "priority": 3,
+        "title": "Add a CBOR spec citation",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "`### encodeCBOR`",
+        "issue": "\"Encodes a Request to CBOR encoded bytes\" with no reference.",
+        "change": "Link \"CBOR\" to RFC 8949 (`https://www.rfc-editor.org/rfc/rfc8949`).",
+        "why": "Inline links to primary standards raise citation credibility on the page's most technical claim."
+      }
+    ],
+    "antiPatterns": [
+      "Empty liftable chunks: two constant sections declare a type but no value or description.",
+      "Signature-only reference with zero usage code — an agent cannot execute anything without leaving the page.",
+      "Errors listed without trigger conditions (\"see the function\" implied but unstated)."
+    ],
+    "offPageNotes": [
+      "The page correctly references `/llms.txt`; ensure it is present and lists this URL — a site-level retrieval aid.",
+      "JSON-LD/canonical/date emission is almost certainly a docs-platform template concern; fixing it once propagates across every auto-generated API-reference page.",
+      "The CLI should pass raw `<head>` on future runs — head metadata could not be verified here, so the metadata score reflects only what was served in-body."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

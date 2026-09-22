@@ -1,0 +1,167 @@
+{
+  "key": "data-streams-architecture-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Streams Architecture",
+    "url": "https://docs.chain.link/data-streams/architecture.md",
+    "analyzedAt": "2026-09-22T13:29:06.272Z",
+    "contentType": "developer documentation / conceptual architecture reference",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 62.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a well-structured conceptual overview of Chainlink Data Streams' pull-based architecture, its two implementation modes, and its active-active deployment. Its biggest strength is clean, answer-first section leads and sensible chunk boundaries (14 sections, median 100 words, zero level skips). Its biggest opportunities are missing machine-readable metadata (no JSON-LD, canonical, or dates in the served HTML) and a shortage of concrete numbers — the page leans on vague quantifiers (\"low latency,\" \"robust,\" \"sub-second\") where hard figures would lift both citability and credibility. Honest verdict: solid, retrievable prose held back by thin specifics and absent structured metadata.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a Standard API vs Streams Trade comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "After the intro list of \"two implementation approaches.\"",
+        "issue": "The two modes are compared only in parallel prose; 0 tables on page.",
+        "change": "Add a table with rows like Retrieval model (pull/REST+WS vs Automation-triggered), Frontrunning mitigation, Gas cost timing, Best-for use case, drawn directly from the two \"Key benefits\" lists.",
+        "why": "Engines extract *reasons* and build justified \"which should I use\" answers from tables far more reliably than from separated bullet lists."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/decision-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Section titles and a new short FAQ near the end.",
+        "issue": "Concept-titled sections (\"Streams Trade Architecture\") miss \"how do I choose\" and error-phrased queries.",
+        "change": "Add H3s or FAQ entries phrased as questions: \"Which Data Streams implementation should I use?\", \"What do I do when a REST request returns 5xx?\", \"How do I avoid report gaps during failover?\" — answers already exist in body text.",
+        "why": "Headings matching the exact question devs type win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "Page `<head>` / template frontmatter.",
+        "issue": "Measured — 0 JSON-LD, canonical MISSING, dateModified absent.",
+        "change": "Emit `TechArticle` schema with `headline`, `dateModified`, `inLanguage`, and a self-referential canonical; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise agent parseability and trust; likely a site-template fix (see off-page note)."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete figures",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Intro (\"low-latency\"), Standard API benefits (\"sub-second data latency\"), Aggregation Network description.",
+        "issue": "Measured vague quantifiers \"many, various, low latency, robust\"; 0 numerals with units.",
+        "change": "State actual figures where public — e.g. report cadence/latency in milliseconds, number of isolated origins/data centers, WebSocket subscription limit (\"up to two\" is already good — extend that pattern).",
+        "why": "Quantitative claims are among the highest-lift changes for citation rate; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal StreamsLookup / verify code sketch",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Example trading flow using Streams Trade,\" step 4 and step 7.",
+        "issue": "Identifiers `StreamsLookup`, `checkCallback`, `verify` named but no snippet; 0 fenced blocks.",
+        "change": "Add a short Solidity fence showing the `revert StreamsLookup(...)` signature and the `verify` call, tagged `solidity`, linking to the full guide.",
+        "why": "Agents completing integration tasks lift copy-pasteable signatures; a labeled snippet anchors the canonical API against generic priors."
+      },
+      {
+        "priority": 3,
+        "title": "Name the tempting-wrong retry pattern as a Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Retry Guidance for REST Requests.\"",
+        "issue": "Good guidance, but \"Do not retry on 4xx\" is the only explicit Don't.",
+        "change": "Add an explicit Don't for the common mistake — e.g. \"Don't retry without exponential backoff and jitter; naive fixed-interval retries amplify load during a site failover.\"",
+        "why": "Naming the common-but-wrong pattern defends against models answering from generic retry priors."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"low latency,\" \"robust fault tolerance,\" \"various array of events\" — replace with specifics where possible.",
+      "Missing dates/schema: no visible freshness signal or structured metadata (stale-risk to engines).",
+      "No walls of prose, no broken cross-references, no keyword stuffing detected."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are almost certainly template-level — fix once in the docs layout to benefit all Data Streams pages, not just this one.",
+      "The page already references `/llms.txt`; ensure this URL is listed there so the canonical-hub retrieval path is complete.",
+      "CLI note: raw `<head>` was not captured — pass it for a definitive metadata read before acting on the schema findings."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

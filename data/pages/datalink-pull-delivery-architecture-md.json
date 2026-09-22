@@ -1,0 +1,167 @@
+{
+  "key": "datalink-pull-delivery-architecture-md",
+  "runId": "2026-09-22T13-10-14-434Z-5184",
+  "audit": {
+    "title": "DataLink Architecture (Pull Delivery)",
+    "url": "https://docs.chain.link/datalink/pull-delivery/architecture.md",
+    "analyzedAt": "2026-09-22T13:11:09.601Z",
+    "contentType": "developer documentation / conceptual architecture overview",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 51.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opening — \"DataLink (Pull Delivery) provides infrastructure for Data Providers to make their specialized data available onchain…\" is a liftable definition. The numbered steps are each self-contained."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "One H1, one section, a clean numbered/bulleted step list (measured: 1 heading, 9 bullets, 0 tables). No H2/H3 subsections and no summary table means an engine can't extract the four architectural stages as discrete retrievable units."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured 4 numerals, 0 with units, no version strings. \"Multiple nodes,\" \"low-latency REST and WebSocket,\" \"high availability\" are all qualitative — no consensus thresholds, node counts, or latency figures."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "8 internal links, 0 external/primary. Good cross-linking into Data Streams reference/tutorials, but nothing to a spec or canonical primary source."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The lead sentence is quotable; the closing sentence differentiating DataLink from Data Streams (\"focuses the DON's role on securely fetching and signing data from a *single provider*\") is a strong liftable distinction."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Poor. Measured: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Head metadata could not be verified — CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code blocks; acceptable for a conceptual page, but no config/address references either (verifier addresses are only linked, not shown)."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers the \"what is\" concept only. No \"how does DataLink differ from Data Streams,\" no troubleshooting, no lifecycle beyond the flow diagram."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming (DataLink, DON, Aggregation Layer, Verifier Contracts), unambiguous prose. No action needed."
+      }
+    ],
+    "summary": "This is a concise, well-written conceptual overview of the DataLink Pull Delivery data-flow, opening with a serviceable canonical definition and linking heavily into the wider Data Streams docs. Its biggest GEO weaknesses are the near-total absence of machine-readable metadata (no JSON-LD, no canonical URL, no dates) and a lack of concrete specifics (no node counts, no latency figures, no version data) — the page describes architecture in qualitative terms only. As a single 265-word section under one H1, it chunks cleanly but offers no symptom- or question-phrased entry points for retrieval, so it will win \"what is DataLink architecture\" queries but little else.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability & E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "Measured: 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Add `TechArticle` JSON-LD with `headline`, `dateModified`, `inLanguage`, and a self-referential `canonical` URL; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise parse-trust and citation rate for agents that verify source authority."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased subheadings",
+        "mapsTo": "query/intent coverage + chunkability",
+        "tier": null,
+        "where": "convert the four numbered steps and the closing paragraph into H2/H3 sections",
+        "issue": "Single section, concept-titled only (\"DataLink Architecture\").",
+        "change": "Add H2s like \"How does DataLink differ from Data Streams?\", \"How is the data signed and verified?\", \"How do dApps fetch DataLink reports?\" — each opening with a one-sentence answer.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses; they also create clean per-topic chunks."
+      },
+      {
+        "priority": 2,
+        "title": "Inject concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "steps 2 and 3",
+        "issue": "\"Multiple nodes… reach consensus\"; \"low-latency REST and WebSocket APIs.\"",
+        "change": "State the DON node count / consensus threshold if disclosable, quantify \"low-latency\" (e.g. p99 latency), and name the report/verifier version or schema. Even \"single-provider\" report cadence figures help.",
+        "why": "Quantitative claims are among the highest-lift changes for generative visibility; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a comparison table (DataLink vs Data Streams)",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "near the closing differentiation paragraph",
+        "issue": "The key distinction is buried in one prose sentence.",
+        "change": "Add a 2-column table contrasting data source (single provider vs aggregated), DON role, and shared transport/verification components.",
+        "why": "Tables let engines extract *reasons* and build justified comparative answers — a common query shape here."
+      },
+      {
+        "priority": 2,
+        "title": "Replace the vague quantifier \"robust\"",
+        "mapsTo": "clarity + specifics",
+        "tier": null,
+        "where": "closing sentence, \"utilizes the robust transport…\"",
+        "issue": "\"robust\" (measured vague quantifier) adds no information.",
+        "change": "Replace with the concrete property, e.g. \"active-active multi-site\" transport with the specific HA guarantee.",
+        "why": "Specific properties are liftable; qualifiers are not."
+      },
+      {
+        "priority": 3,
+        "title": "Add one external/primary citation",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "onchain verification bullet",
+        "issue": "0 external/primary links.",
+        "change": "Link the verification claim to the canonical verifier spec or report-format reference.",
+        "why": "Primary-source links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"robust\" (flagged in measured facts); \"low-latency\" and \"high availability\" used without figures.",
+      "\"(Image: Image)\" — an unlabeled image placeholder with no alt text; provide a descriptive caption so the diagram's content is machine-readable.",
+      "No stale-content risk detected, but the *absence* of any date signal is itself a freshness gap."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; confirm this page is indexed there.",
+      "Canonical URL and JSON-LD may be injected site-wide at render; the served HTML shows none, so verify at the template level rather than per page.",
+      "Diagram alt-text and last-updated cadence are likely controlled by the docs platform, not this page alone."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-10-14-434Z-5184",
+    "probes": {}
+  }
+}

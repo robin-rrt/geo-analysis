@@ -1,0 +1,157 @@
+{
+  "key": "ccip-concepts-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Concepts",
+    "url": "https://docs.chain.link/ccip/concepts.md",
+    "analyzedAt": "2026-09-22T13:37:45.644Z",
+    "contentType": "developer documentation / section index (hub page)",
+    "score": 42,
+    "band": "Developing",
+    "weightedTotal": 42.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Opens with routing prose, \"This section explores the foundational concepts of the Cross-Chain Interoperability Protocol (CCIP).\" The canonical fact (CCIP = Cross-Chain Interoperability Protocol) is buried mid-sentence rather than led with as a standalone definition."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Measured 1 heading, 0 level skips, 4 bullets, one 108-word section — clean and well within chunk limits, but flat (no H2s) so there is only one retrievable unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — 3 numerals, 0 with units, vague quantifier \"some\" present. No supported-chain counts, no throughput/finality figures, nothing quantitative to lift."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 internal links, 0 external/primary. Appropriate for a hub, but no link to a canonical CCIP spec or standard raises authority."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "The CCT bullet (\"Cross-Chain Token (CCT) standard that enables secure token transfers\") is decent; CCIP itself lacks a crisp one-sentence definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured canonical MISSING, 0 JSON-LD, no `datePublished`/`dateModified` in head; a body \"Last Updated: 2025-06-09\" exists but isn't machine-exposed. `<head>` could not be verified — CLI should pass raw head."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code; not expected on a concepts index. Not a real defect here."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Covers navigation but answers no \"what is / how do I\" question directly; no TL;DR of what CCIP does."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Terminology (CCIP, CCT, EVM/SVM) is consistent and unambiguous."
+      }
+    ],
+    "summary": "This is a thin section-index page (111 words, 1 heading, 4 link bullets) whose job is to route readers into the CCIP Concepts subtree. Its strength is clean, consistent prose and a logical link set; its biggest weakness is that it opens with a navigational sentence (\"This section explores…\") rather than a self-contained, liftable definition of CCIP, and it carries almost no concrete specifics or machine-readable metadata. As a hub page it functions, but for generative retrieval it currently offers little an engine would quote for a \"what is CCIP\" query — a small answer-first paragraph and metadata would move it materially without bloating it.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Lead with a canonical CCIP definition",
+        "mapsTo": "Answer-first extractability, quotable canonical statements",
+        "tier": null,
+        "where": "First paragraph, before the link list",
+        "issue": "\"This section explores the foundational concepts of the Cross-Chain Interoperability Protocol (CCIP).\"",
+        "change": "Add a preceding standalone sentence: \"Chainlink CCIP (Cross-Chain Interoperability Protocol) is a cross-chain messaging protocol that lets smart contracts send tokens, arbitrary data, or both across blockchains through a single interface.\" Then keep the routing sentence.",
+        "why": "Gives engines a self-contained, verbatim-liftable definition for \"what is CCIP\" queries; hub pages currently offer nothing quotable."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to the intro",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Intro paragraph",
+        "issue": "Measured 0 numerals with units; qualitative-only prose underperforms.",
+        "change": "State supported network count and capabilities, e.g. \"CCIP supports token transfers, arbitrary messaging, and programmable token transfers across [N]+ networks including EVM and SVM chains.\" Use a real current figure.",
+        "why": "Quantitative claims are among the highest-lift additions for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page head / frontmatter",
+        "issue": "Measured canonical MISSING, 0 JSON-LD, no `dateModified` in head.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified` (mirror the body's 2025-06-09), canonical URL, and `inLanguage`; expose the \"Last Updated\" as a machine-readable date.",
+        "why": "Structured metadata and visible freshness raise parseability and E-E-A-T trust for agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add a one-line value statement per link",
+        "mapsTo": "Machine-scannability & justification structure",
+        "tier": null,
+        "where": "The 4 bullets",
+        "issue": "Bullets describe destinations but don't help an engine choose (\"Learn why some CCIP messages might require manual execution\").",
+        "change": "Keep the descriptions but front-load the concrete answer, e.g. Manual Execution → \"CCIP messages can require manual execution when automatic execution fails or gas limits are exceeded — this page shows how to retry them.\"",
+        "why": "Symptom-phrased, reason-bearing text captures retrieval that pure link-labels miss."
+      },
+      {
+        "priority": 3,
+        "title": "Link one authoritative external reference",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Intro",
+        "issue": "0 external/primary sources.",
+        "change": "Link the CCIP whitepaper or the canonical `chain.link/cross-chain` product page as the primary source for the protocol definition.",
+        "why": "Inline authoritative citation raises credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"some\" (\"some CCIP messages might require manual execution\") — replace with the concrete trigger condition.",
+      "Undated at the machine level: a body \"Last Updated\" exists but no `dateModified` in head/schema.",
+      "No canonical URL exposed."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; confirm it lists this concepts subtree.",
+      "Raw `<head>` was not captured; the CLI should pass it so canonical/schema/OG presence can be verified rather than inferred.",
+      "As a hub page, its retrieval value depends heavily on the child pages it links to being individually strong; audit those (architecture, CCT, best-practices, manual-execution) for the answer-first and specifics gaps flagged here."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

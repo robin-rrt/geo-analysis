@@ -1,0 +1,168 @@
+{
+  "key": "vrf-v2-5-migration-from-v1-md",
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "audit": {
+    "title": "Migrating from VRF v1",
+    "url": "https://docs.chain.link/vrf/v2-5/migration-from-v1.md",
+    "analyzedAt": "2026-09-22T13:14:49.656Z",
+    "contentType": "developer documentation / migration guide",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": null
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": null
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": null
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": null
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": null
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": null
+      }
+    ],
+    "summary": "This is a task-oriented VRF migration guide with strong inline references to canonical Solidity contracts (11 primary-source links) and good concrete numerics (3–200 block confirmations, up to 100 addresses, the Nov 29 2024 cutover). Its single biggest GEO weakness is a **scope/entity confusion**: the page is titled \"Migrating from VRF v1\" but the \"Update your code\" section instructs removing **v2** imports (`VRFConsumerBaseV2`) — mixing two distinct migration paths, which muddies entity resolution and retrieval. The highest-lift opportunity is a top-of-page **v1→v2.5 API mapping table** (the page has zero tables) that engines can lift verbatim. Metadata is entirely absent (no JSON-LD, canonical, or dates), and the Solidity snippets are embedded in MDX `Tabs`/`Fragment` components — the deterministic scan detected **0 fenced code blocks**, a real risk that agents won't extract the code at all.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a v1→v2.5 API mapping table at the top",
+        "mapsTo": "machine-scannability, answer-first, quotable statements",
+        "tier": null,
+        "where": "directly under \"Comparing VRF v1 to VRF v2.5\"",
+        "issue": "page has 0 tables; core renames are buried in numbered steps.",
+        "change": "add a 3-column table — *v1 → v2.5 → notes* — with rows for `VRFConsumerBase`→`VRFConsumerBaseV2Plus`, `requestRandomness`→`requestRandomWords`, `fulfillRandomness`→`fulfillRandomWords` (returns `uint256[]`), single→multi-word, and the new `extraArgs`/`nativePayment` parameter.",
+        "why": "a self-contained mapping table is the single most liftable artifact for \"how do I migrate VRF v1 to v2.5\" queries."
+      },
+      {
+        "priority": 1,
+        "title": "Resolve the v1-vs-v2 scope confusion",
+        "mapsTo": "terminology consistency, entity resolution",
+        "tier": null,
+        "where": "\"Update your code\" → Subscription panel, step 1",
+        "issue": "\"remove the v2 `VRFConsumerBaseV2` import\" on a page titled *Migrating from VRF v1*.",
+        "change": "either explicitly state the \"Update your code\" section serves both v1 and v2 sources (\"If migrating from v1, remove `VRFConsumerBase`; if from v2, remove `VRFConsumerBaseV2`\"), or split into clearly labeled v1 and v2 subsections.",
+        "why": "mixed source-version instructions cause engines to synthesize wrong migration steps; disambiguation prevents inverted/confused answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/query-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H3s or a short FAQ near the end",
+        "issue": "no entries matching \"what changed in VRF v2.5\", or the compile error from the removed base contract.",
+        "change": "add headings such as \"What's different between VRF v1 and v2.5?\" and a troubleshooting note for `fulfillRandomWords` signature mismatch (memory vs calldata across `@chainlink/contracts` 1.1.0/1.1.1).",
+        "why": "devs query by symptom and question, not by \"Comparing…\" — these win retrieval the current concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical, and a visible last-updated date",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` and a visible byline",
+        "issue": "measured 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "emit `TechArticle` JSON-LD with `dateModified`, `about: \"Chainlink VRF v2.5\"`, and a canonical URL; surface \"Last updated\" on-page.",
+        "why": "freshness and structured metadata raise parseability and trust for a version-migration doc."
+      },
+      {
+        "priority": 2,
+        "title": "Ensure code blocks render as real fenced blocks",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "all `solidity` snippets inside `TabsContent`/`Fragment`",
+        "issue": "deterministic scan detected 0 fenced blocks despite visible code.",
+        "change": "verify the served HTML emits `<pre><code class=\"language-solidity\">`; if MDX components strip fencing, add a plain fallback or ensure the `.md` endpoint preserves fences.",
+        "why": "agents extract labeled fenced code; if the fences are lost, the copy-pasteable migration code is invisible to them."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with numbers",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Native billing\" bullet and \"several improvements\"",
+        "issue": "\"percentage-based premium fee,\" \"several additional parameters,\" \"low latency.\"",
+        "change": "state the parameter count added to `requestRandomWords`, and either cite a representative premium % or link the exact figure with \"(e.g. X% on Ethereum mainnet).\"",
+        "why": "quantified claims are among the highest-lift changes for citation."
+      }
+    ],
+    "antiPatterns": [
+      "Scope/entity ambiguity: title references v1 while body instructs removing v2 imports.",
+      "Vague quantifiers: \"several,\" \"many,\" \"low latency,\" \"percentage-based\" without a number.",
+      "Undated content on a time-sensitive migration topic (no visible last-updated).",
+      "Code fragments without imports/full-contract context (mitigated by Remix links)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; confirm this page is listed in it.",
+      "Site-level JSON-LD/canonical templating likely governs the missing metadata; fix at the docs framework layer, not just this page.",
+      "Freshness cadence: a migration doc tied to the Nov 29 2024 cutover should carry a maintained `dateModified` sourced from the CMS."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-13-35-905Z-9cc9",
+    "probes": {}
+  }
+}

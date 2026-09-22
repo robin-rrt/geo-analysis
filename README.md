@@ -359,11 +359,19 @@ The Pages route puts the built site on an orphan branch that is rebuilt and forc
 time, so it always holds exactly one commit — otherwise every publish would add several megabytes
 to the repository permanently. `main` never sees it.
 
-**Vercel is the stronger option if the dashboard should stay out of search.** GitHub Pages cannot
-set HTTP headers, so `X-Robots-Tag` is unavailable — and that is the layer that stops a URL being
-indexed when it is linked from somewhere else. `robots.txt` and `<meta robots>` still ship, but
-they only ask. A Pages site is also public even when its repository is private, and Pages on a
-private repo requires a paid GitHub plan.
+**Which to use depends on who may see it.**
+
+On **GitHub Enterprise Cloud**, Pages visibility can be restricted to organisation members. That
+is the strongest option of the three: the site requires authentication, so indexing stops being a
+concern at all — a crawler cannot log in. `robots.txt` and `<meta robots>` still ship as
+belt-and-braces.
+
+On a **personal or free account**, prefer Vercel. A Pages site there is public even when its
+repository is private, Pages on a private repo needs a paid plan, and Pages cannot set HTTP
+headers — so `X-Robots-Tag` is unavailable, and that is the layer that stops a URL being indexed
+when it is linked from somewhere else. `robots.txt` only asks.
+
+Either way the artifact is identical and read-only by construction; only the hosting differs.
 
 The published bundle is read-only **by construction**: `MODE=export` swaps the API client for a
 static one at build time, so `/api/runs`, `/api/estimate` and `/api/targets` are not in the

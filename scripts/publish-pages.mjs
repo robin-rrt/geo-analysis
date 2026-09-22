@@ -86,10 +86,11 @@ try {
   }
 
   console.log(
-    "\nNOTE: GitHub Pages cannot set HTTP headers, so X-Robots-Tag is unavailable here.\n" +
-      "robots.txt and <meta robots> still ship, but the header was the layer that stops a\n" +
-      "URL being indexed when it is linked from somewhere else. A Pages site is also public\n" +
-      "even when its repository is private, and Pages on a private repo needs a paid plan.",
+    "\nBefore sharing the URL, check Settings > Pages > visibility.\n" +
+      "  Private (Enterprise Cloud): the site requires sign-in, so indexing is moot.\n" +
+      "  Public: anyone with the link can read it — including probe answers and per-run\n" +
+      "  costs. Pages cannot set HTTP headers, so X-Robots-Tag is unavailable and only\n" +
+      "  robots.txt and <meta robots> apply, and both merely ask.",
   );
 } finally {
   // Always detach the worktree, even on failure — a stray one blocks the next run.

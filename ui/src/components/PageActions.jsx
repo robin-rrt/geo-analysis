@@ -182,7 +182,7 @@ export function PageActions({ page, url, onDone }) {
   if (client.readOnly || !url) return null;
 
   return (
-    <div className="card" style={{ marginTop: 16 }}>
+    <div className="panel" style={{ marginTop: "var(--s5)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
         <strong className="small">{suggested.secondary ? "Re-measure" : "Next step"}</strong>
         <span className="small muted" style={{ flex: 1, minWidth: 200 }}>{suggested.why}</span>

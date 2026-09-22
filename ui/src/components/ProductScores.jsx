@@ -27,8 +27,8 @@ export function ProductScores({ products = [] }) {
   return (
     <div>
       {rows.map((p) => (
-        <details key={`${p.type}:${p.name}`} className="card" style={{ marginBottom: 8 }}>
-          <summary style={{ cursor: "pointer" }}>
+        <details key={`${p.type}:${p.name}`} className="item">
+          <summary>
             <span style={{ display: "inline-flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
               <strong>{p.name}</strong>
               {p.type !== "product" ? <span className="badge">{p.type}</span> : null}

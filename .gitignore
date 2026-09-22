@@ -168,3 +168,5 @@ public-dist/
 !ui/dist/**
 ui/dist-export/
 ui/node_modules/
+.vercel
+.env*

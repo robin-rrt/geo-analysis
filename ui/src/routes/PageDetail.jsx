@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../api/client.js";
 import { Bar } from "../charts/Bar.jsx";
+import { bandColour, bandName } from "../lib/bands.js";
 import { FidelityBadge } from "../components/FidelityBadge.jsx";
 import { Loading, ErrorState, Empty } from "../components/States.jsx";
 import { PageActions } from "../components/PageActions.jsx";
@@ -19,28 +20,42 @@ export default function PageDetail() {
 
   return (
     <div className="wrap">
-      <p className="small"><Link to="/pages">← Pages</Link></p>
-      <h1>{audit?.title ?? key}</h1>
-      <p className="small mono faint">{audit?.url}</p>
+      <div className="page-head">
+        <div className="eyebrow"><Link to="/pages" className="quiet">Pages</Link></div>
+        <h1>{audit?.title ?? key}</h1>
+        <div className="sub mono">{audit?.url}</div>
+      </div>
 
       {/* Offered in place, so the next step is where the gap is visible. */}
       <PageActions page={data} url={url} onDone={refetch} />
 
-      <div className="grid three" style={{ marginTop: 14 }}>
-        <div className="card">
-          <div className="muted small">Page quality</div>
-          <div style={{ fontSize: 26, fontWeight: 600 }}>{audit?.score ?? "—"}<span className="faint" style={{ fontSize: 14 }}>/100</span></div>
+      {/* The same figure treatment as the Overview, one step down in scale. */}
+      <div className="figure-row ruled">
+        <div className="figure">
+          <div className="figure-value" style={{ color: bandColour(audit?.score) }}>
+            {Number.isFinite(audit?.score) ? audit.score : "—"}
+          </div>
+          <div className="figure-label">Page quality</div>
+          <div className="figure-note">{bandName(audit?.score) ?? "not audited"}</div>
         </div>
-        <div className="card">
-          <div className="muted small">Answer fidelity</div>
-          <div style={{ marginTop: 6 }}>
-            <FidelityBadge value={primary?.avg_fidelity ?? null} graderModel={primary?.grader_model} probeCount={primary?.probe_count} />
+        <div className="figure">
+          <div className="figure-value" style={{ color: bandColour(primary?.avg_fidelity) }}>
+            {Number.isFinite(primary?.avg_fidelity) ? Math.round(primary.avg_fidelity) : "—"}
+          </div>
+          <div className="figure-label">Answer fidelity</div>
+          <div className="figure-note">
+            {primary?.grader_model
+              ? `graded by ${primary.grader_model.replace("claude-", "")}`
+              : "not probed"}
           </div>
         </div>
-        <div className="card">
-          <div className="muted small">Run health</div>
-          <div style={{ marginTop: 6 }} className="small">
-            {health?.clean ? "clean" : `degraded (${health?.degraded ?? 0} degraded, ${health?.failed ?? 0} failed searches)`}
+        <div className="figure">
+          <div className="figure-value" style={{ color: health?.clean ? "var(--text)" : "var(--warn)" }}>
+            {health?.clean ? "OK" : "!"}
+          </div>
+          <div className="figure-label">Run health</div>
+          <div className="figure-note">
+            {health?.clean ? "searches clean" : `${health?.degraded ?? 0} degraded · ${health?.failed ?? 0} failed`}
           </div>
         </div>
       </div>
@@ -48,40 +63,48 @@ export default function PageDetail() {
       {/* The report itself. parseAudit has always produced these; the UI simply
           never showed them, so "see the report it created" had no answer. */}
       {audit?.summary ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Summary</h2>
-          <p style={{ whiteSpace: "pre-wrap" }}>{audit.summary}</p>
-        </>
+          <p className="note" style={{ marginTop: 0 }}>{audit.summary}</p>
+        </section>
       ) : null}
 
       {audit?.recommendations?.length ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Recommended fixes</h2>
-          <p className="small muted">Ordered by priority as the auditor ranked them.</p>
           {audit.recommendations.map((r, i) => (
-            <div key={i} className="card" style={{ marginBottom: 8 }}>
-              <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
-                <span className="badge" style={{ color: r.priority === 1 ? "var(--sev-high)" : r.priority === 2 ? "var(--sev-med)" : "var(--sev-low)" }}>
-                  P{r.priority}
-                </span>
-                <strong>{r.title}</strong>
+            <div className="finding ruled-soft" key={i} style={{ paddingBottom: "var(--s3)", marginTop: i ? "var(--s3)" : 0 }}>
+              <div>
+                <div style={{ display: "flex", gap: "var(--s2)", alignItems: "baseline" }}>
+                  <strong style={{ fontSize: 13 }}>{r.title}</strong>
+                </div>
+                {r.meta ? <div className="finding-body">{r.meta}</div> : null}
+                {r.body ? <div className="finding-body" style={{ whiteSpace: "pre-wrap" }}>{r.body}</div> : null}
               </div>
-              {r.meta ? <div className="small faint" style={{ marginTop: 4 }}>{r.meta}</div> : null}
-              {r.body ? <div className="small" style={{ marginTop: 6, whiteSpace: "pre-wrap" }}>{r.body}</div> : null}
+              <div>
+                <div
+                  className="finding-fig"
+                  style={{ color: r.priority === 1 ? "var(--sev-high)" : r.priority === 2 ? "var(--sev-med)" : "var(--sev-low)" }}
+                >
+                  P{r.priority}
+                </div>
+              </div>
             </div>
           ))}
-        </>
+        </section>
       ) : null}
 
       {audit?.antiPatterns?.length ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Anti-patterns found</h2>
-          <ul className="small">{audit.antiPatterns.map((a, i) => <li key={i}>{a}</li>)}</ul>
-        </>
+          <ul className="note" style={{ marginTop: 0, paddingLeft: "1.1em" }}>
+            {audit.antiPatterns.map((a, i) => <li key={i} style={{ marginBottom: 4 }}>{a}</li>)}
+          </ul>
+        </section>
       ) : null}
 
       {audit?.dimensions?.length ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Dimensions</h2>
           {/* Sorted ascending so the weakest — the thing to act on — reads first. */}
           <Bar
@@ -108,9 +131,10 @@ export default function PageDetail() {
                 ))}
             </div>
           ) : null}
-        </>
+        </section>
       ) : null}
 
+      <section className="ruled" style={{ marginTop: "var(--s6)" }}>
       <h2>Probes</h2>
       {!primary ? (
         <Empty
@@ -144,7 +168,7 @@ export default function PageDetail() {
             </p>
           ) : null}
           {(primary.results ?? []).map((r) => (
-            <details key={r.probe_id} className="card" style={{ marginBottom: 8 }}>
+            <details key={r.probe_id} className="item">
               <summary>
                 <strong>{r.probe_id}</strong>{" "}
                 <span className="muted small">fidelity {r.fidelity ?? "—"}</span>{" "}
@@ -163,6 +187,7 @@ export default function PageDetail() {
           ))}
         </>
       )}
+      </section>
     </div>
   );
 }

@@ -554,3 +554,37 @@ describe("score rows", () => {
     expect(screen.getByText("13")).toBeTruthy();
   });
 });
+
+describe("design language consistency", () => {
+  test("data sections use rules, control surfaces use panels — the distinction holds", async () => {
+    // Boxing everything made this look like every other dashboard; boxing
+    // nothing makes a form impossible to aim at. Both primitives must exist and
+    // stay distinct, or the site drifts back to one undifferentiated look.
+    const fs = await import("node:fs");
+    const css = fs.readFileSync("src/theme/tokens.css", "utf8");
+    expect(css).toContain(".ruled {");
+    expect(css).toContain(".panel {");
+    // `card` survives only as an alias so nothing renders unstyled.
+    expect(css).toContain(".card {");
+  });
+
+  test("every route opens with the same furniture", async () => {
+    const fs = await import("node:fs");
+    const routes = ["Overview", "Pages", "PageDetail", "Runs", "RunDetail", "Activity", "NewRun"];
+    for (const r of routes) {
+      const src = fs.readFileSync(`src/routes/${r}.jsx`, "utf8");
+      // Overview leads with figures rather than a title block; every other page
+      // uses the shared header so navigation feels like one site.
+      if (r === "Overview") continue;
+      expect(src, `${r} is missing the shared page header`).toContain("page-head");
+    }
+  });
+
+  test("figures share one treatment across pages", async () => {
+    const fs = await import("node:fs");
+    for (const r of ["PageDetail", "RunDetail"]) {
+      const src = fs.readFileSync(`src/routes/${r}.jsx`, "utf8");
+      expect(src, `${r} should use the shared figure treatment`).toContain("figure-value");
+    }
+  });
+});

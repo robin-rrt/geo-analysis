@@ -87,7 +87,10 @@ export default function Pages() {
 
   return (
     <div className="wrap">
-      <h1>Pages</h1>
+      <div className="page-head">
+        <div className="eyebrow">Corpus</div>
+        <h1>Pages</h1>
+      </div>
       <DataTable
         rows={rows}
         columns={columns}

@@ -50,7 +50,11 @@ export default function NewRun() {
 
   return (
     <div className="wrap">
-      <h1>New run</h1>
+      <div className="page-head">
+        <div className="eyebrow">Measure</div>
+        <h1>New run</h1>
+        <div className="sub">Pick a target and the stages to run. Nothing starts before you see a cost.</div>
+      </div>
 
       <div className="controls">
         <select value={type} onChange={(e) => { setType(e.target.value); setName(""); setEstimate(null); }} aria-label="Target type">
@@ -97,7 +101,7 @@ export default function NewRun() {
       {est.error ? <ErrorState error={est.error} /> : null}
 
       {estimate ? (
-        <div className="card">
+        <div className="panel">
           <h3>Projected cost</h3>
           <p style={{ fontSize: 24, fontWeight: 600, margin: "4px 0" }}>
             ${estimate.estimate.total.toFixed(2)}{" "}
@@ -116,7 +120,7 @@ export default function NewRun() {
       ) : null}
 
       {started ? (
-        <div className="card" style={{ marginTop: 14 }}>
+        <div className="panel" style={{ marginTop: "var(--s3)" }}>
           <h3>Progress</h3>
           <p className="small muted">
             {status.data?.status ?? "starting"} — {status.data?.pages?.complete ?? 0}/{status.data?.pages?.total ?? 0} pages

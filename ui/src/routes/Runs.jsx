@@ -106,7 +106,10 @@ export default function Runs() {
 
   return (
     <div className="wrap">
-      <h1>Runs</h1>
+      <div className="page-head">
+        <div className="eyebrow">History</div>
+        <h1>Runs</h1>
+      </div>
       <p className="caveat">
         Only <strong>complete</strong> runs contribute to trends. A partial or cancelled run is an
         average over the pages that happened to finish, which would read as a change in quality

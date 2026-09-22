@@ -5,6 +5,14 @@ import { Loading, ErrorState, Empty } from "../components/States.jsx";
 import { duration, money, STAGE_OUTCOME } from "../lib/format.js";
 import { Bar } from "../charts/Bar.jsx";
 
+const STATUS_TONE = {
+  complete: "var(--ok)",
+  partial: "var(--warn)",
+  cancelled: "var(--muted)",
+  interrupted: "var(--sev-high)",
+  running: "var(--accent)",
+};
+
 const STATUS_NOTE = {
   complete: null,
   partial: "Some pages failed. This run does not contribute to trends — an average over the pages that happened to finish would read as a quality change rather than a coverage change.",
@@ -37,25 +45,27 @@ export default function RunDetail() {
 
   return (
     <div className="wrap">
-      <p className="small"><Link to="/runs">← Runs</Link></p>
-      <h1>{target?.type}:{target?.name}</h1>
-      <p className="small mono faint">{runId}</p>
+      <div className="page-head">
+        <div className="eyebrow"><Link to="/runs" className="quiet">Runs</Link></div>
+        <h1>{target?.type}:{target?.name}</h1>
+        <div className="sub mono">{runId}</div>
+      </div>
 
-      <div className="grid three" style={{ marginTop: 14 }}>
-        <div className="card">
-          <div className="muted small">Status</div>
-          <div style={{ fontSize: 20, fontWeight: 600 }}>{status}</div>
-          <div className="small faint">{counts?.pages ?? 0} pages{counts?.failed ? `, ${counts.failed} failed` : ""}</div>
+      <div className="figure-row ruled">
+        <div className="figure">
+          <div className="figure-value" style={{ fontSize: 26, color: STATUS_TONE[status] ?? "var(--text)" }}>{status}</div>
+          <div className="figure-label">Status</div>
+          <div className="figure-note">{counts?.pages ?? 0} pages{counts?.failed ? ` · ${counts.failed} failed` : ""}</div>
         </div>
-        <div className="card">
-          <div className="muted small">Duration</div>
-          <div style={{ fontSize: 20, fontWeight: 600 }}>{duration(elapsed)}</div>
-          <div className="small faint">{startedAt ? new Date(startedAt).toLocaleString() : "—"}</div>
+        <div className="figure">
+          <div className="figure-value">{duration(elapsed)}</div>
+          <div className="figure-label">Duration</div>
+          <div className="figure-note">{startedAt ? new Date(startedAt).toLocaleString() : "—"}</div>
         </div>
-        <div className="card">
-          <div className="muted small">Cost</div>
-          <div style={{ fontSize: 20, fontWeight: 600 }}>{money(cost?.measured)}</div>
-          <div className="small faint">{breakdown?.counts?.reused ? `${breakdown.counts.reused} artifact(s) reused` : "nothing reused"}</div>
+        <div className="figure">
+          <div className="figure-value">{money(cost?.measured)}</div>
+          <div className="figure-label">Cost</div>
+          <div className="figure-note">{breakdown?.counts?.reused ? `${breakdown.counts.reused} reused` : "nothing reused"}</div>
         </div>
       </div>
 
@@ -64,6 +74,7 @@ export default function RunDetail() {
           a stage called "regrade". */}
       {breakdown?.note ? <p className="caveat">{breakdown.note}</p> : null}
 
+      <section className="ruled" style={{ marginTop: "var(--s6)" }}>
       <h2>What it did</h2>
       {!breakdown ? (
         <Empty
@@ -72,9 +83,9 @@ export default function RunDetail() {
         />
       ) : (
         <>
-          <p className="small muted">
-            Stages: {(breakdown.stages ?? []).join(" → ")} · grader {protocol?.graderModel ?? "—"} ·
-            {" "}model under test {protocol?.probeModel ?? "—"} ({protocol?.probeEffort ?? "—"}, {protocol?.mode ?? "—"})
+          <p className="meta-row">
+            <span>Stages: {(breakdown.stages ?? []).join(" → ")} · grader {protocol?.graderModel ?? "—"} ·
+            {" "}model under test {protocol?.probeModel ?? "—"} ({protocol?.probeEffort ?? "—"}, {protocol?.mode ?? "—"})</span>
           </p>
 
           {Object.keys(stageTime).length ? (
@@ -153,9 +164,10 @@ export default function RunDetail() {
           </table>
         </>
       )}
+      </section>
 
       {failures.length ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Failures ({failures.length})</h2>
           <table>
             <thead><tr><th scope="col">Page</th><th scope="col">Why</th></tr></thead>
@@ -168,11 +180,11 @@ export default function RunDetail() {
               ))}
             </tbody>
           </table>
-        </>
+        </section>
       ) : null}
 
       {ledger?.ledger?.length ? (
-        <>
+        <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Ledger</h2>
           <p className="small muted">
             {ledger.counts?.discovered ?? 0} pages discovered, {ledger.counts?.inScope ?? 0} in scope.
@@ -192,7 +204,7 @@ export default function RunDetail() {
               </tbody>
             </table>
           </details>
-        </>
+        </section>
       ) : null}
     </div>
   );

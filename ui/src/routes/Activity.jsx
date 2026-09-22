@@ -28,11 +28,14 @@ export default function Activity() {
 
   return (
     <div className="wrap">
-      <h1>Activity</h1>
-      <p className="small muted">
+      <div className="page-head">
+        <div className="eyebrow">Live</div>
+        <h1>Activity</h1>
+        <div className="sub">
         Live, from every process — runs started here and runs started at the terminal.
         {dataUpdatedAt ? <span className="faint"> · updated {new Date(dataUpdatedAt).toLocaleTimeString()}</span> : null}
-      </p>
+        </div>
+      </div>
 
       {!active.length ? (
         <Empty title="Nothing running" hint="Start a run from a page report, or with `geo-audit run <target>`." />
@@ -40,7 +43,7 @@ export default function Activity() {
         active.map((run) => {
           const pct = run.pages?.total ? Math.round((run.pages.complete / run.pages.total) * 100) : null;
           return (
-            <div key={run.handle} className="card" style={{ marginBottom: 12 }}>
+            <div key={run.handle} className="panel" style={{ marginBottom: "var(--s3)" }}>
               <div style={{ display: "flex", gap: 10, alignItems: "baseline", flexWrap: "wrap" }}>
                 <strong>{run.target ? `${run.target.type}:${run.target.name}` : "run"}</strong>
                 <span className="badge">{run.status}</span>

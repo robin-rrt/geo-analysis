@@ -114,19 +114,36 @@ nav.top a[aria-current="page"] {
 }
 .spacer { flex: 1; }
 
-/* No cards. Structure comes from rules and space, the way a printed table of
-   figures is organised — boxing every group is the reflex that made this look
-   like every other dashboard. */
-.card {
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-}
+/* Two containers, with different jobs — the distinction is the whole system.
+   Boxing everything is what made this look like every other dashboard; boxing
+   nothing makes a form impossible to use. */
 
-/* A rule above a block, with the section label sitting on it. */
+/* DATA: a rule and a label. No box. Figures organise themselves in columns the
+   way a printed table does. */
 .ruled { border-top: var(--hairline) solid var(--text); padding-top: var(--s3); }
 .ruled-soft { border-top: var(--hairline) solid var(--border); padding-top: var(--s3); }
+.ruled + .ruled, .ruled-soft + .ruled-soft { margin-top: var(--s6); }
+
+/* INTERACTIVE or TRANSIENT: forms, live progress, expandable detail. These
+   genuinely need an edge — a control with no boundary is hard to aim at. */
+.panel {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s4) var(--s5);
+}
+.panel + .panel { margin-top: var(--s3); }
+
+/* `card` is kept as an alias so no route renders unstyled, but new code should
+   pick `ruled` or `panel` deliberately. */
+.card { composes: panel; }
+.card {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s4) var(--s5);
+}
+.card + .card { margin-top: var(--s3); }
 
 .grid { display: grid; gap: var(--s3); }
 .grid.two { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
@@ -333,4 +350,56 @@ tr.grouphead td {
   font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
   font-size: 22px; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums;
   text-align: right; line-height: 1.1;
+}
+
+/* ------------------------------------------------------- page furniture --- */
+
+/* Every page opens the same way: a quiet eyebrow, a title, then the numbers.
+   Consistency here is most of what makes a site feel like one site. */
+.page-head { margin: var(--s7) 0 var(--s5); }
+.eyebrow {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: var(--s2);
+}
+.page-head h1 { font-size: 24px; letter-spacing: -0.025em; }
+.page-head .sub { font-size: 13px; color: var(--muted); margin-top: var(--s2); }
+
+/* Figures used inline on detail pages: smaller cousins of the Overview's. */
+.figure-row { display: flex; gap: var(--s7); flex-wrap: wrap; }
+.figure { min-width: 110px; }
+.figure-value {
+  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-size: 34px; line-height: 1; letter-spacing: -0.03em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.figure-label {
+  font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--muted); margin-top: var(--s2);
+}
+.figure-note { font-size: 12px; color: var(--faint); margin-top: 2px; }
+
+/* Disclosure blocks share one look wherever they appear. */
+details.item {
+  border-top: var(--hairline) solid var(--border);
+  padding: var(--s3) 0;
+}
+details.item > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: baseline; gap: var(--s2); flex-wrap: wrap;
+}
+details.item > summary::-webkit-details-marker { display: none; }
+details.item > summary::before {
+  content: "+"; color: var(--faint); font-family: ui-monospace, monospace;
+  width: 12px; flex: none;
+}
+details.item[open] > summary::before { content: "−"; }
+details.item > summary:hover { color: var(--text); }
+
+/* Links inside data read as data, not as navigation chrome. */
+a.quiet { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+a.quiet:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+.meta-row {
+  display: flex; gap: var(--s4); flex-wrap: wrap;
+  font-size: 12px; color: var(--muted);
 }

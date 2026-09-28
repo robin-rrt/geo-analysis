@@ -1,15 +1,21 @@
+import { useEffect, useRef, useState } from "react";
+
 /**
- * Squarified treemap.
+ * Squarified treemap, laid out in HTML rather than SVG.
  *
- * Chosen over a bar chart, a radar, or a scatter for one reason: area needs no
- * reading. A bar chart of nine dimensions still asks the reader to scan and
- * compare lengths. A scatter of score against weight asks them to interpret two
- * axes. A treemap sized by what each gap COSTS answers "what do I fix first"
- * before anyone has read a word — the biggest rectangle is the answer.
+ * Area needs no reading, which is the point: the largest rectangle answers
+ * "what do I fix first" before anyone has read a word. A bar chart still asks
+ * for length comparison, a scatter asks the reader to interpret two axes, and a
+ * radar is poor at magnitude — the only thing that matters here.
  *
- * Squarified rather than naive slice-and-dice: long thin slivers are both hard
- * to compare by eye and impossible to label.
- * (Bruls, Huizing & van Wijk, 2000.)
+ * HTML, not SVG, because the first version put text inside an SVG with
+ * `preserveAspectRatio="none"`. A 1000-unit viewBox rendering into a 2000px box
+ * stretched every glyph horizontally by eight times. Text in a non-uniformly
+ * scaled coordinate space is always going to distort; positioning plain
+ * elements by percentage avoids the question entirely.
+ *
+ * Squarified rather than slice-and-dice: long thin slivers are hard to compare
+ * and impossible to label. (Bruls, Huizing & van Wijk, 2000.)
  */
 
 /**
@@ -21,7 +27,6 @@ export function squarify(values, width, height) {
   const total = values.reduce((a, b) => a + (b > 0 ? b : 0), 0);
   if (!total || !width || !height) return out;
 
-  // Index-carrying copies, so sorting by size does not disturb the caller's order.
   const remaining = values
     .map((value, index) => ({ value, index }))
     .filter((i) => i.value > 0)
@@ -31,8 +36,6 @@ export function squarify(values, width, height) {
   let left = total;
 
   while (remaining.length) {
-    // Always lay the next row along the shorter side; that is what keeps cells
-    // near square as the space narrows.
     const vertical = w >= h;
     const side = vertical ? h : w;
 
@@ -50,7 +53,6 @@ export function squarify(values, width, height) {
           return len > 0 ? Math.max(depth / len, len / depth) : Infinity;
         }),
       );
-      // Adding this item made the row less square — stop and lay it out.
       if (row.length && tryRatio > bestRatio) break;
       bestRatio = tryRatio;
       rowSum = trySum;
@@ -74,78 +76,125 @@ export function squarify(values, width, height) {
   return out;
 }
 
+/** The container's real width, so cells are laid out at the aspect they render at. */
+function useWidth(ref, fallback = 900) {
+  const [width, setWidth] = useState(fallback);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width;
+      if (w > 0) setWidth(w);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref]);
+  return width;
+}
+
 /**
  * @param {{ label: string, value: number, detail?: string }[]} items
  */
-export function Treemap({ items = [], height = 240, emptyLabel = "Nothing to show." }) {
-  const usable = items.filter((i) => Number.isFinite(i.value) && i.value > 0);
-  if (!usable.length) return <div className="state small">{emptyLabel}</div>;
+export function Treemap({ items = [], height = 260, emptyLabel = "Nothing to show." }) {
+  const ref = useRef(null);
+  const width = useWidth(ref);
 
-  const W = 1000;
-  const H = Math.round((height / 1000) * 1000 * (1000 / 1000)) || height;
-  const VH = Math.round((height / 240) * 240 * 4.1); // viewBox height, tuned for legible type
-  const rects = squarify(usable.map((i) => i.value), W, VH);
-  const max = Math.max(...usable.map((i) => i.value));
+  const usable = items.filter((i) => Number.isFinite(i.value) && i.value > 0);
+  // Laid out at the real aspect ratio. Squarifying into a square and then
+  // stretching to a wide box would undo the squarifying.
+  const rects = squarify(usable.map((i) => i.value), width, height);
+  const max = usable.length ? Math.max(...usable.map((i) => i.value)) : 0;
 
   return (
-    <svg
-      viewBox={`0 0 ${W} ${VH}`}
-      width="100%"
-      height={height}
-      preserveAspectRatio="none"
+    <div
+      ref={ref}
+      style={{ position: "relative", width: "100%", height }}
       role="img"
       aria-label={
-        `Points recoverable by rubric dimension, largest first: ` +
-        [...usable]
-          .sort((a, b) => b.value - a.value)
-          .map((i) => `${i.label}, ${i.value.toFixed(1)} points`)
-          .join("; ")
+        usable.length
+          ? "Points recoverable by rubric dimension, largest first: " +
+            [...usable].sort((a, b) => b.value - a.value)
+              .map((i) => `${i.label}, ${i.value.toFixed(1)} points`).join("; ")
+          : emptyLabel
       }
-      style={{ display: "block" }}
     >
+      {!usable.length ? <div className="state small">{emptyLabel}</div> : null}
+
       {usable.map((item, i) => {
         const r = rects[i];
-        if (!r.w || !r.h) return null;
-        // Opacity restates magnitude, so ranking survives when two rectangles
-        // come out similar in area.
-        const strength = 0.22 + 0.78 * (item.value / max);
-        const room = r.w > 190 && r.h > 90;
-        const tight = r.w > 110 && r.h > 52;
+        if (r.w < 2 || r.h < 2) return null;
 
+        // Strength carries magnitude a second time, so ranking survives when two
+        // rectangles come out similar in area.
+        const strength = 0.3 + 0.7 * (item.value / max);
+        // Below this the tile is too pale for white text; the label flips to ink
+        // rather than sitting at 2:1 against its own background.
         return (
-          <g key={item.label}>
-            <rect
-              x={r.x + 3} y={r.y + 3}
-              width={Math.max(0, r.w - 6)} height={Math.max(0, r.h - 6)}
-              rx="8" fill="var(--accent)" fillOpacity={strength}
-            />
-            <title>
-              {`${item.label} — ${item.value.toFixed(1)} points recoverable${item.detail ? ` (${item.detail})` : ""}`}
-            </title>
-
-            {/* Labels only where they fit. A clipped label is worse than none,
-                and a small cell is small precisely because it matters least. */}
-            {tight ? (
-              <text
-                x={r.x + 20} y={r.y + 48} fill="var(--bg)"
-                style={{ fontSize: 34, fontWeight: 600, letterSpacing: "-0.02em", pointerEvents: "none" }}
-              >
-                +{item.value.toFixed(1)}
-              </text>
-            ) : null}
-            {room ? (
-              <text
-                x={r.x + 20} y={r.y + 78} fill="var(--bg)" fillOpacity="0.85"
-                style={{ fontSize: 18, pointerEvents: "none" }}
-              >
-                {item.label.length > Math.floor(r.w / 10)
-                  ? `${item.label.slice(0, Math.floor(r.w / 10) - 1)}…`
-                  : item.label}
-              </text>
-            ) : null}
-          </g>
+          <div
+            key={item.label}
+            className="tm-tile"
+            data-value={item.value}
+            title={`${item.label} — ${item.value.toFixed(1)} points recoverable${item.detail ? ` (${item.detail})` : ""}`}
+            style={{
+              position: "absolute",
+              left: r.x, top: r.y,
+              width: Math.max(0, r.w - 4), height: Math.max(0, r.h - 4),
+              background: "var(--accent)",
+              opacity: strength,
+              borderRadius: 8,
+            }}
+          />
         );
       })}
-    </svg>
+
+      {/* Labels sit in their own layer so tile opacity never fades the text. */}
+      {usable.map((item, i) => {
+        const r = rects[i];
+        if (r.w < 2 || r.h < 2) return null;
+        const strength = 0.3 + 0.7 * (item.value / max);
+        const onDark = strength >= 0.55;
+        const showValue = r.w > 74 && r.h > 40;
+        const showLabel = r.w > 130 && r.h > 66;
+        if (!showValue) return null;
+
+        return (
+          <div
+            key={`${item.label}-label`}
+            style={{
+              position: "absolute",
+              left: r.x + 14, top: r.y + 10,
+              width: Math.max(0, r.w - 28),
+              color: onDark ? "#ffffff" : "var(--text)",
+              pointerEvents: "none",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: '"TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif',
+                fontSize: 20, fontWeight: 600, letterSpacing: "-0.02em",
+                lineHeight: 1.1, fontVariantNumeric: "tabular-nums",
+              }}
+            >
+              +{item.value.toFixed(1)}
+            </div>
+            {showLabel ? (
+              <div
+                style={{
+                  fontSize: 12, lineHeight: 1.3, marginTop: 3,
+                  opacity: onDark ? 0.88 : 0.72,
+                  // Wrap to two lines rather than truncating mid-word. A name
+                  // cut to "Citations & authoritative ref…" reads worse than
+                  // the same name over two lines.
+                  display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {item.label}
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
   );
 }

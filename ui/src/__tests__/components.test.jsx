@@ -619,17 +619,26 @@ describe("dimensions", () => {
 
 
 
-  test("renders one rectangle per dimension, sized by what the gap costs", () => {
+  test("renders one tile per dimension, sized by what the gap costs", () => {
     const { container } = render(<Dimensions dimensions={[
       { name: "Machine-readability & metadata", score: 3, weight: 12 },
       { name: "Answer-first extractability", score: 8, weight: 15 },
     ]} />);
-    const rects = container.querySelectorAll("svg rect");
-    expect(rects).toHaveLength(2);
+    const tiles = container.querySelectorAll(".tm-tile");
+    expect(tiles).toHaveLength(2);
     // 8.4 against 3.0 — the costlier gap must own the larger area.
-    const area = (r) => Number(r.getAttribute("width")) * Number(r.getAttribute("height"));
-    const areas = [...rects].map(area).sort((a, b) => b - a);
+    const area = (t) => parseFloat(t.style.width) * parseFloat(t.style.height);
+    const areas = [...tiles].map(area).sort((a, b) => b - a);
     expect(areas[0]).toBeGreaterThan(areas[1] * 2);
+  });
+
+  test("text is not rendered inside a scaled coordinate space", () => {
+    // The first version drew labels in an SVG with preserveAspectRatio="none",
+    // which stretched every glyph horizontally by eight times.
+    const { container } = render(<Dimensions dimensions={[
+      { name: "Machine-readability & metadata", score: 3, weight: 12 },
+    ]} />);
+    expect(container.querySelector("svg")).toBeNull();
   });
 
   test("the graphic names the biggest opportunity so it is not a guess", () => {
@@ -648,7 +657,7 @@ describe("dimensions", () => {
 
   test("the chart is described for screen readers, not just drawn", () => {
     const { container } = render(<Dimensions dimensions={[{ name: "Code completeness", score: 4, weight: 10 }]} />);
-    const label = container.querySelector("svg").getAttribute("aria-label");
+    const label = container.querySelector('[role="img"]').getAttribute("aria-label");
     expect(label).toContain("Code completeness");
     expect(label).toContain("6.0 points");
   });

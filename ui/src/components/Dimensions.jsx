@@ -43,7 +43,7 @@ export function byOpportunity(dimensions = []) {
  * single disclosure rather than nine, so the default state is one picture and
  * one sentence.
  */
-export function Dimensions({ dimensions = [], showAnalysis = true, height = 240 }) {
+export function Dimensions({ dimensions = [], showAnalysis = true, height = 300 }) {
   const rows = byOpportunity(dimensions);
   if (!rows.length) return <div className="state small">No dimension scores.</div>;
 

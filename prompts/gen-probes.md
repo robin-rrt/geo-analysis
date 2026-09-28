@@ -97,6 +97,7 @@ a real error has the product in front of them.
       "id": "p01",
       "prompt": "<the user's question, verbatim as they'd type it>",
       "archetype": "direct-howto",
+      "context_mode": "self-contained",
       "paraphrase_of": null,
       "expected_source_urls": ["<the source URL>"],
       "answer_key": {

@@ -104,3 +104,7 @@ a real error has the product in front of them.
 
 Return JSON matching the provided schema. `product_context` is one sentence on what this product
 does, for a reader who has never heard of it.
+
+Every probe carries `context_mode`, set to `self-contained` or `cold` as described above. It is
+required — a probe without it is not a usable measurement, because its low score cannot be read as
+either a documentation problem or a discoverability one.

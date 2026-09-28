@@ -23,7 +23,9 @@ export function recoverablePoints(dimension) {
   return Math.round(weight * ((10 - score) / 10) * 10) / 10;
 }
 
+import { useState } from "react";
 import { Treemap } from "../charts/Treemap.jsx";
+import { DimensionDialog } from "./DimensionDialog.jsx";
 
 /** Most recoverable first — the order someone would actually work in. */
 export function byOpportunity(dimensions = []) {
@@ -44,17 +46,18 @@ export function byOpportunity(dimensions = []) {
  * one sentence.
  */
 export function Dimensions({ dimensions = [], showAnalysis = true, height = 300 }) {
+  const [open, setOpen] = useState(null);
   const rows = byOpportunity(dimensions);
   if (!rows.length) return <div className="state small">No dimension scores.</div>;
 
   const total = rows.reduce((a, d) => a + d.gain, 0);
   const top = rows[0];
-  const withAnalysis = rows.filter((d) => d.analysis);
 
   return (
     <div>
       <Treemap
         height={height}
+        onSelect={(item) => setOpen(rows.find((d) => d.name === item.label) ?? null)}
         items={rows.map((d) => ({
           label: d.name,
           value: d.gain,
@@ -68,25 +71,11 @@ export function Dimensions({ dimensions = [], showAnalysis = true, height = 300 
       <p className="small muted" style={{ marginTop: "var(--s3)" }}>
         Area is points recoverable — a dimension's weight × the share still missing.{" "}
         <strong>{total.toFixed(1)} of 100</strong> are available, most of them in{" "}
-        <strong>{top.name.toLowerCase()}</strong> ({top.score}/10, weight {top.weight}).
+        <strong>{top.name.toLowerCase()}</strong> ({top.score}/10, weight {top.weight}).{" "}
+        {showAnalysis ? "Select any tile for the auditor's reasoning." : null}
       </p>
 
-      {showAnalysis && withAnalysis.length ? (
-        <details className="item">
-          <summary className="small">Read the auditor's critique of each dimension</summary>
-          <div style={{ marginTop: "var(--s3)" }}>
-            {byOpportunity(withAnalysis).map((d) => (
-              <div key={d.name} style={{ marginBottom: "var(--s3)" }}>
-                <div className="small">
-                  <strong>{d.name}</strong>{" "}
-                  <span className="faint">{d.score}/10 · weight {d.weight} · +{d.gain.toFixed(1)}</span>
-                </div>
-                <div className="dim-analysis">{d.analysis}</div>
-              </div>
-            ))}
-          </div>
-        </details>
-      ) : null}
+      {showAnalysis ? <DimensionDialog dimension={open} onClose={() => setOpen(null)} /> : null}
     </div>
   );
 }

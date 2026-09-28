@@ -74,6 +74,20 @@ for (const key of new Set([...Object.keys(mediaDark), ...Object.keys(explicitDar
   }
 }
 
+// A tile is the accent composited over the page. In light mode the accent is
+// dark so the ink is white; in dark mode the accent is Light Blue, a strong
+// tile is PALE, and white ink on it measures 1.21:1. The token must invert
+// between themes or the labels vanish in one of them.
+for (const [name, tokens] of [["light", light], ["dark", dark]]) {
+  const tile = tokens.accent;           // strongest tile = accent at full strength
+  const ink = tokens["tile-ink-strong"];
+  if (!tile || !ink) continue;
+  const r = contrast(ink, tile);
+  const pass = r >= 4.5;
+  console.log(`\n${name}  tile ink on a full-strength tile   ${r.toFixed(2).padStart(6)}  ${pass ? "pass" : "FAIL"}`);
+  if (!pass) failed++;
+}
+
 if (dark.accent === "#0847f7") {
   console.error("\nFAIL: dark mode uses the brand blue, which measures 2.92:1 on the brand dark.");
   failed++;

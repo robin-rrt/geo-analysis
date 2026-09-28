@@ -724,3 +724,48 @@ describe("treemap layout", () => {
     expect(squarify([5], 0, 0).every((r) => r.w === 0)).toBe(true);
   });
 });
+
+describe("treemap interaction", () => {
+  const dims = [
+    { name: "Machine-readability & metadata", score: 3, weight: 12, analysis: "Malformed keywords and template about entries." },
+    { name: "Answer-first extractability", score: 8, weight: 15 },
+  ];
+
+  test("tiles are buttons, so they are reachable by keyboard as well as mouse", () => {
+    const { container } = render(<Dimensions dimensions={dims} />);
+    const tiles = container.querySelectorAll("button.tm-tile");
+    expect(tiles).toHaveLength(2);
+    // The label has to say what the tile is; the visible text may be clipped away.
+    expect(tiles[0].getAttribute("aria-label")).toMatch(/points recoverable/);
+  });
+
+  test("selecting a tile opens the dimension's detail", () => {
+    const { container } = render(<Dimensions dimensions={dims} />);
+    const tile = [...container.querySelectorAll("button.tm-tile")]
+      .find((t) => t.getAttribute("aria-label").startsWith("Machine-readability"));
+    fireEvent.click(tile);
+    const dialog = container.querySelector("dialog.detail");
+    expect(dialog.textContent).toMatch(/Machine-readability & metadata/);
+    expect(dialog.textContent).toMatch(/Malformed keywords/);
+    expect(dialog.textContent).toMatch(/\+8\.4/);
+  });
+
+  test("a dimension with no critique says so rather than showing an empty panel", () => {
+    const { container } = render(<Dimensions dimensions={dims} />);
+    const tile = [...container.querySelectorAll("button.tm-tile")]
+      .find((t) => t.getAttribute("aria-label").startsWith("Answer-first"));
+    fireEvent.click(tile);
+    expect(container.querySelector("dialog.detail").textContent).toMatch(/no written critique/);
+  });
+
+  test("tile ink inverts between themes, or labels vanish in one of them", async () => {
+    // Dark mode's accent is Light Blue, so a strong tile is pale and white ink
+    // on it measures 1.21:1. The token must flip, not the threshold.
+    const fs = await import("node:fs");
+    const css = fs.readFileSync("src/theme/tokens.css", "utf8");
+    const light = css.slice(css.indexOf(":root {"), css.indexOf("@media"));
+    const dark = css.slice(css.indexOf('[data-theme="dark"] {'));
+    expect(light).toMatch(/--tile-ink-strong:\s*#ffffff/i);
+    expect(dark.slice(0, dark.indexOf("\n}"))).toMatch(/--tile-ink-strong:\s*#0e1119/i);
+  });
+});

@@ -95,7 +95,7 @@ function useWidth(ref, fallback = 900) {
 /**
  * @param {{ label: string, value: number, detail?: string }[]} items
  */
-export function Treemap({ items = [], height = 260, emptyLabel = "Nothing to show." }) {
+export function Treemap({ items = [], height = 260, onSelect, emptyLabel = "Nothing to show." }) {
   const ref = useRef(null);
   const width = useWidth(ref);
 
@@ -130,18 +130,17 @@ export function Treemap({ items = [], height = 260, emptyLabel = "Nothing to sho
         // Below this the tile is too pale for white text; the label flips to ink
         // rather than sitting at 2:1 against its own background.
         return (
-          <div
+          <button
+            type="button"
             key={item.label}
             className="tm-tile"
             data-value={item.value}
-            title={`${item.label} — ${item.value.toFixed(1)} points recoverable${item.detail ? ` (${item.detail})` : ""}`}
+            aria-label={`${item.label}, ${item.value.toFixed(1)} points recoverable. Open details.`}
+            onClick={() => onSelect?.(item)}
             style={{
-              position: "absolute",
               left: r.x, top: r.y,
               width: Math.max(0, r.w - 4), height: Math.max(0, r.h - 4),
-              background: "var(--accent)",
               opacity: strength,
-              borderRadius: 8,
             }}
           />
         );
@@ -160,12 +159,13 @@ export function Treemap({ items = [], height = 260, emptyLabel = "Nothing to sho
         return (
           <div
             key={`${item.label}-label`}
+            className="tm-label"
             style={{
-              position: "absolute",
               left: r.x + 14, top: r.y + 10,
               width: Math.max(0, r.w - 28),
-              color: onDark ? "#ffffff" : "var(--text)",
-              pointerEvents: "none",
+              // Strong tiles take the theme's tile ink; pale ones take body
+              // text, which is already correct for the background behind them.
+              color: onDark ? "var(--tile-ink-strong)" : "var(--text)",
             }}
           >
             <div
@@ -181,7 +181,7 @@ export function Treemap({ items = [], height = 260, emptyLabel = "Nothing to sho
               <div
                 style={{
                   fontSize: 12, lineHeight: 1.3, marginTop: 3,
-                  opacity: onDark ? 0.88 : 0.72,
+                  opacity: onDark ? 0.9 : 0.75,
                   // Wrap to two lines rather than truncating mid-word. A name
                   // cut to "Citations & authoritative ref…" reads worse than
                   // the same name over two lines.

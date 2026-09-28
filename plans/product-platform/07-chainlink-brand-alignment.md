@@ -19,10 +19,11 @@ current design does well: colour that carries meaning, and figures that read as 
 | Light Gray | `#F5F7FA` |
 | Primary typeface | **TASA Orbiter** — open source, free for commercial use, on GitHub |
 | Secondary typeface | **Inter** — open source, Google Fonts |
-| Logo | full lockup + symbol, each in Blue / White / Black, SVG and PNG |
-| Clear space | logo never placed over other objects; keep margin around it |
+| Logo | **out of scope** — colours and typography only |
 
-Third-party use is governed by Chainlink's Trademark Guidelines (see open questions).
+**Scope: no logo, no wordmark.** Only the palette and typefaces are adopted. That removes the
+trademark question entirely: a colour scheme and an OFL-licensed typeface carry no marks, so the
+dashboard can be published anywhere without a usage review.
 
 ## Three constraints this has to solve
 
@@ -63,16 +64,22 @@ the product; the brand is the frame around it.
 ### 3. TASA Orbiter is embeddable, and that changes an earlier decision
 
 Earlier the UI deliberately used a system stack, on the grounds that the export is a single
-self-contained file under a strict CSP and no external font can be fetched. TASA Orbiter is
-open source and self-hostable, so that reasoning no longer holds — the font can be **subsetted and
-base64-embedded** into the bundle.
+self-contained file under a strict CSP and no external font can be fetched. That reasoning no
+longer holds.
 
-Cost: a subsetted single-weight woff2 is typically 15–30KB, ~33% larger as base64, against a
-256KB export. Two weights (regular + medium) is the realistic minimum for a UI.
+**Licence: SIL Open Font License 1.1** ([repository](https://github.com/localremotetw/TASA-Typeface-Collection)),
+which explicitly permits embedding and redistribution in a bundle. Free, commercially usable, no
+alternative needed. Also published on Google Fonts and
+[Fontsource](https://fontsource.org/fonts/tasa-orbiter/install), so self-hosting is an npm install
+rather than a manual asset hunt. Five weights, and a **variable font with a weight axis**.
 
-This is a deliberate trade to price, not an automatic yes: roughly +10–25% bundle for the
-typeface that makes the page unmistakably Chainlink. Recommend **two weights, Latin subset**, with
-the system stack retained as the fallback so nothing breaks if the face fails to decode.
+Cost: a Latin-subset woff2 is typically 15–30KB, ~33% larger again as base64, against a 256KB
+export. The variable font is the efficient choice here — one file covering every weight the UI
+needs, instead of two or three static cuts.
+
+Recommend **the variable font, Latin subset, base64-embedded**, with the system stack retained as
+a fallback so the page stays readable if the face fails to decode. OFL requires the licence text
+travel with the font; it goes in the repository beside the asset.
 
 ## Proposed solution
 
@@ -85,7 +92,6 @@ Change the surface:
 | Accent | Chainlink Blue in light mode; a derived lightened blue in dark mode, ≥4.5:1 on `#0E1119` |
 | Surfaces | Light Gray `#F5F7FA` for the light theme's recessed surfaces; Dark `#0E1119` as the dark theme's base |
 | Light Blue | `#DCEBFF` for selected rows, info callouts, and the scale track |
-| Logo | symbol in the nav, at the documented clear space; full lockup on the exported report header |
 | Bands | retained semantically, re-tuned for harmony rather than replaced |
 
 ### Where the serif goes
@@ -105,7 +111,8 @@ Orbiter supersedes it: a brand-aligned display face does the same job — giving
 - [ ] TASA Orbiter is embedded as a subset with a system fallback; the page is readable if the
       font fails
 - [ ] Export bundle stays **under 320KB** (currently 256KB)
-- [ ] Logo respects the clear-space rule and is never composited over other elements
+- [ ] No Chainlink logo or wordmark appears anywhere — palette and typography only
+- [ ] The OFL licence text ships alongside the embedded font
 - [ ] No composite of page quality and fidelity is introduced — the product rule from
       [README](README.md) survives the restyle
 - [ ] Both themes verified; no flash of unstyled or wrong-theme content on load
@@ -120,20 +127,18 @@ Orbiter supersedes it: a brand-aligned display face does the same job — giving
 | Font embedding bloats the export | Subset to Latin, two weights, assert bundle size in CI |
 | Brand drift over time | Palette lives in one token file; no hex literals in components (already lint-enforced) |
 
-## Open questions
+## Resolved
 
-1. **Is this first-party use?** The Trademark Guidelines govern third-party display of Chainlink
-   marks. A tool built inside Chainlink measuring Chainlink's own docs is first-party and
-   unremarkable; if this repository is personal or external, logo use needs checking before the
-   dashboard is shared. It is currently published on a **public** GitHub Pages site, which makes
-   this worth settling first.
-2. **Should the published export carry the logo at all?** A branded artifact implies official
-   standing. If these are internal working measurements, a wordmark-free build may be the safer
-   default for anything leaving the team.
+Both questions the first draft raised are closed by the no-logo scope. Without marks there is
+nothing for the Trademark Guidelines to govern, and the artifact cannot be mistaken for an official
+Chainlink publication — which is the right outcome for a set of internal working measurements that
+is currently served from a public URL.
 
 ## References
 
-- [chain.link/brand-assets](https://chain.link/brand-assets) — palette, typefaces, logo files
+- [chain.link/brand-assets](https://chain.link/brand-assets) — palette and typefaces
+- [TASA Typeface Collection](https://github.com/localremotetw/TASA-Typeface-Collection) — OFL 1.1 source
+- [Fontsource: TASA Orbiter](https://fontsource.org/fonts/tasa-orbiter/install) — self-hosting packages
 - [ui/src/theme/tokens.css](../../ui/src/theme/tokens.css) — the single palette source
 - [ui/src/lib/bands.js](../../ui/src/lib/bands.js) — the five semantic bands
 - [plans/product-platform/06-overview-product-scores.md](06-overview-product-scores.md) — the

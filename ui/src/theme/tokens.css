@@ -1,19 +1,24 @@
-/* Ported from src/dashboard/theme.js — same palette, so the React UI and any
-   legacy output stay visually consistent. Every colour is a custom property:
-   components must never hard-code a hex, or dark mode breaks silently.
-
-   Explicit choice wins over the media query IN BOTH DIRECTIONS, which is why
-   there are :root[data-theme=...] blocks rather than only a media query. */
+/* The Chainlink palette, from chain.link/brand-assets:
+ *   Blue #0847F7 · Dark #0E1119 · Light Blue #DCEBFF · Light Gray #F5F7FA
+ *
+ * Brand colour owns IDENTITY — links, focus, the active nav rule. Semantic
+ * colour owns DATA — the five rubric bands. They cannot both own colour, and
+ * collapsing the bands into a blue ramp would look more on-brand while
+ * destroying the difference between a Poor page and a Strong one at a glance.
+ *
+ * Every colour is a custom property: a hard-coded hex in a component is how
+ * dark mode breaks silently. Explicit theme choice wins over the media query in
+ * BOTH directions, hence the :root[data-theme=...] blocks. */
 
 :root {
-  --bg: #ffffff;
-  --surface: #f7f7f8;
-  --border: #e3e3e6;
-  --text: #16161a;
-  --muted: #6a6a73;
-  --faint: #9a9aa3;
-  --accent: #2f5eea;
-  --track: #ececef;
+  --bg: #f5f7fa;               /* brand Light Gray — the page, not the panels */
+  --surface: #ffffff;          /* panels sit ABOVE the tinted page */
+  --border: #e1e6ef;
+  --text: #0e1119;             /* brand Dark — 17.58:1 on the page */
+  --muted: #5b6270;            /* 5.71:1 */
+  --faint: #8d94a3;
+  --accent: #0847f7;           /* Chainlink Blue — 6.01:1 on the page */
+  --track: #dcebff;            /* brand Light Blue */
   --band-poor: #c0392b;
   --band-developing: #c77700;
   --band-good: #9a8500;
@@ -24,28 +29,42 @@
   --sev-low: #8a8a93;
   --ok: #2e7d4f;
   --warn: #c77700;
-  --focus: #2f5eea;
+  --focus: #0847f7;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #121215; --surface: #1a1a1f; --border: #2c2c33; --text: #ececef;
-    --muted: #9b9ba4; --faint: #6e6e77; --accent: #7d9bff; --track: #26262c;
+    --bg: #0e1119;               /* brand Dark */
+    --surface: #161a24; --border: #262c3a; --text: #eef1f6;
+    --muted: #9aa3b4; --faint: #6b7385;
+    /* NOT the brand blue. #0847F7 on #0E1119 measures 2.92:1 and fails WCAG AA
+       outright, so dark mode takes brand Light Blue as its accent instead —
+       15.61:1, and still a brand value rather than a colour we invented.
+       Do not "correct" this back to #0847F7. */
+    --accent: #dcebff;          /* brand Light Blue */
+    --track: #1e2534;
     --band-poor: #e8695a; --band-developing: #e0a33e; --band-good: #cbb52f;
     --band-strong: #5fbd88; --band-exemplary: #4fb8ad;
     --sev-high: #e8695a; --sev-med: #e0a33e; --sev-low: #8a8a93;
-    --ok: #5fbd88; --warn: #e0a33e; --focus: #7d9bff;
+    --ok: #5fbd88; --warn: #e0a33e; --focus: #dcebff;
   }
 }
 
 /* Explicit dark, even when the OS says light. */
 :root[data-theme="dark"] {
-  --bg: #121215; --surface: #1a1a1f; --border: #2c2c33; --text: #ececef;
-  --muted: #9b9ba4; --faint: #6e6e77; --accent: #7d9bff; --track: #26262c;
+  --bg: #0e1119;               /* brand Dark */
+  --surface: #161a24; --border: #262c3a; --text: #eef1f6;
+  --muted: #9aa3b4; --faint: #6b7385;
+  /* NOT the brand blue. #0847F7 on #0E1119 measures 2.92:1 and fails WCAG AA
+     outright, so dark mode takes brand Light Blue as its accent instead —
+     15.61:1, and still a brand value rather than a colour we invented.
+     Do not "correct" this back to #0847F7. */
+  --accent: #dcebff;          /* brand Light Blue */
+  --track: #1e2534;
   --band-poor: #e8695a; --band-developing: #e0a33e; --band-good: #cbb52f;
   --band-strong: #5fbd88; --band-exemplary: #4fb8ad;
   --sev-high: #e8695a; --sev-med: #e0a33e; --sev-low: #8a8a93;
-  --ok: #5fbd88; --warn: #e0a33e; --focus: #7d9bff;
+  --ok: #5fbd88; --warn: #e0a33e; --focus: #dcebff;
 }
 
 /* A spacing scale, so rhythm is chosen rather than improvised per component. */
@@ -70,7 +89,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 14px/1.55 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font: 14px/1.55 "Inter Variable", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -86,7 +105,10 @@ a { color: var(--accent); }
 
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--s5) var(--s8); }
 
-h1, h2, h3 { margin: 0; font-weight: 600; line-height: 1.2; }
+h1, h2, h3 {
+  margin: 0; font-weight: 600; line-height: 1.2;
+  font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
+}
 h1 { font-size: 19px; letter-spacing: -0.02em; }
 /* Section headings are small and quiet: the numbers below them carry the page,
    so a loud heading competes with its own content. */
@@ -293,11 +315,12 @@ tr.grouphead td {
   color: var(--muted); margin-bottom: var(--s3);
 }
 
-/* A serif for the display figure against a sans body and a mono for keys.
-   Three roles, each doing one job — the pairing is what gives the page a voice
-   without loading a typeface the self-contained export cannot fetch. */
+/* TASA Orbiter for the display figure, Inter for the body, mono for keys.
+   Three roles, each doing one job. The serif this replaces only existed because
+   no brand face was available; TASA Orbiter does the same job and is the
+   brand's primary typeface. */
 .measure-figure {
-  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(56px, 9vw, 82px);
   line-height: 0.92;
   letter-spacing: -0.045em;
@@ -305,7 +328,7 @@ tr.grouphead td {
   display: flex; align-items: baseline; gap: var(--s2);
 }
 .measure-of {
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   font-size: 12px; letter-spacing: 0.04em; color: var(--faint);
 }
 
@@ -347,7 +370,7 @@ tr.grouphead td {
 /* Findings hang their figure in the margin, editorial style. */
 .finding { display: grid; grid-template-columns: 1fr auto; gap: var(--s3) var(--s4); }
 .finding-fig {
-  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
   font-size: 22px; letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums;
   text-align: right; line-height: 1.1;
 }
@@ -368,7 +391,7 @@ tr.grouphead td {
 .figure-row { display: flex; gap: var(--s7); flex-wrap: wrap; }
 .figure { min-width: 110px; }
 .figure-value {
-  font-family: ui-serif, Iowan Old Style, Palatino, Georgia, serif;
+  font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
   font-size: 34px; line-height: 1; letter-spacing: -0.03em;
   font-variant-numeric: lining-nums tabular-nums;
 }

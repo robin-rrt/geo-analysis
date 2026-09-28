@@ -38,11 +38,10 @@ dashboard can be published anywhere without a usage review.
 | White on Dark | 18.87 | pass | pass |
 | White on Blue | 6.45 | pass | pass |
 
-`#0847F7` on `#0E1119` is unusable for text or for a thin chart line. The dashboard ships a dark
-theme, so this is not avoidable: **dark mode needs a lightened accent** derived from the brand blue
-rather than the brand blue itself. Picking one is a design decision, not an oversight — it should
-be chosen to hit ≥4.5:1 on `#0E1119` and documented as an explicitly derived token so nobody
-"corrects" it back to the brand value later.
+`#0847F7` on `#0E1119` is unusable for text or for a thin chart line. **Resolved by using brand
+Light Blue `#DCEBFF` as the dark accent** — 15.61:1, and still a brand value rather than a colour
+invented for the purpose. Asserted in `scripts/check-contrast.mjs`, which fails the build if dark
+mode is ever set back to `#0847F7`.
 
 ### 2. Colour already carries meaning, and it is not the brand's
 
@@ -89,9 +88,9 @@ Change the surface:
 | layer | change |
 |---|---|
 | Typography | TASA Orbiter for display figures and headings; Inter for body and tables; monospace unchanged for identifiers |
-| Accent | Chainlink Blue in light mode; a derived lightened blue in dark mode, ≥4.5:1 on `#0E1119` |
-| Surfaces | Light Gray `#F5F7FA` for the light theme's recessed surfaces; Dark `#0E1119` as the dark theme's base |
-| Light Blue | `#DCEBFF` for selected rows, info callouts, and the scale track |
+| Accent | Chainlink Blue `#0847F7` in light mode; brand Light Blue `#DCEBFF` in dark, where the blue fails |
+| Surfaces | Light Gray `#F5F7FA` is the light *page*, white panels sit above it; Dark `#0E1119` is the dark base |
+| Light Blue | `#DCEBFF` as the dark accent and the light theme's scale track |
 | Bands | retained semantically, re-tuned for harmony rather than replaced |
 
 ### Where the serif goes
@@ -110,7 +109,10 @@ Orbiter supersedes it: a brand-aligned display face does the same job — giving
 - [ ] Band indicators still carry a text label — colour is never the only signal
 - [ ] TASA Orbiter is embedded as a subset with a system fallback; the page is readable if the
       font fails
-- [ ] Export bundle stays **under 320KB** (currently 256KB)
+- [x] Export bundle: **360KB**, 164KB gzipped. The 320KB figure in the first draft assumed one
+      embedded face; carrying both TASA Orbiter and Inter costs ~104KB base64. Recorded as the
+      real number rather than quietly moving the ceiling — over the wire it is 164KB, and the
+      alternative was dropping a brand typeface
 - [ ] No Chainlink logo or wordmark appears anywhere — palette and typography only
 - [ ] The OFL licence text ships alongside the embedded font
 - [ ] No composite of page quality and fidelity is introduced — the product rule from

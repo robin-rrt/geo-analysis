@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.jsx";
+import "./theme/fonts.css";
 import "./theme/tokens.css";
 
 // The static export is opened from a file or a plain static host with no

@@ -1,0 +1,31 @@
+/* The Chainlink brand typefaces, declared by hand rather than by importing the
+ * Fontsource package CSS.
+ *
+ * Those entrypoints declare cyrillic, greek and latin-ext faces as well, and
+ * Vite inlines every file they reference — which would put four unused
+ * alphabets into a single-file export that a strict CSP stops from fetching
+ * anything. Naming the latin subsets directly is the difference between ~77KB
+ * and several hundred.
+ *
+ * Both are SIL Open Font License 1.1, which permits embedding. See OFL.txt.
+ */
+
+/* Display: figures and headings. The brand's primary face. */
+@font-face {
+  font-family: "TASA Orbiter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url("@fontsource-variable/tasa-orbiter/files/tasa-orbiter-latin-wght-normal.woff2")
+    format("woff2-variations");
+}
+
+/* Body: prose, tables, controls. The brand's secondary face. */
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+    format("woff2-variations");
+}

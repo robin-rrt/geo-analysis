@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: mode === "export" ? "dist-export" : "dist",
     emptyOutDir: true,
+    // The brand typeface must end up INSIDE the single-file export: a strict
+    // CSP blocks external requests, and an emitted .woff2 sibling would simply
+    // fail to load. Raising the inline limit past the font's size makes Vite
+    // base64 it into the CSS, which the single-file plugin then inlines too.
+    assetsInlineLimit: 60_000,
   },
   server: {
     proxy: { "/api": "http://127.0.0.1:4317" },

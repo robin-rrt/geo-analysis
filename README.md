@@ -329,14 +329,108 @@ A full-site sweep of 1,465 pages is ~$250 in audits alone. `--estimate` projects
 measured unit rates and makes no Anthropic call; anything above `GEO_COST_CEILING` (default $10)
 needs `--yes`. The server enforces the same ceiling and a client cannot raise it.
 
-### Data does not live in git
+#### Unit rates
+
+Measured, not guessed — the constants live in [`src/run/estimate.js`](src/run/estimate.js) and
+carry their provenance. `resolve` and `rollup` are local computation and cost nothing.
+
+| Stage | Unit | Cost | Per page @ 6 probes |
+|---|---|---:|---:|
+| `audit` (product audit / `score`) | per page | $0.1748 | $0.1748 |
+| `probes` (`gen-probes`) | per probe | $0.0583 | $0.3498 |
+| `test` (`probe`, web mode, batched grader) | per probe | $0.2737 | $1.6422 |
+| `test` (`probe`, closed mode) | per probe | $0.0303 | $0.1818 |
+| **Full run, web** | per page | — | **$2.1668** |
+| **Full run, closed** | per page | — | **$0.7064** |
+
+#### Cost per full run — all products, curated scope
+
+Curated scope — the page set each product's `llms.txt` recommends to agents — is the default and
+the scope these figures cover. Counts resolved 2026-09-28; web mode, 6 probes per page, all stages.
+
+| Product | Pages | Audit | Gen probes | Probe test | Total |
+|---|---:|---:|---:|---:|---:|
+| `ace` | 14 | $2.45 | $4.90 | $22.99 | $30.34 |
+| `ccip` | 37 | $6.47 | $12.94 | $60.76 | $80.17 |
+| `chainlink-automation` | 15 | $2.62 | $5.25 | $24.63 | $32.50 |
+| `chainlink-functions` | 16 | $2.80 | $5.60 | $26.28 | $34.67 |
+| `cre` | 43 | $7.52 | $15.04 | $70.61 | $93.17 |
+| `crec` | 0 | — | — | — | — |
+| `data-feeds` | 25 | $4.37 | $8.74 | $41.05 | $54.17 |
+| `data-streams` | 20 | $3.50 | $7.00 | $32.84 | $43.34 |
+| `datalink` | 11 | $1.92 | $3.85 | $18.06 | $23.83 |
+| `dta-technical-standard` | 7 | $1.22 | $2.45 | $11.50 | $15.17 |
+| `vrf` | 13 | $2.27 | $4.55 | $21.35 | $28.17 |
+| **Total** | **201** | **$35.13** | **$70.31** | **$330.08** | **$435.53** |
+
+`crec` publishes no curated index (`/crec/llms.txt` is a 404), so it has no curated scope at all and
+contributes nothing to that total — it is reachable only at `full` scope.
+
+Mode is the biggest lever on that total, because `test` is most of it:
+
+| Curated sweep | Pages | Audit | Gen probes | Probe test | Total | ±30% band |
+|---|---:|---:|---:|---:|---:|---|
+| web mode | 201 | $35.13 | $70.31 | $330.08 | **$435.53** | $304.87–$566.18 |
+| closed mode | 201 | $35.13 | $70.31 | $36.54 | **$141.99** | $99.39–$184.59 |
+
+Projections carry a ±30% band by design: the inputs vary with page size, how much the model under
+test decides to search, and cache hits. A single confident number would be false precision.
+Reproduce any row with `--estimate`, which makes no API call.
+
+The other two scopes are not costed here — `full` (every page the sitemap publishes, 1,581 pages,
+roughly 8× curated) and `bundle` are opt-in via `--product-scope`.
+
+#### Running just the curated scope
+
+Curated is the default scope, so nothing needs to be passed — but it can be stated explicitly, and
+`--estimate` prints the projection and exits without making a single API call.
+
+```sh
+# What is in scope, and what would it cost? Both are free.
+node src/cli.js product vrf --list                          # the page ledger, no API calls
+node src/cli.js run product:vrf --estimate                  # cost projection, no API calls
+node src/cli.js run product:vrf --product-scope curated --estimate   # the same, said out loud
+
+# Run it. Curated scope, web mode, 6 probes per page, all stages.
+node src/cli.js run product:vrf
+
+# Cheaper variants of the same sweep
+node src/cli.js run product:vrf --mode closed   # skip live retrieval (~⅓ the cost)
+node src/cli.js run product:vrf --batch         # grade via the Batch API, 50% off grading
+node src/cli.js run product:vrf -n 3            # fewer probes per page
+
+# Audit only — no probes, no grading: $0.1748 a page
+node src/cli.js run product:vrf --stages resolve,audit,rollup
+
+# Anything over GEO_COST_CEILING (default $10) needs -y
+node src/cli.js run product:ccip -y
+
+# Every product's curated set, one at a time (estimate first)
+for p in ace ccip chainlink-automation chainlink-functions cre data-feeds \
+         data-streams datalink dta-technical-standard vrf; do
+  node src/cli.js run "product:$p" --estimate
+done
+```
+
+`crec` is the one product with no curated scope — `run product:crec` fails at resolve with zero
+pages in scope, and needs `--product-scope full` to run at all.
+
+### Run data does not live in git
 
 `results/runs/` is the source of truth and is **gitignored** — it is generated, changes on every
-run, and would conflict on every branch. `results/dashboard/` is a pure projection of it and is
-likewise not committed.
+run, and would conflict on every branch. `results/dashboard/` is a pure projection of it,
+`results/products/` and the built `dashboard.html` / `dashboard-data.json` are likewise generated,
+and none of them are committed. Locally that is ~19MB of ignored data.
 
-So **a fresh clone has no data.** The dashboard will start and show its empty state. Move the
-measurements instead of re-buying them — 11MB of runs compresses to about 2.2MB:
+The exception is deliberate: a handful of **page-scope** artifacts under `results/<slug>/` (~364KB,
+5 pages) *are* committed, because `npm test` parses every audit and probe file on disk and asserts
+it found at least one — they are the test fixtures. So a fresh clone is not empty; it builds a
+small 5-page dashboard (3 probed, 30 probes). New page-scope `score` / `gen-probes` / `probe` output
+lands in that same tracked space and will show up in `git status`, unlike `run` snapshots.
+
+What a fresh clone lacks is **the runs** — every product sweep and everything the dashboard's
+headline figures are built from. Move those instead of re-buying them; 13MB of runs (35 of them)
+compresses to about 2.5MB:
 
 ```sh
 node scripts/data-archive.mjs export geo-data.tgz   # on the machine that has them

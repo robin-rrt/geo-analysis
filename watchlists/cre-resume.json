@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "cre-resume",
+  "description": "CRE pages not yet regenerated under the fixed probe prompts (vendor name required, context_mode emitted). Excludes 3 pages that fail the MIN_SOURCE_CHARS guard because they render content client-side.",
+  "pages": [
+    "https://docs.chain.link/cre/reference/cli.md",
+    "https://docs.chain.link/cre/reference/project-configuration-go.md",
+    "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+    "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+    "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+    "https://docs.chain.link/cre/release-notes.md",
+    "https://docs.chain.link/cre/service-quotas.md",
+    "https://docs.chain.link/cre/support-feedback.md",
+    "https://docs.chain.link/cre/supported-networks-go.md",
+    "https://docs.chain.link/cre/supported-networks-ts.md",
+    "https://docs.chain.link/cre/templates.md",
+    "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+    "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "name": "cre-context-pilot",
+  "description": "The five CRE pages with the highest subject-miss rates, used to measure whether context-anchored probes actually fix attribution before regenerating all 43. Baseline (2026-09-21 probes, no context_mode): miss rates 83/67/67/67/67%, avg fidelity 32.7/30.5/26.7/28.0/28.0. confidential-http-ts is the page that produced the original report.",
+  "pages": [
+    "https://docs.chain.link/cre/support-feedback.md",
+    "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+    "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+    "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+    "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md"
+  ]
+}

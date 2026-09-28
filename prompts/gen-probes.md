@@ -64,9 +64,23 @@ phrase happens to be globally unique. It usually is not.
 > measures whether the docs actually answer it.
 
 So: **name the product, or use a term distinctive enough to identify it on its
-own.** Real developers do this — they say "in CRE", "with the Chainlink VRF SDK",
-or they paste an error string that only this product emits. Identifying context
-is not a hint you are leaking; it is what a genuine question contains.
+own.** Real developers do this — they say "with the Chainlink VRF SDK", or they
+paste an error string that only this product emits. Identifying context is not a
+hint you are leaking; it is what a genuine question contains.
+
+**A bare acronym is not distinctive enough, and this is measured rather than
+assumed.** Across 30 probes on 2026-09-28: every one of the 11 that wrote
+"Chainlink" was correctly attributed, and all 5 attribution failures were
+probes that wrote only "CRE". Asked "I want to suggest a new feature for CRE",
+the model replied *"CRE could refer to a few different products"* and answered
+about **A.CRE, a commercial-real-estate modelling platform**. An acronym that
+collides with a common term outside this domain identifies nothing.
+
+**Write the vendor name at least once in every `self-contained` probe** —
+"Chainlink CRE", not "CRE". Afterwards the short form is fine: a question that
+opens "In Chainlink CRE..." may say "the CRE CLI" later. A compound that is
+already unambiguous ("the CRE CLI", an exact error string, a distinctive
+function name) counts on its own.
 
 Set `context_mode` on every probe:
 

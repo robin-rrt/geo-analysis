@@ -12,6 +12,7 @@ import { ScaleBar } from "../charts/ScaleBar.jsx";
 import { bandColour, bandName } from "../lib/bands.js";
 import { ScoreRows } from "../components/ScoreRows.jsx";
 import { Dimensions, recoverablePoints, byOpportunity } from "../components/Dimensions.jsx";
+import { squarify } from "../charts/Treemap.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -616,20 +617,40 @@ describe("dimensions", () => {
     assert_equal(recoverablePoints({ score: 4 }), 0);
   });
 
-  test("renders one row per dimension and states the total available", () => {
-    render(<Dimensions dimensions={[
+
+
+  test("renders one rectangle per dimension, sized by what the gap costs", () => {
+    const { container } = render(<Dimensions dimensions={[
       { name: "Machine-readability & metadata", score: 3, weight: 12 },
       { name: "Answer-first extractability", score: 8, weight: 15 },
     ]} />);
-    expect(screen.getByText("+8.4")).toBeTruthy();
-    expect(screen.getByText("+3.0")).toBeTruthy();
-    expect(screen.getByText(/11.4 points/)).toBeTruthy();
+    const rects = container.querySelectorAll("svg rect");
+    expect(rects).toHaveLength(2);
+    // 8.4 against 3.0 — the costlier gap must own the larger area.
+    const area = (r) => Number(r.getAttribute("width")) * Number(r.getAttribute("height"));
+    const areas = [...rects].map(area).sort((a, b) => b - a);
+    expect(areas[0]).toBeGreaterThan(areas[1] * 2);
   });
 
-  test("the score strip has ten segments, filled to the score", () => {
-    const { container } = render(<Dimensions dimensions={[{ name: "d", score: 4, weight: 10 }]} />);
-    expect(container.querySelectorAll(".dim-dot")).toHaveLength(10);
-    expect(container.querySelectorAll(".dim-dot.on")).toHaveLength(4);
+  test("the graphic names the biggest opportunity so it is not a guess", () => {
+    // The sentence is split across <strong> elements, so assert on the rendered
+    // text rather than on any one node.
+    const { container } = render(<Dimensions dimensions={[
+      { name: "Machine-readability & metadata", score: 3, weight: 12 },
+      { name: "Answer-first extractability", score: 8, weight: 15 },
+    ]} />);
+    const text = container.textContent;
+    expect(text).toMatch(/machine-readability & metadata/i);
+    expect(text).toMatch(/11\.4 of 100/);
+    // ...and it is the costlier gap that gets named, not the lower score.
+    expect(text).not.toMatch(/most of them in answer-first/i);
+  });
+
+  test("the chart is described for screen readers, not just drawn", () => {
+    const { container } = render(<Dimensions dimensions={[{ name: "Code completeness", score: 4, weight: 10 }]} />);
+    const label = container.querySelector("svg").getAttribute("aria-label");
+    expect(label).toContain("Code completeness");
+    expect(label).toContain("6.0 points");
   });
 });
 
@@ -650,5 +671,47 @@ describe("score rows", () => {
     expect(container.querySelector(".row-fill").style.background).toContain("--accent");
     // The value text still carries the band, so meaning survives a uniform bar.
     expect(container.querySelector(".row-value").style.color).toContain("--band-");
+  });
+});
+
+describe("treemap layout", () => {
+  test("every rectangle stays inside the box", () => {
+    const values = [12, 8, 6, 4, 3, 2, 1.5, 1, 0.5];
+    for (const r of squarify(values, 1000, 400)) {
+      expect(r.x).toBeGreaterThanOrEqual(-0.001);
+      expect(r.y).toBeGreaterThanOrEqual(-0.001);
+      expect(r.x + r.w).toBeLessThanOrEqual(1000.001);
+      expect(r.y + r.h).toBeLessThanOrEqual(400.001);
+    }
+  });
+
+  test("areas are proportional to values — the whole point of the chart", () => {
+    const values = [10, 5, 2.5];
+    const rects = squarify(values, 600, 400);
+    const areas = rects.map((r) => r.w * r.h);
+    // 10 : 5 should be 2:1, and 5 : 2.5 likewise.
+    expect(areas[0] / areas[1]).toBeCloseTo(2, 1);
+    expect(areas[1] / areas[2]).toBeCloseTo(2, 1);
+  });
+
+  test("the layout fills the box", () => {
+    const rects = squarify([5, 3, 2], 500, 300);
+    const covered = rects.reduce((a, r) => a + r.w * r.h, 0);
+    expect(covered).toBeCloseTo(500 * 300, -2);
+  });
+
+  test("output order matches input order, not sorted order", () => {
+    // The chart zips rects back against its own items array; a sorted return
+    // would silently mislabel every cell.
+    const rects = squarify([1, 9, 3], 300, 300);
+    const areas = rects.map((r) => r.w * r.h);
+    expect(areas[1]).toBeGreaterThan(areas[2]);
+    expect(areas[2]).toBeGreaterThan(areas[0]);
+  });
+
+  test("degenerate input does not throw", () => {
+    expect(squarify([], 100, 100)).toEqual([]);
+    expect(squarify([0, 0], 100, 100).every((r) => r.w === 0)).toBe(true);
+    expect(squarify([5], 0, 0).every((r) => r.w === 0)).toBe(true);
   });
 });

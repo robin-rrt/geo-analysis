@@ -23,6 +23,8 @@ export function recoverablePoints(dimension) {
   return Math.round(weight * ((10 - score) / 10) * 10) / 10;
 }
 
+import { Treemap } from "../charts/Treemap.jsx";
+
 /** Most recoverable first — the order someone would actually work in. */
 export function byOpportunity(dimensions = []) {
   return [...dimensions]
@@ -30,56 +32,61 @@ export function byOpportunity(dimensions = []) {
     .sort((a, b) => b.gain - a.gain || a.score - b.score);
 }
 
-function Dots({ score }) {
-  const filled = Math.round(Number.isFinite(score) ? score : 0);
-  return (
-    <div className="dim-dots" aria-hidden="true">
-      {Array.from({ length: 10 }, (_, i) => (
-        <span key={i} className={`dim-dot${i < filled ? " on" : ""}`} />
-      ))}
-    </div>
-  );
-}
-
-export function Dimensions({ dimensions = [], showAnalysis = true }) {
+/**
+ * One graphic, not nine rows.
+ *
+ * Nine rows are still nine things to read, and the reader has to scan to find
+ * the biggest — which is why this section got skipped. Area does that work
+ * instead: the largest rectangle IS the answer to "what do I fix first".
+ *
+ * Everything else moves out of sight. The per-dimension critique sits behind a
+ * single disclosure rather than nine, so the default state is one picture and
+ * one sentence.
+ */
+export function Dimensions({ dimensions = [], showAnalysis = true, height = 240 }) {
   const rows = byOpportunity(dimensions);
   if (!rows.length) return <div className="state small">No dimension scores.</div>;
 
   const total = rows.reduce((a, d) => a + d.gain, 0);
+  const top = rows[0];
+  const withAnalysis = rows.filter((d) => d.analysis);
 
   return (
     <div>
-      <p className="small muted" style={{ marginTop: 0 }}>
-        Ordered by points recoverable — weight × the share still missing.{" "}
-        <strong>{total.toFixed(1)} points</strong> are available across all nine.
+      <Treemap
+        height={height}
+        items={rows.map((d) => ({
+          label: d.name,
+          value: d.gain,
+          detail: `${d.score}/10, weight ${d.weight}`,
+        }))}
+        emptyLabel="Nothing recoverable — every dimension is at full marks."
+      />
+
+      {/* One sentence, not a legend. It names the biggest box and the total, and
+          the rest of the picture explains itself. */}
+      <p className="small muted" style={{ marginTop: "var(--s3)" }}>
+        Area is points recoverable — a dimension's weight × the share still missing.{" "}
+        <strong>{total.toFixed(1)} of 100</strong> are available, most of them in{" "}
+        <strong>{top.name.toLowerCase()}</strong> ({top.score}/10, weight {top.weight}).
       </p>
 
-      {rows.map((d) => {
-        const body = (
-          <div className="dim">
-            <div>
-              <div className="dim-name">{d.name}</div>
-              <Dots score={d.score} />
-            </div>
-            <div className="dim-figures">
-              <div className="dim-gain">+{d.gain.toFixed(1)}</div>
-              {/* Score and weight are the inputs; the figure above is what they mean. */}
-              <div className="dim-meta">{d.score}/10 · weight {d.weight}</div>
-            </div>
+      {showAnalysis && withAnalysis.length ? (
+        <details className="item">
+          <summary className="small">Read the auditor's critique of each dimension</summary>
+          <div style={{ marginTop: "var(--s3)" }}>
+            {byOpportunity(withAnalysis).map((d) => (
+              <div key={d.name} style={{ marginBottom: "var(--s3)" }}>
+                <div className="small">
+                  <strong>{d.name}</strong>{" "}
+                  <span className="faint">{d.score}/10 · weight {d.weight} · +{d.gain.toFixed(1)}</span>
+                </div>
+                <div className="dim-analysis">{d.analysis}</div>
+              </div>
+            ))}
           </div>
-        );
-
-        // The critique only appears where there is one, rather than a disclosure
-        // per dimension whether or not it holds anything.
-        return showAnalysis && d.analysis ? (
-          <details className="item" key={d.name}>
-            <summary>{body}</summary>
-            <div className="dim-analysis">{d.analysis}</div>
-          </details>
-        ) : (
-          <div key={d.name}>{body}</div>
-        );
-      })}
+        </details>
+      ) : null}
     </div>
   );
 }

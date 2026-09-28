@@ -105,8 +105,26 @@ export function Treemap({ items = [], height = 260, onSelect, emptyLabel = "Noth
   const rects = squarify(usable.map((i) => i.value), width, height);
   const max = usable.length ? Math.max(...usable.map((i) => i.value)) : 0;
 
+  // Decided once, so the tiles, the labels and the overflow line cannot
+  // disagree about what got named.
+  const placed = usable.map((item, i) => {
+    const r = rects[i];
+    const strength = max ? 0.3 + 0.7 * (item.value / max) : 0.3;
+    return {
+      item, r, strength,
+      onDark: strength >= 0.55,
+      showValue: r.w > 74 && r.h > 40,
+      showLabel: r.w > 130 && r.h > 66,
+      visible: r.w >= 2 && r.h >= 2,
+    };
+  });
+  // A tile too small to carry its own name is not a tile to shrink type for —
+  // the name goes underneath instead, so nothing is unreadable.
+  const unnamed = placed.filter((p) => p.visible && !p.showLabel).map((p) => p.item);
+
   return (
-    <div
+    <>
+      <div
       ref={ref}
       style={{ position: "relative", width: "100%", height }}
       role="img"
@@ -120,15 +138,8 @@ export function Treemap({ items = [], height = 260, onSelect, emptyLabel = "Noth
     >
       {!usable.length ? <div className="state small">{emptyLabel}</div> : null}
 
-      {usable.map((item, i) => {
-        const r = rects[i];
-        if (r.w < 2 || r.h < 2) return null;
-
-        // Strength carries magnitude a second time, so ranking survives when two
-        // rectangles come out similar in area.
-        const strength = 0.3 + 0.7 * (item.value / max);
-        // Below this the tile is too pale for white text; the label flips to ink
-        // rather than sitting at 2:1 against its own background.
+      {placed.map(({ item, r, strength, visible }) => {
+        if (!visible) return null;
         return (
           <button
             type="button"
@@ -147,15 +158,8 @@ export function Treemap({ items = [], height = 260, onSelect, emptyLabel = "Noth
       })}
 
       {/* Labels sit in their own layer so tile opacity never fades the text. */}
-      {usable.map((item, i) => {
-        const r = rects[i];
-        if (r.w < 2 || r.h < 2) return null;
-        const strength = 0.3 + 0.7 * (item.value / max);
-        const onDark = strength >= 0.55;
-        const showValue = r.w > 74 && r.h > 40;
-        const showLabel = r.w > 130 && r.h > 66;
-        if (!showValue) return null;
-
+      {placed.map(({ item, r, onDark, showValue, showLabel, visible }) => {
+        if (!visible || !showValue) return null;
         return (
           <div
             key={`${item.label}-label`}
@@ -195,6 +199,18 @@ export function Treemap({ items = [], height = 260, onSelect, emptyLabel = "Noth
           </div>
         );
       })}
-    </div>
+      </div>
+
+      {unnamed.length ? (
+        <p className="small faint" style={{ marginTop: "var(--s2)" }}>
+          Too small to label:{" "}
+          {unnamed
+            .sort((a, b) => b.value - a.value)
+            .map((i) => `${i.label} (+${i.value.toFixed(1)})`)
+            .join(", ")}
+          .
+        </p>
+      ) : null}
+    </>
   );
 }

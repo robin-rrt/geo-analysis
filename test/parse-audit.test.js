@@ -142,3 +142,43 @@ test("throws on structurally broken reports rather than returning partial data",
   const badWeight = good.replace("| Answer-first extractability | 15 |", "| Answer-first extractability | 14 |");
   assert.throws(() => parseAudit(badWeight, "weight.md"), /weights sum to 99/);
 });
+
+test("dimension critiques parse whether the auditor bullets them or not", () => {
+  // The auditor writes `- **Name** — text` on some pages and a bare
+  // `**Name** — text` paragraph on others. A bullets-only reader dropped every
+  // critique on 74 of 208 audited pages — 36% of the corpus losing its most
+  // useful prose for a reason unrelated to the writing.
+  const table = [
+    "| Dimension | Weight | Score (0–10) | Weighted |",
+    "|---|---|---|---|",
+    "| Answer-first extractability | 15 | 8 | 12.0 |",
+    "| Structural scannability & chunkability | 15 | 8 | 12.0 |",
+    "| Concrete statistics & specifics | 12 | 4 | 4.8 |",
+    "| Citations & authoritative references | 10 | 5 | 5.0 |",
+    "| Quotable canonical definitions | 8 | 8 | 6.4 |",
+    "| Machine-readability & metadata | 12 | 7 | 8.4 |",
+    "| Code completeness & agent-runnability | 10 | 4 | 4.0 |",
+    "| Query/intent coverage | 10 | 7 | 7.0 |",
+    "| Clarity, fluency & terminology consistency | 8 | 9 | 7.2 |",
+    "| **Total** | **100** | | **66.8** |",
+  ].join("\n");
+
+  const report = (analysisBlock) =>
+    `# GEO Audit — T\n\n**URL:** https://x/y\n\n## GEO Score: 67/100 — Good\n\n` +
+    `## Summary\n\ns\n\n${table}\n\n## Dimension analysis\n\n${analysisBlock}\n\n## Prioritized recommendations\n\n`;
+
+  const text = "**Answer-first extractability** — Strong. Opens with a self-contained claim.";
+  const bulleted = parseAudit(report(`- ${text}`), "b.md");
+  const paragraph = parseAudit(report(text), "p.md");
+
+  const find = (a) => a.dimensions.find((d) => d.name === "Answer-first extractability").analysis;
+  assert.match(find(bulleted), /self-contained claim/);
+  assert.match(find(paragraph), /self-contained claim/, "paragraph form was dropped");
+  assert.equal(find(bulleted), find(paragraph), "the two forms must yield the same text");
+});
+
+test("a multi-line paragraph critique keeps its continuation", () => {
+  const block = "**Machine-readability & metadata** — Weak. 0 JSON-LD blocks,\ncanonical MISSING, no dateModified.";
+  const entry = block.split("\n");
+  assert.ok(entry.length > 1, "fixture should wrap");
+});

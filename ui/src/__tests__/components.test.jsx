@@ -769,3 +769,35 @@ describe("treemap interaction", () => {
     expect(dark.slice(0, dark.indexOf("\n}"))).toMatch(/--tile-ink-strong:\s*#0e1119/i);
   });
 });
+
+describe("treemap overflow labels", () => {
+  test("a tile too small to name is named underneath instead", () => {
+    // "Clarity, fluency & terminology consistency" is the smallest gap on most
+    // pages and its tile cannot hold the name. Shrinking type to fit would make
+    // it unreadable; saying it below keeps everything legible.
+    const { container } = render(<Dimensions dimensions={[
+      { name: "Machine-readability & metadata", score: 3, weight: 12 },
+      { name: "Concrete statistics & specifics", score: 4, weight: 12 },
+      { name: "Citations & authoritative references", score: 5, weight: 10 },
+      { name: "Code completeness & agent-runnability", score: 5, weight: 10 },
+      { name: "Query/intent coverage", score: 6, weight: 10 },
+      { name: "Quotable canonical definitions", score: 6, weight: 8 },
+      { name: "Answer-first extractability", score: 8, weight: 15 },
+      { name: "Structural scannability & chunkability", score: 8, weight: 15 },
+      { name: "Clarity, fluency & terminology consistency", score: 8, weight: 8 },
+    ]} />);
+    const text = container.textContent;
+    // Every dimension is reachable in text, whether or not its tile held a label.
+    for (const name of ["Clarity, fluency & terminology consistency", "Machine-readability & metadata"]) {
+      expect(text).toContain(name);
+    }
+  });
+
+  test("nothing is listed when every tile carries its own name", () => {
+    const { container } = render(<Dimensions dimensions={[
+      { name: "A", score: 1, weight: 50 },
+      { name: "B", score: 1, weight: 50 },
+    ]} />);
+    expect(container.textContent).not.toMatch(/Too small to label/);
+  });
+});

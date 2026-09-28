@@ -142,8 +142,39 @@ function parseDimensions(markdown, file) {
 //   - **Name** — text       (concepts-non-determinism-go)
 // Names are also abbreviated relative to the table ("Code completeness" vs
 // "Code completeness & agent-runnability"), so they are matched loosely.
+/**
+ * Entries in the Dimension analysis section, however the auditor formatted it.
+ *
+ * It uses at least three shapes across the corpus, all valid markdown for the
+ * same thing:
+ *
+ *     - **Name** — text          a bullet
+ *     1. **Name** — text         a numbered item
+ *     **Name** — text            a bare paragraph
+ *
+ * A bullets-only reader dropped every critique on 74 of 208 audited pages, then
+ * a bullets-or-paragraph reader still missed 21 more that were numbered. So this
+ * keys on what actually marks an entry — a bold run at the start of a line,
+ * after any list marker — rather than enumerating formats and waiting for the
+ * next one. Continuation lines fold into the entry above.
+ */
+const ENTRY_START = /^(?:[-*]\s+|\d+[.)]\s+)?(\*\*.+)$/;
+
+function analysisEntries(block) {
+  if (!block) return [];
+  const out = [];
+  for (const line of block.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const m = trimmed.match(ENTRY_START);
+    if (m) out.push(m[1].trim());
+    else if (out.length) out[out.length - 1] += ` ${trimmed}`;
+  }
+  return out;
+}
+
 function parseDimensionAnalysis(markdown) {
-  return bullets(section(markdown, "Dimension analysis")).map((line) => {
+  return analysisEntries(section(markdown, "Dimension analysis")).map((line) => {
     const m = line.match(/^\*\*(.+?):?\*\*\s*(?:—|-|:)?\s*(.*)$/);
     return m
       ? { dimension: m[1].replace(/:$/, "").trim(), text: m[2].trim() }

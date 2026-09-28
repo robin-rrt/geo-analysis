@@ -473,6 +473,58 @@ a.quiet:hover { border-bottom-color: var(--accent); color: var(--accent); }
 }
 .tm-label { position: absolute; pointer-events: none; z-index: 3; }
 
+/* --------------------------------------------------------------- recs ----- */
+
+/* Recommendation rows share the tiles' affordance — lift, tint, ring — because
+   they open the same dialog. Two ways to say "clickable" in one page teaches
+   the reader nothing and costs them a guess. */
+.rec {
+  display: grid;
+  grid-template-columns: 2.6rem 1fr 1.25rem;
+  gap: var(--s3);
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: var(--hairline) solid var(--border);
+  padding: var(--s3) var(--s2);
+  margin: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  border-radius: 6px;
+  transition: background 140ms ease, transform 140ms ease;
+}
+.rec:last-child { border-bottom: 0; }
+/* Lifting to --surface rather than tinting with the accent: every foreground
+   token in this row is already contrast-checked against --surface, and a
+   Light Blue wash puts P1 red at 4.50:1 — passing by 0.00. */
+.rec:hover,
+.rec:focus-visible {
+  background: var(--surface);
+  transform: translateX(2px);
+}
+.rec-pri {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.rec-title { font-size: 13px; font-weight: 600; }
+/* The "maps to" rubric dimension is context, not the headline — it sits on the
+   same line at body weight so the title still leads. */
+.rec-maps { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+.rec-more {
+  color: var(--muted);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 140ms ease, transform 140ms ease;
+  justify-self: end;
+}
+.rec:hover .rec-more,
+.rec:focus-visible .rec-more { opacity: 1; transform: translateX(2px); }
+
 /* ------------------------------------------------------------- dialog ----- */
 
 dialog.detail {

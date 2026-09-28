@@ -13,6 +13,7 @@ import { bandColour, bandName } from "../lib/bands.js";
 import { ScoreRows } from "../components/ScoreRows.jsx";
 import { Dimensions, recoverablePoints, byOpportunity } from "../components/Dimensions.jsx";
 import { squarify } from "../charts/Treemap.jsx";
+import { Recommendations } from "../components/Recommendations.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -799,5 +800,47 @@ describe("treemap overflow labels", () => {
       { name: "B", score: 1, weight: 50 },
     ]} />);
     expect(container.textContent).not.toMatch(/Too small to label/);
+  });
+});
+
+describe("Recommendations", () => {
+  // Shape straight out of parseRecommendations. The UI previously read `meta`
+  // and `body`, which the parser has never produced, so every fix rendered as a
+  // bare title with all four of these fields invisible on 208 audited pages.
+  const rec = {
+    priority: 1,
+    title: "Add symptom-phrased headings",
+    mapsTo: "symptom-phrased query coverage",
+    tier: null,
+    where: "The \"No custom extractors\" section",
+    issue: "Concept-titled sections miss how devs query the failure.",
+    change: "Add H3s phrased as queries and answer in the first sentence.",
+    why: "Agents retrieve by symptom string.",
+  };
+
+  test("the full text is reachable on hover without a click", () => {
+    const { container } = render(<Recommendations recommendations={[rec]} />);
+    const title = container.querySelector(".rec").getAttribute("title");
+    for (const field of [rec.where, rec.issue, rec.change, rec.why]) {
+      expect(title).toContain(field);
+    }
+  });
+
+  test("clicking opens every field the auditor wrote", () => {
+    const { container } = render(<Recommendations recommendations={[rec]} />);
+    expect(container.textContent).not.toContain(rec.change);
+    fireEvent.click(container.querySelector(".rec"));
+    for (const field of [rec.where, rec.issue, rec.change, rec.why]) {
+      expect(container.textContent).toContain(field);
+    }
+  });
+
+  test("a fix with no written breakdown says so rather than opening empty", () => {
+    const bare = { priority: 2, title: "Something", mapsTo: null, tier: null,
+                   where: null, issue: null, change: null, why: null };
+    const { container } = render(<Recommendations recommendations={[bare]} />);
+    expect(container.querySelector(".rec").getAttribute("title")).toBe(null);
+    fireEvent.click(container.querySelector(".rec"));
+    expect(container.textContent).toMatch(/without a written breakdown/);
   });
 });

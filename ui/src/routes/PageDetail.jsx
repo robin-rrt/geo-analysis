@@ -6,6 +6,7 @@ import { bandColour, bandName } from "../lib/bands.js";
 import { FidelityBadge } from "../components/FidelityBadge.jsx";
 import { Loading, ErrorState, Empty } from "../components/States.jsx";
 import { PageActions } from "../components/PageActions.jsx";
+import { Recommendations } from "../components/Recommendations.jsx";
 
 export default function PageDetail() {
   const { key } = useParams();
@@ -72,25 +73,10 @@ export default function PageDetail() {
       {audit?.recommendations?.length ? (
         <section className="ruled" style={{ marginTop: "var(--s6)" }}>
           <h2>Recommended fixes</h2>
-          {audit.recommendations.map((r, i) => (
-            <div className="finding ruled-soft" key={i} style={{ paddingBottom: "var(--s3)", marginTop: i ? "var(--s3)" : 0 }}>
-              <div>
-                <div style={{ display: "flex", gap: "var(--s2)", alignItems: "baseline" }}>
-                  <strong style={{ fontSize: 13 }}>{r.title}</strong>
-                </div>
-                {r.meta ? <div className="finding-body">{r.meta}</div> : null}
-                {r.body ? <div className="finding-body" style={{ whiteSpace: "pre-wrap" }}>{r.body}</div> : null}
-              </div>
-              <div>
-                <div
-                  className="finding-fig"
-                  style={{ color: r.priority === 1 ? "var(--sev-high)" : r.priority === 2 ? "var(--sev-med)" : "var(--sev-low)" }}
-                >
-                  P{r.priority}
-                </div>
-              </div>
-            </div>
-          ))}
+          <p className="small faint" style={{ marginTop: 0, marginBottom: "var(--s3)" }}>
+            Ordered by priority. Select one for where it is, what to change and why.
+          </p>
+          <Recommendations recommendations={audit.recommendations} />
         </section>
       ) : null}
 

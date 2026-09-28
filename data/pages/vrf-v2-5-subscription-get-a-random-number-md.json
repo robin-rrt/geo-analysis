@@ -1,0 +1,167 @@
+{
+  "key": "vrf-v2-5-subscription-get-a-random-number-md",
+  "runId": "2026-09-22T13-13-35-905Z-9cc9",
+  "audit": {
+    "title": "Get a Random Number (Chainlink VRF v2.5)",
+    "url": "https://docs.chain.link/vrf/v2-5/subscription/get-a-random-number.md",
+    "analyzedAt": "2026-09-22T13:16:53.783Z",
+    "contentType": "developer documentation / step-by-step tutorial",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Sections open with orientation prose (\"For this example, create a new subscription…\") rather than a liftable canonical answer. The intro states the guide's purpose clearly, but no section leads with a self-contained one-sentence answer to \"how do I request randomness in VRF v2.5.\" Weak on standalone chunkability."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good — 7 headings, 1 H1, zero level skips, logical lifecycle flow. Weakness: 0 tables; the request-parameter definitions (`keyHash`, `callbackGasLimit`, etc.) and the LINK-vs-native cost comparison both beg for tables an engine can extract as rows."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — 37 prose numerals, real costs, gas figures (20,000/word, 100,000 default), confirmations (3), addresses, version pins (v2.5, v1.3.0, ^0.8.20). Best-in-class here."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — 26 links, 5 to primary sources (GitHub contract source at pinned tag, Remix). No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Parameter definitions are crisp and near first use (\"`bytes32 keyHash`: The gas lane key hash value…\"). Missing: a one-sentence canonical definition of Chainlink VRF v2.5 itself near the top for the \"what is\" query."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — measured facts show 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Head metadata could not be verified from the served content; the CLI should pass raw `<head>` for a full read, but the deterministic scan found none."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — single complete contract, tagged `sol`, real imports, hardcoded Sepolia coordinator and keyHash, SPDX header. The unassigned-identifier flags (SPDX, THIS, EXAMPLE…) are disclaimer comments, not real gaps. No expected-output shown, minor."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers full lifecycle including cleanup — good. Gap: no troubleshooting/FAQ section and no symptom-phrased headings (e.g. \"callback never returned,\" \"request stuck pending,\" \"callbackGasLimit too low\"). The answers exist inline but aren't retrievable by symptom."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong and consistent (\"VRF v2.5,\" \"subscription,\" \"consuming contract\"). Minor vague quantifiers (\"a few minutes,\" \"several random values\")."
+      }
+    ],
+    "summary": "This is a solid, concrete VRF v2.5 tutorial: it walks setup → deploy → request → cleanup with real cost figures (7 LINK to fund, ~0.06 LINK actual), a complete copy-pasteable Solidity contract, and inline links to primary sources (Remix, GitHub). Its biggest GEO strength is code completeness and specifics; its biggest opportunity is machine-readability metadata (no JSON-LD, missing canonical, no dates) combined with the absence of symptom/error-phrased sections that would win troubleshooting retrieval. The honest verdict: strong content that gives engines good material to quote, but under-instrumented for parsing and under-covered for the \"why did my request fail\" queries devs actually type.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema + canonical + last-updated",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured facts: \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `programmingLanguage: Solidity`, and a self-referential `canonical` URL; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise agent parseability and trust; a canonical URL is required for the harness to score `hit_expected_source`."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom/error-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 before \"Clean up\"",
+        "issue": "answers to failures are buried inline (\"If your `callbackGasLimit` is not sufficient, the callback will fail\")",
+        "change": "add \"## Troubleshooting VRF requests\" with H3s phrased as queries: \"Why is my VRF request stuck pending?\", \"Callback failed / fulfillRandomWords not called\", \"request not found error\", each leading with the fix.",
+        "why": "devs and agents query by symptom; concept-titled prose loses retrieval that question-phrased headings win, even with the answer present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Lead each major section with a liftable canonical sentence",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"Request random values\" and \"Create and deploy a VRF compatible contract\"",
+        "issue": "sections open with \"For this example…\" / procedural framing",
+        "change": "prepend one self-contained sentence, e.g. \"To request randomness in VRF v2.5, call `requestRandomWords(bool enableNativePayment)` on your consumer contract; VRF returns values via the `fulfillRandomWords()` callback.\"",
+        "why": "a crisp first sentence survives chunking and is quoted verbatim; procedural openers don't stand alone in RAG."
+      },
+      {
+        "priority": 2,
+        "title": "Convert request parameters to a table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Analyzing the contract,\" the `s_subscriptionId`/`keyHash`/`callbackGasLimit`… bullet list",
+        "issue": "measured facts: \"0 table(s)\"; params are a prose bullet list",
+        "change": "render a table with columns Parameter | Type | Example value | Purpose (e.g. `callbackGasLimit` | `uint32` | `100_000` | gas for the callback).",
+        "why": "tables let engines extract per-parameter reasons and default values as discrete rows."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical definition + native-vs-LINK comparison table",
+        "mapsTo": "quotable canonical definitions + specifics",
+        "tier": null,
+        "where": "intro paragraph and step 5 of \"Create and fund a subscription\"",
+        "issue": "no one-line definition of VRF v2.5; payment costs given as parenthetical prose",
+        "change": "open with \"Chainlink VRF v2.5 is a verifiable random number generator that lets smart contracts access provably fair randomness via a funded subscription.\" Add a small table: Payment | Fund with | Approx. actual cost (LINK | 7 LINK | ~0.06 LINK; ETH | 0.03 ETH | ~0.000247 ETH).",
+        "why": "a verbatim definition wins \"what is\" queries; the cost table makes the highest-value specifics extractable."
+      },
+      {
+        "priority": 3,
+        "title": "Show expected output / return shape for read functions",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Request random values,\" steps calling `lastRequestId()` and `getRequestStatus()`",
+        "issue": "no example of what these calls return",
+        "change": "add a short example return, e.g. `getRequestStatus(requestId) → (fulfilled: true, randomWords: [12…, 98…])`.",
+        "why": "concrete expected output helps agents verify task completion and raises snippet trust."
+      }
+    ],
+    "antiPatterns": [
+      "Minor vague quantifiers: \"a few minutes,\" \"several random values,\" \"many\" — acceptable in a tutorial but could be tightened where a number exists.",
+      "Two \"(Image: …)\" placeholders in place of rendered screenshots — no alt-bearing content for engines; consider a one-line text description of what the step shows.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean."
+    ],
+    "offPageNotes": [
+      "Site-level: `llms.txt` is already referenced at top — good; ensure this URL is listed in it and in the sitemap.",
+      "Metadata absence may be a rendering artifact — the CLI should pass raw `<head>` so JSON-LD/canonical/og tags can be verified rather than assumed missing.",
+      "Freshness cadence: adding and maintaining a visible `dateModified` is a site-template change, not just this page."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-13-35-905Z-9cc9",
+    "probes": {}
+  }
+}

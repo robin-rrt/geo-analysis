@@ -1,0 +1,689 @@
+{
+  "key": "cre-capabilities-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Capabilities Overview",
+    "url": "https://docs.chain.link/cre/capabilities.md",
+    "analyzedAt": "2026-09-21T13:17:20.659Z",
+    "contentType": "developer documentation / conceptual overview",
+    "score": 58,
+    "band": "Developing",
+    "weightedTotal": 58,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with \"A capability is a modular, decentralized service that performs a specific task,\" and each H2 leads with a direct statement. No action needed beyond the metadata/specifics fixes below."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 4 clean sections, no level skips, one comparison table, all sections under 100 words. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Only 3 numerals in the whole page, none with units, no version strings. \"Additional chain families may be added\" and \"many more\" networks are unquantified."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Mixed. 13 internal links give good navigational context, but 0 external/primary-source links (e.g., to the consensus spec, Borsh, ABI, or DON documentation as canonical definitions)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. The capability definition and the chain-family definition (\"groups of networks that share the same virtual machine, serialization format, and address encoding\") are both crisp and verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. No JSON-LD/`TechArticle`, canonical MISSING, no `<head>` captured, no `dateModified`. A visible body \"Last Updated: 2025-11-04\" exists but isn't structured."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Low by rubric, though this is a conceptual page. Zero snippets; a minimal SDK-invocation stub would raise agent utility."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Moderate. Answers \"what is a capability\" and \"which capabilities exist\" but no \"how do I…\", no symptom/error phrasing, no full-list of supported networks inline."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent naming (CRE, DON, capability, chain family); no undefined jargon. No action needed."
+      }
+    ],
+    "summary": "This is a short, well-written conceptual overview of Chainlink Runtime Environment (CRE) Capabilities: what a capability is, how it's invoked via the SDK, supported chain families, and a linked list of available capabilities. Its biggest GEO strength is a crisp, liftable opening definition and clean, well-chunked structure with a comparison table. Its biggest opportunity is machine-readability and concrete specifics — the served HTML has no JSON-LD, no canonical URL, and no `<head>` freshness signals, and the prose leans on vague quantifiers (\"many more,\" \"multiple\") where version numbers, network counts, and limits would earn citations. As an index/overview page it does its navigational job, but it currently reads as a diffuse hub that an engine will skim rather than quote.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (JSON-LD `TechArticle` + canonical + dates)",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "\"JSON-LD: 0 blocks · canonical: MISSING · dateModified absent\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, and a canonical `https://docs.chain.link/cre/capabilities`; mirror the visible \"Last Updated\" into `<head>`.",
+        "why": "Structured freshness and canonical signals raise agent trust and dedupe the `.md` vs HTML variants; the body date is invisible to parsers."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a networks count",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Chain Families\" and \"Available Capabilities\"",
+        "issue": "\"Ethereum, Base, Arbitrum, and many more\" — concept-titled, unquantified.",
+        "change": "Add an H3 like \"Which chains does CRE support?\" and state a number, e.g. \"CRE supports N EVM networks and 2 Solana networks (Mainnet, Devnet)\"; add \"How do I choose the right SDK client?\" pointing to the table.",
+        "why": "Devs query by question and quantity; symptom/question headings win retrieval that conceptual titles lose, and a concrete count is high-lift for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Additional chain families may be added in future releases.\" / \"many more\"",
+        "issue": "unquantified qualifiers; 0 numerals with units on the page.",
+        "change": "State the current count of chain families (2), the number of available capabilities (5), and link \"many more\" to the exact supported-networks count.",
+        "why": "Quantitative claims are among the highest-lift changes for generative-engine visibility."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative external references for canonical terms",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Payload Encoding\" column (ABI, Borsh) and \"built-in consensus\"",
+        "issue": "\"Borsh\" / \"ABI (viem / go-ethereum)\" named without primary-source links.",
+        "change": "Link Borsh to its spec, ABI to the Solidity/viem ABI reference, and keep the internal consensus link — mixing primary sources with internal links raises attributability.",
+        "why": "Inline links to canonical definitions raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal SDK-invocation snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Invoking Capabilities via the SDK\"",
+        "issue": "section describes `evm.Client` usage in prose only; 0 code blocks on the page.",
+        "change": "Add a short, language-tagged Go or TS snippet showing instantiating `evm.Client` and one capability call, with imports.",
+        "why": "Complete, copy-pasteable snippets are what coding agents lift; a stub here anchors the abstract description."
+      },
+      {
+        "priority": 3,
+        "title": "Describe the omitted image with alt text",
+        "mapsTo": "answer-first extractability / clarity",
+        "tier": null,
+        "where": "\"(Image: Image)\" after the DON paragraph",
+        "issue": "placeholder \"(Image: Image)\" conveys nothing to a text-only ingest.",
+        "change": "Add descriptive alt text (e.g., \"Diagram: workflow invoking multiple capability DONs via the CRE SDK\").",
+        "why": "Engines read alt text, not pixels; a described diagram adds a liftable relationship statement."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"many more,\" \"multiple,\" \"may be added in future releases.\"",
+      "Uninformative image placeholder: \"(Image: Image).\"",
+      "No dated/versioned signal in machine-readable form (body-only \"Last Updated\")."
+    ],
+    "offPageNotes": [
+      "The page references `/llms.txt`, which is a positive site-level signal — confirm it lists this URL under the CRE section.",
+      "Canonical/JSON-LD and the `.md` vs HTML duplication are best fixed in the site's doc template, not this page alone.",
+      "CLI should pass raw `<head>` on future runs — head metadata could not be verified here, so the metadata score reflects the served HTML only."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/capabilities.md",
+      "source_title": "Capabilities Overview",
+      "probe_set_id": "bc47238ae0c6",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:18:45.751Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 57.8,
+      "avg_fidelity_all": 53.2,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4.7,
+        "hallucination_free": 5.2,
+        "relevance": 4.8,
+        "structure": 6.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 202971,
+          "output_tokens": 13442,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 20,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9557,
+          "output_tokens": 9769,
+          "cache_creation_input_tokens": 3539,
+          "cache_read_input_tokens": 17695,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/overview-go",
+              "https://docs.chain.link/cre/capabilities"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 9,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "evmClient := evm.Client{ChainSelector: <chainSelectorID>}",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "cre generate-bindings solana --language typescript",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre.Handler, cre.Runtime, cre.Promise, report verification (cre.ParseReport)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The programming model is trigger → callback → handler with cre.Handler/cre.Runtime/cre.Promise",
+            "evm.Client instantiation syntax with ChainSelector field",
+            "Solana bindings generated via 'cre generate-bindings solana --language typescript'",
+            "Wire format is byte-identical to the Go SDK's Solana bindings package",
+            "CRE CLI compiles workflows into binaries and deploys them to production DONs",
+            "Built-in test framework with capability mocks, secrets simulation, time control, log capture"
+          ],
+          "verdict": "The core, source-backed guidance (invoke via SDK clients like evm.Client/solana.Client/http.Client rather than talking to DONs directly) is accurate and well-cited, but the answer pads this with many specific code snippets, CLI commands, and API names not found on the source page, which a developer could mistakenly treat as verified and copy into production.",
+          "fidelity": 68,
+          "prompt": "In Chainlink CRE, how do I invoke capabilities from my workflow code instead of talking to the DONs directly?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information about how to invoke capabilities in Chainlink CRE workflows.Let me get more detail on the SDK clients and their usage patterns.I have enough to answer clearly.\n\n## Short answer\n\nIn Chainlink CRE, you **never call the capability DONs directly**. Instead, you invoke capabilities through the typed **client interfaces provided by the CRE SDK** (available in Go and TypeScript). As a developer, you do not interact with these capability DONs directly. Instead, you invoke them through the developer-friendly interfaces provided by the CRE SDKs (Go and TypeScript), such as the evm.Client, the solana.Client, or the http.Client.\n\n## How it fits together\n\nA capability is the fundamental building block of a CRE workflow. A capability is a modular, decentralized service that performs a specific task. Each capability is powered by its own independent Decentralized Oracle Network (DON), which is optimized for that specific task, ensuring security and reliable performance.\n\nThe programming model is trigger → callback → capabilities:\n- The trigger represents the \"when\" of the workflow. The callback is a function that contains your business logic. Inside the callback, you invoke capabilities using SDK clients. This represents the \"what\" of the workflow.\n- The handler connects a trigger to a callback, forming a complete workflow.\n\nSo the pattern is:\n1. Write your workflow using the SDK.\n2. Inside your callback, use an SDK client (e.g., `evm.Client`, `http.Client`, `solana.Client`) to invoke the capability you need.\n3. The SDK handles routing the request to the appropriate capability DON, running it across nodes, and returning the consensus result.\n\n## The main SDK clients\n\nThe CRE SDK exposes several categories of building blocks. The Core SDK covers the fundamental building blocks of any workflow, including cre.Handler, cre.Runtime, cre.Promise, report verification (cre.ParseReport), and map iteration helpers. Triggers detail the configuration and payload structures for all available trigger types (Cron, HTTP, EVM Log). The EVM Client provides the evm.Client, the primary tool for all EVM interactions, including reads and writes, and the HTTP Client (http.Client) is used for making offchain API requests from individual nodes.\n\n**EVM interactions (Go example):**\n\nFor onchain reads/writes, you instantiate the EVM client with a chain selector. The evm.Client provides the foundational methods for all onchain interactions. It is highly recommended to wrap its usage in a type-safe \"binding\" for your specific smart contracts. To use the client, you must instantiate it with the ChainSelector ID for the blockchain you intend to interact with.\n\n```go\nimport \"github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm\"\n\n// Instantiate a client for a specific chain\nevmClient := evm.Client{ChainSelector: <chainSelectorID>}\n// then call read/write methods (ideally via a generated binding)\n```\n\nFor cleaner, safer contract calls, generate typed bindings rather than encoding/decoding ABI by hand. Your binding will use this generic client internally to handle ABI encoding and decoding, making your workflow code cleaner and safer.\n\nFor Solana, you similarly use `SolanaClient` with generated bindings. The wire format is byte-identical to the Go SDK's Solana bindings package. You can generate typed per-program bindings from an Anchor IDL with the CRE CLI: cre generate-bindings solana --language typescript.\n\n## Deployment\n\nOnce written, you compile and deploy with the CLI. Using the CRE SDK (available in Go and TypeScript), you build Workflows. Using the CRE CLI, you compile them into binaries and deploy them to production, where CRE runs them across a Decentralized Oracle Network (DON).\n\n## Testing without hitting real DONs\n\nYou don't need real DONs to test capability invocations—the SDK ships mocks. The CRE SDK includes a built-in test framework for unit testing your workflows without compiling to WASM or running on a DON. It provides capability mocks, secrets simulation, time control, and log capture — all with full type safety, including examples for mocking EVM, HTTP, consensus, and more.\n\n---\n\n**Bottom line:** Import the relevant capability client from the CRE SDK (`evm.Client`, `http.Client`, `solana.Client`, etc.), instantiate it (with a chain selector where applicable), and call its methods from inside your workflow's callback function. The SDK abstracts away all direct communication with the capability DONs. For the exact method signatures, the official [SDK Reference](https://docs.chain.link/cre/reference/sdk/overview-go) and [Capabilities Overview](https://docs.chain.link/cre/capabilities) are the best places to look.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31110,
+              "output_tokens": 2580,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2097,
+              "output_tokens": 2078,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3539,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cited the expected source URL despite closely paraphrasing its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 8,
+            "relevance": 6,
+            "structure": 6
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Borsh described as 'the standard binary format used across the Solana/Anchor ecosystem'",
+            "Suggestion to verify exact package path/import for Solana client per SDK",
+            "Suggestion that read vs write operation availability for Solana may vary by CRE release"
+          ],
+          "verdict": "The technical answer (solana.Client + Borsh) is accurate and matches the source, but the response is verbose, repetitive, ends with an unnecessary follow-up question, and fails to cite the source page.",
+          "fidelity": 73,
+          "prompt": "Using Chainlink CRE with Solana, which SDK client and payload encoding should I use for a blockchain capability?",
+          "archetype": "constrained",
+          "answer": "For Chainlink CRE on Solana, use the **`solana.Client`** SDK client, and your payloads should be encoded using **Borsh** (Solana's native serialization format).\n\nHere's the reasoning behind this:\n\nCRE organizes blockchain support into \"chain families\" — groups of networks that share the same virtual machine, serialization format, and address encoding. CRE supports blockchain capabilities across multiple chain families — groups of networks that share the same virtual machine, serialization format, and address encoding. The chain family determines which SDK client you use and how payloads are encoded.\n\nBecause the chain family drives both the client and the encoding:\n\n- **SDK client:** You don't talk to capability DONs directly. As a developer, you do not interact with these capability DONs directly. Instead, you invoke them through the developer-friendly interfaces provided by the CRE SDKs (Go and TypeScript), such as the evm.Client, the solana.Client, or the http.Client. For Solana, that means the `solana.Client` (as opposed to `evm.Client`, which you'd use for EVM chains).\n\n- **Payload encoding:** Since the chain family determines serialization, Solana capabilities use **Borsh** encoding (the standard binary format used across the Solana/Anchor ecosystem), whereas EVM chains use ABI encoding. The `solana.Client` handles the low-level details of communicating with the correct DON and returning the consensus-verified result. The SDK handles the low-level complexity of communicating with the correct DON and processing the consensus-verified result, allowing you to focus on your business logic.\n\n**In short:** pick `solana.Client` and encode/decode your instruction data and account payloads with Borsh.\n\nA couple of things worth verifying against the current docs, since CRE is evolving rapidly and support is being expanded (Additional chain families may be added in future releases):\n- The exact package path / import for the Solana client in your chosen SDK (Go vs. TypeScript).\n- Whether the specific operation you need (read vs. write/transaction submission) is available for Solana in your CRE release.\n\nWould you like me to pull up the specific SDK reference (Go or TypeScript) for the Solana client and its Borsh helpers?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 53290,
+              "output_tokens": 2725,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1106,
+              "output_tokens": 1337,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3539,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite covering its content, and it appears to draw on unverified details from other pages."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "EVM_DEFAULT_REPORT_ENCODER ({ encoderName: 'evm', signingAlgo: 'ecdsa', hashingAlgo: 'keccak256' })",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "encodeBorshVecU32(elements) — Borsh Vec of pre-encoded elements",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "prepareSolanaReportRequest(payload) — report request with the Solana encoder",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "solanaAccountMeta(publicKey, isWritable) / solanaAddressToBytes(base58)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "encodeCallMsg / encodeFunctionData (with hex data)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "for Solana you generate them from an Anchor IDL",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "use the CRE CLI's binding generator to automatically create type-safe Go bindings",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "capabilities/blockchain/solana/bindings package",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "20-byte hex (`0x…`) ... 32-byte base58 public keys",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Anchor IDL is used for generating Solana bindings",
+            "CRE CLI binding generator exists and works with the EVM Client",
+            "specific report encoder object literal syntax and field names",
+            "Solana SDK function names such as encodeBorshVecU32, prepareSolanaReportRequest, solanaAccountMeta, solanaAddressToBytes",
+            "EVM address format described as 20-byte hex and Solana as 32-byte base58 public keys",
+            "instantiating evm.Client with a chain selector example (Ethereum Sepolia)"
+          ],
+          "verdict": "The core comparison (EVMClient/ABI vs SolanaClient/Borsh) is accurate, but the answer layers in many specific function names, encoders, and package paths not present in the source page, which is risky to ship since a developer may try to use non-existent APIs.",
+          "fidelity": 48,
+          "prompt": "What's the difference between the EVM and Solana chain families in Chainlink CRE when picking an SDK client and encoding?",
+          "archetype": "comparison",
+          "answer": "I'll search for information about Chainlink CRE and how EVM versus Solana chain families differ for SDK clients and encoding.Let me get more specific details on the chain families and the Solana client encoding.Here's how the EVM and Solana chain families differ in Chainlink CRE when it comes to choosing an SDK client and encoding payloads.\n\n## The core concept: chain families\n\nIn CRE, a \"chain family\" is the grouping that drives both of these decisions. CRE supports blockchain capabilities across multiple chain families — groups of networks that share the same virtual machine, serialization format, and address encoding. Critically, the chain family determines which SDK client you use and how payloads are encoded.\n\nYou don't talk to the underlying Decentralized Oracle Networks directly. As a developer, you do not interact with these capability DONs directly. Instead, you invoke them through the developer-friendly interfaces provided by the CRE SDKs (Go and TypeScript), such as the evm.Client, the solana.Client, or the http.Client.\n\n## 1. Picking the SDK client\n\n- **EVM family** → you use the **EVM client** (`evm.Client` in Go, `EVMClient` in TypeScript). EVM Client: Provides a reference for the evm.Client, the primary tool for all EVM interactions, including reads and writes. The client is instantiated with a chain selector for the target EVM network (e.g., Ethereum Sepolia).\n- **Solana family** → you use the **Solana client** (`solana.Client` / `SolanaClient`). A key capability difference is the scope of operations: EVM Read & Write: Interact with smart contracts on EVM-compatible blockchains with decentralized consensus. Solana Write: Write verified workflow results to Solana programs via the Keystone Forwarder. In other words, the EVM client supports both read and write, while the Solana capability today is focused on writing verified results.\n\nIn both cases you can generate type-safe bindings, but from different sources: for EVM you generate bindings from a contract **ABI**, whereas for Solana you generate them from an **Anchor IDL**. For interacting with smart contracts, use the CRE CLI's binding generator to automatically create type-safe Go bindings from your contract ABIs. These generated bindings work seamlessly with the EVM Client to provide a simple and reliable developer experience.\n\n## 2. Encoding differences\n\nThis is where the two families diverge most clearly, because they use different serialization formats:\n\n**EVM encoding** uses ABI encoding, with reports signed/hashed using the EVM defaults. Defaults to EVM_DEFAULT_REPORT_ENCODER ({ encoderName: 'evm', signingAlgo: 'ecdsa', hashingAlgo: 'keccak256' }). The SDK provides a helper for this: Prepares a report request with default EVM encoding parameters for use with runtime.report(). This helper simplifies report generation by automatically setting the standard encoding configuration (evm, ecdsa, keccak256) required for EVM-based workflows. On the read side, payloads such as call messages are ABI-encoded (e.g., `encodeCallMsg` / `encodeFunctionData` with hex data).\n\n**Solana encoding** uses **Borsh** serialization and a Solana-specific report encoder, along with Solana-native address/account helpers. The TypeScript SDK exposes functions like encodeBorshVecU32(elements) — Borsh Vec of pre-encoded elements, prepareSolanaReportRequest(payload) — report request with the Solana encoder (solana/ecdsa/keccak256), solanaAccountMeta(publicKey, isWritable) / solanaAddressToBytes(base58). The wire format is byte-identical to the Go SDK's capabilities/blockchain/solana/bindings package.\n\nSo the parallel is:\n\n| Aspect | EVM | Solana |\n|---|---|---|\n| SDK client | `evm.Client` / `EVMClient` | `solana.Client` / `SolanaClient` |\n| Bindings source | Contract ABI | Anchor IDL |\n| Serialization | ABI encoding | Borsh encoding |\n| Report encoder | `evm / ecdsa / keccak256` (`prepareReportRequest`) | `solana / ecdsa / keccak256` (`prepareSolanaReportRequest`) |\n| Address format | 20-byte hex (`0x…`) | 32-byte base58 public keys |\n| Operations today | Read & Write | Write (via Keystone Forwarder) |\n\nThe address-format point reflects a general chain-family reality outside CRE too — Solana addresses are fixed 32-byte values, which is why dedicated conversion helpers exist. This format difference exists because Solana accounts are always 32 bytes.\n\n## Practical takeaway\n\nThe chain family is effectively the single switch: choose the EVM family and you get the EVM client with ABI encoding and `evm/ecdsa/keccak256` reports; choose the Solana family and you get the Solana client with Borsh encoding, base58/32-byte account handling, and `solana/ecdsa/keccak256` reports. The SDK hides the DON communication, so your main job is picking the right client and matching encoding for the target family. And per the docs, additional chain families may be added in future releases.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 43358,
+              "output_tokens": 3492,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2208,
+              "output_tokens": 2805,
+              "cache_creation_input_tokens": 3539,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited despite the answer's content closely tracking it, and the extra fabricated specifics suggest reliance on outside knowledge rather than the retrieved page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "powered by Chainlink Confidential Compute and Confidential HTTP",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "resolved from the vault (DON secrets) via vaultDonSecrets",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "encryptOutput: true",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "the body is AES-GCM encrypted using the vault secret",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "runtime.getSecret() / runtime.GetSecret()",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "threshold-encrypted secret injection from the Vault DON",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Vault DON as the secret storage mechanism",
+            "specific template placeholder mechanism for headers",
+            "distinction between confidential-http application and other API request handling"
+          ],
+          "verdict": "The answer correctly identifies the three additions (enclave execution, secret injection, optional response encryption) but fabricates numerous specific implementation details (function names, params, encryption algorithms) not present in the source, making it risky to ship as-is without verification.",
+          "fidelity": 45,
+          "prompt": "Chainlink CRE capabilities list HTTP and Confidential HTTP — what does the Confidential HTTP capability add?",
+          "archetype": "direct-howto",
+          "answer": "Here's what the **Confidential HTTP** capability adds compared to the standard **HTTP** capability in Chainlink CRE:\n\n## Standard HTTP (baseline)\nThe regular HTTP capability lets workflows fetch and post data from external APIs with decentralized consensus. In practice, each DON node fetches independently, and results are aggregated via consensus, so your API data is validated across multiple nodes before your workflow uses it.\n\n## What Confidential HTTP adds\nConfidential HTTP is about **privacy-preserving** API calls. Confidential HTTP: Make privacy-preserving API calls with enclave execution, secret injection, and optional response encryption. The three key additions are:\n\n**1. Enclave (TEE) execution**\nRather than running the request openly across DON nodes, requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted. This is powered by Chainlink Confidential Compute and Confidential HTTP, [and] allows applications to handle sensitive data and institutional-grade workflows, without sacrificing the transparency of public blockchains.\n\n**2. Secret injection from the Vault DON**\nThe distinguishing feature is how credentials are handled. The confidential-http application lets CRE workflow authors make external API requests containing secrets encrypted in the Vault DON. The secrets are never revealed to external parties — only the secret owner and the enclave see plaintext. In practice, a secret like an API key is resolved from the vault (DON secrets) via vaultDonSecrets, [and] the header uses a template placeholder so the key stays encoded in the confidential request path—it never appears in config or code.\n\n**3. Optional response encryption**\nThe response can be sealed inside the enclave before leaving. The API response is encrypted inside the enclave before it leaves (encryptOutput: true), [and] the body is AES-GCM encrypted using the vault secret.\n\n## Important caveat\nConfidential HTTP protects secrets only when you use the proper Vault DON mechanism. Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. To get true enclave-level isolation, you must use the `vaultDonSecrets` template approach rather than fetching a secret and inlining it.\n\n**In short:** standard HTTP gives you decentralized, consensus-verified fetching of *public* data; Confidential HTTP layers on a trusted execution environment, threshold-encrypted secret injection from the Vault DON, and optional encrypted responses so you can call APIs involving *sensitive* data (credentials, private inputs) without exposing them to the DON nodes or external parties.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31072,
+              "output_tokens": 1626,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1288,
+              "output_tokens": 1377,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3539,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never engaged the source; it asked for clarification instead of retrieving or citing the CRE capabilities documentation."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 10,
+            "relevance": 0,
+            "structure": 2
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Triggers — event sources that start workflow executions",
+            "HTTP — fetch and post external data with decentralized consensus",
+            "Confidential HTTP — privacy-preserving API calls",
+            "EVM Read & Write — interact with smart contracts on EVM chains",
+            "Solana Write — write verified results to Solana programs via the Keystone Forwarder"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to recognize the Chainlink Runtime Environment context entirely and asks for clarification instead of providing the capabilities list, making it useless to the developer.",
+          "fidelity": 30,
+          "prompt": "CRE capabilities list available",
+          "archetype": "terse/keyword",
+          "answer": "I'd be happy to help, but I need a bit more context to give you a useful answer. \"CRE\" and \"capabilities list\" could refer to several different things depending on your field:\n\n**Possible meanings of \"CRE\":**\n- **Commercial Real Estate** – capabilities of a firm, broker, or platform\n- **Carbapenem-Resistant Enterobacteriaceae** – a category of drug-resistant bacteria (healthcare/microbiology)\n- **Chainlink Runtime Environment (CRE)** – a blockchain/Web3 development platform\n- **Customer/Consumer Relationship...** or a specific product/tool in your organization\n- **Certified Reliability Engineer** – a certification with a defined body of knowledge\n- An internal system, tool, or team name specific to your company\n\nCould you let me know:\n1. **What CRE refers to** in your context (industry/domain)?\n2. **What you want** — e.g., a document you uploaded that lists capabilities, a general reference list, or something you want me to research or create?\n\nIf you have a file you'd like me to work with, feel free to upload it and I'll take a look. Or if you'd like me to search the web for a specific CRE's capabilities list, just confirm which one and I'll look it up.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5893,
+              "output_tokens": 404,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 840,
+              "output_tokens": 298,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3539,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer's internal search process mentions fixing parsing errors and did not cite the expected source URL, suggesting retrieval issues."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "aggregated via a Byzantine Fault Tolerant (BFT) consensus protocol",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "DON Mode (automatic BFT) ... Node Mode (manual aggregation)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "median aggregation ... identical strategy",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "a cryptographically signed package your workflow DON produces after your callback encodes its result",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Byzantine Fault Tolerant (BFT) consensus protocol details",
+            "DON Mode vs Node Mode execution distinction",
+            "median and identical aggregation strategies",
+            "cryptographically signed output artifact mechanics"
+          ],
+          "verdict": "The answer captures the core truth (automatic built-in consensus across DON nodes) but layers on many specific mechanisms (BFT protocol, DON/Node modes, median/identical aggregation, cryptographic signing) that are not present in the cited source page, making it risky to ship as strictly source-grounded documentation.",
+          "fidelity": 55,
+          "prompt": "How do execution capabilities in Chainlink CRE make sure results are validated across multiple nodes so I can trust the output my workflow gets back?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for information about Chainlink CRE's execution capabilities and how it validates results across nodes.Let me fix the parsing of the search results.Let me get more detail on the consensus mechanism specifics.I have enough detail now. Let me put together a clear answer.\n\n## How Chainlink CRE Validates Results Across Nodes\n\nThe core mechanism that lets you trust your workflow's output is **built-in consensus** — and it's not something you have to bolt on yourself. All execution capabilities automatically use built-in consensus to validate results across multiple nodes, ensuring security and reliability.\n\n### The basic model: many nodes, one verified answer\n\nInstead of a single machine running your code, CRE distributes it across a group of independent nodes. CRE runs your code across a Decentralized Oracle Network (DON) — a group of independent nodes that each execute your workflow and reach consensus on the result. This is fundamentally different from a single-executor setup: unlike a single-executor model, every operation — API calls, blockchain reads, onchain writes — is cryptographically verified by multiple nodes, giving your workflows institutional-grade security and reliability with no single point of failure.\n\nHere's what happens under the hood when a capability runs: during execution, each node in a DON performs the requested task independently. Their results are then cryptographically verified and aggregated via a Byzantine Fault Tolerant (BFT) consensus protocol. This guarantees a single, correct, and consistent outcome.\n\nThe BFT part is the key to *trust* — a Byzantine Fault Tolerant protocol produces a correct result even if some nodes are faulty, offline, or actively malicious, as long as a sufficient majority is honest. No single node can unilaterally determine what your workflow gets back.\n\n### Concrete example: the HTTP capability\n\nFor external API calls, the process is easy to visualize. When your workflow needs to interact with an external API, the HTTP capability provides decentralized execution across multiple independent nodes. CRE instructs each node in a dedicated DON to make the same API request. The nodes' individual responses are then validated through a consensus protocol, which ensures they agree on the result before returning it to your workflow.\n\nSo instead of trusting one node's fetch of an API, you get an answer that a quorum of independent nodes agreed upon.\n\n### Aggregation strategies: how disagreements get resolved\n\nDifferent data needs different reconciliation logic, and CRE gives you control over that. There are two execution contexts:\n\n- **DON Mode (automatic BFT):** used for operations that are already guaranteed to be Byzantine Fault Tolerant (BFT), when you ask the network to execute something, CRE handles the underlying complexity to ensure you get back one final, secure, and trustworthy result.\n- **Node Mode (manual aggregation):** used when a BFT guarantee cannot be provided automatically (e.g. calling a standard API), you tell each node to perform a task on its own, each node returns its own individual answer, and you are responsible for telling the SDK how to combine them into a single, trusted result by providing an aggregation algorithm.\n\nFor that aggregation, the SDK offers strategies like **median**, **identical**, and per-field aggregation. The SDK provides consensus aggregation strategies that specify how to aggregate each field of an object. A common example handles non-deterministic data: because a non-deterministic endpoint returns a different value on each node, to create a single reliable result you use median aggregation, which collects the numerical results from all nodes, sorts them, and selects the median value. This approach is robust against outliers. For data that should be exactly the same everywhere, an `identical` strategy requires the nodes to match.\n\n### The trust guarantee, end to end\n\nPutting it together, the output your workflow returns is packaged as a verifiable artifact: a cryptographically signed package your workflow DON produces after your callback encodes its result. This means whatever consumes the result (for example, an onchain contract) can verify it came from the DON's collective consensus rather than any single actor.\n\n**Why you can trust it:**\n1. **Redundant execution** — every node runs the same task independently, so no single point of failure.\n2. **Byzantine Fault Tolerance** — a correct result emerges even if a minority of nodes misbehave.\n3. **Cryptographic verification and signing** — results are cryptographically aggregated and signed, so the output is tamper-evident.\n4. **Configurable aggregation** — you choose how to reconcile node responses (median, identical, per-field) to fit deterministic vs. non-deterministic data.\n\nOne practical note: for non-deterministic operations, you should pick your aggregation strategy deliberately (e.g., median for numeric variance, identical when responses must match exactly), since in Node Mode you're responsible for defining how individual node answers become the single trusted result.\n\nWould you like me to walk through a code example of setting up a specific aggregation strategy in the CRE SDK?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38248,
+              "output_tokens": 2615,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2018,
+              "output_tokens": 1874,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3539,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

@@ -1,0 +1,687 @@
+{
+  "key": "cre-reference-project-configuration-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Project Configuration",
+    "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+    "analyzedAt": "2026-09-21T13:26:30.193Z",
+    "contentType": "developer documentation / configuration reference",
+    "score": 72,
+    "band": "Good",
+    "weightedTotal": 72,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Sections lead well — e.g. \"A target is a top-level key inside both `project.yaml` and `workflow.yaml`.\" Page-level intro is a \"This page explains…\" preamble rather than a liftable definition of the subject; tolerable for a reference."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Numbered H2/H3, three tables, sensible chunk sizes."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good version specificity (`v1.14.0`, `^1.6.0`) and concrete defaults (\"pre-populates a public Sepolia RPC URL\"). Weak spot: the merge/resolution section names no CLI error strings or limits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "9 internal links, all resolving to canonical CRE pages — good internal graph. Zero external/primary references (e.g. YAML spec, viem docs, Infura/Alchemy). Minor for a config page."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Glossary supplies crisp, verbatim-liftable definitions for Project, Workflow, Target, ABI."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, canonical MISSING, `datePublished`/`dateModified` absent from head, 0 og/twitter tags. Body has a date but engines can't rely on it."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong. 7 substantive fenced blocks, 0 untagged, all languages labeled. One placeholder block (`0x...`, `<YOUR-PROJECT-ID>`) is acceptable for config templates."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Covers setup → configure → target → update lifecycle. Missing dedicated troubleshooting phrased as errors; failure info is buried in CAUTION callouts rather than in question/error-titled headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent naming of `project.yaml`/`workflow.yaml`/targets throughout."
+      }
+    ],
+    "summary": "This is a well-structured CRE configuration reference: clean numbered hierarchy, a strong glossary table, and complete YAML examples with a resolution-order walkthrough. Its biggest GEO strength is structural chunkability (17 sections, none over 600 words, 0 level skips). Its biggest opportunities are machine-readable metadata — no JSON-LD, no canonical URL, no `<head>` dates captured despite a visible \"Last Updated: 2026-05-08\" in body — and symptom-phrased query coverage that would win retrieval for the error states devs actually hit. Honest verdict: solid, agent-friendly docs that leave measurable retrieval lift on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add error/symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after §4.2, or promote the CAUTION callouts to headed subsections",
+        "issue": "failure text lives in prose: \"the simulator cannot register the EVM capability and your workflow will fail.\"",
+        "change": "Add H3s phrased as the queries devs type, e.g. \"Why does `cre workflow simulate` fail with no RPC configured?\" and \"Error: target not found in workflow.yaml\" — each opening with the one-sentence fix.",
+        "why": "devs and agents query by symptom/error string; concept-titled prose loses that retrieval even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Emit `TechArticle` JSON-LD with canonical URL and dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "Measured facts: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"datePublished absent / dateModified absent\".",
+        "change": "Add JSON-LD `TechArticle` with `headline`, `dateModified: 2026-05-08` (already in body), `programmingLanguage: TypeScript`, and a `canonical` link.",
+        "why": "structured metadata and visible freshness signals raise agent trust and parse reliability (E-E-A-T)."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the page with a liftable canonical statement",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "opening paragraph",
+        "issue": "\"This page explains how to manage configuration within…\" — meta, not liftable.",
+        "change": "Prepend a self-contained sentence: \"CRE TypeScript projects are configured through two YAML files — `project.yaml` for global settings and `workflow.yaml` for per-workflow overrides — with environment-specific values grouped under named **targets**.\"",
+        "why": "engines lift the first self-contained sentence; a meta-preamble wastes the highest-value chunk position."
+      },
+      {
+        "priority": 2,
+        "title": "Name the merge failure mode as an explicit Don't",
+        "mapsTo": "parametric-prior resistance / query coverage",
+        "tier": null,
+        "where": "§4.2 How Target Resolution Works",
+        "issue": "\"A mismatch causes the CLI to abort with a clear error message\" — the actual error string is not quoted.",
+        "change": "Quote the real CLI error verbatim and add a \"Don't: define a target in `project.yaml` but omit it from `workflow.yaml`\" bullet.",
+        "why": "verbatim error text is directly retrievable; explicit Don'ts steer models off the common-but-wrong config."
+      },
+      {
+        "priority": 3,
+        "title": "Add primary/external references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "§3.3 secrets, ABI glossary row, env-var interpolation",
+        "issue": "0 external links; \"ABIs are defined directly as TypeScript files using viem\" links nowhere.",
+        "change": "Link viem's ABI docs and the YAML spec at first mention.",
+        "why": "inline authoritative links raise citation rate and claim attributability."
+      },
+      {
+        "priority": 3,
+        "title": "Add a compact `project.yaml` vs `workflow.yaml` decision table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of §3",
+        "issue": "the split between the two files is described across prose and two tables.",
+        "change": "Add a 2-column \"put it in project.yaml / put it in workflow.yaml\" table mapping each setting to its file.",
+        "why": "decision tables let engines extract *reasons* and answer \"which file does X go in?\" directly."
+      }
+    ],
+    "antiPatterns": [
+      "One placeholder block with `0x...` and `<YOUR-PROJECT-ID>` — acceptable for config templates, but pair at least one example with a fully concrete value for copy-paste runnability.",
+      "Vague quantifier \"many\" flagged in prose (\"store many targets\") — minor; harmless in context.",
+      "No walls of prose, no stale/undated content, no ambiguous entities. Otherwise clean."
+    ],
+    "offPageNotes": [
+      "Metadata fixes (JSON-LD, canonical, head-level dates, og tags) are site-template concerns; the CLI should pass raw `<head>` so freshness can be verified rather than assumed absent.",
+      "`/llms.txt` is already referenced — good site-level discoverability signal; ensure this page is listed in it.",
+      "External citation and third-party linking are partly earned/off-page and won't be fixed by this page alone."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+      "source_title": "Project Configuration",
+      "probe_set_id": "151bbca334d0",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:36:00.011Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 57.7,
+      "avg_fidelity_all": 57.7,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 1,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.3,
+        "hallucination_free": 5,
+        "relevance": 5.3,
+        "structure": 7.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 433190,
+          "output_tokens": 20938,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 28,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 10715,
+          "output_tokens": 13284,
+          "cache_creation_input_tokens": 11464,
+          "cache_read_input_tokens": 37262,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ethereum-sepolia-rpc.publicnode.com",
+              "https://mainnet.infura.io/v3/",
+              "https://my-custom-sepolia-endpoint.example.com"
+            ],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer itself admits it hit a search-tool rate limit while verifying merge-precedence details, making part of its claims unconfirmed."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 9,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "deploying requires an ethereum-mainnet RPC entry, since the workflow-registration transaction is submitted on mainnet",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Supported chains for simulation include Ethereum (...), Base, and others.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Placing an 'rpcs' block directly under a target in workflow.yaml as a per-workflow override (source shows workflow.yaml targets containing only user-workflow and workflow-artifacts fields)",
+            "Claim that deployment specifically requires an ethereum-mainnet RPC entry for the registration transaction",
+            "List of supported simulation chains including Base"
+          ],
+          "verdict": "Mostly faithful and well-structured, but it adds a few unsupported specifics (mainnet requirement for deployment, Base as a supported chain, rpcs override placement) that aren't confirmed by the source, so a developer should double-check those details before relying on them.",
+          "fidelity": 80,
+          "prompt": "In a Chainlink CRE TypeScript project, how do I define global RPC settings in project.yaml and override them per-workflow in workflow.yaml?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about Chainlink CRE configuration for RPC settings in project.yaml and workflow.yaml.Let me retry the search.The most relevant result is the Project Configuration reference page. Let me fetch its full content.Let me get more detail on the merge/override behavior and workflow.yaml structure.Here's how RPC configuration and per-workflow overrides work in a Chainlink CRE TypeScript project.\n\n## The core concept: \"targets\"\n\nCRE uses named **targets** (like `staging-settings` and `production-settings`) that group environment-specific settings. Both `project.yaml` and `workflow.yaml` can contain matching target definitions, and the CLI merges them at runtime. The idea is that `project.yaml` holds your **global/default settings** and `workflow.yaml` holds **workflow-specific overrides**.\n\n## 1. Define global RPC settings in `project.yaml`\n\nRPCs are defined under a target, as a list of `chain-name` / `url` pairs:\n\n```yaml\n# project.yaml\n\n# Target for simulation and testing\nstaging-settings:\n  rpcs:\n    - chain-name: ethereum-testnet-sepolia\n      url: https://ethereum-sepolia-rpc.publicnode.com\n\n# Target for production deployment\nproduction-settings:\n  account:\n    workflow-owner-address: \"0x123...\"   # Optional: for multi-sig wallets\n  rpcs:\n    - chain-name: ethereum-mainnet\n      url: https://mainnet.infura.io/v3/<YOUR-PROJECT-ID>\n```\n\nYou can keep **many targets in one file**, which is useful for managing different environments (simulation vs. production) or testing variations of a workflow. Note that certain operations require specific RPCs — for example, deploying requires an `ethereum-mainnet` RPC entry, since the workflow-registration transaction is submitted on mainnet.\n\n## 2. Override per-workflow in `workflow.yaml`\n\nIn `workflow.yaml`, define the **same target name** and place the settings you want to override for that specific workflow. `workflow.yaml` also carries workflow-specific metadata such as the `workflow-name` under the `user-workflow` section:\n\n```yaml\n# workflow.yaml\n\nstaging-settings:\n  user-workflow:\n    workflow-name: \"my-workflow\"\n  # Workflow-specific overrides, e.g. a different RPC URL for this workflow\n  rpcs:\n    - chain-name: ethereum-testnet-sepolia\n      url: https://my-custom-sepolia-endpoint.example.com\n```\n\n## 3. How resolution/merging works\n\nWhen you run a CLI command with a target — e.g. `--target staging-settings`:\n\n1. The CLI loads the `staging-settings` target from `project.yaml`.\n2. It then loads the **same target** from `workflow.yaml` (if that file exists and contains a matching target definition).\n3. The two are merged, with the workflow-specific values taking precedence, giving you the effective configuration.\n\nYou can also select the active target via the `CRE_TARGET` environment variable instead of passing `--target` on the command line.\n\n## Practical notes\n\n- **RPCs must be configured for any chain your workflow touches.** For local simulation the simulator needs RPC endpoints in `project.yaml`, otherwise it can't register the EVM capability and the workflow will fail. Supported chains for simulation include Ethereum (`ethereum-testnet-sepolia`, `ethereum-mainnet`), Base, and others.\n- Match the `chain-name` values to the exact identifiers CRE expects (e.g., `ethereum-mainnet`, `ethereum-testnet-sepolia`).\n- Keep secrets (like private keys) out of these YAML files — those belong in your `.env` file.\n\nFor the authoritative and most up-to-date details, see the Chainlink docs **\"Project Configuration\"** reference (`docs.chain.link/cre/reference/project-configuration-ts`), which specifically covers defining global settings in `project.yaml`, overriding them in `workflow.yaml`, and how the CLI resolves and merges target configurations.\n\nOne caveat: I hit a search-tool rate limit while digging into the exact merge-precedence semantics, so I'd recommend confirming the finer override rules (e.g., whether RPC lists are merged by `chain-name` or replaced wholesale) against that reference page directly.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 55486,
+              "output_tokens": 3416,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2079,
+              "output_tokens": 1699,
+              "cache_creation_input_tokens": 5732,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/project-configuration-ts",
+              "https://docs.chain.link/cre/reference/cli",
+              "https://docs.chain.link/cre/guides/operations/deploying-workflows"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer states it hit search rate limits and could not fetch the actual page content before answering."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "a project.yaml at your project root, which defines a set of named targets under a targets: section",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "If the named target doesn't exist in your project.yaml, the command will error out",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "applying any defaults and environment variables the config references",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Load the same target from workflow.yaml if it exists",
+            "Merge the two objects — keys in both, workflow.yaml wins",
+            "Validate the final object before execution"
+          ],
+          "unverifiable_from_source": [
+            "github.com/smartcontractkit/cre-cli as a source for CLI behavior",
+            "cre --help describing --target flag"
+          ],
+          "verdict": "The answer admits it could not retrieve the docs and then presents a largely fabricated, generic description of target resolution (inventing a 'targets:' YAML structure and omitting the actual workflow.yaml merge/validation steps), so it is not safe to ship as accurate guidance.",
+          "fidelity": 38,
+          "prompt": "Using the CRE CLI, how does target resolution work when I run a command with --target staging-settings?",
+          "archetype": "constrained",
+          "answer": "The Project Configuration page and CLI Reference are most relevant. Let me fetch them.I'm hitting search rate limits. Let me retry.I ran into search rate limits and couldn't pull the full text of the Chainlink CRE documentation pages to quote them precisely. Rather than guess at specifics I can't verify, here's what I can tell you reliably, plus exactly where to confirm the details.\n\n## How `--target` resolution works in the CRE CLI\n\nThe `--target` flag is a way of telling the CRE CLI *which named environment/profile from your project configuration to use* for a given command. The mechanism works roughly like this:\n\n1. **The CLI loads your project configuration file** (the `project.yaml` at your project root, which defines a set of named targets under a `targets:` section).\n2. **It looks up the key matching the string you passed** — so `--target staging-settings` means \"find the target named `staging-settings` in that config.\"\n3. **It resolves the settings block associated with that target** (things like RPC endpoints, chain/DON selection, registry addresses, and other environment-specific values), applying any defaults and environment variables the config references.\n4. **The command then executes against that resolved environment** (e.g., deploy, simulate, etc.).\n\nIf the named target doesn't exist in your `project.yaml`, the command will error out because it can't resolve the referenced settings.\n\n## Where to confirm the exact behavior\n\nBecause target naming conventions and the precedence/merge rules can change between CRE CLI versions, I'd recommend checking these official sources for the authoritative, version-accurate answer:\n\n- **Project Configuration** – `https://docs.chain.link/cre/reference/project-configuration-ts` (documents the `targets` structure in `project.yaml`)\n- **CLI Reference** – `https://docs.chain.link/cre/reference/cli` (global flags including `--target`)\n- **Deploying Workflows** – `https://docs.chain.link/cre/guides/operations/deploying-workflows` (shows `--target` used in practice)\n- The CLI source itself: `github.com/smartcontractkit/cre-cli`\n\nA quick local way to verify your own resolution: run the command with `cre --help` / the subcommand's `--help` to see how `--target` is described, and inspect your `project.yaml` to confirm a `staging-settings` entry actually exists under `targets:`.\n\nIf you can paste your `project.yaml` (or the relevant `targets:` section), I can walk through exactly what `--target staging-settings` would resolve to in your specific setup. Would you like me to retry fetching the live docs as well?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 139233,
+              "output_tokens": 4762,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1380,
+              "output_tokens": 1268,
+              "cache_creation_input_tokens": 5732,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://sepolia.infura.io/v3/${INFURA_API_KEY"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites a placeholder Infura URL rather than the actual documentation page, so the expected source was not surfaced."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "uploaded with `cre secrets create`",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Works across CLI commands like cre workflow simulate and cre workflow deploy"
+          ],
+          "unverifiable_from_source": [
+            "The cre CLI automatically finds this file and loads the variables defined within it into the environment for your simulation.",
+            "https://sepolia.infura.io/v3/${INFURA_API_KEY} (source pairs Infura with mainnet and Alchemy with testnet-sepolia in its example)",
+            "setting the variable as a secret in GitHub Actions or other CI/CD systems"
+          ],
+          "verdict": "The core technique (${VAR_NAME} interpolation in project.yaml RPC URLs) is explained accurately and usably, but the answer never cites the actual docs page, adds a few unverified elaborations (auto .env loading, a specific 'cre secrets create' command) and omits the source's explicit mention that this works across cre workflow simulate/deploy — safe to ship with minor caveats but retrieval of the source itself failed.",
+          "fidelity": 75,
+          "prompt": "Show me how to keep my Infura API key out of project.yaml in a Chainlink CRE project by using an environment variable in the RPC URL.",
+          "archetype": "code-first",
+          "answer": "Here's how to keep your Infura API key out of `project.yaml` in a Chainlink CRE project.\n\n## The approach: environment variable interpolation\n\nChainlink CRE supports referencing environment variables inside your `project.yaml` RPC URLs, so the actual key never gets committed to the file. Use `${VAR_NAME}` syntax in your project.yaml RPC URLs to inject secrets from your CI/CD environment.\n\n### 1. Reference the variable in `project.yaml`\n\nInstead of hardcoding the full Infura URL with your key, put a placeholder in the RPC config:\n\n```yaml\n# project.yaml\nproduction-settings:\n  rpcs:\n    - chain-name: ethereum-testnet-sepolia\n      url: https://sepolia.infura.io/v3/${INFURA_API_KEY}\n```\n\nThe `${INFURA_API_KEY}` placeholder is substituted with the value from your environment at runtime, so the secret itself is never written into the file you commit.\n\n### 2. Provide the value via a `.env` file (local simulation)\n\nFor local runs, the CRE CLI automatically loads a `.env` file. Create a .env file in your project's root directory. The cre CLI automatically finds this file and loads the variables defined within it into the environment for your simulation.\n\n```bash\n# .env  (add this to .gitignore!)\nINFURA_API_KEY=your_real_infura_key_here\n```\n\nMake sure to add `.env` to your `.gitignore` so it's never committed.\n\n### 3. Provide the value in CI/CD\n\nIn pipelines, you don't ship a `.env` file — instead you set the variable as a secret in your CI/CD system (GitHub Actions secrets, etc.), which populates the process environment. The same `${INFURA_API_KEY}` reference in `project.yaml` then resolves from that environment. This is exactly the intended use: the `${VAR_NAME}` syntax injects secrets from your CI/CD environment.\n\n## Key points to remember\n\n- **Only the placeholder is committed** — `project.yaml` contains `${INFURA_API_KEY}`, never the real key.\n- **Never commit the actual value** — keep `.env` out of version control via `.gitignore`.\n- **Name must match** — the variable name in `${...}` must match the name defined in your `.env` file / CI environment.\n\n⚠️ One caveat: this environment-variable interpolation in RPC URLs is distinct from CRE's **secrets vault** mechanism (used for secrets your *workflow code* needs at runtime, declared in `secrets.yaml` and uploaded with `cre secrets create`). The `${VAR}` interpolation covers configuration values like RPC URLs; the vault covers workflow runtime secrets. For an Infura key embedded in an RPC URL, the environment-variable interpolation shown above is the right tool.\n\nWould you like me to also show the `secrets.yaml` / vault approach in case any part of your workflow needs the key at execution time rather than just in the RPC config?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 78046,
+              "output_tokens": 3548,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1521,
+              "output_tokens": 3271,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8121,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ethereum-sepolia-rpc.publicnode.com"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites only an RPC endpoint URL, not the expected Chainlink documentation page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Supported chains for local simulation (testnet/mainnet variants) include Ethereum (ethereum-testnet-sepolia, ethereum-mainnet) and Base.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "in Go code use either the Go constant (e.g., evm.EthereumTestnetSepolia) or the helper function",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "You need to add a private key to the .env file. This is specifically required if you want to simulate chain writes.",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "simulation compiles your workflows into WebAssembly (WASM) and runs them on your machine",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "A chain selector is a unique identifier for a blockchain network used throughout the CRE platform.",
+            "Specify RPC endpoints for chains you interact with in project.yaml. This is needed to submit transactions and read state.",
+            "test-settings as an example target name"
+          ],
+          "verdict": "The answer correctly identifies and explains the core RPC-configuration issue verbatim from the source, but it pads the response with several unverified or fabricated specifics (Go constant names, 'Base' chain support, WASM simulation details) not found in this source page, and it fails to cite the expected documentation page.",
+          "fidelity": 68,
+          "prompt": "My CRE workflow simulation fails because it can't register the EVM capability. What's wrong with my config?",
+          "archetype": "error-debug",
+          "answer": "I'd be happy to help debug this. Let me look into the CRE (Chainlink Runtime Environment) EVM capability configuration to give you accurate guidance.I found the key issue. Let me get the specific configuration details.I found the answer. Since I don't have your actual config file, here's what's almost certainly wrong based on the CRE documentation:\n\n## The core problem\n\nWhen the CRE simulator can't register the EVM capability, it's nearly always because **RPC endpoints aren't configured** for your target. If your workflow uses EVM capabilities, you must configure RPC endpoints. Without them, the simulator cannot register the EVM capability and your workflow will fail.\n\n## The fix\n\nRPC endpoints are configured in your **`project.yaml`** (not `workflow.yaml`), under the settings block for the target you're simulating against. The structure looks like this:\n\n```yaml\n# project.yaml\nstaging-settings:\n  rpcs:\n    - chain-name: ethereum-testnet-sepolia\n      url: https://ethereum-sepolia-rpc.publicnode.com\n```\n\nSpecify RPC endpoints for chains you interact with in project.yaml. This is needed to submit transactions and read state.\n\n## Common mistakes to check in your config\n\n1. **Missing `rpcs` block entirely** — the most frequent cause. Add it under the settings for whichever target you're running (`staging-settings`, `production-settings`, `test-settings`, etc.).\n\n2. **RPC configured under the wrong target.** The simulator only reads the *active* target. The CRE_TARGET environment variable can be used to specify the target. The CLI picks the active target in this order. If your `rpcs` are under `staging-settings` but you're running `--target=production` (or your `CRE_TARGET` points elsewhere), the RPCs won't be picked up. Make sure the `rpcs` block lives under the same target you pass to `cre workflow simulate`.\n\n3. **Wrong `chain-name` format / mismatch.** The `chain-name` must exactly match the string name of the chain your workflow code references. A chain selector is a unique identifier for a blockchain network used throughout the CRE platform. The same chain can be referenced in three different ways depending on the context. In configuration files (project.yaml, config.staging.json, etc.) use the string name format (e.g., chain-name: ethereum-testnet-sepolia in YAML), and in Go code use either the Go constant (e.g., evm.EthereumTestnetSepolia) or the helper function. If your Go/TS code targets `ethereum-testnet-sepolia` but your `project.yaml` only lists `ethereum-mainnet`, the capability for the requested chain won't register.\n\n4. **Using an unsupported chain.** Supported chains for local simulation (testnet/mainnet variants) include Ethereum (ethereum-testnet-sepolia, ethereum-mainnet) and Base. Verify your chain is in the supported list.\n\n5. **If you're simulating chain writes (not just reads):** You need to add a private key to the .env file. This is specifically required if you want to simulate chain writes.\n\nKeep in mind that simulation compiles your workflows into WebAssembly (WASM) and runs them on your machine, but makes real calls to live APIs and public EVM blockchains, so the RPC URL you provide must be reachable and valid.\n\n---\n\nTo pinpoint the exact issue, could you share:\n- Your **`project.yaml`** (especially the `rpcs` block and target names)\n- The **exact `cre workflow simulate` command** you're running (including any `--target` flag)\n- The chain name/selector your workflow code references\n- The full error message\n\nWith those I can tell you precisely which of the above is tripping you up.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31016,
+              "output_tokens": 2166,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1697,
+              "output_tokens": 2570,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8121,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states search access was rate-limited and it did not cite or retrieve the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "the `cre workflow deploy` command handles the full end-to-end process: it compiles your workflow to a WASM binary, uploads the compiled binary and associated config files... to the CRE Storage Service",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "registers the workflow onchain by submitting a transaction to the Workflow Registry contract",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "requires a funded wallet — the deploying account must hold ETH on the target chain to pay gas",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Private / local (development)... there is no onchain transaction and no gas cost",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "The registration transaction contains only metadata — the workflow's name, owner, and the URL of its artifacts in the CRE Storage Service",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "deployment-registry is new in v1.14.0 and optional",
+            "Omitting it defaults to the public onchain Workflow Registry",
+            "'private' uses the Chainlink-hosted private registry via CRE login session",
+            "'onchain:ethereum-mainnet' explicitly targets the public onchain registry"
+          ],
+          "unverifiable_from_source": [
+            "Deploying Workflows guide details about WASM compilation and CRE Storage Service"
+          ],
+          "verdict": "Not safe to ship: the answer never addresses the actual `deployment-registry` field (private vs onchain:ethereum-mainnet) described in the source and instead fabricates an unrelated narrative about local simulation vs onchain deployment with invented commands and mechanics.",
+          "fidelity": 25,
+          "prompt": "CRE typescript workflow.yaml deployment-registry private vs onchain",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about this Chainlink CRE topic.Based on the Chainlink CRE documentation I was able to review, here's how the \"private\" vs. \"onchain\" deployment concepts work for TypeScript CRE workflows. (Note: search access got rate-limited, so I'm drawing on the official docs at `docs.chain.link/cre` — I recommend confirming against the exact pages linked below.)\n\n## The two deployment targets\n\nWhen you deploy a CRE workflow defined by your `workflow.yaml` (and referenced in your `project.yaml`), the key distinction is **where the workflow gets registered**:\n\n**1. Private / local (development)**\n- Used during development and simulation, before you commit anything to a blockchain.\n- Your workflow runs against a local simulator or a private/test DON, so there is no onchain transaction and no gas cost.\n- This is the fast iteration loop (compile → simulate → test) via commands like `cre workflow simulate`.\n\n**2. Onchain registry (production)**\n- This registers your workflow with the **Workflow Registry contract** so a live DON can pick it up and run it.\n- According to the *Deploying Workflows* guide, the `cre workflow deploy` command handles the full end-to-end process: it **compiles your workflow to a WASM binary, uploads the compiled binary and associated config files (like your config file or `secrets.yaml`) to the CRE Storage Service, and registers the workflow onchain by submitting a transaction to the Workflow Registry contract** (on Ethereum Mainnet).\n- This requires a **funded wallet** — the deploying account must hold ETH on the target chain to pay gas for the registration transaction, and your `project.yaml` must include an RPC configuration for the target network (e.g., `ethereum-mainnet`).\n\n## Key mechanics to know\n\n- **Owner address:** If you deploy from a standard EOA, you can leave the owner field unchanged in your config — the owner is **automatically derived from `CRE_ETH_PRIVATE_KEY` in your `.env` file**.\n- **Targets/environments:** You select which environment to deploy to with `--target`, e.g. `cre workflow deploy my-workflow --target production-settings`. These environments (with their registry addresses, RPCs, etc.) are configured in your `project.yaml`.\n- **What gets stored where:** The registration transaction contains only **metadata** — the workflow's name, owner, and the URL of its artifacts in the CRE Storage Service — while the actual binary/config live in the Storage Service, not onchain.\n\n## Practical guidance\n\n| | Private / local | Onchain registry |\n|---|---|---|\n| Purpose | Dev & simulation | Live production execution |\n| Command | `cre workflow simulate` | `cre workflow deploy` |\n| Gas / wallet | None needed | Funded wallet + RPC required |\n| Registration | None (local) | Workflow Registry contract |\n\n**Relevant docs to verify the exact `workflow.yaml`/`project.yaml` field names:**\n- Deploying Workflows: `docs.chain.link/cre/guides/operations/deploying-workflows`\n- Deploying to the Onchain Registry (TS): `docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts`\n- Key Terms and Concepts: `docs.chain.link/cre/key-terms`\n- CLI / Workflow commands: `docs.chain.link/cre/reference/cli/workflow`\n\nIf you can tell me the exact field or error you're seeing in your `workflow.yaml` (or paste the relevant snippet), I can give you a more precise answer about which value to set for private vs. onchain registration.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 58243,
+              "output_tokens": 3426,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1720,
+              "output_tokens": 2510,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8121,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and does not reference the expected source page despite covering its content accurately."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "runtime.getSecret({ id: \"API_KEY\" })",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Go: runtime.GetSecret()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre secrets create production-secrets.yaml --target production-settings",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "the WASM host for the CRE runtime does not support parallel runtime.GetSecret() requests",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "SDK secret access API names (runtime.getSecret/GetSecret)",
+            "Sequential fetch constraint for secrets due to WASM host limitation",
+            "cre secrets create CLI command syntax",
+            "Page titles 'Using Secrets in Simulation' and 'Using Secrets with Deployed Workflows'",
+            "Recommendation to use 1Password CLI for secrets management",
+            "Example mapping SECRET_ADDRESS to SECRET_ADDRESS_ALL"
+          ],
+          "verdict": "The core secrets.yaml/workflow.yaml/.env/Vault DON explanation is accurate and matches the source, but the answer adds several unverified or likely fabricated SDK function calls and CLI commands and never cites the actual source page, so it should not be shipped as-is without verifying those specifics.",
+          "fidelity": 60,
+          "prompt": "I'm new to Chainlink CRE and I have an API key I don't want in my code. How do I set up a secrets.yaml file and reference it from my workflow so my workflow can use that secret?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for current information on how Chainlink CRE handles secrets and the `secrets.yaml` file setup.Let me get the detailed content from the most relevant pages.I have enough detail to give a clear answer. Let me get one more look at the exact file structure and code snippet.I have enough information to walk you through this. Here's how secrets work in Chainlink CRE.\n\n## The core concept: three-part separation\n\nCRE deliberately splits secrets into three pieces so you never hard-code values. You declare the logical names of your secrets in a secrets.yaml file, you provide the actual secret values in a .env file or as environment variables, and you access the secrets in your workflow code using the SDK's secret management API. This separation of concerns ensures that your workflow code is portable and your secrets are never hard-coded.\n\n## Step 1: Create `secrets.yaml`\n\nThe first step is to create a secrets.yaml file in the root of your project. This file acts as a manifest, defining the \"logical names\" or \"IDs\" for the secrets your workflow will use. In this file, you map a logical name (which you'll use in your workflow code) to one environment variable name that will hold the actual secret value.\n\nThe format uses a `secretsNames` block. For example:\n\n```yaml\n# in project-root/secrets.yaml\nsecretsNames:\n  API_KEY:\n    - API_KEY_ALL\n```\n\nHere `API_KEY` is the logical ID you'll reference in code, and `API_KEY_ALL` is the environment variable that will hold the real value. If you want to declare multiple secrets, you just add more entries, e.g. SECRET_ADDRESS mapped to SECRET_ADDRESS_ALL and API_KEY mapped to API_KEY_ALL.\n\n## Step 2: Point your workflow at the file\n\nYour `workflow.yaml` needs a `secrets-path` entry so the CLI knows where the manifest lives:\n\n```yaml\nworkflow-artifacts:\n  secrets-path: \"../secrets.yaml\"\n```\n\nFor simulation, secret values are loaded from your .env file or environment variables. For deployed workflows, secrets are managed through the Vault DON using cre secrets commands. Behind the scenes, the CLI will automatically read the secrets-path from your workflow.yaml and load the secrets from your .env file or environment variables you provided in your terminal session.\n\n## Step 3: Provide the value (local simulation)\n\nCreate a `.env` file (or export the variable in your shell) with the actual key, using the environment variable name from your `secrets.yaml`:\n\n```bash\nexport API_KEY_ALL=\"your-actual-api-key\"\n```\n\n## Step 4: Reference it in your workflow code\n\nYou access the secret at runtime using the SDK. The exact call depends on your language:\n\n- **TypeScript:** `runtime.getSecret({ id: \"API_KEY\" })`\n- **Go:** `runtime.GetSecret()`\n\nThe API is the same regardless of environment: declare secrets in secrets.yaml, provide values via .env (simulation) or Vault DON (deployed), and access via runtime.getSecret({ id: \"KEY\" }) in your code.\n\nOne important runtime constraint to be aware of: always fetch secrets sequentially—call GetSecret(), await the promise, then call GetSecret() again for the next secret. Do not attempt to fetch multiple secrets in parallel. This is because the WASM host for the CRE runtime does not support parallel runtime.GetSecret() requests.\n\n## When you deploy (beyond local testing)\n\nSince you're just getting started, the `.env` approach above is all you need for `cre workflow simulate`. But when you move to a deployed workflow, the storage location changes: for deployed workflows, secrets are stored and managed through the Vault DON using cre secrets commands rather than a local `.env` file. You'd upload them with something like `cre secrets create production-secrets.yaml --target production-settings`.\n\nA couple of security notes for that stage:\n- Add your production secrets YAML files to .gitignore and never commit them to version control.\n- For stronger security than a plaintext `.env`, the docs recommend a dedicated secrets manager. While using a plaintext .env file is convenient for initial testing, the recommended best practice is to use a dedicated secrets manager—see the guide on Managing Secrets with 1Password CLI to inject secrets securely at runtime.\n\n## Quick summary\n\n| Piece | What it does |\n|-------|-------------|\n| `secrets.yaml` | Declares logical name → env var name mapping |\n| `workflow.yaml` (`secrets-path`) | Tells the CLI where the manifest is |\n| `.env` / env vars | Holds the real value (local simulation) |\n| Vault DON via `cre secrets` | Holds the real value (deployed) |\n| `runtime.getSecret()` / `GetSecret()` | Reads the value in your workflow code |\n\nFor the full walkthrough with complete code examples, the most relevant docs pages are **\"Using Secrets in Simulation\"** (for your local dev) and **\"Using Secrets with Deployed Workflows\"** at docs.chain.link/cre. Would you like me to detail the Go vs. TypeScript code snippet for actually consuming the secret in your workflow handler?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 71166,
+              "output_tokens": 3620,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2318,
+              "output_tokens": 1966,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8121,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

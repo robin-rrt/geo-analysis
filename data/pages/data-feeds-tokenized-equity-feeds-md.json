@@ -1,0 +1,167 @@
+{
+  "key": "data-feeds-tokenized-equity-feeds-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Tokenized Equity Feeds",
+    "url": "https://docs.chain.link/data-feeds/tokenized-equity-feeds.md",
+    "analyzedAt": "2026-09-21T11:52:57.036Z",
+    "contentType": "developer documentation / conceptual + risk reference",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Sections open with liftable definitions: \"Tokenized equities are blockchain tokens that represent ownership or economic exposure to traditional stocks and ETFs.\" Risk sections lead with the risk, then mitigate. Minor weakness: the H1 body defers to a `<TokenizedEquityFeeds>` component that renders nothing in the served text."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 37 sections, median 58 words, max 390, no section over 600 words, two tables, 72 bullets. Near-ideal chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Adequate. Real specifics exist (24/5, 6.5 hours, session hour ranges, 2x/10x split moves), but qualitative filler dilutes them: \"high fidelity,\" \"intelligent smoothing,\" \"various trading venues.\" Only 3 of 59 numerals carry units."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak. 12 links, all internal, zero external/primary sources. Claims about NYSE/NASDAQ hours, consolidated tape, and corporate-action mechanics are unattributed to any authoritative source."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"Chainlink Tokenized Equity Feeds provide continuous 24/5 pricing for tokenized representations of US equities and ETFs\" is a clean verbatim-liftable canonical statement."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Poor. Measured: 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent, no og/twitter tags, no head metadata captured. This is the largest scored deficit."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. 0 fenced code blocks. The pause-confirmation math is inline prose (`new multiplier × current equity price`); there is no snippet showing how to actually read the feed or implement the staleness/value-bound checks the page repeatedly prescribes."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. FAQ, risks, mitigations, best practices, and integration-testing lifecycle are all present. Weakness: risk headings are concept-titled (\"Limited provider coverage…\"), not symptom-titled (\"Why does my feed return zero?\"), so symptom queries miss."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent entity naming (\"Chainlink Tokenized Equity Feeds\"), unambiguous prose. Docked only for residual vague quantifiers (various, significant, quickly)."
+      }
+    ],
+    "summary": "This is a well-structured conceptual and risk-reference page for Chainlink Tokenized Equity Feeds, with clean H2/H3/H4 hierarchy (37 headings, zero level skips), strong answer-first definitions, and two useful comparison tables. Its single biggest strength is scannable chunking — every risk carries a self-contained explanation plus a Mitigation block that a RAG engine can lift whole. Its biggest opportunity is machine-readability: the served HTML has zero JSON-LD, no canonical URL, and no visible last-updated date, all of which suppress agent trust and entity resolution. Secondary gaps are the absence of any runnable code (a data-feeds page with no read example) and symptom-phrased headings that would catch the queries developers actually type.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "Measured — \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `about` (\"Chainlink Data Feeds\", \"Tokenized Equities\"), `dateModified`, and a self-referential `canonical`; surface a visible \"Last updated\" line under the H1.",
+        "why": "Structured metadata and freshness signals raise agent parseability and E-E-A-T trust; a missing canonical risks dilution across the `.md` and HTML variants."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased subheadings to the risk sections",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Limited provider coverage…\", \"Weekend and holiday behavior\", \"Market closures and halts…\"",
+        "issue": "Concept-titled headings miss symptom queries the content already answers.",
+        "change": "Add H4s or lead sentences phrased as queries: \"Why does my tokenized equity feed return a price of zero?\", \"Why is my feed stale over the weekend?\", \"Why did the feed price jump at session close?\" — each answering in the first sentence.",
+        "why": "Developers and agents query by symptom/error, not concept name; the answers exist verbatim in body text but lose retrieval to the concept-titled headings."
+      },
+      {
+        "priority": 2,
+        "title": "Add a runnable read + validation snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "new subsection under \"Best practices → Protocol design\" or after \"About tokenized equity feeds\"",
+        "issue": "0 fenced code blocks on a feed page that repeatedly prescribes staleness and value-bound checks.",
+        "change": "Add a tagged, complete Solidity (and/or JS) snippet reading `latestRoundData()`, checking `updatedAt` staleness, and enforcing min/max bounds plus a zero-value reject — the exact mitigations named in prose.",
+        "why": "Agents completing integration tasks lift copy-pasteable code; a snippet turns abstract mitigations into an extractable, actionable unit."
+      },
+      {
+        "priority": 2,
+        "title": "Add external primary-source citations",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "session-hours table, \"Weekend and holiday behavior\", \"Corporate actions\"",
+        "issue": "Measured — \"0 external, 0 to primary sources\"; NYSE/NASDAQ hours and calendars are unattributed.",
+        "change": "Inline-link NYSE/NASDAQ official trading-hours and holiday-calendar pages, and the consolidated-tape (SIP) reference, where those facts are stated.",
+        "why": "Inline links to canonical primary sources raise credibility and citation rate; the page currently asserts market facts without attribution."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with concrete values",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"How tokenized equity feeds work\", session-aware smoothing",
+        "issue": "\"various trading venues\", \"Converges quickly\", \"high fidelity\".",
+        "change": "Quantify where possible (\"converges within seconds to tens of seconds\" is already used elsewhere — reuse it; name venue count or source it), or drop the qualifier.",
+        "why": "Quantitative specifics are among the highest-lift changes; qualitative-only prose underperforms in extraction."
+      },
+      {
+        "priority": 3,
+        "title": "Populate the \"Available tokenized equity feeds\" section",
+        "mapsTo": "answer-first extractability / query coverage",
+        "tier": null,
+        "where": "\"## Available tokenized equity feeds\"",
+        "issue": "\"The following table shows all available tokenized equity feeds.\" — no table renders in served text.",
+        "change": "Render the feed table inline (asset, issuer, network, address, heartbeat) or, if dynamic, state the exact count and link the Provider Catalog in the first sentence.",
+        "why": "A heading promising a table but delivering none is an unresolved reference; a filled table adds high-value liftable specifics."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers present (measured): \"various\", \"significant\", \"quickly\" — surgical replacements above.",
+      "Unrendered component reference under H1 (`<TokenizedEquityFeeds section=\"tokenizedEquityNote\" />`) and an empty promised table under \"Available tokenized equity feeds\" — both are unresolved cross-references in the served text.",
+      "No stale-content flag, but freshness is *unverifiable* (no dateModified) — treat as a metadata gap, not staleness."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; verify this page is enumerated in it.",
+      "Site-level JSON-LD/schema and canonical strategy should be applied consistently across `data-feeds/*`; the CLI should pass raw `<head>` so metadata can be fully verified rather than inferred absent.",
+      "Earned citations from DeFi-integration and RWA aggregator pages would raise retrieval authority — off-page, not scored here."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

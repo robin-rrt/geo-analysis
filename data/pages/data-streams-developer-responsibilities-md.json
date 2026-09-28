@@ -1,0 +1,177 @@
+{
+  "key": "data-streams-developer-responsibilities-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Developer Responsibilities: Market Integrity and Application Code Risks",
+    "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+    "analyzedAt": "2026-09-22T13:30:55.973Z",
+    "contentType": "developer documentation / risk & responsibilities guidance",
+    "score": 57,
+    "band": "Developing",
+    "weightedTotal": 57.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong openings: Market Integrity vs Application Code risks are defined up front, and \"The **market status flag** included in price reports is the authoritative signal\" is a clean liftable claim. Weak spot: the top of the page opens with product marketing prose before stating what the page is *for*."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good: 10 headings, 1 H1, no level skips, 0 sections over 600 words (max 381), 22 bullets. Weakness: 0 tables — the asset-type → trading-window → 24/7 mapping is prime table material currently buried in prose bullets."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Only the \"15-minute delay\" for UK ETFs is a hard number; FX pairs, market-hours windows, latency ranges, and retry/backoff parameters are all described qualitatively. Vague quantifiers (`some`, `most`, `significant`, `substantial`) stand in for figures."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate: 13 links, good internal cross-links to architecture/best-practices, plus the education-hub manipulation article. Zero links to primary/canonical spec sources (e.g., the Verifier contract reference or report-schema definition)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. Bolded, self-contained definitions of both risk classes and the authoritative-signal statement are verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak and measurable: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Head metadata could not be verified — CLI should pass raw `<head>` for a full read — but nothing was served."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "0 fenced blocks. This is largely a prose page, so low expectation, but it references `observationsTimestamp`, SDK config, and retry-with-backoff without a single inline snippet showing the correct flag check."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers market hours, DEX assets, new tokens, custom streams, contingency logic. Missing symptom-phrased entry points (e.g., \"why is my equity stream stale outside market hours\") and any FAQ/troubleshooting framing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; \"Chainlink Data Streams\" is used consistently, prose is unambiguous. Mild repetition of \"solely responsible\" but not harmful."
+      }
+    ],
+    "summary": "This is a well-structured risk-disclosure and responsibilities page for Chainlink Data Streams, and its strongest GEO asset is a clear, repeatedly-stated canonical rule: use the **market status flag**, not `observationsTimestamp`, to determine stream availability. Its biggest opportunity is machine-readability — no JSON-LD, no canonical URL, no dated freshness signals were served — compounded by thin quantitative specifics (5 numerals in ~1,950 words, none with units) that leave engines little to lift. The honest verdict: good prose that reads as a policy document, but under-instrumented for retrieval and under-specified for confident synthesis; it will lose retrieval on symptom-phrased queries it actually answers.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no dateModified.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `about` (Chainlink Data Streams), and a self-referencing `canonical`; render a visible \"Last updated\" line.",
+        "why": "Structured freshness and entity metadata raise parse-trust and E-E-A-T; measurably absent here."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings / a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H3s under Market hours and a closing FAQ",
+        "issue": "headings are concept-titled (\"Market hours\", \"DEX-based Assets\"), not query-shaped.",
+        "change": "Add sections like \"Why is my equity/ETF stream returning a stale or unchanged price?\" and \"How do I tell if a market is open — timestamp vs market status flag?\" answered in the first sentence.",
+        "why": "Devs/agents query by symptom; the page already contains these answers but won't be retrieved for the questions users actually type."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the asset-type / trading-window bullets into a comparison table",
+        "mapsTo": "scannability + specifics",
+        "tier": null,
+        "where": "\"Market hours\" section",
+        "issue": "equity/ETF, Forex, UK ETF, DEX rules are prose bullets; 0 tables on page.",
+        "change": "Add a table: Asset class | Trading window | 24/7? | Known delay | Use market status flag?. Put the 15-min UK ETF delay in a cell.",
+        "why": "Tables let engines extract per-asset reasons and build justified, quotable answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics where currently qualitative",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Traditional Market Assets\", \"Implementing Contingency Logic\"",
+        "issue": "\"most traditional markets do not trade 24/7\", retry \"with exponential backoff\" — no numbers.",
+        "change": "Name the supported FX majors explicitly, state representative market-hours windows (with timezone), and give a concrete backoff example (e.g., base delay, max retries) linked to the retry-guidance anchor.",
+        "why": "Quantitative claims are among the highest-lift changes; the page is at 3 numerals/1k words."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal inline snippet showing the market-status-flag check",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "after \"market status flag ... is the authoritative signal\"",
+        "issue": "the canonical rule is stated but never shown in code; agents may fall back to `observationsTimestamp`.",
+        "change": "Add a short, language-tagged snippet reading the market-status field and explicitly commenting the timestamp path as the wrong approach.",
+        "why": "Naming the tempting-wrong pattern (`observationsTimestamp`) as a Don't in runnable form defends against parametric fallback to timestamp-based logic."
+      },
+      {
+        "priority": 3,
+        "title": "Link to primary/canonical sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Bypassing Data Verification\", report-field mentions",
+        "issue": "0 links to primary sources; Verifier Contract and report schema are named but unlinked.",
+        "change": "Inline-link the Verifier Contract reference and the price-report schema definition at first mention.",
+        "why": "Primary-source links raise citation rate and let engines attribute the `observationsTimestamp` / market-status-flag claims."
+      },
+      {
+        "priority": 3,
+        "title": "Tighten the marketing lede into an answer-first opener",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "first paragraph",
+        "issue": "opens with \"Chainlink Data Streams provide access to high-frequency market data backed by decentralized, fault-tolerant...\"",
+        "change": "Lead with one sentence stating what the page defines: \"Developers integrating Chainlink Data Streams bear two responsibility classes — market integrity risk and application code risk — defined below.\"",
+        "why": "A self-contained first sentence chunks cleanly and answers the page's implied question."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers (`some`, `most`, `significant`, `substantial`) used where numbers would serve — flagged, not double-penalized.",
+      "Mild repetition of \"solely responsible for\" across sections; acceptable in a legal-risk context but adds diffuse prose.",
+      "No tables despite tabular content (asset/market-hours mapping) — scannability opportunity, not a hard error."
+    ],
+    "offPageNotes": [
+      "Head metadata was not captured by the harness — pass raw `<head>` so JSON-LD/canonical/date signals can be confirmed rather than inferred absent.",
+      "Page references `/llms.txt`; ensure this file lists this URL so agents discover it in the site index.",
+      "Freshness cadence is a site-level concern — a visible review date on risk-disclosure pages matters more than on tutorials for trust signals."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

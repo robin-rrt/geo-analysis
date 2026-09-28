@@ -1,0 +1,768 @@
+{
+  "key": "ace-concepts-off-chain-policies-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Off-Chain Policy Execution",
+    "url": "https://docs.chain.link/ace/concepts/off-chain-policies.md",
+    "analyzedAt": "2026-09-28T18:55:35.677Z",
+    "contentType": "developer documentation / conceptual explainer",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 61.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition: off-chain execution \"lets you enforce compliance rules that depend on data or systems outside the blockchain … delivered on-chain as a cryptographic permit.\" Each section leads with its point. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 7 sections, no level skips, median 103 words, numbered flows. A comparison table for managed-vs-custom would add extractable justification structure, but not required."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak. 15 numerals but 0 carry units and there are no version strings. Good facts exist (\"permits are single-use and do not expire\") but latency, limits, supported chains, and thresholds stay qualitative. Vague quantifier \"many\" present."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. 13 links, all internal, 0 external. TRM Wallet Screening, CRE, Keystone Forwarder, and DON are named without a single link to a spec or primary source."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. The permit definition and \"it does not re-run the off-chain logic. The permit serves as cryptographic proof that the off-chain checks passed\" are crisp, liftable statements."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, missing canonical, absent datePublished/dateModified, no `<head>` captured. A visible \"Last Updated: 2026-07-17\" exists in the body but is not machine-exposed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Partial. Zero code blocks. Acceptable for a concept page, but a minimal Evaluation API request/poll snippet would materially help agents."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate. Covers \"what,\" \"why,\" and both \"how\" flows well; lacks FAQ/troubleshooting and symptom-phrased entries (e.g. the revert-without-permit case is buried in prose, not a heading)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent entity naming (ACE, DON, CRE, permit, CertifiedActionDONValidatorPolicy). No action needed."
+      }
+    ],
+    "summary": "This is a clean, well-structured conceptual page explaining ACE off-chain policy execution, with a strong answer-first opening and clear separation of the managed-MVP and custom integration models. Its biggest GEO strength is fluency and section chunkability; its biggest opportunity is machine-readability metadata (no JSON-LD, no canonical, no in-`<head>` dates) combined with thin external citation and symptom-phrased query coverage. Honest verdict: solidly retrievable prose that leaves easy structured-data and query-coverage points on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD with canonical + dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / served HTML",
+        "issue": "\"JSON-LD: 0 block(s) … canonical: MISSING … dateModified absent\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2026-07-17`, canonical URL, and `about` for ACE/off-chain policies; expose the last-updated date in the DOM, not just body text.",
+        "why": "Structured metadata and visible freshness raise agent trust (E-E-A-T) and parseability."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings/section for the revert case",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Managed wallet risk screening\"",
+        "issue": "\"A protected function … will revert if the caller does not have a valid permit\" is buried mid-paragraph.",
+        "change": "Add an H3 like \"Why does my protected transaction revert without a permit?\" and a short FAQ block covering `rejected` vs `ready` statuses.",
+        "why": "Devs/agents query by symptom and status string; heading-level phrasing wins retrieval that body prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add external citations for named systems",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "first mention of \"TRM Wallet Screening,\" \"CRE,\" \"Keystone Forwarder,\" \"Vault DON\"",
+        "issue": "\"0 external, 0 to primary sources\"",
+        "change": "Inline-link TRM, CRE, and Keystone/Vault DON to their canonical Chainlink or vendor definition pages.",
+        "why": "Attributable claims to primary sources raise citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add a managed-vs-custom comparison table",
+        "mapsTo": "structural scannability / justification structure",
+        "tier": null,
+        "where": "after the intro's two-bullet list",
+        "issue": "the two models are described in prose only; no side-by-side.",
+        "change": "Table with rows for hosting, TRM vs custom logic, permit expiry, Beta status, who operates infra.",
+        "why": "Tables let engines extract decision *reasons* and build justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics with units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"In the current Beta release, permits are single-use and do not expire\"",
+        "issue": "\"0 [numerals] with units,\" vague quantifier \"many\"",
+        "change": "Where policy allows, state supported chains, threshold ranges, polling interval guidance, and permit scope parameters as concrete values.",
+        "why": "Quantitative claims are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal Evaluation API request/poll snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Managed wallet risk screening\" step list",
+        "issue": "\"0 fenced block(s)\"",
+        "change": "Add a short, language-tagged example of calling the Evaluation API and polling for `status: ready`, with expected response shown.",
+        "why": "Runnable, labeled snippets are directly liftable by coding agents."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"many\" in \"many compliance requirements\" — minor; replace with a concrete category count where possible.",
+      "No stale-content risk: body dates the page 2026-07-17, but the date is not machine-exposed (see P1)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Canonical URL and `<head>` metadata are site-template concerns; the CLI should pass raw `<head>` for a full metadata read.",
+      "External/earned citations to TRM and Chainlink CRE reference pages are partly off-page authority factors."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ace/concepts/off-chain-policies.md",
+      "source_title": "Off-Chain Policy Execution",
+      "probe_set_id": "06c372312964",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T19:02:59.678Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 30.3,
+      "avg_fidelity_all": 27.8,
+      "unattributed_count": 2,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.7,
+        "hallucination_free": 2,
+        "relevance": 1.7,
+        "structure": 5.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 240098,
+          "output_tokens": 18448,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 20,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 13530,
+          "output_tokens": 10952,
+          "cache_creation_input_tokens": 2609,
+          "cache_read_input_tokens": 27379,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited and the answer's specifics diverge from it, relying instead on other/aggregated material."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "There are currently three services that are part of the Automated Compliance Engine: Policy Manager, Identity Manager, and Monitoring & Reporting Manager",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "A PolicyEngine evaluates a chain of modular policies every time a protected function is called",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "functioning as a connector to CCID, the Policy Manager, and CCIP",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Following the ERC-3643 reference pattern: the Asset Issuer configures compliance rules via the Chainlink Policy Manager",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "ACE is a relatively new product (launched June 2025)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "ecosystem risk-data providers already deliver risk scores into ACE",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Off-chain checks run before the transaction and the result is delivered on-chain as a cryptographic permit",
+            "ACE offers managed wallet risk screening (MVP) with TRM and custom off-chain integrations",
+            "Checks run through the Chainlink DON",
+            "A protected function reverts if the caller lacks a valid permit"
+          ],
+          "unverifiable_from_source": [
+            "Three services: Policy Manager, Identity Manager, and Monitoring & Reporting Manager",
+            "PolicyEngine as the on-chain enforcement mechanism",
+            "CCID connector and ERC-3643 Asset Issuer pattern",
+            "ACE launched June 2025",
+            "Ecosystem risk-data providers delivering scores into ACE"
+          ],
+          "verdict": "The answer describes a plausible-sounding but largely fabricated ACE architecture (Policy Manager/Identity Manager/PolicyEngine/CCID/ERC-3643) that does not match the source's actual off-chain policy mechanism (TRM Wallet Screening, ACE Evaluation API, Keystone Forwarder, CertifiedActionDONValidatorPolicy, permits), making it unsafe to ship to a developer without verification against the real docs.",
+          "fidelity": 30,
+          "prompt": "In Chainlink ACE, how do I enforce a compliance rule that depends on off-chain data like a wallet risk API before a transaction goes through?",
+          "archetype": "direct-howto",
+          "answer": "I'll research Chainlink ACE and how it handles off-chain compliance data enforcement.Let me get more specific technical implementation details.I have enough information to give a solid answer. Let me synthesize it.\n\n## Enforcing an Off-Chain-Dependent Compliance Rule in Chainlink ACE\n\nChainlink ACE (Automated Compliance Engine) is designed for exactly this scenario. It is a compliance layer for EVM smart contracts that enforces rules — transfer limits, identity checks, sanctions screening, and more — at transaction time, without embedding compliance logic in your application code. A wallet risk score fits neatly into its \"trusted external data\" model.\n\n### How the architecture handles off-chain data\n\nThe key thing to understand is that ACE separates enforcement (on-chain) from the data-fetching and orchestration (off-chain). ACE has two layers: onchain smart contracts that enforce compliance rules on the blockchain, and the ACE Platform that lets you manage those contracts through a UI and APIs.\n\nYour off-chain wallet risk API gets bridged in through the **Chainlink Runtime Environment (CRE)** and the **Policy Manager**. Services are defined as offchain components running on the CRE that help manage onchain interactions and configurations of Chainlink ACE. There are currently three services that are part of the Automated Compliance Engine: Policy Manager, Identity Manager, and Monitoring & Reporting Manager. The Policy Manager is a customizable rules engine that enables users to define, manage, and enforce compliance policies directly within smart contracts.\n\nThis is precisely the pattern for a risk-API-dependent rule. ACE is explicitly built to bring critical offchain data—such as KYC status, AML scores, and sanctions list verifications—directly onto the blockchain, with CRE handling the orchestration of these complex workflows. A wallet-risk API is just another AML/risk data source in this list. In fact, ecosystem risk-data providers already deliver risk scores into ACE to power agile, customizable compliance rules.\n\n### The enforcement mechanism at transaction time\n\nOn-chain, enforcement happens through a chain of modular policies evaluated on every protected call: A PolicyEngine evaluates a chain of modular policies every time a protected function is called. Policies can be added, removed, or reordered without changing your contract.\n\nBecause it runs synchronously as a gatekeeper, the transaction is blocked before it settles rather than flagged afterward. Unlike traditional systems that may flag transactions for review days after they occur, an ACE acts as an immediate gatekeeper. It evaluates transaction requests against a predefined set of rules, such as KYC, AML, and sanctions lists, and instantly approves, blocks, or flags them based on the results. This ensures that compliance is an integral part of the transaction lifecycle.\n\n### Steps to implement your wallet-risk rule\n\n1. **Add the compliance extension to your token/contract.** ACE exposes a lightweight interface that enables any token to support compliance functionality by integrating with Chainlink ACE, functioning as a connector to CCID, the Policy Manager, and CCIP, and simplifying the inclusion of compliance logic across token types like ERC-20, ERC-3643, and more. This is what lets the PolicyEngine intercept your transfer/protected functions.\n\n2. **Define the policy in the Policy Manager (off-chain, via CRE).** Because policies live off-chain in the Policy Manager and are enforced on-chain, you can wire in your wallet risk API as the data source. Following the ERC-3643 reference pattern: the Asset Issuer configures compliance rules via the Chainlink Policy Manager, which runs offchain within the CRE, and these policies are enforced onchain by the Policy Manager.\n\n3. **Author the rule logic.** Define a threshold rule (e.g., \"reject if wallet risk score > X\" or \"require score below a limit for the sender/recipient\"). The Policy Manager orchestrates multi-step checks: these contracts can orchestrate multiple steps across different assets or counterparties, with onchain or offchain enforcement.\n\n4. **Update rules without redeploying.** A major advantage: rules can be added, updated, or removed through the ACE Platform — your application contract doesn't need to change. So you can tune risk thresholds or swap risk providers over time without touching your core contract.\n\n### Important considerations\n\n- **On-chain vs. off-chain enforcement mode.** ACE supports both onchain and offchain policy enforcement, so you can choose where the risk evaluation resolves. For a synchronous \"block before it goes through\" requirement, the risk data must be available on-chain (or resolved) at the moment the protected function executes — plan your CRE workflow so the risk score is delivered/verified in time rather than fetched arbitrarily mid-transaction.\n- **Privacy.** ACE is designed as a modular, privacy-preserving framework that integrates existing identity systems with onchain infrastructure, and the identity layer enables lifecycle management of identity credentials across networks without storing NPI/PII onchain. Keep raw risk/PII data off-chain and only bring the decision or score on-chain.\n\n### A note on accuracy\nACE is a relatively new product (launched June 2025), and the exact contract interfaces, function signatures, and CRE workflow syntax evolve. For the precise `PolicyEngine`/policy-module code, function names, and CRE workflow definitions to bind your specific wallet risk API, you should consult the official developer docs at **docs.chain.link/ace**, since the implementation-level API details are the part most likely to have changed since these sources were published.\n\nWould you like me to look up the specific contract interfaces and CRE workflow code (e.g., how to write a custom policy module and register an external data source), or a walkthrough tailored to a specific token standard like ERC-20 vs. ERC-3643?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 58689,
+              "output_tokens": 3424,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2636,
+              "output_tokens": 2457,
+              "cache_creation_input_tokens": 2609,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer itself states the search tool hit its usage limit and docs could not be fully retrieved, making the response inconclusive."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "a short‑lived, signed attestation... permits expire",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "a nonce (to prevent replay)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "A compliance admin defines a policy... expiry/TTL for approvals",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "ACE's compute/oracle layer (the Chainlink DON / runtime environment) pulls current risk data",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "written to an onchain registry, depending on the ACE deployment",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "ACE triggers a managed CRE workflow that calls TRM Wallet Screening using a credential stored in Vault DON",
+            "Workflow compares TRM results with global risk threshold, unknown-risk setting, and category-specific thresholds",
+            "On pass, permit delivered through Keystone Forwarder and stored onchain by CertifiedActionDONValidatorPolicy",
+            "Application polls until status is ready, then submits the protected transaction"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink ACE streams wallet and transaction risk scores directly into ACE policies for institutional-grade AML controls",
+            "The wallet/app now holds proof of eligibility that the onchain contracts will accept"
+          ],
+          "verdict": "The answer engages the right topic but replaces the source's specific mechanism (Evaluation API params, CRE workflow, TRM Wallet Screening, Vault DON, Keystone Forwarder, CertifiedActionDONValidatorPolicy, polling for 'ready') with a generic, partly fabricated permit model that directly contradicts the source's statement that permits are single-use and non-expiring — not safe to ship without a full rewrite against the actual docs.",
+          "fidelity": 28,
+          "prompt": "Using Chainlink ACE managed wallet risk screening, walk me through the full flow from requesting an evaluation to the transaction consuming the permit.",
+          "archetype": "constrained",
+          "answer": "I'll research the Chainlink ACE managed wallet risk screening flow to give you an accurate walkthrough.I was only able to retrieve limited live documentation before the search tool hit its usage limit for this session, so I'll flag where you should confirm exact contract/function names against the official Chainlink ACE docs. Here's the end‑to‑end flow for **managed wallet risk screening** under Chainlink's Automated Compliance Engine (ACE).\n\n## What ACE is doing here\n\nAt a high level, Chainlink ACE streams wallet and transaction risk scores directly into ACE policies for institutional-grade AML controls. The \"managed wallet risk screening\" pattern turns that stream into an **onchain, enforceable gate**: a wallet's risk must be evaluated and approved before a transaction is allowed to settle. The mechanism that carries that approval from the off‑chain evaluation to the onchain transaction is a **permit** — a short‑lived, signed attestation that the wallet passed policy at a given point in time.\n\n## The full flow, step by step\n\n**1. Policy and wallet setup (prerequisite)**\n- A compliance admin defines a policy (allowed jurisdictions, max acceptable risk score, sanctions/PEP rules, expiry/TTL for approvals, etc.) in ACE's policy layer.\n- The \"managed wallet\" is registered so ACE knows which identity/screening provider and policy apply to it.\n\n**2. Request an evaluation**\n- The wallet (or an app/backend acting on its behalf) submits an **evaluation request** for a pending action — typically including the wallet address and the transaction context it wants clearance for (asset, counterparty, amount).\n- This request is what kicks off screening; it does not itself move funds.\n\n**3. Off‑chain risk screening**\n- ACE's compute/oracle layer (the Chainlink DON / runtime environment) pulls current risk data for the wallet from the configured screening provider(s) — the same wallet/transaction risk scores that feed ACE policies.\n- The provider returns risk scores and flags (e.g., exposure to sanctioned entities, mixers, high‑risk categories).\n\n**4. Policy evaluation**\n- ACE evaluates the returned risk data against the policy rules. This is a pass/fail (or scored‑threshold) decision: does this wallet, for this action, satisfy the compliance policy?\n\n**5. Permit issuance**\n- If the wallet passes, ACE produces a **signed permit** — an attestation cryptographically signed by the authorized signer/DON. The permit typically encodes:\n  - the wallet/subject it applies to,\n  - the scope of what's approved (and possibly a specific transaction hash or parameters),\n  - a nonce (to prevent replay), and\n  - an expiry / validity window.\n- If it fails, no permit is issued and the action stays blocked.\n\n**6. Permit delivery**\n- The permit is returned to the requester (or written to an onchain registry, depending on the ACE deployment). The wallet/app now holds proof of eligibility that the onchain contracts will accept.\n\n**7. Transaction submission with the permit**\n- The wallet submits its actual transaction, attaching or referencing the permit so the enforcement layer can check it.\n\n**8. Onchain verification and consumption**\n- ACE's onchain enforcement (the compliance/policy enforcement contract) verifies the permit before execution:\n  - valid signature from the authorized signer,\n  - not expired,\n  - matches the caller/subject and the intended action,\n  - nonce unused.\n- On success, it **consumes the permit** — marking the nonce used so it cannot be replayed — and allows the protected call to proceed.\n\n**9. Execution (or revert)**\n- With the permit consumed, the transaction executes normally. If verification fails at any check (expired, wrong scope, already consumed, revoked policy), the enforcement layer reverts, and funds never move.\n\n## Key properties to keep in mind\n- **Time‑boxed:** permits expire, so an approval reflects the wallet's risk at evaluation time, not indefinitely.\n- **Single‑use:** consumption/nonce prevents replaying one approval across multiple transactions.\n- **Fail‑closed:** absent a valid permit, the transaction is blocked by default.\n- **Separation of concerns:** screening/decisioning happens off‑chain (where rich risk data lives), while enforcement happens on‑chain (trust‑minimized), with the permit as the bridge.\n\n---\n\n**Caveat:** I couldn't fully load Chainlink's current ACE developer docs in this session, so the exact contract names, the precise permit struct fields, and whether your deployment returns the permit to the caller vs. writes it to a registry can differ. Please confirm the specifics (function signatures, permit schema, TTL/nonce handling) against the official Chainlink ACE documentation before implementing. Would you like me to pull those exact API/contract details once search access is available again?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 59208,
+              "output_tokens": 4505,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2455,
+              "output_tokens": 2104,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4998,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or references the actual source page and instead describes a fabricated mechanism inconsistent with it."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 2,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "A PolicyEngine evaluates a chain of modular policies every time a protected function is called",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "the smart contract queries the Policy Manager",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Off-chain policies return a signed compliance response that is only valid for a limited window (and often a specific nonce/block)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "If the user's approval was fetched but... the attestation's validity window lapsed, the on-chain verifier rejects it",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "the signer key configured on-chain doesn't match the one that produced the attestation (e.g., after a key rotation)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "policies are managed per target contract and per function selector",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "you can have the same policy instance protect both the transfer and mint functions, receiving the correct address to check from two different extractors",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "resolve the user against current rules and identity data (CCID)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "asset issuers can immediately modify requirements or halt activities until compliance rules are updated",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "ACE policies typically emit a specific error identifying which policy in the chain rejected",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "A protected function requiring off-chain verification reverts if the caller does not have a valid permit",
+            "The application must obtain a permit from the Chainlink DON before the user calls the function",
+            "The permit must be delivered and status ready before submitting the transaction",
+            "Permits are scoped to a specific caller, target, function, and extracted parameters and are single-use"
+          ],
+          "unverifiable_from_source": [
+            "Decode the revert reason / custom error - ACE policies typically emit a specific error identifying which policy in the chain rejected",
+            "Confirm the on-chain signer address matches the current off-chain signer (check for recent key rotations)"
+          ],
+          "verdict": "The answer invents an entirely different (and partly contradictory) mechanism—signed attestations, expiry windows, signer keys, extractors, CCID—none of which appear in the source, which instead describes a single-use, non-expiring permit system; it is not safe to ship to a developer relying on this for ACE debugging.",
+          "fidelity": 28,
+          "prompt": "My protected function keeps reverting in Chainlink ACE even though the user should be allowed — what's causing this with off-chain policies?",
+          "archetype": "error-debug",
+          "answer": "Based on how Chainlink ACE (Automated Compliance Engine) handles off-chain policies, here's what's likely happening and where to look.\n\n## How the off-chain path works\n\nFirst, some context on the mechanism, because that's where these \"should-be-allowed-but-reverts\" bugs live. In ACE, A PolicyEngine evaluates a chain of modular policies every time a protected function is called. For off-chain policies specifically, when a transaction is attempted, the smart contract queries the Policy Manager. The system checks the transaction against current offchain rules and returns a response to the blockchain to allow or block the trade. Critically, that returned response isn't trusted blindly — to prevent a single point of failure, the system aggregates responses or validates cryptographic signatures proving the data came from an authorized source.\n\nSo a revert on a *legitimately allowed* user almost always means the on-chain enforcement step rejected the off-chain attestation itself — not that the underlying policy said \"deny.\"\n\n## Most common causes\n\n**1. Stale, expired, or missing attestation.** Off-chain policies return a signed compliance response that is only valid for a limited window (and often a specific nonce/block). If the user's approval was fetched but the transaction was submitted late, sat in the mempool too long, or the attestation's validity window lapsed, the on-chain verifier rejects it and reverts — even though the user is genuinely eligible. This is the single most frequent cause.\n\n**2. Signature / signer mismatch (fail-closed behavior).** Because enforcement validates that the response came from an authorized signer, a revert occurs if the signer key configured on-chain doesn't match the one that produced the attestation (e.g., after a key rotation), or if the payload the contract hashes differs by even one field from what was signed. Compliance systems are deliberately fail-closed: no valid proof = deny, regardless of the user's real status.\n\n**3. Wrong policy target — contract + function selector.** Policies in ACE are scoped very narrowly: policies are managed per target contract and per function selector — each protected function on each contract has its own independent policy chain. If your off-chain policy was attached to a different selector (common after refactoring a function signature, adding a parameter, or with overloaded functions), your protected function may be hitting an empty or misconfigured chain that defaults to reject.\n\n**4. Wrong address being checked (extractor misconfiguration).** The policy checks whichever address the configured extractor pulls from the calldata. In ACE you can have the same policy instance protect both the transfer and mint functions, receiving the correct address to check from two different extractors. If the extractor is pointing at `msg.sender` when it should check the recipient (or vice versa), the off-chain lookup runs against the wrong identity and returns \"not allowed.\"\n\n**5. Identity/credential not resolvable off-chain.** Off-chain policies resolve the user against current rules and identity data (CCID). If the user's credential isn't synced to the network/chain you're transacting on, has expired, or the off-chain rule set was updated, the response comes back as a block. Remember these rules are dynamic — asset issuers can immediately modify requirements or halt activities until compliance rules are updated, so a recent policy edit can flip a previously-passing user.\n\n**6. Policy ordering / a different policy in the chain.** Since the engine runs a *chain* of policies, the revert may be coming from an earlier policy in the sequence rather than the off-chain one you're focused on. Check the full ordered chain for that selector, not just the off-chain policy.\n\n## How to isolate it\n\n- Decode the revert reason / custom error — ACE policies typically emit a specific error identifying which policy in the chain rejected. This immediately tells you whether it's a signature/expiry failure vs. an actual deny.\n- Verify the attestation's validity window and freshness at the moment of submission.\n- Confirm the on-chain signer address matches the current off-chain signer (check for recent key rotations).\n- Confirm the policy is bound to the exact `contract address + 4-byte function selector` you're calling.\n- Confirm the extractor is reading the address you intend to check.\n- Re-query the off-chain rule/identity service directly for that user to confirm it actually returns \"allow.\"\n\nIf you can share the revert reason or custom error string, I can point you to the specific one of these causes. It's also worth noting ACE is currently in Beta, so if you paste your PolicyEngine configuration and the failing selector I can help spot a misconfiguration.\n\nWould you like me to walk through decoding the specific revert error you're seeing?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 62467,
+              "output_tokens": 3223,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2072,
+              "output_tokens": 2524,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4998,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited or retrieved; the answer relies on unverified/fabricated details instead."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "Risk scoring platforms like Chainalysis stream wallet and transaction risk scores directly into ACE policies",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "the Digital Asset contract calls the Policy Manager to check transaction eligibility",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "rules can be added, updated, or removed through the ACE Platform so your application contract doesn't need to change",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Chainlink ACE references offchain eligibility allowlists prior to allowing a transaction",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the Policy Manager fetches data and makes an eligibility decision",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Chainlink manages the CRE workflow and onchain permit delivery for managed wallet screening",
+            "Custom off-chain integrations require infrastructure hosted by your organization and Chainlink assistance during Beta"
+          ],
+          "unverifiable_from_source": [
+            "Chainalysis integration with ACE policies",
+            "ACE 'Policy Manager' component and its architecture",
+            "ACE Platform for rule management without contract redeploy"
+          ],
+          "verdict": "The answer is well-structured and engages the right topic, but it invents architectural components (Chainalysis, Policy Manager, ACE Platform, Digital Asset contract) not present in the source and omits the actual documented flow (Evaluation API, CRE workflow, CertifiedActionDONValidatorPolicy, Keystone Forwarder), making it unsafe to ship as accurate documentation guidance.",
+          "fidelity": 35,
+          "prompt": "Should I use ACE managed wallet screening or a custom off-chain integration to connect my internal compliance engine?",
+          "archetype": "comparison",
+          "answer": "Based on the search results, I'll assume you're referring to **Chainlink's Automated Compliance Engine (ACE)** — since \"managed wallet screening\" and \"custom off-chain integration to an internal compliance engine\" map directly to its two main patterns. (If you actually mean Circle's Compliance Engine or the life-sciences \"Adaptive Compliance Engine,\" let me know and I'll redirect.)\n\n## The short answer\nThere's no universal winner — it depends on how differentiated and dynamic your internal compliance logic is. But here's the key framing: these two options aren't strictly either/or, because ACE is designed to *host* your policies while also *ingesting* third-party managed screening.\n\n## What each option actually gives you\n\n**ACE managed wallet screening**\nThis is the fastest path and leans on ACE's partner ecosystem. Risk scoring platforms like Chainalysis stream wallet and transaction risk scores directly into ACE policies for institutional-grade AML controls, and TRM Labs provides real-time risk intelligence to ACE, enabling issuers and protocols to block sanctioned or high-risk activity.\n\nThe core architectural benefit is that ACE enforces rules — transfer limits, identity checks, sanctions screening, and more — at transaction time, without embedding compliance logic in your application code, and rules can be added, updated, or removed through the ACE Platform so your application contract doesn't need to change.\n\n**Custom off-chain integration to your internal engine**\nACE explicitly supports pushing the decision out to off-chain logic. There are two ways this can work — the simple option is by referencing an allowlist of eligible wallets, where Chainlink ACE references offchain eligibility allowlists prior to allowing a transaction. In the fuller pattern, the Digital Asset contract calls the Policy Manager to check transaction eligibility, and the Policy Manager fetches data and makes an eligibility decision, where the transaction is either approved or rejected.\n\n## How to decide\n\n**Lean toward ACE managed screening if:**\n- Your compliance needs are primarily standard AML/sanctions/wallet-risk screening that reputable vendors already cover well.\n- You want speed-to-market and lower maintenance overhead — you inherit vendor updates to sanctions lists and risk models automatically.\n- You value the \"no contract redeploy\" benefit of updating policies through the ACE Platform.\n\n**Lean toward the custom off-chain integration if:**\n- Your **internal compliance engine encodes proprietary or firm-specific logic** (bespoke eligibility rules, jurisdiction-specific overlays, internal watchlists, risk-appetite scoring) that off-the-shelf managed screening can't replicate.\n- You have **regulatory or contractual reasons** to keep the final adjudication decision inside your own system of record and audit trail.\n- You already operate and staff a compliance engine, so integration/maintenance cost is marginal rather than net-new.\n\n**A hybrid is often the strongest choice:** use managed risk-scoring feeds (Chainalysis/TRM-style data) as *inputs* streamed into ACE, while your off-chain Policy Manager integration makes the *final eligibility decision*. This is well-aligned with how ACE is architected — managed screening providers deliver risk data into policies, and the Policy Manager fetches that data plus your internal rules to approve or reject.\n\n## Recommendation\nIf your internal engine is a genuine differentiator or a compliance requirement, do the **custom off-chain integration** and feed it with managed risk-scoring data rather than reinventing sanctions/risk sourcing. If your needs are largely standard screening, start with **ACE managed screening** to minimize build and operational burden, and reserve custom integration for later if bespoke logic becomes necessary.\n\nTwo things I'd want to confirm to sharpen this: (1) Is your internal engine the authoritative decision-maker, or just one input? (2) Which chains/asset standards are you targeting? Those determine whether managed screening coverage is even sufficient for your case.\n\nWould you like me to pull the ACE technical docs on the Policy Manager integration interface so you can scope the custom build?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 47899,
+              "output_tokens": 3422,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1945,
+              "output_tokens": 1626,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4998,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it relied on general knowledge rather than retrieving the docs, and did not cite the expected ACE source."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 0,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "sendRequest() in Chainlink Functions, or a Coordinator/Router contract",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "The Router contract emits an OracleRequest event on-chain",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "They run OCR (Off-Chain Reporting) protocol to aggregate results",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "invokes your consumer's fulfillRequest() callback",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Spins up a sandboxed runtime (Deno/WASM sandbox for Functions)",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Billing is settled against your subscription (LINK deducted for gas + premium)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Application sends an action request describing the transaction and context",
+            "A DON workflow evaluates its policy pipeline and calls your policy endpoint where required",
+            "Your endpoint runs business logic and returns an Allow or Deny decision",
+            "Policies are evaluated sequentially; the first policy to deny stops execution and no permit is generated",
+            "If every policy passes, the DON generates and delivers a permit onchain",
+            "Application waits for confirmation then submits the protected transaction"
+          ],
+          "unverifiable_from_source": [
+            "Determinism/idempotency design notes for policy endpoints",
+            "Practical notes on encoding, timeouts, and fail-closed behavior"
+          ],
+          "verdict": "This answer describes Chainlink Functions/OCR architecture instead of ACE's off-chain policy pipeline, fabricating functions and flow not present in the source, and is unsafe to ship as guidance for the ACE feature asked about.",
+          "fidelity": 13,
+          "prompt": "Show me the sequence of what a Chainlink DON does when it evaluates a custom off-chain policy pipeline with my own policy endpoint.",
+          "archetype": "code-first",
+          "answer": "# Chainlink DON: Custom Off-Chain Policy Pipeline Sequence\n\nWhen you wire a Chainlink Decentralized Oracle Network (DON) to evaluate a **custom off-chain policy** (e.g., via Chainlink Functions or a custom External Adapter), here's the end-to-end sequence of what actually happens under the hood.\n\n---\n\n## The Full Lifecycle\n\n### 1. On-Chain Trigger / Request\n- Your smart contract calls a consumer contract (e.g., `sendRequest()` in Chainlink Functions, or a `Coordinator`/`Router` contract).\n- The request includes: the **source code / job spec**, encrypted **secrets** (like your policy endpoint's API key), arguments, a subscription ID, and gas/callback parameters.\n- The `Router` contract emits an **`OracleRequest` event** on-chain that the DON nodes are listening for.\n\n### 2. DON Nodes Detect & Pick Up the Request\n- Each of the **N independent oracle nodes** in the DON observes the log event via their listening jobs.\n- Nodes decrypt the secrets locally (threshold/DON-hosted secrets are decrypted using the DON's distributed key material—no single node sees plaintext in DON-hosted mode).\n\n### 3. Off-Chain Execution (per node, independently)\nEach node **independently** runs the pipeline:\n- Spins up a sandboxed runtime (Deno/WASM sandbox for Functions).\n- Executes your code, which makes an **HTTP call to *your* policy endpoint** (the custom off-chain policy service).\n- Your endpoint receives the request payload (the subject/context being evaluated), applies your business logic / policy rules, and returns a decision (e.g., `ALLOW`/`DENY`, a score, a signed attestation, etc.).\n- The node captures the response and encodes the result.\n\n> Key point: **Every node does this separately** against your endpoint. If your policy endpoint is non-deterministic (returns different answers to different nodes at the same moment), consensus will fail—so your endpoint must return **deterministic, agreeable results**.\n\n### 4. Off-Chain Consensus (OCR – Off-Chain Reporting)\n- Nodes exchange their individual results over the DON's peer-to-peer network.\n- They run **OCR (Off-Chain Reporting) protocol** to aggregate results and reach agreement on a single canonical answer (typically median for numbers, or an agreed value/hash).\n- Each node **cryptographically signs** the aggregated report.\n- A single **report** is assembled containing the result plus the collection of node signatures (meeting the required quorum/threshold, e.g., f+1 or 2f+1).\n\n### 5. Transmission Back On-Chain\n- One node (the elected **transmitter**, rotating per round) submits the signed aggregated report to the `Router`/`Coordinator` contract in a single transaction.\n- The contract **verifies the signatures** on-chain against the known DON oracle set, confirming the quorum agreed.\n\n### 6. On-Chain Callback / Fulfillment\n- Upon signature verification, the contract invokes your consumer's **`fulfillRequest()` callback** with the decoded policy result (or an error).\n- Your contract then **acts on the policy decision**—e.g., permitting a transfer, gating a mint, updating state, or reverting.\n- Billing is settled against your subscription (LINK deducted for gas + premium).\n\n---\n\n## Sequence Diagram (text)\n\n```\nYour Contract ──sendRequest()──▶ Router Contract\n                                      │ emits OracleRequest event\n                                      ▼\n                      ┌──────── DON Nodes (N) ────────┐\n                      │ each node:                     │\n                      │  • decrypt secrets             │\n                      │  • run sandboxed code          │\n                      │  • HTTP ──▶ YOUR POLICY ENDPOINT\n                      │           ◀── policy decision  │\n                      │  • encode result               │\n                      └──────────────┬─────────────────┘\n                                     │ P2P: OCR consensus + sign\n                                     ▼\n                        Aggregated signed report\n                                     │\n                Transmitter node ──submit──▶ Router/Coordinator\n                                     │ verify signatures on-chain\n                                     ▼\n                        fulfillRequest() ──▶ Your Contract\n                                     │\n                              Act on decision\n```\n\n---\n\n## Practical Design Notes for a Custom Policy Endpoint\n\n- **Determinism is mandatory.** Since each node calls your endpoint independently, ensure identical inputs yield identical outputs within the round. Avoid `now()`-based randomness, per-request timestamps, or load-dependent responses in the returned value.\n- **Idempotency & rate limits.** Your endpoint will get hit by *every* node (e.g., 4–31+ calls per request). Make it idempotent and provision for the concurrent burst.\n- **Authentication.** Store API keys as **encrypted/DON-hosted secrets**, never in plaintext source.\n- **Keep it fast & bounded.** Functions enforce execution time and memory limits; your endpoint should respond well within the timeout.\n- **Return compact, encodable data.** Return the minimal decision payload (ABI-encodable bytes) rather than large JSON blobs.\n- **Fail closed.** Decide how your consumer contract handles the `err` path in the callback—typically revert or default-deny for policy gating.\n- **Consider signed attestations.** For higher trust, have your endpoint return a **signed** policy verdict so the consumer can additionally verify provenance beyond DON consensus.\n\n---\n\nWould you like me to tailor this to a specific implementation—**Chainlink Functions**, a **custom External Adapter + custom job spec**, or **Chainlink Automation triggering the policy check**? I can also sketch the actual consumer contract and JavaScript source, or note where architectural details differ between these. \n\nI described this from general knowledge of Chainlink's architecture; if you'd like, I can search the latest Chainlink docs to confirm current API names, limits, and secrets-handling specifics, since those evolve over time.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5931,
+              "output_tokens": 2233,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2658,
+              "output_tokens": 1553,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4998,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite or reference the Chainlink ACE source at all, instead offering a generic compliance pattern unrelated to the actual docs."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 4,
+            "relevance": 1,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "backend signs a time-limited permit/attestation (nonce + expiry + address)",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "lightweight signature check (`ecrecover` against a trusted signer)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Chainalysis, TRM Labs, Elliptic, an internal sanctions/OFAC list",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Off-chain checks run before a transaction and produce an on-chain permit",
+            "Protected functions revert without a valid permit",
+            "Managed TRM wallet screening and custom integrations are the two options",
+            "Checks run through the Chainlink DON"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely fails to engage with Chainlink ACE's actual off-chain policy architecture (ACE Evaluation API, CertifiedActionDONValidatorPolicy, Chainlink DON, TRM Wallet Screening) and instead invents a generic EIP-712/ecrecover pattern with unrelated vendors, making it unsafe to ship as documentation for this product.",
+          "fidelity": 33,
+          "prompt": "off-chain compliance permit before transaction revert wallet screening",
+          "archetype": "terse/keyword",
+          "answer": "Your query reads like a set of keywords rather than a specific question, so let me make sure I understand what you're after. It sounds like you're asking about a **compliance architecture pattern** where wallet screening happens *off-chain* and *pre-emptively*, so that non-compliant transactions are blocked (or \"permitted\") **before** they hit the blockchain and revert. Let me walk through how this typically works, and then please tell me which part you want to go deeper on.\n\n## The core pattern\n\nThere are essentially two places you can enforce compliance/screening on a transaction:\n\n**1. On-chain enforcement (transaction revert)**\n- The smart contract itself checks an allowlist/blocklist or calls an on-chain oracle, and `revert`s if the address fails screening.\n- Pros: trustless, enforced at the protocol level, can't be bypassed.\n- Cons: expensive (gas is consumed even on a revert), the screening data must live on-chain (hard to keep updated with sanctions lists), and it leaks compliance logic publicly.\n\n**2. Off-chain enforcement (pre-transaction \"permit\")**\n- A backend service screens the wallet address *before* the transaction is ever broadcast.\n- If the address passes, the service issues a signed authorization — often a **permit** (e.g., an EIP-712 signed message / voucher / attestation) — that the contract verifies.\n- The transaction only reaches the chain if it already carries a valid off-chain approval, so you avoid wasting gas on a guaranteed revert.\n\n## How the \"off-chain permit before revert\" flow usually looks\n\n1. **User initiates** a transaction in the dApp/wallet.\n2. **Off-chain screening** — the backend queries a provider (Chainalysis, TRM Labs, Elliptic, an internal sanctions/OFAC list, etc.) with the wallet address.\n3. **Decision**:\n   - *Fail* → the dApp blocks it client-side; nothing is broadcast, no gas spent, no on-chain footprint.\n   - *Pass* → the backend signs a time-limited permit/attestation (nonce + expiry + address).\n4. **Submission** — the transaction includes that signed permit.\n5. **On-chain verification** — the smart contract does a lightweight signature check (`ecrecover` against a trusted signer). If the signature is missing/invalid/expired, *then* it reverts as a final safety net.\n\nThis gives you a **defense-in-depth** model: off-chain screening is the primary gate (cheap, updatable, private), and the on-chain revert is the backstop.\n\n## Design trade-offs to be aware of\n\n- **Gas efficiency**: Off-chain screening avoids paying gas for transactions that would revert anyway.\n- **Freshness**: Off-chain lists (sanctions, risk scores) update continuously; on-chain lists are slow/costly to update.\n- **Trust assumptions**: Off-chain permits introduce a trusted signer — if that signer is compromised, screening is bypassed. Mitigate with short expiries, nonces, and key rotation.\n- **Decentralization**: Pure off-chain gating means your dApp isn't fully trustless; the on-chain revert check restores a minimum guarantee.\n- **Privacy/regulatory**: Keeping screening logic off-chain avoids publishing your blocklist and the reasons for it.\n\n---\n\nTo give you a genuinely useful answer, could you clarify what you're trying to do? For example:\n\n- Are you **designing** such a system (and want architecture/smart-contract patterns)?\n- Are you **debugging** transactions that revert and want to move screening off-chain to save gas?\n- Are you evaluating specific **vendors** (Chainalysis, TRM, Elliptic) for the screening step?\n- Or do you want the exact **EIP-712 permit / signature-verification** code pattern?\n\nLet me know and I'll tailor the details (I can also pull in current tooling/vendor info if that's helpful).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5904,
+              "output_tokens": 1641,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1764,
+              "output_tokens": 688,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4998,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {
+      "web": "2026-09-28T18-55-32-376Z-efb3"
+    }
+  }
+}

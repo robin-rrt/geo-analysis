@@ -1,0 +1,731 @@
+{
+  "key": "cre-reference-cli-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "CLI Reference",
+    "url": "https://docs.chain.link/cre/reference/cli.md",
+    "analyzedAt": "2026-09-21T13:25:48.705Z",
+    "contentType": "developer documentation / CLI command reference (index)",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition: \"The CRE Command Line Interface (CLI) is your primary tool for developing, testing, deploying, and managing workflows.\" Each command section leads with a purpose line. Minor: sub-command bullets assume the reader is already in the right section."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 14 headings, 1 H1, max depth H3, 0 level skips, median 56 words/section — ideal RAG chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Moderate. Flag names and defaults are concrete (`default: \".env\"`), but the version is injected via `CRE_CLI_VERSION` template rather than a literal string (measured: version strings [none]), and there are no limits/counts. Numerals present but 0 carry units."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for an index: 16 internal links route to detailed sub-pages. No external/primary-source links (0 measured), which is acceptable here but leaves credibility signals thin."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"A workflow registry is the system that tracks which workflows are registered to your organization…\" is a clean liftable definition. CLI definition likewise."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured: 0 JSON-LD blocks, canonical MISSING, no og/twitter tags, dateModified absent from head (though body shows \"Last Updated: 2026-07-09\"). Head metadata could not be verified — CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak. Measured: 0 fenced code blocks. On a CLI reference this is the largest content gap — commands appear only as inline code (`cre workflow deploy`) with no example invocations, flag combinations, or expected output."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate. Good lifecycle coverage (init → deploy → inspect) and a CI/CD note. Missing symptom-phrased entries (error strings, \"command not found\", auth failures) and any troubleshooting/FAQ block."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent \"CRE CLI\" / \"workflow\" / \"DON\" usage aids entity resolution."
+      }
+    ],
+    "summary": "This is a clean, well-structured command index for the CRE CLI — strong hierarchy, crisp definitions, and a clear lifecycle sequence make it highly scannable and chunkable. Its two biggest GEO weaknesses are the complete absence of fenced code examples (0 code blocks on a *CLI* page, where agents most want copy-pasteable command syntax) and missing machine-readable metadata (no JSON-LD, no canonical, no visible schema). The honest verdict: a solid reference that agents can parse for command names but not for runnable invocations — closing the code-example and symptom-query gaps would move it into Strong territory.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add fenced, runnable command examples",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Typical development workflow\" and each command group",
+        "issue": "0 fenced code blocks; commands only appear inline.",
+        "change": "Add `bash`-tagged blocks showing real invocations with flags and, where useful, expected output — e.g. `cre workflow deploy --target production --non-interactive` and `cre workflow list --output json`.",
+        "why": "Agents lift copy-pasteable, language-tagged snippets; a CLI page with zero code blocks cannot supply the exact string a coding agent needs."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased headings and a troubleshooting block",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "new section near end, plus targeted subheads",
+        "issue": "No coverage of how devs actually query (errors, failures).",
+        "change": "Add short sections like \"Running the CLI in CI/CD (non-interactive)\", \"cre login fails in headless environments\", and \"Deploy fails: chain name not recognized\" — mapping each to the relevant flag (`--non-interactive`, `CRE_API_KEY`, `--allow-unknown-chains`).",
+        "why": "Symptom-phrased headings win retrieval that concept-titled prose loses, even when the answer is already in the flags table."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "Measured: 0 JSON-LD, canonical MISSING.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified` (2026-07-09), and a canonical `<link>`. Surface the resolved CLI version as literal text, not only the template.",
+        "why": "Structured metadata and visible freshness raise parse-trust and E-E-A-T for agents; likely a site-level template fix."
+      },
+      {
+        "priority": 2,
+        "title": "Surface the concrete CLI version in body text",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "the version NOTE at top",
+        "issue": "Version rendered via `{CRE_CLI_VERSION}` template; measured version strings [none].",
+        "change": "Ensure the rendered HTML contains the literal version number (e.g. \"use version 1.x.x\"), not just a JS-injected value.",
+        "why": "Version numbers are high-lift specifics; a value only present post-hydration may not survive retrieval."
+      },
+      {
+        "priority": 3,
+        "title": "Add one primary-source/spec link",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "intro or \"Learn more\"",
+        "issue": "0 external references (measured).",
+        "change": "Link the Workflow Registry contract reference or chain-selectors registry where first mentioned.",
+        "why": "Inline authoritative links raise citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"most\" flagged in prose — minor; verify it isn't standing in for a countable fact.",
+      "No stale-date issue (body dated 2026-07-09), but that date is not exposed as machine-readable metadata.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references — clean."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical tags, and `<head>` freshness signals are almost certainly controlled by the docs framework/template, not this single page — fix once site-wide.",
+      "Page already references `/llms.txt`; confirm it lists this URL for agent discovery.",
+      "Head metadata was not captured in this run — pass raw `<head>` to the CLI for a complete dimension-6 read."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/reference/cli.md",
+      "source_title": "CLI Reference",
+      "probe_set_id": "88be9b1041d9",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:26:07.215Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 48.7,
+      "avg_fidelity_all": 48.7,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.5,
+      "retrieval_hit_rate_effective": 0.5,
+      "retrieval_mention_hit_count": 2,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.7,
+        "hallucination_free": 3.5,
+        "relevance": 4.8,
+        "structure": 7.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 757827,
+          "output_tokens": 24712,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 27,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9950,
+          "output_tokens": 13999,
+          "cache_creation_input_tokens": 2842,
+          "cache_read_input_tokens": 28544,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected CLI reference source page was not cited despite being the ground truth for this prompt."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 4,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "writes deployment-registry: \"onchain:ethereum-mainnet\" into the generated workflow.yaml automatically",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "uploads the artifacts to the CRE Storage Service",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow deploy ./my-workflow --wasm ./my-workflow/binary.wasm --target production-settings",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "when you update a workflow, the CLI matches the status of the previously deployed version",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "cre generate-bindings for Go workflows interacting with contracts"
+          ],
+          "unverifiable_from_source": [
+            "cre login step required before cre init in the typical sequence",
+            "cre account link-key requirement before deployment",
+            "deployment-registry field automatically written into workflow.yaml",
+            "CRE Storage Service used for artifact uploads during deploy",
+            "specific --wasm flag and production-settings target naming convention",
+            "update behavior preserving prior active/paused status"
+          ],
+          "verdict": "The answer is well-structured but omits the required cre generate-bindings step, never cites the source page, and includes several specific technical details (YAML fields, storage service name, flag names) not verifiable from the given documentation, making it risky to follow verbatim.",
+          "fidelity": 50,
+          "prompt": "What's the typical sequence of Chainlink CRE CLI commands to go from initializing a project to deploying and activating a workflow?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink CRE documentation, here's the typical end-to-end command sequence:\n\n## 1. Authenticate\nStart by logging in with the CLI to connect to your CRE account. The docs point you to Creating Your Account and Logging in with the CLI before you can deploy anything.\n\n## 2. Initialize the project\nRun **`cre init`**, which launches a setup wizard. When you run cre init, the wizard prompts you to select a deployment registry after entering your workflow name. Selecting onchain:ethereum-mainnet writes deployment-registry: \"onchain:ethereum-mainnet\" into the generated workflow.yaml automatically. Note that cre init discovers templates from GitHub repositories to scaffold your project.\n\n## 3. Link your owner key / request access\nBefore you can deploy, you need permission. A workflow owner is an Ethereum address that has permission to deploy, pause, activate, and delete workflows. Owner addresses must be linked to the user's organization through the cre account link-key command before deployment. Since deployment is gated, to request deploy access, run cre account access from the CLI.\n\n## 4. Simulate (test locally)\nBefore deploying, test your workflow. The recommended practice is to always test your changes using cre workflow simulate before deploying to production.\n\n## 5. (Optional) Build\nYou can compile ahead of time and reuse the binary:\n# Build once cre workflow build ./my-workflow # Deploy with the pre-built binary cre workflow deploy ./my-workflow --wasm ./my-workflow/binary.wasm --target production-settings\n\n## 6. Deploy\nRun **`cre workflow deploy`**. This deploys a workflow to the Workflow Registry — the onchain contract where workflows are enrolled so the Chainlink DON knows they exist and should run them. This command compiles your workflow, uploads the artifacts to the CRE Storage Service, and submits a registration transaction to the registry. A typical invocation looks like: cre workflow deploy <workflow-folder-path> [flags], for example cre workflow deploy my-workflow --target production-settings.\n\n## 7. Activate\nFinally, control execution with **`cre workflow activate`** (and `cre workflow pause` to stop it). Per the CLI reference, cre workflow deploy deploys your workflow to the registry, and cre workflow activate / cre workflow pause control workflow execution.\n\n---\n\n### Quick reference of the flow\n```\ncre login                    # authenticate\ncre init                     # scaffold project + choose registry\ncre account link-key         # link owner address (+ cre account access for permissions)\ncre workflow simulate        # test locally\ncre workflow build           # (optional) precompile to WASM\ncre workflow deploy          # register onchain\ncre workflow activate        # start responding to triggers\n```\n\nA few useful notes:\n- **Inspecting/managing afterward:** cre workflow list / cre workflow get let you inspect deployed workflow metadata.\n- **Updating:** To push changes, simply redeploy it using the same workflow name: cre workflow deploy my-workflow --target production-settings. Importantly, when you update a workflow, the CLI matches the status of the previously deployed version. If your workflow was paused, the updated version will remain paused; if it was active, the updated version will be active and immediately start responding to triggers.\n- **Lifecycle summary:** The platform describes the overall lifecycle as workflow lifecycle management: deploy, activate, pause, update, and delete workflows through the CLI.\n\nSince the CRE CLI is actively evolving, it's worth checking the release notes and running `cre update` — when you run any CRE command, the CLI will automatically detect if a newer version is available and prompt you to update.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 124718,
+              "output_tokens": 4216,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1780,
+              "output_tokens": 2851,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5231,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/account/cli-login",
+              "https://docs.chain.link/cre/reference/cli",
+              "https://docs.chain.link/cre/reference/cli/account"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the exact non-interactive flags or API key command syntax."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 6,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "The cre login command automatically opens your default web browser to begin the authentication process, which then requires you to interactively enter your email, password, and complete two-factor authentication",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "~/.cre/cre.yaml contains your session credentials",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "context.yaml (a registry manifest containing the vault gateway URL, registries, secrets auth flows, and related fields)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Use the --non-interactive global flag so the CLI fails instead of prompting",
+            "Provide all required inputs via flags or environment variables",
+            "Set CRE_API_KEY for headless authentication"
+          ],
+          "unverifiable_from_source": [
+            "Provisioning an API key via a specific CI system like GitHub Actions or GitLab CI"
+          ],
+          "verdict": "The answer correctly identifies that cre login needs a browser and that API-key auth is the CI/CD alternative, but it omits the exact --non-interactive flag and CRE_API_KEY variable name from the source while inventing unsupported details about credential file contents, making it unsafe to ship as-is.",
+          "fidelity": 48,
+          "prompt": "Using the Chainlink CRE CLI in a CI/CD pipeline, how do I run commands without interactive prompts and authenticate without a browser?",
+          "archetype": "constrained",
+          "answer": "Based on the Chainlink CRE documentation, here's how to use the CRE CLI in a CI/CD pipeline without interactive prompts or a browser:\n\n## Authenticate without a browser\n\nThe standard login flow is browser-based and won't work in CI. The `cre login` command automatically opens your default web browser to begin the authentication process, which then requires you to interactively enter your email, password, and complete two-factor authentication — none of which is possible in an automated pipeline.\n\nFor CI/CD, you should switch to **API key authentication** instead: If you need to authenticate without a browser (e.g., in a CI/CD pipeline), use API key authentication instead. This lets the CLI authenticate your session non-interactively using a key you provision ahead of time and store as a secret in your CI system, rather than the browser-driven OAuth flow.\n\n## Understand where credentials live\n\nTwo files are involved, and it helps to know the difference when configuring a pipeline:\n\n- `~/.cre/cre.yaml` contains your session credentials. Importantly, you should keep it in `~/.cre/` on your local machine only—never commit it to version control or copy it into a project repository. In a pipeline, inject credentials/API keys via secret environment variables rather than checking this file in.\n- The CLI writes `~/.cre/context.yaml` (a registry manifest containing the vault gateway URL, registries, secrets auth flows, and related fields); that file is separate from your credentials file.\n\n## Practical CI/CD guidance\n\n1. **Provision an API key** for your CRE account and store it as a masked/secret variable in your CI/CD system (e.g., GitHub Actions secrets, GitLab CI variables).\n2. **Use API key authentication** in the pipeline instead of `cre login`, so no browser is launched and no interactive prompt appears.\n3. **Never commit `~/.cre/cre.yaml`** — treat all credentials as pipeline secrets injected at runtime.\n\nOne caveat: I wasn't able to pull the exact API-key command syntax and the full list of non-interactive global flags from the CLI reference in this session (I hit a search rate limit). For the precise command name, flags, and how to supply the API key value, consult the official pages directly:\n\n- **Logging in with the CLI** — https://docs.chain.link/cre/account/cli-login (covers the API key / no-browser path)\n- **CLI Reference** — https://docs.chain.link/cre/reference/cli (global flags and command options)\n- **Account Management** — https://docs.chain.link/cre/reference/cli/account (API key provisioning)\n\nWould you like me to try searching again for the exact API-key command and flag syntax?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 88559,
+              "output_tokens": 3405,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1347,
+              "output_tokens": 1849,
+              "cache_creation_input_tokens": 2842,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/simulating-workflows",
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre/reference/project-configuration-ts"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not load the Chainlink docs due to search tool timeouts/rate-limiting, making this probe inconclusive for retrieval."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "point the RPC of an already-recognized chain-name at your node/endpoint",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "specify the chain **by selector or chain ID** rather than only by name",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "upgrading the CRE CLI (which pulls a newer chain-selectors version) may make the name valid",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "the verbose/debug flag (commonly -v or --log-level debug)",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "Project Configuration – https://docs.chain.link/cre/reference/project-configuration-ts",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the --allow-unknown-chains global flag to skip chain-name validation against the chain-selectors registry",
+            "It applies to cre workflow simulate and cre workflow deploy",
+            "Chain-selector and RPC availability are still enforced"
+          ],
+          "unverifiable_from_source": [
+            "chain-selectors library maps chain-name to chain selector to chain ID",
+            "aliasing an already-recognized chain-name's RPC to a custom endpoint",
+            "specifying chains by selector or chain ID in project config",
+            "canonical chain-name form like ethereum-testnet-sepolia"
+          ],
+          "verdict": "Not safe to ship: the answer never mentions the documented --allow-unknown-chains flag (the actual fix) and instead invents several unverified workarounds while admitting it couldn't load the docs.",
+          "fidelity": 28,
+          "prompt": "cre workflow simulate keeps failing chain-name validation for an unlisted chain I'm testing — how do I get past this with the CRE CLI?",
+          "archetype": "error-debug",
+          "answer": "I wasn't able to fully load the Chainlink docs pages during this session (the search tool kept timing out/rate‑limiting), so let me give you the practical guidance based on how the CRE CLI simulator handles chains, and point you to the exact pages to confirm the specifics.\n\n## What's actually happening\n\n`cre workflow simulate` doesn't just run your code in a vacuum — it validates every chain reference in your workflow (and your read/write capability calls) against a **known chain registry**. That registry is derived from Chainlink's `chain-selectors` library, which maps a canonical `chain-name` → chain selector → chain ID. If you pass a `chain-name` that isn't in that list (a brand-new testnet, a private/dev chain, an appchain, etc.), the CLI rejects it *before* it ever executes — hence the \"chain-name validation\" failure. It's a lookup failure, not a runtime error.\n\n## Ways to get past it\n\n**1. Alias onto a chain the CLI already knows (fastest for testing)**\nThe simplest workaround for local simulation is to point the RPC of an already-recognized `chain-name` at *your* node/endpoint. In your project/workflow config, define one of the supported chains (e.g. a testnet the registry knows) but set its `rpc` URL to your unlisted chain's endpoint. Simulation passes name validation because it sees a valid name, and it actually talks to your target chain via the overridden RPC. This works well when your test chain is EVM-compatible.\n\n**2. Add the chain in your project config with an explicit selector/chain ID**\nCRE reads chain definitions from your project settings (the `project.yaml` / config file that lists `chains`, their RPCs and selectors). If your config schema lets you specify the chain **by selector or chain ID** rather than only by name, provide those directly — that bypasses the name→selector lookup that's failing.\n\n**3. Confirm whether the chain has since been added to `chain-selectors`**\nThe registry is updated frequently. If your chain is a real (public) network that's simply newer than your installed CLI, upgrading the CRE CLI (which pulls a newer `chain-selectors` version) may make the name valid. `cre --version` then update to latest.\n\n## What to verify in the docs\n\nBecause chain-config field names and any \"skip validation\" flags differ by CLI version, check these pages for your version's exact syntax:\n\n- **Simulating Workflows** – `https://docs.chain.link/cre/guides/operations/simulating-workflows`\n- **CLI Reference → Workflow Commands** – `https://docs.chain.link/cre/reference/cli/workflow` (look for `simulate` flags)\n- **Project Configuration** – `https://docs.chain.link/cre/reference/project-configuration-ts` (the `chains` / RPC section)\n\nA couple of quick diagnostic tips:\n- Run `cre workflow simulate` with the verbose/debug flag (commonly `-v` or `--log-level debug`) — the error usually prints the exact chain-name it couldn't resolve and where it expected it in config.\n- Double-check the `chain-name` string is the *canonical* form (e.g. `ethereum-testnet-sepolia`), since a typo or non-canonical alias produces the same \"unlisted chain\" error.\n\nIf you can paste the exact error text and the relevant snippet of your workflow/project config (and your `cre --version`), I can tell you precisely which of the above applies and give you the exact config change.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 146353,
+              "output_tokens": 6135,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1634,
+              "output_tokens": 1409,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5231,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre/reference/cli/secrets"
+            ],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 7,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "uploads the artifacts to the CRE Storage Service",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "--wasm ./my-workflow/binary.wasm --target production-settings",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Starting with CLI v1.9.0, secrets operations use a browser-based OAuth (PKCE) flow",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Secrets are stored in the \"main\" namespace automatically",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "the CLI will complete the update and then print a warning. The workflow remains paused after the update",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Deploying again replaces the existing workflow",
+            "the CLI starts a local callback server and opens your browser to a Vault authorization URL",
+            "For local development... Secrets are read from your .env file instead",
+            "Custom namespace support may be added in future CLI versions"
+          ],
+          "verdict": "The answer correctly covers the core commands (secrets, workflow deploy, execution logs) matching the source, but pads the response with unverifiable and likely fabricated implementation details (CRE Storage Service, OAuth PKCE flow, --wasm flag) not present in the given source, so it should be reviewed before shipping as authoritative.",
+          "fidelity": 68,
+          "prompt": "cre CLI commands list secrets vault workflow deploy execution logs",
+          "archetype": "terse/keyword",
+          "answer": "The search returned data as a raw string. Let me parse it properly and extract just the key content.Let me extract the workflow commands and CLI reference content, plus the secrets command details.Now I have comprehensive information. Let me compile the answer.\n\n# CRE (Chainlink Runtime Environment) CLI Command Reference\n\nThe `cre` CLI is the primary tool for developing, testing, deploying, and managing workflows. It handles project setup, contract binding generation (Go workflows only), local simulation, and workflow lifecycle management. Here's a breakdown of the command groups you asked about.\n\n## Global Flags\nAll cre commands support global flags like --env, --target, --project-root, and --verbose. Note that these flags can be used with any cre command. cre login requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set CRE_API_KEY instead.\n\n## Workflow Commands\nThe core workflow lifecycle commands are:\n\n- cre workflow deploy — Deploy your workflow to the registry · cre workflow activate / cre workflow pause — Control workflow execution · cre workflow list / cre workflow get — Inspect deployed workflow metadata\n\n**Deploy:** Deploys a workflow to the Workflow Registry — the onchain contract where workflows are enrolled so the Chainlink DON knows they exist and should run them. This command compiles your workflow, uploads the artifacts to the CRE Storage Service, and submits a registration transaction to the registry. Deploying again replaces the existing workflow. You can also build first and deploy a pre-built binary:\n\n```bash\n# Build once\ncre workflow build ./my-workflow\n# Deploy with the pre-built binary\ncre workflow deploy ./my-workflow --wasm ./my-workflow/binary.wasm --target production-settings\n```\n\n**Activate/Pause:** Changes the workflow status to active on the Workflow Registry contract. Active workflows can respond to their configured triggers. Note that if you deploy an update to a workflow that is currently paused, the CLI will complete the update and then print a warning. The workflow remains paused after the update — run cre workflow activate to resume it.\n\nMost workflow commands require authentication — running this command requires you to be logged in with the CRE CLI. Run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate.\n\n## Execution Commands\nTo inspect deployed workflow runs from the terminal:\n\n- cre execution list — List recent executions; filter by workflow, status, and time range · cre execution status — Show detailed status for a single execution · cre execution events — Show the capability event timeline for an execution · cre execution logs — Show log lines emitted during an execution\n\n## Secrets (Vault) Commands\nThe secrets commands manage secrets stored in the Vault DON (Decentralized Oracle Network) for deployed workflows. These commands allow you to create, update, delete, and list secrets that your workflows can access at runtime.\n\nThe available subcommands are:\n- **create** — Creates new secrets in the Vault DON from a YAML file.\n- **update** — Updates existing secrets in the Vault DON from a YAML file, using the same YAML format as create. It only modifies secrets that already exist.\n- **delete**\n- **list** — The list command only shows secret identifiers, never the actual secret values. Secret values are only accessible to your deployed workflows at runtime.\n\nKey details on secrets:\n- Secrets are stored in the \"main\" namespace automatically. Custom namespace support may be added in future CLI versions.\n- Authentication: Starting with CLI v1.9.0, secrets operations use a browser-based OAuth (PKCE) flow to authorize Vault DON access. You run a cre secrets command, and the CLI starts a local callback server and opens your browser to a Vault authorization URL.\n- Running the secrets commands requires you to be logged in with the CRE CLI (cre whoami / cre login).\n- For local development, if you're developing and testing locally with cre workflow simulate, you don't need the Vault DON. Secrets are read from your .env file instead.\n\nExample update:\n```bash\nexport API_KEY_VALUE=\"new-api-key-value\"\ncre secrets update production-secrets.yaml --target production-settings\n```\n\n## Registry Commands\nInspect the workflow registries available to your organization. A workflow registry is the system that tracks which workflows are registered to your organization and makes them available to the Chainlink DON for execution.\n\n- cre registry list — Display the registries configured for your organization, including type and on-chain address\n\n## Summary Table\n\n| Group | Commands |\n|-------|----------|\n| **Workflow** | `deploy`, `activate`, `pause`, `list`, `get`, `build` |\n| **Execution** | `list`, `status`, `events`, `logs` |\n| **Secrets (Vault)** | `create`, `update`, `delete`, `list` |\n| **Registry** | `list` |\n| **Auth/Utility** | `login`, `whoami`, `init`, `update` |\n\nFor complete, authoritative details, see the official CLI reference at `docs.chain.link/cre/reference/cli` and its subsections for [workflow](https://docs.chain.link/cre/reference/cli/workflow) and [secrets](https://docs.chain.link/cre/reference/cli/secrets) commands.\n\nWould you like me to go deeper on any specific command group (e.g., full flag lists for `deploy` or `execution logs`)?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 232262,
+              "output_tokens": 3312,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2290,
+              "output_tokens": 3287,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5231,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected CLI reference source despite presenting it as authoritative."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "cre generate-bindings evm command now supports TypeScript",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "cre generate-bindings evm",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre generate-bindings solana",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre generate-bindings solana --language typescript",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "The --out flag overrides the output directory",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "finds the contract ABIs inside the contracts/evm/src/abi/ directory and generates Go packages in contracts/evm/src/generated/",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Writes go through the keystone-forwarder: the on-chain entrypoint is always on_report, and the payload is a bare Borsh-encoded struct",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "The Go generator wraps a forked anchor-go",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "emits bindings on top of @chainlink/cre-sdk + @solana/codecs",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Binding generation is for Go workflows"
+          ],
+          "unverifiable_from_source": [
+            "cre generate-bindings evm subcommand",
+            "cre generate-bindings solana subcommand",
+            "--language flag",
+            "--out flag",
+            "keystone-forwarder / on_report / Borsh encoding details",
+            "directory paths contracts/evm/src/abi/ and contracts/evm/src/generated/",
+            "anchor-go fork and @chainlink/cre-sdk + @solana/codecs implementation details"
+          ],
+          "verdict": "The answer correctly names the core command and confirms Solana support via Go/TypeScript, but invents subcommand syntax, flags, file paths, and internal implementation details not present in the source, and even contradicts it by claiming EVM also gets TypeScript bindings — not safe to ship as-is.",
+          "fidelity": 50,
+          "prompt": "Show me the Chainlink CRE CLI command to generate contract bindings from an ABI, and does it support Solana?",
+          "archetype": "code-first",
+          "answer": "I'll search for information about the Chainlink CRE CLI command for generating contract bindings.Let me get more details on the specific command syntax.I have enough information to answer this comprehensively.\n\n## Chainlink CRE CLI: Generating Contract Bindings\n\nThe command is **`cre generate-bindings`**. A Go package generated from a smart contract's ABI using the cre generate-bindings CLI command creates a type-safe Go interface for a specific smart contract, abstracting away the low-level complexity of ABI encoding and decoding.\n\n### Basic usage for EVM\n\nFor EVM contracts, you run the generator from your project root, and this command finds the contract ABIs inside the contracts/evm/src/abi/ directory and generates Go packages in contracts/evm/src/generated/. The subcommand form is `cre generate-bindings evm`, and notably, the cre generate-bindings evm command now supports TypeScript. It generates a fully typed class from your contract ABI with read methods, write helpers, typed event structs, and logTriggerEventName() methods that handle all base64 encoding automatically.\n\n### Does it support Solana? — Yes\n\nThe `generate-bindings` command works from ABI or Anchor IDL files, generating Go and TypeScript for Solana. There is a dedicated `solana` subcommand:\n\n```bash\n# auto-detects go/typescript from project files\ncre generate-bindings solana\n\n# explicit language selection\ncre generate-bindings solana --language typescript\ncre generate-bindings solana --language go\n```\n\nThe Go generator wraps a forked anchor-go and adds CRE write-report extensions. The TypeScript generator consumes the same IDLs and emits bindings on top of @chainlink/cre-sdk + @solana/codecs.\n\nA few important notes for Solana:\n- The `--out` flag overrides the output directory for the selected language, but it is rejected when generating both languages at once — use `--language` to disambiguate.\n- Writes go through the keystone-forwarder: the on-chain entrypoint is always on_report, and the payload is a bare Borsh-encoded struct.\n\n### Summary\n\n| Target | Command | Languages | Source |\n|--------|---------|-----------|--------|\n| EVM | `cre generate-bindings evm` | Go, TypeScript | Contract ABI |\n| Solana | `cre generate-bindings solana` | Go, TypeScript | Anchor IDL |\n\nSo yes — the CRE CLI's binding generator **does support Solana**, using Anchor IDL files rather than EVM-style ABIs, and can emit both Go and TypeScript bindings.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 30840,
+              "output_tokens": 1702,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1240,
+              "output_tokens": 2859,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5231,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not fully verify the workflow-commands page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "the CRE_CLI_ENV environment variable",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "take a <workflow-name-or-path> (e.g. my-workflow or ./my-workflow)",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "cre workflow get shows deployment health and the most recent execution",
+            "It uses the workflow configured in workflow.yaml"
+          ],
+          "unverifiable_from_source": [
+            "whether cre workflow --help reveals subcommand health checks",
+            "CRE UI providing detailed logs/events/metrics as an alternative to CLI"
+          ],
+          "verdict": "The answer omits the exact command (cre workflow get) that directly answers the question and invents an unconfirmed environment variable, so it is not safe to ship without correction.",
+          "fidelity": 48,
+          "prompt": "I'm new to Chainlink CRE and I want to check whether my deployed workflow is healthy and see its most recent run from the terminal — which commands should I use and where does it get the workflow it looks at?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for the current Chainlink CRE documentation on these commands.I ran into the search tool's rate limit after pulling the official CLI reference, but I got enough from the Chainlink docs to answer you well. (Note: because of how I retrieved these pages, I can't attach inline citation markers — everything below comes from the official CRE CLI reference at docs.chain.link/cre/reference/cli and its workflow/account subpages.)\n\n## Checking health and the most recent run\n\nFor inspecting a *deployed* workflow's runs from the terminal, CRE gives you the `cre execution` command family:\n\n- **`cre execution list`** — Lists recent executions. You can filter by workflow, status, and time range, so this is your go-to for a quick health/overview and for spotting the latest run.\n- **`cre execution status`** — Shows detailed status for a single execution (use this on the most recent execution ID from the list to see whether it succeeded/failed and why).\n- **`cre execution events`** — Shows the capability event timeline for an execution (useful for seeing where in the pipeline something happened).\n- **`cre execution logs`** — Shows the log lines emitted during an execution (best for debugging a failed or unhealthy run).\n\nA typical flow:\n```bash\ncre execution list          # see recent runs + their statuses (find the latest)\ncre execution status <id>   # drill into the most recent run's details\ncre execution logs <id>     # inspect logs if it looks unhealthy\n```\n\nBefore any of these, make sure you're authenticated — run `cre whoami` to confirm you're logged in, or `cre login` to authenticate. For headless/CI environments you set `CRE_API_KEY` instead.\n\n## Where it gets the workflow it looks at\n\nThere are two layers to how the CLI knows *which* workflow you mean:\n\n1. **The workflow identity / project context.** Workflow-scoped commands take a `<workflow-name-or-path>` (e.g. `my-workflow` or `./my-workflow`), and the CLI reads your local project configuration to resolve which workflow you're targeting. Your login/tenant context is cached locally (in `context.yaml`) when you run `cre login`.\n\n2. **The on-chain Workflow Registry + environment.** Deployed workflows live in the **Workflow Registry** — the on-chain contract where workflows are enrolled so the Chainlink DON knows they exist and should run them. Which registry (and its on-chain address) your org uses depends on the selected environment/target, and you can inspect it with **`cre registry list`**. Environment selection is driven by global flags like `--env`/`--target` (and the `CRE_CLI_ENV` environment variable). So the execution commands ultimately look at runs recorded for your workflow in the registry that corresponds to your active environment.\n\nIn short: the CLI identifies the workflow from your local project config (the workflow name/path and cached tenant context) and then reads its deployed state and run history from the Workflow Registry for whichever environment/target is active.\n\n## One caveat to verify\n\nI wasn't able to confirm whether there's a dedicated single \"health\" command (e.g. a `cre workflow health`) versus using `cre execution list`/`status` for health checks — the search rate limit stopped me before I could check the full workflow-commands page. I'd recommend running `cre workflow --help` and `cre execution --help` locally, or checking the workflow reference page (docs.chain.link/cre/reference/cli/workflow), to see the exact, current subcommand names for your CLI version. The monitoring/debugging docs also note that detailed logs, events, and performance metrics are additionally available in the CRE UI if you prefer a dashboard view.\n\nWant me to retry the search in a bit to confirm whether a dedicated health command exists?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 135095,
+              "output_tokens": 5942,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1659,
+              "output_tokens": 1744,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5231,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

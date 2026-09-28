@@ -1,0 +1,700 @@
+{
+  "key": "cre-templates-running-demo-workflow-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Running a Demo Workflow",
+    "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+    "analyzedAt": "2026-09-21T13:29:32.122Z",
+    "contentType": "developer documentation / procedural tutorial",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.9,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Working: intro is self-contained and states both workflow paths up front; each numbered step opens with an imperative action. Weak: some sections lead with narrative (\"The single `main.ts` file you are about to simulate is cleverly designed…\") rather than the liftable fact."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 16 sections, 1 H1, max depth H4, 0 level skips, no section over 600 words. Only gap: 0 tables where a Path A/Path B comparison would extract well."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Working: version pin (`bun 1.2.21`), real contract addresses, chain selector `16015286601757825753`, full tx hashes, realistic reserve values. Weak: prose carries two vague quantifiers (\"several\", \"some\") and 0 numerals with units."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Working: links to Bun install, Etherscan, faucets. Weak: 0 links to primary/canonical sources (no CRE architecture spec, no viem/Zod docs despite naming both); 12 of 13 links internal."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Working: the Forwarder pattern note is crisply liftable (\"Your workflow sends the transaction to the Forwarder, which verifies the cryptographic signatures…\"). Weak: core terms (CRE, Custom Data Feed, \"reactive path\") lack a one-sentence canonical definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no og/twitter tags, `inLanguage` absent. Content carries a visible `Last Updated: 2026-01-20` but no schema-level `dateModified`. Head metadata was not captured — CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Working: all 6 fences tagged `bash`, commands complete and copy-pasteable, expected terminal output shown. Weak: this is a TypeScript demo yet \"Exploring the code\" describes `main()`, `initWorkflow`, `onLogTrigger` in prose with zero TS snippets — an agent cannot lift runnable code."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Working: \"What you'll do\" and question-style H4s (\"How are the Cron and EVM Log events handled?\"). Weak: no troubleshooting/FAQ; failure-mode queries (auth, funding, RPC, version) are uncovered."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent entity naming (CRE, ReserveManager, Forwarder). Minor: promotional adjectives (\"cleverly designed\", \"powerful\", \"institutional-grade\") add no extractable value."
+      }
+    ],
+    "summary": "This is a clean, well-sequenced CRE tutorial walking a developer through scaffolding, configuring, and simulating the Custom Data Feed demo workflow, with realistic terminal output and concrete onchain identifiers. Its biggest GEO strength is structural: flat, coherent sections (median 138 words, zero level skips) that chunk cleanly for retrieval. Its biggest opportunities are missing machine-readable metadata (no JSON-LD, no canonical, no head captured) and the absence of any symptom-phrased troubleshooting section — the exact queries developers fire when a step fails (\"private key error 0x prefix\", \"bun version too low\"). Solid page held back on discoverability, not prose quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after \"5. Run the simulation\" (before \"Exploring the code\")",
+        "issue": "no coverage of failure modes; devs query by error string, not concept.",
+        "change": "add `## Troubleshooting` with H3s phrased as symptoms: \"Error: invalid private key / hex string\", \"bun version too low\", \"simulate hangs / no trigger menu\", \"transaction not broadcast (missing `--broadcast`)\", \"RPC connection failed\". One-line cause + fix each.",
+        "why": "symptom-titled headings win retrieval that concept-titled prose loses, even when the fix exists elsewhere in the body."
+      },
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (template-level)",
+        "issue": "measured facts show 0 JSON-LD blocks, canonical MISSING.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-01-20`, `programmingLanguage: TypeScript`, `about: CRE`, and a self-referential `canonical`.",
+        "why": "structured metadata and freshness signals raise agent parse-trust and E-E-A-T; the visible \"Last Updated\" is not machine-readable as-is."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Path A vs Path B comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top of \"5. Run the simulation\", replacing/augmenting the two bullets",
+        "issue": "two contrasting patterns described only in prose bullets; 0 tables on page.",
+        "change": "table with columns Trigger | Direction | Writes onchain? | Key SDK calls | Result, one row per path.",
+        "why": "tables let engines extract reasons and build justified comparative answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add TypeScript snippets to \"Exploring the code\"",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "section \"6. Exploring the code\"",
+        "issue": "`Runner.newRunner()`, `onLogTrigger`, `doPOR` described in prose, no code shown.",
+        "change": "include 3–5 line TS excerpts (with imports) for the `Runner` pattern and the `onLogTrigger` topic-extraction step, tagged `typescript`.",
+        "why": "actual code fences (currently only `bash`) make the TS patterns liftable and runnable by coding agents."
+      },
+      {
+        "priority": 3,
+        "title": "Add canonical one-sentence definitions near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro paragraph and start of each Path section",
+        "issue": "\"Custom Data Feed\", \"reactive path\" used before being defined.",
+        "change": "e.g. \"A CRE workflow is a TypeScript program that runs offchain, reaches consensus across nodes, and writes verified results onchain.\" as a standalone first sentence.",
+        "why": "self-contained definitions are lifted verbatim and resist parametric substitution."
+      },
+      {
+        "priority": 3,
+        "title": "Link named dependencies to primary sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"7. Key TypeScript SDK features\"",
+        "issue": "Zod, viem, `ConsensusAggregationByFields` named with 0 external references.",
+        "change": "inline-link viem and Zod to their official docs on first mention.",
+        "why": "authoritative outbound links raise citation credibility."
+      },
+      {
+        "priority": 3,
+        "title": "Remove marketing adjectives",
+        "mapsTo": "clarity & fluency",
+        "tier": null,
+        "where": "step 5 intro, Path B \"How it works\"",
+        "issue": "\"cleverly designed\", \"powerful\", \"institutional-grade smart contracts\".",
+        "change": "delete or replace with factual descriptors.",
+        "why": "fluent, claim-focused prose is rewarded; fluff dilutes liftable content."
+      }
+    ],
+    "antiPatterns": [
+      "Marketing fluff: \"cleverly designed\", \"sophisticated, interconnected institutional-grade smart contracts\", \"powerful event-driven capability\".",
+      "Two vague quantifiers (\"several\", \"some\") where a count would be more specific.",
+      "TypeScript demo with zero TypeScript code fences (all 6 fences are `bash`).",
+      "No stale-content risk: `Last Updated: 2026-01-20` present in body (though not in schema)."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are template/site-level — verify via raw `<head>`; the audit could not confirm head metadata.",
+      "`llms.txt` is already linked from the page — good site-level discoverability signal; ensure this page is enumerated in it.",
+      "Consider internal links *into* this page from the CRE getting-started and Using-Triggers hubs to strengthen the canonical-hub pattern."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+      "source_title": "Running a Demo Workflow",
+      "probe_set_id": "0a6aa8aecb56",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:45:19.626Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 38.2,
+      "avg_fidelity_all": 36.8,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 2.7,
+        "hallucination_free": 3.3,
+        "relevance": 3.3,
+        "structure": 5.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 290791,
+          "output_tokens": 15352,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 25,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9357,
+          "output_tokens": 8581,
+          "cache_creation_input_tokens": 6998,
+          "cache_read_input_tokens": 49324,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/templates/running-demo-workflow-ts",
+              "https://docs.chain.link/cre-templates/custom-data-feed",
+              "https://docs.chain.link/cre/getting-started/part-1-project-setup-ts",
+              "https://docs.chain.link/cre/reference/cli",
+              "https://www.npmjs.com/package/@chainlink/cre-sdk",
+              "https://docs.chain.link/cre/release-notes"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer states search/retrieval hit a rate limit and it could not pull the detailed page content, so it substitutes generic guesses instead of source-grounded steps."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 6,
+            "relevance": 4,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "cre workflow simulate <path-or-name>",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "e.g. bun install (or npm install), which pulls in @chainlink/cre-sdk",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "(Optional) Compile/deploy – Once the simulation behaves as expected, you can compile and deploy the workflow.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run cre init to scaffold the project from the Custom Data Feed template",
+            "Add your funded Sepolia private key to the .env file",
+            "Run bun install --cwd ./demo/custom-data-feed to install dependencies",
+            "Run cre workflow simulate custom-data-feed --broadcast --target staging-settings"
+          ],
+          "unverifiable_from_source": [
+            "Custom Data Feed template page URL",
+            "Getting Started Part 1 Project Setup page",
+            "CRE SDK npm package reference",
+            "CRE release notes page"
+          ],
+          "verdict": "The answer explicitly admits it could not retrieve the actual steps and instead offers vague, hedged generalities without the required exact commands (cre init, .env setup, bun install --cwd, cre workflow simulate --broadcast --target staging-settings), making it unsafe to follow as a how-to guide.",
+          "fidelity": 43,
+          "prompt": "How do I run the Custom Data Feed demo workflow locally with the Chainlink CRE CLI using TypeScript?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information about running the Custom Data Feed demo workflow with the Chainlink CRE CLI in TypeScript.The most relevant page is \"Running a Demo Workflow\". Let me get its full content.The search rate limit has been hit. Let me wait a moment and retry to get the detailed content.I was able to identify the official Chainlink documentation pages for this, but the search tool hit its usage limit before I could pull the full step‑by‑step text from each page. Rather than fabricate specifics or citations, let me point you to the exact authoritative pages and give you the general flow based on how the CRE CLI + TypeScript SDK work.\n\n## Key official documentation pages\n\nThe most directly relevant guide is **\"Running a Demo Workflow\" (TypeScript)**:\n- `https://docs.chain.link/cre/templates/running-demo-workflow-ts`\n\nSupporting references you'll want alongside it:\n- **Custom Data Feed template:** `https://docs.chain.link/cre-templates/custom-data-feed`\n- **Getting Started – Part 1: Project Setup & Simulation (TS):** `https://docs.chain.link/cre/getting-started/part-1-project-setup-ts`\n- **CLI Reference:** `https://docs.chain.link/cre/reference/cli`\n- **CRE SDK (npm):** `https://www.npmjs.com/package/@chainlink/cre-sdk`\n\n## General flow for running it locally\n\nBased on how the CRE tooling is structured, the typical local run of a demo/template workflow looks like this:\n\n1. **Install prerequisites** – Node.js (and typically Bun as the TS runtime/package manager the CRE templates use), plus the **CRE CLI** (`cre`).\n\n2. **Get the template** – Initialize or clone the Custom Data Feed template project, which contains the TypeScript workflow code and its `workflow.yaml` / `project.yaml` config files.\n\n3. **Install dependencies** – e.g. `bun install` (or `npm install`), which pulls in `@chainlink/cre-sdk`.\n\n4. **Configure your project** – Set up the environment/secrets (a `.env` file and the project/workflow config), including any RPC endpoints, target networks, and account keys the demo needs.\n\n5. **Simulate locally** – Run the workflow in the local simulator, generally via a command like `cre workflow simulate <path-or-name>`. This executes the TypeScript workflow against a local environment so you can inspect the output (the fetched data-feed value) without deploying on-chain.\n\n6. **(Optional) Compile/deploy** – Once the simulation behaves as expected, you can compile and deploy the workflow.\n\n## Recommendation\n\nBecause the CRE CLI and TypeScript SDK are still evolving rapidly (the exact command flags, config file names, and setup steps change between releases), please follow the **\"Running a Demo Workflow\"** page above as the source of truth, and cross‑check the **CLI Reference** and the template's own README for the precise commands for your installed CLI version. Also check the **Release Notes** (`https://docs.chain.link/cre/release-notes`) since CRE is in an early/preview stage.\n\nIf you'd like, tell me which step you're stuck on (installation, config, or the `simulate` command output), and I can try a fresh search to retrieve the exact commands from that specific doc page.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 102312,
+              "output_tokens": 4180,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1853,
+              "output_tokens": 537,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9387,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre-templates/custom-data-feed"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it hit a search rate limit and could not verify the command against documentation, then fabricated one anyway."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 1,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "cre workflow install ./custom-data-feed",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre workflow simulate ./custom-data-feed",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Use bun install with the --cwd flag pointing at the workflow directory",
+            "Command is bun install --cwd ./demo/custom-data-feed",
+            "Each CRE TypeScript workflow is a standalone npm package with its own package.json"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "This answer fabricates a nonexistent 'cre workflow install' command and completely contradicts the documented bun install --cwd approach, making it unsafe to ship.",
+          "fidelity": 15,
+          "prompt": "Using the Chainlink CRE CLI, how do I install the TypeScript workflow dependencies for just the custom-data-feed workflow directory?",
+          "archetype": "constrained",
+          "answer": "I have gathered enough relevant sources. Let me get the specifics from the Workflow Commands reference page.Based on the Chainlink CRE CLI's workflow commands, to install the TypeScript workflow dependencies for only the `custom-data-feed` workflow directory, you use the `cre workflow install` command and pass the path to that specific workflow folder:\n\n```bash\ncre workflow install ./custom-data-feed\n```\n\n**How this works:**\n- `cre workflow install` is the CLI subcommand that installs the TypeScript (npm) dependencies declared in that workflow's `package.json`.\n- By providing the path argument (`./custom-data-feed`), you scope the install to just that one workflow directory rather than installing dependencies across the whole project. Running `cre workflow install` without a path (or from within the directory) installs for the current/target workflow.\n\nYou would run this from the root of your CRE project (assuming your project layout has a `custom-data-feed/` folder). After installation completes, you can proceed to simulate (`cre workflow simulate ./custom-data-feed`) or deploy it.\n\n---\n\nA quick note on transparency: I hit the search tool's rate limit while trying to pull the exact command-reference page text, so I couldn't verify the precise flag/argument syntax against the live documentation in this session. To confirm the exact usage (including any additional flags), check these authoritative pages:\n\n- **Workflow Commands (CLI reference):** https://docs.chain.link/cre/reference/cli/workflow\n- **Custom Data Feed template:** https://docs.chain.link/cre-templates/custom-data-feed\n\nYou can also run `cre workflow install --help` locally to see the exact accepted arguments and options for your installed CLI version.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 71589,
+              "output_tokens": 2550,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1054,
+              "output_tokens": 335,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9387,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states its search tool hit a rate limit and it answered from general knowledge instead of the source, then cited only the generic docs homepage."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "simulate is a dry run by design — it does not broadcast anything onchain... no real transaction ever leaves your machine",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "To get an actual onchain transaction, you have to deploy the workflow to a DON (`cre workflow deploy` and register it)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "You never actually deployed / registered the workflow to the DON — running only `simulate` will never write",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "You must add the --broadcast flag for workflows that write onchain",
+            "Full command: cre workflow simulate custom-data-feed --broadcast --target staging-settings"
+          ],
+          "unverifiable_from_source": [
+            "Write-target capability config needing chainSelector, contract address, Forwarder address",
+            "Forwarder ↔ consumer authorization / allowlisting requirements",
+            "Need to fund gas for transmitter accounts",
+            "Consensus step details about DON nodes reaching consensus before broadcast"
+          ],
+          "verdict": "Unsafe to ship: the answer directly contradicts the source by claiming simulate can never broadcast and requires full DON deployment, when the docs show that adding the --broadcast flag to cre workflow simulate performs a real onchain write — the actual, simple fix is never mentioned.",
+          "fidelity": 25,
+          "prompt": "My Chainlink CRE demo workflow simulate runs but the onchain write transaction never gets broadcast — what am I missing?",
+          "archetype": "error-debug",
+          "answer": "I'll search for current information on Chainlink CRE workflows and this simulate vs. broadcast issue.I wasn't able to pull fresh docs (my search tool hit its rate limit), so let me answer from what I know about how Chainlink CRE works. Since CRE is evolving quickly, please double-check specifics against the current [Chainlink CRE docs](https://docs.chain.link/cre), but here's what's almost certainly going on.\n\n## The short answer\n\n`simulate` is a **dry run by design — it does not broadcast anything onchain.** It runs your workflow logic locally (trigger → compute → the write step), and the write/EVM capability is *mocked* or executed in a simulated harness. It shows you the report/payload that *would* be sent, but no real transaction ever leaves your machine. This is expected behavior, not a bug.\n\nTo get an actual onchain transaction, you have to **deploy the workflow to a DON** (`cre workflow deploy` and register it), where the real write capability, node transmitters, and the Forwarder contract come into play.\n\n## Why the write only works after real deployment\n\nOnchain writes in CRE don't come straight from your workflow — they flow through the DON and a **Forwarder (Keystone) contract** using a consensus-signed report:\n\n1. The DON nodes independently run the workflow and reach **consensus** on the output.\n2. That aggregated result becomes a **signed report**.\n3. A node transmitter broadcasts a tx to the **Forwarder**, which verifies the DON signatures and then calls your consumer contract's `onReport`/receiver method.\n\nIn `simulate` you're a single local process — there's no DON, no consensus, no signed report, and no transmitter, so there's nothing to broadcast.\n\n## Checklist of things people commonly miss\n\nEven after moving past simulate, writes silently fail if any of these are off:\n\n- **You never actually deployed / registered** the workflow to the DON — running only `simulate` will never write. Confirm the workflow shows up as registered and active.\n- **Write-target capability config is incomplete** — the write step needs the correct `chainSelector`, target **contract address**, and the **Forwarder address** for that chain. A wrong/empty value means the report is generated but goes nowhere.\n- **Forwarder ↔ consumer authorization** — your consumer contract must accept calls from the Forwarder (e.g., store/verify the expected forwarder address and the authorized workflow owner/name/ID). If your `onReport` reverts because the caller isn't the trusted forwarder, the tx won't stick.\n- **Workflow owner / DON not allowlisted on the Forwarder** — the Forwarder rejects reports from unauthorized DONs or workflow owners.\n- **No gas funding for the transmitter accounts** on the target chain — no funds, no broadcast.\n- **Consensus step missing** — if your workflow doesn't run the outputs through a consensus/report-generation step, there's no signed report for the Forwarder to accept.\n- **Wrong environment/RPC target** — pointing at the wrong chain or an RPC that the DON can't reach.\n\n## What to do next\n\n1. Confirm you're not relying on `simulate` for the broadcast — deploy the workflow to a testnet DON.\n2. Verify the write capability config (chain selector, target contract, forwarder address).\n3. Verify the Forwarder authorizes your workflow owner + the consumer trusts the Forwarder.\n4. Fund the transmitter accounts and check that node logs show the report transmission.\n5. Watch the target chain explorer / node logs for the tx and any revert reason.\n\nIf you can share your workflow's write-step config and how you're invoking it (the exact `cre` command), I can point at the specific line that's likely blocking the broadcast. It would also help to know which chain/testnet you're targeting and whether you've deployed a Forwarder + consumer pair yet.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 26264,
+              "output_tokens": 2889,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1753,
+              "output_tokens": 1876,
+              "cache_creation_input_tokens": 6998,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ethereum-sepolia-rpc.publicnode.com",
+              "https://docs.chain.link/cre/templates/running-demo-workflow-ts",
+              "https://docs.chain.link/cre-templates/custom-data-feed"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 6,
+            "relevance": 8,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "CRE_ETH_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000001",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "This is required only if your workflow performs on-chain writes... If it doesn't write on-chain, you can leave a dummy key",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Project name: demo",
+            "Workflow name: custom-data-feed"
+          ],
+          "unverifiable_from_source": [
+            "https://docs.chain.link/cre-templates/custom-data-feed",
+            "the .env variable name CRE_ETH_PRIVATE_KEY"
+          ],
+          "verdict": "The answer captures three of the five cre init prompts and correctly describes the simulator flow, but it omits the Project name and Workflow name prompts entirely and introduces a fabricated .env variable/dummy-key claim that contradicts the source's requirement of a funded key, making it not fully safe to follow as-is.",
+          "fidelity": 65,
+          "prompt": "Show me the cre init prompt answers to scaffold the Chainlink CRE Custom Data Feed TypeScript demo project.",
+          "archetype": "code-first",
+          "answer": "Here are the `cre init` prompt answers to scaffold the **Chainlink CRE Custom Data Feed TypeScript** demo project, based on the official Chainlink documentation (\"Running a Demo Workflow\" and the Custom Data Feed template page).\n\n## Running `cre init`\n\nFirst, navigate in your terminal to the directory where you want the project created, then run `cre init`. The CLI walks you through a short series of prompts. Answer them as follows:\n\n| Prompt | Answer |\n|--------|--------|\n| **Language** | Select **`Typescript`** and press Enter |\n| **Pick a workflow template** | Select **`Custom data feed: Typescript updating on-chain data periodically using offchain API data`** |\n| **Sepolia RPC URL** | Press **Enter** to use the default public RPC (`https://ethereum-sepolia-rpc.publicnode.com`), or paste your own Sepolia RPC URL |\n\nA few notes on that last prompt: the CLI asks for your RPC URL during initialization and automatically writes it into `project.yaml`. You can change it later if needed — RPC endpoints for the chains you interact with live in `project.yaml`.\n\n## After scaffolding — remaining setup steps\n\nOnce the project is generated (the docs use a project folder named `demo`), complete these steps before simulating:\n\n1. **Configure your private key** — Open the `.env` file in the project root and replace the placeholder with your funded Sepolia private key. This is required only if your workflow performs on-chain writes (the key must be valid and funded). If it doesn't write on-chain, you can leave a dummy key:\n   ```\n   CRE_ETH_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000001\n   ```\n2. **Install dependencies** — Run `bun install` to set up the workflow's TypeScript dependencies.\n3. **Run the simulation** — Run `cre workflow simulate` to execute the end-to-end workflow.\n\n## What the simulator will ask\n\nWhen you simulate, the CLI prompts you to pick a trigger, letting you test the template's two behaviors:\n\n```\n🚀 Workflow simulation ready. Please select a trigger:\n  1. cron-trigger@1.0.0 Trigger\n  2. evm:ChainSelector:16015286601757825753@1.0.0 LogTrigger\n```\n\n- **Choose `1` (Cron Trigger)** → *Path A: End-to-End Custom Data Feed.* The workflow runs on schedule, fetches data from an API, and writes the result on-chain (the proactive path).\n- **Choose `2` (Log Trigger)** → the reactive path, which listens for on-chain events. It then asks for example inputs:\n  - **Transaction Hash:** `0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e`\n  - **Log Event Index:** `0`\n\n---\n\n**Sources:**\n- Running a Demo Workflow (TypeScript): https://docs.chain.link/cre/templates/running-demo-workflow-ts\n- Custom Data Feed template: https://docs.chain.link/cre-templates/custom-data-feed\n\nSince CRE tooling is evolving quickly, the exact prompt wording may shift slightly between CLI versions — if you tell me which `cre` CLI version you're running, I can help you match the prompts precisely.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 47441,
+              "output_tokens": 2834,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1731,
+              "output_tokens": 2068,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9387,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page and retrieval failed for this probe."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "call the GetLastMessage function on the MessageEmitter contract",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "may fail with \"historical state is not available\" on public RPC nodes",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "use rpc.FinalizedBlockNumber instead of the event's blockNumber",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "exact code (`workflow.go` and `main.go`)",
+              "type": "wrong_import",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Select the EVM Log Trigger (option 2) and provide a transaction hash and event index (event index omitted)",
+            "The simulator passes the raw log into the onLogTrigger callback in main.ts",
+            "topics[1] holds the emitter address which is extracted",
+            "Path B does not write onchain"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "Not safe to ship: it invents a nonexistent RPC/historical-state caveat referencing Go files that don't exist in this TypeScript demo, mis-cases the getLastMessage function, and omits key specifics like topics[1] and the event index parameter.",
+          "fidelity": 43,
+          "prompt": "In the Chainlink CRE demo, how does the reactive log-trigger path use the MessageEmitted event to fetch the last message?",
+          "archetype": "verbose/beginner",
+          "answer": "Based on the Chainlink documentation for the CRE demo workflow, here's how the reactive log-trigger path works with the `MessageEmitted` event:\n\n## The trigger\n\nThe reactive path is driven by the **EVM Log Trigger**. In the demo, you select the EVM Log Trigger and provide the details for a real transaction on the Sepolia testnet that emitted a MessageEmitted event, including the transaction hash. The simulator finds the onchain event and uses its payload to run the workflow, and the final log shows the message it retrieved from the MessageEmitter contract.\n\n## The reactive read (the key step)\n\nRather than just consuming the event's contents directly, the workflow extracts data from the decoded event and then makes a *fresh* onchain call. The workflow takes the emitter address it just extracted from the decoded event and uses it as an argument to call the GetLastMessage function on the MessageEmitter contract — effectively asking, \"What was the last message from the specific emitter involved in the event that triggered me?\"\n\n## The result\n\nFinally, the workflow logs the message content it received from its GetLastMessage call and finishes. This pattern showcases how you can build sophisticated, interconnected smart contracts that react to onchain activity in real-time.\n\nSo the flow is: **`MessageEmitted` event fires → log trigger passes the event payload to the workflow → workflow decodes the event and pulls out the emitter address → workflow calls `GetLastMessage(emitter)` on the MessageEmitter contract → logs the returned message.**\n\n## One important caveat\n\nThe demo reads state at the event's block, which can be a problem on public RPC nodes: the current demo workflow attempts to read from the historical block number of the event log, which may fail with \"historical state is not available\" on public RPC nodes since they typically only keep recent state — so the workflow would need to use rpc.FinalizedBlockNumber instead of the event's blockNumber for the contract read to work reliably with public RPCs.\n\nYou can find the full walkthrough in the \"Running a Demo Workflow\" page of the Chainlink CRE documentation if you'd like to see the exact code (`workflow.go` and `main.go`).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 37284,
+              "output_tokens": 1670,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1370,
+              "output_tokens": 2358,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9387,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://sepolia.infura.io/v3/YOUR_INFURA_KEY"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it is unsure what 'cre' refers to and falls back to generic Ethereum tooling advice instead of the Chainlink CRE docs."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 1,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "PRIVATE_KEY=0xyour_private_key_here",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "add to .gitignore ... # .gitignore .env",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "In your project root, create a file named .env",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Open the .env file in the project root and replace the placeholder private key",
+            "Use the raw 64-character hex key without the 0x prefix",
+            "Never commit .env; .gitignore already excludes it"
+          ],
+          "unverifiable_from_source": [
+            "Recommending Infura/Alchemy/QuickNode RPC providers",
+            "Using cast or ethers to generate a new wallet",
+            "Hardhat/Foundry/ethers.js integration snippets"
+          ],
+          "verdict": "The answer fails to recognize the Chainlink CRE context, gives generic Ethereum .env advice that contradicts the source's explicit 'no 0x prefix' and 'already gitignored' guidance, and never cites or engages with the actual documentation—unsafe to ship as a response to this CRE-specific prompt.",
+          "fidelity": 30,
+          "prompt": "cre demo workflow private key .env setup sepolia",
+          "archetype": "terse/keyword",
+          "answer": "Here's how to set up a private key in a `.env` file for a Sepolia testnet demo workflow. I'll walk through a safe, standard setup.\n\n## 1. Create the `.env` file\n\nIn your project root, create a file named `.env`:\n\n```bash\n# .env\nPRIVATE_KEY=0xyour_private_key_here\nSEPOLIA_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY\nETHERSCAN_API_KEY=your_etherscan_api_key   # optional, for verification\n```\n\n## 2. Get a Sepolia private key (use a throwaway/dev wallet!)\n\n**⚠️ Never use a wallet holding real funds for demos/dev.** Create a dedicated test wallet:\n\n- In MetaMask: create a new account → **Account details → Show private key** → copy it.\n- Or generate one via CLI:\n\n```bash\n# using cast (Foundry)\ncast wallet new\n\n# or using node/ethers\nnode -e \"console.log(require('ethers').Wallet.createRandom().privateKey)\"\n```\n\n## 3. Get testnet ETH\n\nFund the wallet with free Sepolia ETH from a faucet (e.g., Google Cloud Web3 faucet, Alchemy, Infura, or QuickNode faucets).\n\n## 4. Get an RPC URL\n\nSign up for a free node provider (Infura, Alchemy, QuickNode, or Ankr) and grab your Sepolia HTTPS endpoint. Public endpoints also exist but are rate-limited.\n\n## 5. Protect the file — add to `.gitignore`\n\n```bash\n# .gitignore\n.env\n```\n\n**This is critical** — committing a private key to Git can lead to instant fund loss even on testnets tied to reused keys.\n\n## 6. Load it in your code\n\n**Hardhat (`hardhat.config.js`):**\n```javascript\nrequire(\"dotenv\").config();\n\nmodule.exports = {\n  networks: {\n    sepolia: {\n      url: process.env.SEPOLIA_RPC_URL,\n      accounts: [process.env.PRIVATE_KEY],\n    },\n  },\n};\n```\n\n**Foundry (`foundry.toml` + CLI):**\n```bash\nsource .env\nforge script script/Deploy.s.sol \\\n  --rpc-url $SEPOLIA_RPC_URL \\\n  --private-key $PRIVATE_KEY \\\n  --broadcast\n```\n\n**Node/ethers.js:**\n```javascript\nrequire(\"dotenv\").config();\nconst { ethers } = require(\"ethers\");\n\nconst provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL);\nconst wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);\n```\n\n---\n\n**A note on the \"cre demo workflow\":** I'm not certain which specific project or framework \"cre\" refers to in your case — it could be Chainlink's CRE (Compute Runtime Environment), a course/repo abbreviation, or something else. The `.env` conventions above are standard across most Ethereum tooling, but if \"cre\" is a specific tool with its own required variable names or config file format, let me know (or share its README/docs) and I can give exact instructions.\n\nWant me to tailor this to a specific framework (Hardhat, Foundry, ethers, viem, web3.py) or paste the actual project you're working with?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5901,
+              "output_tokens": 1229,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1596,
+              "output_tokens": 1407,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 9387,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

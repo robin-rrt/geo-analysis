@@ -1,0 +1,168 @@
+{
+  "key": "chainlink-functions-tutorials-api-query-parameters-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Call an API with HTTP Query Parameters",
+    "url": "https://docs.chain.link/chainlink-functions/tutorials/api-query-parameters.md",
+    "analyzedAt": "2026-09-22T13:27:21.690Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 63,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "The intro cleanly states the task (\"send a request to a Decentralized Oracle Network to call the...API...returns the asset price for ETH/USD\"). Weak: the `Examine the code` section leads with `FunctionsConsumerExample.sol` as an empty heading with no content, and the key parameter answer (`url`/`params` object) is buried mid-section rather than opening it."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong hierarchy — 7 headings, 0 level skips, 0 sections over 600 words, 32 bullets. Weak: an empty subsection and 0 tables; the makeHttpRequest parameters would extract better as a small table."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good — real costs (`0.249819373001796045 LINK`), transaction hashes, request IDs, `subscriptionId`, gas concepts. Weak: 0 numerals carry units in prose; the `gasLimit` value is described but not given."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; 17 external links including GitHub source, Remix, ethers, CryptoCompare API docs, and internal API reference. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Weak — no crisp liftable definition of key terms (DON, `Functions.makeHttpRequest`, `args`); terms are used inline without a one-sentence canonical statement near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags, no declared programmingLanguage. This is the largest scored gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good — 4 substantive blocks with language tags and network context (Sepolia); simulation output shown. Weak: 1 untagged fence (the `params` object), 2 placeholder comments, and truncated JSON (`...`)."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate — covers setup→run→examine, but no \"how do I fetch a different asset price\" answer-first section (it's buried in `args`), no troubleshooting/FAQ, no error-string coverage."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming of Chainlink Functions, DON, NPM package. \"The code is self-explanatory\" appears twice and adds nothing."
+      }
+    ],
+    "summary": "This is a clean, well-linked Chainlink Functions tutorial showing how to pass HTTP query parameters to the CryptoCompare price API through a DON. Its biggest strengths are dense authoritative linking (7 primary-source links, full runnable scripts) and tight structure with no oversized sections. Its biggest opportunities are missing machine-readable metadata (no JSON-LD, no canonical URL, no dates) and thin query/symptom coverage — there is no troubleshooting or error-string content, and one heading (`FunctionsConsumerExample.sol`) is empty. Honest verdict: solid best-practice tutorial content undermined by absent structured metadata and no symptom-phrased retrieval hooks.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD and canonical/date metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured facts — \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"datePublished absent / dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: JavaScript`, and a canonical URL; surface a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise agent parse-trust and E-E-A-T; this page currently exposes none."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom/how-to section for changing the asset pair",
+        "mapsTo": "query/intent coverage, answer-first",
+        "tier": null,
+        "where": "new H3 under `Examine the code` or after `Tutorial`",
+        "issue": "the reusable answer is buried in the `args` bullet: \"You can adapt `args` to fetch another asset price.\"",
+        "change": "Add a section titled \"How do I query a different asset price (e.g. BTC/EUR)?\" opening with the one-line answer: change `args` to `[\"BTC\",\"EUR\"]`, mapped to `fsyms`/`tsyms`.",
+        "why": "devs query by task/symptom; a question-phrased heading wins retrieval the concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Fill or remove the empty `FunctionsConsumerExample.sol` heading",
+        "mapsTo": "answer-first extractability, anti-patterns",
+        "tier": null,
+        "where": "`Examine the code` → `FunctionsConsumerExample.sol`",
+        "issue": "heading with zero body content below it.",
+        "change": "Add 1–2 sentences describing the consumer contract's role and its `sendRequest`/`fulfillRequest` functions, or delete the heading.",
+        "why": "empty sections create dead chunks and break the extractability of the surrounding unit."
+      },
+      {
+        "priority": 2,
+        "title": "Convert makeHttpRequest parameters to a table with a lead sentence",
+        "mapsTo": "scannability, quotable definitions",
+        "tier": null,
+        "where": "`source.js` subsection, `url`/`params` bullets",
+        "issue": "the untagged fence `{ fsyms: fromSymbol, tsyms: toSymbol }` and prose bullets",
+        "change": "Open with \"`Functions.makeHttpRequest` accepts `url`, `params`, `headers`, and `method`.\" then a small table of param → value; tag the object fence as `javascript`.",
+        "why": "tables and a canonical lead sentence give engines extractable reasons and defend against parametric substitution of the generic `fetch` idiom."
+      },
+      {
+        "priority": 2,
+        "title": "Add expected `gasLimit` value and note default response timeout inline",
+        "mapsTo": "concrete specifics, code completeness",
+        "tier": null,
+        "where": "step 1 `gasLimit` bullet; step 5 response listener",
+        "issue": "\"Maximum gas that Chainlink Functions can use\" — no number given",
+        "change": "State the concrete value used in the example (e.g. `gasLimit: 300000`) and keep the \"waits for five minutes\" figure prominent.",
+        "why": "quantitative parameters are among the highest-lift additions for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Remove filler phrasing",
+        "mapsTo": "clarity/fluency",
+        "tier": null,
+        "where": "`source.js` and `request.js` intros",
+        "issue": "\"The code is self-explanatory and has comments\" (repeated)",
+        "change": "Replace with a one-line statement of what each script does.",
+        "why": "removes low-information prose; engines reward concise, informative text."
+      }
+    ],
+    "antiPatterns": [
+      "Empty section: `FunctionsConsumerExample.sol` heading with no body.",
+      "Repeated filler: \"The code is self-explanatory and has comments\" appears twice.",
+      "Truncated code: JSON response ends in `...`, and one code fence is untagged (measured: 1 untagged).",
+      "No stuffing, no marketing fluff, no ambiguous cross-references detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this tutorial is indexed there.",
+      "Site-wide absence of `TechArticle` JSON-LD and canonical tags is likely templated; fixing at the template level benefits all tutorials, not just this page.",
+      "The CLI should pass raw `<head>` on future runs — head metadata could not be verified here, so the metadata score reflects measured absence in served HTML only."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

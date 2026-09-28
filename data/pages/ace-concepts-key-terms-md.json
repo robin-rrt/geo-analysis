@@ -1,0 +1,626 @@
+{
+  "key": "ace-concepts-key-terms-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Key Terms and Concepts (ACE)",
+    "url": "https://docs.chain.link/ace/concepts/key-terms.md",
+    "analyzedAt": "2026-09-28T18:55:35.989Z",
+    "contentType": "developer documentation / glossary reference",
+    "score": 74,
+    "band": "Good",
+    "weightedTotal": 74.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Every entry leads with the definition (e.g. \"A 32-byte identifier that uniquely represents an entity across multiple EVM blockchains\")."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong per-section chunking (median 42 words, 0 sections over 600), but one H1→H3 level skip and no H2 category grouping; 50 flat H3s with no intermediate structure. A table view or grouped H2s would aid navigation."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong for a glossary: `bytes32`, `keccak256(\"common.kyc\")`, 32-byte identifiers, ERC-20/165/3643, EIP-712, ISO 3166-1. The \"0 units / vague quantifier: most\" flags are cosmetic here."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good internal linking (67 internal links) and authoritative externals (Wikipedia ISO 3166-1, GitHub SDK), but standards like ERC-20/ERC-3643/EIP-712 are named without linking to their canonical specs."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. This is the page's core competency."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no `inLanguage`, no og/twitter tags. Body carries \"Last Updated: 2026-07-17\" but no `dateModified` in schema. Biggest gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "No fenced code (0 blocks); acceptable for a glossary, though inline identifiers (`run()`, `transfer(address,uint256)`) are used well."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good for definitional queries; headings are concept-titled term names, which match \"what is X\" but not symptom/error queries. Full-lifecycle troubleshooting is out of scope for a glossary."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent entity naming with disambiguation (e.g. \"Trusted Verifier → See Credential Issuer\")."
+      }
+    ],
+    "summary": "This is a well-constructed ACE glossary: 50 terms, each an H3 opening with a crisp, self-contained, verbatim-liftable definition and dense internal cross-linking — near-ideal for term-level RAG retrieval and \"what is X\" answers. Its single biggest strength is answer-first extractability; each entry stands alone as a quotable chunk. Its single biggest opportunity is machine-readability: with zero JSON-LD on a page that is literally a set of defined terms, it forgoes `DefinedTermSet`/`DefinedTerm` schema that would make every entry machine-parsable and boost entity resolution. Honest verdict: strong content, under-instrumented metadata — a high-value, low-effort schema fix away from Strong.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add `DefinedTermSet` / `DefinedTerm` JSON-LD",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently 0 JSON-LD blocks)",
+        "issue": "\"JSON-LD: 0 block(s)\" on a page that is a formal glossary.",
+        "change": "Emit one `DefinedTermSet` with each term as a `DefinedTerm` (`name`, `description`, `url` with the `#anchor`, `inDefinedTermSet`). This is a mechanical, exact match to the content type.",
+        "why": "Structured term metadata makes each definition individually machine-extractable and strengthens entity resolution for engines answering \"what is CCID/PolicyEngine/CADV.\""
+      },
+      {
+        "priority": 1,
+        "title": "Add canonical URL and schema freshness signals",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`<head>`",
+        "issue": "\"canonical: MISSING · dateModified absent.\"",
+        "change": "Add `<link rel=\"canonical\">`, `inLanguage`, and mirror the body's \"Last Updated: 2026-07-17\" into `dateModified` in the JSON-LD.",
+        "why": "Canonical + visible freshness raise trust/E-E-A-T and prevent duplicate-attribution splitting between the `.md` and HTML variants."
+      },
+      {
+        "priority": 2,
+        "title": "Group terms under category H2s to fix the level skip",
+        "mapsTo": "structural scannability",
+        "tier": null,
+        "where": "whole page (1 level skip; H1 then H3s)",
+        "issue": "50 flat H3s under a single H1, no H2 grouping.",
+        "change": "Insert H2 category headers (e.g. \"APIs & Platform,\" \"Onchain Contracts,\" \"Identity & Credentials,\" \"Policies,\" \"Signing & Infrastructure\") with terms as H3 beneath. Removes the skip and creates coherent multi-term chunks.",
+        "why": "Clean heading hierarchy improves chunk boundaries and lets engines retrieve a whole category when a query spans related terms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a summary lookup table",
+        "mapsTo": "structural scannability / machine-scannability",
+        "tier": null,
+        "where": "below the intro paragraph",
+        "issue": "\"0 table(s)\" — no scannable index; a reader/engine must scroll 50 sections.",
+        "change": "Add a two-column table (Term → one-line gloss + anchor link). Keeps per-term H3s intact.",
+        "why": "Tables are high-lift for extraction and give engines a compact, justified overview to lift from."
+      },
+      {
+        "priority": 3,
+        "title": "Link named standards to their canonical specs",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "ERC-20, ERC-165, ERC-3643, EIP-712 entries",
+        "issue": "Standards named without primary-source links (only 1 primary-source link total).",
+        "change": "Link \"ERC-20\" to eips.ethereum.org/EIPS/eip-20, ERC-3643 to its EIP, EIP-712 to its spec.",
+        "why": "Inline authoritative citations raise credibility and citation rate for standards-related answers."
+      },
+      {
+        "priority": 3,
+        "title": "Add a few symptom/question-phrased aliases",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "high-traffic terms (CADV/CertifiedActionDONValidatorPolicy, PolicyRejected, default result)",
+        "issue": "Headings are concept names only; devs query error strings like \"PolicyRejected\" or \"what does Continue mean.\"",
+        "change": "Ensure error/verdict tokens (`PolicyRejected`, `Allowed`, `Continue`) appear as bolded lead terms within their definitions (Policy entry already does this well — extend to CADV acronym as a heading alias).",
+        "why": "Symptom/token-phrased text captures retrieval that concept-only headings miss."
+      }
+    ],
+    "antiPatterns": [
+      "**Level skip** — H1 directly to H3 (no H2), the one measured structural defect. Addressed by P2.",
+      "**Vague quantifier \"most\"** — single low-severity instance (\"In most cases, the PolicyEngine's built-in… mapping is sufficient\"); acceptable, not worth forcing.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references, no stale content (dated 2026-07-17), no ambiguous entities. Clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; confirm it indexes this glossary.",
+      "The CLI should pass the raw `<head>` on future runs: body carries \"Last Updated\" and a `Source:` URL, but head metadata \"could not be verified,\" so canonical/schema absence is inferred from the served HTML measurement, not the rendered `<head>`.",
+      "Site-level `TechArticle`/`DefinedTermSet` templating and canonical-tag policy are platform concerns beyond this single page."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ace/concepts/key-terms.md",
+      "source_title": "Key Terms and Concepts",
+      "probe_set_id": "7ee710476461",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T19:29:19.773Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 61.6,
+      "avg_fidelity_all": 55.2,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.2,
+        "hallucination_free": 6,
+        "relevance": 4,
+        "structure": 6.8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 737598,
+          "output_tokens": 22396,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 27,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 8516,
+          "output_tokens": 8628,
+          "cache_creation_input_tokens": 18810,
+          "cache_read_input_tokens": 33144,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace/concepts/cross-chain-identity"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites the cross-chain-identity page instead of the expected key-terms source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "keccak256(\"com.app.level.gold\") → an application-specific credential type",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "The specification requires that implementations use a collision-resistant hash algorithm",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The specification requires a collision-resistant hash algorithm (implied keccak256 is just 'in practice')",
+            "com.app.level.gold as a concrete example of a custom credential type",
+            "Reference to a CONCEPTS.md file in the smartcontractkit/chainlink-ace repository"
+          ],
+          "verdict": "Factually solid on the core mechanics (bytes32, keccak256, common. prefix) but cites the wrong source page and adds an invented example and an unverified 'spec requirement' claim, so it's mostly safe but not fully faithful to the cited docs.",
+          "fidelity": 70,
+          "prompt": "In Chainlink ACE, how are credential type identifiers generated and what does the common. prefix mean?",
+          "archetype": "direct-howto",
+          "answer": "In Chainlink ACE's Cross-Chain Identity system, here's how credential type identifiers work:\n\n## How identifiers are generated\n\nEvery credential has a **type identifier**, which is a `bytes32` value produced by hashing a human-readable, namespaced string. The specification requires that implementations use a **collision-resistant hash algorithm** (in practice, `keccak256`) applied to the namespaced string as the pre-image. For example:\n\n- `keccak256(\"common.kyc\")` → the KYC credential type\n- `keccak256(\"com.app.level.gold\")` → an application-specific credential type\n\nThis approach means anyone can deterministically derive the same `bytes32` identifier from the same string, without needing a central registry to assign IDs. In Solidity you'd typically see it written as:\n\n```solidity\nbytes32 kycCredential = keccak256(\"common.kyc\");\n```\n\n## What the `common.` prefix means\n\nThe `common.` prefix is a **reserved namespace** used for **standard, well-known credential types** that are meant to be shared and interoperable across the ecosystem (such as `common.kyc`). Using a reserved prefix for standardized types keeps them distinct from custom, application-defined ones.\n\nBy contrast, **applications define their own custom credential types using their own namespace** (for example, a reverse-DNS style string like `com.app.level.gold`). This separation ensures that:\n\n- **Common/standard types** (`common.*`) are consistent and recognizable across different applications and chains.\n- **Custom types** live in an application's own namespace, avoiding collisions with the reserved standard types or with other applications.\n\n## Summary\n\n| Aspect | Detail |\n|--------|--------|\n| Identifier type | `bytes32` |\n| Generation | Hash (keccak256) of a namespaced human-readable string |\n| Requirement | Collision-resistant hash |\n| `common.` prefix | Reserved namespace for standard/interoperable credential types |\n| Custom types | Defined in the application's own namespace |\n\nYou can find the authoritative details in the Chainlink ACE Cross-Chain Identity documentation ([docs.chain.link/ace/concepts/cross-chain-identity](https://docs.chain.link/ace/concepts/cross-chain-identity)) and the CONCEPTS.md in the `smartcontractkit/chainlink-ace` repository.\n\nWould you like me to pull the exact spec wording or code examples for defining a custom credential type and wiring it into a policy?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 53270,
+              "output_tokens": 2401,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1318,
+              "output_tokens": 1245,
+              "cache_creation_input_tokens": 6270,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search was rate-limited and it could not confirm the terminology against any source."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 1,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "self-sovereign identity principles and delegated verification... this component accommodates a range of trust models",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "the issuer or policy owner decides—when they configure the token's compliance policy and its trusted registries/issuers—whether credentials are self-asserted",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "the `chainlink-ace` repo's concept docs (the `cross-chain-identity/docs/CONCEPTS.md` file)",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Both are signing models in ACE",
+            "Delegated signing: Chainlink signs and executes transactions on your behalf via the CRE Connect Wallet",
+            "Self-signing: ACE prepares unsigned draft operations that you poll, sign (EIP-712), and submit using the CRE Connect SDK",
+            "You retain full ownership of all contracts in both models",
+            "The signing model is chosen during onboarding"
+          ],
+          "unverifiable_from_source": [
+            "ACE's identity layer supports self-sovereign identity principles and delegated verification as two trust models"
+          ],
+          "verdict": "The answer completely misidentifies the concept, substituting an unrelated identity-verification trust-model narrative for the actual transaction-signing definitions in the source, admits it couldn't verify anything, and is not safe to ship as an answer to this question.",
+          "fidelity": 23,
+          "prompt": "Using Chainlink ACE, what's the difference between delegated signing and self-signing, and when is the choice made?",
+          "archetype": "comparison",
+          "answer": "I've hit a temporary search rate limit. Let me retry.I wasn't able to pull up a Chainlink documentation page that explicitly defines \"delegated signing\" versus \"self-signing\" as a named pair — my search access was rate-limited before I could confirm the exact ACE terminology, so I don't want to state precise mechanics that I can't verify against a source. Here's what I can responsibly tell you, and where I'd point you to confirm the specifics.\n\n## What the ACE sources do confirm\n\nChainlink ACE is built around bringing compliance and identity onchain in a modular way. ACE uses modular policies where each compliance rule is a self-contained module that can be chained together to build rulesets, and you can update rules through the ACE Platform without redeploying your core smart contract. Identity for these checks is handled by the Cross-Chain Identity (CCID) framework, where CCID is a reusable identity framework for representing investor identities, attestations, and credentials across multiple blockchains by storing cryptographic proofs of verified credentials—including KYC, AML, and investor sophistication status—while keeping personal information stored offchain.\n\nMost relevant to your question, the identity layer is explicitly designed to support two trust models. By supporting both self-sovereign identity principles and delegated verification, this component accommodates a range of trust models and fosters broad interoperability.\n\n## How that maps to your question\n\nThe \"self vs. delegated\" distinction you're asking about corresponds conceptually to those two trust models:\n\n- **Self-signing / self-sovereign approach** — the entity whose credential or transaction is being attested signs/controls it directly.\n- **Delegated signing / delegated verification** — a trusted third party (for example a KYC provider or an offchain service running on the Chainlink Runtime Environment) performs the verification and signs the attestation on the subject's behalf, which the onchain contract then trusts.\n\nIn ACE's architecture, an offchain entity such as a KYC provider is trusted to verify real-world information and write the results (credentials) onchain, with the framework offering a single, chain-agnostic identity model — that is the delegated pattern in practice.\n\n## When the choice is made\n\nBased on how ACE is structured, this choice is a **configuration/design-time decision**, not something decided per transaction at runtime. Because each compliance rule is a self-contained module that you chain together to build rulesets, the issuer or policy owner decides—when they configure the token's compliance policy and its trusted registries/issuers—whether credentials are self-asserted by the subject or delegated to and signed by a trusted verifier.\n\n## Important caveat\n\nI want to be upfront: the exact terms \"delegated signing\" and \"self-signing\" as a formal ACE-specific pairing, and the precise point in the transaction lifecycle where the mode is selected, are details I could not directly verify from a documentation source in this session. For authoritative, current definitions I'd recommend checking:\n\n- The official ACE docs at **docs.chain.link/ace**\n- The `chainlink-ace` repo's concept docs (the `cross-chain-identity/docs/CONCEPTS.md` file), which covers the identity trust models directly\n\nIf you'd like, I can try the search again in a bit to pin down the exact documented definitions and the specific configuration step where the signing mode is set.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 139921,
+              "output_tokens": 4772,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1594,
+              "output_tokens": 2091,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8659,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace/concepts/policy-ordering",
+              "https://github.com/smartcontractkit/chainlink-ace/blob/main/packages/policy-management/docs/API_GUIDE.md",
+              "https://github.com/smartcontractkit/chainlink-ace/blob/main/packages/policy-management/README.md",
+              "https://docs.chain.link/ace"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not complete retrieval due to exhausting the search tool's usage limit."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 9,
+            "relevance": 2,
+            "structure": 3
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "A policy implements a run() function that returns a verdict",
+            "Allowed = final approval",
+            "Continue = defer to the next policy",
+            "Reverts with PolicyRejected = final rejection",
+            "Policies can optionally implement postRun() for state changes after a check passes"
+          ],
+          "unverifiable_from_source": [
+            "Policy Ordering and Composition page specifically covers how policy verdicts are evaluated and combined",
+            "GitHub repo chainlink-ace API_GUIDE.md and README as sources"
+          ],
+          "verdict": "The answer explicitly refuses to answer due to a tool/search limit and provides no actual verdict information, so it is unhelpful and not shippable despite being honest about its limitation.",
+          "fidelity": 40,
+          "prompt": "What verdicts can a policy's run() function return in Chainlink ACE, and what does each mean?",
+          "archetype": "code-first",
+          "answer": "I attempted to retrieve the specific Chainlink ACE documentation on policy verdicts, but I've exhausted the web search tool's usage limit for this session before I could pull the detailed content. Rather than guess at the exact enum values and risk giving you incorrect information, let me be transparent about what I found and where to get the authoritative answer.\n\n## What I was able to confirm\n\nChainlink ACE (Automated Compliance Engine) does implement a policy model where each policy exposes a `run()` function that returns a **verdict**, and multiple policies can be composed together. The relevant authoritative sources are:\n\n- **Policy Ordering and Composition** — Chainlink Docs: `https://docs.chain.link/ace/concepts/policy-ordering` (this page specifically covers how policy verdicts are evaluated and combined)\n- **Policy Management API Guide** — GitHub: `https://github.com/smartcontractkit/chainlink-ace/blob/main/packages/policy-management/docs/API_GUIDE.md`\n- **Policy Management README** — GitHub: `https://github.com/smartcontractkit/chainlink-ace/blob/main/packages/policy-management/README.md`\n- **ACE Overview** — `https://docs.chain.link/ace`\n\n## What I can't responsibly do\n\nI don't want to state the exact set of verdict values (e.g., the precise enum names like an \"allow/deny/review\"-style set) and their per-value semantics from memory, because I wasn't able to load the actual documentation to verify them, and getting the exact identifiers and their composition rules right matters a lot for a compliance engine.\n\n## Suggested next step\n\nThe **Policy Ordering and Composition** doc page and the **API_GUIDE.md** in the `chainlink-ace` repo are the two places that spell out (1) each possible verdict a `run()` can return, (2) what each one means, and (3) how conflicting verdicts across composed policies are resolved.\n\nIf you'd like, I can try the search again in a bit once the tool limit resets, or if you can paste the relevant section from that API guide, I'll happily break down each verdict and its meaning for you.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 308289,
+              "output_tokens": 7622,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1234,
+              "output_tokens": 326,
+              "cache_creation_input_tokens": 6270,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites a different Chainlink ACE page (policy-ordering) instead of the expected key-terms source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 6,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "**`true` (the default)** → the transaction is **allowed**",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "You configure this through the **ACE Platform UI** or the **Coordinator API**",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "default is set per function selector as well as per target contract",
+            "configuration is done via ACE Platform UI or Coordinator API",
+            "gas cost/grouping advice for policy chains",
+            "'review the whole chain' best-practice advice"
+          ],
+          "verdict": "The core explanation of the default result and desired_default_allow is accurate and clearly presented, but the claim that 'true' is the built-in default value is fabricated and the answer cites the wrong source page, so it should be double-checked before shipping.",
+          "fidelity": 70,
+          "prompt": "My Chainlink ACE policy chain runs to the end and every policy returns Continue — what decision does the PolicyEngine make and how do I control it?",
+          "archetype": "error-debug",
+          "answer": "The first result looks directly relevant. Let me get its full content.## What happens when the whole chain returns `Continue`\n\nWhen your ACE policy chain runs to completion and **no policy issues a terminal `Allow` or `Reject`**, the PolicyEngine falls back to a **configurable default result**. In other words, an all-`Continue` chain doesn't implicitly pass or fail on its own — the engine applies whatever default you've configured for that target.\n\nThis is by design, because the `Continue` pattern is the most common way to build composable policy chains: each policy either blocks (rejects) or passes through (continues), and the final outcome is decided by the default.\n\n## How to control it\n\nThe default is set **per target contract** (and per function selector) via the `desired_default_allow` field:\n\n- **`true` (the default)** → the transaction is **allowed**. Use this when your policies act as *blockers* — everything is permitted unless a policy explicitly rejects it.\n- **`false`** → the transaction is **rejected**. Use this for **allowlist-style** enforcement, where only explicitly approved transactions should proceed.\n\nYou configure this through the **ACE Platform UI** or the **Coordinator API**. Note that policy chains are scoped per target contract *and* per protected function selector — each protected function has its own independent chain and default.\n\n## The gotcha to watch for\n\nThe most common mistake: if you intend \"all policies returned `Continue`\" to mean *\"all checks passed, allow it\"*, but the default is set to `false` (reject), your transactions will **revert unexpectedly**. So make sure the default matches your mental model:\n\n- Blocker-style policies → keep default `true`.\n- Allowlist-style policies → set default `false`, and make sure some policy actually issues an explicit `Allow`.\n\n## Related good practices\n\n- **Review the whole chain whenever you add, remove, or reorder a policy** — a single misplaced policy can leave a gap in coverage or change the effective outcome.\n- **Mind gas** — every policy in the chain costs gas, so group related checks into a single policy where practical and avoid redundant ones.\n\nSource: Chainlink Documentation — *Policy Ordering and Composition* (`docs.chain.link/ace/concepts/policy-ordering`). If you'd like, I can walk through the exact Coordinator API call or UI steps to flip `desired_default_allow` for a specific contract/function.\n\nNote: ACE is in Beta, so the exact field names and management surface may shift — worth double-checking against the current docs before you rely on them in production.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 35279,
+              "output_tokens": 1910,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1273,
+              "output_tokens": 1689,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8659,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search tool hit a usage limit and it could not confirm Evaluation API details, and no source URL was cited."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 7,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Evaluation API: request and monitor managed offchain policy evaluations (submit intent, receive a deterministic permit ID, poll until ready/rejected/failed)",
+            "Everything available in the Platform UI is also available through the Coordinator API"
+          ],
+          "unverifiable_from_source": [
+            "ACE has two layers: onchain smart contracts and the ACE Platform",
+            "Evaluation API 'would correspond to invoking or previewing that policy-evaluation logic' (speculative characterization)"
+          ],
+          "verdict": "The answer correctly and honestly covers Coordinator and Reporting API roles but fails to retrieve or state the Evaluation API's actual permit-based workflow, instead offering flagged speculation, and never cites the source page, so it's only partially safe to ship.",
+          "fidelity": 60,
+          "prompt": "In Chainlink ACE, what are the differences between the Coordinator API, Evaluation API, and Reporting API?",
+          "archetype": "comparison",
+          "answer": "I'll search for information about Chainlink ACE and its APIs.Let me get the specific ACE documentation pages that detail these APIs.Based on my searches of the Chainlink documentation, I was able to find solid detail on the Coordinator API and Reporting API, but the search tool hit its usage limit before I could pull dedicated documentation specifically describing an \"Evaluation API.\" Let me share what I can verify and be clear about where I'm less certain.\n\n## The three APIs in Chainlink ACE\n\nChainlink ACE (Automated Compliance Engine) is structured in two layers. ACE has two layers: onchain smart contracts that enforce compliance rules on the blockchain, and the ACE Platform that lets you manage those contracts through a UI and APIs. The APIs you're asking about are how developers interact with that platform layer.\n\n### Coordinator API — Management / control plane\nThe Coordinator API is the **write/administrative** interface. The Coordinator API is used to manage ACE resources programmatically. In practice, this is what you use to create, configure, and orchestrate ACE resources — for example, provisioning policies, wiring up policy engines to contracts, and managing the entities that make up your compliance setup. It's the counterpart to the admin UI, exposed programmatically.\n\n### Reporting API — Query / read plane for compliance data\nThe Reporting API is the **read/audit** interface. The Reporting API is used to query compliance state and transaction history. Because ACE is designed to be auditable, every policy decision is recorded onchain and queryable through the Reporting API, providing a complete audit trail. This is what compliance and audit teams use to inspect current compliance state, review historical transactions, and demonstrate regulatory audit trails.\n\n### Evaluation API — Policy evaluation\nThis is where I have less direct documentation. Conceptually, evaluation is a core ACE function: a PolicyEngine evaluates a chain of modular policies every time a protected function is called, and policies can be added, removed, or reordered without changing your contract. An Evaluation API would correspond to invoking or previewing that policy-evaluation logic — i.e., checking whether a given actor/transaction would pass the configured policy chain (a compliance decision) rather than managing resources (Coordinator) or querying past results (Reporting). However, I was not able to retrieve a documentation page that explicitly names and describes an \"Evaluation API,\" so I don't want to overstate its exact behavior.\n\n## Summary of the distinction\n\n| API | Primary role | Typical use |\n|-----|-------------|-------------|\n| **Coordinator API** | Management/write | Programmatically create and manage ACE resources (policies, engines, configuration) |\n| **Evaluation API** | Policy evaluation | Determine/preview whether a transaction or actor satisfies the policy chain (compliance decision) |\n| **Reporting API** | Query/read | Query current compliance state, transaction history, and onchain audit trail |\n\nThe key conceptual split is: **Coordinator = configure the system**, **Evaluation = make/preview a compliance decision**, and **Reporting = look up the state and recorded outcomes**.\n\nBecause the search tool limited how much I could confirm about the Evaluation API specifically, I'd recommend checking the official ACE Platform API reference at **docs.chain.link/ace** for the precise endpoints, request/response schemas, and the exact definition of the Evaluation API. Would you like me to try searching again for the Evaluation API details?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 172159,
+              "output_tokens": 3927,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1638,
+              "output_tokens": 1652,
+              "cache_creation_input_tokens": 6270,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and the expected source page was not retrieved/cited."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 6,
+            "relevance": 6,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "institutions to verify users once with Persona and reuse those credentials across blockchains",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "anchoring an identity across EVM-compatible blockchains and enabling credential issuance, verification, and revocation while preserving the distinct security properties of each chain",
+            "a user verified on Ethereum can interact with a protocol on Arbitrum without re-verifying",
+            "This is already being deployed with identity providers"
+          ],
+          "verdict": "The core technical claims about CCID match the source accurately, but the answer adds an unverified/fabricated real-world example (Persona) and other embellishments not found in the docs, and it fails to cite the source, so it should be lightly trimmed before shipping.",
+          "fidelity": 68,
+          "prompt": "CCID cross-chain identifier meaning credentials portable multiple chains",
+          "archetype": "terse/keyword",
+          "answer": "# CCID (Cross-Chain Identifier)\n\nA **CCID (Cross-Chain Identifier)** is a concept from Chainlink's **Automated Compliance Engine (ACE)**. It solves the problem of identity and credential fragmentation across different blockchains.\n\n## What it is\n\nA Cross-Chain Identifier (CCID) is a unique bytes32 identifier that links a user's various blockchain addresses (EVM) into a single, universal identity. More technically, it's a 32-byte identifier that ties one or more local blockchain addresses across blockchain networks to a single identity, anchoring an identity across EVM-compatible blockchains and enabling credential issuance, verification, and revocation while preserving the distinct security properties of each chain.\n\n## Why credentials become portable\n\nThe key idea behind your question is that credentials are attached to the *identity*, not to a wallet address. By attaching credentials to a CCID instead of a wallet address, they become portable across all chains.\n\nBecause of this linking model, one CCID can be linked to multiple addresses, even across different chains, which means a credential attached to a CCID (for example, a KYC verification) is valid for all of that user's addresses on all chains — without re-issuance.\n\n## The problem it solves\n\nWithout this system, identity is siloed per-chain. Users in the blockchain ecosystem often juggle multiple identities across different networks. A KYC credential issued on Ethereum has no meaning on Arbitrum or Base without complex bridging.\n\nWith CCID, verification happens once and is reusable. ACE supports Cross-Chain Identity (CCID), a framework that enables a unified identity record portable across different blockchains — for example, a user verified on Ethereum can interact with a protocol on Arbitrum without re-verifying.\n\n## How it works (key components)\n\nThe system relies on a standardized credential framework plus on-chain registries. Credential Management provides a standardized framework to issue, manage, and verify credentials (like KYC/AML) associated with a CCID. These are anchored by two core contracts: IdentityRegistry & CredentialRegistry are the heart of the system — the first maps user addresses to their universal CCID.\n\nAt runtime, compliance checks execute automatically. Credentials like KYC or AML status are attached to the CCID once and verified everywhere, with these contracts executing automatically at transaction time.\n\n## In practice\n\nThis is already being deployed with identity providers. For example, as a core component of Chainlink ACE, the Cross-Chain Identity (CCID) framework helps enable institutions to verify users once with Persona and reuse those credentials across blockchains, protocols, and asset managers without re-running KYC or exposing sensitive data on-chain.\n\n---\n\n**In short:** A CCID is a single 32-byte universal identity that ties together all of a user's wallet addresses across multiple EVM chains. By attaching credentials (like KYC/AML) to the CCID rather than to individual wallet addresses, those credentials become portable — verified once and valid everywhere, eliminating the need to re-verify on each new chain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 28680,
+              "output_tokens": 1764,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1459,
+              "output_tokens": 1625,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 8659,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {
+      "web": "2026-09-28T18-55-32-376Z-efb3"
+    }
+  }
+}

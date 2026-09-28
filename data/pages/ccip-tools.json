@@ -1,0 +1,177 @@
+{
+  "key": "ccip-tools",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Tools Reference",
+    "url": "https://docs.chain.link/ccip/tools",
+    "analyzedAt": "2026-09-22T13:43:15.263Z",
+    "contentType": "developer documentation — product hub / landing page",
+    "score": 55,
+    "band": "Developing",
+    "weightedTotal": 54.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Cards open with self-contained descriptions (\"REST API documentation for the CCIP API service…\"), and Quick Start leads with an actionable install. But the page never opens with \"CCIP Tools is …\", so the top-level entity answer isn't liftable."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "9 headings, no level skips, short coherent sections — good chunk boundaries. Weakened by **0 H1** (measured) and prose-fragment lists (Architecture Overview, Multi-Chain Support) that should be real lists/tables."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Measured 0 numerals in prose. Version strings (v1.13.1) and a named chain set exist, but no request limits, latencies, endpoint counts, or supported-chain totals. Weak."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Strong for a hub — 13 links, 3 to GitHub primary sources plus Discord and release notes. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "No one-sentence definition of CCIP or CCIP Tools near first use; the crispest phrasing lives only in `og:image:alt`. Add it to the body."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "canonical present, 10 og + 5 twitter tags. But **0 JSON-LD blocks** and **no datePublished/dateModified** (both measured) — no freshness signal, no `TechArticle` entity for agents."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "2 fences, both untagged (measured), both trivial `npm install` one-liners. Acceptable scope for a hub, but language tags are missing."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers install and \"where is the API/SDK/CLI\" intents. No troubleshooting, FAQ, or symptom-phrased entry points."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Clean and consistent overall. One entity inconsistency: SDK card lists **Sui**, but Multi-Chain Support omits it — confuses entity resolution."
+      }
+    ],
+    "summary": "This is a thin (209-word) navigation hub routing developers to the CCIP API, SDK, and CLI references. Its biggest strength is clean structure and strong outbound linking to primary sources (3 GitHub links). Its biggest weakness is that it never states a crisp, liftable definition of \"CCIP Tools\" and carries no H1, no schema, and near-zero concrete specifics — so a generative engine has little to quote and little to trust as an entity anchor. Honest verdict: functional as human wayfinding, under-optimized as a retrievable, citable source.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an H1 with a canonical, liftable definition",
+        "mapsTo": "Quotable canonical statements / answer-first",
+        "tier": null,
+        "where": "Top of page (currently 0 H1, measured)",
+        "issue": "No H1 and no definition; page opens straight into card links.",
+        "change": "Add `# CCIP Tools` followed by one sentence: \"CCIP Tools is the official API, TypeScript SDK, and CLI for building cross-chain applications on Chainlink's Cross-Chain Interoperability Protocol (CCIP), with unified support for EVM, Solana, Aptos, Sui, TON, and Canton.\"",
+        "why": "Gives engines a verbatim entity definition to quote and anchors the page against parametric priors that would otherwise describe generic \"cross-chain SDKs.\""
+      },
+      {
+        "priority": 1,
+        "title": "Resolve the Sui chain inconsistency",
+        "mapsTo": "terminology consistency / entity resolution",
+        "tier": null,
+        "where": "\"Multi-Chain Support\" section vs SDK card",
+        "issue": "SDK card says \"EVM, Solana, Aptos, Sui, TON, and Canton\"; Multi-Chain list drops Sui.",
+        "change": "Add the Sui icon/label to Multi-Chain Support (or remove from the SDK card if unsupported) so the supported-chain set is identical everywhere.",
+        "why": "Contradictory chain lists cause engines to synthesize an unreliable answer to \"which chains does CCIP support\"; a single consistent set is directly liftable."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to each reference card",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "API / SDK / CLI cards and Multi-Chain Support",
+        "issue": "Measured 0 numerals in prose; descriptions are qualitative (\"full\", \"seamless\").",
+        "change": "State counts and versions: e.g. \"SDK v1.13.1 — supports 6 chain families\", \"CLI v1.13.1\", and the number of REST endpoints or a link to the endpoint list. State \"6 supported chain ecosystems\" explicitly.",
+        "why": "Quantitative claims are among the highest-lift changes for citation rate; \"6 chains\" is far more quotable than \"multiple ecosystems.\""
+      },
+      {
+        "priority": 2,
+        "title": "Tag the code fences and pin versions",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "Quick Start install blocks",
+        "issue": "Both fences untagged (measured); no version pin.",
+        "change": "Label as `bash`; consider pinning (`npm install @chainlink/ccip-sdk@1.13.1`). Add a one-line \"requires Node.js ≥ X\".",
+        "why": "Language-tagged, version-pinned snippets are parsed and reused more reliably by coding agents."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle`/`SoftwareApplication` JSON-LD and a visible last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` and footer",
+        "issue": "0 JSON-LD blocks; no datePublished/dateModified (measured).",
+        "change": "Emit JSON-LD naming the tool, version (1.13.1), publisher (Chainlink), and `dateModified`; surface a \"Last updated\" line on-page.",
+        "why": "Structured metadata + freshness signals raise agent trust (E-E-A-T) and entity resolution; note the CLI should pass raw `<head>` so schema can be re-verified."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/query-phrased entry points",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New short section or FAQ near the bottom",
+        "issue": "No \"how do I…\" or troubleshooting phrasing; devs query by task/error.",
+        "change": "Add anchored Q-style links: \"How do I install the CCIP SDK?\", \"How do I track a CCIP message with the CLI?\", \"Which chains does CCIP support?\" — each linking to the relevant sub-reference.",
+        "why": "Question-phrased headings win retrieval that concept-titled cards lose, even when the answer is already on the destination pages."
+      },
+      {
+        "priority": 3,
+        "title": "Convert prose-fragment lists to real lists/tables",
+        "mapsTo": "structural scannability",
+        "tier": null,
+        "where": "\"Architecture Overview\" and \"Multi-Chain Support\"",
+        "issue": "Components rendered as run-on fragments (\"NPM Packages CCIP Infrastructure External APIs…\").",
+        "change": "Use a bulleted list or small table (component → role) and a chain table (chain → SDK/CLI/API support).",
+        "why": "Tables/lists let engines extract structured reasons and per-chain support facts; the page currently has 0 tables and 0 bullets (measured)."
+      }
+    ],
+    "antiPatterns": [
+      "Mild marketing fluff: \"Get started with CCIP Tools in seconds\", \"seamless cross-chain development\" — replace with concrete capability statements.",
+      "Entity inconsistency: Sui listed in one section, omitted in another (see P1).",
+      "Untagged, trivial code fences (measured) — no language, no version."
+    ],
+    "offPageNotes": [
+      "No `llms.txt` / site-level machine index verified here; recommend one at site root listing canonical CCIP reference URLs.",
+      "Freshness cadence is site-level — ensure the Docusaurus build injects `dateModified` from git across the docs, not just this page.",
+      "Third-party/earned citations (aggregators, tutorials) may outrank this hub for \"CCIP SDK\" queries; internal links from high-traffic CCIP concept pages into this hub would help (canonical-hub pattern)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

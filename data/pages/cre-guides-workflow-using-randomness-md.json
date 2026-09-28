@@ -1,0 +1,177 @@
+{
+  "key": "cre-guides-workflow-using-randomness-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "cre/guides/workflow/using-randomness",
+    "url": "https://docs.chain.link/cre/guides/workflow/using-randomness.md",
+    "analyzedAt": "2026-09-21T13:24:43.572Z",
+    "contentType": "developer documentation / language-router stub",
+    "score": 10,
+    "band": "Poor",
+    "weightedTotal": 10,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 2,
+        "weighted": 3,
+        "analysis": "Weak. The page never answers \"how do I use randomness in a CRE workflow\"; it only lists two links. No liftable chunk exists."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 2,
+        "weighted": 3,
+        "analysis": "Weak. 1 heading, 1 section, 2 bullets (measured). The H1 is a raw path (`cre/guides/workflow/using-randomness`), not a human/entity-readable title."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 0,
+        "weighted": 0,
+        "analysis": "Absent. 0 numerals, 0 units, 0 version strings (measured). No mention of the randomness source, determinism guarantees, or limits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 1,
+        "weighted": 1,
+        "analysis": "Weak. 1 internal link (to `llms.txt`), 0 external/primary sources (measured). No link to a randomness spec or concept page."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 0,
+        "weighted": 0,
+        "analysis": "Absent. No definition of CRE randomness or its trust model."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 0,
+        "weighted": 0,
+        "analysis": "Absent. No JSON-LD, canonical missing, no `datePublished`/`dateModified`, no head metadata captured (measured)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 0,
+        "weighted": 0,
+        "analysis": "Absent. 0 fenced blocks (measured). An agent cannot complete any task from this page."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 1,
+        "weighted": 1,
+        "analysis": "Weak. Covers no \"how do I / what is / error\" phrasing; only routes by language."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "The little text present is unambiguous, but the path-style H1 hurts entity resolution."
+      }
+    ],
+    "summary": "This is not a content page — it is an 18-word language-router stub that points to Go (`using-randomness-go.md`) and TypeScript (`using-randomness-ts.md`) variants. It contains no definition of CRE randomness, no code, no specifics, and no metadata (no JSON-LD, no canonical, no dates). As served, it is effectively invisible to generative engines: there is nothing to lift, cite, or synthesize, so any engine that lands here will answer from parametric priors — a substantial hallucination risk for a security-sensitive topic like randomness. The single biggest opportunity is to give this URL a self-contained canonical answer-first summary of how to use randomness in CRE workflows, rather than leaving it as a redirect shell.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a self-contained answer-first summary of CRE randomness",
+        "mapsTo": "Answer-first extractability, quotable canonical definitions",
+        "tier": null,
+        "where": "Top of page, immediately under a real title.",
+        "issue": "Page opens with a bare path H1 and two links; no answer.",
+        "change": "Add a 2–4 sentence lead: what randomness API/helper CRE workflows use, whether it is verifiable/deterministic, and the one canonical call to obtain it — before routing to language pages. Name the exact SDK function.",
+        "why": "Gives engines a liftable canonical statement on a topic where empty pages force hallucination from priors."
+      },
+      {
+        "priority": 1,
+        "title": "Replace the path-style H1 with a human/entity title",
+        "mapsTo": "Clarity & entity resolution",
+        "tier": null,
+        "where": "H1 `cre/guides/workflow/using-randomness`.",
+        "issue": "`# cre/guides/workflow/using-randomness`.",
+        "change": "Use `# Using Randomness in CRE Workflows`.",
+        "why": "Readable titles improve entity resolution and heading-based retrieval."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/intent-phrased sections",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "New H2s after the summary.",
+        "issue": "No \"how do I…\" / \"is CRE randomness verifiable?\" coverage.",
+        "change": "Add H2s like \"How do I get a random number in a CRE workflow?\" and \"Is CRE randomness deterministic across nodes?\" with one-paragraph answers, then link to the language pages.",
+        "why": "Devs and agents query by symptom/question; question-phrased headings win retrieval this stub loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add at least one complete, language-tagged code snippet",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "Under each intent section (or inline before the language links).",
+        "issue": "0 fenced code blocks (measured).",
+        "change": "Include a minimal runnable Go and/or TS example (imports + the randomness call), tagged by language.",
+        "why": "Agents complete tasks from complete snippets; a routing shell yields nothing."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Summary and sections.",
+        "issue": "0 numerals/units/versions (measured).",
+        "change": "State the randomness source, output size (e.g., bytes/bits), any per-workflow limits, and supported SDK versions.",
+        "why": "Quantitative specifics are among the highest-lift signals for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add citations to canonical randomness sources",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Inline in the summary.",
+        "issue": "Only 1 internal link (to `llms.txt`).",
+        "change": "Link to the CRE randomness concept page and any underlying VRF/spec definition.",
+        "why": "Inline authoritative links raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Add page metadata / JSON-LD",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page head / frontmatter.",
+        "issue": "No JSON-LD, canonical missing, no dates (measured).",
+        "change": "Emit `TechArticle` JSON-LD, a canonical URL, `inLanguage`, and a visible `dateModified`.",
+        "why": "Structured metadata and freshness signals aid parsing and E-E-A-T trust. (Note: raw `<head>` was not captured — the CLI should pass it for a full read before assuming total absence.)"
+      }
+    ],
+    "antiPatterns": [
+      "**Wall-of-nothing / stub page:** 18 words of body content; no substantive prose to retrieve.",
+      "**Path-as-title:** H1 is a raw URL path, harming entity resolution and title-based retrieval.",
+      "**Undated content:** no `dateModified` visible, weakening freshness signals."
+    ],
+    "offPageNotes": [
+      "If this stub is intentional and the real content lives in `-go.md` / `-ts.md`, ensure those pages carry the canonical answer-first content and that this URL either redirects (canonical tag) or hosts the shared conceptual summary as a hub.",
+      "`llms.txt` is already referenced — good site-level signal; verify both language variants are indexed there.",
+      "Head metadata and JSON-LD are site-level template concerns; fixes here likely apply across all CRE guide pages."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {}
+  }
+}

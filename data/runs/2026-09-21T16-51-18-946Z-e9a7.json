@@ -1,0 +1,1004 @@
+{
+  "runId": "2026-09-21T16-51-18-946Z-e9a7",
+  "startedAt": "2026-09-21T16:51:18.947Z",
+  "endedAt": "2026-09-21T17:09:51.158Z",
+  "owner": {
+    "pid": 60582,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "cre",
+    "productScope": "curated"
+  },
+  "stages": [
+    "regrade"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": true,
+    "graderPromptSha": "7ca3088c42f0",
+    "regradeOf": "2026-09-21T13-06-50-707Z-043d"
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|7ca3088c42f0",
+  "status": "complete",
+  "counts": {
+    "expected": 41,
+    "pages": 41,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 5.4013,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T16-51-18-946Z-e9a7",
+    "target": {
+      "type": "product",
+      "name": "cre",
+      "productScope": "curated"
+    },
+    "stages": [
+      "regrade"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": true,
+      "graderPromptSha": "7ca3088c42f0",
+      "regradeOf": "2026-09-21T13-06-50-707Z-043d"
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T16:51:18.947Z",
+    "endedAt": "2026-09-21T17:09:51.158Z",
+    "elapsedMs": 1112211,
+    "counts": {
+      "pages": 41,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 5.4013,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "cre-account-md",
+        "url": "https://docs.chain.link/cre/account.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 51.7,
+          "avgFidelityBefore": 40.8,
+          "unattributed": 3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-confidential-http-go-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 59,
+          "avgFidelityBefore": 28.7,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-confidential-http-ts-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 53,
+          "avgFidelityBefore": 31.2,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-evm-read-write-md",
+        "url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 53.2,
+          "avgFidelityBefore": 47.5,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-http-md",
+        "url": "https://docs.chain.link/cre/capabilities/http.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 48.2,
+          "avgFidelityBefore": 42,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-md",
+        "url": "https://docs.chain.link/cre/capabilities.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 57.8,
+          "avgFidelityBefore": 47.8,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-triggers-md",
+        "url": "https://docs.chain.link/cre/capabilities/triggers.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 65.2,
+          "avgFidelityBefore": 54.3,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-getting-started-before-you-build-go-md",
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 60.3,
+          "avgFidelityBefore": 57.3,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-getting-started-before-you-build-ts-md",
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 43.7,
+          "avgFidelityBefore": 43.2,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-getting-started-build-with-ai-go-md",
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 30.8,
+          "avgFidelityBefore": 21.2,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-getting-started-build-with-ai-ts-md",
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 39.8,
+          "avgFidelityBefore": 29.2,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-getting-started-overview-md",
+        "url": "https://docs.chain.link/cre/getting-started/overview.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 44.5,
+          "avgFidelityBefore": 52.2,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-activating-pausing-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 49.7,
+          "avgFidelityBefore": 34.7,
+          "unattributed": 3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-deleting-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/deleting-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 66.5,
+          "avgFidelityBefore": 51.3,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-deploying-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 40.2,
+          "avgFidelityBefore": 36.5,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-monitoring-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 45.5,
+          "avgFidelityBefore": 27.2,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-simulating-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 64.6,
+          "avgFidelityBefore": 55.7,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-updating-deployed-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 63.8,
+          "avgFidelityBefore": 58.5,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-using-multisig-wallets-md",
+        "url": "https://docs.chain.link/cre/guides/operations/using-multisig-wallets.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 60.7,
+          "avgFidelityBefore": 57.8,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-secrets-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 57.8,
+          "avgFidelityBefore": 54,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-confidential-http-client-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 67,
+          "avgFidelityBefore": 49,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-evm-client-overview-go-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 37.8,
+          "avgFidelityBefore": 26.5,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-evm-client-overview-ts-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 50.2,
+          "avgFidelityBefore": 55.2,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-http-client-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 38,
+          "avgFidelityBefore": 27.7,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-triggers-overview-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 61,
+          "avgFidelityBefore": 59.5,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-key-terms-md",
+        "url": "https://docs.chain.link/cre/key-terms.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 52.2,
+          "avgFidelityBefore": 44,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-md",
+        "url": "https://docs.chain.link/cre",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 44.5,
+          "avgFidelityBefore": 47.5,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-organization-md",
+        "url": "https://docs.chain.link/cre/organization.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 48,
+          "avgFidelityBefore": 33.7,
+          "unattributed": 3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-cli-md",
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 51.5,
+          "avgFidelityBefore": 41,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-project-configuration-go-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 68,
+          "avgFidelityBefore": 35,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-project-configuration-ts-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 54,
+          "avgFidelityBefore": 51.8,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-sdk-overview-go-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 71.5,
+          "avgFidelityBefore": 68.2,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-sdk-overview-ts-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 55.7,
+          "avgFidelityBefore": 52,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-release-notes-md",
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 65.3,
+          "avgFidelityBefore": 40.2,
+          "unattributed": 3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-service-quotas-md",
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 43.3,
+          "avgFidelityBefore": 37.3,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-support-feedback-md",
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 60,
+          "avgFidelityBefore": 26.7,
+          "unattributed": 5,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-supported-networks-go-md",
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 32.7,
+          "avgFidelityBefore": 31.5,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-supported-networks-ts-md",
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 45.2,
+          "avgFidelityBefore": 45.3,
+          "unattributed": 1,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-md",
+        "url": "https://docs.chain.link/cre/templates.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 51.5,
+          "avgFidelityBefore": 45.2,
+          "unattributed": 0,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-go-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 4,
+          "avgFidelity": 59,
+          "avgFidelityBefore": 37.8,
+          "unattributed": 2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-ts-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "stages": {
+          "regrade": "ran"
+        },
+        "durations": {},
+        "elapsedMs": null,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 45,
+          "avgFidelityBefore": 26.8,
+          "unattributed": 4,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": [],
+    "note": "Re-graded the stored answers of 2026-09-21T13-06-50-707Z-043d under grader prompt 7ca3088c42f0. The model under test was not re-run; only the grading changed. Per-page durations were not recorded for this run."
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "cre",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 41,
+      "inScope": 41,
+      "failed": 0
+    },
+    "notes": [
+      "Re-grade of 2026-09-21T13-06-50-707Z-043d — answers reused, not re-fetched."
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/cre/account.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/http.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/triggers.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/before-you-build-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/build-with-ai-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/getting-started/overview.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deleting-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/simulating-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/updating-deployed-workflows.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/using-multisig-wallets.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/secrets.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/key-terms.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/organization.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "source": "regrade",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "source": "regrade",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

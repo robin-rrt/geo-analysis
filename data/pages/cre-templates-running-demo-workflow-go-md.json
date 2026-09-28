@@ -1,0 +1,712 @@
+{
+  "key": "cre-templates-running-demo-workflow-go-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Running a Demo Workflow",
+    "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+    "analyzedAt": "2026-09-21T13:29:22.963Z",
+    "contentType": "developer documentation / tutorial (CLI walkthrough)",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 69.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Intro cleanly states the two paths (proactive/reactive); each numbered step opens with a concrete action. Weak spot: \"How it works\" narrative sections open with framing prose (\"What you just witnessed is a powerful…\") rather than a liftable claim."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 17 headings, 1 H1, 0 level skips, no section over 274 words (measured). Clear step hierarchy. Missing: a Path A vs Path B comparison table to let engines extract the distinction as a unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — version `1.25.3`, contract addresses, chain selector `16015286601757825753`, full log output with tx hashes and reserve values. Only minor vague quantifiers (\"several\", \"some\")."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for a tutorial — 12 internal links to canonical guides, but only 1 external primary source (go.dev). Claims about the Forwarder security pattern and consensus could link to spec/architecture pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Moderate. The Forwarder explanation and event-driven pattern are described but not crisply defined for verbatim lifting. No one-sentence \"CRE is…\" or \"The simulator is…\" anchor near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no og/twitter tags, no `datePublished`/`dateModified` in metadata (measured). `TechArticle` schema absent. Body-visible \"Last Updated\" is good but not machine-parseable."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — bash commands are complete and copy-pasteable, expected simulator output is shown inline. One untagged fence (measured); the interactive-prompt block is untagged."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good full-lifecycle coverage (init → configure → generate → simulate → verify → explore). Troubleshooting exists but is hidden inside CAUTION callouts rather than symptom-titled headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent product naming (CRE, Forwarder, ReserveManager). No action needed."
+      }
+    ],
+    "summary": "This is a well-structured, specifics-rich CLI tutorial that walks a developer through initializing and simulating a CRE Custom Data Feed workflow in Go. Its biggest strength is concrete, runnable detail — real commands, real addresses, full simulator log output with transaction hashes. Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no structured metadata (the useful \"Last Updated: 2025-11-04\" lives only in body text). The most impactful GEO gain, though, is turning buried troubleshooting content (e.g. the \"historical state is not available\" error) into symptom-phrased headings that match how devs and agents actually query.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings for known errors",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "Path B, \"Historical Block State\" CAUTION callout",
+        "issue": "`may fail with \"historical state is not available\"` — buried in a callout, not a heading.",
+        "change": "Add an H4/FAQ heading such as `#### Error: \"historical state is not available\" on log trigger read` with the fix (`use rpc.FinalizedBlockNumber instead of blockNumber`) as the first sentence.",
+        "why": "Devs/agents query the error string, not the concept; error-titled sections win retrieval that callout prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema and canonical URL",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", dates absent.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-11-04`, `programmingLanguage: Go`, and a self-referencing canonical URL.",
+        "why": "Structured metadata and freshness signals make the page parseable and trustworthy for agents; the \"Last Updated\" date is currently invisible to machine readers."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Path A vs Path B comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "start of \"6. Run the simulation\"",
+        "issue": "Path distinction is spread across two prose bullets.",
+        "change": "Add a table: columns Trigger / Direction (onchain write vs read-only) / Entry function (`onPORCronTrigger` / `onLogTrigger`) / Menu selection (1 / 2).",
+        "why": "Tables let engines extract the two behaviors as one comparable, citable unit."
+      },
+      {
+        "priority": 2,
+        "title": "Lead \"How it works\" sections with a liftable claim",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "\"How it works: An event-driven pattern\"",
+        "issue": "`What you just witnessed is a powerful event-driven capability.` — framing, not a fact.",
+        "change": "Open with a self-contained statement, e.g. \"The log-trigger workflow decodes an onchain event, extracts `payload.Data.Emitter`, and uses it to call `GetLastMessage` on the MessageEmitter contract.\"",
+        "why": "A standalone first sentence survives chunking and is directly quotable."
+      },
+      {
+        "priority": 2,
+        "title": "Add crisp canonical definitions near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "intro and the Forwarder NOTE",
+        "issue": "No one-line definition of the simulator or the Forwarder pattern.",
+        "change": "Add e.g. \"The Chainlink Forwarder is the contract that verifies consensus signatures before delivering workflow data to your target contract via `onReport()`.\"",
+        "why": "Verbatim-liftable definitions raise citation rate over diffuse explanation."
+      },
+      {
+        "priority": 3,
+        "title": "Tag the untagged code fence",
+        "mapsTo": "code completeness",
+        "tier": null,
+        "where": "the interactive trigger-selection block (measured: 1 untagged fence)",
+        "issue": "untagged block reduces language signalling.",
+        "change": "tag as ```` ```text ```` (interactive prompt, not bash).",
+        "why": "Language labels help agents classify and correctly handle non-runnable output."
+      },
+      {
+        "priority": 3,
+        "title": "Link claims to primary/architecture sources",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Forwarder security pattern paragraph",
+        "issue": "\"core security pattern in CRE\" asserted without a spec link at point of claim.",
+        "change": "inline-link the consensus/architecture reference alongside the existing Onchain Write guide link.",
+        "why": "Attributable claims raise credibility and citation likelihood."
+      }
+    ],
+    "antiPatterns": [
+      "Minor vague quantifiers (\"several\", \"some\") — measured; low impact, no action required.",
+      "Troubleshooting content buried in CAUTION callouts rather than discoverable headings (addressed in P1).",
+      "Otherwise none: no keyword stuffing, no marketing fluff, no unresolved cross-references, dated content present."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/twitter tags are site-template concerns — fixing them here likely requires a docs-platform change, not just this page.",
+      "`llms.txt` is already referenced in the body; confirm this page is listed in it so retrieval systems can discover it.",
+      "CLI note: raw `<head>` was not captured — pass it in future runs to fully verify metadata rather than infer absence."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+      "source_title": "Running a Demo Workflow",
+      "probe_set_id": "863cbbab6b11",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:49:02.944Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 46,
+      "avg_fidelity_all": 46,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.7,
+        "hallucination_free": 3.7,
+        "relevance": 4.3,
+        "structure": 6.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 1085843,
+          "output_tokens": 20282,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 27,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 10186,
+          "output_tokens": 10674,
+          "cache_creation_input_tokens": 15924,
+          "cache_read_input_tokens": 46182,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/templates/running-demo-workflow-go",
+              "https://docs.chain.link/cre-templates/custom-data-feed",
+              "https://docs.chain.link/cre/getting-started/part-1-project-setup-go",
+              "https://docs.chain.link/cre/reference/cli",
+              "https://github.com/smartcontractkit/cre-cli"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search/retrieval rate limit and could not confirm exact commands from the docs."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 7,
+            "relevance": 5,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "the CRE workflows are compiled to WASM from Go",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Verify with `cre --version`",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run cre generate-bindings evm to create Go bindings",
+            "Run go mod tidy to sync dependencies",
+            "Run cre workflow simulate custom-data-feed --broadcast --target staging-settings",
+            "Add your funded Sepolia private key to the .env file (specific Sepolia key requirement not stated)"
+          ],
+          "unverifiable_from_source": [
+            "cre --version command for verifying CLI install",
+            "https://docs.chain.link/cre-templates/custom-data-feed as a separate template page",
+            "https://github.com/smartcontractkit/cre-cli as CLI source",
+            "Workflows compiled to WASM"
+          ],
+          "verdict": "The answer correctly points to the right source URL but explicitly admits it could not retrieve the actual steps, giving only vague, hedged guidance without the required exact commands (generate-bindings, go mod tidy, simulate flags), so it is not safe to follow as a working procedure.",
+          "fidelity": 48,
+          "prompt": "How do I initialize and run the Custom Data Feed demo workflow locally with the Chainlink CRE CLI in Go?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for the current Chainlink CRE CLI documentation on this.The most relevant pages are the \"Running a Demo Workflow\" and \"Custom Data Feed\" docs. Let me fetch details.Let me wait a moment and retry to get the detailed steps.I'm running into a persistent rate limit on the search tool, so I couldn't pull the full step-by-step text from the docs pages. Let me give you what I confirmed from the search results plus a practical walkthrough, and point you to the authoritative pages.\n\n## Where the official instructions live\n\nThere are two Chainlink documentation pages that directly cover this:\n\n- **\"Running a Demo Workflow\" (Go)** — `https://docs.chain.link/cre/templates/running-demo-workflow-go`\n- **\"Custom Data Feed\" template** — `https://docs.chain.link/cre-templates/custom-data-feed`\n- Background/setup: **\"Part 1: Project Setup & Simulation\"** — `https://docs.chain.link/cre/getting-started/part-1-project-setup-go`\n- CLI reference — `https://docs.chain.link/cre/reference/cli`\n- The CLI source itself — `https://github.com/smartcontractkit/cre-cli`\n\nI'd treat those as the source of truth for exact flags, since the CLI is evolving quickly.\n\n## General flow (based on the CRE CLI structure)\n\n> Note: I couldn't verify the exact command syntax against the live docs in this session, so please cross-check command names/flags on the pages above before relying on them.\n\n1. **Install prerequisites**\n   - A recent **Go** toolchain (the CRE workflows are compiled to WASM from Go).\n   - The **`cre` CLI** (from the `smartcontractkit/cre-cli` repo).\n   - Verify with `cre --version`.\n\n2. **Initialize the project / template**\n   - Use the CLI's init command (e.g., `cre init`) and select the **Custom Data Feed** demo template, or clone the template project referenced on the Custom Data Feed docs page.\n   - This scaffolds the Go workflow code plus config files (typically a project/workflow config and a `.env`).\n\n3. **Configure the environment**\n   - Fill in the generated config/`.env` values (RPC endpoints, contract addresses, data source URLs/API keys the demo needs).\n\n4. **Run/simulate locally**\n   - Use the CLI's local simulation command (in the current CLI this is the `cre workflow simulate` family of commands) to execute the workflow against the local simulator without deploying on-chain.\n   - Inspect the logged output to confirm the feed values are being fetched, aggregated, and produced as expected.\n\n5. **(Optional) Deploy** once the local simulation looks correct, following the deploy section of the same docs page.\n\n## Why I'm hedging on exact commands\n\nThe specific subcommands and flags (`cre init`, `cre workflow simulate`, config file names, etc.) have changed across CRE CLI releases, and I wasn't able to load the current page contents to confirm them. The **\"Running a Demo Workflow (Go)\"** page walks through the exact commands for the Custom Data Feed demo end‑to‑end, so that's the one to follow directly.\n\nWould you like me to retry the search in a bit to pull the exact command sequence and config file names from those pages?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 142478,
+              "output_tokens": 4523,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1854,
+              "output_tokens": 1540,
+              "cache_creation_input_tokens": 7962,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited, and the answer appears to draw from other CRE docs pages instead."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "cre workflow simulate custom-data-feed --broadcast --target production-settings",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "workflow code (main.ts)",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "your wallet (specified by CRE_ETH_PRIVATE_KEY in .env)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "results in a successful log with an empty transaction hash (0x)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "cre workflow simulate custom-data-feed --broadcast --target staging-settings",
+            "Run from the project root (demo) directory"
+          ],
+          "unverifiable_from_source": [
+            "The reference SDK docs show the form cre workflow simulate --target staging-settings --config config.staging.json main.ts",
+            "CRE_ETH_PRIVATE_KEY environment variable name"
+          ],
+          "verdict": "The answer correctly explains why --broadcast is needed but gives the wrong exact command (production-settings instead of staging-settings), references a mismatched file (main.ts vs main.go), and adds unverified details, making it unsafe to copy-paste as-is.",
+          "fidelity": 45,
+          "prompt": "Using the Chainlink CRE CLI, what exact command and flags do I run to simulate the custom-data-feed workflow, and why is --broadcast needed?",
+          "archetype": "constrained",
+          "answer": "I have the information I need. Let me parse the results cleanly to extract the key details.Let me find the exact command used in the custom-data-feed demo template.## Command\n\nTo simulate the Custom Data Feed workflow, run the `cre workflow simulate` command pointed at the workflow folder, adding `--broadcast` because that demo writes onchain:\n\n```bash\ncre workflow simulate custom-data-feed --broadcast --target production-settings\n```\n\nA few notes on how this works and the flags involved:\n\n- The CLI automatically discovers your workflow configuration from the workflow.yaml file in the custom-data-feed directory. This file specifies paths to your workflow code (main.ts) and config files (config.staging.json, config.production.json), and the template already configures these paths correctly. So you generally just pass the folder name (e.g., `custom-data-feed`) rather than the individual code/config files.\n- You can select the environment with a target flag. The reference SDK docs, for example, show the form cre workflow simulate --target staging-settings --config config.staging.json main.ts, and the operations guide uses `cre workflow simulate my-workflow --broadcast --target staging-settings`. Use whichever target (e.g., `staging-settings` or `production-settings`) matches your config.\n- After launching, you will first see a \"Workflow compiled\" message, followed by the trigger selection menu, and this path executes the core functionality of the demo: fetching offchain reserve data and writing the result onchain.\n\n## Why `--broadcast` is needed\n\nThe Custom Data Feed workflow actually sends a transaction to the chain, and the simulator's default behavior is to *not* send it:\n\n- By default, cre workflow simulate performs a dry run for onchain write operations. It simulates the transaction to confirm it would succeed, but does not broadcast it to the network. This results in a successful log with an empty transaction hash (0x). To send a real transaction, use the --broadcast flag.\n- In the demo specifically, the --broadcast flag is included because this workflow performs an onchain write; by default, the simulate command performs a dry run and will not broadcast the transaction without this flag.\n\n## Prerequisite when broadcasting\n\nBecause a real transaction is being sent, you need a funded signing key: when using --broadcast, your wallet (specified by CRE_ETH_PRIVATE_KEY in .env) must be funded with the native token of the chain you're writing to (e.g., Sepolia ETH for Ethereum Sepolia testnet).\n\nIn short: omit `--broadcast` to do a safe dry run (you'll get a `0x` empty tx hash confirming the write would succeed), and include `--broadcast` when you actually want the Custom Data Feed workflow to push the result onchain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 731389,
+              "output_tokens": 4262,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1418,
+              "output_tokens": 1587,
+              "cache_creation_input_tokens": 7962,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited despite the answer covering its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "create a new file called Storage.abi in the existing abi directory",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "contracts/evm/src/generated/storage/storage.go",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "your-module-name/contracts/evm/src/generated/my_token",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "it also automatically adds the required evm capability dependency to your go.mod file",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "your project root (e.g., onchain-calculator/)",
+              "type": "contradiction",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "cd demo (navigating into the project directory before running the command)"
+          ],
+          "unverifiable_from_source": [
+            "create a new file called Storage.abi in the existing abi directory",
+            "storage.go / my_token example package paths",
+            "automatically adds the evm capability dependency to go.mod",
+            "onchain-calculator project name example"
+          ],
+          "verdict": "Core ABI-input and Go-output paths are correct, but the answer pads the response with specific file names, example paths, and a go.mod claim that aren't in this source page, and it never cites the expected doc—so it's not fully safe to ship without verification.",
+          "fidelity": 65,
+          "prompt": "cre generate-bindings evm — where does it look for ABIs and where does it put the generated Go packages?",
+          "archetype": "terse/keyword",
+          "answer": "I have enough information to answer clearly.\n\n## `cre generate-bindings evm` — ABI input & Go output locations\n\n**Where it looks for ABIs:**\n\nThis command will automatically generate type-safe Go bindings for all ABI files in your contracts/evm/src/abi/ directory. You run it from your project root, and you add each contract's ABI JSON there — create a new file called Storage.abi in the existing abi directory and add the contract's ABI JSON.\n\n**Where it puts the generated Go packages:**\n\nThe generated bindings will be placed in contracts/evm/src/generated/. Each contract gets its own package/subdirectory — for example, the Storage contract's binding ends up at `contracts/evm/src/generated/storage/storage.go`, and a token binding would be imported from a path like `your-module-name/contracts/evm/src/generated/my_token`.\n\n**Additional behavior worth noting:**\n\nBeyond generating the code, it also automatically adds the required evm capability dependency to your go.mod file.\n\n### Summary\n| | Path |\n|---|---|\n| ABI input directory | `contracts/evm/src/abi/` |\n| Generated Go output | `contracts/evm/src/generated/` (one package per contract) |\n\nBoth paths are relative to your project root (e.g., `onchain-calculator/`), which is where the command should be run. The resulting bindings are type-safe Go clients that wrap the generic `evm.Client`, handling ABI encoding/decoding so your workflow code stays clean.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38949,
+              "output_tokens": 1479,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 924,
+              "output_tokens": 1436,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 10351,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it could not retrieve the exact onchain-read code snippet and did not cite the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 1,
+            "relevance": 3,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "Pass the predefined confidence constant instead, e.g. `LATEST_BLOCK_NUMBER` or `LAST_FINALIZED_BLOCK_NUMBER`",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "result, err := evmClient.CallContract(ctx, callMsg, LAST_FINALIZED_BLOCK_NUMBER)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "chain read operations like `CallContract`, `BalanceAt`, and `FilterLogs` take a block/confidence parameter",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "If you genuinely need the state at the trigger block, point the simulation at an archive node",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "only **LATEST** and **FINALIZED** confidence levels are supported (SAFE is *not* available for chain reads",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "The workflow needs to use rpc.FinalizedBlockNumber instead of blockNumber for the contract read",
+            "The demo reads from the historical block number of the event log (specific to MessageEmitter/onLogTrigger context)"
+          ],
+          "unverifiable_from_source": [
+            "CRE defaults to LATEST if no block number is passed",
+            "SAFE confidence level is only for log triggers, not chain reads"
+          ],
+          "verdict": "Not safe to ship: it never mentions the documented fix (rpc.FinalizedBlockNumber) and instead invents nonexistent API constants and functions while recommending an archive node as the fix, contradicting the source's guidance.",
+          "fidelity": 25,
+          "prompt": "My Chainlink CRE log-trigger simulation fails with \"historical state is not available\" when reading the contract — what's wrong and how do I fix it?",
+          "archetype": "error-debug",
+          "answer": "## What the error means\n\n\"Historical state is not available\" almost always means your workflow is trying to **read contract state at an old block number** — typically the exact block where the log event was emitted — but the RPC node backing the read only keeps recent state in memory (usually the last ~128 blocks). Non-archive nodes prune older state, so a `CallContract`/`eth_call` at that historical block fails with exactly this message.\n\nIn a log-trigger workflow this is a very common trap because it *feels* natural to read the contract \"as of\" the block that triggered you. But there's a lag between the log being emitted, finality/confidence processing, and when your workflow actually executes the read — by then that block's state may already be pruned.\n\n## Why it happens in CRE specifically\n\nCRE reads aren't automatically pinned to the trigger's block. According to the Chainlink docs, chain read operations like `CallContract`, `BalanceAt`, and `FilterLogs` take a block/confidence parameter, and:\n\n- If you don't pass a block number, CRE defaults to **LATEST**.\n- For reads, only **LATEST** and **FINALIZED** confidence levels are supported (SAFE is *not* available for chain reads — it's only for log triggers).\n- To read at a specific historical block, you must pass an **explicit block number**, and that only works if the node has archival state for it.\n\nSo if your code is passing the log's `BlockNumber` (or a fixed old block) into the read, you're asking for historical state that the simulator's backing node doesn't retain.\n\n## How to fix it\n\n**1. Read at LATEST or FINALIZED instead of the log's block (recommended for most cases).**\nDon't feed `log.BlockNumber` into your contract read. Pass the predefined confidence constant instead, e.g. `LATEST_BLOCK_NUMBER` or `LAST_FINALIZED_BLOCK_NUMBER`, so the read targets a block whose state is still available:\n\n```go\n// instead of reading at logEvent.BlockNumber ...\nresult, err := evmClient.CallContract(ctx, callMsg, LAST_FINALIZED_BLOCK_NUMBER)\n```\n\nUse **FINALIZED** if the value must be trustworthy for critical/financial logic; use **LATEST** if you just need the current value and speed matters.\n\n**2. If you genuinely need the state at the trigger block, point the simulation at an archive node.**\nHistorical-state reads at arbitrary old blocks require an archive RPC endpoint. Configure the simulator/workflow to use an archive-capable node for that chain; a standard full node will keep returning \"historical state is not available.\"\n\n**3. Don't rely on a block number pulled from a stale log.**\nBecause of the delay between emission and execution, prefer confidence levels over hard-coding block numbers. Only pin an explicit block number when you specifically need fixed-confirmation or historical verification *and* have archive access.\n\n## Quick checklist\n\n- Are you passing `log.BlockNumber` into a read call? → Switch to `LATEST`/`FINALIZED`.\n- Using SAFE for a read? → Not supported; use LATEST or FINALIZED.\n- Actually need historical state at that block? → Use an archive node in your simulation config.\n\nIf you can paste the specific read call from your workflow (the `CallContract`/binding call and the block argument you pass), I can point to the exact line to change.\n\nOne note on limitations: my searches confirmed the CRE confidence-level and block-number behavior from Chainlink's \"Finality and Confidence Levels\" documentation, but I couldn't pull the full onchain-read code example due to a search-tool limit. If you want, I can retrieve the exact `Onchain Read` guide snippet to match your language (Go/TS).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 102997,
+              "output_tokens": 4851,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1741,
+              "output_tokens": 1856,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 10351,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or links the source page despite paraphrasing several of its exact warnings."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "The variable is named CRE_ETH_PRIVATE_KEY, and the line looks like this: CRE_ETH_PRIVATE_KEY=YOUR_64_CHARACTER_PRIVATE_KEY_HERE",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "If your workflow does not write on-chain, you can use a dummy key: CRE_ETH_PRIVATE_KEY=0000...0001",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "the simulator requires a private key to initialize its environment, even for workflows that don't interact with the blockchain yet",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "The key is needed because the demo performs a write transaction (stated unambiguously, without caveats)"
+          ],
+          "unverifiable_from_source": [
+            "Use a brand-new, throwaway wallet in MetaMask",
+            "Suggestion to check git status before pushing"
+          ],
+          "verdict": "The core .env/0x guidance is correct, but the fabricated CRE_ETH_PRIVATE_KEY variable name and the invented 'dummy key / not always needed' advice contradict the source and could mislead a developer into misconfiguring or skipping the required key — not safe to ship as-is.",
+          "fidelity": 50,
+          "prompt": "I'm brand new to this — I got a Chainlink CRE demo project set up and it's asking me for a private key in a file, plus something about a 0x prefix. Can you walk me through configuring my Sepolia key safely?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question — handling private keys correctly is exactly the kind of thing worth slowing down on, even for a testnet. Let me look up the current Chainlink CRE guidance so I give you accurate steps.Welcome to Chainlink CRE! You're asking exactly the right question before pasting a private key anywhere. Here's a beginner-friendly walkthrough.\n\n## The short answer to your two specific questions\n\n**1. Which file?** It's the `.env` file in your project's root directory. When you scaffold a CRE project, the demo generates this file for you. You add your funded Sepolia private key to the .env file. The variable is named `CRE_ETH_PRIVATE_KEY`, and the line looks like this:\n\n```\nCRE_ETH_PRIVATE_KEY=YOUR_64_CHARACTER_PRIVATE_KEY_HERE\n```\n\n**2. The 0x prefix — this is the key detail people trip on.** Your private key must be the 64-character hexadecimal string. Do not include the 0x prefix.\n\nSo if your wallet (e.g., MetaMask) exports the key as `0xabc123...`, you strip the leading `0x` and paste only the 64 characters after it. A correctly formatted entry has exactly 64 hex characters (0–9, a–f) with nothing in front.\n\n## Why the key is even needed for a demo\n\nThis confuses beginners, so worth clarifying: the simulator requires a private key to initialize its environment, even for workflows that don't interact with the blockchain yet. In later steps this key will be used to read from and send transactions to the Sepolia testnet.\n\nIf your particular demo *doesn't* write on-chain yet, you actually don't need to expose a real key at all. If your workflow does not write on-chain, you can use a dummy key: CRE_ETH_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000001 I'd strongly suggest starting with this dummy key until you actually reach a step that submits a transaction — it lets you learn the tooling with zero risk.\n\n## Safety practices (the important part)\n\nSince you're brand new, please build these habits from day one:\n\n**Use a brand-new, throwaach wallet.** Create a fresh account in MetaMask used *only* for CRE testing. Never use a wallet that holds real funds or that you use on mainnet. That way, even if the key leaks, the worst case is losing some free testnet ETH.\n\n**Only fund it with free testnet ETH.** You'll need a bit of Sepolia ETH for gas, which you can get free from a faucet — no real money involved. Never send mainnet/real ETH to a key you've placed in a plaintext file.\n\n**Never commit the key to Git.** The good news is the demo protects you here: the .gitignore file included in the project already prevents .env files from being committed to version control. Never share your private keys or commit them to Git. Before your first `git push`, double-check with `git status` that `.env` is *not* listed as a staged/tracked file.\n\n**Graduate to a secrets manager when you're ready.** Plaintext `.env` is fine for first experiments, but the recommended long-term approach is different. While using a plaintext .env file is convenient for initial testing, the recommended best practice is to use a dedicated secrets manager. Chainlink documents using 1Password CLI, where you replace the plaintext secret with a secret reference, and the op run command loads the secrets into the environment, ensuring the secrets only exist in memory for the duration of the process.\n\n## Step-by-step recap\n\n1. Open the `.env` file in your project's root directory.\n2. Find the `CRE_ETH_PRIVATE_KEY=` line.\n3. Paste your key **without** the `0x` — exactly 64 hex characters (or use the all-zeros-ending-in-1 dummy key if this demo doesn't write on-chain yet).\n4. Confirm `.env` is git-ignored (`git status` shouldn't show it).\n5. Make sure that wallet is a fresh testing-only account with some free Sepolia ETH for gas.\n6. Save and run your simulation (e.g., `cre workflow simulate ...`).\n\nOne caution: since this is a learning demo, don't reuse this same key or wallet for anything holding real value later. When you eventually move toward deploying real workflows, that's the point to switch to a secrets manager or a multi-sig setup rather than a plaintext file.\n\nWant me to explain how to create the throwaway MetaMask wallet, or how to get Sepolia ETH from the faucet? Also, are you following the Go or TypeScript version of the getting-started guide? The commands differ slightly and I can tailor the next steps.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32163,
+              "output_tokens": 2033,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2052,
+              "output_tokens": 1302,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 10351,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected demo-workflow source page was not cited; the answer instead references other CRE pages (simulating-workflows, part-1-project-setup-go) not confirmed in the provided source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "--non-interactive --trigger-index 2 --evm-tx-hash 0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e --evm-event-index 0",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "A CRE_ETH_PRIVATE_KEY set in your .env file",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "pick a template (e.g., the Hello World Go example to start)",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Generate bindings with cre generate-bindings evm and run go mod tidy",
+            "Select the cron-trigger to run Path A and observe the txHash in the logs"
+          ],
+          "unverifiable_from_source": [
+            "Part 1: Project Setup & Simulation (Go) getting-started guide content",
+            "--non-interactive / --trigger-index CLI mode",
+            "CRE_ETH_PRIVATE_KEY as the exact env var name"
+          ],
+          "verdict": "The answer covers the general CRE simulate/broadcast concept but omits the required bindings-generation and go mod tidy steps, invents CLI flags and an env var name not present in the source, and points to different (uncited) pages instead of the actual demo workflow doc—unsafe to follow verbatim for this specific tutorial.",
+          "fidelity": 43,
+          "prompt": "how to run a chainlink workflow simulation locally with go and see an onchain write result",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for current information on running Chainlink workflow simulations locally with Go.Let me get the detailed content from the most relevant pages.Here's how to run a Chainlink CRE (Chainlink Runtime Environment) workflow simulation locally with Go and observe an onchain write result.\n\n## Prerequisites\n\n- **Go 1.25.3+** — check with `go version`\n- **CRE CLI installed** and logged in (`cre login`) — simulation requires a CRE account and authentication\n- **A funded Sepolia account** — you'll need Sepolia ETH (from faucets.chain.link) to pay gas when broadcasting real onchain writes\n- A `CRE_ETH_PRIVATE_KEY` set in your `.env` file — this is **required** if your workflow performs onchain writes\n\n## 1. Scaffold a project\n\nThe CLI's `init` command interactively scaffolds a new project, asking for a project name, a workflow template, and a workflow name:\n\n```bash\ncre init\n```\n\nChoose **Golang** as the language and pick a template (e.g., the Hello World Go example to start). This generates the project structure and Go workflow code.\n\n## 2. Understand what `simulate` does\n\nThe `cre workflow simulate` command **compiles your workflow and runs it locally**. Under the hood it:\n\n- **Compiles** your Go code to WebAssembly (WASM)\n- **Prompts you to select a trigger** to test — cron, HTTP, or EVM log\n- **Executes locally**, making *real* calls to your configured RPCs and HTTP endpoints\n- **Displays logs** from your workflow plus the final execution result\n\nFor local simulation, the getting-started guide uses a `staging-settings` target configuration.\n\n## 3. Run the simulation\n\nFrom your project root directory:\n\n```bash\ncre workflow simulate my-calculator-workflow --target staging-settings\n```\n\nIn **interactive mode**, the simulator prompts you to pick a trigger:\n\n```\nWorkflow compiled 🚀\nWorkflow simulation ready. Please select a trigger:\n  1. [email protected] Trigger\n  2. [email protected] Trigger\n  3. evm:ChainSelector:[email protected] LogTrigger\nEnter your choice (1-3):\n```\n\nFor an **EVM log trigger**, the simulator fetches the specified log from the configured RPC and passes it into your workflow.\n\n## 4. Non-interactive / CI mode\n\nYou can skip prompts (useful for CI/CD or automated testing) using `--non-interactive` with a trigger index and trigger-specific inputs:\n\n```bash\ncre workflow simulate my-workflow \\\n  --non-interactive \\\n  --trigger-index 2 \\\n  --evm-tx-hash 0x420721d7d00130a03c5b525b2dbfd42550906ddb3075e8377f9bb5d1a5992f8e \\\n  --evm-event-index 0 \\\n  --target staging-settings\n```\n\n## 5. Seeing an actual onchain write result\n\nBy default, simulation runs everything locally. To make the onchain **write actually land on a testnet** and get a real transaction result, add the **`--broadcast`** flag:\n\n```bash\ncre workflow simulate my-workflow --target staging-settings --broadcast\n```\n\n**Important:** when using `--broadcast`, the wallet specified by `CRE_ETH_PRIVATE_KEY` in your `.env` must be **funded with the native token of the target chain** (e.g., Sepolia ETH for Ethereum Sepolia). The simulator will then submit the write transaction, and you can verify the read/write operations against the real testnet and inspect the resulting transaction on a block explorer.\n\n## Quick reference\n\n| Goal | Command flag |\n|------|-------------|\n| Local run, no real tx | (default) |\n| Feed a real EVM log | `--evm-tx-hash` + `--evm-event-index` |\n| Skip prompts | `--non-interactive --trigger-index N` |\n| Actually broadcast the onchain write | `--broadcast` (wallet must be funded) |\n| Choose config target | `--target staging-settings` |\n\n**Recommended path:** If any of the prerequisites feel unclear, the docs strongly recommend starting with the **CRE Getting Started guide (Part 1: Project Setup & Simulation, Go)**, which walks through project setup, environment configuration, and running your first simulation step by step, then Part 2 covers fetching offchain data and writing onchain.\n\nKey documentation pages:\n- **Simulating Workflows**: `docs.chain.link/cre/guides/operations/simulating-workflows`\n- **Part 1: Project Setup & Simulation (Go)**: `docs.chain.link/cre/getting-started/part-1-project-setup-go`\n- **CLI Reference**: `docs.chain.link/cre/reference/cli`\n\nWould you like me to walk through the actual Go workflow code (the handler that performs the EVM write), or the `.env` / config setup in more detail?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 37867,
+              "output_tokens": 3134,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2197,
+              "output_tokens": 2953,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 10351,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

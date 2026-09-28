@@ -1,0 +1,617 @@
+{
+  "key": "cre-release-notes-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Release Notes (CRE)",
+    "url": "https://docs.chain.link/cre/release-notes.md",
+    "analyzedAt": "2026-09-21T13:27:24.091Z",
+    "contentType": "developer documentation / changelog (release notes)",
+    "score": 71,
+    "band": "Good",
+    "weightedTotal": 71.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Each section opens with a self-contained claim, e.g. \"CRE CLI version 1.32.0 is now available,\" and no section depends on prior context. Minor: the page intro is generic (\"This page provides detailed release notes for CRE\") rather than a liftable summary of what CRE is."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 1 H1, max depth H3, 0 level skips, median 87 words/section, none over 600 — near-ideal RAG chunk boundaries. Weakness: 0 tables; scattered \"Required versions\" lines would be far more extractable as a matrix."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong. Real limits (\"execution concurrency (10 → 50)\", \"gas limit (5M → 10M)\", \"5 KB → 50 KB\"), full version strings, named networks. Vague quantifiers (\"several\", \"various\", \"significant\") appear but are rare."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 9,
+        "weighted": 9,
+        "analysis": "Strong; no action needed. 64 links to `github.com` release tags/compares plus 98 internal links to guides and reference pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Adequate. One crisp CRE definition exists (\"CRE is the all-in-one orchestration layer...\"), but it is buried in the oldest (Nov 4, 2025) entry at page bottom rather than near the top where engines skim."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, MISSING canonical, absent `datePublished`/`dateModified`, 0 og/twitter tags. The body carries \"Last Updated: 2026-09-03\" and an `llms.txt` link, but none of this is in machine-readable head metadata (head could not be verified — CLI should pass raw `<head>`)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak for the category. 0 fenced code blocks; commands appear only as inline spans. Migration-relevant changes (e.g. the `encrypt_output` field move in Go SDK v1.3.0) would be far more agent-usable as fenced before/after snippets."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Covers \"what changed in vX\", \"how to update\", known issues, and bug fixes. Gap: no symptom/question-phrased headings for common upgrade queries (\"which versions support Solana mainnet\", \"how do I fix the empty .env known issue\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent product/entity naming (CRE, CLI, Go SDK, TS SDK) aids entity resolution."
+      }
+    ],
+    "summary": "This is a well-structured, densely factual changelog for the Chainlink Runtime Environment (CRE), covering CLI, Go SDK, and TypeScript SDK releases. Its biggest strength is verifiable specificity: 76 clean sections, 236 numerals, explicit version strings, and 64 primary-source GitHub links make almost every claim attributable. Its biggest opportunity is machine-readable metadata — no JSON-LD, canonical URL, or head-level `dateModified` were served — and the absence of a consolidated version-compatibility table that engines could lift to answer \"which SDK version do I need for network X.\" The honest verdict: strong on-page substance held back by missing structured metadata and one high-value missing artifact (a compatibility matrix).",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD with dateModified and canonical",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / template",
+        "issue": "Measured: \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified` (mirror the visible `2026-09-03`), `inLanguage`, and a `canonical` link to `https://docs.chain.link/cre/release-notes`.",
+        "why": "Structured freshness and canonical signals raise agent trust (E-E-A-T) and disambiguate this as the authoritative changelog versus GitHub mirrors."
+      },
+      {
+        "priority": 1,
+        "title": "Add a version-compatibility matrix table",
+        "mapsTo": "machine-scannability & justification structure; query coverage",
+        "tier": null,
+        "where": "new section near top, above the chronological entries",
+        "issue": "Compatibility data is scattered across \"Required versions\" lines (e.g. \"Hyperliquid Mainnet: CLI v1.7.0+, Go SDK v1.7.0+, TS SDK v1.4.0+\").",
+        "change": "Add a table with columns `Network` / `Min CLI` / `Min Go SDK` / `Min TS SDK`, consolidating every \"Required versions\" note.",
+        "why": "Tables are highly liftable; this directly answers \"which version supports network X,\" a query the prose currently forces engines to reconstruct from many sections."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased headings for upgrade and troubleshooting queries",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "intro area or a short \"Common questions\" section",
+        "issue": "Sections are titled by version (\"CLI v1.5.0\") not by user intent; the empty-`.env` known issue is buried in one release.",
+        "change": "Add anchored H2s like \"How do I update the CRE CLI?\" and \"Fixing 'environment variables not bound' without a .env file,\" linking to the relevant release entries.",
+        "why": "Devs and agents query by symptom/error string; concept- and version-titled prose loses retrieval that question-phrased headings win."
+      },
+      {
+        "priority": 2,
+        "title": "Fence the migration-relevant code and command examples",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "e.g. Go SDK v1.3.0 (`encrypt_output` move), TS SDK v1.0.3 import-style change",
+        "issue": "Measured \"0 fenced block(s)\"; breaking-change guidance is prose-only.",
+        "change": "Add tagged fenced blocks (```` ```go ````, ```` ```ts ````) showing the before/after for breaking changes and a `cre update` example.",
+        "why": "Fenced, language-tagged snippets are parsed as runnable units by coding agents; prose migration notes are not."
+      },
+      {
+        "priority": 2,
+        "title": "Surface the CRE canonical definition near the top",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "page intro (currently \"This page provides detailed release notes for CRE\")",
+        "issue": "The liftable definition sits in the bottom-most Nov 2025 entry.",
+        "change": "Add one sentence to the intro: \"The Chainlink Runtime Environment (CRE) is the orchestration layer for building, simulating, and deploying onchain workflows via the CRE CLI and Go/TypeScript SDKs.\"",
+        "why": "A crisp definition in the first liftable chunk anchors the entity and defends against parametric priors when only the top of the page is skimmed."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers with specifics where cheap",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "entries using \"various internal improvements\", \"significant changes\", \"various small improvements and bug fixes\"",
+        "issue": "Vague quantifiers flagged: \"several, various, most, significant\".",
+        "change": "Where a concrete count/area exists, name it (e.g. \"three reliability fixes across context propagation, secret handling, and registry types\"); otherwise leave and link the GitHub compare.",
+        "why": "Quantitative specifics outperform qualitative prose in generative retrieval and citation."
+      }
+    ],
+    "antiPatterns": [
+      "Repeated boilerplate: the identical \"How to update\" block appears in nearly every CLI section. Harmless for humans but adds low-value duplicated chunks; consider linking to a single canonical update section instead.",
+      "Mild vague quantifiers (\"various small improvements and bug fixes\") in several minor-version entries.",
+      "No stale-content or broken cross-reference issues found; internal anchors resolve."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page top — good; confirm it lists this release-notes URL.",
+      "Head metadata could not be verified from the provided content; the CLI should pass raw `<head>` so canonical/JSON-LD/OG presence can be confirmed rather than inferred.",
+      "GitHub release pages are strong third-party corroborators already linked; no earned-media gap here."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/release-notes.md",
+      "source_title": "CRE Release Notes",
+      "probe_set_id": "305a3cbd7bc5",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:45:01.092Z",
+      "probe_count": 6,
+      "graded_count": 4,
+      "refusal_count": 0,
+      "error_count": 2,
+      "avg_fidelity": 35,
+      "avg_fidelity_all": 31.3,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0.25,
+      "retrieval_hit_rate_effective": 0.25,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.8,
+        "hallucination_free": 4.5,
+        "relevance": 2.3,
+        "structure": 4
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 406845,
+          "output_tokens": 11772,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 15,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 5223,
+          "output_tokens": 4422,
+          "cache_creation_input_tokens": 28167,
+          "cache_read_input_tokens": 84501,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "How do I update the Chainlink CRE CLI to the latest version?",
+          "archetype": "direct-howto",
+          "answer": "",
+          "stop": "error",
+          "error": "terminated",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search-tool limit and could not verify the Go SDK version, and it cites no source URLs, indicating retrieval failure."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 4,
+            "relevance": 3,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "Secrets are fetched dynamically inside the enclave with runtime.GetSecret()/runtime.getSecret().",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Chainlink also notes that Confidential Workflows is invite-only during the private beta",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "one project noted bumping the TypeScript CRE SDK from 1.18.0 → 1.19.1 when adopting confidential features",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Go SDK v1.18.0 added Confidential Workflows support"
+          ],
+          "unverifiable_from_source": [
+            "Confidential Workflows is invite-only during a private beta",
+            "runtime.GetSecret()/runtime.getSecret() being used to fetch secrets inside the enclave",
+            "the claim that a project bumped TS SDK from 1.18.0 to 1.19.1 when adopting confidential features"
+          ],
+          "verdict": "The answer correctly names cre.HandlerInTee and cre.TeeRuntime but fails to confirm the required Go SDK version (v1.18.0), admits the search failed, and introduces several unverified or fabricated details (private beta status, a single-secret fetch function), making it unreliable to ship as-is.",
+          "fidelity": 40,
+          "prompt": "In Chainlink CRE, which Go SDK version added Confidential Workflows and what runtime/handler does it introduce for running logic inside a TEE enclave?",
+          "archetype": "constrained",
+          "answer": "I have good information. Let me get the specific Go SDK version number.Based on my research, I can confidently answer the \"what runtime/handler\" part of your question, but I want to be transparent about the version detail.\n\n## The handler and runtime\n\nIn the Chainlink CRE Go SDK, Confidential Workflows are exposed through a dedicated handler and runtime type:\n\nConfidential Workflows in CRE run sensitive computation inside a secure enclave, designed so that what's actually being computed is intended to remain confidential from node operators during execution.\n\nThe specific building blocks introduced are:\n\n- **Handler:** A workflow uses the CRE SDK (Go or TypeScript) and comprises one or more handlers, which define the logic that executes when events (triggers) occur. For confidential execution, you register the handler using `cre.HandlerInTee`. As the docs describe it: Confidential Workflows (beta) is a workflow type that runs a handler's full callback logic inside an enclave, registered with cre.HandlerInTee/handlerInTee and given a cre.TeeRuntime/TeeRuntime.\n\n- **Runtime:** the `cre.TeeRuntime` (`TeeRuntime` in TypeScript). Secrets are fetched dynamically inside the enclave with runtime.GetSecret()/runtime.getSecret().\n\nSo instead of the standard `cre.Handler` + `cre.Runtime`, a confidential workflow uses **`cre.HandlerInTee`** to register the handler and receives a **`cre.TeeRuntime`** in its callback, which runs the full callback logic inside the TEE enclave. This composes freely with standard workflow logic — Confidential Workflows are fundamentally standard CRE workflows with an explicit confidential execution path added where you need it, and you decide what stays inside the enclave and what crosses back out to the Workflow DON for consensus-verified execution.\n\n## On the version number\n\nI was not able to confirm the exact **Go SDK** release number from the search results before hitting my search-tool limit. The results I found consistently reference `cre.HandlerInTee` / `cre.TeeRuntime` as the API, and one project noted bumping the **TypeScript** CRE SDK from `1.18.0 → 1.19.1` when adopting confidential features — but I could not verify that this corresponds to the Go SDK version that introduced them. Chainlink also notes that Confidential Workflows is invite-only during the private beta, so the feature is still in private beta.\n\nIf you need the precise Go SDK version, I'd recommend checking the `cre-sdk-go` repository's release notes/CHANGELOG or the `go.mod` version in the official `hello-confidential-workflows` example, since I couldn't confirm that exact number here. Would you like me to try that search again?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 197116,
+              "output_tokens": 3717,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1393,
+              "output_tokens": 1974,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28167,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it could not confirm the version from an authoritative changelog and never cites the expected release-notes source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 3,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "cre-sdk-go PR #209 was a \"Bump chainlink-protos for ethereum-testnet-hoodi chain selector.\"",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre-cli PR #598 was a \"cre/version bump for adding eth hoodi\"",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cmd/workflow/simulate/chain/evm/supported_chains.go",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "documentation PR #4187 states that this pull request introduces support for the Ethereum Hoodi Testnet",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "This points to **CRE CLI v1.33.0** ... as the release line where Ethereum Hoodi ... simulation support was introduced.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "`ethereum-testnet-hoodi` chain selector",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the --broadcast flag is included because this workflow performs an onchain write",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "faucets.chain.link/hoodi",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Ethereum Hoodi Testnet support was added in CRE CLI v1.35.0 (September 18, 2026)",
+            "Supported for local simulation via `cre workflow simulate` and for production onchain writes",
+            "Go SDK v1.21.0 added the `evm.EthereumHoodiTestnet` constant; TS SDK v1.22.0 added the `EthereumHoodiTestnet` constant"
+          ],
+          "unverifiable_from_source": [
+            "--broadcast flag behavior for simulate",
+            "faucets.chain.link/hoodi as a Hoodi faucet URL",
+            "Specific PR numbers and file paths referenced"
+          ],
+          "verdict": "Not safe to ship: the answer gives the wrong CLI version (v1.33.0 instead of the correct v1.35.0) and fabricates PR numbers, file paths, and a chain-selector identifier not found in the source, while never citing the actual release-notes page.",
+          "fidelity": 25,
+          "prompt": "cre workflow simulate ethereum hoodi testnet support version",
+          "archetype": "terse/keyword",
+          "answer": "Based on my searches, here's what I found about Ethereum Hoodi support in the CRE (Chainlink Runtime Environment) `workflow simulate` command:\n\n## What `cre workflow simulate` does\n\nThe cre workflow simulate command compiles your workflow and executes it locally. The CLI compiles your workflow to WebAssembly (WASM). Importantly, simulation compiles your workflows into WebAssembly (WASM) and runs them on your machine—but makes real calls to live APIs and public EVM blockchains. This is what lets you verify onchain read/write interactions against real testnets like Hoodi.\n\nFor onchain writes, note that the --broadcast flag is included because this workflow performs an onchain write. By default, the simulate command performs a dry run and will not broadcast the transaction without this flag.\n\n## Hoodi testnet support\n\nEthereum Hoodi support for CRE was added through a set of coordinated changes across the SDK and CLI:\n\n- On the SDK side, cre-sdk-go PR #209 was a \"Bump chainlink-protos for ethereum-testnet-hoodi chain selector.\"\n- On the CLI side, cre-cli PR #598 was a \"cre/version bump for adding eth hoodi\", which notably touched the simulate command's supported-chains file (`cmd/workflow/simulate/chain/evm/supported_chains.go`).\n- On the documentation side, PR #4187 states that this pull request introduces support for the Ethereum Hoodi Testnet across the documentation and configuration, and updates CRE CLI versioning and changelogs to reflect recent releases.\n\n## Version\n\nThe documentation PR that ships Hoodi support indicates the CLI version updates around this time: Updated VERSIONS in index.ts to include new CRE CLI releases (v1.33.0, ...). This points to **CRE CLI v1.33.0** (and the corresponding cre-sdk-go bump) as the release line where Ethereum Hoodi (`ethereum-testnet-hoodi`) simulation support was introduced.\n\n## Recommendation\n\nTo use Hoodi in simulation, make sure you:\n1. Update to the latest CRE CLI (at least v1.33.0 or newer) and the matching cre-sdk-go version so the `ethereum-testnet-hoodi` chain selector is recognized by the simulate command's supported chains.\n2. Add a funded Hoodi private key if you plan to simulate chain writes — you need to add a private key to the .env file if you want to simulate chain writes (the key must be valid and funded). You can get test tokens from the Hoodi faucet at faucets.chain.link/hoodi.\n\nSince I couldn't fully confirm the exact minimum version number from a single authoritative changelog entry, I'd recommend checking the CRE CLI release notes / changelog directly to confirm that `ethereum-testnet-hoodi` appears in the supported chains list for the version you install. Would you like me to try to pull the specific changelog entry?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 70464,
+              "output_tokens": 3014,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1495,
+              "output_tokens": 1814,
+              "cache_creation_input_tokens": 28167,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/release-notes",
+              "https://docs.chain.link/cre/capabilities",
+              "https://docs.chain.link/cre/key-terms"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states its search/retrieval tool hit a persistent rate limit, preventing it from extracting the actual content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 9,
+            "relevance": 3,
+            "structure": 3
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "The Solana Write capability was added in CRE CLI v1.24.0 (July 9, 2026)",
+            "Workflows can submit DON-consensus signed reports to Solana programs on Mainnet and Devnet via the Keystone Forwarder",
+            "Generate Solana bindings with `cre generate-bindings solana`",
+            "Local write simulation uses `cre workflow simulate` with `CRE_SOLANA_PRIVATE_KEY`"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer explicitly fails to deliver any of the required version, command, or config details due to a self-reported rate-limit failure, so it is not usable as-is despite citing the correct source URL.",
+          "fidelity": 40,
+          "prompt": "Show me which Chainlink CRE release enabled writing DON-consensus signed reports to Solana programs and what commands/config it uses.",
+          "archetype": "code-first",
+          "answer": "I'll search for information about Chainlink CRE releases and Solana support.There's a CRE Release Notes page. Let me look at it and the capabilities page directly.Let me wait for the rate limit to reset.I ran into a persistent rate limit on my search tool after my initial query, so I wasn't able to pull the full page contents needed to give you a precisely sourced, verified answer. Rather than guess at a specific release version, exact CLI commands, or config field names (which I don't want to fabricate), here's what I can reliably tell you and exactly where to confirm the details.\n\n## What I found\n\nThe relevant, authoritative Chainlink documentation pages that cover this are:\n\n- **CRE Release Notes** — `https://docs.chain.link/cre/release-notes` — this is the page that will name the specific release/version that added Solana as a write target and the DON-consensus report-writing behavior.\n- **CRE Capabilities Overview** — `https://docs.chain.link/cre/capabilities` — documents the \"write\" capability, including which chains (EVM, Solana) are supported for writing DON-consensus signed reports onchain.\n- **CRE Key Terms and Concepts** — `https://docs.chain.link/cre/key-terms` — defines DON consensus, reports, and the write/consensus flow.\n\n## What I couldn't verify (and don't want to invent)\n\nI don't want to state a specific:\n- **release version number** that first enabled Solana write support,\n- exact **CLI commands** (e.g., the `cre` workflow deploy/simulate commands), or\n- exact **config keys** (the workflow TOML/YAML fields specifying a Solana write target, program ID, consensus aggregation, etc.)\n\n...because my search was cut off before I could load the page bodies, and giving you exact command/config syntax from memory risks being wrong.\n\n## Recommended next step\n\nIf you'd like, I can retry the searches shortly (once the tool limit resets) to extract:\n1. The exact CRE release version + date from the release notes that introduced Solana write support.\n2. The precise `cre` CLI commands used to build/deploy a workflow that writes to a Solana program.\n3. The exact workflow config block (target = Solana, program address, consensus/aggregation settings).\n\nJust let me know and I'll pull those specifics directly from the pages above. Alternatively, the fastest authoritative confirmation is the **CRE Release Notes** page itself, which lists each release chronologically with the features it shipped.\n\nWould you like me to retry and dig out the exact version, commands, and config?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 133372,
+              "output_tokens": 4332,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1449,
+              "output_tokens": 341,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28167,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "I'm on the Chainlink CRE TypeScript SDK and my workflow build now throws warnings about Date.now() and Math.random(). Where did these come from and which version introduced them?",
+          "archetype": "error-debug",
+          "answer": "",
+          "stop": "error",
+          "error": "terminated",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite or reference the CRE release notes source at all, instead asking the user for clarification on a generic CLI tool."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 4,
+            "relevance": 0,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "tool-name> self-update",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "When you run any CRE command, the CLI detects a newer version and prompts you to update",
+            "Run `cre update` to install the latest version",
+            "First-time installs follow the CLI Installation guide"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer never recognizes this is about the Chainlink CRE CLI and instead gives a generic, non-specific guide to CLI updating, making it unhelpful and unsafe to ship for this prompt.",
+          "fidelity": 20,
+          "prompt": "cli update new version available how to install",
+          "archetype": "paraphrase",
+          "answer": "I can help, but I need a bit more detail to give you the exact command. \"CLI\" could refer to many different tools, and the update method depends on which one you're using and how you originally installed it.\n\n## Quick way to find out\n\nMost CLIs tell you the upgrade command right in the update notification, or you can check with:\n\n```bash\n<tool-name> --version\n<tool-name> --help\n```\n\n## Common update methods by installation type\n\n**If installed via npm (Node.js tools):**\n```bash\nnpm update -g <package-name>\n# or\nnpm install -g <package-name>@latest\n```\n\n**If installed via Homebrew (macOS/Linux):**\n```bash\nbrew update && brew upgrade <tool-name>\n```\n\n**If installed via pip (Python tools):**\n```bash\npip install --upgrade <package-name>\n```\n\n**If installed via a self-update command (many modern CLIs):**\n```bash\n<tool-name> update\n# or\n<tool-name> upgrade\n# or\n<tool-name> self-update\n```\n\n**If installed via apt (Debian/Ubuntu):**\n```bash\nsudo apt update && sudo apt upgrade <package-name>\n```\n\n## To give you the precise answer\n\nCould you tell me:\n1. **Which CLI** is it? (e.g., the exact name shown in the update message)\n2. **How did you install it** originally? (npm, brew, pip, downloaded binary, etc.)\n3. **What OS** are you on? (macOS, Linux, Windows)\n\nIf you paste the full update message you're seeing, I can point you to the exact command — many tools include the upgrade instructions right in that notice.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5893,
+              "output_tokens": 709,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 886,
+              "output_tokens": 293,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 28167,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "key": "chainlink-functions-tutorials-api-multiple-calls-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Call Multiple Data Sources",
+    "url": "https://docs.chain.link/chainlink-functions/tutorials/api-multiple-calls.md",
+    "analyzedAt": "2026-09-22T13:27:10.278Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 63.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Opens with a self-contained purpose statement — \"This tutorial shows you how make multiple API calls…\" (with a typo). Section leads are mostly independent, but the `FunctionsConsumerExample.sol` section is empty, so a lifted chunk under that heading yields nothing."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean H1→H4 hierarchy, 0 level skips, 46 bullets. Weakened by 0 tables (the API price-path mapping is a natural table) and one 647-word section."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong real numbers — `0.25590956997723491 LINK`, `1.104471544715335 LINK`, median `66822.81`, addresses, slot/expiration params. Measured facts flag \"0 with units\" and vague quantifier \"many,\" but the numeric density is good for a tutorial."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; 21 external links, 7 to primary sources (GitHub, Remix), inline links to API docs and Node.js references. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Tutorial prose lacks a crisp, liftable one-sentence definition of the core operation (making/aggregating multiple DON HTTP requests). Key terms (`donId`, `slotIdNumber`) are described inline but not defined quotably."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. This is the largest scored deficit; note the served `.md` may strip head metadata (CLI should pass raw `<head>` to confirm)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "8 fenced blocks, all tagged, expected console output shown, `REPLACE` placeholders clear. But `source.js` and the Solidity contract are only linked, not shown inline — an agent reading this page alone cannot reconstruct the full example."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers the \"how do I call multiple APIs\" intent and prerequisites, but no troubleshooting/FAQ and no symptom-phrased headings (e.g., simulation errors, secrets-upload failures)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Generally clear; minor errors — \"how make\", \"you can read the API docs… calculate\" (agreement), inconsistent \"Coinpaprika/CoinPaprika\" capitalization, stray capitalized \"These arguments\"."
+      }
+    ],
+    "summary": "This is a solid, link-rich Chainlink Functions tutorial showing how to fetch and median a `BTC/USD` price across three API providers, with a full annotated `request.js` walkthrough and real sandbox output. Its biggest strength is citation density (30 links, 7 to primary sources) and a concrete end-to-end console transcript. Its biggest weakness is an **empty `### FunctionsConsumerExample.sol` heading** (a broken, unretrievable chunk) compounded by missing machine-readable metadata (no JSON-LD, canonical, or dates) and no symptom/troubleshooting coverage. Honest verdict: good developer docs that lose GEO points to a structural gap and absent metadata, both cheaply fixable.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Fill or remove the empty `FunctionsConsumerExample.sol` section",
+        "mapsTo": "answer-first extractability, code completeness",
+        "tier": null,
+        "where": "`## Examine the code` → `### FunctionsConsumerExample.sol`",
+        "issue": "heading has zero body content — an orphan chunk.",
+        "change": "Add the contract snippet (or 2–3 sentences describing the consumer contract's `sendRequest`/`fulfillRequest` role) plus the Remix link already used later; or delete the heading.",
+        "why": "empty headings retrieve as blank chunks and waste an H3 anchor; a filled section becomes independently citable."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom/troubleshooting section",
+        "mapsTo": "query/intent coverage, symptom-phrased retrieval",
+        "tier": null,
+        "where": "new `## Troubleshooting` before or after `## Examine the code`",
+        "issue": "no coverage of failure modes; devs query by error string.",
+        "change": "Add 3–5 Q-phrased entries, e.g. \"Secrets uploaded but request not fulfilled\", \"`secp256k1 unavailable` warning\", \"Insufficient LINK / minimum balance error\", each with the one-line fix.",
+        "why": "symptom-phrased headings win retrieval that concept-titled tutorial prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add machine-readable metadata",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page head / frontmatter",
+        "issue": "measured facts show no JSON-LD, no canonical, no dates.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: [\"JavaScript\",\"Solidity\"]`, and a canonical URL; surface a visible \"Last updated\" line. (Confirm whether the served `.md` merely strips head — see off-page notes.)",
+        "why": "structured metadata and freshness signals make the page easier to parse and trust; largest scored gap."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the API price-path mapping to a table",
+        "mapsTo": "structural scannability, machine-scannability",
+        "tier": null,
+        "where": "\"The prices are respectively located at:\" list",
+        "issue": "provider → JSON path → sample endpoint spread across prose and bullets.",
+        "change": "One table with columns Provider | Endpoint | Price JSON path | API-key required.",
+        "why": "tables let engines extract per-provider facts as discrete rows; page currently has 0 tables."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical one-sentence lead to `source.js`",
+        "mapsTo": "quotable canonical definitions, parametric-prior resistance",
+        "tier": null,
+        "where": "`#### source.js`",
+        "issue": "opens with \"The Decentralized Oracle Network will run the JavaScript code\" — not the how.",
+        "change": "Lead with the canonical API: \"Use `Functions.makeHttpRequest` to issue each provider request, then return the median via `Functions.encodeUint256`.\" Name the wrong pattern explicitly (don't use `fetch`/`axios` inside the DON sandbox).",
+        "why": "puts the canonical SDK helper in the first liftable sentence, resisting generic `fetch`/`axios` priors."
+      },
+      {
+        "priority": 3,
+        "title": "Fix clarity/consistency errors",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "intro, source.js prose",
+        "issue": "\"how make\", \"Coinpaprika\" vs \"CoinPaprika\", stray-capitalized \"These arguments\".",
+        "change": "\"how to make\"; standardize \"CoinPaprika\"; lowercase mid-sentence \"these arguments\".",
+        "why": "consistent entity naming aids resolution; fluency is independently rewarded."
+      }
+    ],
+    "antiPatterns": [
+      "**Orphan heading / broken chunk:** `### FunctionsConsumerExample.sol` has no content.",
+      "**Undated content:** no visible or structured last-updated signal.",
+      "**Vague quantifier:** \"many different API providers\" (minor; the count is 3, so state it).",
+      "No keyword stuffing, no marketing fluff, no missing code tags detected."
+    ],
+    "offPageNotes": [
+      "The audited artifact is the `.md` export; head metadata \"could not be verified.\" The CLI should pass raw `<head>` from the HTML page before concluding JSON-LD/canonical are truly absent — the deficit may be partly a served-format artifact.",
+      "`llms.txt` is already referenced inline (good site-level signal); ensure this tutorial is listed there.",
+      "Full example fidelity depends on the linked GitHub `source.js` — inlining it would reduce reliance on off-page fetch during agent runs."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

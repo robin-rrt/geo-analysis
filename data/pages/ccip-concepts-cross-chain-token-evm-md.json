@@ -1,0 +1,156 @@
+{
+  "key": "ccip-concepts-cross-chain-token-evm-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "Cross-Chain Token Standard (EVM)",
+    "url": "https://docs.chain.link/ccip/concepts/cross-chain-token/evm.md",
+    "analyzedAt": "2026-09-22T13:39:37.646Z",
+    "contentType": "developer documentation / section index (hub page)",
+    "score": 45,
+    "band": "Developing",
+    "weightedTotal": 45,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Opens with a scope statement — \"This section provides detailed guidance for integrating tokens with Chainlink CCIP on EVM-compatible blockchains\" — but the implied question (\"what is the CCT standard?\") is never answered. A lifted chunk describes the *section*, not the *concept*."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean bullet list with bolded, linked labels and one-line descriptions; measured facts confirm 0 level skips and one coherent section. Weak only because there is no H2 hierarchy — it is a single 87-word block by design."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Facts show 3 numerals, 0 with units, 0 hex identifiers, no version strings. Almost entirely qualitative. No supported-chain list, no counts, no limits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "6 internal links, 0 external. Appropriate for a hub, but no link to the CCIP spec or a canonical concept definition raises no external credibility."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "No one-to-two-sentence definition of \"Cross-Chain Token Standard\" or \"CCT\" near first use — the single most impactful gap for a concept page."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Visible `Last Updated` date and clean semantic heading are positives; but facts confirm 0 JSON-LD blocks, missing canonical, absent `datePublished`/`dateModified`, no `og`/`twitter` tags. No `TechArticle` schema."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code present. Acceptable for a hub page, but nothing here aids agent execution."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Serves \"where do I find X\" navigation only. No \"what is…\", \"how do I…\", or troubleshooting phrasing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; prose is unambiguous and consistently names \"Chainlink CCIP\" and \"CCTs.\" No action needed."
+      }
+    ],
+    "summary": "This is a thin **section-index / hub page** (92 words, one H1, five links to child pages) whose job is to route readers to Architecture, Tokens, Token Pools, Registration, and Upgradability subpages. Its strength is clean, fluent routing prose with a visible `Last Updated: 2025-05-19`. Its biggest opportunity is that it never defines what the \"Cross-Chain Token Standard (CCT)\" actually *is* — so it offers a generative engine nothing quotable and little reason to be cited over the deeper child pages. Verdict: adequate as navigation, but currently a low-value retrieval target that should carry a canonical definition and schema to earn citations.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical definition of the Cross-Chain Token Standard",
+        "mapsTo": "Quotable canonical statements / Answer-first extractability",
+        "tier": null,
+        "where": "First paragraph, before the link list.",
+        "issue": "\"This section provides detailed guidance for integrating tokens…\" — describes the section, not the concept.",
+        "change": "Add a self-contained lead sentence, e.g. \"The Chainlink CCIP Cross-Chain Token (CCT) standard is a token-development framework that lets token issuers deploy and manage their own token pools to enable secure cross-chain transfers via CCIP, without permissionless liquidity pools or Chainlink involvement in deployment.\" Then keep the link list.",
+        "why": "Gives engines a verbatim-liftable definition; defends against parametric priors that would otherwise answer \"what is CCT\" generically or wrongly."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete specifics to the lead",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Intro paragraph.",
+        "issue": "Facts show 0 numerals with units, no supported-chain or version detail.",
+        "change": "State a quantifiable fact, e.g. the number/names of supported EVM chains, the two token-pool models (burn-and-mint, lock-and-release), or the required contract interfaces. Even one accurate figure raises retrieval lift.",
+        "why": "Quantitative claims are among the highest-lift changes for generative visibility."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle` JSON-LD and canonical URL",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` (site template).",
+        "issue": "Facts confirm 0 JSON-LD blocks, canonical MISSING, `dateModified` absent from structured data.",
+        "change": "Emit `TechArticle` schema with `headline`, `dateModified: 2025-05-19`, `inLanguage`, and a self-referential `canonical`. Mirror the visible \"Last Updated\" into `dateModified`.",
+        "why": "Structured freshness and canonical signals improve agent parsing and E-E-A-T trust."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase the child-link descriptions as the questions users ask",
+        "mapsTo": "Symptom/query coverage",
+        "tier": null,
+        "where": "The five bullets.",
+        "issue": "Labels are noun-phrases (\"Token Pools\", \"Upgradability\") that miss symptom/how-to queries.",
+        "change": "Append or reframe with intent phrasing, e.g. \"Token Pools — how to choose between burn-and-mint and lock-and-release pools\"; \"Upgradability — how to upgrade a token pool contract.\"",
+        "why": "Headings phrased as user questions win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Add one external/primary reference",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Intro paragraph.",
+        "issue": "0 external links; no link to the CCIP canonical concept or spec.",
+        "change": "Inline-link \"CCIP\" to the top-level CCIP concept page or architecture spec.",
+        "why": "Attributable claims raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "**Thin content as a standalone retrieval target** — 92 words with no definition; the page functions only as navigation and offers little liftable substance. Not fluff or stuffing, but low citation value.",
+      "No stale-date issue (dated 2025-05-19, visible), no ambiguous pronouns, no keyword stuffing."
+    ],
+    "offPageNotes": [
+      "Head metadata could not be verified — the CLI should pass raw `<head>` for a full schema/canonical read; JSON-LD and OG tags are site-template concerns.",
+      "The page already references `/llms.txt` — good site-level discoverability signal; ensure this hub and its children are listed there.",
+      "Whether this hub is *outranked* by its own child pages in generative answers is best confirmed with a probe run; no probe data was provided here."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "key": "data-feeds-smartdata-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "SmartData",
+    "url": "https://docs.chain.link/data-feeds/smartdata.md",
+    "analyzedAt": "2026-09-21T11:51:09.691Z",
+    "contentType": "developer documentation / product overview",
+    "score": 67,
+    "band": "Good",
+    "weightedTotal": 67.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 120,
+        "analysis": "Strong. Opens with \"Chainlink SmartData is a suite of onchain data offerings…\"; each feed section leads with a definition. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 120,
+        "analysis": "Strong; 12 headings, 0 level skips, no section over 248 words. Weakness: 0 tables — the two feed types and three product categories are natural comparison-table material an engine could lift as a justification unit."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 60,
+        "analysis": "Weak. Only 5 numerals/1k words, 0 with units, and vague quantifiers \"various,\" \"some\" present. No supported networks, decimals, update frequencies, or heartbeat/deviation parameters."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 70,
+        "analysis": "Good. 2 external links to primary sources (`github.com` interface contracts); heavy internal linking to addresses/API reference."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 64,
+        "analysis": "Strong. NAV \"calculated by subtracting total liabilities from the total assets held within the vehicle\"; AUM and SmartData each get a liftable one-liner."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 36,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. (Head metadata could not be verified — CLI should pass raw `<head>` for a full read.)"
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 80,
+        "analysis": "Strong. Single `sol` block includes SPDX, pragma `0.8.24`, import, address, network comment, and full `latestRoundData` destructuring. The \"SPDX/WBTC never assigned\" flag is a false positive (both appear in comments/license)."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 60,
+        "analysis": "Moderate. Covers what/types/how-to-read, but no troubleshooting or error-string sections, and no MVR runnable code inline (links out). Missing \"how do I read a Proof of Reserve feed\" style headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 64,
+        "analysis": "Strong. Consistent product naming; unambiguous prose. Only minor drag from vague quantifiers."
+      }
+    ],
+    "summary": "This is a clean, well-structured overview page for Chainlink SmartData that opens with a strong self-contained definition and defines each sub-product (PoR, NAVLink, SmartAUM) crisply. Its biggest strength is answer-first prose with solid internal linking and one complete, runnable Solidity example. Its biggest opportunity is machine-readability — no JSON-LD, canonical, or freshness signals were served — followed by thin concrete specifics (no supported-network lists, update parameters, or decimals) and no symptom/how-to phrased headings to win retrieval. Honest verdict: a solid Good page whose extractable prose is undercut by missing metadata and low quantitative density.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add page metadata: JSON-LD `TechArticle`, canonical, and last-updated",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "\"JSON-LD: 0 block(s) · canonical: MISSING · dateModified absent\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified`, `inLanguage`, and a self-referential `canonical` URL; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals let engines parse, date, and trust the page; currently none are present."
+      },
+      {
+        "priority": 1,
+        "title": "Add a feed-type / product comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"SmartData Feed Types\" and \"SmartData Product Categories\"",
+        "issue": "\"0 table(s)\" — types and categories are described in prose only.",
+        "change": "Add a table with columns Feed | Interface | Read method | Value type | Example use, rows for Single-value (`AggregatorV3Interface`) and MVR (`BundleAggregatorProxy`), plus PoR/NAVLink/SmartAUM rows.",
+        "why": "Tables let engines extract reasons and build justified side-by-side answers; the distinctions are the most-queried aspect."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/how-to phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"Using SmartData Feeds\"",
+        "issue": "Headings are concept-titled (\"Using Single-value SmartData Feeds\") not question-shaped.",
+        "change": "Add H3s like \"How do I read a Proof of Reserve feed in Solidity?\" and \"How do I decode an MVR feed's `latestBundle()` bytes?\" mirroring how devs/agents query.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses even when the answer is present verbatim."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics: networks, decimals, units",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Proof of Reserve, NAVLink, SmartAUM sections",
+        "issue": "\"0 [numerals] with units\" and vague \"answers in units of measurement such as ounces (oz)…\"",
+        "change": "State supported networks, typical `decimals()` return, and that PoR answers are `int256` scaled by decimals; give one concrete example (e.g. WBTC PoR reports in BTC, 8 decimals).",
+        "why": "Quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Name the common-but-wrong read pattern as a Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Using MVR Feeds\"",
+        "issue": "Text says MVR \"require a different approach\" but doesn't guard against the generic prior.",
+        "change": "Add a Don't: \"Do not call `latestRoundData()` on MVR feeds — use `latestBundle()` and decode the bytes array.\" Lead the section with the canonical `BundleAggregatorProxy`/`latestBundle()` API.",
+        "why": "Skimming engines default to the ubiquitous `latestRoundData` prior; naming the wrong call prevents confident inversions."
+      },
+      {
+        "priority": 3,
+        "title": "Inline a minimal MVR read snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Using MVR Feeds\"",
+        "issue": "Only links out; no runnable MVR example on-page (\"languages: [sol]\" = single block).",
+        "change": "Add a short, complete Solidity snippet showing `latestBundle()` + `abi.decode` into a struct, or a labeled excerpt, so agents get the pattern without a second fetch.",
+        "why": "Complete on-page snippets raise agent-runnability; a link-only section can't be lifted."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers",
+        "mapsTo": "clarity & specifics",
+        "tier": null,
+        "where": "\"bundle multiple data points of various types,\" \"In some instances\"",
+        "issue": "Vague quantifiers \"various,\" \"some\" flagged.",
+        "change": "Enumerate the types (numeric + string/bytes/bool) and state the specific composite-adapter case.",
+        "why": "Precise enumeration is more quotable than qualitative hedges."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"various types,\" \"In some instances\" — minor.",
+      "Two \"(Image: Image)\" placeholders — alt text/captioning absent, so the image content is invisible to engines; add descriptive alt text.",
+      "No stale-content risk detected in prose, but absence of any dateModified means freshness cannot be signaled at all."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this page is listed in it.",
+      "Site-level JSON-LD/canonical templating likely governs the missing metadata; fix at the template level, not just this page.",
+      "Head metadata could not be verified from the provided content — pass raw `<head>` to the CLI to confirm og/canonical status before treating as truly absent."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

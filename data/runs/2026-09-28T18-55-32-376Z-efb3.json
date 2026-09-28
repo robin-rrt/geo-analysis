@@ -1,0 +1,802 @@
+{
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "startedAt": "2026-09-28T18:55:32.377Z",
+  "endedAt": "2026-09-28T19:45:52.837Z",
+  "owner": {
+    "pid": 33647,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "ace",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit",
+    "probes",
+    "test",
+    "rollup"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "partial",
+  "counts": {
+    "expected": 14,
+    "pages": 11,
+    "failed": 3
+  },
+  "cost": {
+    "measured": 38.9208,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-28T18-55-32-376Z-efb3",
+    "target": {
+      "type": "product",
+      "name": "ace",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit",
+      "probes",
+      "test",
+      "rollup"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "partial",
+    "startedAt": "2026-09-28T18:55:32.377Z",
+    "endedAt": "2026-09-28T19:45:52.837Z",
+    "elapsedMs": 3020460,
+    "counts": {
+      "pages": 11,
+      "failed": 3,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 38.9208,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "ace-beta-scope-md",
+        "url": "https://docs.chain.link/ace/beta-scope.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 56108,
+          "probes": 29614,
+          "test": 1043784
+        },
+        "elapsedMs": 1130056,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 30.8,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-architecture-md",
+        "url": "https://docs.chain.link/ace/concepts/architecture.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 55186,
+          "probes": 34202,
+          "test": 407056
+        },
+        "elapsedMs": 497272,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 38.8,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-cross-chain-identity-md",
+        "url": "https://docs.chain.link/ace/concepts/cross-chain-identity.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 51174,
+          "probes": 41687,
+          "test": 560781
+        },
+        "elapsedMs": 654717,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 32.5,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-key-terms-md",
+        "url": "https://docs.chain.link/ace/concepts/key-terms.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 61226,
+          "probes": 36016,
+          "test": 1926539
+        },
+        "elapsedMs": 2027393,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 61.6,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-off-chain-policies-md",
+        "url": "https://docs.chain.link/ace/concepts/off-chain-policies.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 45363,
+          "probes": 40805,
+          "test": 357829
+        },
+        "elapsedMs": 447299,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 30.3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-policy-management-md",
+        "url": "https://docs.chain.link/ace/concepts/policy-management.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 58380,
+          "probes": 38558,
+          "test": 374065
+        },
+        "elapsedMs": 472124,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 47.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-policy-ordering-md",
+        "url": "https://docs.chain.link/ace/concepts/policy-ordering.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 54146,
+          "probes": 32335,
+          "test": 588141
+        },
+        "elapsedMs": 675446,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 65.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-concepts-reporting-md",
+        "url": "https://docs.chain.link/ace/concepts/reporting.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 56091,
+          "probes": 33179,
+          "test": 518667
+        },
+        "elapsedMs": 608807,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 27.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-getting-started-md",
+        "url": "https://docs.chain.link/ace/getting-started.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 54927,
+          "probes": 27649,
+          "test": 1065935
+        },
+        "elapsedMs": 1149133,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 33.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-reference-policy-library-md",
+        "url": "https://docs.chain.link/ace/reference/policy-library.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 60842,
+          "probes": 26027,
+          "test": 958967
+        },
+        "elapsedMs": 1046289,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 38.3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "ace-supported-networks-md",
+        "url": "https://docs.chain.link/ace/supported-networks.md",
+        "stages": {
+          "audit": "ran",
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "audit": 64266,
+          "probes": 26836,
+          "test": 1822190
+        },
+        "elapsedMs": 1914351,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 45.5,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/ace.md",
+        "error": "extracted only 176 characters from https://docs.chain.link/ace.md (minimum 800) — the page probably renders its content client-side, or extraction missed it. Inspect with `geo-audit score <url> --dump-content`, or pass --allow-thin to generate anyway."
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/coordinator.md",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/ace/reference/api/coordinator.md"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/reporting.md",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/ace/reference/api/reporting.md"
+      }
+    ]
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "ace",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 76,
+      "inScope": 14,
+      "failed": 3
+    },
+    "notes": [
+      "curated index lists 14 of 62 pages under /ace/ — 48 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/ace",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/beta-scope",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/beta-scope.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/cross-chain-identity",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/cross-chain-identity.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/key-terms",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/key-terms.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/off-chain-policies",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/off-chain-policies.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/policy-management",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/policy-management.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/policy-ordering",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/policy-ordering.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/reporting",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/reporting.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/security",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/concepts/signing-ownership",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/getting-started.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/getting-started/account-setup",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/getting-started/identity-manager",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/getting-started/policy-manager",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager/external-registries",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager/manage-credential-types",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager/manage-credentials",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager/manage-identities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/identity-manager/manage-registries",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/ccip-token-pools",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/ace-compatible",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/custom-contract-types",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/erc20-token",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/erc3643-token",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/new-contract",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/security-considerations",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/contracts/upgrade-existing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/custom-policies",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/manage-data-validators",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/manage-engines",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/manage-policies",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/manage-protections",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/manage-targets",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/offchain-policies",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/offchain-policies/grant-evaluation-access",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/offchain-policies/manage-offchain-policies",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/guides/policy-manager/offchain-policies/request-offchain-permits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/coordinator.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/reporting.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/apis",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/cross-chain-identity-contracts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/allow-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/bypass-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/certified-action-don-validator-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/credential-registry-identity-validator-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/grouped-identity-validator-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/interval-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/max-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/only-authorized-sender-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/pause-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/reject-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/role-based-access-control-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/secure-mint-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/volume-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-library/volume-rate-policy",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/policy-management-contracts",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/release-notes",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/ace/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/ace.md",
+        "error": "extracted only 176 characters from https://docs.chain.link/ace.md (minimum 800) — the page probably renders its content client-side, or extraction missed it. Inspect with `geo-audit score <url> --dump-content`, or pass --allow-thin to generate anyway."
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/coordinator.md",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/ace/reference/api/coordinator.md"
+      },
+      {
+        "url": "https://docs.chain.link/ace/reference/api/reporting.md",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/ace/reference/api/reporting.md"
+      }
+    ]
+  }
+}

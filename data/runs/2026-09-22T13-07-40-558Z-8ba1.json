@@ -1,0 +1,264 @@
+{
+  "runId": "2026-09-22T13-07-40-558Z-8ba1",
+  "startedAt": "2026-09-22T13:07:40.558Z",
+  "endedAt": "2026-09-22T13:10:12.889Z",
+  "owner": {
+    "pid": 26066,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "dta-technical-standard",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 7,
+    "pages": 7,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0.9301,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-07-40-558Z-8ba1",
+    "target": {
+      "type": "product",
+      "name": "dta-technical-standard",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-22T13:07:40.558Z",
+    "endedAt": "2026-09-22T13:10:12.889Z",
+    "elapsedMs": 152331,
+    "counts": {
+      "pages": 7,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0.9301,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "dta-technical-standard-md",
+        "url": "https://docs.chain.link/dta-technical-standard.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51436
+        },
+        "elapsedMs": 51585,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-actors-md",
+        "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 52402
+        },
+        "elapsedMs": 52556,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-concepts-architecture-md",
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 53467
+        },
+        "elapsedMs": 53795,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-concepts-payment-modes-md",
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 65652
+        },
+        "elapsedMs": 65997,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-concepts-request-lifecycle-md",
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 51995
+        },
+        "elapsedMs": 52129,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-how-it-works-md",
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 64723
+        },
+        "elapsedMs": 64857,
+        "probeSummary": null
+      },
+      {
+        "key": "dta-technical-standard-reference-glossary-md",
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 47283
+        },
+        "elapsedMs": 47640,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "dta-technical-standard",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 15,
+      "inScope": 7,
+      "failed": 0
+    },
+    "notes": [
+      "curated index lists 7 of 8 pages under /dta-technical-standard/ — 1 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/dta-technical-standard",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/actors.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/payment-modes.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/concepts/request-lifecycle.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

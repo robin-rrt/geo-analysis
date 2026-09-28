@@ -1,0 +1,680 @@
+{
+  "key": "cre-guides-workflow-using-triggers-overview-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Using Triggers",
+    "url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+    "analyzedAt": "2026-09-21T13:25:01.533Z",
+    "contentType": "developer documentation / section-overview (hub) page",
+    "score": 54,
+    "band": "Developing",
+    "weightedTotal": 53.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opener — \"Triggers are a special type of capability that start your workflows... event-driven services that watch for a specific condition to be met.\" Self-contained and quotable. No section-level answer-first beyond this because there is only one section."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Measured facts confirm 1 heading, 1 section, 0 tables. The three bulleted links are good, but the page has no H2 substructure and no comparison table to differentiate the three trigger types — the single most useful structure it lacks."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 3 numerals, 0 with units, no version/network specifics. No mention of limits, supported chains for EVM-Log, cron granularity, etc."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "4 internal links, 0 external. For a hub page internal linking is the point and is done cleanly, but there is no link to a canonical CRE capability/concept definition."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good — the trigger definition and \"A single workflow can contain multiple handlers\" are both liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Poor per measured facts — 0 JSON-LD, canonical MISSING, no `TechArticle` schema, no og/twitter, no `inLanguage`. A visible \"Last Updated: 2025-11-04\" exists in body text but is not in structured metadata."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "No code. Acceptable for a pure hub, but a 3–5 line handler-registration snippet would anchor the \"how\" and aid agents."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"what is a trigger\" and routes by type. Missing \"which trigger should I use?\" decision guidance and any troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed."
+      }
+    ],
+    "summary": "This is a thin routing/overview page (130 words, one H1, three bullet links) whose job is to define \"triggers\" and dispatch readers to the Cron/HTTP/EVM-Log guides. Its biggest strength is a clean, liftable opening definition; its biggest opportunity is that it carries almost no extractable structure, specifics, or metadata — an engine has little to cite here beyond one sentence. As a hub page it is acceptable, but a small comparison table and proper schema would convert it from a redirect into an independently citable \"what trigger should I use\" answer.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a trigger-comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "after \"This section provides detailed guides for each available trigger type:\"",
+        "issue": "three trigger types are presented only as a flat bullet list.",
+        "change": "add a table with columns `Trigger | Fires when | Use it for | Guide`, one row each for Cron (time schedule), HTTP (external request), EVM Log (contract event). Keep the existing links inside the table.",
+        "why": "lets engines extract *reasons* and answer \"which CRE trigger should I use\" with a justified, liftable comparison rather than prose."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/decision-phrased H2 subheadings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "body, converting the single block into sub-sections.",
+        "issue": "only one H1; no headings match how devs ask questions.",
+        "change": "add H2s like `## What is a CRE trigger?`, `## Which trigger should I use?`, `## Can one workflow have multiple triggers?` (answer inline: yes — multiple handlers).",
+        "why": "question-phrased headings win retrieval that concept-only prose loses; each becomes a clean RAG chunk."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`.",
+        "issue": "measured facts show 0 JSON-LD, canonical MISSING, no dates in schema.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, and a `<link rel=\"canonical\">` to the non-`.md` URL. (CLI should pass raw `<head>` so this can be re-verified.)",
+        "why": "structured metadata and freshness signals raise agent trust and parseability (E-E-A-T)."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics per trigger",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "the comparison table or bullets.",
+        "issue": "entirely qualitative; \"specific condition\", \"time-based schedule\" carry no numbers.",
+        "change": "add liftable specifics, e.g. cron granularity/format, EVM-Log supported networks, HTTP trigger auth/payload limits — linking out where the detail lives.",
+        "why": "quantitative specifics are among the highest-lift changes for citation."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal handler-registration snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "after the definition.",
+        "issue": "no code; agents cannot see how a trigger connects to a callback.",
+        "change": "add a short, language-tagged example registering one trigger and its callback, with imports.",
+        "why": "gives agents a copy-pasteable anchor and grounds the abstract \"callback function\" reference."
+      },
+      {
+        "priority": 3,
+        "title": "Link the definition to a canonical CRE \"capability\" concept page",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Triggers are a special type of capability\".",
+        "issue": "\"capability\" is undefined and unlinked.",
+        "change": "inline-link \"capability\" to its canonical CRE definition page.",
+        "why": "resolves the entity and raises attributability."
+      }
+    ],
+    "antiPatterns": [
+      "None material. Prose is clean and undated-content is avoided (visible \"Last Updated: 2025-11-04\"), though that date is not machine-readable."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure this overview and its three child guides are listed there.",
+      "Canonical URL and JSON-LD are template/site-level concerns; fixing them here likely means fixing the docs template.",
+      "Ensure the three child guide pages link back up to this overview (canonical-hub pattern) so retrieval authority concentrates correctly."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/workflow/using-triggers/overview.md",
+      "source_title": "Using Triggers",
+      "probe_set_id": "6142006bca64",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:59:14.438Z",
+      "probe_count": 6,
+      "graded_count": 5,
+      "refusal_count": 0,
+      "error_count": 1,
+      "avg_fidelity": 60.8,
+      "avg_fidelity_all": 60.8,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.2,
+      "retrieval_hit_rate_effective": 0.2,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.8,
+        "hallucination_free": 4.6,
+        "relevance": 5.8,
+        "structure": 8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 255350,
+          "output_tokens": 10884,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 20,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6712,
+          "output_tokens": 11133,
+          "cache_creation_input_tokens": 392,
+          "cache_read_input_tokens": 13513,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited despite the answer covering its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "EVMClient.logTrigger() watches for specific contract events",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Authorization keys are EVM addresses that are permitted to trigger your workflow",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The minimum interval is 30 seconds",
+            "supports standard cron expressions (5 or 6 fields)",
+            "supports timezone prefixes (e.g., TZ=America/New_York 0 9 * * 1-5)",
+            "HTTP triggers require authorization keys when deployed",
+            "In simulation (cre workflow simulate), triggers are manually selected and executed immediately",
+            "CRE has no direct equivalent to an 'every block' trigger",
+            "Both the Go and TypeScript SDKs support all three"
+          ],
+          "verdict": "The answer correctly enumerates the three trigger types and their basic purpose per the source, but it layers on many specific technical details (function names, parameter behaviors, timing thresholds) that are not present in the source page, including a possibly fabricated SDK method name, making it risky to ship without further verification.",
+          "fidelity": 58,
+          "prompt": "In Chainlink CRE, what are the different trigger types I can use to start a workflow?",
+          "archetype": "direct-howto",
+          "answer": "Chainlink CRE provides three built-in trigger types to start your workflows. Triggers are a special type of capability that initiate the execution of your workflow. They are event-driven services that constantly watch for a specific condition to be met. When that condition occurs, the trigger fires and CRE runs the callback function you registered.\n\n## The Three Trigger Types\n\n**1. Cron Trigger (Time-based)**\nThe Cron trigger fires at a specific time or on a recurring schedule (e.g., \"every 5 minutes\"). Cron triggers do not require additional configuration. When selected, they execute immediately. It uses standard cron expressions, and notably CRE supports standard cron expressions (5 or 6 fields) configured directly in your code. It supports timezone prefixes (e.g., TZ=America/New_York 0 9 * * 1-5). The minimum interval is 30 seconds.\n\n**2. HTTP Trigger (Request-based)**\nThe HTTP trigger fires when an external system makes an HTTP request to your workflow's endpoint. This lets you start a workflow execution in response to an external HTTP request, and it supports authentication and passes the request body to your callback. For security, HTTP triggers require authorization keys when deployed to ensure only authorized addresses can trigger your workflow. Authorization keys are EVM addresses that are permitted to trigger your workflow—only requests signed by the corresponding private keys will be accepted by the CRE gateway.\n\n**3. EVM Log Trigger (Onchain Events)**\nThe EVM Log trigger fires when a specific event is emitted by a smart contract on a supported blockchain. In the SDK, EVMClient.logTrigger() watches for specific contract events. You specify contract addresses and optionally filter by event topics, directly in your workflow code.\n\n## Additional Notes\n\n- **Multiple triggers per workflow:** A single workflow can contain multiple handlers, allowing you to react to different events with specific logic.\n\n- **Behavior in simulation vs. deployment:** In simulation (cre workflow simulate), triggers are manually selected and executed immediately to test your workflow logic without waiting for real events. In contrast, in deployed workflows, the Workflow DON continuously monitors for trigger events and automatically executes your callback when conditions are met. Time-based triggers run on schedule, HTTP triggers respond to incoming requests, and EVM log triggers fire when smart contract events occur.\n\n- **No native \"every block\" trigger:** If you're coming from another platform, note that CRE has no direct equivalent to an \"every block\" trigger—instead you use a short cron interval (e.g., every 30 seconds) or an EVM log trigger to achieve similar behavior.\n\nBoth the Go and TypeScript SDKs support all three, and each trigger type requires different inputs for simulation. Would you like example handler code for any of these specific trigger types?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32376,
+              "output_tokens": 1769,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1365,
+              "output_tokens": 1683,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2781,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or clearly draws from the expected source page despite claiming to search for current information."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "import \"github.com/smartcontractkit/cre-sdk-go/capabilities/scheduler/cron\"",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "cronTrigger := cron.Trigger(&cron.Config{ Schedule: \"0 */10 * * * *\" })",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "func onCronTrigger(config *Config, runtime cre.Runtime, trigger *cron.Payload) (*MyResult, error)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "const cron = new cre.capabilities.CronCapability(); ... cron.trigger({ schedule: \"0 */5 * * * *\" })",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "prefix your cron expression with TZ=<timezone>",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "You cannot schedule a trigger to fire more frequently than once every 30 seconds.",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "docs.chain.link/cre/guides/workflow/using-triggers/cron-trigger-go",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "docs.chain.link/cre/reference/sdk/triggers/cron-trigger-go",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Migration guidance equating cron trigger with time-based Chainlink Automation Upkeeps",
+            "Custom Data Feed starter template demonstrating a cron trigger",
+            "Details about DON execution and WebAssembly compilation of workflows"
+          ],
+          "verdict": "The answer correctly identifies the Cron Trigger as the mechanism, but it fabricates specific import paths, function signatures, config parameters, and URLs not present in the minimal source page, making it risky to ship as-is without independent verification.",
+          "fidelity": 50,
+          "prompt": "How do I run a Chainlink CRE workflow on a recurring time-based schedule?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information about running Chainlink CRE workflows on a time-based schedule.To run a Chainlink CRE workflow on a recurring time-based schedule, you use the **Cron Trigger**, which is one of the built-in trigger capabilities of the CRE SDK.\n\n## The concept\n\nThe Cron Trigger fires at a specified schedule using standard cron expressions. In CRE, a workflow is defined using the SDK, and using the CRE SDK (available in Go and TypeScript), you build Workflows, then compile them into binaries with the CRE CLI and deploy them to production, where CRE runs them across a Decentralized Oracle Network (DON).\n\n## How to set it up (Go)\n\nImport the scheduler/cron capability and create a trigger instance with a schedule config:\n\nimport \"github.com/smartcontractkit/cre-sdk-go/capabilities/scheduler/cron\"\n\ncronTrigger := cron.Trigger(&cron.Config{\n    Schedule: \"0 */10 * * * *\", // Every 10 minutes\n})\n\nThen you attach a callback handler that runs each time the schedule fires:\n\nfunc onCronTrigger(config *Config, runtime cre.Runtime, trigger *cron.Payload) (*MyResult, error) {\n    logger := runtime.Logger()\n    scheduledTime := trigger.ScheduledExecutionTime.AsTime()\n    logger.Info(\"Cron trigger fired\", \"scheduledTime\", scheduledTime)\n    // Your logic here...\n}\n\n## How to set it up (TypeScript)\n\nThe TypeScript SDK exposes the same capability. You execute workflows on a schedule using cron expressions with the CronCapability — for example, `const cron = new cre.capabilities.CronCapability(); const trigger = cron.trigger({ schedule: \"0 */5 * * * *\" });` runs every 5 minutes.\n\n## Key details to know\n\n- **Schedule format:** Standard cron expressions are used (note the 6-field format shown above includes a seconds field).\n- **Timezone support:** To specify a different timezone, prefix your cron expression with TZ=<timezone>, where <timezone> is an IANA timezone identifier (e.g., America/New_York, Europe/London, Asia/Tokyo). The timezone-aware scheduler automatically handles daylight saving time transitions, ensuring your workflows run at the correct local time throughout the year.\n- **Minimum frequency limit:** You cannot schedule a trigger to fire more frequently than once every 30 seconds.\n\n## If you're migrating from Chainlink Automation\n\nIf you previously used a time-based Upkeep in Chainlink Automation (CLA), the cron trigger is the direct replacement. In CRE, the unit of execution is a workflow — a TypeScript or Go project compiled to WebAssembly and registered with the network — and workflows are started by triggers (cron schedule, HTTP request, or on-chain log event). The migration approach is to use a cron trigger with a handler callback.\n\n## Useful references\n\n- **Cron Trigger guide (Go):** docs.chain.link/cre/guides/workflow/using-triggers/cron-trigger-go\n- **SDK Reference – Cron Trigger:** docs.chain.link/cre/reference/sdk/triggers/cron-trigger-go\n- **Starter template:** The Custom Data Feed starter template (available in both TypeScript and Go) demonstrates a cron trigger scheduling the workflow, which replaces an Automation Time-based Upkeep.\n\n**Summary of steps:** (1) import the `scheduler/cron` capability, (2) create a `cron.Trigger` with your cron `Schedule` (optionally prefixed with a timezone), (3) bind it to a handler callback that contains your workflow logic, and (4) compile and deploy the workflow with the CRE CLI so the DON runs it on your recurring schedule.\n\nWould you like a full end-to-end example workflow file, or help writing a specific cron expression for your desired cadence?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 45532,
+              "output_tokens": 2784,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1639,
+              "output_tokens": 3175,
+              "cache_creation_input_tokens": 392,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer claims to have searched but never cites the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "created in order in your `InitWorkflow` function",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre.Handler()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "The --trigger-index flag selects which handler in your workflow to execute",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "CRE compiles the workflow to a WASM binary and runs it on a Workflow DON",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "A workflow uses the CRE SDK (Go or TypeScript)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "InitWorkflow function usage",
+            "cre.Handler() syntax",
+            "--trigger-index flag for simulation",
+            "CRE compiles workflow to WASM binary on a Workflow DON",
+            "CRE SDK availability in Go or TypeScript"
+          ],
+          "verdict": "The core answer correctly confirms multiple handlers per workflow per the source, but it pads the response with specific function names, flags, and architecture details not present in the given source and fails to cite the expected page, making it risky to trust verbatim for implementation.",
+          "fidelity": 58,
+          "prompt": "Can a single Chainlink CRE workflow react to multiple different events, or do I need one workflow per event?",
+          "archetype": "comparison",
+          "answer": "I'll search for current information about Chainlink CRE workflows and their event handling capabilities.I have clear information to answer your question.\n\n## Yes — a single CRE workflow can react to multiple different events\n\nYou don't need one workflow per event. A single workflow can contain multiple handlers, allowing you to react to different events with specific logic.\n\n### How it works\n\nThe CRE model is built around three components — triggers, callbacks, and handlers: A trigger is an event source that starts a workflow execution. This represents the \"when\" of the workflow. The callback is a function that contains your business logic. The handler connects a trigger to a callback, forming a complete workflow definition.\n\nThe handler is the key building block for wiring up multiple events. The handler is the glue that connects a single trigger to a single callback. You can define multiple trigger and callback combinations in your workflow. You can also attach the same callback to multiple triggers for reusability.\n\nSo within one workflow you can, for example, have one handler respond to a cron schedule and another respond to an on-chain event: A workflow uses the CRE SDK (Go or TypeScript) and comprises one or more handlers, which define the logic that executes when events (triggers) occur. CRE compiles the workflow to a WASM binary and runs it on a Workflow DON.\n\n### Supported trigger types\n\nCRE supports multiple triggers, such as cron jobs, HTTP calls, or onchain events. You can freely mix these within a single workflow.\n\n### A practical note on multiple handlers\n\nWhen you set up multiple handlers, they're created in order in your `InitWorkflow` function. This ordering matters for tooling — for example, when simulating: The --trigger-index flag selects which handler in your workflow to execute. Handlers are created in your InitWorkflow function using cre.Handler(), where each handler connects a trigger to a callback function. If your workflow has only one handler, use --trigger-index 0. If you have multiple handlers (e.g., one for an HTTP trigger and one for an EVM log trigger), use 0 for the first, 1 for the second, etc., based on their order in your code.\n\n### Summary\n\n- **One workflow, many events** — define a separate handler per event/trigger you want to react to.\n- **Reuse logic** — you can point multiple triggers at the same callback function.\n- **Mix trigger types** — cron, HTTP, and on-chain (EVM log) triggers can coexist in the same workflow.\n\nYou'd only want separate workflows if you have genuinely independent processes that you want to deploy, version, or manage separately — not simply because you have more than one event to handle.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 35922,
+              "output_tokens": 1998,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1133,
+              "output_tokens": 2734,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2781,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "I want my Chainlink CRE workflow to start when a specific smart contract emits an event on-chain — which trigger should I use?",
+          "archetype": "constrained",
+          "answer": "",
+          "stop": "error",
+          "error": "{\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfWGXfv8Vg7nXmKdBs9SG\"}",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite covering its content correctly."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "requests must be cryptographically signed using a private key corresponding to an authorized EVM address",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "CRE validates the signature against your configured authorizedKeys",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "HTTP triggers require authorization keys when deployed",
+            "In simulation (cre workflow simulate), triggers are manually selected and executed immediately",
+            "Each trigger type has its own configuration, payload structure, and required callback signature",
+            "cron expressions detail"
+          ],
+          "verdict": "The three trigger types are correctly listed and core definitions match the source, but several specific technical details (authorizedKeys, signature validation, simulate command) are unverified additions and the expected source page was never cited, so it should be spot-checked before shipping.",
+          "fidelity": 75,
+          "prompt": "Chainlink CRE triggers list",
+          "archetype": "terse/keyword",
+          "answer": "Chainlink CRE (Chainlink Runtime Environment) uses a **trigger-and-callback model** to start workflows. Triggers are a special type of capability that initiate the execution of your workflow. They are event-driven services that constantly watch for a specific condition to be met, and when the condition occurs, the trigger fires and instructs CRE to run the callback function you have registered for that event.\n\n## The three built-in trigger types\n\nCRE provides several types of triggers to start your workflows:\n\n**1. Cron Trigger (Time-based)**\nThe Cron trigger fires at a specific time or on a recurring schedule (e.g., \"every 5 minutes\"). It fires at a specified schedule using standard cron expressions.\n\n**2. HTTP Trigger (Request-based)**\nThe HTTP trigger fires when an external system makes an HTTP request to your workflow's endpoint. HTTP triggers require authorization keys when deployed to ensure only authorized addresses can trigger your workflow. More specifically, requests must be cryptographically signed using a private key corresponding to an authorized EVM address in the target workflow. CRE validates the signature against your configured authorizedKeys, and if authorized, your workflow callback executes with the request payload.\n\n**3. EVM Log Trigger (Onchain events)**\nThe EVM Log trigger fires when a specific event is emitted by a smart contract on a supported blockchain.\n\n## How triggers behave in different environments\n\nIn simulation (cre workflow simulate), triggers are manually selected and executed immediately to test your workflow logic without waiting for real events. This allows rapid iteration during development. In deployed workflows, the Workflow DON continuously monitors for trigger events and automatically executes your callback when conditions are met.\n\n## Additional notes\n\n- A single workflow can contain multiple handlers, allowing you to react to different events with specific logic.\n- Each trigger type has its own configuration, payload structure, and required callback signature.\n- Summarized purposes: Cron Trigger runs workflows on a time-based schedule, and the HTTP Trigger starts workflows in response to an HTTP request from an external system.\n\nIf you'd like, I can point you to the specific SDK reference (TypeScript or Go) showing the exact callback signatures and configuration code for any of these trigger types.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 98024,
+              "output_tokens": 1783,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1058,
+              "output_tokens": 1344,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2781,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-go",
+              "https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/overview-go",
+              "https://docs.chain.link/cre/reference/sdk/triggers/http-trigger-go",
+              "https://docs.chain.link/cre/guides/workflow/using-triggers/overview"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the full step-by-step configuration details."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 5,
+            "relevance": 8,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "HTTP Trigger: Configuration & Handler page: `https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-go`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "HTTP Trigger Overview — `https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/overview-go`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "SDK Reference: HTTP Trigger — `https://docs.chain.link/cre/reference/sdk/triggers/http-trigger-go`",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "define authorization (which callers/keys are allowed to invoke the workflow), input schema, and any rate/config settings",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the docs have both Go and TypeScript variants (the `-go` / `-ts` suffixes in the URLs)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Triggers are event-driven services that fire and run a registered callback function"
+          ],
+          "unverifiable_from_source": [
+            "The 'Trigger Capability' framing and its description of allowing workflows to be initiated",
+            "Existence of separate Go/TypeScript SDK reference pages and their URLs",
+            "Configuration details like authorization, input schema, rate/config settings"
+          ],
+          "verdict": "The answer correctly names the HTTP Trigger and cites the right overview page, but it invents specific configuration steps and URL paths that aren't verifiable from the source, so it should not be shipped as-is without further verification.",
+          "fidelity": 63,
+          "prompt": "I'm new to Chainlink CRE and I want to kick off one of my workflows whenever an outside system sends a web request to it. How would I set that up and what is that kind of trigger called?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for information about Chainlink CRE triggers, specifically for triggering workflows via external web requests.There's an HTTP trigger. Let me get the details.Based on my search of the Chainlink documentation, I found what you're looking for.\n\n## The trigger is called an \"HTTP Trigger\"\n\nIn Chainlink CRE, the mechanism for kicking off a workflow when an outside system sends a web request is the **HTTP Trigger**. The Chainlink documentation covers the HTTP Trigger with pages dedicated to its configuration and handler, and there's a dedicated HTTP Trigger Overview as well as an SDK Reference for the HTTP Trigger.\n\nIt falls under the broader **Trigger Capability** — the trigger capability is what allows workflows to be initiated, and CRE supports several trigger types (HTTP, cron/time-based, and on-chain event triggers) documented under the \"Using Triggers\" section.\n\n## How to set it up (general approach)\n\nWhile I wasn't able to pull the full step-by-step details from the docs (I hit a search rate limit), here's the general shape of what an HTTP-triggered CRE workflow setup involves, and where to look:\n\n1. **Register the HTTP trigger in your workflow** — In your workflow code, you subscribe to/register an HTTP trigger and attach a handler function that runs whenever a request comes in.\n\n2. **Configure the trigger** — This is where you define authorization (which callers/keys are allowed to invoke the workflow), input schema, and any rate/config settings. See the **HTTP Trigger: Configuration & Handler** page: `https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-go`\n\n3. **Implement the handler** — Your handler receives the incoming request payload and executes your workflow logic in response.\n\n4. **Deploy the workflow** — Once deployed to the CRE, external systems can send requests to invoke it.\n\n## Recommended docs to read (in order)\n\n- **HTTP Trigger Overview** — `https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/overview-go` (start here for the concept)\n- **HTTP Trigger: Configuration & Handler** — `https://docs.chain.link/cre/guides/workflow/using-triggers/http-trigger/configuration-go` (the practical setup)\n- **SDK Reference: HTTP Trigger** — `https://docs.chain.link/cre/reference/sdk/triggers/http-trigger-go` (API-level details)\n- **Using Triggers (overview)** — `https://docs.chain.link/cre/guides/workflow/using-triggers/overview` (to compare against other trigger types)\n\nOne note as you get started: the docs have both Go and TypeScript variants (the `-go` / `-ts` suffixes in the URLs), so pick the SDK reference matching your language.\n\nWould you like me to pull the detailed configuration steps and a code example from the Configuration & Handler page? I can dig into those specifics once my search access resets.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 43496,
+              "output_tokens": 2550,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1517,
+              "output_tokens": 2197,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2781,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

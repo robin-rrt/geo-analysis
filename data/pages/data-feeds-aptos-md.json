@@ -1,0 +1,167 @@
+{
+  "key": "data-feeds-aptos-md",
+  "runId": "2026-09-21T11-46-21-727Z-9213",
+  "audit": {
+    "title": "Using Data Feeds on Aptos",
+    "url": "https://docs.chain.link/data-feeds/aptos.md",
+    "analyzedAt": "2026-09-21T11:46:23.804Z",
+    "contentType": "developer documentation / tutorial (integration guide)",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong intro — \"Chainlink Data Feeds on Aptos provides data through a single price feed contract that handles multiple data feeds\" is a liftable canonical statement. Weak: task sections open with process (\"In this step, you will…\") rather than the answer/API call itself."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good hierarchy (9 headings, 1 H1, 0 level skips, no section over 600 words per measured facts). Weak: 0 tables — feed IDs, package addresses, and Octas conversions are buried in prose instead of an extractable table."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong — real addresses, gas values, `1 APT = 100,000,000 Octas`, 18-decimal precision, live feed ID. Measured facts show 0 numerals carry explicit units in prose; unit annotation would help."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "External links to `aptos.dev`, the Move language, and the Aptos explorer are present, but measured facts flag 0 primary-source links — no link to a Chainlink Data Feeds API/registry reference for `get_benchmarks`."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good Aptos/Move one-liner and the single-contract/feed-ID contrast. Weak: no crisp definition of `Benchmark`, `feed ID`, or the `router`/`registry` modules near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — measured facts confirm 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. Head metadata could not be verified; the CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong; no action needed. 15 fenced blocks, all tagged, imports present, expected outputs shown."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak — covers setup→deploy→read, but no troubleshooting/FAQ, no error-string headings, and headings are concept-named rather than phrased as \"how do I read a price feed on Aptos\"."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent product naming and unambiguous steps."
+      }
+    ],
+    "summary": "This is a clean, end-to-end integration tutorial for reading Chainlink Data Feeds from Move contracts on Aptos, with complete runnable code and real on-chain addresses/feed IDs — genuinely strong on code and clarity. Its biggest GEO strength is the complete, tagged, import-bearing Move module plus real testnet addresses; its biggest opportunity is the near-total absence of machine-readable metadata (no JSON-LD, no canonical URL, no dates) combined with concept-titled headings (\"Getting Started (CLI)\") that miss the symptom/how-to queries agents actually type. The Aptos feed API (`get_benchmarks` / `get_benchmark_value`) differs sharply from the EVM `AggregatorV3Interface`/`latestRoundData` idiom the models hold as a prior — this page must defend that difference explicitly or answers will hallucinate the EVM pattern.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/how-to phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "section headings (\"Getting Started (CLI)\", \"Interact with the deployed contract\") and a new tail section.",
+        "issue": "headings are concept/process-titled; devs query \"how to get latest price feed Aptos Move\".",
+        "change": "rename/add H3s such as \"How to read the latest BTC/USD price on Aptos\", \"How to find a feed ID on Aptos\", and add an FAQ/Troubleshooting block covering common failures (e.g. `INCLUDING DEPENDENCY` git-dep errors, insufficient Octas / faucet funding, `--skip-fetch-latest-git-deps` usage).",
+        "why": "headings phrased as the exact user question win retrieval that concept-titled prose loses, even when the answer is already in the body."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle`, canonical URL, and last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter.",
+        "issue": "measured facts — 0 JSON-LD, canonical MISSING, no dates.",
+        "change": "emit a `TechArticle` block with `headline`, `about` (Chainlink Data Feeds, Aptos, Move), `programmingLanguage: [\"Move\",\"bash\"]`, a self-referential `canonical`, and a visible `dateModified`.",
+        "why": "structured metadata and freshness signals raise parse-ability and E-E-A-T trust for engines and agents."
+      },
+      {
+        "priority": 2,
+        "title": "Lead with the canonical Aptos API and name the EVM pattern as a Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "intro and \"Write the Move contract\" section.",
+        "issue": "page never states that `latestRoundData` / `AggregatorV3Interface` do **not** exist on Aptos.",
+        "change": "add a one-liner: \"On Aptos, read feeds with `data_feeds::router::get_benchmarks` then `get_benchmark_value` / `get_benchmark_timestamp` — there is no per-feed `AggregatorV3Interface` or `latestRoundData` as on EVM chains.\" Lead the contract section with this call rather than \"In this step, you will…\".",
+        "why": "models default to the EVM idiom from training priors; explicitly naming the wrong pattern blocks the substitution."
+      },
+      {
+        "priority": 2,
+        "title": "Add a summary table of addresses, networks, and the sample feed ID",
+        "mapsTo": "structural scannability / concrete specifics",
+        "tier": null,
+        "where": "near \"Set up your project\" / \"Interact with the deployed contract\".",
+        "issue": "measured facts — 0 tables; `data_feeds`, `platform`, testnet feed ID, mainnet pointer sit in prose.",
+        "change": "a small table: `data_feeds` / `platform` package addresses, network (testnet), BTC/USD feed ID, and link to mainnet Feed Addresses.",
+        "why": "tables are high-extraction units engines lift verbatim into answers."
+      },
+      {
+        "priority": 3,
+        "title": "Add a primary-source link for the feed API",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "first mention of `get_benchmarks` / `Benchmark`.",
+        "issue": "measured facts — 0 primary-source links; the `router`/`registry` functions are unreferenced.",
+        "change": "inline-link to the Chainlink Data Feeds API reference / registry module docs for `get_benchmarks`, `get_benchmark_value`, `get_benchmark_timestamp`.",
+        "why": "attributable API claims raise citation rate and let agents resolve function signatures."
+      },
+      {
+        "priority": 3,
+        "title": "Add crisp definitions for `Benchmark` and `feed ID`",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "\"Write the Move contract\" intro.",
+        "issue": "`Benchmark`, `feed ID`, `router`, `registry` used without a one-line definition.",
+        "change": "e.g. \"A `Benchmark` is the struct returned per feed, carrying the price value (18 decimals) and the Unix timestamp of the last on-chain update.\"",
+        "why": "self-contained definitions near first use are verbatim-liftable and improve entity resolution."
+      }
+    ],
+    "antiPatterns": [
+      "No stale-content signal is present, but also **no visible date** — engines cannot confirm freshness.",
+      "Dependency `rev = \"main\"` in `Move.toml` is a moving target; a pinned commit/tag would improve reproducibility for agents (minor).",
+      "No keyword stuffing, marketing fluff, or unresolved cross-references detected."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good; ensure this page is listed in it.",
+      "Site-level: confirm canonical URL and `TechArticle` schema are emitted at build time across the docs, not just here.",
+      "Freshness cadence: surface a `dateModified` in the rendered page and sitemap so engines can weight recency."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T11-46-21-727Z-9213",
+    "probes": {}
+  }
+}

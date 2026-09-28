@@ -1,0 +1,41 @@
+{
+  "runId": "2026-09-21T16-50-34-262Z-63ae",
+  "startedAt": "2026-09-21T16:50:34.263Z",
+  "endedAt": "2026-09-21T16:50:34.275Z",
+  "owner": {
+    "pid": 60234,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "cre",
+    "productScope": "curated"
+  },
+  "stages": [
+    "regrade"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": true,
+    "graderPromptSha": "7ca3088c42f0",
+    "regradeOf": "2026-09-21T13-06-50-707Z-043d"
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|7ca3088c42f0",
+  "status": "partial",
+  "counts": {
+    "expected": 41,
+    "pages": 0,
+    "failed": 41
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": null,
+  "ledger": null
+}

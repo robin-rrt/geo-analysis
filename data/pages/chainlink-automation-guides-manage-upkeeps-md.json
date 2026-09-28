@@ -1,0 +1,178 @@
+{
+  "key": "chainlink-automation-guides-manage-upkeeps-md",
+  "runId": "2026-09-22T13-18-42-268Z-0fe5",
+  "audit": {
+    "title": "Managing Upkeeps",
+    "url": "https://docs.chain.link/chainlink-automation/guides/manage-upkeeps.md",
+    "analyzedAt": "2026-09-22T13:20:29.988Z",
+    "contentType": "developer documentation / task guide",
+    "score": 54,
+    "band": "Developing",
+    "weightedTotal": 54.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong openings — \"Each Upkeep has a minimum balance to ensure that an Upkeeps will still run should a sudden spike occur\" and \"To withdraw funds, the Upkeep administrator have to cancel the Upkeep first\" are self-contained. Grammar aside, chunks stand alone. Minor action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "5 headings, 1 H1, 0 level skips, no oversized sections (max 151 words). Well-chunked. Weak point: 0 tables/bullets beyond one numbered list — a funding-vs-withdrawal comparison table would aid extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "\"maintain an Upkeep LINK balance that is 3 to 5 times the minimum balance\" is good. But the actual minimum balance is unstated (link-only), withdrawal delay is \"varies by network,\" and 0 numerals carry units. Under-specified for a quantitative topic."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "8 links (PegSwap, faucets, Automation App, economics page). No primary-source/spec links (e.g., ERC-677 standard is named but not linked). Adequate but not authoritative."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "No crisp definition of \"Upkeep,\" \"minimum balance,\" or \"performGasLimit\" near first use. An engine has nothing verbatim-liftable to define the core entity."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. This is the weakest dimension and a citation/trust liability."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "0 code fences. The page names `cancelUpkeep`, `addFunds`, `performGasLimit`, and \"Registry contract\" but shows no callable example — an agent cannot execute the direct-registry path."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers fund → maintain → withdraw → direct-registry lifecycle. Missing symptom-phrased entry points (\"why is my upkeep not running,\" \"upkeep out of LINK,\" \"how long until I can withdraw\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Several grammar defects: \"an Upkeeps will still run,\" \"administrator have to cancel.\" Consistent product naming otherwise. Fix the errors — they hurt fluency scoring."
+      }
+    ],
+    "summary": "This is a concise, well-structured operational guide for funding, maintaining, withdrawing, and interacting with Chainlink Automation Upkeeps. Its biggest strength is clean section-per-task chunking with answer-first opening sentences; its biggest opportunity is machine-readability — the served page carries no JSON-LD, canonical URL, or last-updated date, and no summary table or code snippet an agent can lift. Combined with vague quantifiers (\"varies by network,\" undated minimum balance) and symptom-phrased query gaps, the page is retrievable but under-optimized for citation and agent execution. Honest verdict: solid content skeleton, thin on the metadata, specifics, and symptom-headings that drive generative retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings/subsections",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H3s under \"Maintain a minimum balance\" and \"Withdraw funds\"",
+        "issue": "headings are concept-titled (\"Maintain a minimum balance\"), not query-phrased",
+        "change": "add \"Why is my Upkeep not running?\" (→ balance below minimum), \"My Upkeep ran out of LINK\" and \"How long before I can withdraw funds after cancelling?\" with the answer in the first sentence",
+        "why": "devs/agents query by symptom; concept-titled prose loses retrieval even when the answer is present verbatim."
+      },
+      {
+        "priority": 1,
+        "title": "Quantify the vague quantifiers",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Withdraw funds\" and \"Maintain a minimum balance\"",
+        "issue": "\"The number of blocks delay varies by network\" and minimum balance stated only by link",
+        "change": "state the actual delay per network in a small table (network → block delay), and give a representative minimum balance figure or formula inline rather than link-only",
+        "why": "quantitative specifics are among the highest-lift changes; \"varies by network\" is un-liftable."
+      },
+      {
+        "priority": 2,
+        "title": "Add JSON-LD `TechArticle` schema, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter (site-level template)",
+        "issue": "measured 0 JSON-LD blocks, canonical MISSING, no dateModified",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified`, canonical `url`; surface a visible \"Last updated\" line",
+        "why": "structured metadata and freshness signals raise E-E-A-T and agent parse/trust; note this is largely a site-template fix."
+      },
+      {
+        "priority": 2,
+        "title": "Add a runnable direct-registry code snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Interacting directly with the Chainlink Automation Registry\"",
+        "issue": "names `cancelUpkeep` and `addFunds` but shows no callable example",
+        "change": "add a tagged (solidity/ethers.js) snippet calling `addFunds(upkeepID, amount)` with imports and how to source the current Registry address",
+        "why": "agents reading docs to complete tasks need copy-pasteable, complete code; prose function names are not executable."
+      },
+      {
+        "priority": 2,
+        "title": "Add a canonical one-line definition of \"Upkeep\" and \"minimum balance\"",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "top of page after \"Manage your Upkeeps to get the best performance.\"",
+        "issue": "core entity never defined on-page",
+        "change": "add \"An Upkeep is a registered job that the Chainlink Automation Network executes when its conditions are met; its minimum balance is the LINK threshold below which execution stops.\"",
+        "why": "gives engines a self-contained verbatim definition to lift."
+      },
+      {
+        "priority": 3,
+        "title": "Fix grammar defects",
+        "mapsTo": "clarity, fluency & terminology consistency",
+        "tier": null,
+        "where": "\"Maintain a minimum balance\" and \"Withdraw funds\"",
+        "issue": "\"an Upkeeps will still run,\" \"the Upkeep administrator have to cancel\"",
+        "change": "\"an Upkeep will still run,\" \"the Upkeep administrator must cancel\"",
+        "why": "fluent prose is independently rewarded by generative engines."
+      },
+      {
+        "priority": 3,
+        "title": "Link ERC-677 to its canonical spec",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"TIP: ERC-677 Link\" callout",
+        "issue": "ERC-677 named but unlinked; 0 primary-source links on page",
+        "change": "link \"ERC-677\" to the token standard reference",
+        "why": "inline authoritative references raise citation credibility."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"varies by network,\" \"Many token bridges\" — replace with specifics where possible.",
+      "Grammar errors reducing fluency (\"an Upkeeps will still run,\" \"administrator have to cancel\").",
+      "Undated content — no visible last-updated (measured: dateModified absent).",
+      "Image placeholders referenced in prose (\"Image: Approve LINK Spend Allowance\") carry no alt text or value for text-only ingestion."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical, and og/twitter tags are site-template concerns; the CLI should pass raw `<head>` to confirm — measured facts show none captured.",
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; ensure this URL is listed in it.",
+      "Minimum-balance and per-network block-delay figures likely live on linked pages; consider a canonical-hub pattern so this page surfaces the numbers rather than deferring entirely."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-18-42-268Z-0fe5",
+    "probes": {}
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "runId": "2026-09-21T16-30-22-663Z-6e71",
+  "startedAt": "2026-09-21T16:30:22.664Z",
+  "endedAt": "2026-09-21T16:31:19.111Z",
+  "owner": {
+    "pid": 49766,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "page",
+    "name": "https://docs.chain.link/ace",
+    "productScope": null
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "complete",
+  "counts": {
+    "expected": 1,
+    "pages": 1,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T16-30-22-663Z-6e71",
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/ace",
+      "productScope": null
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T16:30:22.664Z",
+    "endedAt": "2026-09-21T16:31:19.111Z",
+    "elapsedMs": 56447,
+    "counts": {
+      "pages": 1,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "ace",
+        "url": "https://docs.chain.link/ace",
+        "stages": {
+          "audit": "ran"
+        },
+        "durations": {
+          "audit": 56012
+        },
+        "elapsedMs": 56445,
+        "probeSummary": null
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/ace",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 1,
+      "inScope": 1,
+      "failed": 0
+    },
+    "notes": [],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/ace",
+        "source": "explicit",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

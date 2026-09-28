@@ -1,0 +1,189 @@
+{
+  "key": "data-streams-tutorials-ts-sdk-fetch-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Fetch and decode Data Streams reports using the TypeScript SDK",
+    "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+    "analyzedAt": "2026-09-22T13:34:45.502Z",
+    "contentType": "developer documentation / tutorial",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 66.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Sections generally open with a self-contained statement — e.g. \"The `fullReport` field in the API response is the signed payload you pass directly to `VerifierProxy.verify()`.\" Weak spot: the intro and each \"Fetch and decode…\" section open with procedural steps rather than a one-line answer to \"how do I fetch a report with the TS SDK?\""
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong — 13 headings, 1 H1, max depth H3, 0 level skips, median 127 words/section, none over 600. Clean RAG chunk boundaries. No action needed beyond query-phrasing (see D8)."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Rich: Node 20.0, TypeScript 5.3, real feed IDs, endpoints, decoded fees/prices with 18-decimal readability conversions. Facts note \"0 with units\" in prose but the values carry semantic labels in the table, mitigating this."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "16 internal links well-placed (report schema, crypto streams, verification tutorial). Only 3 external, 0 to primary sources — no link to ABI-encoding spec or HMAC/authentication reference to back the security claims."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good verbatim-liftable lines in the payload and fetching sections. The decoded-attribute table is highly quotable. Could add a one-sentence definition of \"Data Streams report\" near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, `datePublished`/`dateModified` absent, no og/twitter tags. Head metadata could not be verified (pass raw `<head>` for a full read), but nothing was served. No `TechArticle`/freshness signal for engines to trust."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Two full examples include imports and are copy-pasteable with expected output shown. Deductions: `echo $API_SECRET` references a variable that is never set (the var is `USER_SECRET`); explanation snippets (3 of 5 needing imports) show none; placeholder identifiers `YOUR_API_KEY`/`YOUR_USER_SECRET`."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good setup→use→decode→verify→error-handling lifecycle. Missing symptom/error-string coverage: no headings for \"401 / authentication failed\", \"invalid HMAC signature\", or \"getLatestReport returns empty\"."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Mostly clean, but contains a Git conflict marker `> > > > > > > c98d3598 (draft ts-sdk-fetch)`, a \"new new TypeScript file\" typo, and a factual slip — the single-stream section ends \"successfully fetched and decoded data for **both** streams.\""
+      }
+    ],
+    "summary": "This is a well-structured, code-heavy tutorial for the Data Streams TypeScript SDK, with complete runnable examples, a strong decoded-report reference table, and clean H2/H3 chunking. Its single biggest GEO strength is the payload/verification section, which contains crisp liftable canonical statements. Its biggest opportunities are metadata (no JSON-LD, canonical, or dates were served) and a **leftover Git merge-conflict marker in the body** (`> > > > > > > c98d3598`), which is a direct fluency/trust defect an engine may ingest verbatim. Honest verdict: solid best-effort tutorial with high per-section extractability, held back by absent machine-readability signals and a few correctness/consistency bugs.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Remove the Git merge-conflict marker",
+        "mapsTo": "fluency & clarity",
+        "tier": null,
+        "where": "end of the Explanation section",
+        "issue": "`> > > > > > > c98d3598 (draft ts-sdk-fetch)`",
+        "change": "delete the line entirely.",
+        "why": "raw VCS artifacts signal unmaintained content and can be lifted verbatim into an answer, destroying trust/E-E-A-T."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/error-phrased troubleshooting section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after \"Explanation\"",
+        "issue": "no coverage of the errors devs actually query (auth/HMAC/empty response).",
+        "change": "add `## Troubleshooting` with H3s phrased as symptoms: \"401 Unauthorized / authentication failed\", \"Invalid HMAC signature\", \"getLatestReport returns no data\", each with the cause and fix.",
+        "why": "engines retrieve by error string; concept-titled prose loses these queries even when the fix is implied."
+      },
+      {
+        "priority": 1,
+        "title": "Fix the `$API_SECRET` credential-check bug",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Fetch and decode reports for multiple streams\", step 3",
+        "issue": "`echo $API_SECRET` — variable never set; the SDK uses `USER_SECRET`.",
+        "change": "replace with `echo $USER_SECRET`.",
+        "why": "an agent copying this verifies the wrong variable and reports a false failure."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "0 JSON-LD blocks, canonical MISSING, no `dateModified`.",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified`, `programmingLanguage: TypeScript`, and a canonical link.",
+        "why": "structured metadata and visible freshness raise parse-ability and citation trust; this is the lowest score on the page."
+      },
+      {
+        "priority": 2,
+        "title": "Add an answer-first lead to each tutorial section",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "\"Fetch and decode a report with a single stream\"",
+        "issue": "section opens with `touch singleStream.ts` rather than the canonical call.",
+        "change": "open with one sentence: \"Use `client.getLatestReport(feedId)` from `@chainlink/data-streams-sdk` to fetch a single stream's latest report, then `decodeReport(report.fullReport, report.feedID)` to decode it.\"",
+        "why": "puts the canonical SDK API in the first liftable sentence, resisting generic-fetch priors when the page is skimmed."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the \"both streams\" factual slip",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "end of single-stream run step",
+        "issue": "\"successfully fetched and decoded data for both streams.\"",
+        "change": "\"successfully fetched and decoded data for the ETH/USD stream.\"",
+        "why": "prevents an inaccurate claim being synthesized into an answer about single-stream fetches."
+      },
+      {
+        "priority": 3,
+        "title": "Cite primary sources for security claims",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Create the client\" (\"Authentication with HMAC signatures\") and payload section (\"ABI-encoded\").",
+        "issue": "claims stated without linkable references.",
+        "change": "link \"HMAC\" to the authentication reference and \"ABI-encoded\" to the Solidity ABI spec.",
+        "why": "inline authoritative links raise credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Tag the untagged fence and note explanation snippets are excerpts",
+        "mapsTo": "code completeness",
+        "tier": null,
+        "where": "the raw `fullReport` block; the Explanation snippets",
+        "issue": "1 untagged block; excerpt snippets lack imports.",
+        "change": "tag the payload block (e.g. ` ```text `) and add a one-line \"excerpt from the full example above\" note where imports are omitted.",
+        "why": "language tagging aids agent parsing; the note prevents \"missing import\" false negatives."
+      }
+    ],
+    "antiPatterns": [
+      "**Git merge-conflict marker left in body:** `> > > > > > > c98d3598 (draft ts-sdk-fetch)` — unmaintained-content signal.",
+      "**Typo:** \"Create a new **new** TypeScript file\".",
+      "**Code/prose inconsistency:** `echo $API_SECRET` vs the actual `USER_SECRET` variable.",
+      "**Factual slip:** single-stream section claims data fetched \"for both streams\".",
+      "No keyword stuffing, marketing fluff, or unresolved cross-references detected."
+    ],
+    "offPageNotes": [
+      "Site-level: `llms.txt` is referenced at the top — good; ensure this URL is listed in it and in the sitemap.",
+      "Metadata absence (JSON-LD/canonical/dates) may be a template/serving issue affecting the whole docs section; the CLI should pass raw `<head>` for a definitive read.",
+      "Freshness cadence: no visible `dateModified` — a site-wide last-updated stamp would benefit all tutorial pages, not just this one."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

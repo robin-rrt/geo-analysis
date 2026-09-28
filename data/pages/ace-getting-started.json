@@ -1,0 +1,168 @@
+{
+  "key": "ace-getting-started",
+  "runId": "2026-09-22T12-56-21-269Z-3886",
+  "audit": {
+    "title": "Getting Started with ACE",
+    "url": "https://docs.chain.link/ace/getting-started",
+    "analyzedAt": "2026-09-22T12:56:22.134Z",
+    "contentType": "developer documentation / navigation hub (getting-started router)",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 60.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Opens functionally with \"ACE offers three managers. Choose the path that matches what you need to do\" and a table — good for routing, but there is no opening sentence defining ACE itself, so a lifted chunk can't stand alone for definitional queries."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean table + bullets; but 1 level skip (H1 jumps straight to H3, no H2) per measured facts, which muddies chunk hierarchy for RAG. Table header cell shows a rendering artifact (`| \\nManager\\n\\n |`)."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "0 numerals in prose and vague quantifiers \"many, most\" present. No supported networks, no Beta version/limits, no count of steps in numeric form. Thin even for a hub."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "15 internal links, 0 external. Internal linking is appropriate for a hub, but no primary/canonical concept anchors beyond the doc site."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Manager rows give crisp one-liners (good), but \"ACE\" and terms like CCID, CRE Connect Wallet are referenced without a verbatim-liftable definition on this page."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong scaffolding — BreadcrumbList + HowTo/TechArticle JSON-LD, canonical, `dateModified` 2026-04-15, full og/twitter. Undermined by polluted schema: `about` entries are auto-generated junk (\"Content about getting\", \"Content about started\", \"Content about ace\") and `keywords` is a word-split of the description, not entities."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "No code blocks — acceptable for a router page; not penalized as a defect."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "\"Not sure which Manager you need?\" is excellent intent-matched routing; but missing \"What is ACE?\" / \"What does ACE stand for?\" beginner and definitional queries."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Prose is clean and consistent; manager naming is stable. Minor artifact in the table header only."
+      }
+    ],
+    "summary": "This is a compact routing/hub page (306 words) that directs ACE users to one of three managers via a clean comparison table. Its biggest strength is machine-scannable structure — a well-formed decision table plus decision-support bullets. Its biggest opportunity is that **the page never defines what \"ACE\" is or expands the acronym** — there is no self-contained, liftable answer to \"what is Chainlink ACE?\", so retrieval on the most common entry-point query will fail and engines will fall back to parametric priors. Honest verdict: solid navigation, but under-armed as a canonical definitional anchor for the ACE product.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical, liftable ACE definition + acronym expansion at the top",
+        "mapsTo": "Quotable canonical statements / parametric-prior resistance",
+        "tier": null,
+        "where": "First line under the H1, before \"ACE offers three managers.\"",
+        "issue": "Page opens with \"ACE offers three managers…\" — ACE is never defined or expanded.",
+        "change": "Add one to two sentences, e.g. \"Chainlink ACE (Automated Compliance Engine) is a compliance framework for enforcing policy, identity, and reporting controls on smart contracts across chains. It provides three managers: Policy, Identity, and Reporting.\" (use the correct expansion).",
+        "why": "Gives engines a self-contained answer for \"what is Chainlink ACE,\" the highest-frequency entry query; without it, retrieval fails and priors invent a wrong definition."
+      },
+      {
+        "priority": 1,
+        "title": "Add a \"What is ACE?\" heading for definitional/beginner query coverage",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "New H2 above the manager table.",
+        "issue": "No section matches \"what is…\"/\"what does ACE stand for\" phrasing.",
+        "change": "Wrap the new definition in an H2 titled \"What is Chainlink ACE?\"",
+        "why": "Symptom/question-phrased headings win retrieval that concept-only prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading level skip (H1 → H3)",
+        "mapsTo": "Structural scannability & chunkability",
+        "tier": null,
+        "where": "\"Shared first step\", \"Not sure which Manager you need?\", \"Background reading\" are H3.",
+        "issue": "Measured facts report 1 level skip; no H2 exists.",
+        "change": "Promote these three to H2 (or add a wrapping H2), so chunk boundaries are clean.",
+        "why": "Correct hierarchy improves RAG chunk segmentation and section retrieval."
+      },
+      {
+        "priority": 2,
+        "title": "Clean the polluted JSON-LD `about` and `keywords` fields",
+        "mapsTo": "Machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "TechArticle JSON-LD.",
+        "issue": "`about` = \"Content about getting/started/ace\"; `keywords` is a split of the description.",
+        "change": "Set `about` to real entities (e.g. \"Chainlink ACE\", \"Regulatory compliance\", \"Cross-chain identity\") and either remove `keywords` or list genuine terms.",
+        "why": "Garbage entity metadata weakens entity resolution and trust signals; it is also a schema-level keyword-stuffing anti-pattern."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to replace vague quantifiers",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Account Setup bullet and \"Not sure which Manager\" (\"Many organizations…\").",
+        "issue": "\"the four steps every ACE user completes\" (spell out as number where scannable) and \"Many organizations use both managers.\"",
+        "change": "Use numerals (\"4 steps: create org → share Org ID → generate API key → set up CRE Connect Wallets\"); add Beta-scope specifics (supported chains, availability) where known.",
+        "why": "Quantitative, itemized specifics are among the highest-lift retrievable elements."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative external/canonical link",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Background reading list.",
+        "issue": "0 external references; all 15 links internal.",
+        "change": "Link the ACE definition/architecture to a primary Chainlink whitepaper or standard where one exists.",
+        "why": "Attributable, primary-source links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "Schema keyword stuffing: `keywords` field is a mechanical word-split of the description (\"Choose, your, onboarding, path, for…\").",
+      "Auto-generated placeholder entities in JSON-LD `about` (\"Content about getting/started/ace\").",
+      "Vague quantifiers in prose: \"many\", \"most\".",
+      "Minor table-header rendering artifact (`Manager` cell with stray line breaks)."
+    ],
+    "offPageNotes": [
+      "Confirm `llms.txt` and sitemap surface this hub as the canonical ACE entry point so agents land here first.",
+      "Freshness signals are healthy (`dateModified` 2026-04-15); maintain cadence as Beta scope changes.",
+      "Consider internal links *into* this page from the three Quick Start pages (canonical-hub pattern) so retrieval of any manager page can route back to the ACE definition."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T12-56-21-269Z-3886",
+    "probes": {}
+  }
+}

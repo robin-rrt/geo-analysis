@@ -1,0 +1,178 @@
+{
+  "key": "chainlink-functions-supported-networks-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Supported Networks (Chainlink Functions)",
+    "url": "https://docs.chain.link/chainlink-functions/supported-networks.md",
+    "analyzedAt": "2026-09-22T13:26:12.114Z",
+    "contentType": "developer documentation / configuration reference",
+    "score": 64,
+    "band": "Good",
+    "weightedTotal": 64.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Each network subsection is self-contained (router + DON ID + endpoints + billing), good for per-network lookups. Weak: no opening summary that answers \"which networks does Functions support?\" in one liftable sentence/table, and the deprecation status is not in liftable text."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 1 H1, clean H2→H3 per network, 0 level skips, 36 focused tables, median 93 words/section — near-ideal RAG chunking."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 9,
+        "weighted": 10.8,
+        "analysis": "Strong. Exact addresses, hex DON IDs (36 hex identifiers), fees in \"cents USD\", LINK thresholds. The \"0 with units\" measurement is a detector artifact — cells carry units inline."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Block-explorer links per address are useful and authoritative; 0 links to primary spec/canonical concept pages (e.g. what a DON is, billing spec). Acceptable for config, but definitions aren't attributable."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "The USD-fee NOTE is crisply quotable. No one-line definition of \"Functions router,\" \"DON ID,\" or \"premium fee\" near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags, head metadata uncapturable. For a reference page whose value is freshness of addresses, missing last-updated is a real trust gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No fenced blocks; addresses live inside `<Address>` components that render as UI, not copy-pasteable config. An agent scraping the `.md` gets URLs but no clean address/DON-ID config object."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"router address on X\" / \"DON ID for X\" via per-network headings. Missing symptom/how-to phrasing (\"what's the gateway endpoint for encrypted secrets\", \"is Chainlink Functions deprecated\") and any overview/FAQ."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean and consistent. Minor: \"1 requests\" (Soneium/ZKSync mainnet) grammatical slip; per-network NOTE blocks are heavily repeated."
+      }
+    ],
+    "summary": "This is a config-reference page listing Chainlink Functions router addresses, DON IDs, gateway endpoints, and billing parameters across 11 networks (mainnet + testnet). Its dominant strength is dense, extractable specifics — 162 numerals and 36 tightly-scoped tables, one coherent chunk per network. Its biggest opportunities are (1) surfacing the **shutdown status** — currently rendered only as an invisible `<ChainlinkFunctions callout=\"shutdown\" />` component, meaning engines cannot lift the single most important fact on the page — and (2) missing machine-readable metadata (no JSON-LD, canonical, or dates) plus the absence of an answer-first overview table naming all supported networks.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Surface the shutdown/deprecation status as liftable text",
+        "mapsTo": "answer-first extractability, query coverage",
+        "tier": null,
+        "where": "top of page, `<ChainlinkFunctions callout=\"shutdown\" />`",
+        "issue": "critical status is invisible to text extractors — component renders nothing in the `.md`.",
+        "change": "add a plain-text sentence immediately below the H1, e.g. \"As of {date}, Chainlink Functions is [deprecated/being sunset]; new subscriptions on {networks} are {status}.\" State it verbatim, dated.",
+        "why": "engines answering \"is Chainlink Functions supported/deprecated?\" will otherwise hallucinate from priors; the highest-severity fact is currently unretrievable."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first overview table of all supported networks",
+        "mapsTo": "answer-first extractability, parametric-prior resistance",
+        "tier": null,
+        "where": "directly after the intro, before \"## Arbitrum\"",
+        "issue": "no single chunk answers \"which networks does Chainlink Functions support?\"",
+        "change": "insert one summary table: Network | Mainnet? | Testnet | Router address | DON ID. Lead with the canonical list in the first liftable sentence: \"Chainlink Functions is supported on 11 networks: Arbitrum, Avalanche, Base, Celo, Ethereum, OP, Polygon, Soneium, ZKSync…\"",
+        "why": "captures the highest-volume query with a self-contained, quotable unit instead of forcing engines to synthesize across 28 sections."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD + visible last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` and a visible byline",
+        "issue": "0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "emit `TechArticle` JSON-LD with `dateModified`, `inLanguage`, canonical URL; render a visible \"Last updated: {date}\" line.",
+        "why": "for address/fee data, freshness is trust; dated, schema-tagged pages are preferentially cited and this page controls none of it today."
+      },
+      {
+        "priority": 2,
+        "title": "Provide agent-runnable config, not just UI components",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "each network section or an appendix",
+        "issue": "addresses are locked inside `<Address>` components; no copy-pasteable block.",
+        "change": "add a fenced JSON/YAML block per network (or one combined block) with `router`, `donId`, `donIdHex`, `gatewayUrls`, chain id. Tag the language.",
+        "why": "coding agents can then lift a complete config object; raw `.md` currently yields prose-embedded values only."
+      },
+      {
+        "priority": 2,
+        "title": "Add one-line canonical definitions near first use",
+        "mapsTo": "quotable canonical definitions, citations",
+        "tier": null,
+        "where": "intro",
+        "issue": "\"Functions router\", \"DON ID\", \"premium fee\" used without definition.",
+        "change": "add crisp definitions with inline links to the billing/architecture canonical pages, e.g. \"The Functions router is the on-chain contract you send requests to; the DON ID identifies the Decentralized Oracle Network fulfilling them.\"",
+        "why": "gives engines verbatim-liftable definitions and attributable primary references."
+      },
+      {
+        "priority": 3,
+        "title": "Add symptom/how-to phrased headings or a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "end of page",
+        "issue": "no coverage of natural-language queries beyond the address-lookup pattern.",
+        "change": "add H3s like \"What is the encrypted-secrets gateway endpoint?\", \"How much does a Functions request cost on {network}?\", \"Which testnets are supported?\"",
+        "why": "matches how devs/agents actually query and wins retrieval that table-only content misses."
+      },
+      {
+        "priority": 3,
+        "title": "Fix \"1 requests\" grammatical slip",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "Soneium Mainnet and ZKSync Mainnet billing tables",
+        "issue": "\"Request threshold … | 1 requests\"",
+        "change": "\"1 request\".",
+        "why": "minor fluency correction; consistency aids clean extraction."
+      }
+    ],
+    "antiPatterns": [
+      "Critical status hidden in a non-text component (`callout=\"shutdown\"`) — invisible to extractors.",
+      "Repeated identical NOTE block across all 11 networks — acceptable redundancy for chunk-independence, but consider a single canonical statement plus per-section reference.",
+      "Minor grammatical error \"1 requests\" (×2).",
+      "No stale-content signal — undated page whose value is time-sensitive address/fee data."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced at the top — good site-level signal; verify it lists this page.",
+      "Metadata (JSON-LD, canonical, dates) could not be verified from served HTML; the CLI should pass raw `<head>` for a definitive read, but measured facts confirm none present in the served markup.",
+      "Address values are rendered by client-side components (`client:load` / `client:only=\"preact\"`); confirm server-rendered fallbacks exist so non-JS crawlers and agents see the addresses."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

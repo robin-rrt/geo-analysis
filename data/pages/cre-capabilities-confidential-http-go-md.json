@@ -1,0 +1,736 @@
+{
+  "key": "cre-capabilities-confidential-http-go-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "The Confidential HTTP Capability",
+    "url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+    "analyzedAt": "2026-09-21T13:18:03.188Z",
+    "contentType": "developer documentation / conceptual capability reference",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 66.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition (\"a privacy-preserving HTTP service powered by the Chainlink Privacy Standard\"); most sections lead with a liftable claim. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; 14 headings, no level skips, median 58-word sections, two comparison tables. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak. 12 numerals, **0 with units**, no version strings; vague quantifiers \"some\"/\"most\" present. AES-GCM and \"exactly one\" are the only hard specifics; quorum sizes, key lengths, DON node counts, and latency are absent."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate internal linking (12 internal links), but only **one external link** (Wikipedia AES-GCM) and **zero primary sources** — no Chainlink Privacy Standard spec, no enclave/TEE reference."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. The lead sentence and the \"What's kept confidential\" table give crisp, verbatim-liftable statements."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Zero JSON-LD blocks, canonical MISSING, no og/twitter tags, `inLanguage` absent. Visible \"Last Updated: 2026-07-21\" in body is a good freshness signal, but no `datePublished`/`dateModified` in schema."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. **Zero fenced code blocks** on a `-go` URL. Symbols like `confidentialhttp.Client`, `EncryptOutput`, `VaultDonSecrets`, `runtime.GetSecret()` appear inline but never in a copy-pasteable snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Covers \"what is\", \"how it works\", \"when to use X vs Y\", and use-case framing. Missing symptom/error-phrased and troubleshooting coverage."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent entity naming (Confidential HTTP, Vault DON, enclave, Workflow DON); no undefined jargon. No action needed."
+      }
+    ],
+    "summary": "This is a well-structured conceptual page explaining Chainlink's Confidential HTTP capability, with a crisp opening definition, two strong comparison tables, and clear decision-factor lists that generative engines can extract as justification. Its single biggest strength is scannability and answer-first framing; its single biggest opportunity is machine-readability — no JSON-LD/`TechArticle` schema and a missing canonical URL — compounded by the total absence of Go code on a page whose URL advertises a Go SDK. The honest verdict: solid, extractable conceptual prose that will retrieve and cite well for \"what is / when to use\" queries, but under-serves agents seeking runnable `confidentialhttp.Client` code and lacks the structured metadata that raises trust and parseability.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema + canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (currently no head metadata captured)",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "Emit a `TechArticle` block with `headline`, `dateModified: 2026-07-21`, `inLanguage: en`, and a self-referential `<link rel=\"canonical\">`. Mirror the visible \"Last Updated\" into `dateModified`.",
+        "why": "Structured metadata and a canonical URL raise parseability and E-E-A-T trust, and let engines resolve this as the authoritative source rather than a mirror."
+      },
+      {
+        "priority": 1,
+        "title": "Add a minimal runnable Go snippet for `confidentialhttp.Client`",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"How it works\" or a new \"Basic usage\" section",
+        "issue": "zero fenced blocks on a `-go` page; symbols named but never shown in code",
+        "change": "Add a ~10-line ```go fenced block with imports showing client construction, a request with a `{{.myApiKey}}` placeholder, and `EncryptOutput: true`. Keep it tagged `go`.",
+        "why": "Agents querying \"how to call confidentialhttp.Client in Go\" currently get prose only; a labeled, import-complete snippet is directly liftable and answers the implied intent of the URL."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Single execution by design\" and the key-differences footnote",
+        "issue": "\"reducing duplicate calls in most cases\", AES-GCM stated without key size",
+        "change": "State the AES-GCM key length (e.g. \"AES-256-GCM\"), name the threshold/quorum model numerically if public (e.g. \"t-of-n threshold decryption\"), and quantify the single-execution guarantee (\"exactly one outbound call per quorum\").",
+        "why": "Quantitative claims with units are among the highest-lift additions for citation; \"most cases\" is not liftable as a fact."
+      },
+      {
+        "priority": 2,
+        "title": "Add primary-source citations for the security claims",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "lead paragraph (\"powered by the Chainlink Privacy Standard\") and \"Enclave execution\"",
+        "issue": "only 1 external link (Wikipedia); \"Chainlink Privacy Standard\" and \"secure enclave\" are unlinked",
+        "change": "Link \"Chainlink Privacy Standard\" to its canonical spec/concept page and \"secure enclave\" to a TEE primary reference.",
+        "why": "Inline links to primary/canonical sources raise credibility and citation rate for the surrounding claim."
+      },
+      {
+        "priority": 2,
+        "title": "Add a symptom/question-phrased FAQ block",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new `## FAQ` before \"Learn more\"",
+        "issue": "no coverage of the exact questions agents ask (\"can I transform data in the enclave?\", \"how do I decrypt the response?\")",
+        "change": "Add H3 questions such as \"Can I run data transformations inside the enclave?\" (answer-first: \"No — the enclave executes only the outbound request; use Confidential Workflows\") and \"How do I decrypt an `EncryptOutput` response?\"",
+        "why": "Question-phrased headings win retrieval for symptom queries that concept-titled prose misses, even when the answer exists in body text."
+      },
+      {
+        "priority": 3,
+        "title": "Lead the \"What's kept confidential\" table with the canonical API term",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "Request body row and the CAUTION callout",
+        "issue": "the `{{.key}}` placeholder pattern vs `runtime.GetSecret()` distinction is buried in a callout",
+        "change": "In the first liftable sentence of the enclave section, state the canonical rule (\"Reference secrets only via `VaultDonSecrets` + `{{.key}}` placeholders; do not pass `runtime.GetSecret()` strings into headers/body\") so it survives skimming.",
+        "why": "Puts the correct API in the first liftable sentence and names the common-but-wrong pattern as a Don't, defending against generic-idiom substitution."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"some\" / \"most\" where a number belongs (\"reducing duplicate calls in most cases\").",
+      "Named SDK symbols (`confidentialhttp.Client`, `EncryptOutput`) with no accompanying code block — agents cannot copy-paste.",
+      "No stale/undated content issue: a visible \"Last Updated\" date is present in body (good)."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good; ensure this URL is listed in it.",
+      "Site-level: canonical/JSON-LD injection is likely a template concern across `docs.chain.link`; fixing it here should be part of a site-wide `TechArticle` rollout.",
+      "The CLI should pass raw `<head>` on future runs — head metadata could not be verified, so schema absence is inferred from the served HTML measurement rather than confirmed markup."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/capabilities/confidential-http-go.md",
+      "source_title": "The Confidential HTTP Capability",
+      "probe_set_id": "f751be03e488",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:24:33.113Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 40.2,
+      "avg_fidelity_all": 40.2,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.2,
+        "hallucination_free": 2.3,
+        "relevance": 4,
+        "structure": 6.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 438875,
+          "output_tokens": 21217,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 29,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 11663,
+          "output_tokens": 14947,
+          "cache_creation_input_tokens": 6158,
+          "cache_read_input_tokens": 26650,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source and instead blends in content that appears to come from a different (Confidential Workflows) page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "declare a confidential handler by registering the handler that should run inside a TEE, specifying which TEE types/regions your workflow accepts",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Confidential Workflows is invite-only during the private beta.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Confidential Workflows serve as the confidential compute foundation to unlock Private Smart Contracts, where encrypted transactions are processed through confidential offchain computation",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "a running instance of a Trusted Execution Environment (TEE), a hardware-isolated environment designed to keep the computation and data it processes confidential from the machine's own operator",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "the underlying framework combines trusted execution environments (TEEs) and threshold-encrypted secrets in conjunction",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "when the trigger fires, the Workflow DON hands the triggered request to an enclave instead of executing the callback locally",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Secrets are stored in the Vault DON and threshold decrypted only inside the enclave (explicit threshold-decryption/Vault DON mechanism not clearly stated)",
+            "Response body can be optionally encrypted with EncryptOutput (AES-GCM) — neither the EncryptOutput parameter nor AES-GCM is mentioned",
+            "Chainlink Privacy Standard is not mentioned",
+            "confidentialhttp.Client package name is not mentioned"
+          ],
+          "unverifiable_from_source": [
+            "Confidential Workflows is invite-only during the private beta",
+            "Confidential Workflows serve as the confidential compute foundation to unlock Private Smart Contracts",
+            "the enclave being described as a TEE with hardware isolation from the machine's operator",
+            "declaring a confidential handler with TEE types/regions and the Workflow DON handing off the request to an enclave",
+            "use-case guidance about exchanges, custody, LLM providers, etc."
+          ],
+          "verdict": "The answer conflates this Confidential HTTP page with a separate 'Confidential Workflows' concept, omits key source specifics (EncryptOutput, AES-GCM, Vault DON threshold decryption, Chainlink Privacy Standard) and introduces unverified TEE/beta/Private-Smart-Contracts details, so it is not safe to ship as a faithful representation of this doc without review.",
+          "fidelity": 40,
+          "prompt": "In Chainlink CRE, how does the Confidential HTTP capability keep my API credentials and response data confidential?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink documentation, here's how the Confidential HTTP capability protects your API credentials and response data:\n\n## The core mechanism: execution inside a TEE enclave\n\nThe foundation of confidentiality is that the work doesn't run on ordinary node infrastructure. A Confidential Workflow is a CRE workflow that designates part of its logic to run inside a secure enclave—a running instance of a Trusted Execution Environment (TEE), a hardware-isolated environment designed to keep the computation and data it processes confidential from the machine's own operator during execution—instead of on Workflow DON nodes.\n\nFor HTTP specifically, the CRE SDK provides a Confidential HTTP client that allows your workflows to interact with external APIs while keeping sensitive data private. Requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted.\n\n## The three pillars of protection\n\n**1. Credentials injected via secret templates (not plaintext).** This is the most important nuance to understand. Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. For Vault DON–style isolation, use vaultDonSecrets / VaultDonSecrets and {{.key}} templates only. In other words, the capability keeps credentials confidential only when you reference them through the templating mechanism (e.g., `{{.key}}`), which lets the secret be resolved inside the enclave rather than being exposed in your workflow code.\n\n**2. Secrets are fetched and decrypted only inside the enclave, at the moment of use.** Dynamic secret fetch: Secrets are requested and decrypted inside the enclave at the moment your code needs them. More broadly, secrets fetched inside the enclave, and any computation you mark as confidential, are intended to remain confidential from node operators during execution. This means the underlying framework combines trusted execution environments (TEEs) and threshold-encrypted secrets in conjunction.\n\n**3. Response data can be encrypted.** As noted above, responses can optionally be encrypted, so the data returned from the API doesn't get exposed to node operators either. This ties into the broader goal: Confidential Workflows serve as the confidential compute foundation to unlock Private Smart Contracts, where encrypted transactions are processed through confidential offchain computation and resulting state is committed onchain or other DA layers.\n\n## How the execution flow works\n\nThe confidential path is opt-in and composable with normal workflow logic. Confidential Workflows are fundamentally standard CRE workflows with an explicit confidential execution path added where you need it, composing freely with standard workflow logic in the same application. The lifecycle is: declare a confidential handler by registering the handler that should run inside a TEE, specifying which TEE types/regions your workflow accepts; when the trigger fires, the Workflow DON hands the triggered request to an enclave instead of executing the callback locally; your callback then runs inside the enclave, receiving a runtime built for confidential execution instead of the regular DON runtime; and secrets are requested and decrypted inside the enclave at the moment your code needs them.\n\n## When to use it\n\nThe capability is intended for genuinely sensitive credentials rather than public-data API keys. Good candidates include API keys and credentials for exchanges (trading or withdrawal access), institutional custody, payment processors, banking or payment networks, LLM providers with spending limits, or proprietary data providers, whereas keys for public data (weather, blockchain explorers, public price feeds, public RPC providers) generally don't need it. The guiding principle: a secret is a candidate for enclave execution if disclosure would expose more than the workflow needs, or data that will never be made public onchain.\n\n## Important caveat\n\nTwo things to keep in mind:\n- **You control the boundary.** You decide what stays inside the enclave. Confidentiality applies only to what you explicitly route through the confidential path and reference correctly via templates—pasting a fetched secret as plaintext into a header defeats the protection.\n- **Availability.** Confidential Workflows is invite-only during the private beta.\n\n**In summary:** Confidential HTTP keeps credentials and responses confidential by running the request inside a hardware-isolated TEE enclave that even the node operator can't see into, injecting secrets through threshold-encrypted templates that are only decrypted inside that enclave at the moment of use, and optionally encrypting the response—provided you use the `vaultDonSecrets`/`{{.key}}` templating pattern rather than handling secrets as plaintext.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 79232,
+              "output_tokens": 3230,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2164,
+              "output_tokens": 3812,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5468,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and the expected source page was not retrieved/cited."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "Confidential Workflows is invite-only during the private beta",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "used to authenticate to the external API, and immediately discarded",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "exchanges (trading or withdrawal access), institutional custody, payment processors, banking or payment networks, LLM providers with spending limits, or proprietary data providers",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "a workflow that monitors a leveraged position's collateral health and closes or adjusts it before liquidation",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "The confidential-http application lets CRE workflow authors make external API requests containing secrets encrypted in the Vault DON",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use it when you need exactly one API call with zero tolerance for duplicates",
+            "Use it for regulatory/compliance confidentiality requirements",
+            "Use regular HTTP when querying multiple APIs and combining results, transforming data before consensus, or computing with a secret before the request (runInNodeMode)"
+          ],
+          "unverifiable_from_source": [
+            "Referring to the enclave as a 'TEE'",
+            "vaultDonSecrets written in lowercase as an alternate spelling",
+            "The specific rule-of-thumb framing about 'disclosure exposing more than the workflow needs'"
+          ],
+          "verdict": "The answer is well-structured but fabricates several concrete examples and claims (invite-only beta, specific industry use-cases, secret discard behavior) not found in the source, and omits key documented criteria (zero-tolerance for duplicate calls, regulatory compliance, and the specific regular-HTTP use cases), making it unsafe to ship as an authoritative reference without verification against the docs.",
+          "fidelity": 43,
+          "prompt": "In Chainlink CRE, when should I choose Confidential HTTP over the regular HTTP capability?",
+          "archetype": "comparison",
+          "answer": "Based on the Chainlink documentation, here's when to choose the Confidential HTTP capability over the regular HTTP capability:\n\n## The core distinction\n\nThe regular HTTP capability handles requests where everything is transparent to node operators. Use a regular capability when nothing about the request, response, or data is sensitive.\n\nThe Confidential HTTP capability, by contrast, executes inside a secure enclave (TEE). The CRE SDK provides a Confidential HTTP client that allows your workflows to interact with external APIs while keeping sensitive data private. Requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted.\n\n## When to choose Confidential HTTP\n\nChoose it when any part of the request, response, or underlying data must remain hidden from node operators. Use a Confidential Workflow when any part of it needs to remain confidential from node operators—whether that's the credentials or response data on a single outbound call, or the sensitive data from that call, such as thresholds, aggregation inputs, or multi-step reasoning outputs.\n\nThe underlying mechanism keeps credentials off the nodes entirely. The confidential-http application lets CRE workflow authors make external API requests containing secrets encrypted in the Vault DON. The secrets are never revealed to external parties — only the secret owner and the enclave see plaintext. More specifically, API credentials are encrypted and forwarded to the TEE, where they are decrypted, used to authenticate to the external API, and immediately discarded.\n\n### A useful rule of thumb\nThe docs offer a clear test for whether data belongs in the enclave: the common thread: a secret is a candidate for enclave execution if disclosure would expose more than the workflow needs, or data that will never be made public onchain.\n\n**Good candidates for Confidential HTTP** include sensitive credentials such as API keys and credentials for exchanges (trading or withdrawal access), institutional custody, payment processors, banking or payment networks, LLM providers with spending limits, or proprietary data providers.\n\n**Regular HTTP is fine** for non-sensitive endpoints like API keys for publicly available data (weather, blockchain explorers, public price/market/sports data, public RPC providers).\n\n## Two important caveats\n\n**1. Confidential HTTP is not automatic protection for secrets you paste in yourself.** Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. For Vault DON–style isolation, use vaultDonSecrets / VaultDonSecrets and {{.key}} templates only. You must use the secret-injection templating pattern for the isolation to actually apply.\n\n**2. Confidentiality can extend beyond just the API call.** If it's not only the credentials but the *computation logic* that needs to be private, you may want full Confidential Workflows rather than just a confidential call. Confidential Workflows apply anywhere the computation behind a decision—not just a workflow's API calls—needs to remain confidential from node operators. An example given is a workflow that monitors a leveraged position's collateral health and closes or adjusts it before liquidation.\n\n## Summary decision guide\n\n| Choose... | When... |\n|-----------|---------|\n| **Regular HTTP** | The endpoint, credentials, and response are all public/non-sensitive |\n| **Confidential HTTP** | Credentials, request payloads, or response data must stay hidden from node operators |\n| **Full Confidential Workflow** | The decision logic/computation itself (not just the API call) must remain private |\n\nOne note worth flagging: Confidential Workflows is invite-only during the private beta. So if you plan to rely on the confidential capabilities, you'll need to request access.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 48080,
+              "output_tokens": 2405,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1739,
+              "output_tokens": 2730,
+              "cache_creation_input_tokens": 3079,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client",
+              "https://docs.chain.link/cre/reference/sdk/overview-go"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer admits it could not fully verify the Confidential HTTP execution guarantees and did not cite the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Generate a deterministic idempotency key ... send it as an Idempotency-Key header",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "don't put it inside a RunInNodeMode/node‑mode path",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "ConsensusMedianAggregation and ConsensusAggregationFromTags with RunInNodeMode",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "HTTPClient.sendRequest()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Confidential Workflows is in private beta and requires enrollment through your Chainlink account team",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Regular HTTP mitigates duplicates for non-idempotent operations with cacheSettings"
+          ],
+          "unverifiable_from_source": [
+            "Confidential Workflows is in private beta and requires enrollment through your Chainlink account team",
+            "Most payment APIs (Stripe, etc.) support idempotency keys"
+          ],
+          "verdict": "The answer captures the correct high-level idea (single execution via the enclave) but introduces fabricated API names and a misleading idempotency-key recommendation that contradicts the source's claim of built-in single execution, and it fails to cite or fully align with the actual source page, making it unsafe to ship as-is.",
+          "fidelity": 40,
+          "prompt": "Using Chainlink CRE Confidential HTTP, how do I make sure exactly one request is sent to my non-idempotent payment API?",
+          "archetype": "constrained",
+          "answer": "I'll research this for you, since Chainlink CRE Confidential HTTP is a specialized feature with specific documentation.Let me dig into the specific documentation on how Confidential HTTP handles request execution.## Short answer\n\nThe \"exactly one request\" problem is really about **where the outbound call executes**. Understanding the two HTTP paths in CRE is the key:\n\n- With the **standard** HTTP client, HTTPClient.sendRequest() — each DON node fetches independently, and results are aggregated via consensus. For a non‑idempotent payment API this is exactly what you *don't* want, because N nodes = N charges.\n- With **Confidential HTTP**, requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted. The outbound call is handled by the enclave‑backed capability rather than being replicated on every Workflow DON node, which is the mechanism that lets you avoid fan‑out to your payment endpoint.\n\nSo the first rule is: **route the payment call through the Confidential HTTP client, not the per‑node `http.Client`**, and don't wrap that call in a per‑node execution block (i.e., don't put it inside a `RunInNodeMode`/node‑mode path that runs the fetch on each node).\n\n## How to structure the workflow\n\n1. **Isolate the payment call in the confidential/enclave path.** In CRE, you decide what stays inside the enclave and what crosses back out to the Workflow DON for consensus-verified execution. Keep the actual `sendRequest` to your payment API inside the confidential execution path so it runs once in the enclave capability, and only bring back the *result* (e.g., a payment confirmation ID) to the DON for consensus.\n\n2. **Use aggregation for the data, not for the side‑effecting call.** The consensus tooling — aggregators like ConsensusMedianAggregation and ConsensusAggregationFromTags with RunInNodeMode to process and consolidate data from multiple nodes — is meant for reading/validating data across nodes. Do **not** place a non‑idempotent POST inside a `RunInNodeMode` block, since that model is designed for each node to fetch and then reconcile.\n\n3. **Inject credentials the right way.** Note the important caveat in the guide: Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. For Vault DON–style isolation, use vaultDonSecrets / VaultDonSecrets and {{.key}} templates only. This keeps your payment API keys out of node operators' view while the single request is made.\n\n## Strongly recommended: defense in depth with an idempotency key\n\nEven though your API is \"non‑idempotent,\" the robust engineering pattern is to **make the operation idempotent at the boundary** rather than relying solely on single‑execution guarantees:\n\n- Generate a **deterministic idempotency key** derived from workflow inputs (e.g., a hash of the trigger/order ID) and send it as an `Idempotency-Key` header or a client‑supplied transaction reference. That way, if a retry or any unexpected re‑execution ever occurs, the payment provider dedupes it server‑side. Most payment APIs (Stripe, etc.) support this.\n- This matters because workflows can retry on transient failure, and TEE/enclave execution does not by itself remove application‑level retry semantics.\n\n## What I'd verify before going live\n\nI was able to confirm the architectural distinction above from Chainlink's docs, but I couldn't fully retrieve the low‑level execution guarantees of the Confidential HTTP capability (e.g., its exact retry behavior and whether the enclave call is provably run once) in this session. Before shipping real payments, confirm these details directly in the **[Confidential API Interactions guide](https://docs.chain.link/cre/guides/workflow/using-confidential-http-client)** and the **[confidentialhttp.Client SDK reference](https://docs.chain.link/cre/reference/sdk/overview-go)**, and note that Confidential Workflows is in private beta and requires enrollment through your Chainlink account team.\n\n**Bottom line:** Put the non‑idempotent payment call in the Confidential HTTP / enclave path (single execution) instead of the per‑node HTTP client, keep it out of node‑mode consensus blocks, inject credentials via Vault DON templates — and add a deterministic idempotency key as a safety net so a stray retry can never double‑charge.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 159894,
+              "output_tokens": 5757,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2010,
+              "output_tokens": 2279,
+              "cache_creation_input_tokens": 3079,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search tool hit a rate limit and it could not retrieve the live docs, then gives an unverified, ultimately incorrect generic pattern."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "secret, err := runtime.GetSecret(\"apiKey\") ... body := map[string]any{\"credential\": secret.Value}",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Rather than embedding the credential in the request body template, retrieve it through the runtime's secrets accessor and build the body in code",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Put secrets in a dedicated secrets file (e.g. a secrets.yaml) ... that the CRE CLI encrypts and uploads to the DON",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Reference it by env/name so the actual value stays out of version control, e.g. apiKey: $MY_API_KEY",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "List sensitive values in VaultDonSecrets",
+            "Reference them only with {{.key}} placeholders",
+            "Secrets are resolved inside the enclave via template-based injection",
+            "Do not paste runtime.GetSecret() values or workflow-built strings into headers/body — those are handled in Workflow DON, not enclave-only"
+          ],
+          "unverifiable_from_source": [
+            "CRE CLI encrypts and uploads a secrets.yaml file to the DON",
+            "TypeScript SDK calling convention differs for secrets"
+          ],
+          "verdict": "Not safe to ship: the answer explicitly recommends resolving secrets via runtime.GetSecret() and building the request body in code, which is precisely the anti-pattern the source warns is handled in Workflow DON (not enclave-only) rather than the documented safe approach of VaultDonSecrets + {{.key}} template placeholders.",
+          "fidelity": 25,
+          "prompt": "CRE confidential http credentials in request body — how do I reference secrets safely?",
+          "archetype": "terse/keyword",
+          "answer": "I wasn't able to pull up the live CRE docs (my search tool hit its rate limit), so I'll give you the general pattern based on how the Chainlink Runtime Environment handles secrets. Please double-check the exact API/method names against the current CRE docs, since the SDK surface is still evolving.\n\n## Core principle\n\nNever put the credential literally into your workflow source, your workflow config file, or an HTTP request body that's defined statically. In CRE, secrets are stored **encrypted per-DON** and are only decrypted inside the secure runtime at execution time. Your code should reference a secret by *name/handle* and fetch its value at runtime, then assemble the request body from that value.\n\n## The safe pattern\n\n**1. Declare the secret out-of-band (not in code)**\n\nPut secrets in a dedicated secrets file (e.g. a `secrets.yaml`) or environment reference that the CRE CLI encrypts and uploads to the DON. The nodes encrypt it with their public keys so the plaintext never lives in your repo or on-chain.\n\n```yaml\n# secrets.yaml  (this gets encrypted+uploaded, never committed in plaintext)\napiKey: \"MY_API_KEY\"\n```\n\nReference it by env/name so the actual value stays out of version control, e.g. `apiKey: $MY_API_KEY`.\n\n**2. Fetch the secret inside the workflow at runtime**\n\nRather than embedding the credential in the request body template, retrieve it through the runtime's secrets accessor and build the body in code:\n\n```go\n// pseudo-code — confirm exact method names in current SDK\nsecret, err := runtime.GetSecret(\"apiKey\")\nif err != nil { return err }\n\nbody := map[string]any{\n    \"query\": \"...\",\n    \"credential\": secret.Value, // injected only at execution time\n}\n```\n\n**3. Send it via the HTTP capability**\n\nPass the constructed body to the HTTP action. The secret value exists only in-memory during execution and is not logged or persisted.\n\n## Key rules to keep it safe\n\n- **Reference, don't embed** — use the secret's name/handle in config; resolve the value only in code at runtime.\n- **Body over URL** — putting credentials in the request body (as you're doing) is preferable to query strings, which are more likely to be logged; you're on the right track.\n- **Don't log it** — avoid printing the resolved secret or the full request body in any logging/observability output.\n- **Prefer headers when the API supports it** — `Authorization` headers are the conventional place for tokens, but if the API requires the credential in the body, resolve it the same runtime way.\n- **Keep the plaintext secrets file out of git** — add it to `.gitignore`; only the encrypted/uploaded form should leave your machine.\n- **Scope and rotate** — upload only the secrets a given workflow needs, and rotate/re-upload when credentials change.\n\n## What I'd recommend verifying in the current docs\n\nBecause the exact identifiers change between CRE releases, confirm:\n1. The precise runtime accessor name (e.g. `GetSecret` / `secrets.Get` / a `SecretsProvider` interface).\n2. The secrets file format and the CRE CLI command used to encrypt and upload them.\n3. Whether your target SDK is Go or TypeScript, since the calling convention differs.\n\nIf you tell me which SDK (Go or TS) and roughly which CRE version/tooling you're on, I can retry the search and give you the exact method signatures and a concrete, working example.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 42699,
+              "output_tokens": 2963,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1615,
+              "output_tokens": 1718,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5468,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source URL despite covering its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 3,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "the response will be AES-GCM encrypted using the \"san_marino_aes_gcm_encryption_key\" secret",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Default is false (response returned unencrypted).",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Default is false (response returned unencrypted)",
+            "use the Vault DON secret templating (`vaultDonSecret`) rather than pasting secrets in as plaintext"
+          ],
+          "verdict": "Mostly correct conceptually but invents a specific secret key name not present in the docs, which could mislead a developer trying to reference real config, so it should not be shipped as-is without removing that fabricated detail.",
+          "fidelity": 55,
+          "prompt": "I enabled response encryption on a Chainlink CRE Confidential HTTP call but I can't read the response body in my workflow — what's going on?",
+          "archetype": "error-debug",
+          "answer": "Based on the Chainlink documentation and the CRE SDK reference, this is expected behavior — not a bug. Here's what's happening.\n\n## Why your workflow can't read the body\n\nWhen you enable response encryption on a Confidential HTTP call, the response comes back **as ciphertext, not plaintext**. In the CRE SDK, this is controlled by the `EncryptOutput` (Go) / `encryptOutput` flag on the request, and the docs are explicit about the effect: if true, the response will be AES-GCM encrypted using the \"san_marino_aes_gcm_encryption_key\" secret. Default is false (response returned unencrypted).\n\nSo the `HTTPResponse` your workflow receives contains AES-GCM–encrypted bytes. If you try to parse it directly (e.g., `JSON.parse`, unmarshal, or read it as text) you'll get garbage or an error, because your code is looking at the encrypted payload rather than the decrypted plaintext.\n\n## The key conceptual point\n\nResponse encryption isn't there to protect the body *while the enclave is running* — the enclave already does that. The CRE SDK provides a Confidential HTTP client that allows your workflows to interact with external APIs while keeping sensitive data private. Requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted.\n\nMore broadly, Confidential Workflows protect only the confidential data processed during execution inside the enclave, including Vault DON secrets (such as API keys), sensitive HTTP response payloads, and intermediate values that are not explicitly shared.\n\nThe optional **output encryption** is a separate feature whose purpose is to let the response payload leave the enclave (e.g., be returned, logged, or written somewhere) while staying confidential to everyone except the intended holder of the decryption key. That's precisely why your ordinary workflow logic can't read it.\n\n## What to do\n\nYou have two options depending on your goal:\n\n1. **You just want to use the response inside the workflow** → Don't enable output encryption. Leave `EncryptOutput`/`encryptOutput` at its default (`false`) so the response is returned unencrypted. The enclave still keeps it confidential during execution, so your in-enclave workflow code can read the plaintext body directly and inject secrets safely via templates.\n\n2. **You genuinely need the response encrypted for delivery outside the enclave** → Then reading it as plaintext in the same workflow defeats the purpose. The encrypted bytes are meant to be decrypted downstream by the party that holds the corresponding AES-GCM key material. Keep the flag on, but treat the body as opaque ciphertext to be forwarded/decrypted, not parsed in the workflow.\n\n## One important caveat worth checking\n\nIf the reason you turned on encryption was to hide credentials you're loading yourself, note that encryption of the *response* won't fix that. Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. For that isolation you should use the Vault DON secret templating (`vaultDonSecret`) rather than pasting secrets in as plaintext.\n\n**In short:** enabling response encryption means the workflow now receives an AES-GCM ciphertext (encrypted with the `san_marino_aes_gcm_encryption_key` secret), so you can't read it as-is. If you need to consume the body inside the workflow, disable output encryption; if you need it encrypted, decrypt it downstream with the appropriate key.\n\nIf you can tell me whether you're on the Go or TypeScript SDK and what you're trying to do with the body, I can point you at the exact request field and the intended decryption path.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 70512,
+              "output_tokens": 3725,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1655,
+              "output_tokens": 1633,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5468,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page and instead references unrelated or unverifiable external repos/blogs."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Chainlink DKG",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Workflows are isolated from one another by Wasmtime",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "the repo includes a \"fake\" enclave that emulates AWS Nitro over loopback for local dev",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Confidential Workflows is in private beta and requires enrollment through your Chainlink account team",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "nodes... performed all authorization checks and remote attestations",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "`chainlink-confidential-compute` GitHub repo (the `confidential-http` app)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Chainlink Confidential Compute blog / whitepaper for the DKG + Vault DON architecture",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the Confidential HTTP capability, powered by the Chainlink Privacy Standard",
+            "Nodes reach quorum on request parameters rather than response data",
+            "Optionally encrypt the full response with EncryptOutput (AES-GCM)",
+            "Only one API call is made"
+          ],
+          "unverifiable_from_source": [
+            "Trusted Execution Environments (TEEs) terminology used for the enclave",
+            "Details about local simulation and 'fake' enclave for dev testing"
+          ],
+          "verdict": "The answer conflates the source's Confidential HTTP capability with the separate (beta) Confidential Workflows feature, invents unsupported technical details (DKG, Wasmtime, AWS Nitro simulation, GitHub repo, beta enrollment requirement), and omits key documented facts like EncryptOutput/AES-GCM and single-execution guarantees, making it unsafe to ship as-is despite good structure.",
+          "fidelity": 38,
+          "prompt": "I'm new to Chainlink CRE and I have a workflow that calls a third-party API with a really sensitive API key. I read that normally every node in the network sees the data. Is there a way to make the call so the key and the response stay private, and how does that actually work behind the scenes?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll look into how Chainlink CRE handles private/confidential API calls to answer your question accurately.Let me pull the detailed content from the most relevant sources.I have enough to give you a solid answer. Here's how it works.\n\n## Short answer\n\nYes. In Chainlink CRE, the default execution model means workflow logic runs across Workflow DON nodes with consensus, so data is visible to node operators. But CRE now has **Confidential Workflows / Confidential Compute** specifically to solve your problem — keeping API keys and sensitive responses private. The feature you want is the **`confidential-http`** capability backed by the **Vault DON** and **Trusted Execution Environments (TEEs)**. Note it's currently in early access: Confidential Workflows is in private beta and requires enrollment through your Chainlink account team, though you can simulate it locally in the meantime.\n\n## What it protects\n\nConfidential Workflows protect only the confidential data processed during execution inside the enclave, including Vault DON secrets (such as API keys), sensitive HTTP response payloads, and intermediate values that are not explicitly shared outside the enclave.\n\nFor your specific use case, this is exactly the goal: the confidential-http application lets CRE workflow authors make external API requests containing secrets encrypted in the Vault DON. The secrets are never revealed to external parties — only the secret owner and the enclave see plaintext.\n\nOne important caveat to set expectations: your handler's source code and compiled binary are not confidential just because part of its logic runs inside an enclave. Confidential Workflows protect only the confidential data processed during execution inside the enclave. So it protects the *key and the response data*, not the code itself.\n\n## How it works behind the scenes\n\nThere are two main systems working together — the **Vault DON** (for storing/managing the secret) and the **TEE/enclave** (for executing the call).\n\n**1. The secret never lives in one place.** The Vault DON securely stores and manages secrets (e.g., API credentials) using threshold encryption and a trustless setup provided by Chainlink DKG. This creates a trust-minimized system that ensures no node operators or other entities can ever obtain access to your credentials. Concretely, Chainlink DKG works by cryptographically dividing access to secrets amongst a quorum of independent node operators. No single node ever holds your full API key.\n\n**2. Decryption only happens after authorization, inside the enclave.** When a secret is required to execute a confidential workflow, the nodes provide the enclave executing the confidential workflow with a set of decryption shares only after having performed all authorization checks and remote attestations. Remote attestation is the mechanism that cryptographically proves the code running inside the TEE is the genuine, expected enclave before any node will hand over its share.\n\n**3. The key is reassembled, used, and destroyed.** The enclave recombines the decryption shares received from the nodes into the secret, executes the confidential workflow, and finally discards the secret as soon as the execution is complete. This guarantees node operators and other entities cannot see, access, or act on secrets beyond what the user explicitly authorizes.\n\nSo the plaintext API key exists only transiently inside the hardware-isolated enclave — never on the general Workflow DON nodes, never in transit to external parties, and it's wiped after the call.\n\n## How you'd design your workflow\n\nThink of it as a standard CRE workflow with a confidential \"path\" carved out. Confidential Workflows are fundamentally standard CRE workflows with an explicit confidential execution path added where you need it, composing freely with standard workflow logic in the same application. Secrets fetched inside the enclave, and any computation you mark as confidential, are intended to remain confidential from node operators during execution. You decide what stays inside the enclave and what crosses back out to the Workflow DON for consensus-verified execution, such as generating a report to submit onchain.\n\nIn practice for your case:\n- Store your third-party API key in the **Vault DON** (threshold-encrypted).\n- Use the **`confidential-http`** capability to make the API call from inside the enclave — the key gets reassembled there, the request goes out, and the response comes back into the enclave.\n- Keep the sensitive response inside the enclave and only pass out the non-sensitive result you need (e.g., a value or a report) to the Workflow DON for consensus and onchain submission.\n\nA couple of current beta limitations worth knowing: multiple confidential workflows may execute within the same enclave. Workflows are isolated from one another by Wasmtime. Dedicated per-workflow enclave isolation is planned as a future enhancement.\n\n## Getting started\nSince you're new to CRE, the recommended path is to **build a standard workflow first**, then add the confidential path. You can simulate confidential behavior locally right away (the repo includes a \"fake\" enclave that emulates AWS Nitro over loopback for local dev), and request early access through your Chainlink account team for production use.\n\nGood primary references:\n- **Confidential Workflows in CRE** docs: `docs.chain.link/cre/concepts/confidential-workflows` (see the \"Making a Workflow Confidential\" section)\n- **`chainlink-confidential-compute`** GitHub repo (the `confidential-http` app)\n- **Chainlink Confidential Compute blog / whitepaper** for the DKG + Vault DON architecture\n\nWant me to sketch out a rough example of what the confidential-http portion of a workflow handler looks like, or walk through the local simulation setup?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38458,
+              "output_tokens": 3137,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2480,
+              "output_tokens": 2775,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5468,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

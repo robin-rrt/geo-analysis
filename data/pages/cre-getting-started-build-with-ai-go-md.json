@@ -1,0 +1,727 @@
+{
+  "key": "cre-getting-started-build-with-ai-go-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Build with AI (Skill, Prompting)",
+    "url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+    "analyzedAt": "2026-09-21T13:20:03.284Z",
+    "contentType": "developer documentation / getting-started guide",
+    "score": 63,
+    "band": "Good",
+    "weightedTotal": 63.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong openers: the page leads with \"You can use AI coding assistants to generate, debug, and explore CRE workflows. There are two approaches…\" and the skill section opens with a self-contained definition. Weak spot: the \"Prompting\" section buries its actionable payload (the context file and starter prompt) below rationale prose."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; no action needed. 9 headings, 1 H1, max depth H3, 0 level skips, 0 sections over 600 words (median 52), one well-formed coverage table."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak: 9 numerals, 0 with units, no version strings. No minimum tool versions, no token/context-window figures despite the page discussing \"fewer tokens\" and \"smaller context windows\" qualitatively. Vague quantifier \"most\" present."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for navigation (38 internal links to canonical CRE pages) but only 2 external links (both to the Agent Skills spec) and 0 flagged primary sources. The spec link is good; nothing else anchors claims externally."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good: \"Agent skills are structured instruction sets that give an AI coding agent domain-specific knowledge and a defined approach for a task\" is a clean liftable definition. CRE itself is not defined on-page (assumed from context)."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak: 0 JSON-LD blocks, canonical MISSING, no og/twitter tags, no head-level dateModified. A visible \"Last Updated: 2026-03-19\" exists in the body but is not machine-exposed as schema. Note: raw `<head>` was not captured by the CLI — verify before treating head tags as fully absent."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate: the `npx skills add …` command is complete and copy-pasteable. Two of three fences are untagged (they are prompt templates, so no imports needed), but tagging them (`text`/`markdown`) aids parsers. No expected-output shown."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate: covers install → prompt → generate → debug lifecycle, but headings are concept-named. No FAQ/troubleshooting for the AI workflow itself (e.g. \"skill not activating\", \"which tools are supported\"). Symptom/question phrasing is absent."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Consistent naming of CRE, skill, SDK, and tool names; unambiguous prose."
+      }
+    ],
+    "summary": "This is a clean, well-structured getting-started page that teaches developers to use AI coding agents (via a CRE skill) or direct LLM prompting to build Chainlink CRE workflows. Its biggest strength is structural clarity — a strong H2/H3 hierarchy, a comprehensive coverage table, and a crisp definition of agent skills. Its biggest opportunity is retrieval discoverability: the page is written in concept-titled prose (\"Prompting\", \"Debugging\") rather than the symptom/question phrasing developers actually type, and it carries no JSON-LD, canonical, or head-level freshness signal. Honest verdict: solid content that will under-retrieve relative to its quality until headings and metadata are aligned to how agents query.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Convert concept headings to question/symptom phrasing",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "H2/H3s \"Prompting\", \"Supported agent tools\", \"Debugging\", \"Workflow generation\"",
+        "issue": "concept-titled headings lose retrieval that question-phrased ones win.",
+        "change": "Rephrase or add sub-headings: \"Which AI coding tools support the CRE skill?\", \"How do I build a CRE workflow with an AI agent?\", \"How do I load CRE docs into ChatGPT/Claude?\", \"My agent isn't activating the CRE skill\".",
+        "why": "developers and agents query by task/symptom; headings matching the exact question win retrieval even when the answer is already in body text."
+      },
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "measured facts show \"JSON-LD: 0 block(s)\" and \"canonical: MISSING\".",
+        "change": "Emit a `TechArticle` block with `headline`, `dateModified: 2026-03-19`, `inLanguage`, `programmingLanguage: [\"Go\",\"Shell\"]`, and a self-referential `canonical`.",
+        "why": "structured metadata and a visible freshness signal raise parse-trust and E-E-A-T for engines and agents. (Verify head first — CLI did not capture it.)"
+      },
+      {
+        "priority": 2,
+        "title": "Add a short answer-first TL;DR distinguishing the two approaches",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "directly under the H1",
+        "issue": "the two-approach tradeoff is explained diffusely across sections.",
+        "change": "Add 2–3 sentences: \"Use the **code editor skill** for task-focused work — it fetches only the docs the current task needs. Use **direct prompting** for broad exploration — it loads the full SDK reference (`llms-full.txt`) upfront.\" Name the canonical install command in the same block.",
+        "why": "a self-contained comparison chunk is liftable verbatim and defends against a skimmed page answering from priors."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics for tools and context",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Supported agent tools\" and the \"Prompting\" rationale",
+        "issue": "\"Verified with Claude Code, Cursor…\" and \"fewer tokens\" carry no versions or numbers.",
+        "change": "State minimum verified versions where known, and replace \"fewer tokens / smaller context windows\" with an approximate figure (e.g. single-page load ≈ N tokens vs full `llms-full.txt` ≈ M tokens).",
+        "why": "quantitative claims are among the highest-lift edits for citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Tag the untagged prompt fences",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "the \"Prompt your agent\" and starter-prompt code blocks",
+        "issue": "measured facts show \"2 untagged\" fences.",
+        "change": "Label them ```` ```text ```` so parsers classify them as literal prompt content, not code.",
+        "why": "language-labeled fences are cleaner for agent extraction and reduce misparsing."
+      },
+      {
+        "priority": 3,
+        "title": "Fix the escaped context-file URL",
+        "mapsTo": "clarity / agent-runnability",
+        "tier": null,
+        "where": "\"**Context file**: https\\://docs.chain.link/cre/go/llms-full.txt\"",
+        "issue": "the escaped `https\\://` may render or copy literally with a backslash.",
+        "change": "Make it a clean inline link to `https://docs.chain.link/cre/go/llms-full.txt`.",
+        "why": "a malformed URL breaks the exact fetch step both humans and agents follow."
+      },
+      {
+        "priority": 3,
+        "title": "Add a brief troubleshooting/FAQ block",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H2 at page end",
+        "issue": "no debug coverage for the AI workflow itself.",
+        "change": "Add 3–4 Q&A pairs: skill not discovered, tool not listed as supported, `cre workflow simulate` errors, Go vs TypeScript choice.",
+        "why": "troubleshooting entries capture symptom queries that concept prose misses."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"most\" present (minor; measured).",
+      "Two untagged code fences (addressed above).",
+      "Escaped/malformed URL in the \"Context file\" line (addressed above).",
+      "No marketing fluff, no keyword stuffing, no unresolved cross-references. Body carries a visible \"Last Updated\" date."
+    ],
+    "offPageNotes": [
+      "JSON-LD/`TechArticle` schema and canonical tags are site-template concerns — fix once across the docs, not per page.",
+      "The page already references `/llms.txt`; ensure this URL is listed there so agents discover it via the index.",
+      "CLI should pass raw `<head>` on future runs — head metadata was not captured, so og/twitter/canonical absence is inferred from the served body only."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/getting-started/build-with-ai-go.md",
+      "source_title": "Build with AI (Skill, Prompting)",
+      "probe_set_id": "72a81dbc46e0",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:32:33.419Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 34,
+      "avg_fidelity_all": 34,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 2.7,
+        "hallucination_free": 2.3,
+        "relevance": 3,
+        "structure": 5.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 326528,
+          "output_tokens": 15563,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 26,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 8479,
+          "output_tokens": 12228,
+          "cache_creation_input_tokens": 2517,
+          "cache_read_input_tokens": 26919,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page despite claiming to reference official Chainlink documentation."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Installation uses Vercel's CLI for the open skills ecosystem.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "npx skills add smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill -g",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "npx skills add smartcontractkit/chainlink-agent-skills",
+              "type": "wrong_import",
+              "severity": "low"
+            },
+            {
+              "claim": "the docs show examples like /chainlink-ace-skill",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "skills live in a folder whose name matches the skill with a SKILL.md inside it",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "The exact documented install command 'npx skills add https://github.com/smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill' is never given verbatim; the answer substitutes a shorthand repo path and adds an undocumented -g flag."
+          ],
+          "unverifiable_from_source": [
+            "Support for Windsurf as a compatible agent tool",
+            "Project-level vs global install distinction and interactive installer behavior",
+            "Description of what triggers the skill (onboarding, workflow generation in multiple languages, etc.)"
+          ],
+          "verdict": "The answer is well-structured but deviates from the documented install command (wrong repo path format, invented -g flag) and introduces unverified/fabricated details (Vercel CLI, Windsurf support, SKILL.md folder rule, a stray example skill name), and it never cites the source page — not safe to hand to a developer as-is.",
+          "fidelity": 48,
+          "prompt": "How do I install the Chainlink CRE agent skill into my code editor's AI agent?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about the Chainlink CRE agent skill and how to install it.Let me get the official Chainlink documentation for the specific installation steps.Based on the official Chainlink documentation, here's how to install the Chainlink CRE agent skill into your code editor's AI agent.\n\n## What these skills are\n\nEach skill teaches a compatible assistant how to help you with a specific product area (for example, Data Feeds or CCIP): suggested steps, guardrails, and references so you spend less time hunting docs and more time shipping. The CRE skill specifically is designed to enable developers to learn and use Chainlink Runtime Environment (CRE) quickly by referencing filtered CRE docs. It triggers when a user wants onboarding, CRE workflow generation (in TypeScript or Golang or other supported languages), workflow guidance, CRE CLI and/or SDK help, runtime operations advice, or capability selection.\n\n## Prerequisites\n\nYou'll need two things: a coding environment where your AI assistant supports Agent Skills, and Node.js with npx available for the install command. Installation uses Vercel's CLI for the open skills ecosystem.\n\nThe skill works across major AI coding assistants — it can be installed and reused with AI coding assistants such as Claude Code, Codex, Cursor, Windsurf, and other tools that support agent skill workflows.\n\n## Installation commands\n\n**Basic (interactive) install:**\n\n```\nnpx skills add smartcontractkit/chainlink-agent-skills\n```\n\nRunning this command starts an interactive installer where you choose project-level or global installation. Pick project-level if you want the skills stored with the repository so collaborators get the same set from version control.\n\n**Install globally for your user account (across all projects):**\n\n```\nnpx skills add smartcontractkit/chainlink-agent-skills -g\n```\n\nTo install skills for your user account across projects, add the -g flag.\n\n**Install only the CRE skill (rather than the whole bundle):**\n\n```\nnpx skills add smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill -g\n```\n\nIf you only want one package from the bundle at user level, use --skill with the skill folder name.\n\n## Using it\n\nOnce installed, you invoke the skill in your agent's chat by referencing it (skills are namespaced with a slash, e.g. the docs show examples like `/chainlink-ace-skill`). For the CRE skill, use the corresponding `chainlink-cre-skill` and simply describe the CRE workflow, SDK, or CLI task you want help with — the agent loads the skill's guidance automatically when the task matches.\n\nOne practical note if it doesn't appear: skills live in a folder whose name matches the skill with a `SKILL.md` inside it, so make sure the path is correct and not doubly nested.\n\nWould you like guidance on installing the CRE CLI itself (a separate step from the agent skill), which the skill will also help you set up?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 48417,
+              "output_tokens": 2322,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1479,
+              "output_tokens": 3466,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4906,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page and relies on unverified/fabricated tool support claims."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "installed from Skills.lc and reused with AI coding assistants such as Claude Code, Codex, Cursor, Windsurf",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Claude Code, Codex, Cursor, Windsurf",
+              "type": "fabricated_function",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Verified with Claude Code, Cursor, Codex, Gemini, Copilot, and Cline"
+          ],
+          "unverifiable_from_source": [
+            "Requirements: Node.js with npx available for the install command",
+            "builds workflows with CRON, HTTP, or EVM log triggers, including multi-handler projects"
+          ],
+          "verdict": "Not safe to ship: it fabricates 'Skills.lc' as an install source and lists Windsurf as verified while omitting the actually verified tools (Gemini, Copilot, Cline) from the source.",
+          "fidelity": 25,
+          "prompt": "Which AI coding tools does the Chainlink CRE skill work with?",
+          "archetype": "direct-howto",
+          "answer": "Based on my search, here's the answer:\n\nThe Chainlink CRE (Chainlink Runtime Environment) skill is built on the open Agent Skills specification, so it works with a range of AI coding assistants that support agent skill workflows. Specifically, this Skill can be installed from Skills.lc and reused with AI coding assistants such as Claude Code, Codex, Cursor, Windsurf, and other tools that support agent skill workflows.\n\nMore broadly, the skill follows an open standard, meaning this skill can be installed from Skills.lc and reused with AI coding assistants such as Claude Code, Codex, Cursor, Windsurf, and other tools that support agent skill workflows.\n\n**Requirements to use it:** You need a coding environment where your AI assistant supports Agent Skills, and Node.js with npx available for the install command.\n\n**What the skill does:** This skill covers the Chainlink Runtime Environment (CRE). It can install and use the CRE CLI, create new CRE projects in Go or TypeScript, and build workflows with CRON, HTTP, or EVM log triggers, including multi-handler projects.\n\nIn short, the CRE skill is compatible with **Claude Code, Codex, Cursor, Windsurf**, and other AI coding tools that support the Agent Skills (SKILL.md) standard.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 42472,
+              "output_tokens": 1361,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 822,
+              "output_tokens": 1089,
+              "cache_creation_input_tokens": 2517,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/resources/chainlink-developer-agent-skills",
+              "https://docs.chain.link/cre/reference/sdk/overview-go"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not retrieve the verbatim starter prompt due to hitting a search tool usage limit and offers to retry."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 1,
+            "structure": 2
+          },
+          "hallucinations": [
+            {
+              "claim": "The skill uses a four-step runtime pattern with 10 topic-specific reference files to route queries efficiently.",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Every cre CLI command that accepts --target MUST include it explicitly. Omitting --target causes an interactive prompt that blocks automated execution.",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "The official place is Chainlink's \"Chainlink Developer Agent Skills\" page: https://docs.chain.link/resources/chainlink-developer-agent-skills",
+              "type": "wrong_import",
+              "severity": "high"
+            },
+            {
+              "claim": "The Go SDK reference itself is at: https://docs.chain.link/cre/reference/sdk/overview-go",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "So the \"starter prompt\" is essentially the contents of the skill's SKILL.md, which acts as the decision/routing layer.",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Use the context file at https://docs.chain.link/cre/go/llms-full.txt",
+            "Paste the starter prompt asking the assistant to fetch and read that file, then describe your use case"
+          ],
+          "unverifiable_from_source": [
+            "This skill covers the Chainlink Runtime Environment (CRE). It can: Install and use the CRE CLI...",
+            "Route CRE requests to the simplest valid path. Keep this file as the decision layer..."
+          ],
+          "verdict": "The answer fails to surface the actual source content (the llms-full.txt context file and starter prompt), instead fabricating unrelated details about a skill's internal structure and CLI flags, making it unsafe to rely on.",
+          "fidelity": 13,
+          "prompt": "I don't want to install a skill — show me the starter prompt to load the full Chainlink CRE Go SDK docs into an LLM chat.",
+          "archetype": "code-first",
+          "answer": "I wasn't able to retrieve the exact verbatim \"starter prompt\" text before hitting the search tool's usage limit, so I don't want to fabricate the precise wording. Here's what I can confirm from the sources, plus where to grab the exact prompt.\n\n## Where the starter prompt lives\n\nThe official place is Chainlink's **\"Chainlink Developer Agent Skills\"** page: `https://docs.chain.link/resources/chainlink-developer-agent-skills`. That page documents both the install path (`npx skills add ...`) and guidance for prompting. This skill covers the Chainlink Runtime Environment (CRE). It can: Install and use the CRE CLI. Create new CRE projects in Go or TypeScript. Build workflows with CRON, HTTP, or EVM log triggers, including multi-handler projects with more than one entry point.\n\nThe Go SDK reference itself is at: `https://docs.chain.link/cre/reference/sdk/overview-go`.\n\n## The no-install approach\n\nIf you don't want to run `npx skills add`, the underlying skill is just a markdown file you can paste into any chat. The CRE skill works as a documentation router rather than a static dump: It provides intelligent documentation assistance for the Chainlink Runtime Environment (CRE) by matching user questions to relevant documentation topics and dynamically fetching fresh content from official CRE documentation. The skill uses a four-step runtime pattern with 10 topic-specific reference files to route queries efficiently.\n\nSo the \"starter prompt\" is essentially the contents of the skill's `SKILL.md`, which acts as the decision/routing layer. Its own instruction is: Route CRE requests to the simplest valid path. Keep this file as the decision layer; load reference files only for the mechanics needed by the user's request.\n\n## How to load it yourself (without installing)\n\n1. Open the raw skill file in the repo: `smartcontractkit/chainlink-agent-skills`, skill `chainlink-cre-skill` (the `SKILL.md` plus its reference files).\n2. Paste that markdown as the first message / system context in your LLM chat.\n3. Then ask your CRE Go question.\n\nA concrete opening message you can use:\n\n> \"I'm pasting the Chainlink CRE agent skill below. Use it as your routing/decision layer for all my questions. When I ask about the Go SDK, follow its instructions to pull the relevant CRE Go SDK reference content and answer accordingly. [paste contents of chainlink-cre-skill SKILL.md + reference files here]\"\n\nOne important operational caveat that the skill itself stresses for the CLI: Every cre CLI command that accepts --target MUST include it explicitly. Omitting --target causes an interactive prompt that blocks automated execution.\n\n---\n\n**Want me to fetch the exact verbatim starter-prompt text?** My search quota was exhausted this turn. If you re-ask (or paste the URL contents), I can pull the precise `SKILL.md` wording for you. Would you like me to grab it?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 83872,
+              "output_tokens": 3863,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1512,
+              "output_tokens": 1721,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4906,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source and appears to rely on general knowledge rather than the retrieved page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 1,
+            "relevance": 2,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "the skill uses a four-step runtime pattern with 10 topic-specific reference files",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "you initialize a new project using cre init",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Create an account at app.chain.link/cre/discover to access the platform",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "uploads the artifacts to the CRE Storage Service, and submits a registration transaction to the registry",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "you can name more than one skill in the same message (for example /chainlink-data-feeds-skill and /chainlink-ccip-skill)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "each workflow is orchestrated by a Workflow DON ... invoke specialized Capability DONs ... Byzantine Fault Tolerant (BFT) consensus protocol",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Confirms Go or TypeScript",
+            "Asks whether HTTP should be regular or Confidential HTTP",
+            "Generates the complete workflow scaffold immediately",
+            "Gives a cre workflow simulate command to test",
+            "Iterates on errors by fetching exactly what the error names"
+          ],
+          "unverifiable_from_source": [
+            "Develop smart contracts that receive and verify CRE reports",
+            "Deploy workflows and set up monitoring",
+            "Workflow Registry contract details",
+            "Workflow DON / Capability DON architecture and BFT consensus description"
+          ],
+          "verdict": "The answer substitutes a fabricated, generalized 'development loop' (with invented commands, URLs, and internal mechanics) for the source's specific 5-step workflow-generation process, making it unsafe to ship as-is.",
+          "fidelity": 20,
+          "prompt": "When I ask the Chainlink CRE skill to build a workflow, what steps does it walk through?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink documentation about the CRE agent skill and the standard CRE development workflow, here's what it walks you through.\n\n## What the CRE skill covers\n\nThe `/chainlink-cre-skill` is a documentation assistant for the Chainlink Runtime Environment. This skill covers the Chainlink Runtime Environment (CRE). It can: Install and use the CRE CLI. Create new CRE projects in Go or TypeScript. Build workflows with CRON, HTTP, or EVM log triggers, including multi-handler projects with more than one entry point. Use EVM read and write, HTTP, and confidential HTTP capabilities. Develop smart contracts that receive and verify CRE reports. Simulate workflows before deployment and write unit tests. Deploy workflows and set up monitoring.\n\nUnder the hood, the skill uses a four-step runtime pattern with 10 topic-specific reference files to route queries efficiently.\n\n## The steps it walks through to build a workflow\n\nThe skill follows the CRE's core development loop, which progresses roughly as follows:\n\n**1. Set up the CRE CLI and account.** You can start building and simulating CRE workflows immediately, without any approval: Create an account at app.chain.link/cre/discover to access the platform.\n\n**2. Initialize a new project.** In this first part, you'll go from an empty directory to a fully initialized CRE project and simulate your first, minimal workflow. Concretely, this means you initialize a new project using cre init. Explore the generated project structure and workflow code. Configure your workflow for simulation. Run your first local simulation with cre workflow simulate.\n\n**3. Choose a trigger and write the workflow logic.** Using the SDK, you build the workflow around a trigger (CRON, HTTP, or EVM log) and one or more handlers. Using the CRE SDK (available in Go and TypeScript), you build Workflows. These workflows can orchestrate HTTP APIs, smart contracts, and offchain computation.\n\n**4. Add capabilities (offchain/onchain data).** You extend the workflow to fetch external data and read/write on chain — for example, modify your workflow to fetch data from an external API using the http.Client.\n\n**5. Simulate locally before deploying.** Simulation compiles your workflows into WebAssembly (WASM) and runs them on your machine—but makes real calls to live APIs and public EVM blockchains. This gives you confidence your workflow will work as expected when deployed to a DON.\n\n**6. Build and deploy to the registry.** When you're ready, this command compiles your workflow, uploads the artifacts to the CRE Storage Service, and submits a registration transaction to the registry. As the docs describe it, when you deploy a workflow, you take your locally tested code and register it with the onchain Workflow Registry contract. This makes your workflow \"live\" so it can activate and respond to triggers across a Decentralized Oracle Network (DON).\n\n**7. Set up monitoring** of the deployed workflow's execution and performance.\n\n## How execution actually runs\n\nIt's also worth noting the architecture the skill is helping you target: each workflow is orchestrated by a Workflow DON (Decentralized Oracle Network) that monitors for triggers and coordinates execution. The workflow can then invoke specialized Capability DONs—for example, one that fetches offchain data or one that writes to a chain. During execution, each node in a DON performs the requested task independently. Their results are then cryptographically verified and aggregated via a Byzantine Fault Tolerant (BFT) consensus protocol.\n\nOne practical tip: the skills are designed to be composable, so you can name more than one skill in the same message (for example /chainlink-data-feeds-skill and /chainlink-ccip-skill) when your task spans products so both sets of guardrails apply in one answer.\n\nWould you like me to go deeper on any specific step — for instance, the trigger types, the `cre` CLI commands, or writing the receiving smart contract?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 57338,
+              "output_tokens": 2849,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1801,
+              "output_tokens": 2238,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4906,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://agentskills.io/specification",
+              "https://github.com/smartcontractkit/chainlink-agent-skills"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; the answer cited only the GitHub repo and the Agent Skills spec."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "npx skills add smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill -g",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "It uses Vercel's CLI for the open skills ecosystem.",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "chainlink-ccip-skill, chainlink-data-feeds-skill, chainlink-data-streams-skill, chainlink-ace-skill, chainlink-vrf-skill",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "often /chainlink-data-feeds-skill, /chainlink-ccip-skill, and so on",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Project-level installation is the default",
+            "restart or refresh your assistant session if your tool requires it"
+          ],
+          "verdict": "The answer eventually surfaces the correct install command but buries it behind an invented -g/global-vs-project distinction and fabricated details (Vercel CLI, a list of sibling skills) not present in the source, so it's risky to ship as-is.",
+          "fidelity": 50,
+          "prompt": "cre skill install npx command chainlink-cre-skill",
+          "archetype": "terse/keyword",
+          "answer": "Here's the command to install the Chainlink CRE agent skill:\n\n**Global install (user-level):**\n```bash\nnpx skills add smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill -g\n```\n\n**Project-level install (the default — omit the `-g`):**\n```bash\nnpx skills add smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill\n```\n\n### How it works\nThe Chainlink Agent Skills are distributed through a public GitHub repository (`smartcontractkit/chainlink-agent-skills`), and each skill follows the [Agent Skills specification](https://agentskills.io/specification). It uses Vercel's CLI for the open skills ecosystem. Project-level installation is the default (`npx skills add smartcontractkit/chainlink-agent-skills`). But if you want to install globally (at the user level) then add the -g flag. Note the use of --skill to specify which specific skill to install.\n\nThe `chainlink-cre-skill` specifically is a documentation assistant for the Chainlink Runtime Environment (CRE).\n\n### After installing\nAfter installation, restart or refresh your assistant session if your tool requires it so newly added skills are picked up. Compatible assistants can activate skills automatically when your task matches their descriptions.\n\nFor predictable results, mention the skill explicitly in your message, using the slash form your tool expects (often /chainlink-data-feeds-skill, /chainlink-ccip-skill, and so on) — e.g. `/chainlink-cre-skill`.\n\n### Related skills in the same repo\nIf you need others, they follow the same pattern:\n- `chainlink-ccip-skill`\n- `chainlink-data-feeds-skill`\n- `chainlink-data-streams-skill`\n- `chainlink-ace-skill`\n- `chainlink-vrf-skill`\n\nYou can also install directly from the GitHub URL: `npx skills add https://github.com/smartcontractkit/chainlink-agent-skills --skill chainlink-cre-skill`",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31170,
+              "output_tokens": 1451,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1105,
+              "output_tokens": 2326,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4906,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/core-ts",
+              "https://docs.chain.link/cre/key-terms"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit the search tool's rate limit and could not verify the docs before responding."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 4,
+            "relevance": 3,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Chainlink's docs serve Markdown-fidelity routes, so you can often get the plain-text/Markdown form of a page",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "https://docs.chain.link/cre/reference/sdk/core-ts",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "https://docs.chain.link/cre/key-terms",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "The skill approach also keeps context focused compared to loading the entire SDK"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink's docs serve Markdown-fidelity routes",
+            "specific example URLs for SDK Core and Key Terms pages",
+            "needle-in-a-haystack framing of context dilution"
+          ],
+          "verdict": "The answer gives generally reasonable token/context reasoning but explicitly admits it couldn't verify the docs, fabricates a 'Markdown-fidelity route' mechanism and cites URLs not present in the source, so it should not be shipped as a faithful account of the actual doc guidance.",
+          "fidelity": 48,
+          "prompt": "I'm new to this. When building a Chainlink CRE workflow with an AI assistant, why would I load a single page instead of the whole SDK docs, and how do I grab a single page?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question — this is a really practical thing to get right when you're pairing an AI assistant with CRE development. I wasn't able to pull the exact wording from the Chainlink docs (I hit the search tool's rate limit mid-research), so let me explain the reasoning and the general mechanics, and point you to where to confirm the specifics.\n\n## Why load a single page instead of the whole SDK docs\n\nIt comes down to how AI assistants \"read\" documentation. Everything you give the model has to fit inside its **context window** — a finite budget of tokens it can hold at once. The full CRE SDK docs are large, and stuffing all of it in causes a few problems:\n\n- **You can overflow the context window.** If the docs are bigger than the budget, the tool has to truncate or drop content — and you often can't control *what* gets cut, so critical details may silently disappear.\n- **Relevance gets diluted (\"needle in a haystack\").** Even when everything fits, models answer more accurately when the relevant material is a large fraction of what they're looking at. Bury the one page you need inside hundreds of unrelated pages, and the assistant is more likely to grab the wrong API, mix up versions, or hallucinate.\n- **Cost and speed.** More tokens = more money and slower responses, for information you probably don't need for the task at hand.\n- **Focus.** If you're writing, say, an HTTP-triggered workflow, the assistant does best with the *specific* page describing that trigger/capability, not the entire reference tree.\n\nSo the rule of thumb: **give the assistant the narrowest slice of docs that fully covers your current task.** Grab the specific page for the capability, trigger, or SDK function you're using. Add more pages only when the task actually spans them.\n\n## How to grab a single page\n\nThe Chainlink docs (docs.chain.link) are built to be AI-friendly, and there are a couple of common ways to pull one page cleanly:\n\n1. **Use the page's \"Copy page\" / copy-as-Markdown action.** Most modern doc sites — Chainlink's included — put a button near the top of each page that copies the page as clean Markdown, which is exactly what you want to paste into an assistant. Look for a \"Copy\" or \"Copy page\" control on the CRE doc page you're viewing.\n\n2. **Fetch the raw Markdown version of the URL.** Chainlink's docs serve Markdown-fidelity routes, so you can often get the plain-text/Markdown form of a page rather than the rendered HTML (which is full of nav and styling noise the model doesn't need). This is the version to hand to the AI.\n\n3. **Point the assistant at the single URL** if your tool supports fetching, e.g. a specific reference page like:\n   - `https://docs.chain.link/cre/reference/sdk/core-ts` (SDK Reference: Core)\n   - `https://docs.chain.link/cre/key-terms` (Key Terms and Concepts)\n\n   …rather than the CRE landing page or the whole reference section.\n\nA quick practical workflow: open the exact CRE page you need → copy it as Markdown (or grab its `.md`/raw form) → paste it into your AI assistant's context → then ask your question. Repeat per page as your task grows.\n\n---\n\n**One honest caveat:** I couldn't fully verify the exact button label and raw-Markdown URL convention on the live Chainlink CRE docs before answering. I'd suggest opening any CRE page (like the SDK Core reference linked above) and looking for the copy/Markdown option near the title to confirm the precise mechanism. If you tell me which capability or workflow you're building, I can suggest exactly which page(s) to load.\n\nWould you like me to look up the specific \"build with AI assistants\" guidance page in the CRE docs once the search tool frees up?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 63259,
+              "output_tokens": 3717,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1760,
+              "output_tokens": 1388,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4906,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

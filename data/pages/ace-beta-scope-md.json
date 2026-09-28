@@ -1,0 +1,685 @@
+{
+  "key": "ace-beta-scope-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Beta Scope",
+    "url": "https://docs.chain.link/ace/beta-scope.md",
+    "analyzedAt": "2026-09-28T18:55:32.926Z",
+    "contentType": "developer documentation / release-scope & limitations reference",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 68.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. Headings themselves are the answers (\"Custom extractors are registered by you, custom mappers are not available\"), and each section's first sentence stands alone."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 7 sections, 0 level skips, median 78 words, no section over 600 (measured), clean H2-only depth. Weak spot: 0 tables — the supported/not-available distinctions beg for a comparison grid."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Mixed. Good hard limits exist (\"Ten addresses per evaluation,\" \"One active policy per organization\"), but measured facts show **0 numerals carry units** and vague quantifiers \"some/most\" appear; the \"HTTP trigger rate limit\" is referenced without a value."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. 17 links (15 internal, 2 external), with primary/standard references to ISO 3166-1 alpha-2 and the CRE service-quotas page; the CRE Connect SDK links to GitHub. Attribution is solid."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. \"Data Validators are a curated catalog maintained by Chainlink, not something organizations deploy themselves\" is a crisp, liftable claim. Custom extractor/mapper definitions are clear."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Measured: JSON-LD 0 blocks, canonical MISSING, `datePublished`/`dateModified` absent, 0 og/twitter tags. A visible \"Last Updated: 2026-09-23\" line exists in prose but is not machine-parseable. This is the largest scored gap."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "N/A-leaning. 0 code blocks; for a scope/limitations page this is largely appropriate, but the `IExtractor` registration and Coordinator API references could carry one minimal snippet."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good on \"what's supported / not available\"; lifecycle coverage is decent via outbound links. Gap: no symptom-phrased entry points (e.g., \"Why don't my contracts appear in the UI?\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent entity naming (ACE Platform, Coordinator API, Data Validator, CRE), no undefined jargon, unambiguous prose."
+      }
+    ],
+    "summary": "This page defines the scope and limitations of the ACE Beta release, and it is unusually well-built for GEO on the content axis: nearly every H2 is phrased as a declarative answer (\"Self-deployed contracts are not visible in the platform\"), which is exactly the liftable, answer-first structure engines reward. Its single biggest strength is that heading discipline; its single biggest opportunity is machine-readable metadata — the served HTML carries **zero JSON-LD, no canonical URL, and no schema-level dates**, so agents must infer freshness and identity from prose alone. A summary table of what's supported vs. not-available would also convert its best content into an extractable comparison. Honest verdict: strong prose, under-instrumented markup.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical + schema dates",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (currently none captured)",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent.\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2026-09-23`, `inLanguage: en`, and a self-referential `canonical` URL; mirror the visible \"Last Updated\" into `dateModified`.",
+        "why": "Machine-readable freshness and identity raise trust and parseability for agents; the human date already exists, so this is a zero-content-risk instrumentation fix."
+      },
+      {
+        "priority": 1,
+        "title": "Add a \"Beta limitations at a glance\" summary table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "directly under the intro paragraph",
+        "issue": "\"0 table(s)\" measured; the supported/not-available split lives only in prose.",
+        "change": "Insert a 3-column table — *Capability | Beta status | Notes* — with rows for custom extractors (self-registered), custom mappers (not available), self-deployed contract visibility (not tracked), Data Validators (curated catalog), signing model (chosen at onboarding), offchain risk policies (MVP, limited).",
+        "why": "Engines lift comparison tables to build justified answers; this converts your strongest content into a single extractable unit."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom-phrased headings/FAQ anchors",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "the self-deployed contracts and offchain-policy sections",
+        "issue": "Headings are declarative but not phrased as the questions devs type.",
+        "change": "Add sub-anchors or an FAQ such as \"Why don't my Foundry-deployed contracts show in the ACE UI?\" and \"Why is my wallet screening limited to ten addresses?\" answered in one sentence each.",
+        "why": "Devs and agents query by symptom; question-phrased anchors win retrieval that concept-titled prose misses."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify the vague/underspecified limits",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "offchain-policies section, \"CRE quotas apply\" bullet",
+        "issue": "\"including the HTTP trigger rate limit\" — no value given.",
+        "change": "State the actual rate-limit number (or the exact quota figure) inline, with units; replace \"some/most\" quantifiers where an exact count is known.",
+        "why": "Quantified claims with units are among the highest-lift GEO changes and reduce reliance on a second page fetch."
+      },
+      {
+        "priority": 3,
+        "title": "Add one minimal extractor-registration snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Custom extractors\" bullet mentioning `IExtractor` + Coordinator API",
+        "issue": "\"0 fenced block(s)\"; the registration flow is described only in prose.",
+        "change": "Add a short, language-tagged Coordinator API call (or `IExtractor` interface stub) showing function-signature + per-chain address registration.",
+        "why": "A single copy-pasteable example lets coding agents act without leaving the page; keep it minimal to avoid bloat."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers \"some\" and \"most\" present (measured) — minor; replace with counts where known.",
+      "Numerals carry no units (measured 0/16) — e.g., limits and quotas would read more authoritatively with explicit units.",
+      "No unresolved cross-references, no marketing fluff, no walls of prose, no ambiguous entities — clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure this URL is listed there.",
+      "Canonical/JSON-LD may be injected site-wide at render; the CLI should pass raw `<head>` to confirm whether the measured absence is page-specific or template-level.",
+      "Freshness cadence: the visible \"Last Updated: 2026-09-23\" is good practice — keep it synced with a machine-readable `dateModified` once schema is added."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ace/beta-scope.md",
+      "source_title": "Beta Scope",
+      "probe_set_id": "b93b385d1332",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T19:14:22.435Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 30.8,
+      "avg_fidelity_all": 30.8,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 1.8,
+        "hallucination_free": 2.7,
+        "relevance": 2.5,
+        "structure": 5.2
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 974637,
+          "output_tokens": 25524,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 30,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 10055,
+          "output_tokens": 9439,
+          "cache_creation_input_tokens": 4786,
+          "cache_read_input_tokens": 23906,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its searches were rate-limited/throttled and it could not verify the key claim, and it does not cite the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 2,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "packages/policy-management/README.md in the smartcontractkit/chainlink-ace repo",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "The \"Policy Ordering and Composition\" page at docs.chain.link/ace/concepts/policy-ordering",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "the engine intercepts that call, and evaluates a chain of modular policies against it",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Custom mappers are NOT available through the platform during Beta",
+            "Custom extractors and custom contract types ARE supported (registered by you via the Coordinator API)"
+          ],
+          "unverifiable_from_source": [
+            "PolicyEngine intercepts protected function calls and evaluates a chain of modular policies",
+            "Existence of packages/policy-management/README.md and API_GUIDE.md in chainlink-ace repo",
+            "Existence of a docs.chain.link/ace/concepts/policy-ordering page",
+            "Suggestion that writing a custom policy can substitute for a mapper's transformation role"
+          ],
+          "verdict": "Not safe to ship: the answer never states the core fact that custom mappers are unavailable in Beta, instead hedging with unverifiable claims and fabricated repo/doc paths, and it never cites the actual source page.",
+          "fidelity": 28,
+          "prompt": "In Chainlink ACE Beta, can I deploy my own custom mapper contracts to transform extracted parameters before they hit a policy?",
+          "archetype": "direct-howto",
+          "answer": "I dug into the Chainlink ACE documentation and GitHub repo for this. Here's what I can tell you, along with an important caveat about the limits of what I could verify.\n\n## What ACE actually does with parameters\n\nAt the core of ACE is the **PolicyEngine**. When someone calls a protected function on your contract, the engine intercepts that call, and evaluates a chain of modular policies against it. Each policy receives the relevant call data (caller, target, arguments, value, etc.) and returns an allow/deny decision. Compliance rules like transfer limits, identity checks, and sanctions screening are expressed as these composable policies.\n\nThe \"parameter extraction → transform → feed to policy\" flow you're describing is exactly the seam where mapping logic lives: the raw calldata of the protected function has to be decoded and mapped into the typed inputs that a given policy expects.\n\n## On custom mapper contracts specifically\n\nI want to be straight with you here: **I couldn't fully verify from the docs whether ACE Beta lets you deploy arbitrary, user-authored mapper contracts as a first-class, pluggable extension point.** I hit rate limits on my searches before I could pull the exact section of the `policy-management` package that governs this. So rather than guess, let me tell you where the definitive answer lives and what to look for:\n\nThe authoritative places to confirm this are:\n- **`packages/policy-management/README.md`** in the `smartcontractkit/chainlink-ace` repo\n- **`packages/policy-management/docs/API_GUIDE.md`** in the same repo\n- The **\"Policy Ordering and Composition\"** page at `docs.chain.link/ace/concepts/policy-ordering`\n\nWhen you look, the key questions to answer are:\n1. Does the PolicyEngine call an external \"mapper\" interface (some `IMapper`/`IParameterMapper`-style contract) that you register per protected function, or is argument decoding baked into each policy/adapter?\n2. If it's an interface, is registration permissioned (admin/role-gated) and does the Beta allow pointing it at your own deployed address?\n3. Whether transformation is expected to happen in the mapper vs. inside a custom policy itself.\n\n## Practical guidance regardless of the answer\n\nEven if a dedicated \"mapper\" plug-in point isn't exposed in Beta, ACE is designed around **custom, modular policies**, so the same goal — transforming/normalizing extracted parameters before a compliance decision — is typically achievable by writing your own policy contract that does the decoding/transformation internally and then applies the rule. That's the standard extension path in ACE.\n\nIf you can share which package or interface you're already looking at (e.g., a specific `IPolicy` or mapper interface in the repo), I can retry the search and give you a precise, cited yes/no plus the exact registration function — my searches just got throttled this round. Would you like me to try again?\n\nI'd also strongly recommend confirming anything Beta-specific directly against the current repo/docs, since interfaces and extension points in a Beta can change between releases.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 145369,
+              "output_tokens": 5325,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1410,
+              "output_tokens": 1449,
+              "cache_creation_input_tokens": 2393,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the exact docs, relying on synthesized/guessed workflow instead."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 3,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "Call the registration function on the Policy Manager (a privileged/admin action) to add your extractor",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Associate it with a contract-type identifier ... registered under a new type ID so the engine routes calls",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "the specific register/setExtractor-style call with correct parameters",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Write and deploy your own extractor contract implementing IExtractor",
+            "Register it via the Coordinator API with supported function signatures and per-chain deployment addresses",
+            "Pre-built extractors already cover ERC-20, ERC-3643, and CCIP-AdvancedPoolHooks; the platform does not write extractors for you",
+            "Declare custom contract types with your own function ABIs via the Coordinator API"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink ACE built on Chainlink Runtime Environment (CRE)",
+            "Reference to smartcontractkit/chainlink-ace repo and packages/policy-management",
+            "Documentation PR #4199 details"
+          ],
+          "verdict": "The answer avoids inventing exact function signatures but incorrectly attributes extractor registration to the Policy Manager instead of the Coordinator API, omits the IExtractor interface name, and never cites the source—unsafe to ship without correction.",
+          "fidelity": 33,
+          "prompt": "Using Chainlink ACE, how do I register a custom extractor for a contract type beyond ERC-20 and ERC-3643?",
+          "archetype": "constrained",
+          "answer": "I'll research Chainlink ACE and custom extractors for you.Let me retry the searches.Let me parse the results properly.There are specific docs on custom contract types & extractors. Let me search for that specific content.I've hit the web search rate limit, but I gathered good sources. Let me give you a synthesized answer, being clear about what's documented versus where you'll find the exact API.\n\n## Registering a custom extractor in Chainlink ACE\n\n### How extractors fit into ACE\n\nChainlink ACE is built as a modular stack on the Chainlink Runtime Environment (CRE). ACE is structured as a stack of composable compliance modules covering different stages of regulatory workflows, with the **Policy Manager** as the programmable core where issuers define compliance rules — ownership permissions, transfer limits, geographic restrictions, blacklist logic — and ACE enforces them automatically on-chain with cryptographic evidence of execution.\n\nAn **extractor** is the component that translates a call on a specific contract type into the canonical set of fields (sender, recipient, amount, asset/contract type, etc.) that policies evaluate. ACE ships with built-in extractors for **ERC-20** and **ERC-3643**. To support any other contract type, you supply your own extractor so the Policy Manager knows how to read the relevant parameters from that contract's transactions.\n\n### The general workflow\n\nBecause ACE's Policy Manager is designed to be extended in Solidity — it allows developers to build fully custom policies (writing them in Solidity) and then make them available in CRE workflows — registering a custom extractor follows the same \"implement an interface + register it\" pattern:\n\n1. **Implement the extractor interface** – Write a Solidity contract that conforms to ACE's extractor interface. Its job is to decode the calldata/parameters of your contract type and return them in the normalized structure the Policy Manager consumes (the same shape the ERC-20 and ERC-3643 extractors produce).\n\n2. **Associate it with a contract-type identifier** – Each extractor is keyed to a contract type. You register your extractor under a new type ID so the engine routes calls from that contract to your extractor rather than the default ones.\n\n3. **Register it with the Policy Manager / extractor registry** – Call the registration function on the Policy Manager (a privileged/admin action) to add your extractor for the new contract type. After registration, transactions on that contract type are extracted and evaluated against the attached policies in real time.\n\n4. **Attach policies** – Bind the relevant policy set to the contract type so enforcement takes effect.\n\n### Where to get the exact API (function names, interface, and code)\n\nI wasn't able to pull the precise function signatures due to a search limit, and I don't want to invent them. The authoritative, up-to-date references are:\n\n- **`smartcontractkit/chainlink-ace` repo → `packages/policy-management`** — the README and `docs/API_GUIDE.md` contain the extractor interface and the registration calls.\n- **Documentation PR \"ACE custom contract types & extractors + sync coord API specs\"** (`smartcontractkit/documentation` #4199) — this is specifically about registering custom contract types and extractors beyond ERC-20/ERC-3643.\n- **`docs.chain.link/ace`** — the official ACE overview and guides.\n\nIf you can share the extractor interface file from the `policy-management` package (or lift the search limit), I can walk you through the exact implementation and the specific `register`/`setExtractor`-style call with correct parameters.\n\nWould you like me to draft a skeleton Solidity extractor contract against the general interface pattern so you have a starting point to adapt once you confirm the exact signatures?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 418971,
+              "output_tokens": 4326,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1768,
+              "output_tokens": 1405,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4782,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it hit a search rate limit and could not retrieve the source documentation, relying on speculation instead."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "use the platform's \"register/import contract\" API/UI to add the already-deployed address",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "packages/policy-management/docs/API_GUIDE.md",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "Indexing latency... the record can lag behind on-chain confirmation",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "ACE expects contracts to be created through its own deployment flow (SDK/CLI/API or the platform-managed factory)",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "The ACE Platform only tracks and manages contracts it deploys",
+            "Self-deployed contracts (via Foundry or direct factory calls) function onchain but do not appear in UI, API responses, or reporting dashboards",
+            "To get the managed experience, deploy through the Platform UI or Coordinator API"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer explicitly admits it couldn't retrieve the actual doc and instead invents a plausible-sounding but unsupported registration/import mechanism, GitHub file paths, and troubleshooting steps that contradict or are absent from the source's simple explanation — not safe to ship as-is.",
+          "fidelity": 33,
+          "prompt": "My contracts deployed with Foundry scripts aren't showing up in the Chainlink ACE Platform UI or API responses — why?",
+          "archetype": "error-debug",
+          "answer": "Let me search for information about this issue with Chainlink ACE Platform and Foundry deployments.Let me search more specifically for the Chainlink ACE (Automated Compliance Engine) Platform documentation.There's a Chainlink ACE GitHub repo and docs. Let me look at the relevant documentation about contract deployment and registration/indexing.I wasn't able to pull the specific ACE troubleshooting doc (I hit the search rate limit), so let me give you the practical explanation based on how the ACE Platform is architected, and flag where you should verify against the official docs.\n\n## Why this happens\n\nThe core issue is almost always the same: **the ACE Platform UI/API don't read the blockchain directly to discover your contracts — they read from the platform's own backend registry/indexer.** A contract only appears once the platform has a *record* of it. Raw `forge script` deployments broadcast a transaction straight to the RPC node and never tell the ACE backend anything, so from the platform's perspective the contract doesn't exist.\n\nCommon specific causes:\n\n1. **You bypassed the platform's deployment/registration path.** ACE expects contracts to be created through its own deployment flow (SDK/CLI/API or the platform-managed factory), which is what writes the contract into the project's registry. A standalone Foundry script skips that write, so nothing gets indexed.\n\n2. **The contract wasn't registered/imported after deployment.** Even for externally deployed contracts, the platform typically needs an explicit \"register existing contract\" step (address + chain ID + ABI/type) before it will track and show it.\n\n3. **Project / organization / environment mismatch.** If your deployment (or the address you're querying) is scoped to a different project, tenant, or environment than the one the UI/API key is pointing at, it will simply be absent from your view.\n\n4. **Wrong network / chain ID.** ACE tracks contracts per supported chain. If your Foundry `--rpc-url` pointed at a chain (or a local anvil fork) that the platform isn't indexing, it won't appear.\n\n5. **Indexing latency.** If registration *did* happen, the indexer may just need time — the record can lag behind on-chain confirmation.\n\n## What to do\n\n- **Deploy through the ACE-supported tooling** rather than a plain `forge script`, or use the platform's **\"register/import contract\"** API/UI to add the already-deployed address.\n- Confirm the **chain ID and RPC** you deployed to match a network ACE is configured to track.\n- Verify your **API key / project scope** in the request matches where the contract lives.\n- Make sure the deployed bytecode corresponds to an **ACE-compatible contract type** (e.g., the ERC-3643 / compliance-enabled templates ACE knows how to index) — an arbitrary contract may not be recognized even if registered.\n\n## What I'd confirm in the docs\n\nThe exact registration mechanism and whether Foundry is officially supported are the two things to check directly. The relevant references are the **Chainlink ACE Overview** (docs.chain.link/ace) and the **ACE policy-management API guide** in the `smartcontractkit/chainlink-ace` GitHub repo (`packages/policy-management/docs/API_GUIDE.md`) — that API guide is where you'll find the contract registration/lookup endpoints to reconcile against.\n\nIf you can tell me **how exactly you're deploying** (are you using an ACE SDK/plugin at all, or purely `forge create`/`forge script`?) and **what the API returns** (empty list vs. 404 vs. the contract with wrong state), I can narrow this down to the precise step that's failing.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 61533,
+              "output_tokens": 3748,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1629,
+              "output_tokens": 1817,
+              "cache_creation_input_tokens": 2393,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not find an exact match and did not cite the expected source page, relying instead on unrelated/general ACE content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "it also allows developers to build fully custom policies (writing them in Solidity) and then make them available in CRE workflows... This is the core of what you're asking about",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Write a custom policy in Solidity (or extend a template) in the Policy Manager that reads the credential/jurisdiction attributes and enforces your rule",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Data Validators are a curated catalog maintained by Chainlink, not deployed by organizations",
+            "Bringing your own Data Validator is not offered — a permanent design choice, not a Beta limitation",
+            "Curation ensures no PII is used",
+            "The first available validator supports jurisdiction control using ISO 3166-1 alpha-2 country codes"
+          ],
+          "unverifiable_from_source": [
+            "Cross-Chain Identity (CCID) framework details",
+            "Identity Manager middleware description",
+            "vLEI integration with ERC-3643",
+            "PolicyEngine chain-of-modular-policies architecture",
+            "Prebuilt modules list (Allow/Deny Lists, Volume Limits, Role-Based Access Control, Secure Mint)",
+            "SDK, API, CLI, admin UI claim",
+            "'currently available in private beta' framing"
+          ],
+          "verdict": "Not safe to ship: the answer fails to retrieve the actual source and directly contradicts its central point by implying custom/BYO validators and jurisdiction logic are buildable, when the source explicitly states Data Validators are a curated Chainlink-only catalog and BYO is permanently unavailable.",
+          "fidelity": 33,
+          "prompt": "Chainlink ACE credential data validation custom validator BYO jurisdiction",
+          "archetype": "terse/keyword",
+          "answer": "Let me search for the specific documentation on custom validators and credential data validation.Based on my research, here's what Chainlink ACE (Automated Compliance Engine) offers around credential data validation, custom policies/validators, and jurisdiction handling. I should note upfront that I didn't find the exact phrase \"BYO jurisdiction\" as an official product term — but the underlying capability you're describing (bringing your own jurisdiction-specific rules and custom validation logic) maps directly to ACE's Policy Manager and custom-policy features.\n\n## What ACE is\n\nChainlink Automated Compliance Engine (ACE) is a compliance layer for EVM smart contracts. It enforces rules — transfer limits, identity checks, sanctions screening, and more — at transaction time, without embedding compliance logic in your application code. Rules can be added, updated, or removed through the ACE Platform — your application contract doesn't need to change.\n\nIt's currently available in private beta — to request access or schedule a demo you contact Chainlink.\n\n## Credential data validation\n\nCredentials are handled offchain first, then mapped and validated onchain: participants' credentials are verified offchain by trusted entities and securely mapped to CCIDs, which are then validated onchain for compliance.\n\nThere are two levels of rigor: The simple option is by referencing an allowlist of eligible wallets — Chainlink ACE can reference offchain eligibility allowlists prior to allowing a transaction. The more advanced option is checking the transaction initiator wallet for a valid identification, CFT, sanctions, jurisdictional, and/or accreditation prior to allowing the transaction.\n\nThe identity/credential plumbing is provided by two components:\n- **Cross-Chain Identity (CCID):** A reusable identity framework for representing investor identities, attestations, and credentials across multiple blockchains, which stores cryptographic proofs of verified credentials, such as KYC, AML, accredited investor status, and more.\n- **Identity Manager:** A middleware that links real-world identity sources to various onchain formats, enabling the registration, distribution, synchronization, and lifecycle management of identity credentials across networks. Importantly, it enables the registration, distribution, synchronization, and lifecycle management of identity credentials across networks without storing NPI/PII onchain.\n\n## Custom validators / custom policies\n\nThis is the core of what you're asking about. The **Policy Manager** is the rules engine, and it supports both prebuilt and fully custom logic: The Policy Manager comes with an extensive library of policy templates. It also allows developers to build fully custom policies (writing them in Solidity) and then make them available in CRE workflows.\n\nArchitecturally, a PolicyEngine evaluates a chain of modular policies every time a protected function is called, and policies can be added, removed, or reordered without changing your contract.\n\nPrebuilt modules you can compose alongside your custom validators include Allow/Deny Lists, Volume Limits, Role-Based Access Control, Secure Mint, and a variety of other audited and ready-to-use templates for common policies, plus a dedicated SDK, API, CLI, and admin UI.\n\n## Jurisdiction (\"bring your own\" rules)\n\nJurisdiction is a first-class dimension of policy enforcement. Different types of eligibility requirements and policies can be set up depending on their nature and sensitivity — for example, policies can govern access to digital assets through eligibility checks on accreditation, jurisdiction, and subscription status.\n\nThe \"bring-your-own\" flexibility comes from ACE's modular/composable design: Chainlink ACE enables developers to build, customize, and deploy compliance workflows that can be reused, modified, or upgraded without starting from scratch. Instead of relying on point-to-point integrations with individual vendors, data providers, assets, or jurisdictions, teams can extend pre-built components and reusable templates to meet specific regulatory needs.\n\nAnd this logic is portable: Developers can build once and deploy across any chain, execution environment, or jurisdiction — removing the need for bespoke integrations or redundant logic. More broadly, the architecture enables compliance logic to be reusable, upgradeable, and enforceable across any combination of token standards, execution environments, or legal jurisdictions.\n\nIn the ERC-3643 integration specifically, by embedding Chainlink ACE and vLEI into the ERC-3643 framework, permissioned tokens can now easily enforce jurisdiction-specific rules onchain.\n\n## Putting it together for your use case\n\nIf your goal is to define **your own jurisdiction-specific validation logic** with **custom validators against credential data**, the typical pattern is:\n\n1. Have a trusted attester verify credentials offchain and map them to a **CCID**.\n2. Use the **Identity Manager** to bring those credentials onchain (as cryptographic proofs, without exposing PII).\n3. Write a **custom policy in Solidity** (or extend a template) in the **Policy Manager** that reads the credential/jurisdiction attributes and enforces your rule.\n4. Register it in the **PolicyEngine** chain so it's evaluated on every protected function call, and manage/update it via the ACE Platform without redeploying your app contract.\n\nA couple of caveats worth flagging: because ACE is in private beta, the exact SDK interfaces, the schema for jurisdiction credential fields, and which policy templates ship out-of-the-box are things you'll want to confirm against the current beta docs (docs.chain.link/ace) or directly with the Chainlink team when you request access. If you can tell me more specifically what you mean by \"BYO jurisdiction\" (e.g., self-hosting a jurisdiction data source, or writing a custom jurisdiction validator policy), I can dig further into that exact workflow.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 59947,
+              "output_tokens": 3221,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2327,
+              "output_tokens": 2200,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4782,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not retrieve the relevant ACE page and that its search budget was exhausted, making it an inconclusive retrieval probe."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 4
+          },
+          "hallucinations": [
+            {
+              "claim": "who holds the signing key that authorizes a credential/attestation to be written onchain",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "ACE uses exactly such a construct: an onchain data structure that tells the Identity Validator which IdentityRegistry and CredentialRegistry to trust",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Self‑signing — your own issuer identity holds and uses the private key to sign each credential",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Delegated signing — you authorize another party or service (e.g., the ACE platform or a designated issuer service) to sign on your behalf",
+              "type": "contradiction",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "ACE supports two signing models: delegated signing (Chainlink signs/executes on your behalf) and self-signing (you sign using the CRE Connect SDK)",
+            "The signing model is chosen during onboarding",
+            "In both models you retain full ownership of contracts through the CRE Connect Wallet"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink ACE is a compliance layer for EVM smart contracts that enforces rules — transfer limits, identity checks, sanctions screening",
+            "credentials can carry cryptographic proof of validity (signatures or merkle proofs)",
+            "ACE is currently available in private beta; to request access or schedule a demo, contact Chainlink"
+          ],
+          "verdict": "The answer explicitly admits it could not retrieve the source and instead fabricates an unrelated framing (credential-signing key custody rather than transaction signing/execution), completely missing the actual definitions, onboarding timing, and CRE Connect Wallet ownership guarantee — unsafe to ship as-is.",
+          "fidelity": 23,
+          "prompt": "With Chainlink ACE, how do I choose between delegated signing and self-signing, and when is that decided?",
+          "archetype": "direct-howto",
+          "answer": "I wasn't able to pull the specific ACE credential‑issuance page that documents the exact \"delegated vs. self signing\" toggle (much of ACE's detailed documentation sits behind its private‑beta access), and my search budget for this session is now exhausted. So let me be transparent about what I can and can't confirm, then give you the practical framing.\n\n## What I can confirm from public sources\n\nChainlink ACE is a compliance layer for EVM smart contracts that enforces rules — transfer limits, identity checks, sanctions screening, and more — at transaction time, without embedding compliance logic in your application code. Its identity/credential layer is deliberately built to support more than one trust model: by supporting both self-sovereign identity principles and delegated verification, this component accommodates a range of trust models and fosters broad interoperability.\n\nThat \"self‑sovereign vs. delegated\" distinction is the conceptual root of your question. In ACE's credential model, an offchain entity (e.g., a KYC provider) is trusted to verify real-world information and write the results (credentials) onchain, and credentials can carry cryptographic proof of validity — for example, an offchain credential issuer might embed cryptographic proofs (signatures or merkle proofs) to demonstrate that a credential meets certain offchain requirements, or a multi-signature governance process may supply aggregated approvals indicating that a credential registration is valid.\n\n## How to think about the choice (general design, not confirmed ACE wording)\n\nThe two modes differ in **who holds the signing key that authorizes a credential/attestation to be written onchain**:\n\n- **Self‑signing** — your own issuer identity holds and uses the private key to sign each credential. This fits a self‑sovereign / maximum‑control posture: no third party can issue on your behalf, but you take on key custody, availability, and operational responsibility.\n- **Delegated signing** — you authorize another party or service (e.g., the ACE platform or a designated issuer service) to sign on your behalf. This lowers your operational/key‑management burden and is convenient for high‑volume issuance, at the cost of extending trust to the delegate.\n\nChoose **self‑signing** when regulatory/control requirements demand that only your key can attest, or when you must be the sole root of trust. Choose **delegated signing** when you want to offload key custody and issuance operations to a trusted provider and can accept that delegated trust relationship.\n\n## When it's decided\n\nIn systems of this design, signing mode is almost always a **configuration‑time decision made when you set up the credential issuer / register the credential type**, not a per‑transaction runtime choice — because the registries and validators need to know in advance which signer/key to trust for a given credential type. ACE uses exactly such a construct: an onchain data structure that tells the Identity Validator which IdentityRegistry and CredentialRegistry to trust for a given credential type. That trust configuration is where the signer (self vs. delegate) would be pinned.\n\n## Recommendation\n\nBecause ACE is currently available in private beta; to request access or schedule a demo, contact Chainlink and see the Beta Scope for the current feature set and limitations, I'd strongly recommend confirming the precise mechanics against the gated ACE docs or your Chainlink solutions contact. Specifically, ask them to point you to: (1) the credential‑issuer setup / credential‑type registration flow, and (2) whether signer selection is fixed at issuer onboarding or can be changed per credential type. That will give you the authoritative \"when it's decided\" answer rather than the general architectural inference I've given here.\n\nWould you like me to keep the exact terminology in mind and dig into a specific part (e.g., the CredentialRegistry or Identity Validator setup) if you can share a link from the beta docs?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 140217,
+              "output_tokens": 4842,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1654,
+              "output_tokens": 1193,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4782,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its web search access was cut off before it could retrieve the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 4,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "your contract inherits a `PolicyProtected` base and the engine executes policies",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Credential Registry and a privacy-first model that stores sensitive data offchain and only hashes onchain",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "offchain-prepared context (e.g., a signature/permit) that is set before or during the protected call",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "wallet_risk_scoring is the only managed offchain policy available",
+            "At most ten unique wallet addresses per workflow execution",
+            "Managed permits are single-use and do not expire (not configurable in current release)",
+            "Requires a TRM Labs account with Wallet Screening API access, credential provided via CRE Vault DON",
+            "One active offchain policy per organization (archive the existing one first)",
+            "CRE Service Quotas apply, including the HTTP trigger rate limit"
+          ],
+          "unverifiable_from_source": [
+            "ACE ships a set of 'Ready-to-Use Policies'",
+            "PolicyProtected base contract",
+            "Credential Registry component",
+            "offchain client or calling contract must set the context for the msg.sender within the same transaction",
+            "smartcontractkit/chainlink-ace GitHub repo with packages/policy-management docs"
+          ],
+          "verdict": "The answer honestly admits it could not retrieve the specific constraints (address limit, permit expiry) and avoids fabricating numbers, but it introduces unverifiable architectural details not found in the source and fails to deliver any of the required facts, so it is not usable as a substitute for the documentation.",
+          "fidelity": 35,
+          "prompt": "Show me the constraints on the managed wallet_risk_scoring offchain policy in Chainlink ACE Beta — how many addresses per evaluation and do permits expire?",
+          "archetype": "code-first",
+          "answer": "I wasn't able to pull the specific constraint values you're asking about. Here's what I could and couldn't confirm from the sources available to me.\n\n**What I confirmed**\n\nChainlink ACE (Automated Compliance Engine) uses a Policy Engine architecture where your contract inherits a `PolicyProtected` base and the engine executes policies such as identity/credential validation and sanctions checks. The repo describes using this component to link wallet addresses to a single identity and manage credentials like KYC/AML, with a Credential Registry and a privacy-first model that stores sensitive data offchain and only hashes onchain. ACE also ships a set of \"Ready-to-Use Policies,\" which is the family that `wallet_risk_scoring` belongs to as a managed **offchain** policy.\n\nFor offchain policies specifically, ACE relies on an offchain-prepared context (e.g., a signature/permit) that is set before or during the protected call. The offchain client or calling contract must set the context for the msg.sender and then call the protected function within the same transaction.\n\n**What I could not retrieve**\n\nI could **not** confirm the two concrete details you asked for:\n- the maximum number of addresses per evaluation for `wallet_risk_scoring`, and\n- whether its permits/attestations expire (and the validity window).\n\nMy web-search access was cut off (usage limit) before I could open the managed-policy reference that would contain those exact parameters, and I don't want to guess at numbers like a max-addresses limit or a permit TTL, since fabricating those would be misleading for a compliance policy.\n\n**Where to find the exact values**\n\nThese constraints for the ACE Beta managed policies live in:\n- The official docs at `docs.chain.link/ace` (Ready-to-Use / managed policies section), and\n- The `smartcontractkit/chainlink-ace` GitHub repo — specifically the `packages/policy-management` docs and the ready-to-use policy definitions, where each managed policy's parameters (batch/address limits and permit expiration) are declared.\n\nIf you'd like, I can retry the search in a bit once the search limit resets, or if you can paste the policy config/spec for `wallet_risk_scoring`, I'll extract the exact address-per-evaluation limit and permit expiry for you.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 148600,
+              "output_tokens": 4062,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1267,
+              "output_tokens": 1375,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4782,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {
+      "web": "2026-09-28T18-55-32-376Z-efb3"
+    }
+  }
+}

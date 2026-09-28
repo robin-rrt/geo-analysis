@@ -1,0 +1,642 @@
+{
+  "key": "cre-guides-workflow-using-evm-client-overview-ts-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "EVM Chain Interactions",
+    "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+    "analyzedAt": "2026-09-21T13:24:16.942Z",
+    "contentType": "developer documentation / section overview (navigation hub)",
+    "score": 56,
+    "band": "Developing",
+    "weightedTotal": 56,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition: \"The `EVMClient` is the TypeScript SDK's interface for interacting with EVM-compatible blockchains.\" Each section leads with its point."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good; 3 clean headings, 0 level skips, bulleted lists. Small page, coherent chunks. No action needed beyond query-phrased headings."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 3 numerals, 0 with units, no version strings (no SDK version, no supported-chain list, no chain-selector examples). Named helpers (`getNetwork()`, `bytesToHex()`) are good but unquantified."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. 5 internal links; the one external reference (viem.sh) is an HTML `<a>` not counted as a primary-source link. No link to an EVM ABI spec or chain-selector registry."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. First sentence and the \"manual ABI definitions with viem\" statement are both crisp and verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, dateModified absent from head; `TechArticle` schema would help agent trust. Head metadata could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak for the dimension (0 code blocks), though this is an overview page that delegates code to child guides. A 3–5 line minimal `EVMClient` snippet would lift it materially."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Middling. Covers \"what is it / how it works / where to go next\" but no \"how do I connect to a specific chain,\" no troubleshooting, no error-string coverage."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; unambiguous, consistent naming of `EVMClient`, viem, TypeScript SDK. No action needed."
+      }
+    ],
+    "summary": "This is a short (195-word) overview/hub page introducing the `EVMClient` TypeScript SDK and routing to read/write guides. Its biggest strength is a clean, liftable opening definition and consistent terminology; its biggest opportunity is machine-readability — no JSON-LD, no canonical tag, and no in-head freshness signal (the \"Last Updated\" line lives only in body text). As a navigation page it is fine, but it under-serves symptom/how-to queries and carries no concrete API specifics an engine can cite, which caps its standalone retrieval value.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (JSON-LD + canonical + date)",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "\"JSON-LD: 0 block(s) · canonical: MISSING · dateModified absent\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2025-11-04`, canonical URL, and `inLanguage: en`; surface the \"Last Updated\" date in head, not just body.",
+        "why": "Structured freshness/authority signals raise agent trust and parseability (E-E-A-T)."
+      },
+      {
+        "priority": 1,
+        "title": "Add a minimal, complete `EVMClient` snippet",
+        "mapsTo": "code completeness & agent-runnability; concrete specifics",
+        "tier": null,
+        "where": "under \"How it works\"",
+        "issue": "0 fenced code blocks; helpers named but never shown.",
+        "change": "Add a short TypeScript block (imports from the SDK + viem, define an ABI const, instantiate `EVMClient`, one `.result()` call). Tag it `typescript`.",
+        "why": "A runnable canonical example is highly liftable and defends against agents synthesizing generic viem usage from parametric priors."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete supported-network / chain-selector specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"How it works\" bullet list",
+        "issue": "\"Built-in helpers like `getNetwork()` … and chain selectors\" — no values.",
+        "change": "Name the supported EVM chains and show one example chain selector value; state the SDK/package version.",
+        "why": "Quantitative/version specifics are among the highest-lift citation drivers."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase a heading/section as the dev's actual question",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new H2",
+        "issue": "headings are concept-titled (\"How it works\", \"Guides\") — miss \"how do I read/write onchain data in TypeScript\" retrieval.",
+        "change": "Add an H2 like \"How do I read and write EVM contract data from a CRE workflow (TypeScript)?\" summarizing the read vs write path in two sentences before the guide links.",
+        "why": "Symptom/how-to-phrased headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 3,
+        "title": "Add an authoritative external reference as a real link",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "the viem mention and ABI mention",
+        "issue": "only external ref is an HTML `<a>`; \"manual ABI definitions\" is unlinked.",
+        "change": "Link \"manual ABI definitions\" to the canonical ABI/JSON-ABI spec and keep the viem link; ensure both render as first-class links.",
+        "why": "Inline primary-source links raise credibility and citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "None material. Prose is clean and undifferentiated-wall-free. Minor: the sole freshness signal (\"Last Updated: 2025-11-04\") is body text only, not machine-readable metadata."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced from the page — good site-level signal; confirm this page's URL is listed there.",
+      "Canonical/JSON-LD emission is typically a site-template concern; fix at the docs framework level so all CRE pages inherit it.",
+      "This page's retrieval value depends on child guides (onchain-read/write) linking back to it as the canonical hub — verify those inbound internal links exist."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-ts.md",
+      "source_title": "EVM Chain Interactions",
+      "probe_set_id": "929dc6cee1ba",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:53:45.722Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 62.4,
+      "avg_fidelity_all": 57.8,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.8,
+        "hallucination_free": 5.5,
+        "relevance": 4.2,
+        "structure": 7.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 265113,
+          "output_tokens": 16999,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 22,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 11729,
+          "output_tokens": 16515,
+          "cache_creation_input_tokens": 639,
+          "cache_read_input_tokens": 17529,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer references related guide URLs but does not cite the expected source page itself."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 6,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "const evmClient = new EVMClient(network.chainSelector.selector)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "such as the evm.Client, the solana.Client, or the http.Client",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "EVMClient reads from and writes to onchain contracts via the EVM Read & Write Capabilities (capability not explicitly named)"
+          ],
+          "unverifiable_from_source": [
+            "callContract() as the read function name",
+            "encodeCallMsg(), LAST_FINALIZED_BLOCK_NUMBER, LATEST_BLOCK_NUMBER constants",
+            "runtime.report() / evmClient.writeReport() two-step write pattern",
+            "hexToBase64() helper and its use in EVM Log Trigger",
+            "KeystoneForwarder contract verifying DON signatures",
+            "@chainlink/cre-sdk npm package name",
+            "TX_STATUS_SUCCESS / TX_STATUS_REVERTED status values",
+            "chain selector numeric example (16015286601757825753n)",
+            "EVM Log Trigger feature and its base64 encoding requirement"
+          ],
+          "verdict": "The answer correctly captures the source's core points (EVMClient, viem-based manual ABI handling, getNetwork(), bytesToHex(), .result()) but layers on a large amount of specific API detail (function names, package path, constructor signature) not present in or verifiable against the given source, including one likely-invented constructor call, and it never cites the expected source page—so it should be spot-checked against actual API references before shipping.",
+          "fidelity": 63,
+          "prompt": "How do I interact with EVM contracts from a Chainlink CRE workflow using the TypeScript SDK?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information on Chainlink CRE and its TypeScript SDK for interacting with EVM contracts.Let me retry the searches.Let me get the detailed read and write guides.Based on the Chainlink documentation, here's how to interact with EVM contracts from a CRE workflow using the TypeScript SDK.\n\n## Overview\n\nThe core tool is the **`EVMClient`**, one of the SDK's capability clients. As a developer, you do not interact with the underlying capability DONs directly. Instead, you invoke them through the developer-friendly interfaces provided by the CRE SDKs, such as the evm.Client, the solana.Client, or the http.Client. The SDK ships as a single package: The TypeScript SDK is distributed as a single npm package @chainlink/cre-sdk that exports all necessary functionality.\n\nFor ABI handling, the TypeScript SDK integrates with viem for type-safe contract interactions. You define ABIs directly in TypeScript files and use viem's functions for encoding and decoding.\n\nOne critical thing to understand about the execution model: traditional TypeScript async/await doesn't work with SDK capabilities in the WebAssembly environment where CRE workflows run. WASM execution is fundamentally synchronous—when you call a function, it runs to completion before anything else happens. This is why you'll see the `.result()` pattern everywhere instead of `await`.\n\n## Reading from a contract (Onchain Read)\n\nReading uses `callContract()`, which executes a view or pure function on a smart contract without creating a transaction.\n\nA typical read flow using viem to encode/decode looks like this:\n\n```typescript\nimport {\n  EVMClient,\n  getNetwork,\n  encodeCallMsg,\n  bytesToHex,\n  LAST_FINALIZED_BLOCK_NUMBER,\n  type Runtime,\n} from \"@chainlink/cre-sdk\"\nimport { type Address, encodeFunctionData, decodeFunctionResult, parseAbi, zeroAddress } from \"viem\"\n\nconst storageAbi = parseAbi([\"function get() view returns (uint256)\"])\n\nconst onCronTrigger = (runtime: Runtime<Config>): string => {\n  const network = getNetwork({\n    chainFamily: \"evm\",\n    chainSelectorName: config.chainSelectorName,\n  })\n  const evmClient = new EVMClient(network.chainSelector.selector)\n\n  const callData = encodeFunctionData({ abi: storageAbi, functionName: \"get\" })\n\n  const contractCall = evmClient\n    .callContract(runtime, {\n      call: encodeCallMsg({\n        from: zeroAddress,\n        to: config.contractAddress as Address,\n        data: callData,\n      }),\n      blockNumber: LAST_FINALIZED_BLOCK_NUMBER,\n    })\n    .result()\n\n  // decode the raw bytes with viem\n  return \"Success\"\n}\n```\n\nA couple of details from the docs worth noting:\n- The `as Address` type assertion when passing contractAddress to encodeCallMsg tells TypeScript the string is a valid Ethereum address, which is required by viem's encodeCallMsg function.\n- The block parameter uses a constant: `LAST_FINALIZED_BLOCK_NUMBER` is a constant representing the last finalized block number for use in callContract() and similar methods. There's also `LATEST_BLOCK_NUMBER` representing the latest mined block.\n\n## Writing to a contract (Onchain Write)\n\nWriting is fundamentally different from a normal transaction because CRE writes go through DON consensus and signature verification. It's a **two-step pattern**. ... The workflow uses runtime.report() to generate a signed report, then evmClient.writeReport() to submit it onchain.\n\nMore precisely: generate a signed report using runtime.report() to create a cryptographically signed report from your workflow data, then submit the report using evmClient.writeReport() to submit the signed report to the consumer contract. The TypeScript SDK uses Viem's encodeAbiParameters to properly encode the struct data according to the contract's ABI before generating the report.\n\n```typescript\nimport { EVMClient, hexToBase64 } from \"@chainlink/cre-sdk\"\n\n// 1. Encode and generate a signed report\nconst report = runtime\n  .report({\n    encodedPayload: hexToBase64(callData),\n    encoderName: \"evm\",\n    signingAlgo: \"ecdsa\",\n    hashingAlgo: \"keccak256\",\n  })\n  .result()\n\n// 2. Submit the report onchain\nconst writeResult = evmClient\n  .writeReport(runtime, {\n    receiver: contractAddress,\n    report,\n  })\n  .result()\n```\n\nThe above example structure comes directly from the docs. The KeystoneForwarder contract verifies the DON's signatures before calling your consumer contract — this is the biggest architectural difference, as CRE writes are cryptographically verified.\n\nWhy the report wrapper? Your workflow generates a report—your data is ABI-encoded and wrapped in a cryptographically signed \"package\"—the DON reaches consensus on the report's contents, and it's delivered onchain. On the results side, `writeReport` returns a status such as TX_STATUS_SUCCESS when the transaction was successful, or TX_STATUS_REVERTED when the transaction reverted.\n\n## Selecting the target chain\n\nYou identify chains via **chain selectors**, accessed through a helper: A chain selector is a unique identifier for a blockchain network used throughout the CRE platform. In TypeScript, you work with chain selectors primarily through the getNetwork() helper function. The recommended approach is:\n\n```typescript\nconst network = getNetwork({\n  chainFamily: \"evm\",\n  chainSelectorName: \"ethereum-testnet-sepolia\",\n})\n// network.chainSelector.selector -> 16015286601757825753n (bigint)\n```\n\nThe getNetwork() utility function allows you to look up network information by chain selector name or numeric ID. This is the recommended approach as it provides type-safe access to chain metadata and validates network configurations.\n\n## Reacting to onchain events (EVM Log Trigger)\n\nBesides reads and writes, you can start a workflow from an onchain event. The EVM Log Trigger fires when a specific log (event) is emitted by an onchain smart contract. When configuring it, note that all addresses and topic values must be base64 encoded using the hexToBase64() helper function from the CRE SDK. Inside the handler, for production workflows you'll typically want to decode the log data based on the event's ABI, and the TypeScript SDK uses viem for ABI encoding/decoding.\n\n## Helper utilities\n\nThroughout these flows, the SDK provides utilities like getNetwork(), encodeCallMsg(), bytesToHex(), and hexToBase64() for common tasks.\n\n## Where to go next\n\nFor complete, runnable code, the docs and npm package point to official examples: ... See the on-chain example for reading from smart contracts, and the on-chain-write example for writing to smart contracts. See the proof-of-reserve example for a complete implementation demonstrating reserve validation using on-chain data verification and off-chain API integration.\n\nThe most relevant documentation pages are:\n- **Onchain Read guide** – `docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-ts`\n- **Onchain Write guide** – `docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/overview-ts`\n- **EVM Client SDK Reference** – `docs.chain.link/cre/reference/sdk/evm-client-ts`\n- **EVM Log Trigger Reference** – `docs.chain.link/cre/reference/sdk/triggers/evm-log-trigger-ts`\n\n**In summary:** instantiate an `EVMClient` with a chain selector, use `callContract().result()` for reads (encoding/decoding with viem), and for writes use the two-step `runtime.report()` → `evmClient.writeReport()` pattern so your data is consensus-verified and signed before it reaches the consumer contract via the KeystoneForwarder.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 75380,
+              "output_tokens": 4879,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 3159,
+              "output_tokens": 5325,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3028,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/evm-client-ts",
+              "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-ts",
+              "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/overview-ts"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites SDK reference and guide pages instead of the overview source page that was expected to be retrieved."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "EVMClient exposes a method called callContract for reads",
+            "Helper functions encodeCallMsg and LAST_FINALIZED_BLOCK_NUMBER exist in the SDK",
+            "EVMClient itself is ABI-agnostic and only deals with raw bytes via encodeCallMsg",
+            "The specific code sample showing encodeFunctionData/decodeFunctionResult usage with EVMClient",
+            "Comparison to TypeChain or wagmi's CLI as an alternative codegen approach"
+          ],
+          "verdict": "The core claims (no codegen, ABI as TypeScript/viem constants, viem handles encode/decode) match the source, but the answer fabricates a detailed code example and specific SDK method/parameter names that are not present in or verifiable from this overview page, and it fails to cite the expected source, so it should be spot-checked before shipping.",
+          "fidelity": 63,
+          "prompt": "Using the Chainlink CRE TypeScript SDK, how does EVMClient handle contract ABIs — do I need code generation?",
+          "archetype": "constrained",
+          "answer": "## EVMClient and Contract ABIs in the CRE TypeScript SDK\n\nShort answer: **No, you don't need special code generation.** The CRE TypeScript SDK's `EVMClient` doesn't do ABI handling itself — it just sends and receives raw bytes. You handle ABI encoding/decoding with **`viem`**, using a plain ABI object that you define or import.\n\n### How it works\n\n`EVMClient` operates at the level of raw call data (`bytes`). It exposes methods like `callContract` (reads) and write methods, but it expects you to pass already-encoded `data` and to decode the returned bytes yourself. The actual ABI work is delegated to `viem`'s `encodeFunctionData` and `decodeFunctionResult`.\n\nA typical read looks like this:\n\n```ts\nimport {\n  EVMClient,\n  getNetwork,\n  encodeCallMsg,\n  bytesToHex,\n  LAST_FINALIZED_BLOCK_NUMBER,\n} from \"@chainlink/cre-sdk\"\nimport { encodeFunctionData, decodeFunctionResult, zeroAddress } from \"viem\"\nimport { Storage } from \"../contracts/abi\"\n\nconst network = getNetwork({\n  chainFamily: \"evm\",\n  chainSelectorName: \"ethereum-testnet-sepolia\",\n})\nconst evmClient = new EVMClient(network.chainSelector.selector)\n\n// 1. Encode call data with viem + your ABI\nconst callData = encodeFunctionData({\n  abi: Storage,\n  functionName: \"get\",\n})\n\n// 2. EVMClient sends raw bytes\nconst contractCall = evmClient\n  .callContract(runtime, {\n    call: encodeCallMsg({\n      from: zeroAddress, // sender doesn't matter for view/pure\n      to: \"0x1234567890123456789012345678901234567890\",\n      data: callData,\n    }),\n    blockNumber: LAST_FINALIZED_BLOCK_NUMBER,\n  })\n  .result()\n\n// 3. Decode raw result bytes with viem + your ABI\nconst value = decodeFunctionResult({\n  abi: Storage,\n  functionName: \"get\",\n  data: bytesToHex(contractCall.data),\n})\n```\n\n### The key points\n\n- **The ABI is just a normal TypeScript/viem ABI object.** In the docs it's imported from a local file (e.g. `import { Storage } from \"../contracts/abi\"`). That file is one you supply — it's an ABI constant, not the output of a mandatory SDK codegen step.\n- **`EVMClient` itself is ABI-agnostic.** It only deals with `data` (encoded bytes) via helpers like `encodeCallMsg`, and returns raw bytes that you convert with `bytesToHex` before decoding.\n- **viem does the encode/decode**, giving you type inference from the ABI if you define it with `as const`.\n\n### About \"code generation\"\n\nThere's no required, EVMClient-specific ABI code-generation step comparable to, say, TypeChain or wagmi's CLI. You simply need the contract's ABI available as a viem-compatible object. In practice you get that ABI by:\n\n- pasting/exporting the ABI JSON from your compiler (Foundry/Hardhat output) into a `.ts` file, or\n- defining it inline as a `const` array.\n\nSo the workflow is: **provide an ABI object → let viem encode/decode → let EVMClient move the raw bytes.**\n\nSince I'm working from the Chainlink CRE documentation, I'd recommend confirming details against the current reference pages, as the SDK is evolving:\n- SDK Reference — EVM Client: `https://docs.chain.link/cre/reference/sdk/evm-client-ts`\n- Guide — Onchain Read: `https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-ts`\n- Guide — Onchain Write: `https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/overview-ts`\n\nWould you like the equivalent write (transaction) example, or help setting up the ABI file so you get full type safety?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 56289,
+              "output_tokens": 3062,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1832,
+              "output_tokens": 2999,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3028,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page or any URL."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The call returns an object with a `.result()` method that blocks until the read completes.",
+            "In TypeScript you typically encode the call with `encodeFunctionData` (from `viem`), pass it to `callContract`, and decode the response with `decodeFunctionResult`.",
+            "You can specify which block to read from (e.g., `LAST_FINALIZED_BLOCK_NUMBER`).",
+            "The workflow computes a result, the DON runs consensus, and the signed report is written onchain via `writeReport`.",
+            "It involves gas and produces an actual state-changing transaction."
+          ],
+          "verdict": "The high-level distinction between Onchain Read and Onchain Write is accurate and matches the source, but the answer adds many specific API/method names (callContract, writeReport, encodeFunctionData, LAST_FINALIZED_BLOCK_NUMBER) that aren't present in this overview page and weren't cited, so a developer should verify those specifics against the actual guides before relying on them.",
+          "fidelity": 73,
+          "prompt": "What's the difference between the Onchain Read and Onchain Write guides for the Chainlink CRE EVMClient, and which should I use to call a view function?",
+          "archetype": "comparison",
+          "answer": "Here's the key distinction between the two Chainlink CRE `EVMClient` guides:\n\n## Onchain Read\n\nThe **Onchain Read** guide covers reading data *from* the blockchain **without creating a transaction**. This uses the `callContract` method, which executes a **view or pure function** on a smart contract. Key characteristics:\n\n- **No gas cost** and **no state change** — it just queries data.\n- The call returns an object with a `.result()` method that blocks until the read completes.\n- In TypeScript you typically encode the call with `encodeFunctionData` (from `viem`), pass it to `callContract`, and decode the response with `decodeFunctionResult`.\n- You can specify which block to read from (e.g., `LAST_FINALIZED_BLOCK_NUMBER`).\n\n## Onchain Write\n\nThe **Onchain Write** guide covers **changing onchain state**, which requires a transaction. This is fundamentally more involved because CRE writes go through a **signed-report / consensus flow**:\n\n- The workflow computes a result, the DON runs consensus, and the signed report is written onchain via `writeReport`.\n- This requires a **consumer contract** that can verify and accept the report (the Write section includes a \"Building Consumer Contracts\" page).\n- It involves gas and produces an actual state-changing transaction.\n\n## Which to use for a view function\n\n**Use the Onchain Read guide.** A view (or pure) function doesn't modify state and doesn't require a transaction, so it maps directly to the `callContract` read method. You'd only reach for Onchain Write when you need to *modify* contract state and push data back onchain through the report-verification flow.\n\nA quick rule of thumb:\n- **Reading a value / calling `view` or `pure`** → Onchain Read (`callContract`)\n- **Modifying state / submitting results onchain** → Onchain Write (`writeReport` + consumer contract)\n\nIf you'd like, I can pull the specific TypeScript or Go code snippet from the Onchain Read guide for calling a particular view function — just let me know which language and contract you're working with.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 46521,
+              "output_tokens": 2072,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1069,
+              "output_tokens": 1998,
+              "cache_creation_input_tokens": 639,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/evm-client-ts",
+              "https://docs.chain.link/cre/reference/sdk/core-ts"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cited SDK reference pages instead of the expected overview-ts source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Two-step pattern description (initiate then call .result())",
+            "encodeCallMsg, callContract, writeReport, decodeFunctionResult function names and usage",
+            "Runtime<C> vs NodeRuntime<C> distinction and BFT consensus explanation",
+            "Go SDK's .Await() equivalent"
+          ],
+          "verdict": "The core guidance (.result() replacing async/await) matches the source, but the answer pulls extensive implementation detail from other SDK reference pages rather than the cited overview page, so much of the code and API specifics are unverifiable against the ground truth and risky to ship without cross-checking.",
+          "fidelity": 68,
+          "prompt": "Chainlink CRE TypeScript EVMClient async result handling — how do I get values from calls?",
+          "archetype": "terse/keyword",
+          "answer": "Let me get the detailed content from the key documentation pages.Let me get more detail on decoding results and the write flow.## Getting values from EVM calls in the CRE TypeScript SDK\n\nThe key thing to understand is that the CRE TypeScript SDK does **not** use traditional `async/await`. Traditional TypeScript async/await doesn't work with SDK capabilities in the WebAssembly environment where CRE workflows run. WASM execution is fundamentally synchronous—when you call a function, it runs to completion before anything else happens. Instead, every asynchronous capability uses a **two-step pattern**.\n\n### The two-step pattern\n\nAll SDK capabilities in the TypeScript SDK use a two-step pattern for asynchronous operations: Step 1: Initiate the operation, Step 2: Get the result. You call the capability method to initiate the operation, then call `.result()` on the returned object to block until the value is available. These steps are often chained together for simplicity.\n\n### Reading from a contract (`callContract`)\n\nFor an on-chain read, initiate the call and chain `.result()`:\n\n```ts\nimport {\n  EVMClient,\n  encodeCallMsg,\n  LAST_FINALIZED_BLOCK_NUMBER,\n  type Runtime,\n} from \"@chainlink/cre-sdk\"\nimport { zeroAddress, decodeFunctionResult, encodeFunctionData } from \"viem\"\n\nconst onCronTrigger = (runtime: Runtime<Config>): string => {\n  const evmClient = new EVMClient(chainSelector)\n\n  // Inline pattern: initiate and get result in one expression\n  const contractCall = evmClient\n    .callContract(runtime, {\n      call: encodeCallMsg({\n        from: zeroAddress,\n        to: config.contractAddress,\n        data: encodedCallData,\n      }),\n      blockNumber: LAST_FINALIZED_BLOCK_NUMBER,\n    })\n    .result()\n\n  return \"Success\"\n}\n```\n\nThis mirrors the documented inline pattern where `evmClient.callContract(...).result()` is used for EVM contract calls (read) and `evmClient.writeReport(...).result()` for writes.\n\nA couple of important helpers here:\n\n- **`encodeCallMsg`** builds the call payload. It encodes a call message payload into a CallMsgJson, expected by the EVM capability, taking a `from`, `to` (both viem `Address` types), and `data`.\n- **`blockNumber`** — you typically pass `LAST_FINALIZED_BLOCK_NUMBER` for safe reads, or the latest-block constant if you need the most recent state.\n\n### Decoding the returned data\n\n`.result()` returns the raw call reply. To turn the returned bytes into usable JS values, decode them with viem's `decodeFunctionResult` against your ABI, using the `data` field from the reply. For example:\n\n```ts\nconst reply = evmClient\n  .callContract(runtime, {\n    call: encodeCallMsg({\n      from: zeroAddress,\n      to: config.contractAddress,\n      data: encodeFunctionData({ abi, functionName: \"balanceOf\", args: [addr] }),\n    }),\n    blockNumber: LAST_FINALIZED_BLOCK_NUMBER,\n  })\n  .result()\n\nconst value = decodeFunctionResult({\n  abi,\n  functionName: \"balanceOf\",\n  data: reply.data, // hex-encoded return data\n})\n```\n\n### DON mode vs. Node mode (why `.result()` is safe)\n\nThe runtime you pass to `callContract` matters for consensus guarantees:\n\n- `Runtime<C>` (\"DON Mode\") is passed to your main trigger callback and represents the DON's execution context. It is used for operations that are already guaranteed to be Byzantine Fault Tolerant (BFT). When you use the Runtime, you ask the network to execute something, and CRE handles the underlying complexity to ensure you get back one final, secure, and trustworthy result. EVM reads/writes use this mode.\n- `NodeRuntime<C>` (\"Node Mode\") represents an individual node's execution context, used when a BFT guarantee cannot be provided automatically (e.g., calling a third-party API).\n\n### Summary\n\n- No `async/await` — use the **initiate → `.result()`** pattern.\n- CRE lets you handle asynchronous operations with `.result()` (TypeScript) or `.Await()` (Go), and returns BFT-consensus results.\n- Encode call data with `encodeCallMsg` / viem's `encodeFunctionData`, pass the `Runtime`, then decode the `.result()` `data` with viem's `decodeFunctionResult`.\n\nFor the full API surface, the two most useful pages are the [SDK Reference: EVM Client](https://docs.chain.link/cre/reference/sdk/evm-client-ts) and [SDK Reference: Core](https://docs.chain.link/cre/reference/sdk/core-ts), which cover the result pattern and all the EVM helper functions in detail.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 48791,
+              "output_tokens": 3293,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2039,
+              "output_tokens": 2756,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3028,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never actually cites the expected source URL despite mentioning it in text, and the harness confirms it was not cited."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Your contract must implement the IReceiver interface",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "calls a designated function (onReport) on your consumer contract",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "submits a signed report to a Chainlink-managed KeystoneForwarder contract",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "typically by extending ReceiverTemplate",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "generate a signed report with runtime.report(), then submit it with evmClient.writeReport()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "test your logic locally with cre workflow simulate before deploying with cre workflow deploy",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "deploy a generic AutomationReceiver.sol contract",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Getting Started – Part 4: Writing Onchain tutorial details",
+            "Replay protection / chain selector embedding mitigation",
+            "Supported Networks / Forwarder Directory guidance",
+            "Migration guides from Functions/Automation with starter templates"
+          ],
+          "verdict": "The answer correctly points to the Building Consumer Contracts guide but layers on many specific function/interface/contract names (IReceiver, onReport, KeystoneForwarder, ReceiverTemplate, runtime.report(), evmClient.writeReport(), AutomationReceiver.sol) that are not present in the minimal source page and exactly match the answer key's flagged hallucination pattern, so it should not be trusted without independent verification.",
+          "fidelity": 45,
+          "prompt": "I'm building a workflow that needs to receive reports from an onchain contract with Chainlink CRE — where do I learn to write consumer contracts?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for current documentation on writing consumer contracts for Chainlink CRE.Let me retry the searches.I have solid results. Here's where to learn.\n\n## Where to learn to write CRE consumer contracts\n\nThe primary resource is Chainlink's **\"Building Consumer Contracts\"** guide in the CRE documentation: `docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/building-consumer-contracts`.\n\n### How the data flow works (important context)\n\nYour workflow doesn't call your contract directly. When your workflow writes data to the blockchain, it submits a signed report to a Chainlink-managed KeystoneForwarder contract, which validates the report's signatures and then calls a designated function (onReport) on your consumer contract to deliver the data.\n\nThe full journey is: Report generation — your data is ABI-encoded and wrapped in a cryptographically signed package; DON consensus on the report's contents; Forwarder submission to a Chainlink KeystoneForwarder contract; and delivery to your contract, where the Forwarder validates the report's signatures and calls your consumer contract's onReport() function with the data.\n\n### The core requirement for your contract\n\nYour contract must implement the IReceiver interface. This single requirement ensures your contract has the necessary onReport(bytes metadata, bytes report) function that the Chainlink Forwarder calls to deliver data. In practice the easiest path is to extend the provided template — the workflow generates a cryptographically signed report and submits it to a consumer contract that implements IReceiver, typically by extending ReceiverTemplate.\n\n### A critical security topic to study: replay protection\n\nDon't skip the security section of that guide. CRE reports carry DON signatures that any compatible KeystoneForwarder will accept, creating replay vectors: the forwarder validates cryptographic signatures, but those signatures do not commit to a specific chain, so without additional protection a replayed report can land on an unintended chain. The mitigation is to embed the target chain selector in the report payload and have the consumer contract decode and verify it.\n\n### Recommended learning path\n\n1. **Getting Started – Part 4: Writing Onchain** — the hands-on end-to-end tutorial. It walks through the two-step process: generate a signed report with runtime.report(), then submit it with evmClient.writeReport() to the consumer contract.\n2. **Building Consumer Contracts guide** — the definitive reference for the contract side (IReceiver, onReport, validation, replay protection).\n3. **Onchain Write overview + Generating Reports guides** (single values / structs) — for matching your report encoding to your contract's ABI.\n4. **Supported Networks / Forwarder Directory** — you'll need these. Forwarder addresses are used when building consumer contracts that receive workflow reports onchain, and you can find forwarder contract addresses and chain names in the Forwarder Directory.\n\n### If you're migrating from an existing product\n\nThere are dedicated migration guides with starter templates:\n- **From Chainlink Functions:** Deploy a ReceiverTemplate-based consumer contract to receive reports, and test your logic locally with cre workflow simulate before deploying with cre workflow deploy.\n- **From Chainlink Automation:** The Automation Migration starter template uses a \"Bridge\" pattern — you deploy a generic AutomationReceiver.sol contract that receives CRE reports and forwards approved calls to your existing Automation contracts.\n\nAll of these live under `docs.chain.link/cre/`. Start with Part 4 for a working example, then use the Building Consumer Contracts guide as your reference for hardening the contract. Want me to pull the actual Solidity example from the Building Consumer Contracts guide?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32222,
+              "output_tokens": 1989,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1592,
+              "output_tokens": 3020,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3028,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://eth-mainnet.example/YOUR_KEY",
+              "https://github.com/dethcrypto/TypeChain",
+              "https://wagmi.sh/cli"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never mentions the CRE EVMClient or the expected documentation page, relying instead on generic third-party libraries."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 4,
+            "relevance": 1,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "import Web3 from \"web3\"",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "new ethers.Contract(contractAddress, abi, provider)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "TypeChain (for ethers) or Wagmi CLI generate typed bindings",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the EVMClient to call view and pure functions (Onchain Read)",
+            "Define ABIs as TypeScript constants with viem"
+          ],
+          "unverifiable_from_source": [
+            "ethers.js and web3.js as valid approaches",
+            "multicall support in viem",
+            "provider/signer distinction details"
+          ],
+          "verdict": "This answer addresses generic TypeScript smart-contract reading with ethers.js/web3.js/viem instead of the Chainlink CRE EVMClient workflow, so it fails to answer the actual question and is not safe to ship to a developer building a CRE workflow.",
+          "fidelity": 35,
+          "prompt": "How do I read data from a smart contract in a TypeScript blockchain workflow?",
+          "archetype": "paraphrase",
+          "answer": "Reading data from a smart contract in TypeScript is a common task. Here's a practical guide covering the most popular libraries and patterns.\n\n## Core Concept\n\nReading data from a smart contract means calling a **\"view\" or \"pure\" function** (or reading a public state variable). These calls:\n- Don't modify blockchain state\n- Don't cost gas (they're free)\n- Don't require a signer/wallet—only a provider (a connection to a node)\n\nYou need three things:\n1. A **provider** (RPC connection to the blockchain)\n2. The contract's **address**\n3. The contract's **ABI** (Application Binary Interface—describes the callable functions)\n\n---\n\n## Option 1: ethers.js (v6)\n\nThe most widely used library. Install with `npm install ethers`.\n\n```typescript\nimport { ethers } from \"ethers\";\n\n// 1. Connect to a node via an RPC URL\nconst provider = new ethers.JsonRpcProvider(\"https://eth-mainnet.example/YOUR_KEY\");\n\n// 2. Define the ABI — only the functions you need\nconst abi = [\n  \"function balanceOf(address owner) view returns (uint256)\",\n  \"function decimals() view returns (uint8)\",\n  \"function symbol() view returns (string)\",\n];\n\n// 3. Create a read-only contract instance (provider, not signer)\nconst contractAddress = \"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48\"; // e.g. USDC\nconst contract = new ethers.Contract(contractAddress, abi, provider);\n\nasync function readData() {\n  const [symbol, decimals, balance] = await Promise.all([\n    contract.symbol(),\n    contract.decimals(),\n    contract.balanceOf(\"0xSomeWalletAddress...\"),\n  ]);\n\n  // balance is a bigint; format it using decimals\n  const formatted = ethers.formatUnits(balance, decimals);\n  console.log(`${formatted} ${symbol}`);\n}\n\nreadData();\n```\n\n---\n\n## Option 2: viem (modern, type-safe)\n\nviem is newer and offers excellent TypeScript inference. Install with `npm install viem`.\n\n```typescript\nimport { createPublicClient, http, formatUnits } from \"viem\";\nimport { mainnet } from \"viem/chains\";\n\n// A \"public client\" is used for reads\nconst client = createPublicClient({\n  chain: mainnet,\n  transport: http(\"https://eth-mainnet.example/YOUR_KEY\"),\n});\n\n// ABI as a const array for full type inference\nconst abi = [\n  {\n    name: \"balanceOf\",\n    type: \"function\",\n    stateMutability: \"view\",\n    inputs: [{ name: \"owner\", type: \"address\" }],\n    outputs: [{ name: \"\", type: \"uint256\" }],\n  },\n] as const;\n\nasync function readData() {\n  const balance = await client.readContract({\n    address: \"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48\",\n    abi,\n    functionName: \"balanceOf\",\n    args: [\"0xSomeWalletAddress...\"],\n  });\n\n  console.log(formatUnits(balance, 6)); // balance is typed as bigint\n}\n```\n\nviem also supports `multicall` to batch many reads into a single RPC request, which is great for performance.\n\n---\n\n## Option 3: web3.js\n\nOlder but still common. Install with `npm install web3`.\n\n```typescript\nimport Web3 from \"web3\";\n\nconst web3 = new Web3(\"https://eth-mainnet.example/YOUR_KEY\");\nconst contract = new web3.eth.Contract(abi, contractAddress);\n\nconst balance = await contract.methods.balanceOf(\"0xWallet...\").call();\n```\n\n---\n\n## Key Tips\n\n- **Use a provider, not a signer**, for reads—no private key needed.\n- **BigInt handling**: Token amounts come back as `bigint` (ethers v6 / viem). Convert to human-readable form with `formatUnits(value, decimals)`.\n- **Get the ABI** from the contract's verified source on a block explorer (e.g., Etherscan), from your compiler artifacts (Hardhat/Foundry), or hand-write just the fragments you need.\n- **RPC endpoints**: Get a URL from a node provider (Alchemy, Infura, QuickNode) or run your own node. For read-heavy apps, choose a provider with good rate limits.\n- **Batch reads** with `multicall` (viem) or `Promise.all` to reduce round-trips.\n- **Type safety**: Tools like [TypeChain](https://github.com/dethcrypto/TypeChain) (for ethers) or [Wagmi CLI](https://wagmi.sh/cli) generate typed bindings from your ABI.\n\n---\n\nWhich library and blockchain are you working with (Ethereum, Polygon, an L2, etc.)? If you let me know your setup—or share the contract ABI—I can give you a more tailored example, including error handling and typed bindings.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5910,
+              "output_tokens": 1704,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2038,
+              "output_tokens": 417,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3028,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

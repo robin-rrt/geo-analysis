@@ -1,0 +1,676 @@
+{
+  "key": "cre-guides-workflow-using-confidential-http-client-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Confidential API Interactions",
+    "url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+    "analyzedAt": "2026-09-21T13:23:39.615Z",
+    "contentType": "developer documentation / guide hub (landing page)",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong opener: \"The CRE SDK provides a Confidential HTTP client that allows your workflows to interact with external APIs while keeping sensitive data private.\" Self-contained and liftable. Weak point: the `## Guides` section is just a link with no standalone answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean H1→H2, 0 level skips, sections under 135 words. Fine for the size, but only 2 sections and 1 bullet — little to chunk beyond the intro and caution."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak: 3 numerals, 0 with units, no version strings, no enclave/latency/limit numbers. The security claims (\"secure enclave,\" \"encrypted\") are qualitative only."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "4 internal links, all appropriate for a hub (concept page, guide page). No external/primary sources (e.g., enclave/TEE spec), which would raise credibility on the security claims."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The intro and the CAUTION together give crisp, verbatim-liftable statements. The `vaultDonSecrets` vs `getSecret()` contrast is exactly the right pattern."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weakest measured area: 0 JSON-LD blocks, canonical MISSING, no `dateModified` in head (only a body \"Last Updated: 2026-02-06\"), no `og`/`twitter` tags. Head could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "0 fenced blocks. Acceptable for a pure hub, but the page names concrete APIs (`vaultDonSecrets`, `{{.key}}`) without a single copy-pasteable line showing the correct pattern."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "The CAUTION covers one high-value symptom (\"credentials aren't protected\"), and links to a when-to-use comparison. But no headings phrased as questions/errors, no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Terminology is consistent across TS/Go (`getSecret()`/`GetSecret()`, `vaultDonSecrets`/`VaultDonSecrets`)."
+      }
+    ],
+    "summary": "This is a thin hub/landing page for the CRE Confidential HTTP client: one opening definition, one CAUTION block naming a common credential-handling mistake, and a single link to the detailed guide. Its biggest strength is a clean, quotable opening definition plus an unusually good parametric-prior defense — it explicitly names the wrong pattern (`getSecret()` pasted into headers) and the canonical one (`vaultDonSecrets` + `{{.key}}` templates). Its biggest opportunity is machine-readability and specificity: no JSON-LD, no canonical URL, no code, and only 160 words mean it is easy to skim but weak to retrieve on symptom-phrased queries. Honest verdict: correct and well-written for its size, but too sparse to win retrieval on its own — it functions as a signpost, not a destination.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased subheadings to the CAUTION",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "The CAUTION block on credential handling.",
+        "issue": "\"Confidential HTTP does not automatically protect credentials you load with `runtime.getSecret()`…\"",
+        "change": "Promote this to an H2/H3 phrased as the query, e.g. `## Why are my secrets still exposed in Confidential HTTP requests?` with the answer immediately below. Keep the canonical `vaultDonSecrets` + `{{.key}}` line as the first sentence.",
+        "why": "Devs query by symptom, not concept; a question-phrased heading wins retrieval that prose buried in a blockquote loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal canonical code snippet",
+        "mapsTo": "code completeness / parametric-prior resistance",
+        "tier": null,
+        "where": "Directly under the CAUTION or in a new \"Correct pattern\" section.",
+        "issue": "Page names `vaultDonSecrets` and `{{.key}}` templates but shows 0 fenced blocks (measured).",
+        "change": "Add a 3–5 line fenced, language-tagged snippet showing a header set via `{{.key}}` template with `vaultDonSecrets`, plus a one-line Don't comment showing the `getSecret()`-in-header anti-pattern.",
+        "why": "A liftable, labeled snippet defends against the model substituting the generic `getSecret()` idiom; naming the wrong pattern explicitly as a Don't is the researched prior-resistance fix."
+      },
+      {
+        "priority": 2,
+        "title": "Add `TechArticle` JSON-LD and a canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "Measured: 0 JSON-LD blocks, canonical MISSING, no `dateModified`.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified` (mirror the body \"2026-02-06\"), and a canonical `<link>`. Surface last-updated visibly on-page too.",
+        "why": "Structured metadata and visible freshness raise agent trust and parseability (E-E-A-T); currently unverifiable."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative external reference for the security claim",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Intro sentence \"Requests execute inside a secure enclave.\"",
+        "issue": "Enclave/encryption claims are unattributed.",
+        "change": "Inline-link the enclave/TEE concept or spec (or the canonical CRE architecture page) at first mention.",
+        "why": "Attributable security claims raise citation rate; qualitative-only assertions underperform."
+      },
+      {
+        "priority": 3,
+        "title": "Add concrete specifics to the intro",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Opening paragraph.",
+        "issue": "\"secrets are injected via templates, and responses can optionally be encrypted\" — no specifics.",
+        "change": "Name the encryption scheme/curve, supported request methods, or any size/timeout limits where known.",
+        "why": "Quantitative/specific claims are among the highest-lift changes for retrieval and citation."
+      }
+    ],
+    "antiPatterns": [
+      "None material. The page is short but not padded; no keyword stuffing, no marketing fluff, no unresolved cross-references. The only thin spot is the `## Guides` section being a single link with no standalone answer."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced on-page — good; ensure this URL is listed in it.",
+      "JSON-LD/canonical emission is likely a site-template concern, not unique to this page; fixing it site-wide lifts all CRE docs.",
+      "As a hub page, its retrieval visibility depends on internal links from the sibling `making-requests` guide and the `confidential-http` capability page pointing back here (canonical-hub pattern) — verify those inbound links exist."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client.md",
+      "source_title": "Confidential API Interactions",
+      "probe_set_id": "ed85c72eb26b",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:51:40.413Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 44.2,
+      "avg_fidelity_all": 40.7,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.3,
+        "hallucination_free": 3.2,
+        "relevance": 3.3,
+        "structure": 6.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 236968,
+          "output_tokens": 17876,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 22,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 12171,
+          "output_tokens": 11412,
+          "cache_creation_input_tokens": 549,
+          "cache_read_input_tokens": 17079,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://api.example.com/data",
+              "https://docs.chain.link/cre/guides/workflow/using-confidential-http-client",
+              "https://docs.chain.link/cre/concepts/confidential-workflows"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer states it was rate-limited before pulling full page text, so its details are speculative rather than sourced."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 5,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "secret := runtime.GetSecret(\"MY_API_KEY\") ... \"Authorization\": \"Bearer \" + secret",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "confidentialHTTPClient.SendRequest(req)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "smartcontractkit/chainlink-confidential-compute on GitHub",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Secrets are injected via templates",
+            "Responses can optionally be encrypted",
+            "vaultDonSecrets / VaultDonSecrets and {{.key}} templates as the correct isolation pattern"
+          ],
+          "unverifiable_from_source": [
+            "Confidential Workflows execute inside Trusted Execution Environments (TEEs)",
+            "Both Go and TypeScript CRE SDKs expose the relevant HTTP and secrets capabilities",
+            "chainlink-confidential-compute GitHub repository as reference framework"
+          ],
+          "verdict": "Not safe to ship: the answer explicitly admits it couldn't fetch the page content, then presents pseudocode that does exactly what the source's caution warns against (using GetSecret() directly in a header) and invents unverified function names.",
+          "fidelity": 38,
+          "prompt": "In Chainlink CRE, how do I use the Confidential HTTP client to call an external API without exposing sensitive data?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information about Chainlink CRE's Confidential HTTP client.Let me fetch the detailed content from the two key Chainlink documentation pages.I've gathered enough to answer, though I hit the search tool's rate limit before pulling full page text. Here's a practical guide based on the Chainlink CRE documentation (see the two key references at the end).\n\n## Using the Confidential HTTP Client in Chainlink CRE\n\nThe Confidential HTTP client is designed for exactly your use case: calling an external API from a CRE workflow while keeping sensitive data (API keys, tokens, request/response bodies) hidden from node operators. It works together with two pieces of CRE:\n\n1. **Confidential Workflows** — workflow execution inside Trusted Execution Environments (TEEs), so the runtime memory, secrets, and HTTP traffic aren't visible to the node operators running the DON.\n2. **Encrypted secrets** — your credentials are threshold-encrypted and only decrypted inside the TEE at runtime, rather than being hardcoded or passed as plaintext.\n\n### The general pattern\n\n**Step 1 — Store your secret (API key)**\n\nRather than embedding an API key in your workflow code, register it as a CRE secret. It's encrypted and injected into the TEE only at execution time. In your workflow you retrieve it via the SDK's secrets API (e.g., `runtime.GetSecret(...)` / the secrets accessor in the Go or TypeScript SDK).\n\n**Step 2 — Use the Confidential HTTP client instead of the standard HTTP capability**\n\nNormal HTTP calls in CRE can be visible to the DON. The *Confidential* HTTP client routes the request so that the URL, headers, and body are processed confidentially inside the TEE — meaning the secret you inject into an `Authorization` header (or query param, or JSON body) is never exposed in plaintext to operators.\n\n**Step 3 — Build and send the request**\n\nConceptually the flow is:\n\n```\n// pseudocode reflecting the SDK shape\nsecret := runtime.GetSecret(\"MY_API_KEY\")        // decrypted only inside TEE\n\nreq := &http.Request{\n    Method: \"GET\",\n    URL:    \"https://api.example.com/data\",\n    Headers: map[string]string{\n        \"Authorization\": \"Bearer \" + secret,     // sensitive value stays confidential\n    },\n}\n\nresp := confidentialHTTPClient.SendRequest(req)   // executed within the TEE\n// parse resp.Body ...\n```\n\nThe key differences from a regular HTTP call are (a) the client type you invoke is the confidential one, and (b) the secret is pulled from CRE's secrets system rather than being a literal in code.\n\n### Key things to keep in mind\n\n- **The whole workflow must be a confidential workflow.** The Confidential HTTP client only provides its guarantees when the workflow runs in the TEE-backed confidential execution environment — this is the mechanism that keeps request/response data and secrets shielded from operators.\n- **Never hardcode credentials.** Always inject them through CRE encrypted secrets so they're only materialized inside the TEE.\n- **Determinism / consensus still applies.** As with any external API call in a DON, be mindful of how responses are aggregated across nodes; the confidentiality layer protects the data but the workflow still needs to handle results consistently.\n- **SDK availability.** Both the Go and TypeScript CRE SDKs expose the relevant HTTP and secrets capabilities; the exact method names and client-construction differ slightly between them.\n\n### Where to get the exact, up-to-date code\n\nBecause CRE's SDK APIs are evolving, I'd strongly recommend copying the exact method signatures and imports from the official docs rather than the pseudocode above:\n\n- **Confidential API Interactions (the Confidential HTTP client guide):** `https://docs.chain.link/cre/guides/workflow/using-confidential-http-client`\n- **Confidential Workflows in CRE (concepts / TEE + threshold-encrypted secrets):** `https://docs.chain.link/cre/concepts/confidential-workflows`\n- **Reference framework:** `smartcontractkit/chainlink-confidential-compute` on GitHub, which combines TEEs with threshold-encrypted secrets.\n\nA quick note: I was rate-limited before I could pull the full text of those pages, so I've described the architecture and pattern rather than quoting the precise current SDK code. Please verify the exact function names (e.g., the confidential client constructor and `SendRequest`/`GetSecret` signatures) against the guide above, as they may differ slightly in your SDK version. If you tell me whether you're using the **Go** or **TypeScript** SDK, I can try to pull the specific example for that language.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 52521,
+              "output_tokens": 3468,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2084,
+              "output_tokens": 1882,
+              "cache_creation_input_tokens": 549,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/concepts/confidential-workflows",
+              "https://docs.chain.link/cre/reference/project-configuration-ts"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer itself states it hit a search rate limit and only retrieved a different page (Confidential Workflows), not the expected Confidential HTTP client source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "the secret has to be fetched and used inside a trusted execution environment (an enclave)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Run the workflow (or at least the sensitive part) as a Confidential Workflow",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Confirm your secret is declared in `secrets.yaml` and referenced by name",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Call `runtime.GetSecret()` inside that confidential/enclave context",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Confidential HTTP does not automatically protect credentials loaded with runtime.getSecret()/runtime.GetSecret() then pasted as plaintext into headers or body",
+            "For Vault DON-style isolation use vaultDonSecrets/VaultDonSecrets and {{.key}} templates only"
+          ],
+          "unverifiable_from_source": [
+            "Node operators can observe execution and see decrypted secrets in headers",
+            "Confidential Workflows/TEE enclave concept as described"
+          ],
+          "verdict": "The answer confidently prescribes an entirely different, unverified solution (Confidential Workflows/enclave/TEE) instead of the documented fix (vaultDonSecrets/{{.key}} templates), making it unsafe to ship as-is.",
+          "fidelity": 30,
+          "prompt": "I'm loading my API key with runtime.GetSecret() in a Chainlink CRE workflow and pasting it into the request header, but it doesn't seem to stay confidential. What's wrong?",
+          "archetype": "error-debug",
+          "answer": "I found the key piece of documentation before hitting a search rate limit. Here's what's going on.\n\n## The core problem\n\n`runtime.GetSecret()` doesn't do anything wrong — the issue is *where* your workflow is running. A standard (non-confidential) CRE workflow executes across the nodes of a DON, and the node operators can observe the workflow's execution. When you call `GetSecret()`, the secret gets **decrypted into the workflow's runtime**, and the moment you paste that plaintext value into a request header, it's exposed to the node operators running that request. So the secret is stored encrypted at rest, but it's no longer confidential *at the point of use*.\n\nIn other words: fetching a secret is not the same as computing on it confidentially. In a normal workflow, the header value (and the outbound HTTP request) is visible to operators.\n\n## The fix: Confidential Workflows\n\nTo keep the API key hidden from node operators, the secret has to be fetched and used inside a trusted execution environment (an enclave). Secrets fetched inside the enclave, and any computation you mark as confidential, are intended to remain confidential from node operators.\n\nSo the pattern you want is:\n\n1. **Run the workflow (or at least the sensitive part) as a Confidential Workflow**, so the code executes inside the enclave.\n2. **Call `runtime.GetSecret()` inside that confidential/enclave context**, so the key is only ever decrypted inside the TEE.\n3. **Build the request header and make the outbound HTTP call from within that confidential region**, so the plaintext key never leaves the enclave in a form operators can read.\n\nIf you decrypt the secret in ordinary workflow code and then hand it to the HTTP/fetch capability, it leaks — which matches exactly what you're seeing.\n\n## What to check in your code\n\n- Are you actually configuring the workflow as confidential, or just calling `GetSecret()` in a regular workflow? Calling `GetSecret()` alone gives you decryption, not confidentiality.\n- Is the HTTP request being issued from inside the confidential region, or is the header assembled/consumed outside it?\n- Confirm your secret is declared in `secrets.yaml` and referenced by name — but note that correct declaration only protects it at rest, not during execution outside an enclave.\n\n## A caveat\n\nI could only retrieve one page (the \"Confidential Workflows in CRE\" docs) before the search tool rate-limited me, so I'd recommend verifying the exact API/setup against the current Chainlink CRE docs:\n- Confidential Workflows in CRE: https://docs.chain.link/cre/concepts/confidential-workflows\n- Project/secrets configuration: https://docs.chain.link/cre/reference/project-configuration-ts\n\nWould you like me to retry the search to pull the exact code snippet for marking a workflow/computation as confidential?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 78465,
+              "output_tokens": 3745,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1482,
+              "output_tokens": 1740,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2938,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer quotes the source's caution text almost verbatim but never cites the expected source URL."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "ConfidentialHTTPRequest is the input provided to the confidential HTTP capability. It combines an HTTPRequest with secrets from VaultDON.",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "vaultDonSecrets: [{ key: \"myApiKey\", owner: config.owner }]",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the API response is encrypted inside the enclave before it leaves (encryptOutput: true)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "in the workflow config you may see \"owner\": \"\". This is intentional for local simulation",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "It resolves the secret from the Vault DON and keeps it encoded along the confidential request path.",
+            "The secrets travel as a separate VaultDonSecrets field alongside the request rather than being baked into the request strings.",
+            "In the reference demo, the API key is never in config or code.",
+            "This is also reflected at the capability/protobuf level."
+          ],
+          "verdict": "The answer correctly captures the core distinction between vaultDonSecrets and runtime.getSecret() from the source, but it embellishes with unverified protobuf/field-level and code-example details not present in the given source, and fails to cite the expected source URL, so it should be used with caution rather than shipped as-is.",
+          "fidelity": 65,
+          "prompt": "Chainlink CRE confidential HTTP: vaultDonSecrets vs runtime.getSecret for putting credentials in requests — which should I use?",
+          "archetype": "comparison",
+          "answer": "The first result is exactly the official documentation. Let me fetch more detail from it.For putting credentials into Confidential HTTP requests in Chainlink CRE, you should use **`vaultDonSecrets` (with `{{.key}}` templates)** — not `runtime.getSecret()`.\n\n## Why\n\nThe key distinction is what actually stays confidential. Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() / runtime.GetSecret() and then paste into headers or body as plaintext. For Vault DON–style isolation, use vaultDonSecrets / VaultDonSecrets and {{.key}} templates only.\n\nIf you fetch a secret with `runtime.getSecret()` and then interpolate it directly into a header or request body yourself, that value becomes plaintext inside your workflow logic on the Workflow DON nodes — defeating the purpose of confidential HTTP. The `vaultDonSecrets` mechanism instead resolves the secret from the Vault DON and keeps it encoded along the confidential request path.\n\n## The correct pattern\n\nYou declare the secret reference in `vaultDonSecrets`, then reference it in the request via a `{{.key}}` template placeholder. In the reference demo, the API key is never in config or code. It is resolved from the vault (DON secrets) via vaultDonSecrets: [{ key: \"myApiKey\", owner: config.owner }]. Then, the header uses {{.myApiKey}}; the key stays encoded in the confidential request path.\n\nThis is also reflected at the capability/protobuf level: ConfidentialHTTPRequest is the input provided to the confidential HTTP capability. It combines an HTTPRequest with secrets from VaultDON. The secrets travel as a separate `VaultDonSecrets` field alongside the request rather than being baked into the request strings.\n\n## Practical notes\n\n- Use `{{.key}}` templates **only** for injecting the credential — don't concatenate the secret into strings yourself.\n- The `owner` field ties the secret to its Vault DON owner. Note that in the workflow config you may see \"owner\": \"\". This is intentional for local simulation: there is no real interaction with the Vault DON here, so owner is not required. In production, you would set the real owner.\n- If you also want the API **response** kept confidential, that's a separate concern handled with encryption — e.g. the API response is encrypted inside the enclave before it leaves (encryptOutput: true), which you then decrypt with your own key. This is a legitimate use of `runtime.getSecret()` — retrieving a decryption key to decrypt a confidential response inside the workflow — which is different from putting a credential *into* an outbound request.\n\n## Bottom line\n\n| Task | Use |\n|------|-----|\n| Putting an API key/credential **into** an outbound confidential HTTP request | `vaultDonSecrets` + `{{.key}}` template |\n| Injecting a fetched secret into headers/body as plaintext yourself | ❌ Avoid — not protected |\n| Decrypting a confidential response inside the workflow | `runtime.getSecret()` (to get the decryption key) |\n\nSo: for credentials in requests, use `vaultDonSecrets`. Reserve `runtime.getSecret()` for cases where you genuinely need the secret value in your workflow logic (like response decryption), understanding it will be plaintext on the Workflow DON. The full step-by-step guide and common mistakes are documented in Chainlink's \"Confidential API Interactions\" page.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 42919,
+              "output_tokens": 2323,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1597,
+              "output_tokens": 3083,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2938,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://api.example.com",
+              "https://api.example.com/v1/thing",
+              "https://auth.example.com/oauth/token"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never engaged with the Chainlink CRE documentation and cited only fabricated example URLs instead of the expected source."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 3,
+            "relevance": 0,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "generic HTTP client secret injection templates unrelated to CRE SDK",
+              "type": "other",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Secrets are injected via templates",
+            "Use {{.key}} templates with vaultDonSecrets/VaultDonSecrets"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misidentifies the subject, treating 'CRE' as 'credential' and providing generic secrets-management advice instead of documenting Chainlink's CRE Confidential HTTP client, making it unusable for the actual query.",
+          "fidelity": 23,
+          "prompt": "confidential http client cre secret injection templates",
+          "archetype": "terse/keyword",
+          "answer": "I can help with that, though your request is quite terse. Let me make sure I understand what you're after. I'm interpreting **\"confidential http client cre[dential] secret injection templates\"** as:\n\n> Reusable configuration/code templates for injecting confidential credentials (API keys, bearer tokens, client secrets, mTLS certs) into an HTTP client **without hardcoding them**.\n\nIf that's right, here are practical templates across common approaches. If you meant something more specific (a particular language, framework, or a secrets manager like Vault/AWS Secrets Manager), tell me and I'll tailor it.\n\n---\n\n## Core principle\nNever bake secrets into source, images, or version control. Inject them at **runtime** from an external source (env var, mounted file, secrets manager) and keep them out of logs.\n\n---\n\n## 1. Environment-variable injection (12-factor style)\n\n**Python (`httpx` / `requests`)**\n```python\nimport os, httpx\n\ntoken = os.environ[\"API_TOKEN\"]  # fail fast if missing\n\nclient = httpx.Client(\n    base_url=\"https://api.example.com\",\n    headers={\"Authorization\": f\"Bearer {token}\"},\n    timeout=10.0,\n)\n```\n\n**Node.js (`axios`)**\n```javascript\nimport axios from \"axios\";\n\nconst client = axios.create({\n  baseURL: \"https://api.example.com\",\n  headers: { Authorization: `Bearer ${process.env.API_TOKEN}` },\n  timeout: 10000,\n});\n```\n\n**Go (`net/http`)**\n```go\ntoken := os.Getenv(\"API_TOKEN\")\nreq, _ := http.NewRequest(\"GET\", \"https://api.example.com/v1/thing\", nil)\nreq.Header.Set(\"Authorization\", \"Bearer \"+token)\n```\n\n---\n\n## 2. Mounted-file / Docker secret injection\n\nKubernetes and Docker Swarm mount secrets as files (e.g. `/run/secrets/api_token`), which avoids exposing them in the process environment or `docker inspect`.\n\n```python\ndef read_secret(path=\"/run/secrets/api_token\"):\n    with open(path) as f:\n        return f.read().strip()\n\ntoken = read_secret()\n```\n\n**Kubernetes deployment snippet**\n```yaml\nenv:\n  - name: API_TOKEN\n    valueFrom:\n      secretKeyRef:\n        name: my-api-credentials\n        key: token\n# or mount as a file:\nvolumeMounts:\n  - name: creds\n    mountPath: /run/secrets\n    readOnly: true\nvolumes:\n  - name: creds\n    secret:\n      secretName: my-api-credentials\n```\n\n---\n\n## 3. OAuth2 client-credentials flow (client_id + client_secret)\n\n```python\nimport os, httpx\n\ndef get_access_token():\n    resp = httpx.post(\n        \"https://auth.example.com/oauth/token\",\n        data={\n            \"grant_type\": \"client_credentials\",\n            \"client_id\": os.environ[\"CLIENT_ID\"],\n            \"client_secret\": os.environ[\"CLIENT_SECRET\"],\n            \"scope\": \"read write\",\n        },\n    )\n    resp.raise_for_status()\n    return resp.json()[\"access_token\"]\n```\nCache the token and refresh it before expiry rather than fetching per request.\n\n---\n\n## 4. mTLS (client certificate) injection\n\n```python\nimport httpx\nclient = httpx.Client(\n    cert=(\"/run/secrets/client.crt\", \"/run/secrets/client.key\"),\n    verify=\"/run/secrets/ca.pem\",\n)\n```\n\n---\n\n## 5. Secrets-manager templates (fetch at startup)\n\n**HashiCorp Vault (`hvac`)**\n```python\nimport hvac, os\nvault = hvac.Client(url=os.environ[\"VAULT_ADDR\"], token=os.environ[\"VAULT_TOKEN\"])\nsecret = vault.secrets.kv.v2.read_secret_version(path=\"myapp/api\")\ntoken = secret[\"data\"][\"data\"][\"api_token\"]\n```\n\n**AWS Secrets Manager (`boto3`)**\n```python\nimport boto3, json\nsm = boto3.client(\"secretsmanager\")\ntoken = json.loads(sm.get_secret_value(SecretId=\"myapp/api\")[\"SecretString\"])[\"api_token\"]\n```\n\n---\n\n## Hardening checklist\n- ✅ Fail fast if a required secret is absent.\n- ✅ Redact secrets in logs (never log full headers/tokens).\n- ✅ Prefer file mounts or a secrets manager over plain env vars for high-sensitivity secrets.\n- ✅ Rotate credentials; support hot-reload where possible.\n- ✅ Add `.env`, `*.key`, `*.pem` to `.gitignore`.\n- ✅ Scope tokens to least privilege.\n\n---\n\nWhich of these matches your intent? If you tell me:\n1. **Language/framework** (Python, Node, Go, Java, .NET…),\n2. **Where secrets live** (env var, Vault, AWS/GCP/Azure, K8s),\n3. **Auth type** (bearer, basic, OAuth2, mTLS, API key),\n\n…I'll generate a single, ready-to-use template file for your exact stack.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5897,
+              "output_tokens": 1905,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2109,
+              "output_tokens": 297,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2938,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its live search quota was exhausted and it could not retrieve the actual documentation, then improvised speculative content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "apiKey, err := runtime.GetSecret(\"MY_API_KEY\") ... \"Authorization\": \"Bearer \" + apiKey",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "ecies.Encrypt(rand.Reader, eciesPub, resp.Body, nil, nil)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "ecies.ImportECDSAPublic(recipientPub)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "httpClient.SendRequest(runtime, &http.Request{...}).Await()",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "\"github.com/smartcontractkit/cre-sdk-go/capabilities/networking/http\"",
+              "type": "wrong_import",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Detailed request/response code is covered on the Making Confidential Requests guide",
+            "Responses can optionally be encrypted with the Confidential HTTP client (per the actual documented mechanism, not a custom ECIES scheme)"
+          ],
+          "unverifiable_from_source": [
+            "Node mode vs DON mode execution semantics",
+            "ECIES/public-key encryption as the confidentiality mechanism",
+            "Threshold/DON-managed key encryption approach",
+            "Consensus-on-hash approach for non-deterministic ciphertext"
+          ],
+          "verdict": "Not safe to ship: the model admits retrieval failed yet still produces a speculative Go code sample using a secret-handling pattern (runtime.GetSecret pasted into plaintext headers) that the real docs explicitly warn against, plus several fabricated function names.",
+          "fidelity": 28,
+          "prompt": "Show me how a Chainlink CRE workflow can encrypt the response from a confidential HTTP request.",
+          "archetype": "code-first",
+          "answer": "I'll research the current Chainlink CRE documentation to give you an accurate answer.I attempted to pull the latest Chainlink CRE documentation, but the live search quota for this session was exhausted before I could retrieve verified pages. So rather than fabricate exact API signatures, let me give you a **conceptually accurate, best-effort walkthrough** of the pattern — and I'd strongly recommend confirming the exact function names/imports against the current CRE docs (docs.chain.link → Chainlink Runtime Environment), since the SDK is evolving quickly.\n\n## The core idea\n\nIn Chainlink CRE, a workflow runs across a **decentralized set of nodes (a DON)**. When you want to fetch data over HTTP and keep the payload confidential, you can't just return the plaintext — every node sees it and it would flow through consensus and potentially on-chain. The standard pattern is:\n\n1. **Fetch** the data via the HTTP capability (ideally in *node mode* so each node calls the API independently, or via a gated confidential-compute step).\n2. **Encrypt** the response inside the workflow using a recipient's public key (e.g., a consumer's key or an on-chain-readable public key), so only the intended party can decrypt it.\n3. **Reach consensus / return** the *ciphertext* rather than the plaintext, so the sensitive value never leaves the enclave/DON in the clear.\n\n## Two building blocks you'll rely on\n\n**a) Secrets** — API keys and credentials for the \"confidential\" HTTP request are stored as CRE secrets, not hardcoded. You reference them at runtime rather than embedding them in the workflow binary.\n\n**b) Node mode vs. DON mode** — HTTP requests to external APIs typically execute per-node, and the results are combined through a consensus/aggregation step. Encryption happens *before* that boundary so nodes agree on (or the caller receives) an encrypted blob.\n\n## Illustrative Go workflow sketch\n\nHere's a representative structure (Go is the primary CRE workflow language). Treat the exact package paths/method names as placeholders to verify:\n\n```go\npackage main\n\nimport (\n    \"crypto/ecdsa\"\n    \"crypto/rand\"\n\n    \"github.com/ethereum/go-ethereum/crypto/ecies\"\n    // CRE SDK imports (verify exact paths in current docs)\n    // \"github.com/smartcontractkit/cre-sdk-go/cre\"\n    // \"github.com/smartcontractkit/cre-sdk-go/capabilities/networking/http\"\n)\n\n// runs per-node: fetch confidential data, then encrypt before returning\nfunc fetchAndEncrypt(cfg Config, runtime cre.Runtime) ([]byte, error) {\n    // 1. Pull the API credential from CRE secrets (never hardcoded)\n    apiKey, err := runtime.GetSecret(\"MY_API_KEY\")\n    if err != nil {\n        return nil, err\n    }\n\n    // 2. Make the confidential HTTP request\n    httpClient := &http.Client{}\n    resp, err := httpClient.SendRequest(runtime, &http.Request{\n        Url:    cfg.Endpoint,\n        Method: \"GET\",\n        Headers: map[string]string{\n            \"Authorization\": \"Bearer \" + apiKey,\n        },\n    }).Await()\n    if err != nil {\n        return nil, err\n    }\n\n    // 3. Encrypt the plaintext response with the recipient's public key\n    //    (ECIES over an ECDSA pubkey is one common choice)\n    recipientPub := cfg.RecipientPubKey // provisioned via config\n    eciesPub := ecies.ImportECDSAPublic(recipientPub)\n    ciphertext, err := ecies.Encrypt(rand.Reader, eciesPub, resp.Body, nil, nil)\n    if err != nil {\n        return nil, err\n    }\n\n    // Only the ciphertext ever leaves this function.\n    return ciphertext, nil\n}\n```\n\nThen the workflow wires this into a trigger and a consensus step so that what gets aggregated/returned/written on-chain is the **encrypted bytes**, and the recipient later decrypts off-chain with their private key.\n\n## Design points worth emphasizing\n\n- **Encrypt inside the workflow, before consensus** — if you encrypt after consensus you've already exposed plaintext across the DON.\n- **Deterministic vs. randomized encryption + consensus** — randomized encryption (like ECIES) produces different ciphertext per node, which complicates byte-for-byte consensus. Common approaches are (a) run the encryption in a single/aggregated step, (b) reach consensus on a hash/attestation of the plaintext and return per-node ciphertexts, or (c) use a threshold/DON-managed key so the DON can produce one agreed ciphertext. Check how the current CRE consensus API handles non-deterministic outputs.\n- **Key management** — decide whose key encrypts the data: the end consumer, a smart contract's associated key, or a DON threshold key.\n- **Secrets for the request itself** keep the *request* confidential; encryption keeps the *response* confidential — these are two separate concerns you usually want together.\n\n## What I'd verify in the live docs\n\nBecause I couldn't confirm the current SDK against a live source, please double-check:\n- The exact HTTP capability import path and request/response types.\n- The current secrets-retrieval API.\n- Whether CRE now exposes a **native encryption/consensus primitive** for confidential outputs (this area has been actively developed, and there may be a purpose-built helper rather than rolling your own ECIES).\n\nWould you like me to draft a fuller runnable workflow scaffold (with the trigger, config struct, and consensus wiring), or focus on the key-management/decryption side for the consumer?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 26069,
+              "output_tokens": 3570,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2297,
+              "output_tokens": 1576,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2938,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page despite covering its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "you must use the runInNodeMode pattern",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "const secret = runtime.getSecret({ id: \"my-api-key\" }).result()",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "secrets.yaml declare/provide/use three-step pattern",
+            "cre workflow simulate and .env auto-loading behavior",
+            "cre secrets create/list/delete commands for Vault DON",
+            "1Password op run integration for secret injection",
+            "Confidential Workflows is currently in private beta and requires enrollment through your Chainlink account team",
+            "the confidential-http application details about secret owner/enclave visibility"
+          ],
+          "verdict": "The answer correctly reproduces the source's core caution about Confidential HTTP and vaultDonSecrets/{{.key}} templates, but it pads the response with a large amount of unverified (and in places likely fabricated) CRE secrets-management detail from outside this source, and it never actually cites the expected page, so a developer should double-check the extra material before shipping.",
+          "fidelity": 60,
+          "prompt": "I'm new to Chainlink CRE and my workflow needs to talk to a third-party API that requires a secret token, but I don't want that token leaking onto the workflow nodes. How should I approach this?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll look into how Chainlink CRE handles secrets for workflows that call external APIs.This is a great question to sort out early, because Chainlink CRE has a specific pattern for exactly this. Here's how to approach it.\n\n## The core idea: never hard-code the token; store it as a secret and reference it by name\n\nCRE uses a \"declare / provide / use\" separation so your workflow code stays portable and the actual token value is never in your source. The process follows a three-step pattern: you declare the logical names of your secrets in a secrets.yaml file, you provide the actual secret values, and you access the secrets in your workflow code using the SDK's secret management API. This separation of concerns ensures that your workflow code is portable and your secrets are never hard-coded.\n\nWhere the value actually lives depends on whether you're simulating locally or running a deployed workflow.\n\n### 1. Local development / simulation\nWhen you're simulating a workflow on your local machine with cre workflow simulate, secrets are provided via environment variables or a .env file. If you're deploying workflows, you'll need to store secrets in the Vault DON instead. You create a .env file in your project's root directory, and the cre CLI automatically finds this file and loads the variables into the environment for your simulation. The variable names must match those declared in secrets.yaml, and the project's .gitignore is already configured to ignore .env files.\n\n### 2. Deployed (production) workflows — the Vault DON\nThis is the key part for your \"don't let it leak onto the nodes\" concern. For deployed workflows, the token is stored encrypted in the **Vault DON** rather than being placed on the workflow nodes. The cre secrets commands manage secrets stored in the Vault DON for deployed workflows, allowing you to create, update, delete, and list secrets that your workflows can access at runtime.\n\nTypical flow:\n```bash\nexport API_KEY_VALUE=\"your-third-party-token\"\ncre secrets create production-secrets.yaml --target production-settings\n```\nImportantly, the list command only returns secret identifiers, never the actual values — secret values are only accessible to workflows at runtime. And your workflow code uses the same API to access secrets whether running in local simulation or deployed to a workflow DON; the CRE runtime automatically retrieves secrets from the appropriate source.\n\n### 3. Using the secret in your workflow code\nYou fetch it at runtime with the SDK's secret API. In TypeScript:\n```typescript\nconst secret = runtime.getSecret({ id: \"my-api-key\" }).result()\n// use secret.value in your logic\n```\nIf you need to use API keys, authentication tokens, or any other secrets in your HTTP requests, you must use the runInNodeMode pattern. This is because you need node-level operations when accessing secrets, making multiple HTTP requests with logic between them, or doing conditional/complex error handling.\n\n## An important nuance about \"leaking onto the nodes\"\n\nHere's the subtlety you should understand: with the standard Vault DON approach above, the secret is stored encrypted, but when your workflow calls `getSecret()` and puts the token into a request header, that plaintext value exists in node memory during execution. By default, your workflow's code — and any secrets or sensitive inputs it processes — runs on Workflow DON nodes, where node operators can, in principle, inspect what it's computing.\n\nFor **most** use cases this standard pattern is the right and expected approach. But if your threat model specifically requires that node operators cannot see the plaintext token even during execution, CRE offers two related features:\n\n- **Confidential Workflows / Confidential HTTP** — runs the sensitive path inside a TEE (enclave). The CRE SDK provides a Confidential HTTP client that lets workflows interact with external APIs while keeping sensitive data private: requests execute inside a secure enclave, secrets are injected via templates, and responses can optionally be encrypted. Note the critical caveat: Confidential HTTP does not automatically protect credentials you load with runtime.getSecret() and then paste into headers or body as plaintext — for Vault DON-style isolation you must use the vaultDonSecrets / VaultDonSecrets and {{.key}} templates only. In other words, you reference the secret via a template placeholder so it's only substituted inside the enclave.\n\n- Under the hood, the confidential-http application lets CRE workflow authors make external API requests containing secrets encrypted in the Vault DON, and the secrets are never revealed to external parties — only the secret owner and the enclave see plaintext.\n\nOne caveat worth knowing: Confidential Workflows is currently in private beta and requires enrollment through your Chainlink account team.\n\n## Bonus best practice: don't keep the token in a plaintext .env either\nFor managing the values themselves on your own machine, Chainlink recommends injecting them at runtime rather than storing them in plaintext files. Using 1Password's CLI, for example: it securely authenticates with 1Password to fetch the real secret values, injects them as environment variables into a temporary sub-shell, and executes your cre command within it — when the command finishes, the sub-shell is destroyed and the secrets vanish from the environment. The pattern looks like `op run --env-file .env -- cre secrets create production-secrets.yaml --target production-settings`.\n\n## Recommended path for you as a newcomer\n1. Declare the token's logical name in `secrets.yaml`.\n2. During local dev, provide the value via `.env` (already git-ignored) and test with `cre workflow simulate`.\n3. Access it in code with `runtime.getSecret({ id: \"...\" })` inside the `runInNodeMode` / node-mode pattern when making the HTTP call.\n4. For production, push the value to the **Vault DON** with `cre secrets create`.\n5. If your requirements demand that node operators never see the plaintext token even at execution time, look into **Confidential HTTP / Confidential Workflows** and use the `vaultDonSecrets` template pattern (and reach out to your Chainlink account team for beta access).\n\nHelpful docs to bookmark: \"Using Secrets in Simulation,\" \"Using Secrets with Deployed Workflows,\" \"Secrets Management Commands,\" and \"Confidential API Interactions.\" Would you like a minimal end-to-end code example (secrets.yaml + a workflow making an authenticated GET/POST), and are you working in TypeScript or Go?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31097,
+              "output_tokens": 2865,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2602,
+              "output_tokens": 2834,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2938,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

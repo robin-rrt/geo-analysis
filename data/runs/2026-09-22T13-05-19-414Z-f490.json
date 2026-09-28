@@ -1,0 +1,718 @@
+{
+  "runId": "2026-09-22T13-05-19-414Z-f490",
+  "startedAt": "2026-09-22T13:05:19.414Z",
+  "endedAt": "2026-09-22T13:05:33.278Z",
+  "owner": {
+    "pid": 25067,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "product",
+    "name": "data-streams",
+    "productScope": "curated"
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "partial",
+  "counts": {
+    "expected": 20,
+    "pages": 0,
+    "failed": 20
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-22T13-05-19-414Z-f490",
+    "target": {
+      "type": "product",
+      "name": "data-streams",
+      "productScope": "curated"
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "partial",
+    "startedAt": "2026-09-22T13:05:19.414Z",
+    "endedAt": "2026-09-22T13:05:33.278Z",
+    "elapsedMs": 13864,
+    "counts": {
+      "pages": 0,
+      "failed": 20,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/data-streams.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVL6AguWKu11FLThrE\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVLXxQ5Fn99MQdYAGW\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVLmqkzQKRTGVcQ5tg\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/crypto-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVVaRdtQ3JZ8zjiD3T\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVW99wzsAWmApDbqZF\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/deprecating-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVbbZvxnBmvk5CU2Vi\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjfzrMpVy95AohPeq\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjbXthudaGjCZYHky\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/market-hours",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjsedwDVS2rxni1c9\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVtKQEoS3zUJomKFic\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVtHfZhAyDvMZbYKhL\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVuoSwbTJffXhUPNyS\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/smartdata-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW2vaJuD5zRQNeuxKH\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW2HdU5zz3NykyFzHi\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW9opBz5jctHkXyznB\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWBwJva5NHVJkFZ1VA\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWCrd67A8Hyb8VUnmJ\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWFCm6fghXeCtf1AAY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWG8Kh4V42jFL9289o\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWGbbf9veFMbx9k9Zm\"}"
+      }
+    ]
+  },
+  "ledger": {
+    "target": {
+      "type": "product",
+      "name": "data-streams",
+      "productScope": "curated"
+    },
+    "counts": {
+      "discovered": 80,
+      "inScope": 20,
+      "failed": 20
+    },
+    "notes": [
+      "curated index lists 20 of 67 pages under /data-streams/ — 47 are reachable only by luck"
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/data-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/canton-integration",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/best-practices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/calculated-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/crypto-top-of-book-and-mark-price",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/dex-state-price-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/concepts/liquidity-weighted-prices",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/crypto-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/deprecating-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/get-support",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/how-report-timestamps-work",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/index",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/market-hours",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rate-limits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/candlestick-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/go-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/javascript-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/rust-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/authentication/typescript-examples",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/discovery-endpoint",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/interface-api",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/interface-ws",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/onchain-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/rust-sdk",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api/ts-sdk",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v10",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v11",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v2",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v3",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v3-dex",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v4",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v7",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v8",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-v9",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/24-5-us-equities-user-guide",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/apac-equities",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams/handling-market-events-v11",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/selecting-data-streams",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/sign-up",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/smartdata-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/streams-trade",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/streams-trade/interfaces",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+        "source": "both",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams/handling-stock-splits",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/evm-onchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/solana-offchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/stellar-onchain-report-verification",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/getting-started",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/getting-started-hardhat",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/streams-trade/streams-trade-lookup-error-handler",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+        "source": "llms.txt",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream",
+        "source": "sitemap",
+        "included": false,
+        "reason": "not-in-curated-index"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+        "source": "llms.txt",
+        "included": true
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/data-streams.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVL6AguWKu11FLThrE\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/architecture.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVLXxQ5Fn99MQdYAGW\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/billing.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVLmqkzQKRTGVcQ5tg\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/crypto-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVVaRdtQ3JZ8zjiD3T\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/data-sources.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVW99wzsAWmApDbqZF\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/deprecating-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVbbZvxnBmvk5CU2Vi\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/developer-responsibilities.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjfzrMpVy95AohPeq\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjbXthudaGjCZYHky\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/market-hours",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVjsedwDVS2rxni1c9\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/data-streams-api.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVtKQEoS3zUJomKFic\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/reference/report-schema-overview.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVtHfZhAyDvMZbYKhL\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/rwa-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXVuoSwbTJffXhUPNyS\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/smartdata-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW2vaJuD5zRQNeuxKH\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/supported-networks.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW2HdU5zz3NykyFzHi\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXW9opBz5jctHkXyznB\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWBwJva5NHVJkFZ1VA\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-fetch.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWCrd67A8Hyb8VUnmJ\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/rust-sdk-stream.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWFCm6fghXeCtf1AAY\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-fetch.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWG8Kh4V42jFL9289o\"}"
+      },
+      {
+        "url": "https://docs.chain.link/data-streams/tutorials/ts-sdk-stream.md",
+        "error": "400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfJXWGbbf9veFMbx9k9Zm\"}"
+      }
+    ]
+  }
+}

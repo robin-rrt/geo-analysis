@@ -1,0 +1,219 @@
+{
+  "runId": "2026-09-28T15-33-12-191Z-b8c6",
+  "startedAt": "2026-09-28T15:33:12.192Z",
+  "endedAt": "2026-09-28T15:56:52.811Z",
+  "owner": {
+    "pid": 60318,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "watchlist",
+    "name": "cre-context-pilot",
+    "productScope": null
+  },
+  "stages": [
+    "probes",
+    "test"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 5,
+    "pages": 5,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 12.2721,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-28T15-33-12-191Z-b8c6",
+    "target": {
+      "type": "watchlist",
+      "name": "cre-context-pilot",
+      "productScope": null
+    },
+    "stages": [
+      "probes",
+      "test"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-28T15:33:12.192Z",
+    "endedAt": "2026-09-28T15:56:52.811Z",
+    "elapsedMs": 1420619,
+    "counts": {
+      "pages": 5,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 12.2721,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "cre-support-feedback-md",
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 26144,
+          "test": 333926
+        },
+        "elapsedMs": 361055,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 41.5,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-capabilities-confidential-http-ts-md",
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 37483,
+          "test": 660215
+        },
+        "elapsedMs": 698550,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 47.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-operations-monitoring-workflows-md",
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 32040,
+          "test": 1384622
+        },
+        "elapsedMs": 1420586,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 51.4,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-guides-workflow-using-http-client-md",
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 26477,
+          "test": 843650
+        },
+        "elapsedMs": 870799,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 54.8,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-ts-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 32767,
+          "test": 605429
+        },
+        "elapsedMs": 639380,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 40,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "watchlist",
+      "name": "cre-context-pilot",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 5,
+      "inScope": 5,
+      "failed": 0
+    },
+    "notes": [
+      "The five CRE pages with the highest subject-miss rates, used to measure whether context-anchored probes actually fix attribution before regenerating all 43. Baseline (2026-09-21 probes, no context_mode): miss rates 83/67/67/67/67%, avg fidelity 32.7/30.5/26.7/28.0/28.0. confidential-http-ts is the page that produced the original report."
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/capabilities/confidential-http-ts.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/operations/monitoring-workflows.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/guides/workflow/using-http-client.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "source": "watchlist",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

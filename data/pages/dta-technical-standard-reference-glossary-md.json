@@ -1,0 +1,157 @@
+{
+  "key": "dta-technical-standard-reference-glossary-md",
+  "runId": "2026-09-22T13-07-40-558Z-8ba1",
+  "audit": {
+    "title": "Glossary (DTA Technical Standard)",
+    "url": "https://docs.chain.link/dta-technical-standard/reference/glossary.md",
+    "analyzedAt": "2026-09-22T13:09:25.603Z",
+    "contentType": "developer documentation / reference glossary",
+    "score": 59,
+    "band": "Developing",
+    "weightedTotal": 59,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; each term opens with its definition (\"A security mechanism used throughout the DTA technical standard to grant explicit permission…\"). No back-references. Ideal glossary chunking."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 21 headings, 1 H1, no level skips, median 31 words per section — each entry is a clean retrievable unit. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak; only 2 numerals in 788 words, vague quantifiers \"many, some\". Even NAV TTL, which is inherently numeric, could name concrete example windows. Glossaries can still cite parameter units and limits."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak; only 2 internal links, 0 external/primary. Terms like \"CCIP\" and \"Chain Selector\" should link to their canonical spec/reference pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; this is the page's purpose and it delivers verbatim-liftable definitions (e.g. NAV: \"The price per share of a fund.\")."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Very weak; no JSON-LD (`DefinedTermSet`/`DefinedTerm` would be ideal here), no canonical, no visible dates. Head metadata could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable to a glossary; scored neutral, no deduction intended."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good for definitional \"what is X\" intent; lacks symptom/error-phrased entries, but that is out of scope for a glossary."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong prose, but **Fund Administrator** and **Transfer Agent** carry *word-for-word identical* definitions, which harms entity resolution — an engine cannot distinguish the two roles."
+      }
+    ],
+    "summary": "This is a clean, well-structured glossary: 21 term entries, each a self-contained H2 section with a crisp one-to-two-sentence definition — an inherently extractable format that maps directly to \"what is X\" queries. Its biggest GEO weakness is the complete absence of machine-readable metadata (no JSON-LD, no canonical URL, no dateModified) combined with near-zero linking to primary sources and thin quantitative specifics. The honest verdict: strong bones for a glossary, but it under-earns on discoverability signals and cross-references that would let engines cite it confidently over sibling pages.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add `DefinedTermSet` / `DefinedTerm` JSON-LD",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / body schema",
+        "issue": "\"JSON-LD: 0 block(s)\" · \"canonical: MISSING\" · \"dateModified absent\"",
+        "change": "Emit a `DefinedTermSet` with each H2 as a `DefinedTerm` (name + description), plus a canonical URL and `dateModified`. This is the schema type engines expect for glossaries.",
+        "why": "Structured term schema plus freshness/canonical signals raise parse-ability and citation trust (E-E-A-T)."
+      },
+      {
+        "priority": 1,
+        "title": "Disambiguate Fund Administrator vs Transfer Agent",
+        "mapsTo": "clarity & terminology consistency",
+        "tier": null,
+        "where": "the two entries, currently identical text",
+        "issue": "both read \"responsible for managing the day-to-day operations of a fund…\"",
+        "change": "Rewrite one to state the distinguishing responsibility and lead with the difference (e.g. Transfer Agent's role in the shareholder register / legal record vs Administrator's operational tasks).",
+        "why": "Identical definitions cause entity collisions; engines may conflate or cite the wrong role."
+      },
+      {
+        "priority": 2,
+        "title": "Link key terms to their canonical reference pages",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Chain Selector, CCIP, Onchain Settlement (Cross-Chain), Primary Chain",
+        "issue": "\"0 external, 0 to primary sources\"; only CCIP links out.",
+        "change": "Add inline links from Chain Selector and cross-chain terms to the CCIP reference / chain-selector docs; link NAV TTL to its parameter reference.",
+        "why": "Attributable, cross-referenced definitions raise citation rate and let engines assemble justified multi-hop answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics where the concept is quantitative",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "NAV TTL, Request Lifecycle",
+        "issue": "\"prose: 2 numerals … 0 with units\"; qualifiers \"many, some\".",
+        "change": "For NAV TTL give a concrete example (\"e.g. `3600` = 1-hour window\"); the Request Lifecycle already lists states verbatim — keep that pattern and note any timeout semantics.",
+        "why": "Quantitative specifics with units are among the highest-lift changes for extraction."
+      },
+      {
+        "priority": 3,
+        "title": "Surface a visible last-updated line",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "top of page under the intro",
+        "issue": "no visible freshness signal.",
+        "change": "Add a rendered \"Last updated: YYYY-MM-DD\" plus the `dateModified` in schema.",
+        "why": "Visible freshness is an independent trust signal for engines skimming the page."
+      }
+    ],
+    "antiPatterns": [
+      "**Duplicate definitions** — Fund Administrator and Transfer Agent are textually identical (entity-resolution hazard).",
+      "**Vague quantifiers** — \"many, some\" flagged; minor for a glossary but avoidable.",
+      "No keyword stuffing, no marketing fluff, no unresolved cross-references, no undated wall-of-text issues."
+    ],
+    "offPageNotes": [
+      "Page already references `/llms.txt` — good; ensure this glossary URL is actually enumerated there.",
+      "Canonical URL, sitemap inclusion, and site-level `TechArticle`/`DefinedTermSet` templating are site-level; fix once in the docs framework to benefit all reference pages.",
+      "Head metadata could not be verified from the provided content — pass raw `<head>` in the CLI for a complete metadata read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-07-40-558Z-8ba1",
+    "probes": {}
+  }
+}

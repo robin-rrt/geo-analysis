@@ -1,0 +1,639 @@
+{
+  "key": "cre-getting-started-overview-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Getting Started: Overview",
+    "url": "https://docs.chain.link/cre/getting-started/overview.md",
+    "analyzedAt": "2026-09-21T13:20:59.150Z",
+    "contentType": "developer documentation / tutorial hub (overview + navigation)",
+    "score": 52,
+    "band": "Developing",
+    "weightedTotal": 52.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Opens with a usable orientation — \"This multi-part tutorial guides you through building a complete workflow from a blank slate.\" Weak point: no self-contained definition of CRE or of the capabilities being used; it defers everything to `/cre/`, so a lifted chunk can't stand alone."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Numbered build steps and bulleted tutorial parts chunk well. Weak point: measured **1 level skip** (H1 jumps to H3, no H2) — this fragments the heading tree that RAG chunkers rely on."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Names Go, TypeScript, Sepolia, and four capabilities. Weak point: **0 numerals carry units, 0 version strings** — no SDK version, no note that Sepolia is a testnet, no schedule detail for the Cron Trigger."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "8 internal links, well-placed to each tutorial part. Weak point: **0 external/primary-source links** — no link to the CRE SDK reference, HTTP/EVM capability specs, or a canonical concept definition."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "Weak. Terms like \"trigger-and-callback model,\" \"HTTP Capability,\" \"EVM Read/Write Capability\" appear without a one-line definition an engine can lift."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured **0 JSON-LD blocks, canonical MISSING, no dateModified in head, 0 og/twitter tags**. A visible \"Last Updated: 2025-11-04\" exists in body text but is not in machine-readable metadata."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "No code blocks. Acceptable for a hub page, but a single copy-pasteable \"start here\" command (e.g. the `cre` init) would add agent utility."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"what you'll build\" and \"where to go next\" well. Weak point: no heading phrased as the actual query (\"How do I get started with Chainlink CRE?\"), and no setup-prerequisite line."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Consistent use of \"CRE SDK,\" capability names, and product terms."
+      }
+    ],
+    "summary": "This is a short (445-word) tutorial hub for the Chainlink CRE \"Getting Started\" track — it frames the four-part \"Onchain Calculator\" walkthrough and links out to each part. Its biggest strength is clean, consistent prose and a logical link structure that an agent can follow. Its biggest weakness is that it works purely as a signpost: it never states, in a liftable sentence, what CRE is or what the tutorial produces in concrete terms, and it ships with no JSON-LD, no canonical URL, and a heading level skip — so it's neither self-contained for a synthesis engine nor cleanly machine-parseable. As a hub page it is acceptable, but it leaks retrieval value it could easily capture.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a self-contained CRE + tutorial definition in the opening",
+        "mapsTo": "Answer-first extractability / quotable canonical definitions",
+        "tier": null,
+        "where": "First paragraph, before \"This multi-part tutorial guides you…\"",
+        "issue": "\"This multi-part tutorial guides you through building a complete workflow from a blank slate.\"",
+        "change": "Precede it with one liftable sentence, e.g. \"The Chainlink Runtime Environment (CRE) is a platform for building workflows that combine offchain data and onchain contract calls using a trigger-and-callback model. This multi-part tutorial builds a complete CRE workflow from a blank slate.\"",
+        "why": "Gives engines a standalone answer to \"what is CRE / how do I start\" instead of forcing a dependency hop to `/cre/`."
+      },
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` and canonical URL",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` (site template).",
+        "issue": "Measured \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent.\"",
+        "change": "Emit a `TechArticle` block with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, and a `canonical` link pointing to the non-`.md` URL. Surface the existing \"Last Updated\" date as machine-readable `dateModified`.",
+        "why": "Structured metadata and a canonical URL raise parse-trust (E-E-A-T) and prevent `.md`/HTML duplicate ambiguity."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading level skip",
+        "mapsTo": "Structural scannability & chunkability",
+        "tier": null,
+        "where": "\"What you'll build\" and subsequent `###`/`####` headings.",
+        "issue": "Measured \"1 level skip\"; H1 goes straight to H3, and \"Tutorial structure\" is an H4 under an H3.",
+        "change": "Promote section headings to H2 and their subsections to H3 so the tree is H1 → H2 → H3 with no gaps.",
+        "why": "Clean hierarchy gives RAG chunkers correct section boundaries and improves each section's standalone retrievability."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics to the build description",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "\"What you'll build\" numbered list.",
+        "issue": "\"Run on a schedule using the Cron Trigger\" / \"write the final result back to the blockchain.\"",
+        "change": "State the network explicitly (\"write to a smart contract on the **Sepolia testnet**\"), note supported languages with any minimum SDK/CLI version, and give the cron cadence used in the example if fixed.",
+        "why": "Quantitative/version/network specifics are among the highest-lift signals for generative retrieval; vague \"on a schedule\" underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a symptom/query-phrased heading",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "Page top or \"Where to go next?\"",
+        "issue": "Headings are concept-titled (\"Where to go next?\"), not query-shaped.",
+        "change": "Add an H2 such as \"How do I get started with Chainlink CRE?\" and a one-line prerequisites note (CLI installed, Go or TypeScript toolchain).",
+        "why": "Devs and agents query by task phrasing; question-shaped headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative outbound link",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "Where CRE SDK / capabilities are first named.",
+        "issue": "Measured \"0 external, 0 to primary sources.\"",
+        "change": "Link \"CRE SDK\" and each capability name to their reference/spec pages (SDK reference, HTTP/EVM capability docs).",
+        "why": "Inline links to canonical references raise credibility and citation rate, and let agents resolve capability APIs without guessing."
+      }
+    ],
+    "antiPatterns": [
+      "Heading level skip (H1 → H3, plus an H4 nested under an H3) — fragments the chunking tree.",
+      "Definition-by-deferral: core terms (\"trigger-and-callback model,\" capability names) are named but defined only by a link to another page, leaving no liftable definition on this page.",
+      "No anti-patterns of the harmful kind (no keyword stuffing, no marketing fluff, no stale/undated content — a last-updated date is present in body text)."
+    ],
+    "offPageNotes": [
+      "Metadata (`<head>`, JSON-LD, canonical, og tags) \"could not be verified\" from the served HTML — the CLI should pass raw `<head>` for a definitive read; the fixes above assume the measured absences hold.",
+      "`llms.txt` is already referenced from the page — good site-level signal; ensure it lists this overview as the canonical entry point for the CRE getting-started track.",
+      "Freshness cadence and third-party/earned citations are site-level; not scored here."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/getting-started/overview.md",
+      "source_title": "Getting Started: Overview",
+      "probe_set_id": "271dc41d258b",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:35:29.005Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 66.5,
+      "avg_fidelity_all": 66.5,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 6.7,
+        "hallucination_free": 5.5,
+        "relevance": 6.3,
+        "structure": 8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 265506,
+          "output_tokens": 11286,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 21,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6979,
+          "output_tokens": 8254,
+          "cache_creation_input_tokens": 1038,
+          "cache_read_input_tokens": 19524,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/getting-started/overview"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 9,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "uses its randomInt(min, max) function to return a random integer between 1 and 100",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow simulate my-calculator-workflow --target staging-settings --broadcast",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "expand the latestResult function and click Query",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "your private key must be the 64-character hexadecimal string, without the 0x prefix",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Chainlink Runtime Environment expansion and DON deployment description",
+            "need for a CRE account and login via CLI plus a funded Sepolia testnet account",
+            "project directory structure with main.ts, config.staging.json, workflow.yaml, .env, project.yaml, secrets.yaml",
+            "use of arrow keys to select Hello World example",
+            "chain selector referenced as string 'ethereum-testnet-sepolia'",
+            "CalculatorConsumer contract name",
+            "API call to mathjs.org"
+          ],
+          "verdict": "The high-level tutorial description (Onchain Calculator, Cron Trigger, HTTP/EVM Read/Write capabilities, and step order) accurately reflects the source, but the answer adds many specific implementation details—function names, CLI flags, file names, contract names—that are not present in the provided source and are unverifiable, some of which risk being inaccurate if shipped as-is.",
+          "fidelity": 75,
+          "prompt": "How do I build my first workflow with the Chainlink CRE getting-started tutorial? What does the Onchain Calculator do?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about the Chainlink CRE getting-started tutorial and the Onchain Calculator.The search returned good content. Let me get more details on the tutorial parts.I now have comprehensive information. Let me build the citation indices from the search results I retrieved.\n\n# Building Your First Workflow with Chainlink CRE\n\nThe Chainlink CRE (Chainlink Runtime Environment) getting-started tutorial walks you through building your first workflow step by step. Using the CRE SDK (available in Go and TypeScript), you build Workflows. Using the CRE CLI, you compile them into binaries and deploy them to production, where CRE runs them across a Decentralized Oracle Network (DON).\n\n## What the Onchain Calculator Does\n\nThe tutorial has you build a project called the **Onchain Calculator**. You will build a simple but powerful \"Onchain Calculator\" workflow. By the end of the tutorial, your workflow will perform four core actions:\n\nRun on a schedule using the Cron Trigger. Fetch a random number from a public API using the HTTP Capability. Read a value from a smart contract using the EVM Read Capability. Combine the two values and write the final result back to the blockchain using the EVM Write Capability.\n\nIn short, it fetches an offchain random number, reads an onchain value, combines them mathematically, and writes the result back onchain. This tutorial is designed to teach you the core features of the CRE SDK in a logical progression. You can use any of the supported languages, Go or TypeScript using the language selector.\n\n## The Build Process, Step by Step\n\n**Prerequisites — Install the CLI:** Download and install the cre command-line tool. You'll also need a CRE account and to be logged in via the CLI, plus a funded Sepolia testnet account.\n\n**Part 1 – Project Setup & Simulation:** Initialize a new, blank CRE project and run your first \"Hello World!\" simulation. You start from a template — use the arrow keys to select the Hello World example and press Enter, starting from scratch to learn all the configuration steps. The CLI will then create a new onchain-calculator directory and initialize your first workflow within it. The init command creates a directory with a standard structure and generates your first workflow code.\n\nThe project structure it generates includes a workflow subfolder (e.g., `my-calculator-workflow/`) with files like `main.ts` (or `main.go`), `config.staging.json`, `workflow.yaml`, plus top-level `.env`, `project.yaml`, and `secrets.yaml` files. You'll configure your environment by setting a private key: the simulator requires a private key to initialize its environment, even for workflows that don't interact with the blockchain yet. This key will be used in later parts to read from and send transactions to the Sepolia testnet — open the .env file located in your onchain-calculator/ directory. Note that your private key must be the 64-character hexadecimal string, without the 0x prefix.\n\nYou then run your first simulation. The cre workflow simulate command compiles your workflow and executes it locally. A typical simulation output looks like this: the workflow runs locally, making real calls to configured RPCs and HTTP endpoints, and the simulator displays logs from your workflow and the final execution result.\n\n**Part 2 – Fetching Offchain Data:** In this section, you modify your workflow to fetch data from a public API using the CRE SDK's http.Client. You add an API endpoint to your config file so you can change the URL without editing code. This URL calls the public mathjs.org API and uses its randomInt(min, max) function to return a random integer between 1 and 100. This is the \"random number\" side of the calculation.\n\n**Part 3 – Reading an Onchain Value:** Here you configure your workflow to read from a smart contract using the EVM Read Capability. This involves specifying a chain selector and an RPC URL. A chain selector is a unique identifier used by Chainlink to specify a blockchain, referenced as a string name in config files (e.g., \"ethereum-testnet-sepolia\") or as a numeric ID used internally by the SDK. For your workflow to interact with the blockchain, it needs an RPC endpoint.\n\n**Part 4 – Writing Onchain:** This completes the loop by writing the combined result back to a smart contract using the EVM Write Capability. You run the simulation with the `--broadcast` flag to actually send the transaction: run the simulation from your project root (the onchain-calculator/ folder) — because there is only one trigger, the simulator runs it automatically — using cre workflow simulate my-calculator-workflow --target staging-settings --broadcast. The workflow then writes to a consumer contract, and your workflow will show the complete end-to-end execution, including the final log of the result object containing the transaction hash.\n\nYou can verify the result onchain: navigate to the CalculatorConsumer contract, expand the latestResult function and click Query — the values should match the finalResult, offchainValue, and onchainValue from your workflow logs.\n\n## The Big Picture\n\nBy completing the tutorial, you complete the end-to-end loop: triggering a workflow, fetching data, reading onchain state, and verifiably writing the result back to a public blockchain. This demonstrates CRE's core value: seamlessly combining onchain and offchain operations in a single workflow — reading from blockchains, calling APIs, performing computations, and writing results back onchain.\n\nYou can find the full tutorial starting at the [Getting Started: Overview](https://docs.chain.link/cre/getting-started/overview) page in the Chainlink documentation, with a language selector so you can follow along in either Go or TypeScript.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 48352,
+              "output_tokens": 3285,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2414,
+              "output_tokens": 3480,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3427,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite covering its content correctly."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "select Golang and press Enter in the CLI setup, or choose TypeScript instead",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "select Golang and press Enter in the CLI setup, or choose TypeScript instead"
+          ],
+          "verdict": "The core answer (Go or TypeScript via language selector) is accurate, but it invents unverified CLI interaction details and fails to cite the source, so it's mostly safe but not fully faithful.",
+          "fidelity": 73,
+          "prompt": "What languages can I use for the Chainlink CRE Onchain Calculator tutorial?",
+          "archetype": "constrained",
+          "answer": "For the Chainlink CRE Onchain Calculator tutorial, you can use either of two languages. You can use any of the supported languages, Go or TypeScript, using the language selector.\n\nThe tutorial is built with the CRE SDK, and using the CRE SDK (available in Go and TypeScript), you build Workflows. You simply select your preferred language when initializing the project—for example, select Golang and press Enter in the CLI setup, or choose TypeScript instead.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 24358,
+              "output_tokens": 482,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 446,
+              "output_tokens": 765,
+              "cache_creation_input_tokens": 1038,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/getting-started/overview"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 6,
+            "relevance": 9,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Creating your account — Create your CRE account and set up two-factor authentication",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Logging in with the CLI — Authenticate the CLI with your account",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Creating your account and two-factor authentication step",
+            "Logging in with the CLI as a prerequisite step"
+          ],
+          "verdict": "The core Part 1–4 ordering and descriptions exactly match the source, but the added 'prerequisites' section (account creation, 2FA, CLI login) is fabricated and not found in the source page, so it should not be shipped as-is without verification.",
+          "fidelity": 78,
+          "prompt": "chainlink CRE getting started tutorial parts order",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about the Chainlink CRE getting started tutorial and its parts order.Let me retry the search.Based on the official Chainlink documentation, here's the order of the Chainlink CRE (Chainlink Runtime Environment) getting started tutorial:\n\n## Prerequisites (before the numbered parts)\n\nBefore starting Part 1, you complete some setup steps:\n- **Creating your account** — Create your CRE account and set up two-factor authentication\n- **Installing the CLI** — Download and install the cre command-line tool\n- **Logging in with the CLI** — Authenticate the CLI with your account\n\n## The Tutorial Parts (in order)\n\nPart 1: Project Setup & Simulation: Initialize a new, blank CRE project and run your first \"Hello World!\" simulation. Part 2: Fetching Offchain Data: Modify your workflow to fetch data from an external API using the http.Client.\n\nPart 3: Reading an Onchain Value: Generate contract bindings and use the evm.Client to read a value from the blockchain. Part 4: Writing Onchain: Complete the calculator by writing your computed result back...\n\nSo the summary order is:\n\n1. **Part 1** – Project Setup & Simulation (init a project, run \"Hello World!\" simulation)\n2. **Part 2** – Fetching Offchain Data (fetch from an external API via `http.Client`)\n3. **Part 3** – Reading an Onchain Value (generate contract bindings, read from blockchain via `evm.Client`)\n4. **Part 4** – Writing Onchain (write your computed result back on-chain)\n\n## About the design\n\nThis tutorial is designed to teach you the core features of the CRE SDK in a logical progression. You can use any of the supported languages, Go or TypeScript using the language selector. By the end, you'll have a solid understanding of the end-to-end development process for building and simulating workflows that interact with both offchain and onchain data sources.\n\nYou can find the full series starting at the [Getting Started: Overview](https://docs.chain.link/cre/getting-started/overview) page.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 32344,
+              "output_tokens": 1346,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1102,
+              "output_tokens": 827,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3427,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit search rate limits and could not fully verify against the live docs, and never cited the expected source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "You'll need a CRE account and to be authenticated via the CLI",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "configure a private key (e.g. CRE_ETH_PRIVATE_KEY) in a .env file",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "opening the official \"Getting Started\" and \"Simulating Workflows\" pages",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "a workflow is a piece of code that runs on a decentralized network (a DON)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "It is recommended to read the About CRE page first to understand fundamental concepts like the trigger-and-callback model",
+            "You will build an Onchain Calculator workflow",
+            "Next step is installing the CLI (the cre command-line tool)"
+          ],
+          "unverifiable_from_source": [
+            "workflow runs on a decentralized network (a DON)",
+            "CRE account and authentication via CLI",
+            "CRE_ETH_PRIVATE_KEY environment variable"
+          ],
+          "verdict": "Not safe to ship: the answer admits its search failed, never cites the source, invents prerequisites (CRE account, private-key env var, a 'Simulating Workflows' page) not in the docs, and omits the key must-include points (About CRE page, trigger-and-callback model, Onchain Calculator, CLI installation as next step).",
+          "fidelity": 33,
+          "prompt": "I'm brand new to Chainlink CRE and want to learn workflow development step by step. Where should I start before diving into the getting-started tutorial, and what will I end up building?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for information about Chainlink CRE workflow development to give you accurate guidance.I ran into search rate limits and could only partially verify against the live Chainlink docs, so let me give you a practical learning path based on what I could confirm plus the general structure of Chainlink CRE. I'd strongly recommend cross-checking against the official docs at **docs.chain.link/cre**, since CRE is evolving quickly.\n\n## What Chainlink CRE is (the mental model to build first)\n\nCRE stands for the **Chainlink Runtime Environment**. Before touching any tutorial, get comfortable with the core idea: a **workflow** is a piece of code that runs on a decentralized network (a DON), reacts to a **trigger** (a schedule/cron, an HTTP request, an onchain event, etc.), uses **capabilities** (like fetching data from an API, or reading/writing onchain), and can then produce a result — often writing something back onchain.\n\nSo the conceptual reading order before the tutorial is roughly:\n1. **What is CRE / the workflow model** — triggers, capabilities, and the compute-then-write pattern.\n2. **Architecture basics** — that your workflow runs across a DON, not on a single server.\n3. **SDK choice** — CRE workflows are typically written in Go (and TypeScript is part of the ecosystem); pick the language track the docs point you to.\n\n## Prerequisites to set up before the getting-started tutorial\n\nBased on the docs, the key setup items are environment/account related. You'll need a **CRE account and to be authenticated via the CLI**, and if your workflow writes onchain you configure a private key (e.g. `CRE_ETH_PRIVATE_KEY`) in a `.env` file. Concretely, plan to:\n\n- **Install the CRE CLI** — your main tool for creating, simulating, and deploying workflows.\n- **Create a CRE account and log in** with the CLI.\n- **Set up your language toolchain** (Go, typically) and a project directory.\n- **Configure a `.env`** with a funded test private key *if* you'll be doing onchain writes.\n- Have basic wallet/testnet familiarity (a testnet like Sepolia and some test funds).\n\nA nice intermediate step before full deployment is **local simulation** — CRE lets you run a workflow locally to see the final execution result without deploying to a live network, which is great for learning and debugging.\n\n## What you'll end up building\n\nThe getting-started flow generally walks you from a minimal workflow up to a working end-to-end one. Expect to build something like a **workflow triggered on a schedule (or by an event) that fetches external data via an HTTP/API capability, processes it in your workflow code, and writes the result to a smart contract onchain** — the CRE equivalent of a \"hello world\" that demonstrates the full trigger → compute → onchain-write loop. You'll typically first *simulate* it locally, then *deploy* it to the DON and observe it running.\n\n## Suggested step-by-step order\n\n1. Read the **CRE overview / concepts** page.\n2. Install the **CLI** and create/authenticate your **account**.\n3. Set up your **project and `.env`**.\n4. Write a minimal workflow and **simulate it locally**.\n5. Follow the **getting-started tutorial** to build and deploy the full data-fetch-and-write workflow.\n6. Iterate: add triggers, more capabilities, and onchain interactions.\n\n---\n\nBecause I couldn't fully complete my searches, I'd suggest opening the official **\"Getting Started\"** and **\"Simulating Workflows\"** pages under docs.chain.link/cre to confirm the exact CLI commands and the specific example the current tutorial has you build. Would you like me to try searching again in a moment to pull the exact tutorial steps and the specific contract/example it uses?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 101715,
+              "output_tokens": 4431,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1736,
+              "output_tokens": 1239,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3427,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "http.SendRequest helper to fetch data from the public api.mathjs.org API",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "api.mathjs.org API",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "http.SendRequest helper",
+            "api.mathjs.org API"
+          ],
+          "verdict": "The core answer correctly identifies HTTP Capability for fetching and EVM Write Capability for writing, but it fabricates specific implementation details (a nonexistent 'http.SendRequest' helper and an unmentioned 'api.mathjs.org' endpoint) not found in the source, and fails to cite the expected source page, making it risky to ship as-is.",
+          "fidelity": 60,
+          "prompt": "In Chainlink CRE, which capability does the getting-started tutorial use to fetch data from an external API, and which is used to write a result to the blockchain?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink CRE getting-started tutorial (the \"Onchain Calculator\"), here's the answer:\n\nThe tutorial uses two distinct capabilities for these tasks:\n\n**Fetching data from an external API — the HTTP Capability.** The tutorial fetches a random number from a public API using the HTTP Capability. Specifically, in Part 2 you use the http.SendRequest helper to fetch data from the public api.mathjs.org API and integrate the offchain data into your main workflow logic. Under the hood, the HTTP capability is a decentralized service that allows your workflow to securely interact with any external, offchain API, and can be used to both fetch data from and send data to other systems.\n\n**Writing a result to the blockchain — the EVM Write Capability.** The tutorial reads a value from a smart contract using the EVM Read Capability, then combines the two values and writes the final result back to the blockchain using the EVM Write Capability. In Part 4, you modify your workflow to write data to the blockchain using the EVM capability and execute your first onchain write transaction through CRE.\n\nSo the complete flow demonstrated is: triggering a workflow, fetching data, reading onchain state, and verifiably writing the result back to a public blockchain — with the **HTTP capability** handling the external API fetch and the **EVM Write capability** handling the onchain write.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 31573,
+              "output_tokens": 980,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 828,
+              "output_tokens": 1265,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3427,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL despite otherwise matching its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 8,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "a simple CalculatorConsumer contract on the Sepolia testnet"
+          ],
+          "verdict": "The answer correctly identifies Sepolia as the target network and quotes the source accurately, but it adds an unverified contract name detail and fails to cite the expected source page, slightly weakening its reliability.",
+          "fidelity": 80,
+          "prompt": "Which network does the Chainlink CRE getting-started tutorial write the calculator result to?",
+          "archetype": "constrained",
+          "answer": "The Chainlink CRE getting-started tutorial writes the calculator result to the **Ethereum Sepolia testnet**.\n\nIn Part 4 (\"Writing Onchain\"), for this guide, they have pre-deployed a simple CalculatorConsumer contract on the Sepolia testnet. As the overview explains, you complete the calculator by writing your computed result back to a smart contract on Sepolia.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 27164,
+              "output_tokens": 762,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 453,
+              "output_tokens": 678,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3427,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

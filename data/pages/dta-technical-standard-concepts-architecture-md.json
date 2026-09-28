@@ -1,0 +1,178 @@
+{
+  "key": "dta-technical-standard-concepts-architecture-md",
+  "runId": "2026-09-22T13-07-40-558Z-8ba1",
+  "audit": {
+    "title": "Architecture (DTA Technical Standard)",
+    "url": "https://docs.chain.link/dta-technical-standard/concepts/architecture.md",
+    "analyzedAt": "2026-09-22T13:07:40.886Z",
+    "contentType": "developer documentation / conceptual architecture reference",
+    "score": 49,
+    "band": "Developing",
+    "weightedTotal": 49.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong section leads — \"DTA Request Management serves as the central hub for discovery and requests\" is liftable. The page intro opens with a principle (\"separation of concerns\") rather than defining what the DTA architecture *is*; a one-sentence canonical definition would improve the top chunk."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Good — 6 headings, 0 level skips, sensible H2/H3/H4 nesting, bulleted responsibilities. Weak spot: no comparison table contrasting the two contracts, which is the single most extractable structure for this content."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — measured 0 numerals, 0 units. Mentions \"rate limits and time zones\" and role-based permissions with zero concrete values, network names, or version identifiers."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak — only 1 internal link (llms.txt). \"Chainlink CCIP\" and \"NAVLink feed\" are named but not linked to their canonical concept pages."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Moderate — component roles are crisply stated, but \"DTA,\" \"Transfer Agent,\" and \"NAVLink\" lack a self-contained one-line definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak — 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Head metadata could not be verified from the served content; CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable to a pure concept page; no code expected. Scored neutral, not penalized."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Moderate — answers \"what are the components\" well, but no \"how do I,\" no troubleshooting, no symptom-phrased headings. No coverage of when to choose local vs cross-chain beyond the mechanism."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good, consistent naming. Two blemishes: literal \"(Image: Image)\" placeholder and the odd parenthesized \"(DTA Request Management) and (DTA Request Settlement)\"."
+      }
+    ],
+    "summary": "This is a clean, well-structured conceptual page explaining the two-contract DTA architecture (Request Management vs Request Settlement) and their local/cross-chain interaction. Its biggest strength is clear separation-of-concerns prose with sensible section chunking; its biggest weakness is a near-total absence of extractable specifics, authoritative inline links, and machine-readable metadata — the page states rules exist (\"rate limits and time zones\") but never quantifies them, and carries no JSON-LD, canonical URL, or dates. Honest verdict: solid explanatory writing sitting below its retrieval potential because it gives engines almost nothing quantitative or linkable to cite.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical two-contract comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "under \"## Core components\", before the H4 subsections",
+        "issue": "contract roles are split across prose bullets; 0 tables measured",
+        "change": "add a table with columns *Contract | Owner/Deployer | Multi-tenant? | Core responsibilities | Token authority* for Request Management vs Request Settlement",
+        "why": "tables let engines extract the distinguishing *reasons* and answer \"what's the difference between DTA Request Management and Settlement\" in one lift."
+      },
+      {
+        "priority": 1,
+        "title": "Link canonical references inline",
+        "mapsTo": "cited, authoritative references",
+        "tier": null,
+        "where": "\"Interaction patterns\" and \"Initial Validation & Calculation\"",
+        "issue": "\"uses Chainlink CCIP\" and \"using the NAVLink feed\" are unlinked",
+        "change": "link \"Chainlink CCIP\" to its docs concept page and \"NAVLink feed\" to its definition page on first mention",
+        "why": "inline links to primary/canonical sources raise credibility and citation rate, and help entity resolution."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "section headings",
+        "issue": "headings are concept-titled (\"Interaction patterns\") not query-shaped",
+        "change": "add H3s like \"How does DTA settle across chains?\" and \"When is settlement local vs cross-chain?\" leading with a one-sentence answer",
+        "why": "devs/agents query by question; question-titled sections win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify the operational rules",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Initial Validation & Calculation\" bullet",
+        "issue": "\"operational rules (such as rate limits and time zones)\" — no values",
+        "change": "state actual limits/units (e.g., request cap per window, supported settlement windows, supported chains/CCIP lanes) or link to the page that defines them",
+        "why": "quantitative specifics are among the highest-lift changes for citation; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 2,
+        "title": "Add a lead-in canonical definition",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "page intro, first sentence",
+        "issue": "opens with a design principle, not a definition of the architecture",
+        "change": "prepend one liftable sentence: \"The DTA technical standard splits onchain transfer-agency into two contracts: a public, multi-tenant Request Management contract and a private, single-tenant Request Settlement contract.\"",
+        "why": "a crisp self-contained opener is the chunk engines lift for \"what is the DTA architecture.\""
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter (site-level template)",
+        "issue": "0 JSON-LD, canonical MISSING, no dates measured",
+        "change": "emit `TechArticle` schema with `headline`, `dateModified`, canonical URL, and `inLanguage`",
+        "why": "structured metadata and freshness signals improve agent trust and parseability (E-E-A-T)."
+      },
+      {
+        "priority": 3,
+        "title": "Fix presentation blemishes",
+        "mapsTo": "clarity & fluency",
+        "tier": null,
+        "where": "intro and \"Interaction patterns\"",
+        "issue": "literal \"(Image: Image)\" and \"(DTA Request Management) and (DTA Request Settlement)\"",
+        "change": "supply real alt text / caption for the diagram; remove the stray parentheses",
+        "why": "clean, unambiguous presentation is independently rewarded; a diagram with descriptive alt text adds extractable content."
+      }
+    ],
+    "antiPatterns": [
+      "Placeholder artifact: literal \"(Image: Image)\" with no alt text — the architecture diagram contributes zero extractable content.",
+      "Vague qualifiers standing in for data: \"rate limits and time zones\" with no values.",
+      "Named-but-unlinked entities (\"Chainlink CCIP\", \"NAVLink feed\") — weakens attribution and entity resolution.",
+      "No keyword stuffing, no marketing fluff, no unresolved \"see above\" references — clean on those."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and og/twitter tags are almost certainly injected by the site template; verify against a full `<head>` capture before treating as a page-level defect.",
+      "The page already references `/llms.txt` — good site-level discoverability signal; ensure this page is listed there.",
+      "Freshness cadence (visible dateModified) is a site-template concern that would lift this and every sibling concept page."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-07-40-558Z-8ba1",
+    "probes": {}
+  }
+}

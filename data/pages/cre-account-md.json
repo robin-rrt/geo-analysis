@@ -1,0 +1,706 @@
+{
+  "key": "cre-account-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Account",
+    "url": "https://docs.chain.link/cre/account.md",
+    "analyzedAt": "2026-09-21T13:17:18.725Z",
+    "contentType": "developer documentation / navigational hub page",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 59.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with \"Your CRE account is required to use the CRE CLI,\" a self-contained liftable claim. Each H2 leads with its point."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 5 headings, 1 H1, max depth H2, no level skips, all sections under 88 words — clean RAG chunk boundaries. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Session expiry described as \"after a period of inactivity\"; no timeout value, no 2FA method specifics, \"several security features\" is a vague quantifier. Measured: 7 numerals, 0 with units."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Adequate for a hub (10 internal links), but 0 external/primary sources; nothing anchors 2FA or recovery-code claims to a standard."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Fair. The prerequisite sentence is quotable, but there is no crisp one-line definition of *what a CRE account is* near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no `og`/twitter tags, `inLanguage` absent. A visible \"Last Updated: 2026-02-12\" is present in-body, which helps, but no structured `dateModified`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "N/A-leaning. No fenced blocks; the page references `cre login` inline but shows no invocation. Acceptable for a hub, but a minimal login snippet would add liftable value."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Fair. Covers \"what you'll need\" and guide links, but nothing phrased as symptom/error queries (e.g. session-expired, auth-failure)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent \"CRE account\" / \"CRE CLI\" naming aids entity resolution; unambiguous prose."
+      }
+    ],
+    "summary": "This is a short (351-word) hub page routing users to CRE account, authentication, and organization guides. Its biggest strength is a clean answer-first opening and tidy heading structure with zero level skips. Its biggest opportunity is machine-readability: the page ships no JSON-LD, no canonical URL, and no `og`/`TechArticle` schema, so agents parse only bare prose. As a navigational page its retrieval value is inherently modest — it should defend the one canonical fact it owns (that a CRE account + CLI auth are prerequisites) and hand off cleanly to child pages.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD and canonical URL",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (not captured in served HTML)",
+        "issue": "\"JSON-LD: 0 block(s) … canonical: MISSING\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2026-02-12`, `inLanguage: en`, and a self-referential `canonical` link tag.",
+        "why": "Structured metadata + canonical URL raise agent trust and dedupe signals (E-E-A-T); currently agents get only bare prose."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased entry points",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new short section or FAQ near \"Security features\"",
+        "issue": "No headings match how users ask (\"Why does my CLI session keep expiring?\", \"How do I authenticate the CRE CLI?\").",
+        "change": "Add Q-phrased H3s that answer in the first sentence and link to the relevant child guide (e.g. Managing Authentication for session expiry).",
+        "why": "Symptom-phrased headings win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers with concrete values",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Security features\" list",
+        "issue": "\"sessions automatically expire after a period of inactivity\"",
+        "change": "State the actual timeout (e.g. \"after N hours of inactivity\") and the 2FA method(s) supported (TOTP authenticator app, etc.).",
+        "why": "Quantitative specifics are among the highest-lift changes; \"a period\" is unliftable."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-line canonical definition of \"CRE account\"",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "first paragraph, before \"is required to use the CRE CLI\"",
+        "issue": "No crisp definition of the entity the page is named for.",
+        "change": "Prepend a self-contained sentence, e.g. \"A CRE account is your authenticated identity within a Chainlink Runtime Environment organization, required to run any CRE CLI command.\"",
+        "why": "Gives engines a verbatim-liftable definition near first use."
+      },
+      {
+        "priority": 3,
+        "title": "Show a minimal `cre login` invocation",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"CLI authentication\" item under \"What you'll need\"",
+        "issue": "`cre login` named but never shown as a command.",
+        "change": "Add a one-line tagged code fence (`bash`) showing `cre login` and note the browser-flow vs API-key alternatives.",
+        "why": "A copy-pasteable command gives agents a runnable artifact and a code-language signal."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"several security features,\" \"a period of inactivity.\"",
+      "No dated structured metadata despite an in-body \"Last Updated\" line (freshness signal is human-visible only).",
+      "No stuffing, fluff, or unresolved cross-references — prose is clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced in-body — good site-level signal; verify it lists this page.",
+      "Site-level `TechArticle` schema and canonical generation should be applied template-wide, not just here.",
+      "The CLI should pass the raw `<head>` on future audits; head metadata could not be verified this run, so schema absence is inferred from the served HTML only."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/account.md",
+      "source_title": "Account",
+      "probe_set_id": "f4c1c50dfe5b",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:28:35.132Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 59,
+      "avg_fidelity_all": 59,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.17,
+      "retrieval_hit_rate_effective": 0.17,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.8,
+        "hallucination_free": 5.2,
+        "relevance": 4.7,
+        "structure": 7.8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 305628,
+          "output_tokens": 11996,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 23,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 7874,
+          "output_tokens": 15982,
+          "cache_creation_input_tokens": 1828,
+          "cache_read_input_tokens": 17990,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/getting-started/cli-installation/macos-linux",
+              "https://docs.chain.link/cre/getting-started/cli-installation/windows",
+              "https://docs.chain.link/cre/account/creating-account",
+              "https://docs.chain.link/cre/account",
+              "https://docs.chain.link/cre/account/cli-login",
+              "https://docs.chain.link/cre/reference/cli",
+              "https://docs.chain.link/cre/reference/cli/account",
+              "https://docs.chain.link/cre/getting-started/part-1-project-setup-ts",
+              "https://github.com/smartcontractkit/cre-cli"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states that search/retrieval hit a tool usage limit and it could not verify full details."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 6,
+            "relevance": 6,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Chainlink CRE is in an early/gated access phase, so account creation may involve onboarding/access approval",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Create an account through the web interface at app.chain.link/cre/discover or join via invitation link",
+            "Set up two-factor authentication during account creation",
+            "Authenticate the CLI using cre login or an API key"
+          ],
+          "unverifiable_from_source": [
+            "Install the CRE CLI steps for macOS/Linux/Windows",
+            "CLI Reference and account management commands pages",
+            "Part 1: Project Setup & Simulation tutorial",
+            "CLI source/repo on GitHub"
+          ],
+          "verdict": "The answer admits it couldn't retrieve full details and omits key required steps (2FA, exact signup URL, cre login/API key specifics), so it's not safe to ship as a complete guide without further verification.",
+          "fidelity": 55,
+          "prompt": "How do I set up a Chainlink CRE account so I can use the CRE CLI?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information on setting up a Chainlink CRE account and CLI.Let me get the details from the account setup page and related docs.Let me pull the detailed content from the key pages: account overview, creating account, and CLI login.Let me wait a moment and retry with fewer calls.I ran into a search tool usage limit before I could pull the full step-by-step detail from each page, so I'll give you the accurate high-level flow along with the exact official documentation pages to follow. I wasn't able to verify every command detail, so please confirm against the linked docs.\n\n## Setting up a Chainlink CRE account for the CLI\n\nChainlink's documentation breaks this into a few distinct steps. The relevant official pages are:\n\n**1. Install the CRE CLI**\n- macOS / Linux: `https://docs.chain.link/cre/getting-started/cli-installation/macos-linux`\n- Windows: `https://docs.chain.link/cre/getting-started/cli-installation/windows`\n\nThis gets the `cre` binary onto your machine and available on your `PATH` before you do anything account-related.\n\n**2. Create your CRE account**\n- Creating Your Account: `https://docs.chain.link/cre/account/creating-account`\n- Account overview/concepts: `https://docs.chain.link/cre/account`\n\nThis page walks through registering your account (Chainlink CRE is in an early/gated access phase, so account creation may involve onboarding/access approval).\n\n**3. Log in with the CLI**\n- Logging in with the CLI: `https://docs.chain.link/cre/account/cli-login`\n\nThe CLI login flow authenticates your local `cre` CLI against your CRE account, typically by running a login command that opens a browser session to complete authentication and links the CLI to your account.\n\n**4. Reference material as you go**\n- CLI Reference: `https://docs.chain.link/cre/reference/cli`\n- Account management commands: `https://docs.chain.link/cre/reference/cli/account`\n- Part 1: Project Setup & Simulation (end-to-end walkthrough): `https://docs.chain.link/cre/getting-started/part-1-project-setup-ts`\n- CLI source/repo: `https://github.com/smartcontractkit/cre-cli`\n\n## Suggested order\n1. Install the CRE CLI for your OS.\n2. Create your CRE account via the \"Creating Your Account\" page.\n3. Run the CLI login command to authenticate the CLI with that account.\n4. Verify with the account management commands, then continue to the \"Project Setup\" tutorial.\n\nIf you'd like, I can try again shortly to retrieve the exact commands (e.g., the precise `cre login` syntax and any prerequisites like Node.js/Go versions or a linked wallet) once the search tool is available again. Which OS are you on so I can tailor the installation steps?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 124447,
+              "output_tokens": 3776,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1563,
+              "output_tokens": 1334,
+              "cache_creation_input_tokens": 914,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; the answer instead relies on unspecified 'research' into other Chainlink pages not provided as ground truth."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "set `CRE_API_KEY` instead",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "pass the non-interactive flag ... `--non-interactive`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "cre whoami",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow build ./my-workflow",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre workflow deploy ./my-workflow --target production-settings --non-interactive",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "`cre secrets create`, `cre secrets update`, `cre secrets delete`, and `cre secrets list` now use a browser-based OAuth (PKCE) flow",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "use `${VAR_NAME}` syntax in your `project.yaml` RPC URLs",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Create an API key from the CRE platform under Organization → APIs",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "API key authentication requires your account to have deploy access approval"
+          ],
+          "unverifiable_from_source": [
+            "CI provider secret manager guidance (GitHub Actions secrets, GitLab CI variables)"
+          ],
+          "verdict": "The core recommendation (use API key auth instead of browser login for CI/CD) matches the source, but the answer invents specific CLI flags, env vars, and subcommands not present in the source and omits the required deploy-access-approval caveat, making it risky to ship as authoritative documentation.",
+          "fidelity": 45,
+          "prompt": "Using the Chainlink CRE CLI in a headless CI/CD pipeline, how should I authenticate instead of the browser login?",
+          "archetype": "constrained",
+          "answer": "I'll research the current Chainlink CRE CLI authentication options for headless/CI environments.Let me get the details on the API key authentication method.Let me get the specific setup details from the Authentication reference page.I have enough authoritative information from the Chainlink docs to answer.\n\n## Authenticating the CRE CLI in a headless CI/CD pipeline\n\nThe browser-based `cre login` command won't work in CI. `cre login` requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set `CRE_API_KEY` instead. The intended replacement is **API key authentication**.\n\n### 1. Create an API key\nCreate an API key from the CRE platform under Organization → APIs.\n\n### 2. Set the environment variable and use non-interactive mode\nProvide the key to the CLI through the `CRE_API_KEY` environment variable, and pass the non-interactive flag so the CLI never tries to prompt. Use `CRE_API_KEY` for non-interactive authentication in CI/CD pipelines instead of `cre login`, and pass `--non-interactive` so commands fail instead of prompting.\n\nA typical CI step looks like:\n\n```bash\nexport CRE_API_KEY=\"${CRE_API_KEY}\"   # injected from your CI secret store\n\n# verify auth (optional)\ncre whoami\n\n# build and deploy without prompts\ncre workflow build ./my-workflow\ncre workflow deploy ./my-workflow --target production-settings --non-interactive\n```\n\nStore the key in your CI provider's secret manager (GitHub Actions secrets, GitLab CI variables, etc.) rather than committing it.\n\n### 3. Inject other secrets (RPC URLs, etc.)\nFor values referenced in your project config, the CLI supports environment-variable substitution: use `${VAR_NAME}` syntax in your `project.yaml` RPC URLs to inject secrets from your CI/CD environment.\n\n### Important limitation to be aware of\nAPI key auth does **not** cover every command. Vault/secrets management uses a separate browser-based OAuth flow: `cre secrets create`, `cre secrets update`, `cre secrets delete`, and `cre secrets list` now use a browser-based OAuth (PKCE) flow to authorize Vault DON access. API key authentication is not supported for this flow; interactive login (`cre login`) is required.\n\nSo if your pipeline needs to manage vault secrets, that portion cannot currently be fully automated with an API key — you'd need to handle secret provisioning interactively outside the headless pipeline, while deploy/build/registry operations work fine with `CRE_API_KEY`.\n\nFor the complete, up-to-date setup steps, see the Chainlink \"Authentication\" reference and the CLI reference at docs.chain.link/cre.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 63376,
+              "output_tokens": 1997,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1313,
+              "output_tokens": 2167,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3303,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited despite the content matching it."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 8,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Use a strong, unique password that you don't use for other services, and consider using a password manager to generate and store secure passwords.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Use a strong, unique password that you don't use for other services, and consider using a password manager to generate and store secure passwords."
+          ],
+          "verdict": "The core security-feature list matches the source accurately, but the answer adds unverified password-manager advice and fails to cite the expected source page.",
+          "fidelity": 78,
+          "prompt": "What security features does a Chainlink CRE account include?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink documentation, a CRE (Chainlink Runtime Environment) account includes the following security features:\n\nYour CRE account includes several security features: Two-factor authentication (2FA), which is required during login for an additional layer of security; Recovery codes, provided during account setup to regain access if you lose your authenticator device; and Session management, where CLI sessions automatically expire after a period of inactivity.\n\n**Best practices for keeping your account secure:**\n\n- Never share your password, two-factor authentication codes, or recovery codes with anyone.\n- Store your recovery code in a secure location separate from your password.\n- Use a strong, unique password that you don't use for other services, and consider using a password manager to generate and store secure passwords.\n- Regarding recovery codes specifically, your recovery code is essential for regaining access to your account if you lose access to your authenticator device. You'll need this code if you ever need to log in without your authenticator device, so store it in a secure location.\n\nIf you'd like, I can also walk you through the account setup process or explain how CRE organizations, roles, and permissions work.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 24477,
+              "output_tokens": 815,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 733,
+              "output_tokens": 630,
+              "cache_creation_input_tokens": 914,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page despite it being available."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 4,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "cre whoami to verify you're logged in",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre logout — Revoke authentication tokens",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "set CRE_API_KEY instead",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "cre init (project initialization) and cre generate-bindings",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "installation/version checks (cre version) don't require authentication",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "API key authentication is not supported for this flow; you must be logged in with cre login",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "cache tenant context (context.yaml)",
+            "This covers deploy, activate, pause, delete, and simulate",
+            "Secrets management commands require interactive login and disallow API key auth",
+            "Account management commands like checking deploy access or listing linked keys require login"
+          ],
+          "verdict": "The core claim that authentication (via cre login or an API key) is required for CLI commands is accurate, but the answer invents many specific subcommands (whoami, logout, init, generate-bindings, version) and config details (CRE_API_KEY, context.yaml) that are not present in the cited source, and it fails to cite the source at all, making it risky to ship as authoritative documentation.",
+          "fidelity": 58,
+          "prompt": "cre login required to run CLI commands? which commands need auth chainlink CRE",
+          "archetype": "terse/keyword",
+          "answer": "Short answer: **Yes — with CRE, you must be logged in to run essentially all CLI commands.** According to Chainlink's docs, Your CRE account is required to use the CRE CLI. You must be logged in to run any CLI commands, including simulating workflows, deploying workflows, and managing deployed workflows.\n\n## How authentication works\n\nYou authenticate with the `cre login` command. It starts the authentication flow — this command opens your browser for user login and saves your credentials locally. To check your status, use cre whoami to verify you're logged in and check which account is currently active. This is useful before deploying workflows or performing other authenticated operations.\n\nThe authentication command group includes:\n- cre login — Authenticate with the CRE UI, save credentials locally, and cache tenant context (context.yaml)\n- cre logout — Revoke authentication tokens and remove local credentials and cached tenant context\n- `cre whoami` — Shows your current account details, including your email and organization ID.\n\n## Commands that require auth (login)\n\nPractically all functional commands require you to be logged in. Documented examples:\n\n- **Workflow commands** — Running these commands requires you to be logged in with the CRE CLI. Run cre whoami to verify you're logged in, or run cre login to authenticate. This covers deploy, activate, pause, delete, and simulate.\n- **Secrets management commands** — Running the commands on this page requires you to be logged in with the CRE CLI. Run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate. Note that API key authentication is not supported for this flow; you must be logged in with cre login.\n- **Account management commands** (e.g., checking deploy access, listing linked keys) — Running this command requires you to be logged in with the CRE CLI.\n\n## Headless / CI-CD environments\n\nIf you can't use a browser, note that cre login requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set CRE_API_KEY instead.\n\n## Commands that generally don't need login\n\nSetup/local tooling commands are the exception — for example, `cre init` (project initialization) and `cre generate-bindings` are for scaffolding projects and generating contract bindings, and installation/version checks (`cre version`) don't require authentication.\n\n**Summary:** Log in once with `cre login`, verify with `cre whoami`, and you'll be able to run workflow, secrets, and account commands. Only local scaffolding/setup commands (`init`, `generate-bindings`, `version`) work without auth. For automation, use `CRE_API_KEY` instead of interactive login (except secrets operations, which require interactive login).",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 2,
+            "searches_succeeded": 2,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 24141,
+              "output_tokens": 1473,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 2,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1182,
+              "output_tokens": 3417,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3303,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer claims to search documentation but never cites the expected source URL."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Error: failed to attach credentials: failed to load credentials: you are not logged in, try running cre login",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "currently v1.26.0",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "you set CRE_API_KEY instead",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "cre version command exists to check installation",
+            "cre whoami command to verify login status",
+            "writes ~/.cre/context.yaml and ~/.cre/cre.yaml file paths",
+            "CRE CLI described as Go/Cobra-based tool",
+            "specific PATH setup instructions for macOS/Linux/Windows",
+            "detailed browser login flow steps (enter email, password, then 2FA code)"
+          ],
+          "verdict": "The core guidance (use cre login, 2FA, API key for headless) matches the source, but the answer pads this with many specific commands, file paths, an exact error message, and a version number that are not confirmed by the source and were not cited, so it should be treated cautiously rather than shipped as-is.",
+          "fidelity": 60,
+          "prompt": "I'm brand new to Chainlink CRE and a little lost — I just made my account through the website but my terminal commands aren't working. What do I still need to do to get the CLI connected to my account?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for the latest setup steps for the Chainlink CRE CLI, since this is a fairly new product and setup details may have changed recently.Let me pull the specific login and installation details to give you accurate steps.Welcome to Chainlink CRE! Good news — creating your account through the website was step one, but there are a couple more things to do before the CLI will work. Here's what's likely going on and how to fix it.\n\n## The two most common reasons \"the commands aren't working\"\n\n### 1. The CLI itself may not be installed (or not on your PATH)\nMaking an account on the website doesn't install the command-line tool — that's a separate download. The CRE CLI is a Go/Cobra-based command-line tool for building, testing, and managing Chainlink Runtime Environment (CRE) workflows.\n\nTo check whether it's installed and reachable, run:\n```\ncre version\n```\nIf that returns a \"command not found\" type error, the binary isn't installed or isn't on your PATH. A few notes:\n- To ensure compatibility with the guides and examples in the documentation, use the recommended version of the CRE CLI (currently v1.26.0), which you can check by running cre version.\n- On **macOS/Linux**, the easiest and most reliable method is to move the cre binary to a directory that's already in your system's PATH — for example, moving it to /usr/local/bin/, which is typically included in your PATH by default.\n- On **Windows**, you must open a new terminal window for the PATH changes to take effect — then open a new PowerShell or Command Prompt window and run the version check, which should show version information.\n\n### 2. You haven't authenticated the CLI yet with `cre login`\nThis is the step people most often miss right after making an account. Even with the CLI installed, it doesn't know it's *you* until you log it in. If you try to run a command like `cre init`, you'll see something like:\n\nError: failed to attach credentials: failed to load credentials: you are not logged in, try running cre login\n\nTo fix it, run:\n```\ncre login\n```\nHere's what happens: cre login authenticates with the CRE UI, saves credentials locally, and caches your tenant context (context.yaml). The flow is browser-based — in the browser window that opens, you enter the email address associated with your CRE account and click \"Continue,\" then enter your account password and click \"Continue,\" and you'll be prompted to complete two-factor authentication based on the method you set up.\n\nIf you set up an authenticator app during account creation, you'll open your authenticator app and enter the 6-digit one-time code it generates for your CRE account.\n\nAfter a successful login, the CLI may show \"Fetching user context…\" while it downloads your organization's tenant configuration from the platform, then writes ~/.cre/context.yaml, while ~/.cre/cre.yaml contains your session credentials.\n\n## Verify it worked\nOnce logged in, confirm everything is connected:\n```\ncre whoami\n```\nUse cre whoami to verify you're logged in and check which account is currently active — this is useful before deploying workflows or performing other authenticated operations.\n\n## Quick checklist / order of operations\n1. **Create account + set up 2FA** (done ✅ — via the website)\n2. **Install the CLI** and confirm with `cre version`\n3. **`cre login`** — browser opens, enter email/password, complete 2FA\n4. **`cre whoami`** — confirm you're connected\n5. Then you can `cre init` a project and start building\n\nOne more tip for later: cre login requires a browser and is not available in non-interactive mode; for CI/CD and other headless environments, you set CRE_API_KEY instead. You won't need that now, but keep it in mind if you ever automate things.\n\nMy best guess is that the missing piece is **`cre login`** (if `cre version` works) — or the CLI install/PATH step if `cre version` doesn't return anything. If you paste the exact error message your terminal is showing, I can point you to the precise fix.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 29227,
+              "output_tokens": 2019,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1673,
+              "output_tokens": 4495,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3303,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited despite the answer's confident, detailed claims."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Run cre whoami in your terminal to verify you're logged in",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "cre logout revokes authentication tokens and removes local credentials",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "set CRE_API_KEY instead",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "caches tenant context (context.yaml)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Your existing CLI login session (~/.cre/cre.yaml) is not affected",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "exchanges the code for a short-lived vault JWT, and submits your encrypted secrets directly to the Vault DON gateway",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "CLI sessions automatically expire after a period of inactivity",
+            "Managing Authentication covers checking login status, session expiration, and logging out"
+          ],
+          "unverifiable_from_source": [
+            "contract binding generation (Go workflows only)",
+            "the CLI may show \"Fetching user context…\" while it downloads your organization's tenant configuration",
+            "secrets operations require you to be logged in with cre login (interactive login required; API keys are not supported for secrets operations)",
+            "the vault authorization for secrets uses a browser-based OAuth (PKCE) flow",
+            "cre login authenticates with the CRE UI, saves credentials locally"
+          ],
+          "verdict": "The answer is plausible and well-structured but introduces several specific commands, env vars, and file paths not present in the cited source and fails to surface the expected documentation page, so it should be verified against actual CLI reference docs before shipping.",
+          "fidelity": 58,
+          "prompt": "how do I log into the cre command line tool and manage my session?",
+          "archetype": "paraphrase",
+          "answer": "I'll search for information about the \"cre\" command line tool to help you with logging in and managing your session.This refers to the **Chainlink Runtime Environment (CRE) CLI**. Here's how to log in and manage your session.\n\n## What the CRE CLI is\n\nThe CRE Command Line Interface (CLI) is your primary tool for developing, testing, deploying, and managing workflows. It handles project setup, contract binding generation (Go workflows only), local simulation, and workflow lifecycle management.\n\n## Logging in (browser-based)\n\nThe standard way is `cre login`. This command will automatically open your default web browser to begin the authentication process. If your browser doesn't open automatically, the CLI will display a URL that you can manually copy and paste into your browser.\n\nThen, in the browser:\n1. Enter the email address associated with your CRE account and click \"Continue.\" Enter your account password and click \"Continue.\"\n2. You'll be prompted to complete two-factor authentication based on the method you configured during account creation. If you set up an authenticator app, open your authenticator app and enter the 6-digit one-time code it generates for your CRE account.\n\nOnce authenticated: You can now close the browser window and return to your terminal. Your CLI session is authenticated and ready to use. In the terminal, the CLI may show \"Fetching user context…\" while it downloads your organization's tenant configuration from the platform.\n\nMore precisely, cre login authenticates with the CRE UI, saves credentials locally, and caches tenant context (context.yaml).\n\n## Managing your session\n\n**Verify you're logged in:** Run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate.\n\n**Log out:** cre logout revokes authentication tokens and removes local credentials and cached tenant context.\n\nNote that you must be logged in to use any CRE CLI commands — commands like workflow deploy, secrets, and account management all require an authenticated session.\n\n## Headless / CI-CD environments\n\nIf you can't use a browser: cre login requires a browser and is not available in non-interactive mode. For CI/CD and other headless environments, set CRE_API_KEY instead.\n\nOne caveat for secrets: secrets operations require you to be logged in with cre login (interactive login required; API keys are not supported for secrets operations). The vault authorization for secrets uses a browser-based OAuth (PKCE) flow. When you run a secrets operation, the CLI starts a local callback server, opens your browser to complete authorization, exchanges the code for a short-lived vault JWT, and submits your encrypted secrets directly to the Vault DON gateway — all automatically. Your existing CLI login session (~/.cre/cre.yaml) is not affected; the vault authorization uses a separate short-lived token.\n\n## Quick reference\n\n| Task | Command |\n|------|---------|\n| Log in | `cre login` |\n| Check status | `cre whoami` |\n| Log out | `cre logout` |\n\nFor full walkthroughs, see Chainlink's docs at `docs.chain.link/cre/account/cli-login` and `docs.chain.link/cre/reference/cli`.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 39960,
+              "output_tokens": 1916,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1410,
+              "output_tokens": 3939,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3303,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

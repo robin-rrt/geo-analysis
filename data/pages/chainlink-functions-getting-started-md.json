@@ -1,0 +1,179 @@
+{
+  "key": "chainlink-functions-getting-started-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Getting Started (Chainlink Functions)",
+    "url": "https://docs.chain.link/chainlink-functions/getting-started.md",
+    "analyzedAt": "2026-09-22T13:24:15.335Z",
+    "contentType": "developer documentation / tutorial (quickstart)",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 60.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Intro cleanly states the goal — \"make requests to the Chainlink Functions Decentralized Oracle Network (DON) and make any computation or API calls offchain.\" But most sections open with procedural steps rather than a self-contained claim, and there is no lift-ready definition of Chainlink Functions itself."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong hierarchy — 12 headings, 1 H1, max depth H3, 0 level skips. One section exceeds 600 words. No tables; a summary table of the hardcoded Sepolia values (router, donID, gasLimit, LINK amount) would improve extraction."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Good hard values exist (gasLimit `300_000`, `2 LINK`, router address, donID hex, `v1.3.0`, `^0.8.20`) but the measured facts note 0 numerals carry units and \"several\" appears as a vague quantifier."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong — 31 links, 14 external including primary sources (github.com contract source, remix.ethereum.org), plus dense internal links to API references. No action needed."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "\"You use a Chainlink Functions subscription to pay for, manage, and track Functions requests\" is a good liftable definition. Missing an equivalent one-sentence definition of Chainlink Functions near the top."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. Measured: 0 JSON-LD blocks, canonical MISSING, datePublished/dateModified absent, 7 of 12 code fences untagged, no og/twitter tags. This is the largest scored deficit."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Main contract is complete with imports, addresses, and config; JS/curl/JSON all present. Weakened by untagged snippet fences and a code inconsistency (see anti-patterns)."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Full happy-path lifecycle is covered, but no \"how do I debug a failed request,\" no error-string sections, no FAQ. Symptom-phrased retrieval will miss."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean, consistent prose. Minor: `jobId` vs `donID` naming drift (see anti-patterns)."
+      }
+    ],
+    "summary": "This is a well-structured, task-complete Chainlink Functions quickstart with a full, runnable Solidity contract, clean linking to API references, and a logical setup→deploy→run→examine flow. Its biggest GEO weakness is machine-readability: no JSON-LD/`TechArticle` schema, no canonical URL, no visible last-updated date, and 7 untagged code fences — signals engines use to trust and parse the page. The second gap is query coverage: it contains no troubleshooting/error-string sections, which is how devs and agents actually query a failing request. One critical hidden signal: the page carries a `callout=\"shutdown\"` component whose deprecation meaning is invisible in the extractable text — an engine synthesizing this page could confidently recommend a shut-down product.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Make the deprecation/shutdown status explicit in extractable text",
+        "mapsTo": "parametric-prior resistance / freshness",
+        "tier": null,
+        "where": "top of page, after the `<ChainlinkFunctions callout=\"shutdown\" />` component",
+        "issue": "shutdown status lives only in a component, invisible to text extraction",
+        "change": "add a plain-text first sentence, e.g. \"Note (2026): Chainlink Functions is being sunset on [networks/date]; see [migration/status link].\" State the concrete status and date.",
+        "why": "engines skimming or lifting this page will otherwise recommend a shut-down product as current — the highest-severity accuracy failure."
+      },
+      {
+        "priority": 1,
+        "title": "Add a troubleshooting / error-string section",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 after \"Run the example\"",
+        "issue": "no coverage of failed requests; only the happy path exists",
+        "change": "add \"Why did my Functions request fail?\" with liftable sub-entries for common symptoms: `UnexpectedRequestID`, request stuck at pending, \"insufficient LINK balance,\" consumer not added to subscription, gas limit exceeded.",
+        "why": "devs and agents query by symptom, not concept; symptom-phrased headings win retrieval that tutorial prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "measured — 0 JSON-LD, canonical MISSING, no dates",
+        "change": "emit `TechArticle` schema with `headline`, `dateModified`, `programmingLanguage: [Solidity, JavaScript]`, canonical URL, and render a visible \"Last updated\" line.",
+        "why": "structured metadata and freshness signals raise parse-ability and E-E-A-T trust; measurably lifts citation eligibility."
+      },
+      {
+        "priority": 2,
+        "title": "Add an answer-first definition of Chainlink Functions",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "first paragraph under \"# Getting Started\"",
+        "issue": "intro jumps to \"Learn how to make requests…\" with no definition",
+        "change": "prepend one sentence: \"Chainlink Functions is a serverless developer platform that runs custom JavaScript offchain via a Decentralized Oracle Network (DON) and returns the result onchain.\"",
+        "why": "a crisp, self-contained definition is the unit engines lift verbatim for \"what is\" queries."
+      },
+      {
+        "priority": 2,
+        "title": "Add a Sepolia config summary table",
+        "mapsTo": "structural scannability / concrete specifics",
+        "tier": null,
+        "where": "\"Examine the code\" → before the Solidity block",
+        "issue": "router, donID, gasLimit, LINK amount are scattered in comments/prose",
+        "change": "add a table: Parameter | Value | e.g. Router `0xb83E…38D0`, donID `fun-ethereum-sepolia-1`, gasLimit `300000`, subscription funding `2 LINK`.",
+        "why": "tables let engines extract exact parameters and build justified, quotable answers."
+      },
+      {
+        "priority": 2,
+        "title": "Tag all code fences with language",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "the 7 untagged snippet blocks under \"Examine the code\"",
+        "issue": "measured — 7 of 12 fences untagged",
+        "change": "label each fence (```` ```solidity ````, ```` ```javascript ````, ```` ```bash ````).",
+        "why": "language tags let agents parse, classify, and safely run snippets."
+      },
+      {
+        "priority": 3,
+        "title": "Add \"how do I…\" phrasings to procedural H3s",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "\"Create a subscription\", \"Fund your subscription\", \"Add a consumer\"",
+        "issue": "concept-titled headings miss question-shaped queries",
+        "change": "optionally append question framings, e.g. \"Create a subscription (how to fund and add a consumer)\".",
+        "why": "matches natural \"how do I create a Functions subscription\" queries."
+      }
+    ],
+    "antiPatterns": [
+      "**Code inconsistency (correctness):** the `_sendRequest` explanation snippet passes `jobId` while the actual contract uses `donID` — entity drift that confuses both readers and agents. Align to `donID`.",
+      "**Code inconsistency:** the `fulfillRequest` explanation snippet emits `Response(requestId, s_lastResponse, s_lastError)` (3 args) but the declared event has 4 params including `character`. Fix the snippet to match.",
+      "**Vague quantifier:** \"available on several blockchains\" — replace with a count or link-anchored specifics.",
+      "**Untagged code fences:** 7 of 12 (also captured in recommendations).",
+      "**Undated content:** no visible freshness signal on a page that is functionally deprecated."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good; ensure it lists this page's canonical status.",
+      "Site-level: confirm `TechArticle` schema and canonical tags are templated across `docs.chain.link`, not just this page.",
+      "The CLI should pass raw `<head>` on the next run — head metadata could not be verified here, so schema/canonical absence is measured from served HTML only."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

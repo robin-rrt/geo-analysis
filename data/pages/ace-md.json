@@ -1,0 +1,166 @@
+{
+  "key": "ace-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Chainlink ACE - Automated Compliance Engine",
+    "url": "https://docs.chain.link/ace.md",
+    "analyzedAt": "2026-09-28T18:55:33.020Z",
+    "contentType": "developer documentation / landing stub",
+    "score": 18,
+    "band": "Poor",
+    "weightedTotal": 18,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 1,
+        "weighted": 1.5,
+        "analysis": "Weak. The page never answers \"What is Chainlink ACE?\" The title asserts a name but the body is only `For the complete documentation index, see llms.txt`. Nothing liftable."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 2,
+        "weighted": 3,
+        "analysis": "Weak. Measured facts confirm 1 heading, 1 section, 0 tables, 0 bullets. No chunk boundaries because there is essentially one 13-word chunk."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "Weak. 3 numerals, all in the date; 0 with units, no supported networks, limits, or parameters."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Weak. 1 internal link (to `llms.txt`), 0 external, 0 primary sources."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "Weak. \"Automated Compliance Engine\" is expanded in the title but never defined in a liftable sentence."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. No JSON-LD, canonical MISSING, no `og`/`twitter` tags, no `inLanguage`. Only positive: an inline `Last Updated` date. Head metadata could not be verified — the CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Weak. No code blocks; a product overview should at least link to or show minimal integration snippets."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 1,
+        "weighted": 1,
+        "analysis": "Weak. Covers no \"what is / how do I / why use\" intent; no use cases, no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "The little text present is clear and the product name is consistent; there is simply almost nothing here."
+      }
+    ],
+    "summary": "This is an effectively empty stub page — 20 words total, one H1 and a single pointer to `llms.txt`. It carries almost no extractable content: no definition of what Chainlink ACE (Automated Compliance Engine) is, no specifics, no code, no structure beyond the title. Its single strength is a visible `Last Updated: 2026-09-16` freshness signal and a clear, unambiguous title; its overwhelming opportunity is that there is no body content for any engine to retrieve, cite, or synthesize. Honest verdict: this page cannot compete in generative retrieval until it actually explains ACE.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical one-sentence definition of ACE",
+        "mapsTo": "Quotable canonical definitions / Answer-first extractability",
+        "tier": null,
+        "where": "Immediately under the H1.",
+        "issue": "Page opens with `For the complete documentation index, see llms.txt` — no definition.",
+        "change": "Add a self-contained lead, e.g. \"Chainlink ACE (Automated Compliance Engine) is an onchain compliance framework that [enforces transfer restrictions / verifies credentials / …] for tokenized assets.\" Make the first sentence liftable verbatim.",
+        "why": "A crisp canonical definition near first use is the single highest-lift change for a page an engine currently cannot summarize."
+      },
+      {
+        "priority": 1,
+        "title": "Build out real body content with H2/H3 structure",
+        "mapsTo": "Structural scannability & Query/intent coverage",
+        "tier": null,
+        "where": "Whole page.",
+        "issue": "1 heading, 20 words total.",
+        "change": "Add sections phrased as user questions: \"What is Chainlink ACE?\", \"How does ACE enforce compliance?\", \"Supported networks\", \"How to integrate ACE\", \"Common errors / troubleshooting.\"",
+        "why": "Symptom- and question-phrased headings win retrieval that concept-only stubs cannot."
+      },
+      {
+        "priority": 1,
+        "title": "Add concrete specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "New body sections.",
+        "issue": "0 units, 0 network/chain details, no version strings.",
+        "change": "State supported chains, contract addresses, standards enforced (e.g. ERC-3643 / ERC-20), fees or limits, and version numbers.",
+        "why": "Quantitative specifics are among the highest-lift factors for citation."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative and internal citations",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "New body sections.",
+        "issue": "Only 1 internal link (`llms.txt`), 0 external/primary.",
+        "change": "Link to the ACE concept/architecture pages, relevant token standards specs, and any whitepaper or primary spec.",
+        "why": "Inline links to primary sources raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add runnable integration snippets",
+        "mapsTo": "Code completeness & agent-runnability",
+        "tier": null,
+        "where": "A \"How to integrate ACE\" section.",
+        "issue": "0 code blocks.",
+        "change": "Provide a minimal, language-tagged, copy-pasteable example (imports, network, addresses) with expected output.",
+        "why": "Complete snippets make the page usable by autonomous coding agents."
+      },
+      {
+        "priority": 2,
+        "title": "Add page-level structured metadata",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "`<head>` / frontmatter.",
+        "issue": "No JSON-LD, canonical MISSING, no `TechArticle` schema.",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified`, a canonical URL, and `inLanguage`.",
+        "why": "Structured metadata and canonical URLs improve agent parsing and trust — but note this is secondary to actually having body content to retrieve."
+      }
+    ],
+    "antiPatterns": [
+      "Wall-thin stub: the page is a near-empty pointer with no substantive content — the inverse of a wall of prose, but equally unretrievable.",
+      "Redirect-by-prose: body content consists solely of a \"see `llms.txt`\" cross-reference, offering nothing an engine can quote."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced and presumably present site-wide — good, but it cannot compensate for an empty target page.",
+      "Site-level JSON-LD and canonical-URL conventions appear absent here; confirm whether they are injected at render time (head metadata could not be verified in this capture).",
+      "If this URL is intended as a canonical hub for ACE, other ACE pages should link into it — but it must first contain content worth linking to."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {}
+  }
+}

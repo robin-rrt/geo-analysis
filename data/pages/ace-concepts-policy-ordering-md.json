@@ -1,0 +1,609 @@
+{
+  "key": "ace-concepts-policy-ordering-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Policy Ordering and Composition",
+    "url": "https://docs.chain.link/ace/concepts/policy-ordering.md",
+    "analyzedAt": "2026-09-28T19:03:00.504Z",
+    "contentType": "developer documentation / conceptual reference",
+    "score": 65,
+    "band": "Good",
+    "weightedTotal": 65.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opening sentence is self-contained (\"Policies attached to a function execute sequentially, and the order they run in determines the security and behavior\"), and sections lead with their answer. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 11 headings, H1→H3, 0 level skips, median 67 words per section, none over 600. Only gap: the outcome model and ordering pattern are prose/bullets where a table would extract cleaner (0 tables measured)."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak. Only 6 numerals, 0 with units. \"Each policy in the chain costs gas\" is qualitative; no gas figures, chain limits, or version/network scope."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate internal linking (12 internal links to policy-library and management pages), but 0 external/primary references. For a proprietary concept this is partly expected."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"Both Reject and Allow are **terminal** — they end the chain\" and the per-outcome bullets are verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no `dateModified` in head; the \"Last Updated: 2026-03-31\" lives only in body text where engines discount it. Head metadata could not be verified — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. 0 code blocks. It names the `desired_default_allow` field and index-based insert/remove operations but shows no config or API example an agent could copy."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Covers why/how/best-practices lifecycle and includes a real pitfall (\"your transactions will revert unexpectedly\"). Missing symptom-phrased entry points (e.g. the `PolicyRejected` error string, \"why is my transaction reverting\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong. Consistent naming (PolicyEngine, target contract, function selector); no undefined jargon. No action needed."
+      }
+    ],
+    "summary": "This is a well-written conceptual page explaining how Chainlink ACE policy chains evaluate in order, with crisp outcome definitions (Reject/Allow/Continue) and sound best-practice guidance. Its biggest GEO strength is clean, answer-first prose with strong quotable definitions and no oversized chunks; its biggest opportunity is machine-readability — no JSON-LD, no canonical URL, and no head-level date signal despite an in-body \"Last Updated.\" Secondary gaps: the three-outcome model and the recommended ordering pattern beg for a comparison table, and there is no config/API snippet for the `desired_default_allow` field that agents would need to act on.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add JSON-LD `TechArticle` schema, canonical URL, and head-level dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / site template",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-03-31`, `inLanguage`, and a `canonical` link to `/ace/concepts/policy-ordering`. Surface the last-updated date in visible HTML, not only body markdown.",
+        "why": "Structured metadata and freshness signals raise agent trust (E-E-A-T) and let engines attribute and date the claim."
+      },
+      {
+        "priority": 1,
+        "title": "Add a policy-outcome summary table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Why order matters\"",
+        "issue": "three outcomes described only as bullets; 0 tables on page",
+        "change": "Add a 3-column table: Outcome | Return value (`PolicyRejected` / `Allowed` / Continue) | Effect on chain (terminal-revert / terminal-approve / defer to next). Keep the prose.",
+        "why": "Tables are high-lift for extraction; engines can lift the full decision model as one justified unit."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased headings/entries for the common failure",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "\"The default result\" / a short FAQ block",
+        "issue": "pitfall buried in prose: \"your transactions will revert unexpectedly\"",
+        "change": "Add an H3 phrased as the query, e.g. \"Why do my transactions revert with `PolicyRejected` when all checks pass?\" answering with the default-result mismatch. Name the `PolicyRejected` error string explicitly in a heading.",
+        "why": "Devs/agents query by error string and symptom; concept-titled prose loses that retrieval even when the answer is present."
+      },
+      {
+        "priority": 2,
+        "title": "Add a config/API snippet for `desired_default_allow` and chain edits",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"The default result\" and \"Managing the policy chain\"",
+        "issue": "field and index operations named but 0 code blocks",
+        "change": "Add a fenced, language-tagged Coordinator API (or Platform config) example setting `desired_default_allow` per target and inserting a policy at an index. Show expected result.",
+        "why": "Runnable, complete snippets let coding agents execute the task instead of paraphrasing; concept text alone is unactionable."
+      },
+      {
+        "priority": 2,
+        "title": "Quantify the gas / chain-length guidance",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Keep chains short\"",
+        "issue": "\"Each policy in the chain costs gas\" (no figures)",
+        "change": "Add any measured specifics available — per-policy gas overhead range, a recommended max chain length, or \"extractors run once\" quantified — with units.",
+        "why": "Quantitative claims are among the highest-lift changes for citation; \"costs gas\" is not liftable as a fact."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative external/primary reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Why order matters\" (the revert semantics)",
+        "issue": "0 external/primary-source links",
+        "change": "Link the `PolicyRejected` revert behavior to the relevant Solidity/contract spec or the canonical policy-interface reference if published.",
+        "why": "Primary-source links raise credibility and citation rate for the security claim."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifier \"most\" in \"the most common approach\"; acceptable but could be sharpened. No keyword stuffing, no marketing fluff, no unresolved cross-references (links are explicit and named), no oversized prose walls.",
+      "Freshness date present in body but absent from machine-readable head — a stale-signal risk for engines that ignore body text."
+    ],
+    "offPageNotes": [
+      "`/llms.txt` is already referenced from the page — good; confirm it lists this URL.",
+      "Head `<head>` metadata could not be captured in this run; pass raw `<head>` in the CLI to fully verify canonical/schema before assuming absence.",
+      "Whether sibling pages (`policy-management`, policy-library entries) link *into* this page affects its retrieval as the canonical ordering hub — a site-level linking concern, not fixable on-page."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ace/concepts/policy-ordering.md",
+      "source_title": "Policy Ordering and Composition",
+      "probe_set_id": "a6d66e09a430",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T19:14:15.128Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 65.7,
+      "avg_fidelity_all": 65.7,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 6,
+        "hallucination_free": 7,
+        "relevance": 5.5,
+        "structure": 7.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 382620,
+          "output_tokens": 18935,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 27,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9549,
+          "output_tokens": 8344,
+          "cache_creation_input_tokens": 2074,
+          "cache_read_input_tokens": 24704,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace/concepts/policy-ordering"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 9,
+            "relevance": 10,
+            "structure": 10
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "CredentialRegistryIdentityValidatorPolicy and MaxPolicy 'returns Continue on pass, Reject on fail' — specific outcome behavior not explicitly stated in source for these named policies"
+          ],
+          "verdict": "The answer accurately reflects the source's ordering principles, outcomes, and best practices with correct terminology and step order, making it safe to ship to a developer.",
+          "fidelity": 95,
+          "prompt": "In Chainlink ACE, how do I order the policies in a chain so that admins can't bypass my KYC and transfer-limit checks?",
+          "archetype": "direct-howto",
+          "answer": "I'll research Chainlink ACE's policy ordering and how to structure policy chains for compliance enforcement.There's a dedicated docs page on policy ordering. Let me fetch the details.I have the key information. Let me get a bit more detail on the outcomes and the ordering examples.Based on Chainlink ACE's documentation on Policy Ordering and Composition, here's how to structure your chain so admins can't bypass KYC and transfer-limit checks.\n\n## The core principle: order determines execution\n\nIn ACE, policies are evaluated as an ordered chain, and each policy returns one of three outcomes:\n\n- Reject — The policy reverts with PolicyRejected. The transaction reverts immediately and no subsequent policies run.\n- Allow — The policy returns Allowed. The transaction is approved immediately and all subsequent policies are skipped.\n- Continue — The policy's check passed, but the decision is deferred to the next policy in the chain.\n\nThe key insight is that both Reject and Allow are terminal — they end the chain. This means the position of each policy directly controls which policies actually execute.\n\nBecause an admin \"bypass\" policy typically returns a terminal **Allow**, if you place it *before* your compliance checks, those later checks never run for admins.\n\n## The correct ordering\n\nPut your **KYC/credential check and transfer-limit check first**, and any bypass/admin policy **last**. The docs illustrate this with three policies on a token's transfer function: a CredentialRegistryIdentityValidatorPolicy (verifies KYC credentials), a MaxPolicy (caps individual transfers), and a BypassPolicy (allows admins to skip all checks).\n\nThe difference in outcomes is stark:\n\n- **Bypass first (wrong):** an admin skips both the credential check and the transfer cap.\n- **Checks first (right):** every address — including admins — must pass the credential and transfer-limit checks first. The BypassPolicy only applies after the critical checks have passed, so admins are still subject to the same compliance and risk controls as everyone else.\n\nSo the safe chain order is:\n\n1. `CredentialRegistryIdentityValidatorPolicy` (KYC) → returns Continue on pass, Reject on fail\n2. `MaxPolicy` (transfer limit) → returns Continue on pass, Reject on fail\n3. `BypassPolicy` (admin allowance) → only reached after 1 and 2 pass\n\n## How to manage the ordering in practice\n\nOrdering is configured **per protected function**, not globally: Policies are managed per target contract and per function selector — each protected function on each contract has its own independent policy chain. So you need to apply this ordering to every sensitive function (e.g., `transfer`, `transferFrom`).\n\nDuring ACE Beta, you manage the chain through the ACE Platform UI or Coordinator API:\n\n- Adding a policy — When you attach a policy to a protected function, it is appended to the end of the existing chain by default. You can specify a position to insert it at a specific index instead, shifting existing policies to the right. Use an explicit index to make sure KYC/limit checks land ahead of the bypass policy.\n- Removing a policy — Removing a policy shifts the remaining policies to maintain their relative order.\n\n## Don't forget the default result\n\nIf your policies only ever return Continue (i.e., they act as blockers rather than approvers), the final decision falls to the configurable default: If every policy in the chain returns Continue and none makes a final Allow or Reject decision, the PolicyEngine applies a configurable default result. This is configured per target contract via the desired_default_allow field, where true (default) — The transaction is allowed. Use this when policies act as blockers and everything else should pass through. false — The transaction is rejected.\n\n## Summary checklist\n\n1. Place **KYC (identity validator)** and **transfer-limit (MaxPolicy)** checks at the front of the chain.\n2. Place any **admin BypassPolicy last**, so it only takes effect after the mandatory checks pass.\n3. Apply this ordering to **each protected function selector** independently.\n4. When attaching policies, **specify the index** rather than relying on append-to-end, to guarantee the bypass never sits ahead of your checks.\n5. Set `desired_default_allow` deliberately to match whether your policies are blockers (allow-through) or gatekeepers (reject-by-default).\n\nYou can review the full evaluation flow and outcome interactions on the [Policy Ordering and Composition](https://docs.chain.link/ace/concepts/policy-ordering) page and the related Policy Management docs.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 124013,
+              "output_tokens": 5570,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2051,
+              "output_tokens": 638,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4463,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs and the expected source page was not retrieved/cited."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 8,
+            "hallucination_free": 7,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Immediately blocks the transaction with a descriptive error message... provides clear feedback about why the transaction was rejected",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Reference to using a GitHub repo as a source for the answer"
+          ],
+          "verdict": "The answer correctly identifies the three outcomes and which two are terminal, but adds an unverified embellishment about error messaging and fails to cite the expected source, making it mostly safe but not fully verifiable.",
+          "fidelity": 73,
+          "prompt": "Using Chainlink ACE, what are the three outcomes a policy can return and which ones stop the rest of the chain from running?",
+          "archetype": "constrained",
+          "answer": "I have the details needed from the Chainlink documentation and GitHub repo.\n\n## Chainlink ACE Policy Outcomes\n\nWhen the PolicyEngine evaluates a policy, it can return one of **three outcomes**:\n\n1. **Allowed** — Immediately approves the transaction and also bypasses all subsequent policies in the chain. This is a final \"yes\".\n\n2. **Rejected** — Immediately blocks the transaction with a descriptive error message. This is a final \"no\" that bypasses all subsequent policies and provides clear feedback about why the transaction was rejected.\n\n3. **Continue** — The check passed, but the decision is deferred. The engine proceeds to the next policy in the chain, or applies its default result if none remain.\n\n## Which ones stop the rest of the chain?\n\nThe two **final decisions — Allowed and Rejected — halt evaluation** and bypass all remaining policies in the chain. **Continue** is the only outcome that lets the chain keep going.\n\nNotably, if every policy in the chain returns Continue and none makes a final Allow or Reject decision, the PolicyEngine applies a configurable default result. This is important because this matters when all your policies use the Continue pattern (which is the most common approach for composable policy chains). If the default is set to reject but you intended all-Continue to mean \"all checks passed,\" your transactions will revert unexpectedly.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 44970,
+              "output_tokens": 1567,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 870,
+              "output_tokens": 1102,
+              "cache_creation_input_tokens": 2074,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite any source URL even though its content closely matches the expected page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 9,
+            "hallucination_free": 9,
+            "relevance": 6,
+            "structure": 9
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Add a terminal policy that returns Allow at the end of the chain, so the transaction is explicitly approved rather than relying on the default"
+          ],
+          "verdict": "The answer is accurate, correctly identifies desired_default_allow as the per-target-contract fix for all-Continue reverts, and is well structured, but it fails to cite the source URL despite closely paraphrasing it.",
+          "fidelity": 83,
+          "prompt": "My Chainlink ACE transactions revert even though all my policies pass their checks and return Continue — what's wrong?",
+          "archetype": "error-debug",
+          "answer": "I found the answer. This is a classic ACE **default result** configuration issue.\n\n## What's happening\n\nIn Chainlink ACE, `Continue` does **not** mean \"approve.\" It means the check passed but the decision is deferred down the chain. Continue — The policy's check passed, but the decision is deferred to the next policy in the chain. Both Reject and Allow are terminal — they end the chain.\n\nSo if every policy in your chain returns `Continue`, no policy ever issues a terminal `Allow`. In that case the PolicyEngine falls back to a per-contract default: If every policy in the chain returns Continue and none makes a final Allow or Reject decision, the PolicyEngine applies a configurable default result.\n\nIf that default is set to reject, your transaction reverts even though nothing \"failed.\" A mismatch between your policy design and the default result can silently block or allow transactions.\n\n## The fix\n\nThe default is controlled by the `desired_default_allow` field, configured **per target contract**: The default can be set to either allow or reject, and it is configured per target contract via the desired_default_allow field. true (default) — The transaction is allowed.\n\nTo resolve it, choose one of:\n\n1. **Set `desired_default_allow = true`** for the target contract if your policies are meant to act as filters (i.e., a `Continue` from all of them should mean \"approve\"). To view or change the default result for a target contract, use the ACE Platform UI or Coordinator API.\n\n2. **Add a terminal policy** that returns `Allow` at the end of the chain, so the transaction is explicitly approved rather than relying on the default.\n\n## Things to double-check\n\n- **This is configured per function, not globally.** Policies are managed per target contract and per function selector — each protected function on each contract has its own independent policy chain. So even if one function works, another protected function may still have `desired_default_allow` set to reject. Verify the specific `(contract, function selector)` pair that's reverting.\n\n- **Watch policy ordering** if you use bypass/allow-early policies. When you attach a policy to a protected function, it is appended to the end of the existing chain by default. You can specify a position to insert it at a specific index instead, shifting existing policies to the right. A terminal `Allow` policy placed early will short-circuit later checks, while one placed late (or missing) leaves you at the mercy of the default.\n\n**In short:** returning `Continue` from every policy never produces an approval — the engine falls through to the contract's `desired_default_allow` default. Set that default to `true`, or add an explicit `Allow`-returning policy at the end of the chain, for the specific target contract and function selector that's reverting.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 62464,
+              "output_tokens": 2491,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1279,
+              "output_tokens": 1262,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4463,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it hit a search rate limit and could not verify the specific policy-reorder details from the source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 6,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Policies are managed per target contract and per function selector",
+            "To move a policy, remove it and re-add it at the desired index",
+            "Adding a policy appends to the end by default, or you can specify a position",
+            "Management is done via the ACE Platform UI or Coordinator API"
+          ],
+          "unverifiable_from_source": [
+            "ACE is powered by the Chainlink Runtime Environment (CRE)",
+            "CCID, CCT Compliance Extension architecture description",
+            "components are reusable, composable, backbone for higher-level compliance services"
+          ],
+          "verdict": "The answer explicitly admits it could not retrieve the relevant documentation and fails to provide any of the required reorder/policy-management details, making it unusable for a developer needing concrete steps.",
+          "fidelity": 38,
+          "prompt": "Chainlink ACE reorder policy in chain",
+          "archetype": "terse/keyword",
+          "answer": "Based on the limited search results I was able to retrieve (I hit a search rate limit before fully documenting the \"reorder\" specifics), here's what I can tell you, with a caveat at the end.\n\n## What Chainlink ACE is\n\nThe Automated Compliance Engine (ACE) is a unified and modular standard to solve all onchain compliance problems and bring institutional capital onchain. Powered by the Chainlink Runtime Environment (CRE), Chainlink ACE enables anyone across traditional or decentralized finance to build, manage, and execute complex financial transactions across multiple jurisdictions, counterparties, digital assets, and execution environments, including public and private chains—all in a compliance-focused and privacy-preserving manner.\n\n## Policy enforcement components\n\nIn Chainlink ACE, components are defined as the foundational onchain primitives—typically smart contracts—that provide the base infrastructure for identity, token compliance, and policy enforcement. These components are reusable, composable, and serve as the backbone for building higher-level compliance services and integrations.\n\n## On the \"reorder policy in chain\" question\n\nA \"policy chain\" in ACE refers to the ordered set of compliance policies/rules that get evaluated when a transaction or token action is checked. Reordering them changes the sequence in which checks execute (which can matter for gas efficiency and for short-circuit logic, e.g., running cheap/most-likely-to-fail checks first).\n\n**However, I was not able to verify the exact reorder function or method signature** from the search results before the search tool hit its usage limit. The publicly indexed ACE technical overview I retrieved describes the architecture (CCID, CCT Compliance Extension, Policy enforcement) but did not surface the specific \"reorder\" API.\n\nTo get you an accurate answer, could you clarify what you're after?\n- Are you looking for a **specific smart-contract function** (e.g., in a Policy Manager / policy registry) to reorder policies?\n- Or a **conceptual explanation** of how policy ordering works in an ACE policy chain?\n- Are you working from a particular repo, doc page, or contract?\n\nIf you can confirm, I'll retry the search targeting the exact source (e.g., Chainlink ACE developer docs or the Policy Manager contract) once the rate limit resets, so I can give you cited, verified specifics rather than guessing at a function name.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 79745,
+              "output_tokens": 3549,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1172,
+              "output_tokens": 913,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4463,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace/concepts/policy-ordering"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 5,
+            "relevance": 8,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Pause / kill-switch policies (e.g., PausePolicy)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Transaction limits (e.g., MaxPolicy, VolumePolicy)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "this model forces you to have at least one policy in every chain that returns Allowed",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Default Allowed = false (fail-safe)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Keep chains short to reduce gas cost",
+            "Review ordering after any add/remove/reorder"
+          ],
+          "unverifiable_from_source": [
+            "if you add a protected function but forget to add a policy, it will be open by default",
+            "this model forces you to have at least one policy in every chain that returns Allowed"
+          ],
+          "verdict": "Mostly faithful and well-cited, but it replaces the source's canonical 3-tier ordering pattern with an invented 5-tier scheme naming fabricated policy classes (PausePolicy, VolumePolicy) and omits the gas-cost and review-after-change best practices, so it should not be shipped as-is without correction.",
+          "fidelity": 60,
+          "prompt": "Show me the recommended ordering pattern for composing a Chainlink ACE policy chain.",
+          "archetype": "code-first",
+          "answer": "I'll search for information about Chainlink ACE policy chain composition ordering.Let me get more detail on the specific ordering best practices from the documentation.Based on Chainlink's official ACE documentation, here's the recommended ordering pattern for composing a policy chain.\n\n## How the chain evaluates\n\nIn ACE, policies attached to a function execute sequentially, and the order they run in determines the security and behavior of your compliance ruleset. Each policy in the chain produces one of three outcomes:\n\n- **Reject** — The policy reverts with PolicyRejected. The transaction reverts immediately and no subsequent policies run.\n- **Allow** — The policy returns Allowed. The transaction is approved immediately and all subsequent policies are skipped.\n- **Continue** — The policy's check passed, but the decision is deferred to the next policy in the chain.\n\nThe key insight is that both Reject and Allow are terminal — they end the chain. This means the position of each policy directly controls which policies actually execute.\n\n## The recommended ordering pattern\n\nThe core best practice is: **put your strictest, non-negotiable checks first, and terminal \"bypass/allow\" policies last.**\n\nPlace policies that reject unauthorized or dangerous transactions at the beginning of the chain. This ensures critical security checks (sanctions screening, credential verification) cannot be bypassed by an earlier Allow result.\n\nA practical layered order looks like this:\n\n1. **Pause / kill-switch policies** (e.g., `PausePolicy`) — global halt checks\n2. **Reject / deny policies** (sanctions, blocklists) — hard \"no\" checks that must never be skipped\n3. **Identity / credential policies** (e.g., `CredentialRegistryIdentityValidatorPolicy` for KYC)\n4. **Transaction limits** (e.g., `MaxPolicy`, `VolumePolicy`) — caps and volume/time restrictions\n5. **Bypass / Allow policies** (e.g., `BypassPolicy`) — administrative overrides, placed **last**\n\n## Why bypass goes last — the canonical example\n\nThe documentation illustrates this with three policies attached to a token's transfer function: a CredentialRegistryIdentityValidatorPolicy (verifies KYC credentials), a MaxPolicy (caps individual transfers), and a BypassPolicy (allows admins to skip all checks).\n\nThe difference between two orderings is critical:\n- In Ordering A, an admin skips both the credential check and the transfer cap.\n- In Ordering B, every address — including admins — must pass the credential and transfer-limit checks first. The BypassPolicy only applies after the critical checks.\n\nBecause Allow is terminal, if you place a `BypassPolicy` early, it short-circuits everything downstream — which is almost never what you want for compliance-critical checks.\n\n## Managing chain position\n\nDuring ACE Beta, chain management happens through the ACE Platform (UI or Coordinator API):\n\n- **Adding** — When you attach a policy to a protected function, it is appended to the end of the existing chain by default. You can specify a position to insert it at a specific index instead, shifting existing policies to the right.\n- **Removing** — Removing a policy shifts the remaining policies to maintain their relative order.\n- **Reordering** — To move a policy to a different position, remove it and re-add it at the desired index.\n- **Viewing** — Use the Platform UI or API to see the current policy chain for any protected function, listed in execution order.\n\nNote also that policies are managed per target contract and per function selector — each protected function on each contract has its own independent policy chain.\n\n## Don't forget the default result\n\nOrdering interacts with the chain's default outcome. This matters when all your policies use the Continue pattern (which is the most common approach for composable policy chains). If the default is set to reject but you intended all-Continue to mean \"all checks passed,\" your transactions will revert unexpectedly. More generally, when using policies that return Continue, make sure the default result is configured correctly for each target contract. A mismatch between your policy design and the default result can silently block or allow transactions.\n\nThere are two default postures to choose from:\n- **Default Allowed = true** — maintains the regular, expected behavior of your contract's functions until you decide which specific protections are required, but if you add a protected function but forget to add a policy, it will be open by default.\n- **Default Allowed = false (fail-safe)** — a more aggressive security posture. It ensures that no transaction can pass unless a policy explicitly permits it, which prevents new or misconfigured functions from being accidentally exposed, though this model forces you to have at least one policy in every chain that returns Allowed, which can add complexity.\n\n---\n\n**Summary of the pattern:** order policies so that terminal *reject* checks (pause → sanctions/deny → identity → limits) run **before** any terminal *allow/bypass* policy, keep chains per-selector, and verify the default result matches your intended all-Continue semantics. For full details and diagrams, see the [Policy Ordering and Composition](https://docs.chain.link/ace/concepts/policy-ordering) documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 45078,
+              "output_tokens": 2967,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2167,
+              "output_tokens": 3090,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4463,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states the documentation search failed due to a tool/usage limit, making the retrieval outcome inconclusive."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 6,
+            "relevance": 2,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "an 'allow-and-halt' type versus a 'reject' versus a 'pass/continue' type",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "AND / accumulating semantics ... Short-circuit / terminal semantics",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Policies execute sequentially and position controls which policies actually run",
+            "A BypassPolicy/Allow first means the admin skips credential and cap checks",
+            "Placing restrictive checks first forces everyone including admins to pass them first",
+            "Reject and Allow are terminal outcomes that end the chain; Continue defers to the next policy"
+          ],
+          "unverifiable_from_source": [
+            "General rule-engine terminology (AND/accumulating vs short-circuit semantics) not present in the ACE docs",
+            "Suggestion to test a matrix of admin sender × rule conditions"
+          ],
+          "verdict": "The answer openly admits it could not retrieve the ACE docs and instead gives a generic policy-engine explanation that never mentions the actual ACE terms (Reject/Allow/Continue, BypassPolicy, PolicyEngine), so it is not safe to ship as authoritative Chainlink ACE guidance.",
+          "fidelity": 45,
+          "prompt": "I'm new to Chainlink ACE and I set up a bunch of compliance rules on my token transfer function, but I'm confused about why the order I add them in seems to change whether an admin can skip checks. Can you explain how the chain actually decides and how I should arrange things?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for the latest details on how Chainlink ACE evaluates compliance rules, since ordering behavior is a specific technical detail worth verifying.I wasn't able to pull up the live Chainlink ACE documentation just now (the search tool hit its usage limit), so I want to be upfront: I can't verify the exact current API names or behaviors against the docs in this reply. Rather than guess at specifics I'm unsure of, let me explain the general principle behind what you're seeing, which is common to rule/policy engines like ACE's, and then tell you exactly what to confirm in the docs.\n\n## Why ordering changes whether an admin can \"skip\" checks\n\nThe behavior you're describing almost always comes down to **short-circuit (terminal) evaluation** versus **accumulating (AND) evaluation**.\n\nIn most compliance-rule pipelines, when a transfer is attempted the engine walks your rules **in the order they're registered** and asks each one for a verdict. The key question is *what a verdict does to the rest of the chain*:\n\n- **AND / accumulating semantics** — every rule must pass; the transfer only succeeds if none of them reject. Order doesn't change the *outcome* here (all rules run), only possibly the gas cost and which error you see first.\n- **Short-circuit / terminal semantics** — a rule can return a result that *stops evaluation immediately*. This is where ordering matters enormously. If you have an \"allowlist\" or \"admin/privileged sender\" rule that returns an early **allow-and-stop**, then any rule placed *after* it never executes. That's your \"admin can skip checks\" effect: the admin bypass rule is short-circuiting before the stricter rules get a chance to run.\n\nSo the same set of rules can produce different results purely based on position, because a terminal \"allow\" early in the list amputates everything downstream.\n\n## How to arrange things\n\nA few practical guidelines that hold for this style of engine:\n\n1. **Know which of your rules are terminal.** Identify any rule that can produce an early-exit \"allow\" (allowlists, role/admin exemptions, whitelisted-address bypasses). Those are the ones whose position matters.\n\n2. **Put mandatory, non-negotiable checks first** — the ones that must *always* run regardless of who the sender is (e.g., sanctions/blocklist screening, freeze status). If a check should apply even to admins, it must sit *ahead* of any bypass rule, or the bypass must be scoped so it doesn't short-circuit those.\n\n3. **Put scoped exemptions last, or make them non-terminal.** If you want an admin exemption to relax only *some* rules rather than all of them, don't rely on a blanket early-allow. Instead scope the exemption into the specific rule(s), so the exemption can't accidentally waive an unrelated sanctions check.\n\n4. **Decide your combination logic deliberately.** If your intent is \"all rules must pass, no exceptions,\" you generally don't want any rule that emits a terminal allow — you want each to only be able to reject (or pass-through). Reserve terminal-allow behavior for cases where you genuinely want a privileged fast-path.\n\n5. **Test the matrix.** Write tests for (admin sender × each rule condition) so you can *see* exactly where the chain exits for each combination. This is the fastest way to catch an exemption that's swallowing checks you meant to enforce.\n\n## What I'd recommend you verify in the ACE docs\n\nBecause the exact semantics determine everything above, confirm these specific points in Chainlink's ACE documentation / the policy or rule engine reference:\n\n- Does the engine evaluate rules **in registration order**, and can that order be re-configured?\n- What **return/verdict types** a rule can emit — specifically whether there is an \"allow-and-halt\" type versus a \"reject\" versus a \"pass/continue\" type.\n- Whether the combination is **AND across all rules** or whether **any rule can short-circuit**.\n- How **role- or admin-based exemptions** are meant to be expressed — whether the intended pattern is a dedicated bypass rule or a scoped condition inside individual rules.\n\nIf you can share your actual rule list (or the config/code where you register them), I can walk through the specific ordering with you. And if you'd like, I can try the documentation search again in a moment when the tool limit resets so I can give you the exact ACE terminology instead of the general model.\n\nWould you like me to retry the doc lookup, or take a look at your rule setup?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 26350,
+              "output_tokens": 2791,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2010,
+              "output_tokens": 1339,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 4463,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {
+      "web": "2026-09-28T18-55-32-376Z-efb3"
+    }
+  }
+}

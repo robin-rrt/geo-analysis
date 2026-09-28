@@ -1,0 +1,661 @@
+{
+  "key": "cre-guides-operations-activating-pausing-workflows-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Activating & Pausing Workflows",
+    "url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+    "analyzedAt": "2026-09-21T13:21:07.277Z",
+    "contentType": "developer documentation / CLI operations guide",
+    "score": 69,
+    "band": "Good",
+    "weightedTotal": 68.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with the canonical commands and their effect; each section leads with what the command does (\"The `cre workflow activate` command changes a paused workflow's status to active…\"). No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 14 headings, clean H1→H3 with 0 level skips, no section over 167 words (measured). One table would help (see recs) but chunk boundaries are excellent."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Adequate. Code output carries real values (contract `0xF3f93fc4…`, gas price `0.00100000 gwei`, cost `0.00000038 ETH`), but prose has 9 numerals and 0 with units; no version string for the `cre` CLI."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "9 internal links, 0 external (measured). Cross-linking is good for a hub, but no link to the registry contract on a block explorer or to a canonical spec."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"**Active** — The workflow can respond to its configured triggers and execute\" is a clean liftable pair."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, no `dateModified`/`inLanguage` in head (body carries \"Last Updated: 2025-11-04\" but that is not machine-readable). No `TechArticle` schema."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 8,
+        "weighted": 8,
+        "analysis": "Strong. Commands are complete and copy-pasteable, all 4 fences tagged `bash`, expected output shown for both operations."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate. Good \"When to…\"/\"What happens…\" coverage and a useful missed-triggers note, but no symptom/error-phrased headings for retrieval (e.g., \"workflow still firing after pause\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong prose, but the mainnet vs. sepolia mismatch in the output block is a terminology/accuracy snag that undercuts entity trust."
+      }
+    ],
+    "summary": "This is a clean, well-structured CLI operations guide that names its canonical commands (`cre workflow activate` / `cre workflow pause`) in the first sentence and shows realistic example output. Its biggest GEO strength is answer-first structure with tight, quotable state definitions; its biggest opportunity is missing machine-readable metadata (no JSON-LD, no canonical URL) and the absence of symptom-phrased troubleshooting headings that devs actually query. An accuracy inconsistency — prose says `ethereum-mainnet` while example output shows `ethereum-testnet-sepolia` — should be resolved before it gets synthesized wrong.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased troubleshooting headings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 near end, before \"Learn more\"",
+        "issue": "No sections match how devs query failures (\"workflow not responding to triggers\", \"still executing after pause\").",
+        "change": "Add \"## Troubleshooting\" with H3s phrased as symptoms: \"Workflow still executing after pause\" (answer: registry status propagation / confirm tx confirmed), \"Triggers didn't fire after I activated\" (link to the missed-triggers note), \"Activation failed: workflow is not paused\" (from the validation step).",
+        "why": "Symptom-titled sections win retrieval that concept-titled prose loses, even when the answer exists in body text."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD and canonical URL",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "Measured: 0 JSON-LD blocks, canonical MISSING, no `dateModified`.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-11-04`, `inLanguage: en`, and a self-referential `canonical`. Mirror the body's \"Last Updated\" into `dateModified`.",
+        "why": "Structured metadata and visible freshness signals make the page parseable and trustworthy to agents; likely a site-template fix."
+      },
+      {
+        "priority": 2,
+        "title": "Add a states/commands comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top, replacing/supplementing the \"Workflow states\" bullets",
+        "issue": "State→command→effect relationships are spread across prose bullets.",
+        "change": "Add a 3-column table: State | Command to enter it | Behavior (`Active` | `cre workflow activate` | responds to triggers; `Paused` | `cre workflow pause` | does not respond, triggers not queued).",
+        "why": "Tables let engines extract the whole state machine as one liftable, justified unit."
+      },
+      {
+        "priority": 2,
+        "title": "Resolve the mainnet/sepolia inconsistency",
+        "mapsTo": "clarity & entity consistency",
+        "tier": null,
+        "where": "both \"Example onchain registry output\" blocks",
+        "issue": "Prose says `onchain:ethereum-mainnet`; output shows `Chain Name: ethereum-testnet-sepolia` and `sepolia.etherscan.io`.",
+        "change": "Make the example self-consistent (either label it a testnet example explicitly, or align chain name, explorer, and the `Registry:` field to the same network).",
+        "why": "Contradictory network facts get synthesized into wrong answers about where transactions land."
+      },
+      {
+        "priority": 2,
+        "title": "Add the CLI version / compatibility note",
+        "mapsTo": "concrete specifics",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "Measured: 0 version strings; no `cre` CLI version stated.",
+        "change": "Add \"Requires `cre` CLI vX.Y+\" (with the real minimum) near first command use.",
+        "why": "Version numbers are high-lift specifics and help agents avoid running commands against incompatible builds."
+      },
+      {
+        "priority": 3,
+        "title": "Add one external/authoritative reference",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "the \"Example onchain registry output\" details",
+        "issue": "Measured: 0 external links; contract `0xF3f93fc4dc177748E7557568b5354cB009e3818a` is unlinked.",
+        "change": "Link the registry contract address to its Etherscan page.",
+        "why": "A primary-source link on the canonical contract raises citation credibility."
+      }
+    ],
+    "antiPatterns": [
+      "**Internal inconsistency:** `onchain:ethereum-mainnet` in prose/`Details` vs `ethereum-testnet-sepolia` + `sepolia.etherscan.io` in the example output — a factual mismatch, not just cosmetic.",
+      "No stale-date issue (body dated 2025-11-04), no keyword stuffing, no marketing fluff, no unresolved cross-references, no undifferentiated prose walls."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical URL, and `dateModified` are almost certainly controlled by the site doc template — fix once at template level to benefit all CRE pages.",
+      "The body references [llms.txt](/llms.txt); confirm this page is listed there so agents discover it via the index.",
+      "Freshness cadence: the visible \"Last Updated\" is good practice — ensure it also surfaces as machine-readable metadata."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/operations/activating-pausing-workflows.md",
+      "source_title": "Activating & Pausing Workflows",
+      "probe_set_id": "c698939df7a6",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:37:37.419Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 49.4,
+      "avg_fidelity_all": 43.3,
+      "unattributed_count": 1,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.7,
+        "hallucination_free": 4,
+        "relevance": 3.3,
+        "structure": 6.2
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 579970,
+          "output_tokens": 13571,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 25,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 7491,
+          "output_tokens": 10092,
+          "cache_creation_input_tokens": 2859,
+          "cache_read_input_tokens": 28629,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/workflow"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cited the CLI workflow reference page instead of the expected activating-pausing-workflows source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 7,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Run cre workflow pause from your project root",
+            "The CLI reads workflow name and deployment-registry from workflow.yaml",
+            "Missed triggers while paused are not queued or retroactively executed"
+          ],
+          "unverifiable_from_source": [
+            "owner addresses must be linked to your organization through the cre account link-key command before deployment",
+            "if you deploy an update to a workflow that is currently paused, the CLI will complete the update and then print a warning that your workflow is paused"
+          ],
+          "verdict": "The answer correctly identifies the core command and basic usage but omits key documented details (project-root requirement, workflow.yaml resolution, missed-trigger note) and adds unverified specifics not found in the source page, while also failing to cite the actual source document.",
+          "fidelity": 63,
+          "prompt": "How do I pause a deployed workflow with the Chainlink CRE CLI?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about pausing a deployed workflow with the Chainlink CRE CLI.Let me get more specific details from the workflow commands reference page.Based on my research, here's how to pause a deployed workflow with the Chainlink CRE CLI.\n\n## Pausing a Workflow\n\nTo pause a deployed workflow, use the `cre workflow pause` command. This changes the workflow status to paused on the Workflow Registry contract, and paused workflows will not respond to triggers.\n\nThe basic syntax is:\n\n```bash\ncre workflow pause <workflow-name-or-path> --target production-settings\n```\n\nWhere the workflow name or path is the workflow folder name (e.g., `my-workflow`) or a path (e.g., `./my-workflow`).\n\n## What you need before pausing\n\n- **Be logged in:** You must be authenticated with the platform by running `cre login`. To check if you are logged in, run `cre whoami`.\n- **A funded wallet:** The account must be funded with ETH on Ethereum Mainnet to pay the gas fees for the onchain transaction to the Workflow Registry contract.\n- **Owner permissions:** A workflow owner is an Ethereum address that has permission to deploy, pause, activate, and delete workflows, and owner addresses must be linked to your organization through the `cre account link-key` command before deployment.\n\n## Confirming the result\n\nOn success, the CLI provides useful details. The `cre workflow pause` command (along with deploy, activate, and delete) displays a consistent details block on success, showing the registry, contract address, transaction hash, workflow name, and workflow ID.\n\n## Resuming later\n\nWhen you're ready to resume, use `cre workflow activate`. Note also that pausing before an update is a common practice: if you want to ensure no triggers fire during an update, you can pause the workflow first using `cre workflow pause`. Keep in mind that if you deploy an update to a workflow that is currently paused, the CLI will complete the update and then print a warning that your workflow is paused and has been updated — the workflow remains paused after the update, so you need to run `cre workflow activate` to resume it.\n\nFor complete details, see the [Workflow Commands reference](https://docs.chain.link/cre/reference/cli/workflow) and the \"Activating & Pausing Workflows\" guide in the Chainlink CRE documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 40028,
+              "output_tokens": 1375,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1298,
+              "output_tokens": 2691,
+              "cache_creation_input_tokens": 2859,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited, so retrieval for this answer appears to have failed."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "<workflow-name-or-path>\" argument is required ... or a path (e.g., `./my-workflow`)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the CLI will complete the update and then print a warning: Your workflow is paused and has been updated. ... run cre workflow activate to resume it.",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "This changes the workflow status to active on the Workflow Registry contract.",
+              "type": "contradiction",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Run cre workflow activate my-workflow --target production-settings from project root",
+            "CLI validates the workflow is currently paused before activating"
+          ],
+          "unverifiable_from_source": [
+            "Passing a path instead of a workflow name for the activate command"
+          ],
+          "verdict": "The answer correctly names the activate command and login prerequisite but omits the required --target flag, invents a path-argument option, and fabricates a specific warning message not present in the source, so it should not be shipped as-is without verification against the docs.",
+          "fidelity": 45,
+          "prompt": "Using the cre CLI, how do I re-activate a workflow I paused earlier for maintenance?",
+          "archetype": "constrained",
+          "answer": "To re-activate a paused workflow with the CRE CLI, use the `cre workflow activate` command.\n\n## Command\n\n```bash\ncre workflow activate <workflow-name-or-path>\n```\n\nThe `<workflow-name-or-path>` argument is required — you can pass either the workflow folder name (e.g., `my-workflow`) or a path (e.g., `./my-workflow`).\n\nThis changes the workflow status to active on the Workflow Registry contract. Active workflows can respond to their configured triggers.\n\n## Before you run it\n\nYou need to be authenticated. Running this command requires you to be logged in with the CRE CLI. Run cre whoami in your terminal to verify you're logged in, or run cre login to authenticate.\n\n## A note if you updated the workflow while it was paused\n\nIf you deployed changes to the workflow during your maintenance window, it stays paused after the update. If you deploy an update to a workflow that is currently paused, the CLI will complete the update and then print a warning: Your workflow is paused and has been updated. The workflow remains paused after the update — run cre workflow activate to resume it.\n\nOnce activated, the workflow will resume responding to its configured triggers.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 29012,
+              "output_tokens": 1111,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 857,
+              "output_tokens": 1634,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5248,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli/workflow"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites the CLI reference page instead of the actual activating-pausing-workflows guide and admits it could not retrieve the verbatim output."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "cre workflow activate <workflow-name-or-path>",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "activate command also accepts a DON family (required)",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "flags such as --skip-confirmation and --non-interactive",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Workflow \"my-workflow\" activated successfully / Owner: 0x1234...abcd / Status: Active",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "cre workflow activate my-workflow --target production-settings",
+            "Function shown is ActivateWorkflow",
+            "Prompts to confirm transaction execution (Yes/No)",
+            "Prints transaction confirmed with explorer link and Workflow activated successfully"
+          ],
+          "unverifiable_from_source": [
+            "The Workflow Registry contract lives on Ethereum Mainnet for the public registry",
+            "linked wallet address as the workflow owner for every lifecycle operation"
+          ],
+          "verdict": "Not safe to ship: the command syntax, required flags, and example output are fabricated and diverge from the documented `--target` flag, ActivateWorkflow transaction flow, and confirmation prompt shown in the source.",
+          "fidelity": 33,
+          "prompt": "Show me the cre command and expected output to activate a workflow on the Chainlink CRE onchain registry.",
+          "archetype": "code-first",
+          "answer": "I'll search for the specific Chainlink CRE command to activate a workflow on the onchain registry.I have the search results but they were returned as a raw string. Let me parse them properly to extract the specific command details.Let me get the specific command syntax and expected output from the activation guide.Based on the Chainlink CRE documentation, here's the command and what to expect.\n\n## Command\n\n```bash\ncre workflow activate <workflow-name-or-path>\n```\n\nThe `<workflow-name-or-path>` argument is **required** — it's either the workflow folder name (e.g., `my-workflow`) or a path (e.g., `./my-workflow`). For example:\n\n```bash\ncre workflow activate ./my-workflow\n```\n\n## What it does\n\nThe `cre workflow activate` command changes the workflow status to active on the Workflow Registry contract. Active workflows can respond to their configured triggers. On the public registry, the Workflow Registry contract lives on Ethereum Mainnet, and every lifecycle operation (deploy, activate, pause, update, delete) submits a transaction to that contract, with your linked wallet address as the workflow owner.\n\n**Prerequisites:** Running this command requires you to be logged in with the CRE CLI. You can run `cre whoami` in your terminal to verify you're logged in, or run `cre login` to authenticate. The CLI's `activate` command also accepts a DON family (required), workflow owner, and flags such as `--skip-confirmation` and `--non-interactive`.\n\n## Expected output\n\nBecause activation submits an onchain transaction to the Workflow Registry, a successful run confirms the status change and returns a transaction hash. A representative output looks like this:\n\n```\n✔ Workflow \"my-workflow\" activated successfully\n  Owner:       0x1234...abcd\n  Status:      Active\n  Transaction: 0xabc123...def456\n```\n\nNote: the exact wording/format of the printed confirmation can vary by CLI version — I wasn't able to retrieve the verbatim output block from the docs, so treat the snippet above as a representative example rather than an exact quote. The key confirmation is that the status becomes **Active** and a transaction hash is returned that you can look up on a block explorer.\n\n## Related context\n\nA common scenario where you'll need this: if you deploy an update to a workflow that is currently paused, the CLI completes the update and then prints a warning that your workflow is paused and has been updated. The workflow remains paused after the update — you run `cre workflow activate` to resume it.\n\nYou can verify the full, current command reference (including all flags and the exact output) in the official docs:\n- Workflow Commands: `https://docs.chain.link/cre/reference/cli/workflow`\n- Activating & Pausing Workflows guide (linked from the Deploying Workflows operations docs)\n\nWould you like the corresponding `cre workflow pause` command, or the full deploy → activate lifecycle sequence?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 342540,
+              "output_tokens": 3335,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1490,
+              "output_tokens": 2171,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5248,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected source page despite discussing its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Use `cre workflow get` (or `cre workflow list`) to inspect the deployed workflow's status.",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "use `--output json` for machine-readable output",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "owner addresses must be linked to the organization through `cre account link-key` before deployment",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "the CLI completes the update and prints a warning that the workflow remains paused after the update",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "It was deployed/updated while active... the updated version will be active and immediately start responding to triggers.",
+            "A workflow owner is an Ethereum address that has permission to deploy, pause, activate, and delete workflows"
+          ],
+          "verdict": "The core explanation (activate only succeeds on a paused workflow) is accurate, but the answer invents unverified commands and params (cre workflow get/list, --output json, cre account link-key) not found in the source and never cites the actual doc, making it risky to ship as-is.",
+          "fidelity": 63,
+          "prompt": "cre workflow activate says workflow is not paused — why can't I activate it?",
+          "archetype": "error-debug",
+          "answer": "## Short answer\n\nThat message isn't a failure — it's telling you there's nothing to activate because the workflow **isn't in a paused state**. The `activate` command only does something when a workflow is currently paused; it flips a paused workflow back to active.\n\n## Why it happens\n\n`cre workflow activate` changes the workflow status to active on the Workflow Registry contract. Active workflows can respond to their configured triggers. Conversely, `cre workflow pause` changes the workflow status to paused on the Workflow Registry contract, and paused workflows will not respond to triggers.\n\nSo the two states are simply **active** and **paused**. If you run `activate` on a workflow that is already active (i.e., \"not paused\"), there's no state transition to perform — hence the \"workflow is not paused\" message.\n\nThe most common reasons your workflow is already active:\n\n1. **It was already activated** (by you or another workflow owner earlier).\n2. **It was deployed/updated while active.** If your workflow was paused, the updated version will remain paused; if it was active, the updated version will be active and immediately start responding to triggers. The paused-after-update warning only appears in the opposite case — if you deploy an update to a workflow that is currently paused, the CLI completes the update and prints a warning that the workflow remains paused after the update, prompting you to run `cre workflow activate` to resume it.\n\n## What to do\n\n- **Confirm the current status** rather than assuming it's stuck. Use `cre workflow get` (or `cre workflow list`) to inspect the deployed workflow's status. `cre workflow list` lists all workflows deployed for your organization; use `--output json` for machine-readable output.\n- If it already shows **active**, you're done — the workflow is live and responding to its triggers. No action needed.\n- If you were actually trying to *pause* it, run `cre workflow pause <workflow-name-or-path>` instead.\n\n## Things worth double-checking\n\n- **Right identity/owner:** A workflow owner is an Ethereum address that has permission to deploy, pause, activate, and delete workflows, and owner addresses must be linked to the organization through `cre account link-key` before deployment. Make sure you're operating on the workflow you think you are.\n- **You're logged in:** Running the activate command requires you to be logged in with the CRE CLI — run `cre whoami` to verify, or `cre login` to authenticate.\n\nIf you expected the workflow to be paused but it isn't, check whether a recent deploy/update re-activated it (an active workflow stays active through updates), then just verify its status with `cre workflow get`.\n\nWould you like the exact `get`/`list` command syntax to confirm the current status?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 57195,
+              "output_tokens": 2590,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1260,
+              "output_tokens": 2308,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5248,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states its search tool failed and it could not verify against live docs, relying on speculation instead of the source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 4,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "a state-changing call (e.g., `pauseWorkflow(...)`)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "create a new transaction using the \"custom transaction\" / \"transaction builder\" option",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "cre workflow pause <name-or-id> --unsigned",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the --unsigned flag with activate or pause for onchain registry workflows (stated only as a guess, not confirmed)",
+            "--unsigned generates raw transaction data to submit through your multi-sig wallet interface (only vaguely implied)",
+            "Private registry workflows do not use --unsigned"
+          ],
+          "unverifiable_from_source": [
+            "Workflow Registry contract function named pauseWorkflow",
+            "Using a Safe multisig transaction builder with To/Value/Data fields",
+            "Need to verify Workflow Registry address for the network"
+          ],
+          "verdict": "The answer openly admits it could not retrieve the docs and hedges heavily, inventing a plausible-but-unconfirmed function name and generic multisig workflow instead of citing the documented --unsigned flag and its actual behavior, so it is not safe to ship without further verification.",
+          "fidelity": 43,
+          "prompt": "For a multi-sig owned Chainlink CRE workflow on the onchain registry, how do I pause it without sending the transaction directly?",
+          "archetype": "constrained",
+          "answer": "I'll search for information about pausing Chainlink CRE workflows owned by a multi-sig on the onchain registry.I wasn't able to run live web searches this session (the search tool hit its usage limit), so I can't verify the exact current CLI flag names against Chainlink's live docs. Let me give you the reliable conceptual approach and flag where you should double‑check the docs for exact syntax.\n\n## The core idea\n\nA Chainlink CRE workflow's lifecycle (deploy, pause, activate, delete) is controlled by calling the **Workflow Registry** contract onchain. Pausing is just a state-changing call (e.g., `pauseWorkflow(...)`) that must come from the workflow's **owner** address.\n\nWhen the owner is a **multi-sig** (e.g., a Safe), the CRE CLI cannot sign/broadcast on the multisig's behalf. So instead of having the CLI send the transaction, you have it **produce the unsigned transaction / calldata**, which you then route through your multisig's normal propose → sign → execute flow.\n\n## How to do it\n\n1. **Generate the unsigned transaction with the CRE CLI.**\n   Run the pause command but tell the CLI *not* to broadcast — instead output the raw transaction/calldata. In the `cre` CLI this is typically done with an \"unsigned\" / \"output tx\" style flag on the workflow pause command (something like `cre workflow pause <name-or-id> --unsigned` or a flag that writes a transaction JSON). Confirm the exact flag with `cre workflow pause --help`, since the CLI evolves.\n\n   The output you want is:\n   - the **target contract** (the Workflow Registry address on your chain),\n   - the **calldata** (ABI-encoded `pauseWorkflow` call with your workflow's identifier),\n   - value = 0.\n\n2. **Propose it in the multisig.**\n   In your Safe (or other multisig UI/tooling), create a new transaction using the \"custom transaction\" / \"transaction builder\" option:\n   - **To:** the Workflow Registry contract address\n   - **Value:** 0\n   - **Data:** the calldata produced in step 1\n\n3. **Collect signatures and execute.**\n   The required threshold of signers approves, and one signer executes. Because the multisig is the registered owner, the registry accepts the `pauseWorkflow` call, and the workflow moves to the paused state.\n\n## Things to verify before you run it\n\n- **Exact CLI flag** for emitting an unsigned tx/calldata (`cre workflow pause --help`).\n- **Correct workflow identifier** the registry expects (workflow ID/name + owner), so you pause the intended workflow.\n- **Correct Workflow Registry address** for the network you deployed on.\n- That the address you use in the multisig call matches the **owner** recorded onchain for that workflow — otherwise the call reverts.\n\nIf you can share which `cre` CLI version you're on (or the output of `cre workflow pause --help`), I can map these steps to the exact flags. I'd also recommend confirming against the current Chainlink CRE documentation, since I couldn't pull it live here and the CLI's flag names for unsigned/multisig flows have been changing as CRE matures.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 91071,
+              "output_tokens": 3722,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1527,
+              "output_tokens": 945,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5248,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not find an authoritative answer and never retrieved or cited the Chainlink CRE documentation."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 3,
+            "relevance": 0,
+            "structure": 2
+          },
+          "hallucinations": [
+            {
+              "claim": "some platforms buffer incoming triggers",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Zapier... does not queue up triggers to replay later—polling Zaps resume from the current state",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Triggers that would have fired while paused are not queued or retroactively executed",
+            "On activation the workflow only responds to new triggers after activation"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely fails to identify this is about Chainlink CRE's `cre workflow pause` behavior and instead asks the user to clarify which unrelated platform (Zapier, n8n, etc.) they mean, so it is not usable for a Chainlink developer.",
+          "fidelity": 13,
+          "prompt": "pause workflow triggers queued while paused?",
+          "archetype": "terse/keyword",
+          "answer": "I'd be happy to help, but I want to make sure I give you accurate information. Your question could apply to several different platforms. Let me search for relevant information.Your question—whether triggers that fire while a workflow is paused get **queued** (and then run when you resume) or get **dropped**—depends heavily on which platform you're using, since each handles this differently. I couldn't find a single authoritative answer that applies universally, and the behavior genuinely varies. Here's what I can tell you, and then a quick question to pin it down for you.\n\n## The general picture\n\nThe behavior falls into a few common patterns:\n\n- **Held/queued while paused, then run on resume** — some platforms buffer incoming triggers.\n- **Dropped/skipped while paused** — the trigger events are simply ignored, so nothing runs when you resume.\n- **Depends on trigger type** — polling-based triggers behave differently from webhook/instant triggers (polling triggers often just resume polling from the current point, effectively \"missing\" events during the pause window).\n\n## What varies by platform\n\n- **Zapier:** Zapier lets you control when a Zap runs and turn Zaps on/off. Zapier provides options to control when your Zap runs. Generally, a turned-off Zap does not queue up triggers to replay later—polling Zaps resume from the current state.\n- **n8n:** Deactivating a workflow stops its triggers. Separately, n8n has its own \"queued\" execution concept tied to execution concurrency/queue mode, which is different from pausing. In n8n there have been cases of workflows stuck in a \"Queued\" state, never executing—but that's a concurrency/worker issue, not a \"paused trigger buffer.\"\n\n## To give you a precise answer\n\nCould you tell me:\n\n1. **Which platform/tool** are you using? (e.g., Zapier, n8n, Make, Power Automate, GitHub Actions, Temporal, Airflow, a custom system, etc.)\n2. **How are you \"pausing\"**—a dedicated pause button, deactivating/toggling off, or an on-hold state?\n3. **What trigger type**—webhook/instant, scheduled/cron, or polling?\n\nWith those details I can search for the exact documented behavior and confirm whether triggers are queued or dropped for your specific setup.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 20124,
+              "output_tokens": 1438,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1059,
+              "output_tokens": 343,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 5248,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

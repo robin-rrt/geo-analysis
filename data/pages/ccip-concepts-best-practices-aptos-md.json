@@ -1,0 +1,178 @@
+{
+  "key": "ccip-concepts-best-practices-aptos-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Best Practices (Aptos)",
+    "url": "https://docs.chain.link/ccip/concepts/best-practices/aptos.md",
+    "analyzedAt": "2026-09-22T13:38:05.617Z",
+    "contentType": "developer documentation / best-practices guide",
+    "score": 60,
+    "band": "Good",
+    "weightedTotal": 60.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Sections open with the answer: \"Before calling the `router::ccip_send` entry function, your application should verify that the destination chain is supported.\" Question-headings are answered in their first sentence. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 24 headings, 1 H1, max depth H3, zero level skips, median 52 words/section. Weak spot: 0 tables — the account-type decision and `gasLimit` rules are prose/bullets where a table would extract better."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Only 3 prose numerals (2 per 1k words), 0 with units, no version strings; `gasLimit` of `0` is the sole concrete value. \"Soak test\" and service-limit sections reference limits without naming any numbers."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak. 7 links, 0 to primary sources; external links are contact/terms pages, not Aptos SDK docs, Move specs, or the CCIP architecture reference."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. Liftable statements like \"The CCIP `ReceiverRegistry` is designed to map a single account address to a single, unique `ccip_receive` function\" are self-contained."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Poor. No JSON-LD, canonical MISSING, no `dateModified`/`datePublished` in head, no og/twitter tags. Body carries \"Last Updated: 2025-09-03\" but it is not machine-exposed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Mixed. 3 tagged blocks, but rust snippets omit imports/module scaffolding, `E_UNTRUSTED_SOURCE_CHAIN` and `E_UNTRUSTED_SENDER` are used but never defined, and one block relies on placeholder comments (\"// Your allowlist logic\")."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Full lifecycle (verify → decouple → deploy → soak test → monitor → audit) and question-phrased headings. Gap: no error-string / symptom coverage (e.g., what failure looks like when sending to an unsupported chain)."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed."
+      }
+    ],
+    "summary": "This is a well-structured, cleanly written best-practices guide for building CCIP receivers on Aptos, and its biggest strength is retrieval-friendly chunking: 24 small sections, several phrased as the exact questions developers ask (\"Why must `ccip_receive` fetch its own data payload?\"). The biggest opportunity is machine-readability and specificity — the page ships with zero JSON-LD, no canonical URL, no head-level dates, almost no quantitative detail, and no primary-source citations. The honest verdict: strong bones, but under-instrumented for generative retrieval and thin on the concrete numbers and authoritative links that lift citation rate.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD, canonical URL, and machine-readable dates",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… datePublished absent / dateModified absent\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `dateModified: 2025-09-03`, `inLanguage: en`, `programmingLanguage: [Move, TypeScript]`, and add `<link rel=\"canonical\">`.",
+        "why": "Structured metadata and visible freshness signals raise agent trust/E-E-A-T and parseability."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom/troubleshooting section with error strings",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H2 near \"Verify destination chain\" / end of page",
+        "issue": "No content matches symptom queries like \"CCIP send fails to unsupported chain\" or the `E_UNTRUSTED_SOURCE_CHAIN` abort.",
+        "change": "Add a short \"Common errors\" section mapping each abort code (`E_UNTRUSTED_SOURCE_CHAIN`, `E_UNTRUSTED_SENDER`) and the unsupported-chain revert to cause + fix.",
+        "why": "Devs/agents query by error text; symptom-phrased headings win retrieval that concept prose loses."
+      },
+      {
+        "priority": 1,
+        "title": "Cite primary sources inline",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Verify destination chain\", \"Key Concepts for Aptos Receivers\"",
+        "issue": "\"0 to primary sources\"; only contact/terms links present.",
+        "change": "Link `@aptos-labs/ts-sdk` to its package/docs, `receiver_registry`/`ReceiverRegistry` to the CCIP Move module reference, and resource accounts to the Aptos resource-account docs.",
+        "why": "Inline authoritative links raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Convert the account-type decision to a comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"When must a receiver module be deployed under a Resource Account?\"",
+        "issue": "Decision logic (resource vs user vs code object) is buried in two bullets.",
+        "change": "Add a 3-row table: Account type | Handles tokens? | Signer capability | Recommended when.",
+        "why": "Tables let engines extract explicit reasons and build justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Complete the Move snippets",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Verify source chain\", \"Verify sender\"",
+        "issue": "Undefined `E_UNTRUSTED_SOURCE_CHAIN`/`E_UNTRUSTED_SENDER`; missing `module`/`use` scaffolding; placeholder `// Your allowlist logic`.",
+        "change": "Add `const E_UNTRUSTED_SOURCE_CHAIN: u64 = 1;` declarations, wrap snippets in a minimal `module` with `use` imports, and show a concrete `is_allowed_source_chain` stub.",
+        "why": "Copy-pasteable, self-contained code is preferred by coding agents and cited more."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete numbers to limits/testing guidance",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Soak test your dApps\", \"Message Ordering\"",
+        "issue": "\"Be aware of the Service Limits and Rate Limits\" with no figures; vague \"several\".",
+        "change": "Cite the specific rate-limit/finality values (or link the exact directory row) and state why `allow_out_of_order_execution` must be `true` on Aptos (finality/ordering model).",
+        "why": "Quantitative specifics are among the highest-lift changes for source visibility."
+      },
+      {
+        "priority": 3,
+        "title": "Lead the `extraArgs` section with the canonical Aptos requirement",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"Using `extraArgs`\" → \"Message Ordering\"",
+        "issue": "The mandatory `allow_out_of_order_execution: true` rule appears only in a CAUTION box after general prose.",
+        "change": "Put \"On Aptos you **must** set `allow_out_of_order_execution` to `true` (source or destination)\" as the section's first liftable sentence; name hardcoding `extra_args` as an explicit Don't.",
+        "why": "Answer-first canonical facts defend against skims and generic-EVM priors."
+      }
+    ],
+    "antiPatterns": [
+      "Undefined identifiers in code (`E_UNTRUSTED_SOURCE_CHAIN`, `E_UNTRUSTED_SENDER`) and placeholder comments reduce runnability.",
+      "One vague quantifier (\"several\") where a count would serve.",
+      "Freshness date present in body but not machine-exposed in head.",
+      "No walls of prose, no keyword stuffing, no marketing fluff — clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is referenced at top — good; ensure it lists this URL.",
+      "JSON-LD/canonical/og tags are template-level fixes across `docs.chain.link`, not just this page; CLI should pass raw `<head>` next run to confirm absence vs non-capture.",
+      "Primary-source authority (Aptos SDK, Move module refs) partly depends on those targets being canonical, stable URLs."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "key": "ccip-concepts-architecture-md",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Architecture",
+    "url": "https://docs.chain.link/ccip/concepts/architecture.md",
+    "analyzedAt": "2026-09-22T13:37:48.397Z",
+    "contentType": "developer documentation / section index (navigation hub)",
+    "score": 47,
+    "band": "Developing",
+    "weightedTotal": 47.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Opens with \"This section explains the core architecture...\" — a meta-description, not an answer. It never states in a liftable sentence *what CCIP's architecture is*. Weak for a page that owns the word \"architecture.\""
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Clean H1 + 4 bolded, linked bullets; 0 level skips, 95-word section. Good for its size, but a single flat list is the whole page — no depth to chunk."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured 3 numerals, 0 with units, no versions. Effectively no specifics — expected for an index, but it means zero quantitative lift."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 internal links, 0 external. Appropriate for a hub, but no link to a canonical CCIP concept page or primary source elevates trust."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 4,
+        "weighted": 3.2,
+        "analysis": "Expands \"Cross-Chain Interoperability Protocol (CCIP)\" but gives no crisp one-sentence definition an engine can lift. Missed cheap win."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Measured 0 JSON-LD, canonical MISSING, no og/twitter tags, no schema dates. A visible \"Last Updated: 2025-06-09\" exists in markdown but isn't in structured metadata. Weak; head metadata could not be verified from the capture (CLI should pass raw `<head>`)."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "No code — genuinely not applicable for an index page; not penalized as a defect."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers the four architecture subtopics (overview, key concepts, onchain, offchain) but only as labels; no \"how does CCIP work\" / \"what are CCIP components\" phrasing to win retrieval."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; no action needed. Minor: \"EVM smart contracts and Solana programs, and Aptos modules\" has an awkward comma."
+      }
+    ],
+    "summary": "This is a thin section-index page (98 words, 1 heading, 4 links) whose job is to route readers to the CCIP architecture sub-pages. Its strength is clean, unambiguous prose with a consistent product name; its biggest weakness is that it carries almost no liftable substance — no self-contained definition, no specifics, no metadata — so a generative engine has little reason to retrieve or cite it over the deeper child pages it points to. The honest verdict: acceptable as navigation, but it forfeits nearly all direct-citation value it could cheaply capture by adding a short canonical definition and a one-line summary of each component. As an index, judge it lightly on code — but its metadata gaps are real and fixable.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical, liftable definition of CCIP architecture",
+        "mapsTo": "Quotable canonical statements; answer-first extractability",
+        "tier": null,
+        "where": "First paragraph, replacing/augmenting \"This section explains the core architecture...\"",
+        "issue": "\"This section explains the core architecture of the Cross-Chain Interoperability Protocol\"",
+        "change": "Lead with a self-contained sentence, e.g. \"CCIP's architecture combines onchain components (EVM smart contracts, Solana programs, Aptos modules) with a decentralized offchain network — including the Risk Management Network — to enable secure cross-chain messaging and token transfers.\"",
+        "why": "Gives engines a verbatim-quotable answer to \"what is CCIP architecture,\" which the current meta-description cannot supply."
+      },
+      {
+        "priority": 1,
+        "title": "Annotate each component link with a one-line value statement",
+        "mapsTo": "Machine-scannability & justification structure; query/intent coverage",
+        "tier": null,
+        "where": "The 4-bullet list.",
+        "issue": "Bullets describe only *what the page is* (\"Get a high-level summary\"), not *what the component does*.",
+        "change": "Append a fact to each, e.g. \"**Onchain Components** — the Router, OnRamp/OffRamp, and Token Pool contracts that execute transfers on each chain.\"",
+        "why": "Turns a bare link list into extractable reasons/facts, improving retrieval for component-name queries."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD and a canonical URL",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>`.",
+        "issue": "Measured 0 JSON-LD blocks, canonical MISSING, dateModified absent from schema.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-06-09`, `inLanguage: en`, and a self-referential `canonical`; surface the \"Last Updated\" date in structured metadata, not just body text.",
+        "why": "Structured freshness and canonical signals raise agent trust/E-E-A-T; measured metadata is currently near-empty."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase the intro to match how devs ask",
+        "mapsTo": "Symptom/query coverage",
+        "tier": null,
+        "where": "Intro sentence.",
+        "issue": "No \"how does CCIP work\" / \"what are the components of CCIP\" phrasing.",
+        "change": "Add a short line: \"How does CCIP work? It splits responsibilities across onchain contracts and an offchain oracle network — the components below.\"",
+        "why": "Question-phrased text wins retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 3,
+        "title": "Add one authoritative outbound reference",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "After the definition.",
+        "issue": "0 external/primary-source links.",
+        "change": "Link the Risk Management Network / CCIP whitepaper or security spec once.",
+        "why": "A primary-source link raises citation credibility for an otherwise all-internal hub."
+      }
+    ],
+    "antiPatterns": [
+      "None material. The page is short but not padded; no keyword stuffing, no marketing fluff, no unresolved cross-references. Minor grammar nit in the \"EVM... Solana... Aptos\" clause."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced — good site-level signal; ensure it lists this page and its children.",
+      "Canonical URL and JSON-LD are template/site-level concerns; verify they're emitted site-wide, not just here.",
+      "As a hub page, its citation value depends on child pages earning retrieval; ensure each child links back to this index (canonical-hub pattern)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

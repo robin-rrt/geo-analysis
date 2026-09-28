@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-smartdata-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "SmartData Streams",
+    "url": "https://docs.chain.link/data-streams/smartdata-streams",
+    "analyzedAt": "2026-09-22T13:33:00.721Z",
+    "contentType": "developer documentation / reference listing (stream registry)",
+    "score": 32,
+    "band": "Poor",
+    "weightedTotal": 32,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "The implied question (\"what SmartData streams are available and their IDs?\") is answered by `Loading...`. No liftable chunk exists. The intro sentence points elsewhere (\"see the Fetch and decode reports tutorial\") rather than answering."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "Heading hierarchy is clean (1 H1, H2 depth, 0 level skips) but there are **0 tables and 0 bullets** where a stream registry demands a table; sections are stubs (median 12 words) with the payload absent."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "**0 numerals, 0 hex identifiers, 0 units** in served prose. A page whose purpose is listing feed IDs and network addresses ships none of them to crawlers. This is the worst-affected dimension."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 internal links (discovery endpoint, LINK token contracts, supported networks) are relevant and useful; 0 external/primary-source links. Adequate navigation, no authority anchors."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "There is no one-sentence definition of \"SmartData Streams,\" NAV, or PoR anywhere in the body. An engine has nothing to lift verbatim."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Valid dual JSON-LD, canonical URL, `inLanguage`, full OG/Twitter cards. Weaknesses: `datePublished`==`dateModified` (never-revised/generator-stamped), auto-generated `keywords` (includes stopword \"and\") and template `about` values (\"Content about smartdata\"). Schema is present but generic."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "0 code blocks. A registry page arguably needs a short example of resolving a stream ID or calling the discovery endpoint; none present."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Links gesture at \"discover streams\" and \"supported networks,\" but the page answers no \"which stream has ID X,\" \"what is the NAV feed for Y,\" or \"PoR stream address\" query because the data is absent from HTML."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "What little prose exists is clear and consistently named (\"SmartData Streams,\" \"Data Streams\"), but there is too little content to establish or resolve entities."
+      }
+    ],
+    "summary": "This is a stream-registry page whose entire payload — the tables of SmartData streams, NAV/POR feed names, and stream IDs that its own `<meta description>` promises — is client-rendered and never reaches the crawler: the served body is 52 words ending in \"Loading...\". The single biggest strength is intact `TechArticle`/`BreadcrumbList` JSON-LD and a clean canonical; the single biggest opportunity, dwarfing everything else, is **server-rendering the actual stream data** so engines can retrieve and cite it. As served, this page cannot be synthesized into any answer about which SmartData streams exist or what their IDs are — the verdict is Poor purely on empty content delivery, not on doc-team quality.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Server-render the stream tables (the entire payload)",
+        "mapsTo": "answer-first extractability, concrete specifics, machine-scannability",
+        "tier": null,
+        "where": "`## Mainnet SmartData Streams` and `Streams Verifier Network Addresses` sections — currently `Loading...`.",
+        "issue": "`Loading...` — the streams, IDs, and verifier addresses never reach the crawler.",
+        "change": "Emit the full stream list as static HTML `<table>` at request time (SSR/SSG), columns: Stream name · Asset · Type (NAV/PoR) · Stream ID (0x…) · Network · Verifier proxy address. Client hydration can enhance, but the rows must exist in served HTML.",
+        "why": "Retrieval and citation are impossible on content that isn't in the DOM the engine fetches; this is the difference between a 32 and a citable reference page. Concrete IDs/addresses are among the highest-lift specifics."
+      },
+      {
+        "priority": 1,
+        "title": "Add a one-sentence canonical definition at the top",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "Immediately under the H1, before the tutorial link.",
+        "issue": "No definition; page opens with \"To learn how to use Data Streams, see…\".",
+        "change": "Lead with e.g. \"SmartData Streams are Chainlink Data Streams that deliver asset-backing data — Net Asset Value (NAV) and Proof of Reserve (PoR) — as verifiable, pull-based reports identified by a unique stream ID.\" Then keep the tutorial link.",
+        "why": "Gives engines a self-contained, liftable answer to \"what is a SmartData Stream\" that currently exists nowhere on the page."
+      },
+      {
+        "priority": 2,
+        "title": "Phrase section headings as the queries devs actually ask",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Section headings and any FAQ.",
+        "issue": "Concept-titled stubs (\"Mainnet SmartData Streams\") don't match symptom/lookup queries.",
+        "change": "Add headings/anchors like \"What is the NAV stream ID for [asset]?\", \"Proof of Reserve (PoR) stream addresses by network\", \"How do I find a SmartData stream ID?\" above the relevant tables.",
+        "why": "Lookup queries are phrased by asset/feed/ID; question-shaped headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 2,
+        "title": "Fix freshness and template metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `datePublished`/`dateModified`, `about`, `keywords`.",
+        "issue": "Identical dates; `about` = \"Content about smartdata\"; auto keyword list with stopword.",
+        "change": "Stamp a real `dateModified` on content change; replace template `about` values with meaningful entities (e.g. \"Net Asset Value feeds\", \"Proof of Reserve feeds\"); prune the keyword list.",
+        "why": "Visible freshness and clean entities raise trust/E-E-A-T signals; template placeholders read as low-quality to parsers."
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal, complete example of resolving a stream",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "After the tables, or a short \"Using a stream ID\" block.",
+        "issue": "0 code blocks; the page defers entirely to another tutorial.",
+        "change": "Add one fenced, language-tagged snippet showing how to pass a listed stream ID to the discovery/fetch flow, with imports and network noted.",
+        "why": "Agents completing tasks need a copy-pasteable bridge from the ID they looked up to a working call."
+      },
+      {
+        "priority": 3,
+        "title": "Add 1–2 authoritative external references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Near the NAV/PoR definitions.",
+        "issue": "0 external/primary-source links.",
+        "change": "Link the Data Streams product spec / PoR concept page and any relevant standard, inline at first use of the terms.",
+        "why": "Inline authoritative links raise citation rate and let engines attribute claims."
+      }
+    ],
+    "antiPatterns": [
+      "**Content withheld behind client-side rendering** — the substantive payload renders as `Loading...`; the served page is effectively empty (52 words).",
+      "**Stale/undated signal** — `datePublished` == `dateModified`, indicating a generator stamp rather than a real revision date.",
+      "**Template/auto-generated metadata** — `about` values are \"Content about smartdata\"/\"Content about streams\"; `keywords` is an auto-split list including the stopword \"and\".",
+      "No keyword stuffing or marketing fluff detected."
+    ],
+    "offPageNotes": [
+      "Confirm `docs.chain.link/llms.txt` exposes this registry (and its stream IDs) for LLM ingestion, since the human page relies on JS hydration.",
+      "Site-level: ensure the CLI passes raw `<head>` and SSR output — if the live page SSRs the tables, re-audit, as the served snapshot here shows none.",
+      "Consider linking to this page from the canonical Data Streams hub and tutorial as the authoritative stream registry (canonical-hub pattern) to consolidate citations."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

@@ -1,0 +1,603 @@
+{
+  "key": "cre-guides-workflow-using-evm-client-overview-go-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "EVM Chain Interactions",
+    "url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+    "analyzedAt": "2026-09-21T13:23:52.990Z",
+    "contentType": "developer documentation / section hub (overview + guide index)",
+    "score": 61,
+    "band": "Good",
+    "weightedTotal": 61.2,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a self-contained definition: \"The `evm.Client` is the Go SDK's interface for interacting with EVM-compatible blockchains.\" Each H2 leads with its point. No action needed beyond specifics below."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 3 headings, 1 H1, 0 level skips, 3 tight sections (max 75 words), 8 bullets. Clean chunk boundaries. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. 3 numerals, 0 with units, no version strings, no supported-network list. The page never states which chains are \"EVM-compatible\" here, or the minimum CRE CLI / SDK version."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Adequate for a hub: 6 internal links, all resolving to canonical child pages. No external/primary references (acceptable for an index, but the \"EVM Read & Write Capabilities\" claim could anchor to a spec)."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. Both the `evm.Client` sentence and the bindings bullet list are verbatim-liftable. Could add a one-sentence canonical statement of what \"auto-generated contract bindings\" are."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. 0 JSON-LD blocks, canonical MISSING, `inLanguage` absent, `datePublished`/`dateModified` absent from head. Body shows \"Last Updated: 2025-11-04\" but it isn't machine-exposed."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Not applicable in practice (hub page, 0 fenced blocks); scored neutral. A minimal `import` + `evm.Client` instantiation snippet would raise it without bloat."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Moderate. Covers \"what is evm.Client\" and the read/write/bindings lifecycle via links, but no \"when do I use this\" or symptom/troubleshooting entry points."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong. Unambiguous, consistent naming (`evm.Client`, CRE CLI, Go SDK). No action needed."
+      }
+    ],
+    "summary": "This is a short (192-word) hub page that defines the CRE Go SDK's `evm.Client` and routes to four child guides (bindings, read, write, consumer contracts). Its biggest strength is a clean, liftable opening definition and clear child-link structure; its biggest opportunity is machine-readability — zero JSON-LD, missing canonical URL, and no `dateModified` in the served `<head>` despite a body-level \"Last Updated\" line. As a navigational hub the page performs its job well, but it carries no concrete specifics (supported chains, SDK version, capability limits) that would let it be cited as an answer rather than only as a link list.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD + canonical + machine-readable date",
+        "mapsTo": "machine-readability & metadata (E-E-A-T)",
+        "tier": null,
+        "where": "page `<head>` (site-level template)",
+        "issue": "Measured: \"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent.\"",
+        "change": "Emit a `TechArticle` JSON-LD block with `headline`, `inLanguage: en`, `dateModified: 2025-11-04` (mirroring the body line), and a `<link rel=\"canonical\">` to the non-`.md` URL.",
+        "why": "Structured metadata and a visible freshness signal raise agent trust and parse reliability; the date already exists in prose but isn't exposed to parsers."
+      },
+      {
+        "priority": 1,
+        "title": "Add a concrete \"supported networks / requirements\" line",
+        "mapsTo": "concrete statistics & specifics; parametric-prior resistance",
+        "tier": null,
+        "where": "under the opening definition, before \"How it works\"",
+        "issue": "\"interacting with EVM-compatible blockchains\" — no enumerated chains or versions.",
+        "change": "Add one sentence naming the supported chains/testnets and the minimum CRE CLI / Go SDK version required for bindings (e.g. \"Supported on Ethereum, Base, Arbitrum … requires CRE CLI vX.Y+\").",
+        "why": "Quantitative specifics are among the highest-lift changes; they turn a link hub into a citable answer and prevent models from filling the gap from generic priors."
+      },
+      {
+        "priority": 2,
+        "title": "Add \"When to use `evm.Client`\" intent framing",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new short paragraph or bullet after \"How it works\"",
+        "issue": "No \"how do I / when should I\" entry point; page is purely descriptive.",
+        "change": "Add one liftable line: \"Use `evm.Client` when your Go workflow needs to read contract state or submit onchain transactions from within CRE.\" Optionally add a symptom-phrased pointer (\"Writing data onchain? See Onchain Write\").",
+        "why": "Devs and agents query by task/symptom; intent-phrased text wins retrieval that concept-titled prose misses."
+      },
+      {
+        "priority": 2,
+        "title": "Add a minimal instantiation snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "end of \"How it works\"",
+        "issue": "0 code blocks; agents cannot copy a starting point.",
+        "change": "Add a short, language-tagged Go block showing the import path and how to obtain an `evm.Client` handle in a workflow, then link to the read/write guides for full examples.",
+        "why": "A complete, runnable stub gives agents an anchor and improves the page's standalone usefulness without duplicating child-guide content."
+      },
+      {
+        "priority": 3,
+        "title": "Anchor the capability claim to its spec page inline",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"underlying **EVM Read & Write Capabilities**\" (already linked)",
+        "issue": "Only internal capability link; no crisp definition of the capability boundary.",
+        "change": "Add a half-sentence stating what the capability provides (e.g. read/write primitives, async report delivery) so the reference carries meaning when lifted.",
+        "why": "Attributable, meaning-bearing references raise citation rate over bare link text."
+      }
+    ],
+    "antiPatterns": [],
+    "offPageNotes": [
+      "The body links to `/llms.txt`, which is a positive site-level discoverability signal — verify it lists this page and its child guides.",
+      "JSON-LD, canonical tag, and machine-readable dates are set by the site template, not this page alone; the CLI should pass raw `<head>` so these can be verified rather than assumed.",
+      "Retrieval of this hub likely depends on internal links from the parent CRE workflow index — confirm the canonical-hub inbound linking is in place."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/workflow/using-evm-client/overview-go.md",
+      "source_title": "EVM Chain Interactions",
+      "probe_set_id": "e6d8d7260406",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:01:44.087Z",
+      "probe_count": 6,
+      "graded_count": 4,
+      "refusal_count": 0,
+      "error_count": 2,
+      "avg_fidelity": 54.5,
+      "avg_fidelity_all": 54.5,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5,
+        "hallucination_free": 5,
+        "relevance": 4,
+        "structure": 7.8
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 270058,
+          "output_tokens": 16392,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 20,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9734,
+          "output_tokens": 10203,
+          "cache_creation_input_tokens": 1276,
+          "cache_read_input_tokens": 10832,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it exhausted its search budget and could not confirm details against the live documentation."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "github.com/smartcontractkit/cre-sdk-go/cre — core workflow SDK",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "evmClient.CallContract(runtime, &evm.CallContractRequest{...})",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "evmClient.WriteReport(runtime, &evm.WriteReportRequest{...})",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "trigger := evm.LogTrigger(cfg.ChainSelector, &evm.LogTriggerRequest{...})",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "ABI-encode the call data (using go-ethereum's abi package or generated bindings)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "evmClient := evm.Client{ChainSelector: cfg.ChainSelector}",
+              "type": "invented_param",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "It relies on auto-generated contract bindings created by the CRE CLI (misrepresented as optional/manual ABI encoding)",
+            "Supports reading (view/pure) and writing (state-changing) contract functions via type-safe bindings, not manual struct construction"
+          ],
+          "unverifiable_from_source": [
+            "Chain selector concept and CCIP-style numeric chain ID",
+            "Consensus aggregation of identical responses",
+            "Forwarder contract mechanism for writes",
+            "workflow.yaml capability config details",
+            "WASM/DON execution model description"
+          ],
+          "verdict": "The answer openly admits it could not retrieve the docs and instead fabricates several specific function names and contradicts the source's central claim that manual ABI handling is eliminated via auto-generated bindings, making it unsafe to ship as-is.",
+          "fidelity": 35,
+          "prompt": "How do I interact with EVM-compatible blockchains from a Chainlink CRE workflow using the Go SDK?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for current information on this topic since Chainlink CRE is a relatively new product.I attempted to pull up the latest Chainlink documentation, but I've exhausted my search budget for this session (a tooling hiccup on my end). Rather than leave you hanging, I'll give you a solid working overview from what I know — but please treat the exact type/method names as things to verify against the current official docs at **docs.chain.link/cre**, since the CRE Go SDK is evolving quickly and signatures do change between releases.\n\n## The mental model\n\nA Chainlink CRE workflow is a Go program that compiles to WebAssembly (WASM) and runs across the nodes of a Decentralized Oracle Network (DON). Because it runs on *many* nodes simultaneously, all external interactions — including blockchain reads and writes — are done through **capabilities**, and results are typically brought to **consensus** before the workflow proceeds. The EVM interaction is one of these capabilities.\n\nThe relevant pieces you'll pull in are roughly:\n\n- `github.com/smartcontractkit/cre-sdk-go/cre` — core workflow SDK (runtime, triggers, `Runner`)\n- The EVM client capability package (under `.../capabilities/blockchain/evm` or similar) — bound to a specific chain via its **chain selector**\n\n## Typical project shape\n\n```\nmy-workflow/\n├── main.go            # workflow logic\n├── workflow.yaml      # workflow + capability config\n├── go.mod\n└── config.json        # runtime config (chain selectors, addresses, etc.)\n```\n\nYou build and simulate/deploy with the `cre` CLI.\n\n## 1. The workflow skeleton\n\n```go\npackage main\n\nimport (\n    \"github.com/smartcontractkit/cre-sdk-go/cre\"\n    // evm capability + trigger packages\n)\n\ntype Config struct {\n    ChainSelector uint64 `json:\"chainSelector\"`\n    Contract      string `json:\"contractAddress\"`\n}\n\nfunc InitWorkflow(cfg *Config, logger *slog.Logger, _ cre.SecretsProvider) (cre.Workflow[*Config], error) {\n    return cre.Workflow[*Config]{\n        // register triggers -> handlers here\n    }, nil\n}\n\nfunc main() {\n    wasm.NewRunner(...).Run(InitWorkflow)\n}\n```\n\nYou register triggers (cron, HTTP, or an on-chain **log trigger**) and attach handler functions.\n\n## 2. Getting an EVM client\n\nYou instantiate an EVM client bound to a target chain using its **chain selector** (the CCIP-style numeric chain ID, not the raw EVM chain ID). Something like:\n\n```go\nevmClient := evm.Client{ChainSelector: cfg.ChainSelector}\n```\n\n## 3. Reading from a contract\n\nReads are ABI-encoded calls that return data through the DON with consensus. The general pattern:\n\n1. ABI-encode the call data (using go-ethereum's `abi` package or generated bindings).\n2. Call the client's contract-call method inside the runtime.\n3. Await the promise and decode the result.\n\n```go\ncallData, _ := myABI.Pack(\"latestAnswer\")\n\npromise := evmClient.CallContract(runtime, &evm.CallContractRequest{\n    Call: &evm.CallMsg{\n        To:   common.HexToAddress(cfg.Contract).Bytes(),\n        Data: callData,\n    },\n})\n\nresp, err := promise.Await()\n// then myABI.Unpack(\"latestAnswer\", resp.Data)\n```\n\nBecause the call runs on many nodes, the framework aggregates identical responses into a consensus result.\n\n## 4. Reacting to on-chain events (log triggers)\n\nInstead of polling, you register a **log trigger** so the workflow fires when a matching event is emitted:\n\n```go\ntrigger := evm.LogTrigger(cfg.ChainSelector, &evm.LogTriggerRequest{\n    Addresses: [][]byte{contractAddr},\n    Topics:    [][]byte{eventSig},\n})\n// bind trigger -> handler in the Workflow definition\n```\n\n## 5. Writing to a contract\n\nThis is the part that differs most from a normal Go dApp. A CRE workflow doesn't just send a transaction from one key. Instead:\n\n- The workflow produces a **report** (the payload + metadata).\n- The report is signed by the DON and submitted **on-chain via the Chainlink Forwarder contract**, which verifies the DON's signatures and forwards the call to your target contract.\n- Your target contract must be written to accept calls from the Forwarder (i.e., it trusts the forwarder / verifies the report).\n\nThe API for this is usually a `WriteReport` method on the EVM client:\n\n```go\nwritePromise := evmClient.WriteReport(runtime, &evm.WriteReportRequest{\n    Receiver: contractAddr,\n    Report:   reportBytes,\n})\n_, err := writePromise.Await()\n```\n\n## Key gotchas\n\n- **Chain selectors vs chain IDs**: the SDK identifies chains by chain selector — look these up in the CCIP/chain-selectors registry.\n- **Consensus**: any non-deterministic read should go through the consensus mechanism; don't assume a single node's view.\n- **Writes need a receiver contract compatible with the Forwarder** and the workflow must be authorized/registered.\n- **Capability config**: the chains and capabilities your workflow can touch are declared in `workflow.yaml` / config.\n\n---\n\nBecause I couldn't confirm the exact current signatures live, I'd strongly recommend cross-checking these two things in the official docs before coding:\n1. The exact import path and struct/method names for the EVM client (these were renamed a few times).\n2. The current `cre` CLI commands for `simulate` and `deploy`.\n\nIf you'd like, tell me your specific use case (e.g., \"read a price feed and write the result to my own contract\" vs. \"trigger on an event and call another chain\") and I can sketch a more complete, tailored example — and in a fresh session I can also pull the exact API from the live docs for you.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 41530,
+              "output_tokens": 4512,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2500,
+              "output_tokens": 1462,
+              "cache_creation_input_tokens": 638,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/cli",
+              "https://docs.chain.link/cre/reference/sdk/overview-go",
+              "https://docs.chain.link/cre/getting-started/part-3-reading-onchain-value-go",
+              "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-go"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not verify details from the live docs before responding."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "The Chainlink CRE Go SDK follows the same general pattern as abigen in go-ethereum",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Place the compiled contract artifact / ABI JSON in your workflow project (typically under a contracts/ directory)",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "compile it first (e.g. with Foundry/forge or solc) to produce the ABI",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "See the Generating Contract Bindings guide"
+          ],
+          "unverifiable_from_source": [
+            "Place the compiled contract artifact / ABI JSON in your workflow project (typically under a contracts/ directory)",
+            "compile it first (e.g. with Foundry/forge or solc) to produce the ABI",
+            "the cre CLI is what performs the code generation for EVM contracts"
+          ],
+          "verdict": "The answer correctly identifies the CRE CLI/Go SDK topic but never cites the actual overview page, invents unverified specifics (contracts/ directory, Foundry/solc), and draws a risky abigen comparison, so it's only a partially safe starting point—developers should confirm details against the official docs before use.",
+          "fidelity": 53,
+          "prompt": "Using the Chainlink CRE Go SDK, how do I generate type-safe contract bindings from an ABI?",
+          "archetype": "constrained",
+          "answer": "I'll search for the latest information on generating type-safe contract bindings using the Chainlink CRE Go SDK.Let me get the detailed content from the most relevant pages.Let me wait a moment and retrieve the detailed documentation content.I was able to identify the relevant Chainlink documentation pages but hit a search rate limit before I could load their full contents, so I couldn't verify every exact detail against the live docs. Here's what I can tell you, and where to confirm the specifics.\n\n## Generating type-safe contract bindings in the CRE Go SDK\n\nThe Chainlink CRE Go SDK follows the same general pattern as `abigen` in go-ethereum: you take a contract's **ABI**, run a code-generation command, and get a Go package with strongly-typed methods, event structs, and input/output types so you don't have to hand-encode calldata or decode raw bytes.\n\nThe workflow is:\n\n**1. Have your contract ABI available**\nPlace the compiled contract artifact / ABI JSON in your workflow project (typically under a `contracts/` directory). If you only have the Solidity source, compile it first (e.g. with Foundry/`forge` or `solc`) to produce the ABI.\n\n**2. Run the CRE CLI generation command**\nThe `cre` CLI is what performs the code generation for EVM contracts, producing the type-safe Go bindings. This turns the ABI into a Go binding package containing:\n- A binding type for the contract\n- Typed methods for each read/write function\n- Typed structs for events and struct arguments\n\n**3. Use the generated bindings with the EVM client**\nIn your workflow you then instantiate the EVM client and call the generated binding methods (e.g. read calls become typed Go method calls whose results are already decoded), rather than manually building `eth_call` payloads.\n\n## Where to confirm the exact command and syntax\n\nBecause I couldn't fully load the pages, please verify the precise command name, flags, and generated code layout in these official docs, which are the authoritative sources for this exact task:\n\n- **CLI Reference** — the code-generation command and its flags: `https://docs.chain.link/cre/reference/cli`\n- **Go SDK Reference (overview)**: `https://docs.chain.link/cre/reference/sdk/overview-go`\n- **Part 3: Reading an Onchain Value (Go)** — a step-by-step tutorial that walks through generating bindings and using them: `https://docs.chain.link/cre/getting-started/part-3-reading-onchain-value-go`\n- **Onchain Read (Go) guide** — using the generated bindings with the EVM client: `https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-go`\n\nThe \"Part 3: Reading an Onchain Value\" tutorial in particular is the best hands-on reference, since it demonstrates the full flow of generating bindings from an ABI and then calling a contract from a Go workflow.\n\nIf you'd like, tell me and I can retry the search after the rate limit resets to pull the exact CLI command syntax and a concrete code snippet from those pages.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 96779,
+              "output_tokens": 4318,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1562,
+              "output_tokens": 1666,
+              "cache_creation_input_tokens": 638,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/reference/sdk/evm-client-go",
+              "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-go"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cited the onchain-read-go and evm-client-go reference pages instead of the expected overview-go source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 7,
+            "relevance": 4,
+            "structure": 9
+          },
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "func (c *Client) CallContract(runtime cre.Runtime, input *CallContractRequest) cre.Promise[*CallContractReply]",
+            "ChainSelector: 16015286601757825753 for Sepolia",
+            "evm.ChainSelectorFromName helper usage",
+            "storage.NewStorage(evmClient, contractAddress, nil) binding instantiation pattern",
+            "BalanceAt method and evm.BalanceAtRequest/Reply details",
+            "Specific import list (github.com/ethereum/go-ethereum/common, cre/wasm, etc.)",
+            "Requirement to pass a finalized block number rather than 'latest' for consensus"
+          ],
+          "verdict": "The answer conveys the correct high-level facts from the overview page (evm.Client reads view/pure functions via type-safe bindings, see Onchain Read guide) but pulls most of its detailed code and API specifics from a different, uncited guide page rather than the expected source, so its retrieval fidelity is weak even though the content appears plausible and well-structured.",
+          "fidelity": 65,
+          "prompt": "chainlink CRE go sdk evm.Client read contract view function",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about the Chainlink CRE Go SDK and reading contract view functions with the evm.Client.Let me get the full content of the official documentation page.The most relevant page is the official guide. Let me fetch the full onchain-read-go guide content.I now have enough information to give a comprehensive answer.\n\n## Reading a contract view function with the Chainlink CRE Go SDK\n\nThere are two approaches: the recommended **type-safe binding** approach, and the lower-level **raw `evm.Client.CallContract`** approach.\n\n### The `evm.Client`\n\nThe evm.Client provides the foundational methods for all onchain interactions. It is highly recommended to wrap its usage in a type-safe \"binding\" for your specific smart contracts. Your binding will use this generic client internally to handle ABI encoding and decoding, making your workflow code cleaner and safer. To use the client, you must instantiate it with the ChainSelector ID for the blockchain you intend to interact with.\n\nYou instantiate the client directly with a chain selector, or use a helper for readability:\n\n```go\nimport \"github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm\"\n\n// Direct instantiation\nevmClient := &evm.Client{\n    ChainSelector: 16015286601757825753, // e.g. Sepolia\n}\n```\n\nAlternatively, use the ChainSelectorFromName helper for better readability:\n\n```go\nsepoliaSelector, err := evm.ChainSelectorFromName(\"ethereum-testnet-sepolia\")\nsepoliaClient := &evm.Client{ ChainSelector: sepoliaSelector }\n```\n\n### The `CallContract` method (raw read)\n\nExecutes a view or pure function on a smart contract. To use this function, you construct an evm.CallContractRequest object, which holds the details of your call. The function returns a promise that resolves to an evm.CallContractReply containing the data returned by the contract. The signature is:\n\nfunc (c *Client) CallContract(runtime cre.Runtime, input *CallContractRequest) cre.Promise[*CallContractReply]\n\nThis is the main input object for the CallContract function. It acts as a wrapper for the call message and an optional block number. With this raw approach, you're responsible for ABI-encoding the call data and decoding the returned bytes yourself — which is why bindings are recommended.\n\n### Recommended: the type-safe binding approach\n\nThis guide explains how to read data from a smart contract from within your CRE workflow. The process uses generated bindings and the SDK's evm.Client to create a simple, type-safe developer experience.\n\nThe prerequisite and workflow steps are:\n\n- Prerequisite - Generate bindings: You must first generate Go bindings for your smart contracts using the CRE CLI. This creates type-safe Go methods that correspond to your contract's view and pure functions.\n- Instantiate the binding: In your workflow logic, create an instance of your generated binding.\n- Call a read method: Call the desired function on the binding instance, specifying a block number. This is an asynchronous call that immediately returns a Promise.\n- Await the result: Call .Await() on the returned promise to pause execution and wait for the consensus-verified result from the DON.\n\nHere is the pattern, assuming a `Storage` contract with a get() view returns (uint256) function:\n\n```go\n// In your workflow's main.go\nimport (\n    \"contracts/evm/src/generated/storage\" // Import your generated binding\n    \"fmt\"\n    \"math/big\"\n    \"github.com/ethereum/go-ethereum/common\"\n    \"github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm\"\n    \"github.com/smartcontractkit/cre-sdk-go/cre\"\n)\n\nfunc onCronTrigger(config *Config, runtime cre.Runtime, trigger *cron.Payload) (*MyResult, error) {\n    logger := runtime.Logger()\n\n    // 1. Create the EVM client with chain selector\n    evmClient := &evm.Client{\n        ChainSelector: config.ChainSelector, // e.g. 16015286601757825753 for Sepolia\n    }\n\n    // 2. Instantiate the contract binding\n    contractAddress := common.HexToAddress(config.ContractAddress)\n    storageContract, err := storage.NewStorage(evmClient, contractAddress, nil)\n    if err != nil {\n        return nil, fmt.Errorf(\"failed to create contract instance: %w\", err)\n    }\n\n    // 3. Call the read method, specifying a block number, then Await the promise\n    storedValue, err := storageContract.Get(runtime, /* block number */).Await()\n    if err != nil {\n        return nil, fmt.Errorf(\"read failed: %w\", err)\n    }\n\n    return &MyResult{StoredValue: storedValue}, nil\n}\n```\n\nThe relevant imports for a full workflow are: github.com/ethereum/go-ethereum/common, github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm, github.com/smartcontractkit/cre-sdk-go/capabilities/scheduler/cron, github.com/smartcontractkit/cre-sdk-go/cre, and github.com/smartcontractkit/cre-sdk-go/cre/wasm.\n\n### Key notes\n\n- **Block number matters:** The read method requires a block number parameter. For consistency across the DON's nodes, you typically use a finalized/last-finalized block reference rather than \"latest,\" since CRE workflows run on multiple nodes that must reach consensus on a single result. Reading mutable or non-deterministic state can cause the workflow to fail at the consensus step.\n- **Other read methods** on the client include `BalanceAt` — Retrieves the native token balance for a specific account. You provide the account address in an evm.BalanceAtRequest, and the function returns a promise that resolves to an evm.BalanceAtReply containing the balance.\n\nFor the complete reference, see the official docs: the [EVM Client SDK reference](https://docs.chain.link/cre/reference/sdk/evm-client-go) and the [Onchain reads (Go) guide](https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-read-go).\n\nWould you like me to show the raw `CallContract` version with manual ABI encoding/decoding, or details on the block-number options?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 56441,
+              "output_tokens": 3619,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2551,
+              "output_tokens": 2901,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3027,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "What's the benefit of using the auto-generated contract bindings in the Chainlink CRE Go SDK instead of handling the ABI manually?",
+          "archetype": "comparison",
+          "answer": "",
+          "stop": "error",
+          "error": "{\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfWGPKx7ZR5QmXhRSNvqh\"}",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs at all and does not reference the expected overview page, instead presenting detail that appears to come from other (uncited) guide pages."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 6,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "See the Onchain Write guide (no guide URL was ever cited)"
+          ],
+          "unverifiable_from_source": [
+            "Requirement to implement the IReceiver interface with an onReport(bytes,bytes) function",
+            "Existence and role of the KeystoneForwarder / MockKeystoneForwarder contracts",
+            "ReceiverTemplate / AutomationReceiver Solidity base contracts and their inheritance behavior",
+            "runtime.GenerateReport() and its ReportRequest fields (EncodedPayload, EncoderName, SigningAlgo, HashingAlgo)",
+            "evm.Client.WriteReport signature and WriteCreReportRequest/WriteReportReply types",
+            "WriteReportFrom<StructName>() helper methods generated from bindings",
+            "evm.ChainSelectorFromName() function",
+            "Explicit gasLimit/gasConfig requirement for write calls",
+            "Forwarder Directory listing production KeystoneForwarder addresses per chain"
+          ],
+          "verdict": "The answer correctly identifies the core mechanism (evm.Client for writes, need for a consumer contract) but layers on many specific API names, signatures, and contract details that are not present in or verifiable against the given source page and were never cited, so a developer should double-check every fabricated-looking function/type against the actual linked guides before shipping.",
+          "fidelity": 65,
+          "prompt": "I want to write my Chainlink CRE workflow's output to my smart contract onchain — how do I do a state-changing write with the Go SDK, and do I need a consumer contract?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll research the current Chainlink CRE documentation on writing to smart contracts with the Go SDK.Let me get the detailed Go onchain-write guide and the consumer contract guide.I have comprehensive information. Let me get one more detail on the Go WriteReportFrom helper and the full write example.I now have everything I need to give a thorough answer.\n\n## Short answer\n\n**Yes, you need a consumer contract.** CRE doesn't let your workflow send a transaction directly to an arbitrary contract like a normal web3 app would. Instead, state-changing writes go through a signed-report flow, and your target must be a contract that implements the `IReceiver` interface (with an `onReport()` function). Here's how it works and how to do it in Go.\n\n## Why it's different from a normal web3 write\n\nIn a traditional web3 app, you'd create a transaction and send it directly to your smart contract. CRE uses a different, more secure approach for three key reasons: Decentralization (multiple nodes in the DON need to agree on what data to write), Verification (the blockchain needs cryptographic proof that the data came from a trusted Chainlink network), and Accountability (there must be a verifiable trail showing which workflow and owner created the data).\n\nThe data flow is: your workflow produces a final, signed report; the EVM capability sends this report to the Chainlink-managed KeystoneForwarder contract; the KeystoneForwarder validates the report's signatures; and if the report is valid, the forwarder calls a designated function (onReport) on your consumer contract to deliver the data.\n\nSo the transaction from your workflow actually goes to the Forwarder, not directly to your contract. Your workflow sends the transaction to the Forwarder, which verifies the cryptographic signatures and then delivers your data to your contract by calling its onReport() function. This is a core security pattern in CRE that ensures only verified, consensus-approved data reaches your smart contracts.\n\n## Do you need a consumer contract? Yes.\n\nBefore you can write data onchain, you need a consumer contract. This is the smart contract that will receive your workflow's data. A consumer contract is your smart contract that implements the IReceiver interface. Your contract must implement the IReceiver interface. This single requirement ensures your contract has the necessary onReport(bytes metadata, bytes report) function that the Chainlink Forwarder calls to deliver data.\n\nThe easiest way to build one is to extend the provided template. A minimal Solidity consumer looks like this:\n\n```solidity\nimport {ReceiverTemplate} from \"@chainlink/cre-contracts/ReceiverTemplate.sol\";\n\ncontract PriceReceiver is ReceiverTemplate {\n    uint256 public price;\n\n    constructor(address forwarder) ReceiverTemplate(forwarder) {}\n\n    function _onReport(bytes calldata /* metadata */, bytes calldata payload) internal override {\n        price = abi.decode(payload, (uint256));\n    }\n}\n```\n\nIn CRE, the workflow generates a cryptographically signed report and submits it to a consumer contract that implements IReceiver — typically by extending ReceiverTemplate. The handler is _onReport(bytes metadata, bytes payload). Using the template is recommended because AutomationReceiver inherits ReceiverTemplate, so it validates the configured CRE forwarder before processing reports.\n\nOne important note about the constructor/forwarder address: forwarder contracts differ between local simulation and production. If you configure forwarder validation in your consumer contract, remember to update the forwarder address when deploying to production. You use the MockKeystoneForwarder for simulation and the production KeystoneForwarder per chain when deploying (check the Forwarder Directory in the docs for the address for your chain).\n\n## The state-changing write in the Go SDK\n\nThe write is a two-step pattern: **(1) generate a signed report, (2) submit it.**\n\n**Step 1 — Generate the signed report.** Create it with runtime.report() (TypeScript) or runtime.GenerateReport() (Go). In Go you ABI-encode your value, then:\n\n```go\nreportPromise := runtime.GenerateReport(&cre.ReportRequest{\n    EncodedPayload: encodedStruct,\n    EncoderName:    \"evm\",\n    SigningAlgo:    \"ecdsa\",\n    HashingAlgo:    \"keccak256\",\n})\nreport, err := reportPromise.Await()\nif err != nil {\n    return fmt.Errorf(\"failed to generate report: %w\", err)\n}\n```\n\n**Step 2 — Submit it with the EVM client's `WriteReport`.** This is the actual state-changing call. WriteReport executes a state-changing transaction by submitting a report to a designated receiver contract. You provide the transaction details in an evm.WriteCreReportRequest, and the function returns a promise that resolves to an evm.WriteReportReply with the transaction status. The signature is:\n\n```go\nfunc (c *Client) WriteReport(runtime cre.Runtime, input *WriteCreReportRequest) cre.Promise[*WriteReportReply]\n```\n\nYou instantiate an `evm.Client` with your chain selector, then call `WriteReport` passing the `receiver` (your consumer contract address), the signed `report`, and a gas config.\n\n### The simpler, recommended approach: `WriteReportFrom` helpers\n\nIf you generate Go bindings for your contract, you usually don't need to do those two steps manually. If you're sending your struct onchain (not via HTTP) and it's in your contract's ABI, use the WriteReportFrom<StructName>() helper instead. It handles encoding, report generation, AND submission in a single call — much simpler than the multi-step approach.\n\nThis is what the official demo uses: the workflow uses the contract binding's WriteReportFrom* methods to generate a signed report and submit it onchain in one call. The SDK provides evm.ChainSelectorFromName() to convert human-readable chain names to chain selectors.\n\nTo get these helpers, generate bindings first: for interacting with smart contracts, use the CRE CLI's binding generator to automatically create type-safe Go bindings from your contract ABIs (via `cre generate-bindings evm`). Your contract's ABI includes a struct's definition if that struct is used anywhere in the signature (as a parameter or a return value) of a public or external function — this is what determines whether the `WriteReportFrom<StructName>()` helper is available to you.\n\n## A couple of practical tips\n\n- **Set an explicit gas limit.** Explicitly setting a sufficient gas limit is crucial for write operations to prevent them from failing due to \"out of gas\" errors. You pass a `gasConfig` with a `gasLimit` to the write call.\n- **Secure your receiver for production.** Beyond forwarder validation, for production, also configure workflow identity checks such as expected workflow ID and/or expected workflow owner address, or narrow the receiver to known target contracts and function selectors. A generic receiver that accepts arbitrary (target, data) is convenient but should not be left broadly reusable without explicit authorization controls.\n\n## Summary flow\n\n1. Write/deploy a consumer contract implementing `IReceiver` (extend `ReceiverTemplate`, pass the correct KeystoneForwarder address).\n2. Run `cre generate-bindings evm` to get type-safe Go bindings.\n3. In your Go workflow, either:\n   - Use `binding.WriteReportFrom<Struct>(...)` for the one-call approach (recommended), **or**\n   - Manually ABI-encode → `runtime.GenerateReport(...)` → `evmClient.WriteReport(runtime, &evm.WriteCreReportRequest{...})` with the receiver address and gas config.\n4. The report is signed by the DON, sent to the Forwarder, verified, and delivered to your contract's `onReport()`.\n\nIf you'd like, I can sketch a complete Go workflow `main.go` (with the cron trigger, EVM client setup, and `WriteReportFrom` call) — just let me know which trigger type and what data you're writing.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 75308,
+              "output_tokens": 3943,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 3121,
+              "output_tokens": 4174,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3027,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "Show me how promise-based async calls work with evm.Client in the Chainlink CRE Go SDK.",
+          "archetype": "code-first",
+          "answer": "",
+          "stop": "error",
+          "error": "{\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfWGPLVMzsAPjnBcvGnvD\"}",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

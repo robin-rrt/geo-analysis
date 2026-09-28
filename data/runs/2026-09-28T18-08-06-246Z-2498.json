@@ -1,0 +1,413 @@
+{
+  "runId": "2026-09-28T18-08-06-246Z-2498",
+  "startedAt": "2026-09-28T18:08:06.247Z",
+  "endedAt": "2026-09-28T18:55:29.498Z",
+  "owner": {
+    "pid": 17088,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "watchlist",
+    "name": "cre-resume",
+    "productScope": null
+  },
+  "stages": [
+    "probes",
+    "test",
+    "rollup"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web|unknown",
+  "status": "complete",
+  "counts": {
+    "expected": 13,
+    "pages": 13,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 41.8836,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-28T18-08-06-246Z-2498",
+    "target": {
+      "type": "watchlist",
+      "name": "cre-resume",
+      "productScope": null
+    },
+    "stages": [
+      "probes",
+      "test",
+      "rollup"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-28T18:08:06.247Z",
+    "endedAt": "2026-09-28T18:55:29.498Z",
+    "elapsedMs": 2843251,
+    "counts": {
+      "pages": 13,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 41.8836,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "cre-reference-cli-md",
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 30363,
+          "test": 1049634
+        },
+        "elapsedMs": 1080970,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 48.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-project-configuration-go-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 37210,
+          "test": 1256223
+        },
+        "elapsedMs": 1297056,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 45.8,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-project-configuration-ts-md",
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 34083,
+          "test": 1636047
+        },
+        "elapsedMs": 1673755,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 57.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-sdk-overview-go-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 23277,
+          "test": 799738
+        },
+        "elapsedMs": 826418,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 63.3,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-reference-sdk-overview-ts-md",
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 32030,
+          "test": 246248
+        },
+        "elapsedMs": 278935,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 58.2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-release-notes-md",
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 32557,
+          "test": 2180524
+        },
+        "elapsedMs": 2214824,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 4,
+          "avgFidelity": 35,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-service-quotas-md",
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 28991,
+          "test": 666101
+        },
+        "elapsedMs": 696018,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 47.2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-support-feedback-md",
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 26460,
+          "test": 511335
+        },
+        "elapsedMs": 538578,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 23.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-supported-networks-go-md",
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 28342,
+          "test": 1306616
+        },
+        "elapsedMs": 1335973,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 40.7,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-supported-networks-ts-md",
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 28992,
+          "test": 987239
+        },
+        "elapsedMs": 1017572,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 36.2,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-md",
+        "url": "https://docs.chain.link/cre/templates.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 28454,
+          "test": 1516659
+        },
+        "elapsedMs": 1546155,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 43.5,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-go-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 37794,
+          "test": 1052985
+        },
+        "elapsedMs": 1091679,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 46,
+          "mode": "web"
+        }
+      },
+      {
+        "key": "cre-templates-running-demo-workflow-ts-md",
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 37270,
+          "test": 521285
+        },
+        "elapsedMs": 559606,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 38.2,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "watchlist",
+      "name": "cre-resume",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 13,
+      "inScope": 13,
+      "failed": 0
+    },
+    "notes": [
+      "CRE pages not yet regenerated under the fixed probe prompts (vendor name required, context_mode emitted). Excludes 3 pages that fail the MIN_SOURCE_CHARS guard because they render content client-side."
+    ],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/cre/reference/cli.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-go.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/project-configuration-ts.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-go.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/reference/sdk/overview-ts.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/release-notes.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/service-quotas.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/support-feedback.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-go.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/supported-networks-ts.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-go.md",
+        "source": "watchlist",
+        "included": true
+      },
+      {
+        "url": "https://docs.chain.link/cre/templates/running-demo-workflow-ts.md",
+        "source": "watchlist",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

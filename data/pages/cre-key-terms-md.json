@@ -1,0 +1,632 @@
+{
+  "key": "cre-key-terms-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Key Terms and Concepts",
+    "url": "https://docs.chain.link/cre/key-terms.md",
+    "analyzedAt": "2026-09-21T13:25:26.421Z",
+    "contentType": "developer documentation / glossary (reference)",
+    "score": 66,
+    "band": "Good",
+    "weightedTotal": 65.7,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong. Nearly every section leads with a standalone definition (\"A decentralized, peer-to-peer network of independent nodes that work together...\"). The exception is the CRE entry itself, which leads with marketing prose instead of a definition — a problem given it is the page's headline entity."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 27 headings, 1 H1, max depth H3, 0 level skips, median 34 words/section — clean, retrievable units. Weak point: two natural comparisons (Web3 key vs Auth only; `Runtime` vs `NodeRuntime`) are prose+bullets where a table would let engines extract the distinction directly. 0 tables on page."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak. Only 3 numerals in 1,304 words, none with units, and vague quantifiers (\"many\", \"some\") present. A glossary is inherently conceptual, but specifics are available and omitted: Ethereum Mainnet chain ID, which SDK languages/versions, beta status is noted but not versioned."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Developing. 28 internal links (excellent cross-referencing between terms), but only 1 external link (Viem) and 0 to primary sources. Terms like TEE, BFT, and Consensus invite authoritative external anchors."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong. \"Enclave\" / \"TEE\" split is textbook: *\"'TEE' describes the technology; 'enclave' refers to a specific running instance of one.\"* These are exactly the crisp, liftable statements engines cite."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Poor. Measured: 0 JSON-LD blocks, canonical MISSING, no `datePublished`/`dateModified` in head, 0 og/twitter tags, no head metadata captured. A body-text \"Last Updated: 2026-05-20\" exists but is not machine-parseable schema. A glossary is the ideal candidate for `DefinedTerm`/`DefinedTermSet` schema."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Developing. 0 fenced code blocks. Acceptable for a glossary, and inline API symbols (`runtime.GetSecret()`, `cre.Handler`) are well-labeled by language — but no examples exist to anchor agent usage."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Concept-titled headings serve \"what is a DON / workflow / handler\" queries well. No troubleshooting/symptom coverage, but that is out of scope for a glossary."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent Go/TypeScript naming pairs throughout, disciplined cross-links. One blemish: the CRE lead sentence is fluff."
+      }
+    ],
+    "summary": "This is a well-constructed CRE glossary: 27 tightly-scoped sections, each opening with a crisp, verbatim-liftable definition — near-ideal chunking for RAG retrieval and definitional Q&A. Its single biggest strength is answer-first, self-contained term definitions; its single biggest opportunity is machine-readability metadata (no JSON-LD, no canonical URL, no `TechArticle`/`DefinedTerm` schema in the served HTML). The one substantive prose flaw is the lead definition of CRE itself, which is marketing fluff rather than a usable definition. Honest verdict: strong glossary content held back by absent structured metadata and a fluffy top entry.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add structured metadata (JSON-LD + canonical)",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` (served HTML)",
+        "issue": "Measured — 0 JSON-LD blocks, canonical MISSING, no og/schema.",
+        "change": "Emit a `DefinedTermSet` with each H3 term as a `DefinedTerm` (name + description), plus `TechArticle` wrapper, canonical `https://docs.chain.link/cre/key-terms`, `inLanguage: en`, and `dateModified: 2026-05-20`. Pass raw `<head>` in future CLI runs to confirm.",
+        "why": "A glossary maps directly onto `DefinedTerm` schema; structured terms are the single most extractable format for engines resolving \"what is X in CRE\"."
+      },
+      {
+        "priority": 1,
+        "title": "Replace the CRE marketing lead with a real definition",
+        "mapsTo": "Answer-first extractability / Quotable canonical definitions",
+        "tier": null,
+        "where": "`### Chainlink Runtime Environment (CRE)`",
+        "issue": "\"The all-in-one orchestration layer unlocking institutional-grade smart contracts—data-connected, compliance-ready...\"",
+        "change": "Lead with a factual sentence, e.g. \"The Chainlink Runtime Environment (CRE) is an orchestration layer that compiles workflows to WASM and runs them on Decentralized Oracle Networks, connecting smart contracts to offchain data, systems, and other blockchains.\" Keep the value framing as a second sentence.",
+        "why": "The page's headline entity currently has no liftable definition; engines answering \"what is CRE\" get fluff. Marketing adjectives underperform factual claims."
+      },
+      {
+        "priority": 2,
+        "title": "Convert two comparisons to tables",
+        "mapsTo": "Structural scannability & justification structure",
+        "tier": null,
+        "where": "`### Control plane` (Web3 key vs Auth only) and `### Runtime & NodeRuntime`",
+        "issue": "Distinctions are buried in parallel bullets; 0 tables on page.",
+        "change": "Add a 2-column table per pair with rows like *Registry, Wallet/gas required, RPC, BFT guarantee, When used*. Keep the `deployment-registry` values in cells.",
+        "why": "Tables let engines extract the *reasons* to choose one option and build justified comparative answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add authoritative external citations for foundational terms",
+        "mapsTo": "Citations & authoritative references",
+        "tier": null,
+        "where": "`### TEE`, `### Consensus`, `Runtime` (BFT mention)",
+        "issue": "0 links to primary/canonical sources.",
+        "change": "Link TEE to a primary reference (e.g. Confidential Computing Consortium), BFT to a canonical definition. One inline link each.",
+        "why": "Inline links to standards raise credibility and citation rate; grounds generic terms to authoritative sources."
+      },
+      {
+        "priority": 3,
+        "title": "Add concrete specifics where already implied",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "`### Control plane`, `### Confidential workflow`",
+        "issue": "\"Ethereum Mainnet\" without chain ID; \"many\"/\"some\" vague quantifiers.",
+        "change": "Note the Ethereum Mainnet chain ID (1) at first mention; state which languages/SDK versions confidential features support (already partially present — \"Available in Go and TypeScript\").",
+        "why": "Quantitative specifics are among the highest-lift retrieval signals; costless here since the facts are known."
+      },
+      {
+        "priority": 3,
+        "title": "Add a one-line liftable answer to the two-DON-type distinction",
+        "mapsTo": "Query/intent coverage",
+        "tier": null,
+        "where": "`### Decentralized Oracle Network (DON)`",
+        "issue": "Workflow DON vs Capability DON distinction is embedded mid-sentence.",
+        "change": "Split into a short bulleted pair with a leading canonical sentence, so \"what is the difference between a Workflow DON and a Capability DON\" retrieves cleanly.",
+        "why": "Matches how devs query the distinction directly rather than the parent concept."
+      }
+    ],
+    "antiPatterns": [
+      "**Marketing fluff:** CRE lead definition (\"institutional-grade smart contracts—data-connected, compliance-ready, privacy-preserving\") — flagged above.",
+      "**Vague quantifiers:** \"many\", \"some\" present (measured) — minor.",
+      "No unresolved cross-references, no stale content (dated 2026-05-20), no ambiguous entities, no prose walls."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top of the page — good site-level signal; confirm it lists this glossary URL.",
+      "Site-level `DefinedTermSet`/`TechArticle` schema and canonical-tag emission are template-level fixes, not unique to this page.",
+      "Freshness cadence: body shows a last-updated date but it is not exposed as machine-readable `dateModified` — surface it site-wide."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/key-terms.md",
+      "source_title": "Key Terms and Concepts",
+      "probe_set_id": "277fc8bc20fc",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:01:32.142Z",
+      "probe_count": 6,
+      "graded_count": 4,
+      "refusal_count": 0,
+      "error_count": 2,
+      "avg_fidelity": 45.8,
+      "avg_fidelity_all": 45.8,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.25,
+      "retrieval_hit_rate_effective": 0.25,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.8,
+        "hallucination_free": 3.3,
+        "relevance": 4,
+        "structure": 7.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 182899,
+          "output_tokens": 12063,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 19,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6982,
+          "output_tokens": 9627,
+          "cache_creation_input_tokens": 3816,
+          "cache_read_input_tokens": 21004,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts",
+              "https://docs.chain.link/cre/guides/operations/deploying-workflows",
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre/key-terms"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer itself states the search/retrieval tool hit a usage limit and it could not load the page body, so its claims are unverified guesses."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "a Workflow Registry you point at yourself (your own deployed registry contract / your own environment)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "run the deploy command with the CRE CLI (`cre workflow deploy`)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "testnets like Ethereum Sepolia / Base Sepolia",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "The choice is made in your project/environment configuration ... not in the workflow code itself",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "The control plane mode is selected per target via `user-workflow.deployment-registry` in `workflow.yaml`",
+            "Web3 key mode uses `deployment-registry: \"onchain:ethereum-mainnet\"` and signs onchain transactions to the public Workflow Registry, requiring a linked wallet and gas",
+            "Auth only mode uses `deployment-registry: \"private\"`, authorized by your CRE login session against the Chainlink-hosted private registry, with no wallet/gas required"
+          ],
+          "unverifiable_from_source": [
+            "Workflow Registry contract keeps track of workflow metadata and status",
+            "cre generate-bindings or CLI flags referenced (Workflow CLI Commands page) as source of registry selection"
+          ],
+          "verdict": "The answer admits it could not load the source page and then gives a largely fabricated, partly contradictory account (self-hosted private registry, CLI-based selection, testnet examples) instead of the documented `deployment-registry` key in `workflow.yaml`, so it is not safe to ship.",
+          "fidelity": 30,
+          "prompt": "In Chainlink CRE, how do I choose between the public onchain registry and the private registry when deploying a workflow, and where do I set that?",
+          "archetype": "direct-howto",
+          "answer": "I was able to confirm the relevant Chainlink documentation pages but couldn't fully load their body text (the search tool hit its usage limit this turn), so let me give you a grounded answer and point you to the exact pages to confirm the precise field names.\n\n## The short version\n\nIn Chainlink CRE, the \"registry\" you're choosing between is the **Workflow Registry** — the onchain contract that keeps track of your workflow, its metadata, and its status. You have two main paths:\n\n- **Public onchain registry** — the shared Workflow Registry contract that Chainlink deploys and maintains on supported networks (e.g., testnets like Ethereum Sepolia / Base Sepolia). This is what you use when you want a Chainlink-operated DON to actually run your deployed workflow.\n- **Private registry** — a Workflow Registry you point at yourself (your own deployed registry contract / your own environment), used for private or self-hosted setups and local development/simulation rather than the shared public one.\n\n## Where you set it\n\nThe choice is made in your **project/environment configuration** (the CRE project settings that the CRE CLI reads), not in the workflow code itself. Concretely, you control it by:\n\n1. **Selecting the target environment/network** in your project config when you run the deploy command with the CRE CLI (`cre workflow deploy`).\n2. **Setting the Workflow Registry address** for that environment — pointing to Chainlink's public registry address for a network, or to your own private registry contract address.\n\nSo the flow is: pick the environment → that environment's config specifies which Workflow Registry contract address (public vs. private) is used → `cre workflow deploy` registers your workflow against that registry.\n\n## Where to confirm the exact keys\n\nBecause field/key names change as CRE is still evolving, verify against these specific pages:\n\n- **Deploying to the Onchain Registry** — https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts (walks through deploying against the public onchain Workflow Registry and where the registry address is configured)\n- **Deploying Workflows** — https://docs.chain.link/cre/guides/operations/deploying-workflows (general deployment flow and environment selection)\n- **Workflow CLI Commands** — https://docs.chain.link/cre/reference/cli/workflow (the `cre workflow deploy` flags/options)\n- **Key Terms and Concepts** — https://docs.chain.link/cre/key-terms (definition of the Workflow Registry)\n\nIf you tell me which language/template you're using (TypeScript vs. Go) and paste your current project config file, I can point to the exact field to change. Would you also like me to retry pulling the precise config-key names from the \"Deploying to the Onchain Registry\" page?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 61165,
+              "output_tokens": 3541,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1652,
+              "output_tokens": 1295,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 6205,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer does not cite the expected CRE key-terms source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "consensusMedianAggregation",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "runtime.runInNodeMode(...)",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "import { consensusMedianAggregation, type NodeRuntime, type Runtime } from \"@chainlink/cre-sdk\";",
+              "type": "wrong_import",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Explicit mention that Runtime operations are 'guaranteed to be Byzantine Fault Tolerant (BFT)'"
+          ],
+          "unverifiable_from_source": [
+            "The exact TypeScript method name `runtime.runInNodeMode(...)` versus the source's `cre.RunInNodeMode` block",
+            "Existence of a built-in `consensusMedianAggregation()` helper",
+            "The `@chainlink/cre-sdk` import path",
+            "Claim that CRE provides built-in consensus mechanisms for aggregation"
+          ],
+          "verdict": "Conceptually sound explanation of Runtime vs NodeRuntime, but introduces unverified/likely fabricated SDK function and import names that could mislead a developer trying to copy the code verbatim, and it never cites the source page.",
+          "fidelity": 60,
+          "prompt": "Chainlink CRE: when do I use Runtime vs NodeRuntime in my callback?",
+          "archetype": "comparison",
+          "answer": "Here's the practical distinction between the two runtime types in Chainlink CRE (based on the `@chainlink/cre-sdk`).\n\n## The short rule\n\n- **`Runtime`** → the \"workflow-level\" runtime. Use it in your main workflow callback/handler. Everything here executes as a single, agreed-upon result across the DON (it's already deterministic/consensus-safe).\n- **`NodeRuntime`** → the \"per-node\" runtime. Use it **only inside a function you pass to `runtime.runInNodeMode(...)`**, where each node runs the code independently and the results are then aggregated into consensus.\n\n## Why the split exists\n\nA CRE workflow runs across a Decentralized Oracle Network (DON), i.e., many nodes. Most of your logic should produce the *same* result on every node — that's the `Runtime` world. But some operations are inherently **non-deterministic across nodes** — most commonly outbound HTTP calls to external APIs, reading time-sensitive data, or anything where each node might independently observe a slightly different value. Those must run per-node and then be reconciled.\n\nThat reconciliation is exactly what `runInNodeMode` + a consensus aggregation does. CRE provides built-in consensus mechanisms for aggregating data from multiple nodes, and the pattern looks like this:\n\n```ts\nimport {\n  consensusMedianAggregation,\n  type NodeRuntime,\n  type Runtime,\n} from \"@chainlink/cre-sdk\";\n\n// Runs on EACH node independently → takes a NodeRuntime\nconst fetchDataFunction = async (nodeRuntime: NodeRuntime<Config>) => {\n  // e.g. an HTTP fetch that may differ slightly per node\n  return 42;\n};\n\n// In your main workflow callback → you have a `Runtime`\n// Execute the function across nodes and aggregate to one agreed value\nconst aggregatedValue = await runtime.runInNodeMode(\n  fetchDataFunction,\n  consensusMedianAggregation(),\n)();\n```\n\nExecute function across multiple nodes and aggregate results is the whole point: `runInNodeMode` takes your `NodeRuntime` function plus an aggregation strategy (e.g. `consensusMedianAggregation()`), fans it out to all nodes, and returns a single consensus value back into your `Runtime` context.\n\n## Decision guide\n\nUse **`NodeRuntime`** (inside `runInNodeMode`) when:\n- Making HTTP/API calls to fetch off-chain data\n- Doing anything that can vary node-to-node and needs consensus (median, etc.)\n- You want each node's independent observation aggregated into one trusted result\n\nUse **`Runtime`** (your normal callback parameter) when:\n- Writing the main workflow orchestration/control flow\n- Reading from or writing to smart contracts through the standard capabilities\n- Handling the already-aggregated value returned from `runInNodeMode`\n- Any deterministic logic that should produce identical output everywhere\n\n## Rule of thumb\nThink of `Runtime` as \"the DON acting as one,\" and `NodeRuntime` as \"each node acting alone, about to be brought back into agreement.\" If your code touches the outside world non-deterministically, wrap it in `runInNodeMode` with a `NodeRuntime`; otherwise stay in `Runtime`.\n\nNote: CRE is evolving quickly and the exact API surface (types, method names) can shift between SDK versions, so it's worth confirming against the version of `@chainlink/cre-sdk` you're pinned to and the official CRE docs.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 43150,
+              "output_tokens": 2852,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1674,
+              "output_tokens": 3887,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 6205,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite the harness confirming it was not retrieved."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 3,
+            "relevance": 5,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "The generator also supports other targets (e.g., Solana/TypeScript)",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "running this from your project root where project.yaml is: `cre generate-bindings evm`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the generated method takes the sdk.Runtime and a block number as arguments",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "located in projectRoot/contracts/src/abi ... contracts/evm/src/generated/",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "You'll typically also run `go mod tidy` to sync dependencies afterward.",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "specific file paths like contracts/evm/src/abi/ and contracts/evm/src/generated/",
+            "references to 'custom data feed template', 'demo template', and 'getting-started tutorial'",
+            "the `evm` subcommand for cre generate-bindings",
+            "the Storage contract get() example with sdk.Runtime and block number args",
+            "go mod tidy step after generation"
+          ],
+          "verdict": "The answer captures the core facts (cre generate-bindings, Go-only bindings, type-safe interface for reads/writes/triggers) but directly contradicts the source's TypeScript/Viem note, adds several unverified fabricated specifics, and fails to cite the source, so it is not fully safe to ship as-is.",
+          "fidelity": 53,
+          "prompt": "Using the Chainlink CRE Go SDK, how do I generate type-safe contract bindings and what do they help me do?",
+          "archetype": "constrained",
+          "answer": "I'll search for information about generating type-safe contract bindings with the Chainlink CRE Go SDK.Let me retry the search with proper parsing.Let me get more detail from the specific guides on generating bindings.Based on the Chainlink documentation, here's how to generate type-safe contract bindings with the CRE Go SDK and what they do for you.\n\n## How to generate bindings\n\nThe CRE CLI includes a binding generator. For interacting with smart contracts, use the CRE CLI's binding generator to automatically create type-safe Go bindings from your contract ABIs.\n\nThe command is `cre generate-bindings`. In the CLI reference, cre generate-bindings generates contract bindings from ABIs (Go workflows only, if interacting with contracts).\n\nThe typical workflow looks like this:\n\n1. **Place your contract ABIs** in the expected directory. For example, in the custom data feed template, you generate Go bindings from ABIs (located in projectRoot/contracts/src/abi), running this from your project root where project.yaml is: `cre generate-bindings evm`.\n\n2. **Run the generator from your project root.** In the getting-started tutorial, this command will automatically generate type-safe Go bindings for all ABI files in your contracts/evm/src/abi/ directory. In the demo template, the command finds the contract ABIs inside the contracts/evm/src/abi/ directory and generates Go packages in contracts/evm/src/generated/.\n\n3. **Import and use them** in your workflow. Your workflow code imports SDK packages and the newly generated contract bindings. You'll typically also run `go mod tidy` to sync dependencies afterward.\n\n## What a binding actually is\n\nA binding is a Go package generated from a smart contract's ABI using the cre generate-bindings CLI command. Bindings create a type-safe Go interface for a specific smart contract, abstracting away the low-level complexity of ABI encoding and decoding.\n\nThe recommended pattern is to keep this in its own package. The recommended pattern is to create a binding: a separate Go package that acts as a type-safe client for your specific smart contract.\n\n## What they help you do\n\nBindings solve a real pain point. Without them, while you could call the generic evm.Client directly from your main workflow logic, this is not recommended — doing so would require you to manually handle ABI encoding and decoding for every contract call, leading to code that is hard to read and prone to errors.\n\nInstead, the binding wraps the generic client for you. The evm.Client provides the foundational methods for all onchain interactions, but it is highly recommended to wrap its usage in a type-safe \"binding\" for your specific smart contracts. Your binding will use this generic client internally to handle ABI encoding and decoding, making your workflow code cleaner and safer.\n\nSpecifically, generated bindings provide helper methods for:\n\n- **Reading onchain data.** Using generated bindings is the recommended best practice for Go workflows, as they provide helper methods for reading from view/pure functions, encoding data structures for onchain writes, and creating triggers. The binding creates type-safe Go methods that correspond to your contract's view and pure functions. For example, after running `cre generate-bindings evm`, your binding will contain methods that wrap the onchain functions; for a Storage contract's get function, the generated method takes the sdk.Runtime and a block number as arguments.\n\n- **Encoding data for onchain writes.** If a struct is part of a function signature, its definition is also included so that external applications know how to encode and decode it. The CRE binding generator reads the ABI and creates helper methods for any structs it finds there.\n\n- **Creating and filtering event/log triggers.** For the EVM Log Trigger, the recommended best practice is to use the type-safe helper functions created by the cre generate-bindings command.\n\n## Summary\n\nIn short: run `cre generate-bindings evm` from your project root against your contract ABIs to produce a dedicated Go package per contract. The workflow then uses type-safe Go bindings generated from contract ABIs, providing compile-time safety for contract interactions — giving you clean, safe methods for reading view/pure functions, encoding write payloads, and building log triggers, all without hand-writing ABI encoding/decoding logic.\n\nOne note: this is a Go-workflow feature. The generator also supports other targets (e.g., Solana/TypeScript), but `cre generate-bindings` for contract bindings applies specifically when your Go workflow needs to interact with smart contracts.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 37332,
+              "output_tokens": 2742,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1969,
+              "output_tokens": 2954,
+              "cache_creation_input_tokens": 3816,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its search/retrieval tool failed and it is relying on general knowledge instead of the documentation."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 4,
+            "relevance": 2,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "a workflow that is not publicly visible/accessible—e.g., restricted to your organization, not shared or discoverable, access-controlled",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Intel SGX/TDX, AMD SEV, or similar",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "The Vault DON stores threshold-encrypted secrets and releases them only to an attested enclave",
+            "Confidential execution is separate from registry selection — a public onchain-registry workflow can still use confidential execution, and private registry does not mean confidential (correct reasoning, not visibility-based)"
+          ],
+          "unverifiable_from_source": [
+            "Attestation can produce a cryptographic proof for third parties",
+            "Specific hardware examples (Intel SGX/TDX, AMD SEV)"
+          ],
+          "verdict": "Not safe to ship: the answer admits it never retrieved the docs, fabricates an incorrect definition of 'private workflow' that contradicts the source (which ties it to the private registry, not visibility/access control), and omits the Vault DON concept entirely.",
+          "fidelity": 40,
+          "prompt": "How does confidential execution work in Chainlink CRE with TEEs and enclaves, and is it the same thing as a private workflow?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll research this for you by searching for current information on Chainlink CRE's confidential execution features.I wasn't able to complete live web searches (the search tool hit its usage limit before returning parseable results), so I can't cite Chainlink's current documentation directly. Let me be transparent about that and give you a conceptual answer based on general knowledge—but please verify the specifics against Chainlink's official CRE docs, since CRE is evolving quickly and terminology/features change.\n\n## Confidential execution with TEEs and enclaves\n\nThe core idea of confidential execution is running workflow logic and handling data inside a **Trusted Execution Environment (TEE)**—a hardware-isolated \"enclave\" (e.g., Intel SGX/TDX, AMD SEV, or similar). Within CRE this generally means:\n\n- **Isolation from the operator/host:** Code and data are decrypted and processed *inside* the enclave, so even the node operator running the hardware cannot inspect the plaintext inputs, intermediate state, or secrets in memory.\n- **Attestation:** The enclave can produce a cryptographic attestation proving that a specific, unmodified piece of code is running in a genuine TEE. This lets other parties trust that the confidential logic executed as intended without seeing the data.\n- **Protecting secrets and sensitive inputs:** Things like API keys, private data feeds, credentials, or business logic you don't want to reveal on-chain or to node operators can be used inside the enclave.\n\nThe goal is to extend Chainlink's decentralized trust model (multiple independent nodes reaching consensus) with **data confidentiality**—so you get verifiable computation *and* privacy of the inputs/logic.\n\n## Is that the same as a \"private workflow\"?\n\nNot necessarily—these terms tend to describe different (though sometimes overlapping) properties, and it's worth distinguishing them:\n\n- **Confidential execution (TEE/enclave):** About *secrecy of data and logic during computation*. The emphasis is on hardware-backed protection of what's being processed.\n\n- **Private workflow:** This phrase is often used more loosely to mean a workflow that is not publicly visible/accessible—e.g., restricted to your organization, not shared or discoverable, access-controlled, or deployed with private configuration. A workflow can be \"private\" in the sense of access/visibility without necessarily running inside a TEE, and confidential execution can protect data even in a workflow that is otherwise publicly registered.\n\nSo they're **related but not synonymous**: confidentiality is a runtime data-protection guarantee via TEEs, while \"private\" typically refers to visibility/access control. Depending on Chainlink's specific docs, \"private workflow\" may be defined as its own product concept, so the exact meaning matters.\n\n## What I'd recommend checking\n\nTo get authoritative, up-to-date definitions, look at:\n- Chainlink's official **CRE documentation** (developer docs) for how they define \"confidential compute,\" \"TEE,\" and any \"private\" vs. \"public\" workflow distinction.\n- Any Chainlink blog posts or whitepapers on **Chainlink DECO / confidential compute** and CRE architecture.\n\nIf you'd like, I can try the web search again in a bit (once the tool limit resets) to pull the exact current definitions and cite them—or if you can share a link to the specific Chainlink doc you're reading, I can walk through it with you. Would either of those help?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 41252,
+              "output_tokens": 2928,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1687,
+              "output_tokens": 1491,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 6205,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "CRE report generate deliver verify functions Go TypeScript",
+          "archetype": "terse/keyword",
+          "answer": "",
+          "stop": "error",
+          "error": "{\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfWGVqzZAko2X61E4JAUX\"}",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": null,
+            "via": null,
+            "notes": ""
+          },
+          "scores": null,
+          "fidelity": null,
+          "hallucinations": [],
+          "missing_must_include": [],
+          "unverifiable_from_source": [],
+          "verdict": "Probe failed — not graded.",
+          "prompt": "In Chainlink CRE, how do I retrieve a secret like an API key inside my callback, and how do async operations return their results in each SDK?",
+          "archetype": "code-first",
+          "answer": "",
+          "stop": "error",
+          "error": "{\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011CfWGVpmdMzE3hFb9vfjR6\"}",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": null,
+            "searches_succeeded": null,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": null
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            },
+            "grader": {
+              "input_tokens": 0,
+              "output_tokens": 0,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

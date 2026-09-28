@@ -1,0 +1,757 @@
+{
+  "key": "cre-guides-operations-deploying-workflows-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Deploying Workflows",
+    "url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+    "analyzedAt": "2026-09-21T13:21:55.340Z",
+    "contentType": "developer documentation / conceptual overview + reference",
+    "score": 70,
+    "band": "Good",
+    "weightedTotal": 70.1,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. The core definition \"When you deploy a workflow, you register it with a **workflow registry** so it can activate and respond to triggers\" is self-contained and liftable. Minor weakness: two NOTE callouts precede it, so the first liftable chunk is an access caveat rather than the definition."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 4 headings, 0 level skips, 2 comparison tables, no section over 226 words — clean RAG chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good. Concrete limits table (3 workflows, 1 linked key, 3 per key) and a real registry address (`0x4Ac5...E7e5`). Weak: 0 numerals carry units and there are no version strings; quotas are deferred to another page rather than restated."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate for product docs: 10 internal links to key-terms and sibling guides. No external/primary references (e.g., no link to the Workflow Registry contract on a block explorer), which would raise attributability."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. \"This is a **control-plane** choice — it governs how workflow management is authorized, not how workflow execution behaves\" and \"Private is not confidential\" are crisp, verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured facts confirm 0 JSON-LD blocks, canonical MISSING, dateModified absent, 0 og/twitter tags. A visible \"Last Updated: 2026-05-12\" exists in body text but is not machine-structured."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. `cre registry list` command plus realistic example output. One block is untagged (the example output) — acceptable, but tagging it aids parsing."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Adequate concept coverage, weak on symptom/question phrasing. No headings phrased as \"how do I choose…\", \"do I need a wallet…\", and no troubleshooting for the \"Deploy access required\" gate."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent product/entity naming (CRE, DON, private vs onchain)."
+      }
+    ],
+    "summary": "This is a well-structured conceptual/reference page that explains the private-vs-onchain registry choice for deploying CRE workflows, anchored by two strong comparison tables and clear canonical distinctions. Its biggest GEO strength is structural scannability and clean terminology; the tables and the \"control-plane choice\" framing are highly liftable. Its biggest opportunity is machine-readable metadata — no JSON-LD, no canonical URL, no structured freshness signal despite a visible \"Last Updated\" line — closely followed by missing symptom/question-phrased headings that would win retrieval for how devs actually query this topic. Honest verdict: solid best-in-class prose that leaves retrieval and parse-trust points on the table.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom/question-phrased headings and a short FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "below \"Comparing registries\" and near the access NOTE",
+        "issue": "headings are concept-titled (\"Comparing registries\", \"Limits\") — devs query by question.",
+        "change": "add H3s phrased as queries: \"How do I choose between the private and onchain registry?\", \"Do I need a wallet to deploy a workflow?\", \"Why do I see 'Deploy access required'?\" — each answered in the first sentence from existing content.",
+        "why": "question-phrased headings win retrieval that concept titles lose even when the answer is already in the body."
+      },
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD and a canonical URL",
+        "mapsTo": "machine-readability / E-E-A-T",
+        "tier": null,
+        "where": "page `<head>` (site template)",
+        "issue": "measured facts — \"JSON-LD: 0 block(s)\", \"canonical: MISSING\", \"dateModified absent\".",
+        "change": "emit `TechArticle` JSON-LD with `headline`, `dateModified: 2026-05-12`, `inLanguage`, and a `<link rel=\"canonical\">` matching the served URL.",
+        "why": "structured metadata and machine-readable freshness raise agent parse-trust; the visible \"Last Updated\" should be mirrored in schema."
+      },
+      {
+        "priority": 2,
+        "title": "Lead the page body with the canonical definition, before the access caveat",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "top of the page, above the \"Deploy access required\" NOTE",
+        "issue": "first liftable prose is an access caveat, not \"what deploying is\".",
+        "change": "add a one-sentence TL;DR: \"Deploying a workflow registers it with a CRE workflow registry — private (Chainlink-hosted, session-authorized) or onchain (Ethereum Mainnet contract, wallet-authorized).\" Keep the NOTE directly after.",
+        "why": "the first chunk an engine skims should answer the implied question, not gate it."
+      },
+      {
+        "priority": 2,
+        "title": "Restate current quota values inline, not only by reference",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Limits\" section",
+        "issue": "\"See [Service Quotas] for current values\" defers the numbers.",
+        "change": "the Limits table already lists defaults (3 / 1 / 3) — label them explicitly \"Default per-organization limits (as of 2026-05-12)\" so the numbers are self-contained if this chunk is retrieved alone.",
+        "why": "quantitative claims are among the highest-lift elements; a chunk that ships its own numbers outperforms one that points elsewhere."
+      },
+      {
+        "priority": 3,
+        "title": "Link the Workflow Registry contract to an authoritative source",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"Public/onchain workflow\" bullet and the `0x4Ac5...E7e5` address",
+        "issue": "the contract address appears only as plain text/output.",
+        "change": "link the full address to Etherscan (or the canonical contract reference page).",
+        "why": "an inline link to a primary/verifiable source raises credibility and citation rate."
+      },
+      {
+        "priority": 3,
+        "title": "Tag the example-output fence",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"Example output:\" block",
+        "issue": "measured facts — \"1 untagged\" fence.",
+        "change": "tag it (e.g. ```` ```text ````) so parsers distinguish output from runnable commands.",
+        "why": "labeled fences let agents separate copy-pasteable commands from illustrative output."
+      }
+    ],
+    "antiPatterns": [
+      "None material. Prose is clean, dated, and free of marketing fluff or unresolved cross-references. One untagged code fence (noted above) is the only minor machine-readability nit."
+    ],
+    "offPageNotes": [
+      "The page already references `/llms.txt` — good; confirm it enumerates this URL and its sibling deployment guides for the canonical-hub pattern.",
+      "Canonical URL, JSON-LD injection, and og/twitter tags are site-template concerns; fixing them here benefits every CRE doc page.",
+      "The CLI should pass raw `<head>` on future runs — head metadata could not be verified this run, so schema/canonical absence is inferred from the served HTML measurement, not confirmed markup inspection."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/guides/operations/deploying-workflows.md",
+      "source_title": "Deploying Workflows",
+      "probe_set_id": "829d91bc8e93",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:47:11.712Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 46.3,
+      "avg_fidelity_all": 46.3,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0.33,
+      "retrieval_hit_rate_effective": 0.33,
+      "retrieval_mention_hit_count": 1,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 4,
+        "hallucination_free": 3.7,
+        "relevance": 4.2,
+        "structure": 6.7
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 736028,
+          "output_tokens": 17809,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 26,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 9148,
+          "output_tokens": 10722,
+          "cache_creation_input_tokens": 3088,
+          "cache_read_input_tokens": 20510,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": true,
+            "via": "mention",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not load the actual documentation content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "cre/guides/operations/deploying-to-onchain-registry-ts",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "typically used during development and for CRE beta/early-access environments",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "cre workflow deploy",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Registry is selected per deployment target via deployment-registry in workflow.yaml",
+            "Private workflow: lifecycle ops authorized by CRE login session, no wallet/gas/RPC needed",
+            "Public/onchain workflow: lifecycle ops submit transactions to the Workflow Registry contract on Ethereum Mainnet, authorized by linked web3 wallet key",
+            "This is a control-plane choice about authorization, not execution behavior"
+          ],
+          "unverifiable_from_source": [
+            "self-service posture where you own and control the registration via the registry contract",
+            "CLI lets you target the onchain registry as part of the deploy command/config"
+          ],
+          "verdict": "The answer admits it couldn't retrieve the docs, omits the key deployment-registry/workflow.yaml mechanics and authorization details, and includes a slightly fabricated URL, so it's not safe to ship as-is.",
+          "fidelity": 45,
+          "prompt": "In Chainlink CRE, how do I choose between a private and an onchain workflow registry when deploying a workflow?",
+          "archetype": "direct-howto",
+          "answer": "I'll search for information about Chainlink CRE workflow registries to answer your question accurately.Let me fetch the key documentation pages for details.I've hit the search rate limit. Let me wait and retrieve the detailed content from the key documentation pages.I ran into a rate limit on the search tool before I could pull the full text of the relevant Chainlink docs pages, so I want to be upfront: I can point you to the exact pages that answer this and give you the general decision framework, but I couldn't load the detailed page contents to quote them precisely. I'd recommend confirming the specifics against the linked docs.\n\n## The two registry options in Chainlink CRE\n\nWhen you deploy a workflow with the CRE CLI (`cre workflow deploy`), the workflow's metadata (binary location, config, owner, etc.) has to be registered somewhere so a DON knows about it and can run it. CRE gives you two targets:\n\n- **Private (off-chain / Chainlink-hosted) registry** — a registry managed off-chain, typically used during development and for CRE beta/early-access environments.\n- **Onchain Workflow Registry** — a smart contract on a supported chain that stores workflow metadata on-chain, giving you a decentralized, verifiable, self-service record of registered workflows.\n\n## How to choose\n\nThink about it along these lines:\n\n**Choose the private registry when:**\n- You're developing, iterating, or testing and want the fastest path to running a workflow.\n- You're in an environment where the onchain registry isn't required or available yet.\n- You don't need on-chain verifiability of the registration itself.\n\n**Choose the onchain registry when:**\n- You want the workflow registration to be **decentralized and verifiable on-chain** rather than depending on an off-chain/hosted service.\n- You're moving toward a **production / self-service** posture where you own and control the registration via the registry contract.\n- You need the transparency and permissioning guarantees that come from an on-chain contract (e.g., ownership tied to your address/keys).\n\nIn practice, the workflow is: start with the default/private flow while building, then follow the dedicated \"Deploying to the Onchain Registry\" flow when you're ready to register on-chain. The CLI lets you target the onchain registry as part of the deploy command/config.\n\n## Where to confirm the exact steps\n\nThese are the authoritative pages (titles as returned by search):\n\n- **Deploying Workflows** — `docs.chain.link/cre/guides/operations/deploying-workflows` (general deployment + default target)\n- **Deploying to the Onchain Registry** — `docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts` (the specific onchain-registry flow)\n- **Updating Deployed Workflows** — `docs.chain.link/cre/guides/operations/updating-deployed-workflows`\n- **Workflow CLI Commands** — `docs.chain.link/cre/reference/cli/workflow`\n- **Key Terms and Concepts** — `docs.chain.link/cre/key-terms`\n\nIf you'd like, tell me whether you're targeting testnet/dev or a production setup, and I can try the searches again in a bit to pull the exact CLI flags and config for your chosen registry.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 105469,
+              "output_tokens": 4018,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1543,
+              "output_tokens": 1369,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3933,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; several CLI details appear unverified against it."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 4,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Run `cre whoami` to confirm you're authenticated",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "`cre login` if you aren't",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "set the `CRE_API_KEY` environment variable instead",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "most CRE CLI listing commands support a JSON output format (e.g., `--output json`)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "use `cre workflow list`",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Use the ID value as the deployment-registry in workflow.yaml",
+            "Output shows ethereum-mainnet (onchain) and Private (Chainlink-hosted) registries"
+          ],
+          "unverifiable_from_source": [
+            "You must be logged in to run this command",
+            "cre whoami confirms authentication",
+            "cre login for browser-based auth",
+            "CRE_API_KEY environment variable for headless/CI",
+            "--output json flag for scripting",
+            "cre workflow list command",
+            "full CLI reference at docs.chain.link/cre/reference/cli"
+          ],
+          "verdict": "The core command (`cre registry list`) is correct, but the answer omits the key step of using the returned ID as deployment-registry in workflow.yaml and introduces several unverified CLI flags/commands not found in the source, making it risky to ship as-is.",
+          "fidelity": 43,
+          "prompt": "Using the CRE CLI, how do I see which workflow registries are available to my organization?",
+          "archetype": "constrained",
+          "answer": "I'll search for information about the CRE CLI and workflow registries.To see which workflow registries are available to your organization using the CRE CLI, run:\n\n```bash\ncre registry list\n```\n\nThis command displays the workflow registries configured for your organization, including each registry's type and its on-chain address. A workflow registry is the system that tracks which workflows are registered to your organization and makes them available to the Chainlink DON for execution.\n\nA few notes:\n- **You must be logged in** to run this command. Run `cre whoami` to confirm you're authenticated, or `cre login` if you aren't. For headless/CI environments where a browser isn't available, set the `CRE_API_KEY` environment variable instead.\n- For scripting, most CRE CLI listing commands support a JSON output format (e.g., `--output json`) so you can parse the results programmatically.\n\nIf you're instead looking to list the *workflows* deployed for your organization (rather than the registries themselves), use `cre workflow list`.\n\nYou can find the full details in the Chainlink CRE CLI reference documentation at docs.chain.link/cre/reference/cli.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 3,
+            "searches_succeeded": 3,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 98266,
+              "output_tokens": 1176,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 3,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 775,
+              "output_tokens": 1592,
+              "cache_creation_input_tokens": 1544,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites no URLs at all, so the expected source page was never surfaced."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 6,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "visiting app.chain.link/cre/request-access to fill out the request form",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "cre whoami will show it as enabled",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "Deployment access is not yet enabled for your organization. Request deployment access?",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Deploy access is a gated (Early Access) permission",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "you'll receive a confirmation email",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Deploy access is called 'Early Access'",
+            "app.chain.link/cre/request-access web form exists",
+            "cre whoami shows deploy access status",
+            "specific CLI prompt wording for requesting access",
+            "confirmation email is sent after submitting a request"
+          ],
+          "verdict": "The answer correctly identifies the two core steps (cre account access, cre workflow simulate) but adds many specific, unsourced CLI behaviors and a web URL that aren't in the documentation, and it never cites the source page, making it risky to ship as-is without verification.",
+          "fidelity": 60,
+          "prompt": "cre workflow deploy says I need deploy access in Chainlink CRE — what do I run to fix this and what can I do meanwhile?",
+          "archetype": "error-debug",
+          "answer": "The most relevant result is \"Requesting Deploy Access\". Let me look at that and the CLI reference.I have what I need to answer this.\n\n## Fixing the \"deploy access\" error\n\nDeploy access is a gated (Early Access) permission in Chainlink CRE. Deploying workflows to a Chainlink DON requires Early Access approval.\n\n**What to run:**\n\nRun this command to check your status and submit a request from your terminal:\n\n```\ncre account access\n```\n\nYou can request access in two ways: from the CLI — run `cre account access` to check your status or submit a request directly from your terminal — or from the web by visiting app.chain.link/cre/request-access to fill out the request form.\n\nWhen you run it, if your organization does not have deploy access, `cre account access` will prompt you to submit a request: \"Deployment access is not yet enabled for your organization. Request deployment access?\" After confirming, you'll be asked to briefly describe what you're building / your use case.\n\nAfter submitting, you'll receive a confirmation email, and the Chainlink team will follow up once your request has been reviewed.\n\nYou can check your current status anytime — the output looks like this when it's not yet enabled: Email, Organization ID, and \"Deploy Access: Not enabled (run 'cre account access' to request)\". Once approved, once your organization is granted deploy access, `cre whoami` will show it as enabled.\n\n## What you can do meanwhile\n\nYou don't need deploy access just to build and test. Deploy access is only required for `cre workflow deploy` — you can continue developing and simulating workflows locally with `cre workflow simulate` while your request is under review.\n\nSo while you wait for approval:\n- Keep iterating on your workflow code\n- Use `cre workflow simulate` to run and validate it locally\n\nOnce your organization is granted access, you can then use `cre workflow deploy` to deploy workflows to the Workflow Registry.\n\n**One note:** you don't need to run `cre account access` proactively — the CLI will prompt you to request access automatically (which is exactly what happened when `cre workflow deploy` gave you that message), so simply following that prompt or running the command manually will start the process.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 34831,
+              "output_tokens": 1711,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1072,
+              "output_tokens": 1588,
+              "cache_creation_input_tokens": 1544,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts",
+              "https://docs.chain.link/cre/guides/operations/deploying-workflows",
+              "https://docs.chain.link/cre/key-terms",
+              "https://docs.chain.link/cre/reference/cli/workflow",
+              "https://docs.chain.link/cre"
+            ],
+            "hit_expected_source": true,
+            "via": "citation",
+            "tier": null,
+            "notes": "The answer explicitly states it hit a web search rate limit and could not pull full page contents, relying on general knowledge instead."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 3,
+            "relevance": 4,
+            "structure": 5
+          },
+          "hallucinations": [
+            {
+              "claim": "This is the local development path — used with `cre workflow simulate` and local deploys before you go live.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "Deployment/registration happens in a local or off-chain context, so you don't need a private key holding real (or testnet) funds.",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "maximum compiled workflow (WASM) binary size, per-owner workflow counts, allowed triggers/capabilities",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "an EOA/private key (typically supplied via environment variable / config, e.g. in your `cre` project config)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "Constraints are looser / locally enforced.",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "Private limit: 3 workflows per organization",
+            "Onchain: 1 linked key per organization, 3 workflows per linked key",
+            "Private: no wallet, no gas, no Ethereum Mainnet RPC; authorized by CRE login session (misframed as 'local/simulated' rather than Chainlink-hosted registry)"
+          ],
+          "unverifiable_from_source": [
+            "EOA/private key supplied via environment variable in cre project config",
+            "WASM binary size limits",
+            "per-owner workflow counts as registry-enforced limit"
+          ],
+          "verdict": "Not safe to ship: the answer explicitly admits it couldn't retrieve the docs, misidentifies the private registry as a local/simulation environment rather than the Chainlink-hosted control-plane registry, invents limit details, and omits the exact quota numbers required by the prompt.",
+          "fidelity": 35,
+          "prompt": "CRE private vs onchain registry — wallet, gas, RPC, limits?",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about CRE (Chainlink Runtime Environment) and its private vs onchain registry differences regarding wallet, gas, RPC, and limits.Let me retry the searches.The searches are working now. Let me get the specific content about the onchain registry and private registry deployment.Let me get the detailed content from the key documentation pages.Let me examine the content from the results I've already gathered.I wasn't able to pull the full page contents because I hit the web search rate limit for this session, but I did confirm the relevant Chainlink documentation pages and can give you a practical breakdown. I want to be transparent: the specifics below combine what I could confirm about the CRE docs structure with general CRE knowledge, so please verify exact numbers against the live docs (linked at the end) since CRE is evolving quickly.\n\n## Private registry vs. Onchain registry in CRE\n\nChainlink's CRE lets you register/deploy workflows to two different targets, and the choice affects wallet, gas, RPC, and limits.\n\n### Private (local / simulated) registry\nThis is the local development path — used with `cre workflow simulate` and local deploys before you go live.\n\n- **Wallet:** No real funded account is required. Deployment/registration happens in a local or off-chain context, so you don't need a private key holding real (or testnet) funds.\n- **Gas:** None — there's no onchain transaction being broadcast, so nothing is paid in gas.\n- **RPC:** Can point at a local node or a lightweight/testnet endpoint; it's used for simulation and reading state rather than submitting registration transactions.\n- **Limits:** Constraints are looser / locally enforced. This path is meant for fast iteration, testing triggers, and debugging without registry-enforced production limits.\n\n### Onchain registry\nThis is the production path — registering the workflow with the onchain **Workflow Registry** contract so the DON actually picks it up and runs it.\n\n- **Wallet:** You need an EOA/private key (typically supplied via environment variable / config, e.g. in your `cre` project config) that is **funded** on the target chain, because registration is a real transaction.\n- **Gas:** Registration and any linked owner/permission transactions cost gas in the chain's native token; the wallet must hold enough to cover them.\n- **RPC:** You must configure a valid RPC endpoint for the specific target chain (e.g. in the project/`cre.yaml` config) so the CLI can broadcast the registration transaction and read registry state.\n- **Limits:** Registry- and DON-enforced limits apply — things like maximum compiled workflow (WASM) binary size, per-owner workflow counts, allowed triggers/capabilities, and secrets/config size. These are stricter than the local path.\n\n## Rule of thumb\n- Use the **private/local registry** while developing and simulating — no wallet, no gas, flexible RPC, minimal limits.\n- Use the **onchain registry** for real deployment — requires a funded wallet + private key, gas, a proper chain RPC, and you must stay within registry limits.\n\n## Verify against these docs\nThe authoritative pages I confirmed exist:\n- **Deploying to the Onchain Registry** — `https://docs.chain.link/cre/guides/operations/deploying-to-onchain-registry-ts`\n- **Deploying Workflows** — `https://docs.chain.link/cre/guides/operations/deploying-workflows`\n- **Key Terms and Concepts** — `https://docs.chain.link/cre/key-terms`\n- **Workflow CLI Commands** — `https://docs.chain.link/cre/reference/cli/workflow`\n- **CRE overview / Release Notes** — `https://docs.chain.link/cre` and `/cre/release-notes`\n\nIf you tell me which chain you're targeting (and whether TS or Go), I can retry the searches later to pull the exact required config fields, size limits, and gas/RPC setup steps for that specific case. Would you like me to do that?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 108252,
+              "output_tokens": 4253,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1855,
+              "output_tokens": 1556,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3933,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source URL despite closely paraphrasing its content."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Run `cre login` to authenticate interactively, then you can verify with `cre whoami`",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "set a `CRE_API_KEY` (created in the CRE platform under your organization's API settings)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "`cre workflow deploy <workflow-folder-path>` compiles your workflow, uploads the artifacts, and registers it",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Deploy access is only required for `cre workflow deploy`",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "your linked wallet address becomes the workflow owner",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Ideal for testing and team-managed workflows"
+          ],
+          "unverifiable_from_source": [
+            "cre login and cre whoami command usage",
+            "CRE_API_KEY for headless/CI-CD authentication",
+            "cre workflow deploy <workflow-folder-path> syntax and its compile/upload/register behavior",
+            "Deploy access requirement being specific to cre workflow deploy only",
+            "linked wallet address becoming the workflow owner"
+          ],
+          "verdict": "The answer correctly identifies the private registry and its no-wallet/no-gas authorization model matching the source, but it fabricates several CLI commands (cre login, cre whoami, CRE_API_KEY, cre workflow deploy syntax) not found in the source and fails to cite the expected doc, making it risky to ship as-is for developers relying on exact CLI usage.",
+          "fidelity": 60,
+          "prompt": "I'm brand new to Chainlink CRE and I want to deploy my workflow but avoid dealing with crypto wallets and paying gas fees — which registry should I pick and how does deployment authorization work for it?",
+          "archetype": "verbose/beginner",
+          "answer": "I have the search results. Let me parse them properly to extract the relevant content for citations.Let me get more detail on the Private Registry, which the docs referenced as the no-wallet/no-gas option.You'll want the **Private Registry** (the \"auth-only\" / Chainlink-hosted registry). Here's why it fits your requirements and how its authorization model works.\n\n## Why the Private Registry\n\nCRE gives you two registry choices, selected in your `workflow.yaml` via the `deployment-registry` field:\n\n- **Onchain (public) registry** — This is the Workflow Registry contract on Ethereum Mainnet. Deploying to it records your workflow onchain — your linked wallet address becomes the workflow owner and every lifecycle operation (deploy, activate, pause, update, delete) submits a transaction to that contract. That means you'd need a linked wallet key and gas — exactly what you want to avoid.\n\n- **Private registry** — For a lower-friction alternative that requires no wallet or gas for registry management, see Deploying to the Private Registry.\n\nThe private registry is the right pick because operations are authorized by your CRE login session against the Chainlink-hosted private registry, and no wallet, no Ethereum Mainnet RPC, and no gas are required for registry management. You enable it by setting `deployment-registry: \"private\"` in your `workflow.yaml`.\n\nOne tradeoff to be aware of: a workflow whose lifecycle is managed through the Chainlink-hosted private registry is selected with `deployment-registry: \"private\"`, and private workflow management is centralized and offchain. So you gain simplicity but give up the public, onchain, decentralized record you'd get with the onchain registry.\n\n## How deployment authorization works for it\n\nInstead of signing an Ethereum transaction with a wallet key, authorization is based on your **CRE account/login session**:\n\n1. **Authenticate the CLI.** Run `cre login` to authenticate interactively, then you can verify with `cre whoami`. For headless/CI-CD environments where a browser isn't available, you instead set a `CRE_API_KEY` (created in the CRE platform under your organization's API settings) rather than using `cre login`.\n\n2. **Have Early Access / deploy access approval.** Deploy access is only required for `cre workflow deploy`. You can request access from the CLI by running `cre account access` to check your status or submit a request directly from your terminal, or from the web by visiting the request-access page to fill out the request form. While your request is under review, you can continue developing and simulating workflows locally with `cre workflow simulate`.\n\n3. **Deploy.** Once approved and logged in, `cre workflow deploy <workflow-folder-path>` compiles your workflow, uploads the artifacts, and registers it. Because you're on the private registry, that registration is authorized by your session — no wallet signature, no gas, no RPC URL needed.\n\n## Quick summary\n\n| | Onchain (public) registry | Private registry |\n|---|---|---|\n| Config value | `deployment-registry: \"onchain:ethereum-mainnet\"` | `deployment-registry: \"private\"` |\n| Wallet needed | Yes (linked wallet becomes owner) | No |\n| Gas needed | Yes | No |\n| Authorization | Signed onchain transaction | CRE login session / API key |\n| Record | Public, onchain | Centralized, offchain |\n\nBoth paths still require deploy access approval and CLI authentication — the difference is purely that the private registry replaces wallet-based, gas-paying transactions with session-based authorization.\n\nA helpful next step: check the \"Choosing your registry\" and \"Deploying to the Private Registry\" pages in the Chainlink CRE docs for the exact step-by-step deploy commands. Would you like me to walk through a sample `workflow.yaml` configured for the private registry?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 340423,
+              "output_tokens": 3481,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1723,
+              "output_tokens": 2795,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3933,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://ethereum-rpc.publicnode.com"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The expected source page was not cited; the only cited URL (ethereum-rpc.publicnode.com) is unrelated to the documentation."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "selected per target via `user-workflow.deployment-registry` in `workflow.yaml`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "production-settings:\n  user-workflow:\n    workflow-name: \"my-workflow-production\"",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "When you run `cre init`, the wizard prompts you to select a deployment registry",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "your `project.yaml` must include an RPC configuration for ethereum-mainnet",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "run `cre whoami` to verify you're logged in, or run `cre login` to authenticate",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "cre workflow deploy ./my-workflow --target production-settings",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "uploads the artifacts to the CRE Storage Service",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "you can view your deployed workflow in the Workflows section to see its status, ID, and execution history",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Requires a linked web3 wallet key (cre account link-key)"
+          ],
+          "unverifiable_from_source": [
+            "Early Access stage note and Terms of Service statement",
+            "project.yaml RPC configuration requirement",
+            "cre init wizard behavior",
+            "cre whoami / cre login commands",
+            "cre workflow deploy command syntax with --target flag",
+            "CRE Storage Service upload step",
+            "Verifying deployment via CRE UI and block explorer"
+          ],
+          "verdict": "The answer invents a config structure and several CLI commands not present in the source, and critically omits the required linked wallet key (cre account link-key), making it unsafe to ship as-is.",
+          "fidelity": 35,
+          "prompt": "Show me the workflow.yaml setting to deploy a Chainlink CRE workflow to the Ethereum Mainnet onchain registry, and what else that requires.",
+          "archetype": "code-first",
+          "answer": "I'll search for the current Chainlink CRE documentation on this.The most relevant page is \"Deploying to the Onchain Registry.\" Let me get its full content.I have enough detail. Let me write the answer.\n\n## Deploying a Chainlink CRE workflow to the Ethereum Mainnet onchain registry\n\n> Note: Chainlink Runtime Environment (CRE) deployment is in the \"Early Access\" stage of development, which means CRE currently has functionality under development that may change in later versions. By using CRE, you expressly agree to the Chainlink Terms of Service.\n\n### The `workflow.yaml` setting\n\nThe key field is `deployment-registry`, set under the `user-workflow` section for your target environment. CRE supports two modes, selected per target via `user-workflow.deployment-registry` in `workflow.yaml`. For the public onchain path, operations sign onchain transactions to the public Workflow Registry contract on Ethereum Mainnet. In workflow.yaml, this onchain-managed lifecycle is selected with `deployment-registry: \"onchain:ethereum-mainnet\"`.\n\nA minimal configuration looks like this:\n\n```yaml\n# workflow.yaml\nproduction-settings:\n  user-workflow:\n    workflow-name: \"my-workflow-production\"\n    deployment-registry: \"onchain:ethereum-mainnet\"\n```\n\nA few important notes on this setting:\n\n- The `workflow-name` field is required under the `user-workflow` section for your target environment.\n- When you run `cre init`, the wizard prompts you to select a deployment registry after entering your workflow name. Selecting `onchain:ethereum-mainnet` writes `deployment-registry: \"onchain:ethereum-mainnet\"` into the generated workflow.yaml automatically.\n- If you initialized without selecting a registry, or are adding a new target, add `deployment-registry: \"onchain:ethereum-mainnet\"` explicitly. The field is optional — when omitted the CLI defaults to onchain — but setting it is recommended to make the intent clear.\n\n### What else deploying to the onchain registry requires\n\nBecause the onchain registry involves a real transaction on Ethereum Mainnet, you need more than just the YAML field:\n\n**1. An RPC configuration in `project.yaml` and a funded wallet.**\nDeploying registers the workflow onchain by submitting a transaction to the Workflow Registry contract on Ethereum Mainnet. Your wallet must have ETH for gas fees, and your `project.yaml` must include an RPC configuration for ethereum-mainnet (e.g., https://ethereum-rpc.publicnode.com).\n\n**2. Authentication with the CRE CLI.**\nRunning the deploy command requires you to be logged in with the CRE CLI. You can run `cre whoami` to verify you're logged in, or run `cre login` to authenticate.\n\n**3. The deploy command itself.** When you run `cre workflow deploy`, it compiles your workflow, uploads the artifacts to the CRE Storage Service, and submits a registration transaction to the registry. You can use `cre registry list` to see which registry your organization is configured to use. For example, targeting the production settings:\n\n```bash\ncre workflow deploy ./my-workflow --target production-settings\n```\n\nUnder the hood, the deploy step does three things: it uploads the compiled binary and any associated configuration files (like your config file or secrets.yaml) to the CRE Storage Service, then registers the workflow onchain by submitting a transaction to the Workflow Registry contract on Ethereum Mainnet. That transaction contains the metadata for your workflow, including its name, owner, and the URL of its artifacts in the storage service.\n\n### Verifying the deployment\n\nIn the CRE UI, you can view your deployed workflow in the Workflows section to see its status, ID, and execution history. On a block explorer, you can check the Workflow Registry contract using the transaction hash provided in the CLI output.\n\n### Contrast with the private (auth-only) registry\n\nIf you'd rather avoid Mainnet transactions, the alternative mode is `deployment-registry: \"private\"`. With auth-only mode, operations are authorized by your CRE login session against the Chainlink-hosted private registry — no wallet, no Ethereum Mainnet RPC, and no gas are required for registry management. The onchain option is the one that gives you the public, transparent, transaction-based lifecycle on Ethereum Mainnet.\n\n**Summary of prerequisites for onchain deployment:** the `deployment-registry: \"onchain:ethereum-mainnet\"` field with a `workflow-name`, an `ethereum-mainnet` RPC in `project.yaml`, a wallet funded with ETH for gas, and an authenticated CRE CLI session.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 48787,
+              "output_tokens": 3170,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2180,
+              "output_tokens": 1822,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3933,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

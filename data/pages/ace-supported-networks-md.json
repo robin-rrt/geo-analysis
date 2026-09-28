@@ -1,0 +1,660 @@
+{
+  "key": "ace-supported-networks-md",
+  "runId": "2026-09-28T18-55-32-376Z-efb3",
+  "audit": {
+    "title": "Supported Networks (ACE)",
+    "url": "https://docs.chain.link/ace/supported-networks.md",
+    "analyzedAt": "2026-09-28T19:13:59.519Z",
+    "contentType": "developer documentation / reference (network parameter table)",
+    "score": 59,
+    "band": "Developing",
+    "weightedTotal": 59,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Opens cleanly — \"ACE Beta is available on the following networks.\" Each section is self-contained. The chain-selector definition sits at the very bottom rather than near first use; moving a one-liner up would help."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Clear H2 hierarchy, no level skips, but the core assets — two network/ID/selector tables — are **not rendered as tables** (measured 0 tables). Stacked cell text risks an engine mis-pairing a selector with the wrong network. This is the page's central defect."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 8,
+        "weighted": 9.6,
+        "analysis": "Strong — every row is a real chain ID and a globally-unique selector (e.g. Base Mainnet `8453` / `15971525489660198786`). This is high-lift factual content. Not applicable: version strings/latencies don't belong here."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Only one internal link (`llms.txt`). No link to the CCIP chain-selector directory or a canonical registry that would let engines verify the values."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Excellent — \"A chain selector is Chainlink's unique numeric identifier for each blockchain network… globally unique across all supported networks.\" Verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "No JSON-LD, no canonical URL, no `og`/`inLanguage`, no schema `dateModified` (a body \"Last Updated: 2026-05-26\" exists but isn't machine-readable metadata). Head metadata could not be verified — the CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code blocks; IDs/selectors are inline code. Reasonable for a data reference, but a copy-pasteable config snippet (see below) would add agent value."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Covers \"what networks does ACE support\" and the mainnet-access caveat well. Missing symptom/lookup phrasings devs actually type (\"chain selector for Base mainnet\", \"ACE Arbitrum chain ID\")."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Clean, consistent, unambiguous. \"Testnet/Mainnet\" and \"chain selector\" used consistently."
+      }
+    ],
+    "summary": "This is a compact reference page listing the mainnet and testnet networks ACE Beta supports, with chain IDs and Chainlink chain selectors — exactly the kind of hard, factual data that generative engines like to cite. Its biggest strength is specificity and a crisp canonical definition of \"chain selector\"; its biggest weakness is that **the two data tables did not render as tables** (measured: 0 tables, 0 bullets — the rows appear as loose stacked lines), which cripples both machine extraction and the ability of an engine to associate a network with its correct selector. Combined with absent metadata (no JSON-LD, no canonical, no `dateModified`), a genuinely valuable data page is being under-served by its structure and markup.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Restore real HTML tables for both network lists",
+        "mapsTo": "machine-scannability / machine-readability",
+        "tier": null,
+        "where": "\"Mainnet networks\" and \"Testnet networks\" sections.",
+        "issue": "Measured 0 tables; rows render as loose lines — \"Ethereum Mainnet / `1` / `5009297550715157269`\" stacked, not aligned.",
+        "change": "Emit proper markdown/HTML tables with `Network | Chain ID | Chain Selector` header rows so each network binds to its ID and selector in one row. Verify the served HTML contains `<table>`.",
+        "why": "Tables are a top extraction structure; broken alignment risks engines pairing a selector with the wrong chain — an accuracy failure, not just a formatting one."
+      },
+      {
+        "priority": 1,
+        "title": "Add answer-first lookup sentences / symptom phrasing",
+        "mapsTo": "query/intent coverage, answer-first extractability",
+        "tier": null,
+        "where": "Section leads.",
+        "issue": "No phrasing matching \"what is the chain selector for X\" lookups.",
+        "change": "Add a lead line per table, e.g. \"Use these chain selectors — not chain IDs — in all Coordinator API calls. Example: Base Mainnet selector = `15971525489660198786` (chain ID `8453`).\" Consider a short FAQ-style line covering the most-queried networks.",
+        "why": "Devs and agents query by network name for the selector; a liftable sentence wins retrieval that a bare cell loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add page-level structured metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "`<head>` / frontmatter.",
+        "issue": "No JSON-LD, no canonical, no machine-readable `dateModified` (only body text \"Last Updated: 2026-05-26\").",
+        "change": "Emit `TechArticle` JSON-LD with `dateModified: 2026-05-26`, a canonical URL, and `inLanguage: en`. Promote the body date into schema.",
+        "why": "Schema + freshness + canonical raise parse-trust (E-E-A-T) and de-duplicate the page for engines."
+      },
+      {
+        "priority": 2,
+        "title": "Cite the authoritative chain-selector source",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "The \"About chain selectors\" note.",
+        "issue": "Definition is strong but unlinked; only internal `llms.txt` link on page.",
+        "change": "Inline-link \"chain selector\" to the canonical CCIP chain-selector directory/registry so engines can attribute and verify the numeric values.",
+        "why": "Primary-source links raise citation rate and let engines confirm the specifics they're lifting."
+      },
+      {
+        "priority": 3,
+        "title": "Move the chain-selector definition to first use",
+        "mapsTo": "quotable canonical definitions, answer-first",
+        "tier": null,
+        "where": "Definition currently trails after both tables.",
+        "issue": "Crisp definition is buried at page bottom.",
+        "change": "Surface the one-sentence definition near the top (or duplicate the first sentence there); keep the API-usage detail in the note.",
+        "why": "Definitions near first use are more reliably chunked and lifted verbatim."
+      },
+      {
+        "priority": 3,
+        "title": "Add a copy-pasteable config block",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "After the tables.",
+        "issue": "Values are human-readable only; agents must scrape rows.",
+        "change": "Add a small fenced JSON/YAML snippet mapping network → `{ chainId, chainSelector }`, language-tagged.",
+        "why": "Gives coding agents a directly ingestible, unambiguous structure."
+      }
+    ],
+    "antiPatterns": [
+      "**Broken table rendering** — tabular data serialized as undifferentiated stacked lines; the single most damaging issue on the page.",
+      "**Undated in metadata** — freshness exists in body (\"Last Updated: 2026-05-26\") but not in machine-readable form.",
+      "No keyword stuffing, marketing fluff, or unresolved cross-references — prose is clean and honest."
+    ],
+    "offPageNotes": [
+      "Site-level `TechArticle`/schema injection and canonical-URL policy are template concerns, not unique to this page.",
+      "`llms.txt` is already referenced — good; ensure this page is listed in it so agents discover the selector data.",
+      "Confirm the CLI passes raw `<head>` in future runs; head metadata could not be verified here."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/ace/supported-networks.md",
+      "source_title": "Supported Networks - Chainlink ACE",
+      "probe_set_id": "ef16b5fb53f4",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T19:45:52.812Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 45.5,
+      "avg_fidelity_all": 45.5,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 3.2,
+        "hallucination_free": 6.7,
+        "relevance": 2.8,
+        "structure": 5.5
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 538045,
+          "output_tokens": 17245,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 30,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 7039,
+          "output_tokens": 5937,
+          "cache_creation_input_tokens": 2456,
+          "cache_read_input_tokens": 15562,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit a search rate limit and could not retrieve the Supported Networks page, so it never surfaced the expected source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 8,
+            "relevance": 2,
+            "structure": 3
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Ethereum Mainnet chain selector 5009297550715157269",
+            "Arbitrum Mainnet chain selector 4949039107694359620",
+            "Avalanche Mainnet chain selector 6433500567565415381",
+            "Base Mainnet chain selector 15971525489660198786",
+            "Polygon Mainnet chain selector 4051577828743386545"
+          ],
+          "unverifiable_from_source": [
+            "ACE (Automated Compliance Engine) is a compliance layer for EVM smart contracts",
+            "cross-chain identity feature description",
+            "ACE has both onchain contracts and a managed ACE Platform"
+          ],
+          "verdict": "The answer explicitly fails to provide the requested mainnet networks and chain selectors due to a search rate limit, making it unusable for the user's actual request despite honestly avoiding fabrication.",
+          "fidelity": 38,
+          "prompt": "Which networks does Chainlink ACE Beta support on mainnet, and what are their chain selectors?",
+          "archetype": "direct-howto",
+          "answer": "I've hit the search rate limit. Let me wait a moment and retry.I found relevant info but need the specific supported networks page. Let me wait for the search limit to reset and do one targeted search.I was able to retrieve information about Chainlink ACE, but unfortunately I hit the web search rate limit before I could pull up the specific \"Supported Networks\" table that lists each mainnet network alongside its chain selector. Let me share what I can verify and point you to the authoritative source.\n\n## What I can confirm\n\nChainlink ACE (Automated Compliance Engine) is a compliance layer for EVM smart contracts, and ACE is currently in Beta, available in private beta. One of its core features is cross-chain identity — verify a user's identity once; the credential is valid across every EVM chain, with no re-verification needed when users operate on a new network.\n\nImportantly for your question about scope, the documentation notes that ACE has both onchain contracts and a managed ACE Platform, and that Platform/Beta capabilities are product-scoped and may differ from the OSS repository — one should distinguish \"you can self-deploy the OSS contracts\" from \"the managed ACE Platform supports this,\" and never imply platform mainnet support unless official docs support it.\n\n## What I couldn't retrieve\n\nThe exact list of supported mainnet networks and their **chain selectors** lives on the ACE \"Supported Networks\" page in the official docs, which I could not load before exhausting my search allowance. Because chain selectors are precise numeric identifiers, I don't want to guess or reproduce them from memory, as that risks giving you incorrect values.\n\n## Recommended authoritative source\n\nFor the current, accurate list of Beta-supported mainnet networks and their chain selectors, please check:\n\n- **Chainlink ACE docs:** `https://docs.chain.link/ace` (look for the \"Supported Networks\" / \"Beta Scope\" section) — the docs themselves designate this as the source of truth for managed ACE Platform, Beta scope, product APIs, and supported networks.\n\nIf you'd like, I can try the search again in a few minutes once the rate limit resets to pull the exact network-and-chain-selector table for you. Would that be helpful?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 179455,
+              "output_tokens": 4247,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1158,
+              "output_tokens": 380,
+              "cache_creation_input_tokens": 614,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ccip/directory/testnet/chain/ethereum-testnet-sepolia-base-1"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites the CCIP directory page instead of the expected ACE supported-networks source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 6,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "@chainlink/chain-selectors` package (or its Go equivalent, `github.com/smartcontractkit/chain-selectors`)",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "Chain name / family: `ethereum-testnet-sepolia-base-1`",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Base Sepolia chain ID is 84532",
+            "Coordinator API uses chain selectors, not chain IDs"
+          ],
+          "unverifiable_from_source": [
+            "@chainlink/chain-selectors npm package existence",
+            "github.com/smartcontractkit/chain-selectors Go package existence",
+            "Chain name 'ethereum-testnet-sepolia-base-1' label"
+          ],
+          "verdict": "The selector value returned is correct, but the answer cites the wrong (CCIP directory) source instead of the ACE docs and introduces unverified package names, so it's only partially safe to ship without further verification.",
+          "fidelity": 60,
+          "prompt": "Using Chainlink ACE, I need the chain selector for Base Sepolia to run a multi-chain operation — what value should I use?",
+          "archetype": "constrained",
+          "answer": "For **Base Sepolia**, the value you should use is:\n\n## `10344971235874465080`\n\nThis is the CCIP chain selector for the Base Sepolia testnet, as listed in Chainlink's official Cross-Chain configuration directory. Chain selectors are the shared numeric chain identifiers used across Chainlink's CCIP-based infrastructure (which ACE's multi-chain features build on) to route operations to the correct network.\n\nA few details worth noting:\n\n- **Chain name / family:** `ethereum-testnet-sepolia-base-1` (Base Sepolia, an EVM testnet)\n- **Chain selector:** `10344971235874465080`\n\nFor reference, some related testnet selectors you might use alongside it in a multi-chain setup:\n- Ethereum Sepolia: `16015286601757825753`\n- Arbitrum Sepolia: `3478487238524512106`\n\n**A quick verification tip:** Rather than hardcoding, you can pull selectors programmatically from the official `@chainlink/chain-selectors` package (or its Go equivalent, `github.com/smartcontractkit/chain-selectors`) to avoid typos on these long integers, and always confirm against the [Chainlink CCIP Directory](https://docs.chain.link/ccip/directory/testnet/chain/ethereum-testnet-sepolia-base-1) since these values are the canonical, network-wide identifiers.\n\nWould you like the selectors for any other chains involved in your operation?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 57750,
+              "output_tokens": 1910,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 890,
+              "output_tokens": 1379,
+              "cache_creation_input_tokens": 614,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states search failed and it hit the tool's usage limit, so no citation-backed answer was produced."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 6,
+            "relevance": 3,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Mainnet may require additional onboarding or allowlisting... e.g., KYC/entity verification, signing terms",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Organization-level permissions/plan tier... specific role, plan, or entitlement flag",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Mainnet networks are not enabled for all ACE Beta organizations by default",
+            "Contact your Chainlink contact to request mainnet access",
+            "Testnet networks are available once ACE is enabled for your organization"
+          ],
+          "unverifiable_from_source": [
+            "Beta programs are usually testnet-only by design",
+            "Mainnet access often depends on completing extra steps like KYC or signing terms",
+            "Organization may need a specific role, plan, or entitlement flag"
+          ],
+          "verdict": "The answer admits it couldn't find the official documentation and offers only generic, unverified speculation instead of the specific documented reason, so it is not safe to ship as an authoritative response.",
+          "fidelity": 45,
+          "prompt": "Why can't I access mainnet networks in my Chainlink ACE Beta organization even though testnets work?",
+          "archetype": "error-debug",
+          "answer": "I'll search for information about this Chainlink ACE Beta issue.I wasn't able to find search results that specifically address the Chainlink ACE (Automated Compliance Engine) Beta organization mainnet access issue — my searches returned general Chainlink testnet/network documentation rather than ACE Beta program specifics, and I've hit the search tool's usage limit for this session. So I can't give you a citation-backed answer on the exact cause.\n\nThat said, here's the general context that typically explains this behavior, which you can verify against Chainlink's official ACE documentation or support:\n\n**Why mainnet is commonly gated in Beta programs like ACE:**\n\n- **Beta programs are usually testnet-only by design.** During a Beta/limited-availability phase, providers frequently restrict organizations to testnet environments so the feature can be validated before real-value transactions are allowed. Mainnet access is often unlocked only after the product reaches general availability or after an explicit approval step.\n\n- **Mainnet may require additional onboarding or allowlisting.** For a compliance-focused product like ACE, mainnet access often depends on completing extra steps — e.g., KYC/entity verification, signing terms, requesting production access, or being explicitly allowlisted by the Chainlink team. Testnets are open by default; mainnet is not.\n\n- **Organization-level permissions/plan tier.** Your org may need a specific role, plan, or entitlement flag enabled before mainnet networks appear or become selectable.\n\n**What I'd recommend to resolve it:**\n\n1. Check the ACE Beta documentation or onboarding email for whether mainnet is in-scope for the current Beta phase.\n2. Look in your ACE organization/admin settings for a \"request mainnet access\" or production-enablement option.\n3. Confirm your account has completed any required verification/agreement steps.\n4. Contact Chainlink Labs / your ACE program point of contact directly, since Beta access is typically managed manually per-organization.\n\nIf you can share where exactly the block appears (e.g., a specific error message, or mainnet networks being greyed out vs. missing entirely), I can help you narrow down which of these is most likely — and if you'd like, I can try searching again in a fresh session to find the official ACE documentation.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 42129,
+              "output_tokens": 1889,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1077,
+              "output_tokens": 1105,
+              "cache_creation_input_tokens": 614,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://github.com/smartcontractkit/chain-selectors",
+              "https://docs.chain.link/ace/concepts/cross-chain-identity"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer itself states the search tool hit its usage limit and it could not load the source pages, relying instead on general knowledge and different URLs."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "Coordinator and Cross-Chain Identity flows are built on CCIP",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "maintained in Chainlink's `chain-selectors` registry, which maps each supported network (EVM and non-EVM alike) to a globally unique selector value",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "a Chainlink-specific numeric identifier (a `uint64`)",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "It comes from EIP-155 and is what wallets, RPC nodes, and transaction signing use",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "The Coordinator API uses chain selectors — not chain IDs — in all multi-chain operations such as creating policy engines, registering targets, or deploying protections"
+          ],
+          "unverifiable_from_source": [
+            "Chain ID originates from EIP-155",
+            "Chain selector is a uint64 type",
+            "Coordinator/Cross-Chain Identity flows are built on CCIP",
+            "Chain selectors cover non-EVM ecosystems like Solana or Aptos"
+          ],
+          "verdict": "The answer reaches the right high-level conclusion (chain selectors, not chain IDs, are used) but is built on unverified external knowledge rather than the actual source, omits the source's specific examples (policy engines, targets, protections), and introduces unconfirmed technical details, making it risky to ship without independent verification.",
+          "fidelity": 55,
+          "prompt": "In Chainlink ACE, what's the difference between a chain ID and a chain selector, and which one does the Coordinator API use?",
+          "archetype": "comparison",
+          "answer": "I wasn't able to pull the full body text of the Chainlink docs/repo pages (the search tool hit its usage limit mid-research), so let me give you the answer based on how these identifiers work in the Chainlink stack, and point you to the authoritative source to confirm the specifics.\n\n## Chain ID vs. Chain Selector\n\n**Chain ID**\n- This is the *standard, network-native* identifier for an EVM blockchain (e.g., Ethereum Mainnet = `1`, Base = `8453`, Arbitrum One = `42161`).\n- It comes from EIP-155 and is what wallets, RPC nodes, and transaction signing use.\n- The catch: chain IDs are only guaranteed unique within the EVM ecosystem. Non-EVM chains (Solana, Aptos, etc.) don't share this scheme, so chain IDs alone aren't a reliable universal identifier in a multi-chain/cross-chain context.\n\n**Chain Selector**\n- This is a *Chainlink-specific* numeric identifier (a `uint64`) used across CCIP and ACE to unambiguously and uniquely identify a blockchain in cross-chain messaging and routing.\n- Selectors are maintained in Chainlink's [`chain-selectors`](https://github.com/smartcontractkit/chain-selectors) registry, which maps each supported network (EVM and non-EVM alike) to a globally unique selector value.\n- Because it's designed for interoperability, it avoids the collision/ambiguity problems of raw chain IDs and covers ecosystems beyond EVM.\n\nThe practical rule of thumb: **chain ID = \"what chain am I talking to at the RPC/wallet level\"; chain selector = \"how Chainlink cross-chain infrastructure names a chain.\"**\n\n## Which one the Coordinator API uses\n\nIn ACE's cross-chain components (the Coordinator and Cross-Chain Identity flows are built on CCIP), the identifier you pass and receive is the **chain selector**, not the native chain ID. Anywhere the Coordinator API routes or references a source/destination network, it expects the CCIP chain selector value, consistent with how the rest of the CCIP-based ACE tooling works.\n\n## Recommended verification\n\nBecause I couldn't fully load the source pages, I'd confirm the exact field names against these primary sources:\n- **ACE Cross-Chain Identity docs:** https://docs.chain.link/ace/concepts/cross-chain-identity\n- **ACE Cross-Chain Identity API guide (repo):** `smartcontractkit/chainlink-ace` → `packages/cross-chain-identity/docs/API_GUIDE.md`\n- **Chain selectors registry:** https://github.com/smartcontractkit/chain-selectors\n\nIf you can share the specific Coordinator API endpoint/field you're working with (e.g., the request schema field name), I can tell you exactly which value to populate and where to get the selector for your target chain.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 53422,
+              "output_tokens": 2684,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1414,
+              "output_tokens": 1719,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3003,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace",
+              "https://docs.chain.link/ccip/directory/testnet"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it hit a search tool usage limit and could not retrieve the specific data requested."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 6,
+            "relevance": 2,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "Chainlink ACE was launched in collaboration with Apex Group, GLEIF, and the ERC3643 Association",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "github.com/goplugin/chain-selectors",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "chain-selectors repository/package (github.com/smartcontractkit/chain-selectors)",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Ethereum Sepolia 11155111 / 16015286601757825753",
+            "Arbitrum Sepolia 421614 / 3478487238524512106",
+            "Avalanche Fuji 43113 / 14767482510784806043",
+            "Base Sepolia 84532 / 10344971235874465080",
+            "Polygon Amoy 80002 / 16281711391670634445"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink ACE was launched in collaboration with Apex Group, GLEIF, and the ERC3643 Association",
+            "chain-selectors repo mirrored as github.com/goplugin/chain-selectors",
+            "CCIP Directory - Testnet contains chain ID and selector for ACE-supported chains"
+          ],
+          "verdict": "The answer explicitly fails to provide the requested chain ID/selector data, citing a tool limit, and instead offers unverified background claims and external references, making it unusable as a direct answer and unsafe to ship without follow-up.",
+          "fidelity": 30,
+          "prompt": "Chainlink ACE testnet chain IDs and selectors list",
+          "archetype": "terse/keyword",
+          "answer": "I ran into the search tool's usage limit before I could pull the full, specific ACE testnet chain ID/selector table, so I want to be transparent rather than guess at exact numeric values (chain selectors are long integers where a single wrong digit makes them useless).\n\nHere's what I can reliably tell you from the results I did retrieve:\n\n- Chainlink **ACE (Automated Compliance Engine)** is documented at **docs.chain.link/ace**. Chainlink ACE was launched in collaboration with Apex Group, GLEIF, and the ERC3643 Association as an onchain compliance framework.\n\n- ACE builds on Chainlink's cross-chain infrastructure, and Chainlink uses a standardized **\"chain selector\"** system (distinct from EVM chain IDs) that is shared with **CCIP**. The canonical, machine-readable source of truth for every supported chain's **chain ID ↔ chain selector** mapping is:\n  - The **chain-selectors** repository/package (`github.com/smartcontractkit/chain-selectors`, mirrored as `github.com/goplugin/chain-selectors`), which contains the master `selectors.yml` file.\n  - The **CCIP Directory – Testnet** at `docs.chain.link/ccip/directory/testnet`, where each network's page lists its chain ID and selector.\n\n### Where to get the exact ACE testnet list\nBecause the values must be exact, I recommend going straight to these authoritative references:\n\n1. **ACE docs:** https://docs.chain.link/ace — check its \"supported networks\" / reference section for the specific chains ACE currently supports on testnet.\n2. **CCIP Testnet Directory:** https://docs.chain.link/ccip/directory/testnet — per-chain pages give the chain ID and 64-bit chain selector.\n3. **chain-selectors repo (`selectors.yml`):** the complete, canonical chainID→selector map used across all Chainlink products.\n\nIf you'd like, I can retry the search in a follow-up message (once the tool limit resets) to extract the precise chain ID and selector values for the specific testnets ACE supports (e.g., Ethereum Sepolia, Base Sepolia, Avalanche Fuji, etc.). Just let me know which networks you care about, and I'll pull the exact numbers.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 84047,
+              "output_tokens": 3008,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1198,
+              "output_tokens": 558,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3003,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/ace"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states its web search tool was rate-limited and it could not retrieve the supported-networks page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 2,
+            "hallucination_free": 9,
+            "relevance": 2,
+            "structure": 5
+          },
+          "hallucinations": [],
+          "missing_must_include": [
+            "Mainnet: Ethereum (1), Arbitrum (42161), Avalanche (43114), Base (8453), Polygon (137)",
+            "Testnet: Ethereum Sepolia (11155111), Arbitrum Sepolia (421614), Avalanche Fuji (43113), Base Sepolia (84532), Polygon Amoy (80002)",
+            "Mainnet requires requesting access from your Chainlink contact"
+          ],
+          "unverifiable_from_source": [
+            "Chainlink ACE stands for the Automated Compliance Engine",
+            "ACE built around identity, policy, and standards like ERC-3643",
+            "launched in collaboration with partners such as Apex Group, GLEIF, and the ERC-3643 Association"
+          ],
+          "verdict": "The answer honestly admits it could not retrieve the network list rather than fabricating chain IDs, but it fails to deliver the requested information and is not usable as-is.",
+          "fidelity": 45,
+          "prompt": "I'm just getting started and want to know all the blockchains I can use with Chainlink ACE Beta, both test and live networks — can you give me the full list with their IDs?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll search for the latest information on Chainlink ACE Beta supported networks.Let me retry the search.These results are for other Chainlink products. Let me search specifically for ACE (Automated Compliance Engine).There's an ACE documentation page. Let me find the specific supported networks page for ACE.I've hit the search rate limit. Let me wait a moment and retry.The search tool is still rate-limited. Let me wait longer before retrying.I've run into a persistent limit on my web search tool for this session, so I wasn't able to pull the complete, current supported-networks table with chain IDs directly from Chainlink's documentation. I don't want to give you fabricated or outdated chain IDs, since those are exactly the kind of details that need to be exact when you're wiring up a project.\n\nHere's what I was able to confirm, and how to get the authoritative list:\n\n## What I confirmed\n- Chainlink **ACE** stands for the **Automated Compliance Engine** — Chainlink's onchain compliance framework (built around identity, policy, and standards like ERC-3643), launched in collaboration with partners such as Apex Group, GLEIF, and the ERC-3643 Association.\n- It has dedicated documentation at **`docs.chain.link/ace`**, which is the source of truth for the Beta's supported networks.\n\n## Where to get the exact list (recommended)\nThe official **Supported Networks** page under the ACE docs is the only place I'd trust for a complete, up-to-date list of test and live networks with their chain IDs (and, for cross-chain features, the CCIP chain selectors). Since ACE is in Beta, this list is likely changing frequently, so a live doc is safer than any snapshot:\n\n- **ACE overview:** https://docs.chain.link/ace\n- Look for the **\"Supported Networks\"** / **\"Directory\"** section within that ACE section for the network names + chain IDs.\n\n## Why I'm not listing IDs from memory\nChain IDs are precise identifiers (e.g., Ethereum mainnet = 1, Sepolia = 11155111, Base = 8453, etc.), and mixing up a testnet vs. mainnet ID can cause silent misconfiguration. For a Beta product where the supported set is actively evolving, guessing would do more harm than good.\n\nIf you'd like, I can try the web search again shortly (the limit is temporary) and pull the full ACE supported-networks table with IDs for you. Would you like me to retry?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 121242,
+              "output_tokens": 3507,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1302,
+              "output_tokens": 796,
+              "cache_creation_input_tokens": 614,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-28T18-55-32-376Z-efb3",
+    "probes": {
+      "web": "2026-09-28T18-55-32-376Z-efb3"
+    }
+  }
+}

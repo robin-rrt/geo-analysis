@@ -1,0 +1,167 @@
+{
+  "key": "ccip-directory-testnet",
+  "runId": "2026-09-22T13-36-06-374Z-1fe0",
+  "audit": {
+    "title": "CCIP Directory - Testnet",
+    "url": "https://docs.chain.link/ccip/directory/testnet",
+    "analyzedAt": "2026-09-22T13:40:50.551Z",
+    "contentType": "developer documentation / directory index (data catalog)",
+    "score": 53,
+    "band": "Developing",
+    "weightedTotal": 53,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "The page opens with `# CCIP Directory` then `## Networks testnet (65)` — no self-contained sentence a model can lift. There is no statement like \"Chainlink CCIP supports 65 testnet networks.\" Weak."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Clean hierarchy (1 H1, H3 cards, 0 level skips, 0 sections over 600 words per measured facts). Each chain card is a coherent chunk with lane/token counts. No comparison table, and most chains sit behind a \"See more\" control, hurting chunk exposure."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Strong for a directory — 37 numerals (e.g., \"Arbitrum Sepolia — 29 lanes | 4 tokens\", \"65\" networks, \"7\" tokens). Missing: no chain selectors, router addresses, or chain IDs in the rendered text (those live on detail pages)."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "23 links, all internal, 0 external/primary. No link to the CCIP concept page, chain-selector reference, or supported-networks spec from the body prose."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "No definition of \"CCIP,\" \"lane,\" or \"CCIP Directory\" anywhere in the visible content. Nothing verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 9,
+        "weighted": 10.8,
+        "analysis": "Strong. Valid `DataCatalog` with 65 `Dataset` entries and URLs, `BreadcrumbList`, canonical URL, 12 OG + 9 Twitter tags. Note a freshness inconsistency: head `article:modified_time` is `2025-05-19` while JSON-LD `dateModified` is `2026-09-21`; reconcile these."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "No code — appropriate for a directory index; not a defect in context, scored neutral."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Answers \"which testnet chains does CCIP support\" implicitly via the list, but no question-phrased heading, no intro, no \"how do I use this.\" An engine must infer intent from card data."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Consistent, unambiguous chain/token naming aids entity resolution; the ceiling is low only because there is so little prose."
+      }
+    ],
+    "summary": "This is the CCIP testnet directory — an index of 65 supported testnet blockchains and 7 tokens, each card linking to a per-chain detail page. Its standout GEO strength is machine-readability: a valid `DataCatalog` JSON-LD block enumerating all 65 chains with names, descriptions, and URLs, plus `BreadcrumbList`, canonical, and complete OG/Twitter tags. Its biggest weakness is a near-total absence of liftable prose — 206 words, no definition of what CCIP or this directory is, and no answer-first sentence stating the totals — so a generative engine has structured data but no quotable natural-language claim to cite. The honest verdict: excellent as a machine-parseable dataset, thin as retrievable documentary prose; a small prose layer would materially raise citability.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add an answer-first intro paragraph under the H1",
+        "mapsTo": "answer-first extractability, quotable canonical definitions",
+        "tier": null,
+        "where": "Immediately below `# CCIP Directory`, before `## Networks testnet (65)`.",
+        "issue": "Page jumps straight from title to card grid; no liftable sentence.",
+        "change": "Add 2–3 sentences, e.g. \"The CCIP Directory lists the 65 testnet blockchains supported by Chainlink CCIP as of 2026-09-21. Each network page provides its chain selector, router address, active lanes, and supported tokens. Testnet currently supports 7 tokens including LINK, USDC, and CCIP-BnM.\"",
+        "why": "Gives engines a self-contained, statistic-bearing sentence to quote for \"what chains does CCIP support on testnet\" — the page's core query."
+      },
+      {
+        "priority": 1,
+        "title": "Ensure the full 65-chain list is server-rendered, not hidden behind \"See more\"",
+        "mapsTo": "structural scannability, query coverage",
+        "tier": null,
+        "where": "`## Networks testnet (65)` grid (only ~14 chains appear in rendered markdown).",
+        "issue": "~51 chains are only present in JSON-LD, not extractable body text.",
+        "change": "Render all cards in initial HTML (progressive disclosure via CSS, not conditional DOM); or add a plain comparison table (Chain | Chain selector | Lanes | Tokens).",
+        "why": "Engines that read visible text (not JSON-LD) currently miss most chains; a full table is the single highest-lift extraction structure here."
+      },
+      {
+        "priority": 2,
+        "title": "Add a symptom/question-phrased heading",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Section heading for the network list.",
+        "issue": "`## Networks testnet (65)` is concept-titled, not query-shaped.",
+        "change": "Add or reword to \"Which blockchains does CCIP support on testnet?\" (keep the count).",
+        "why": "Matches how devs/agents actually query; question-phrased headings win retrieval that noun-phrase headings lose."
+      },
+      {
+        "priority": 2,
+        "title": "Reconcile the last-updated signal and surface it visibly",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "head `article:modified_time` (2025-05-19) vs JSON-LD `dateModified` (2026-09-21).",
+        "issue": "Conflicting freshness dates; neither is shown in rendered content.",
+        "change": "Align both to the true update date and print \"Last updated: YYYY-MM-DD\" in the page body.",
+        "why": "Visible, consistent freshness is an E-E-A-T/trust signal engines reward for time-sensitive directory data."
+      },
+      {
+        "priority": 3,
+        "title": "Add inline authoritative links from the intro prose",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "New intro paragraph.",
+        "issue": "0 external/canonical links in body; all navigation is card links.",
+        "change": "Link \"Chainlink CCIP\" to the CCIP concept/overview page and \"chain selector\" to the chain-selector reference.",
+        "why": "Anchors the directory to canonical definitions, raising credibility and enabling citation chains."
+      },
+      {
+        "priority": 3,
+        "title": "Define \"lane\" and \"token\" once near first use",
+        "mapsTo": "quotable canonical definitions",
+        "tier": null,
+        "where": "Intro paragraph or a one-line legend above the grid.",
+        "issue": "\"4 lanes | 1 token\" appears with no definition of a lane.",
+        "change": "Add \"A lane is a directional route between a source and destination chain.\"",
+        "why": "Supplies a crisp, liftable definition that engines can quote when explaining CCIP lane counts."
+      }
+    ],
+    "antiPatterns": [
+      "Content-behind-interaction: the \"See more\" control hides ~51 of 65 chains from rendered text extraction (JSON-LD compensates only for schema-aware parsers).",
+      "Freshness inconsistency: `article:modified_time` (2025-05-19) ≠ JSON-LD `dateModified` (2026-09-21).",
+      "No keyword stuffing, marketing fluff, or unresolved cross-references — clean on those."
+    ],
+    "offPageNotes": [
+      "Directory data is dynamic (lane/token counts change); ensure the JSON-LD `dateModified` and any visible date are regenerated on each data refresh.",
+      "Consider listing this hub and its per-chain pages in `llms.txt`/sitemap so agents can crawl the full 65-chain set programmatically.",
+      "The CLI should pass raw `<head>` (it did here) — dates were verifiable; the \"datePublished/dateModified absent\" measured fact refers to article-schema fields, not the `DataCatalog` block, which does carry `dateModified`."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-36-06-374Z-1fe0",
+    "probes": {}
+  }
+}

@@ -1,0 +1,715 @@
+{
+  "key": "cre-capabilities-evm-read-write-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "The EVM Read & Write Capabilities",
+    "url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+    "analyzedAt": "2026-09-21T13:18:18.718Z",
+    "contentType": "developer documentation / capability overview (conceptual)",
+    "score": 58,
+    "band": "Developing",
+    "weightedTotal": 58.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; opens with a self-contained definition (\"provide a secure and reliable service for your workflow to interact with smart contracts on any EVM-compatible blockchain\") and each section leads with its answer. No action needed."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 5 headings, 0 level skips, sections median 77 words, good use of numbered flow for the Write path. A read-vs-write comparison table would add extraction value."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak; 0 numerals carry units and there are no counts (how many DON nodes, consensus thresholds, supported chains, block-finality options are named but not quantified)."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak; 5 links, all internal, 0 to primary sources. `KeystoneForwarder`, `IReceiver`, and the chain-selector system are named without links to their canonical specs."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; the EVM Read and EVM Write bullets are crisp verbatim-liftable statements."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak as served: 0 JSON-LD blocks, canonical MISSING, no `TechArticle` schema. Visible \"Last Updated: 2025-11-04\" is a positive freshness signal. Note this is the `.md` variant; the HTML page may carry head metadata the harness couldn't capture."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Weak; 0 fenced blocks. Even one minimal `evm.Client` read snippet would materially help agents; the page defers entirely to guides."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Middling; covers \"what is\" and \"how it works\" well but has no troubleshooting, no error strings, no FAQ, no \"how do I read at a specific block\" style entries."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; unambiguous prose, consistent product naming (CRE, DON, `evm.Client`). No action needed."
+      }
+    ],
+    "summary": "This is a concise, well-structured conceptual overview of Chainlink CRE's EVM Read & Write capabilities, and its biggest strength is answer-first extractability — the opening sentence and the Read/Write bullets are clean, liftable definitions. Its biggest weaknesses are the near-total absence of concrete specifics (7 numerals, 0 units, 0 version strings, no supported-chain list) and zero code, which caps its usefulness to coding agents and lowers its citation odds against reference-grade siblings. The honest verdict: solid scaffolding and voice, but too thin on numbers, external citations, and symptom-phrased coverage to punch above \"Developing\" as an agent-ready page.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add concrete specifics to the feature list",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Key features\" bullets",
+        "issue": "\"executed across multiple nodes in a DON with cryptographic verification\"",
+        "change": "Quantify: name the supported chain families/count, the block-tag options explicitly (`finalized` / `latest` / specific number), and any consensus threshold. E.g. \"Read from `finalized`, `latest`, or a specific block number\" already exists — add \"across N+ EVM chains identified by Chainlink chain selectors (see [chain selector list])\".",
+        "why": "Quantitative claims are among the highest-lift changes for citation; qualitative-only prose underperforms."
+      },
+      {
+        "priority": 1,
+        "title": "Add symptom/how-to headings for retrieval",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new H3s under \"How it works\"",
+        "issue": "No question-phrased or error-phrased sections; devs query \"how do I read a contract at a specific block\" or \"onReport not called\".",
+        "change": "Add short H3s like \"How do I read from a specific block number?\" and \"Why isn't my consumer contract's `onReport` being called?\" answered in one liftable sentence each.",
+        "why": "Question/symptom-titled sections win retrieval that concept-titled prose loses."
+      },
+      {
+        "priority": 2,
+        "title": "Add external citations to named primitives",
+        "mapsTo": "cited, authoritative references",
+        "tier": null,
+        "where": "\"Understanding EVM Write operations\"",
+        "issue": "`KeystoneForwarder`, `IReceiver`, `onReport(bytes metadata, bytes report)` are unlinked.",
+        "change": "Link `IReceiver`/`onReport` to their interface reference and `KeystoneForwarder` to its canonical contract/spec page.",
+        "why": "Inline links to canonical definitions raise credibility and citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add one minimal runnable read snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"How it works\"",
+        "issue": "0 fenced code blocks; agents get no copy-pasteable entry point.",
+        "change": "Add a short, language-tagged `evm.Client` read example (with imports) for both Go and TypeScript, or a single canonical Go example, then defer deeper flows to guides.",
+        "why": "Complete, labeled snippets are what coding agents lift; their absence sends agents to sibling pages."
+      },
+      {
+        "priority": 2,
+        "title": "Name the tempting-wrong pattern as a Don't",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"How it works\" (RPC comparison)",
+        "issue": "\"compared to crafting raw RPC calls\" mentions the alternative but doesn't foreclose it.",
+        "change": "State explicitly: \"Do not construct raw `eth_call`/`eth_sendRawTransaction` RPC requests from a workflow — use the SDK's `evm.Client`, which provides consensus and type-safe ABI handling.\"",
+        "why": "When skimmed, engines fall back to the generic ecosystem idiom (raw RPC); an explicit Don't defends the canonical API."
+      },
+      {
+        "priority": 3,
+        "title": "Add a Read-vs-Write comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "top, after the intro bullets",
+        "issue": "Read/Write distinction is prose-only.",
+        "change": "2-column table: function types (`view`/`pure` vs state-changing), execution path (direct read vs forwarder), verification, consumer requirements (`IReceiver`).",
+        "why": "Tables let engines extract reasons and build justified answers."
+      }
+    ],
+    "antiPatterns": [
+      "None material. Prose is clean and undated content is not an issue (visible \"Last Updated: 2025-11-04\"). One minor note: the callout block styling splits \"In local simulation\" and \"In deployed workflows\" across the blockquote boundary, which could fragment a lifted chunk — keep both lines inside the same NOTE block."
+    ],
+    "offPageNotes": [
+      "Metadata (JSON-LD `TechArticle`, canonical URL, `og`/`twitter`) could not be verified on this `.md` endpoint; the CLI should pass the HTML page's raw `<head>` for a full read. If the HTML variant also lacks `TechArticle` + canonical, that is a site-level fix worth making.",
+      "Page references `/llms.txt` — good site-level discoverability signal; ensure this page is enumerated there.",
+      "Citation strength against reference-grade siblings (`evm-client` SDK reference) is partly an internal-linking/authority question: ensure high-traffic guides link into this capability page as the canonical concept hub."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/capabilities/evm-read-write.md",
+      "source_title": "The EVM Read & Write Capabilities",
+      "probe_set_id": "b733eff26a1f",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T17:21:28.339Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 54.7,
+      "avg_fidelity_all": 54.7,
+      "unattributed_count": 0,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 5.3,
+        "hallucination_free": 4,
+        "relevance": 4.2,
+        "structure": 8.3
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 388446,
+          "output_tokens": 21317,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 25,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 12024,
+          "output_tokens": 16062,
+          "cache_creation_input_tokens": 1139,
+          "cache_read_input_tokens": 20029,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states the search tool was rate-limited and it could not confirm details against live docs, and it never cites the expected source page."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 5,
+            "hallucination_free": 4,
+            "relevance": 4,
+            "structure": 7
+          },
+          "hallucinations": [
+            {
+              "claim": "evmClient.CallContract(runtime, &evm.CallContractRequest{...})",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "evmClient.WriteReport(runtime, &evm.WriteReportRequest{...})",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "runtime.GenerateReport(&cre.ReportRequest{...})",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "No consensus report needed; each node can read, and the runtime handles aggregation.",
+              "type": "contradiction",
+              "severity": "med"
+            },
+            {
+              "claim": "github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm",
+              "type": "wrong_import",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Specific Go SDK function names like CallContract, WriteReport, GenerateReport",
+            "Chain selector registry details",
+            "Workflow trigger types (cron, log, HTTP) and registration/permission specifics"
+          ],
+          "verdict": "The answer correctly captures the high-level KeystoneForwarder/onReport write flow but invents specific SDK function names not confirmed by the source and incorrectly implies reads skip DON consensus, so it should not be trusted as-is for shipping code.",
+          "fidelity": 50,
+          "prompt": "In Chainlink CRE, how do I read a smart contract's state and write data back to an EVM chain from my workflow?",
+          "archetype": "direct-howto",
+          "answer": "I'm hitting a rate limit on the search tool. Let me wait a moment and retry.I wasn't able to reach the live search tool (it's rate-limited in this session), so I can't cite the latest official docs directly. Below is guidance based on how Chainlink CRE (Chainlink Runtime Environment) workflows interact with EVM chains. Because CRE is evolving quickly and is still in early/beta access, **please verify the exact API names and signatures against the current docs at `docs.chain.link` / the CRE SDK repo**, as they change between releases.\n\n## The two operations in CRE\n\nIn a CRE workflow, EVM interaction happens through the **EVM (blockchain) capability**, which gives you a client bound to a specific chain via a **chain selector**:\n\n- **Reading state** → an `eth_call` (view/read). No consensus report needed; each node can read, and the runtime handles aggregation.\n- **Writing state** → you don't send a normal transaction. Instead the workflow produces a **report** that the DON reaches consensus on, and that report is submitted onchain through the **Keystone Forwarder**, which calls your consumer contract.\n\n## 1. Reading a contract's state\n\nThe general pattern (Go SDK):\n\n```go\nimport (\n    \"github.com/smartcontractkit/cre-sdk-go/capabilities/blockchain/evm\"\n)\n\nfunc readBalance(cfg *Config, runtime cre.Runtime) (something, error) {\n    // Client bound to a chain via chain selector\n    evmClient := &evm.Client{ChainSelector: cfg.ChainSelector}\n\n    // Encode the call data using your generated ABI bindings\n    calldata, _ := myContractABI.Pack(\"latestAnswer\")\n\n    // Perform an eth_call\n    resp := evmClient.CallContract(runtime, &evm.CallContractRequest{\n        Call: &evm.CallMsg{\n            To:   cfg.ContractAddress.Bytes(),\n            Data: calldata,\n        },\n        // optionally a block number / \"finalized\"\n    }).Await()   // promise-style: kick off, then Await the result\n\n    // Decode resp.Data with your ABI bindings\n    ...\n}\n```\n\nKey points for reads:\n- You typically **generate type-safe Go bindings from the contract ABI** (CRE provides a binding generator), so you get `contract.LatestAnswer(runtime)` style helpers instead of hand-packing calldata.\n- Reads are executed and aggregated across the DON, so you get a consensus-verified value rather than trusting a single node/RPC.\n\n## 2. Writing data back to the chain\n\nWriting is a two-part flow: **generate a report → write the report onchain.**\n\n```go\n// 1. Build the payload your onchain contract expects\nreport := runtime.GenerateReport(&cre.ReportRequest{\n    EncodedPayload: encodedData, // ABI-encoded values for your receiver\n})\n\n// 2. Submit via the EVM client's WriteReport\nevmClient := &evm.Client{ChainSelector: cfg.ChainSelector}\nwriteResp := evmClient.WriteReport(runtime, &evm.WriteReportRequest{\n    Receiver: cfg.ConsumerAddress.Bytes(),\n    Report:   report,\n}).Await()\n```\n\nOn the **onchain side**, your consumer contract must be able to receive the report. It implements the receiver interface expected by the Keystone Forwarder, roughly:\n\n```solidity\ninterface IReceiver {\n    function onReport(bytes calldata metadata, bytes calldata report) external;\n}\n```\n\nThe flow is: your workflow's `WriteReport` → **KeystoneForwarder** (validates the DON's signatures/consensus) → calls `onReport(...)` on your contract, where you decode `report` and update state. You'll usually add access control so only the trusted forwarder can call `onReport`, and check the workflow/owner metadata.\n\n## Putting it together (typical workflow shape)\n\nA common pattern is a workflow that:\n1. Is fired by a **trigger** (cron, an EVM log/event trigger, or HTTP).\n2. **Reads** onchain state and/or fetches offchain data (HTTP).\n3. Runs your compute logic (with DON consensus/aggregation).\n4. **Writes** the resulting report back onchain via `WriteReport`.\n\n## What you need to set up\n\n- **Chain selector** for the target EVM chain (from Chainlink's chain-selectors registry).\n- A deployed **consumer/receiver contract** implementing `onReport`, permissioned to the forwarder.\n- **Workflow registration** (owner, workflow name) and the associated permissions so the forwarder accepts your reports.\n- **ABI bindings** generated for any contracts you read from or write to.\n\n---\n\nBecause I couldn't confirm the current method names (`CallContract`, `WriteReport`, `GenerateReport`, client construction, and the exact `onReport`/receiver interface can differ by SDK version and language — Go vs. the newer TypeScript SDK), I'd recommend checking these specific references in the official docs:\n\n- The **CRE SDK \"EVM capability\" / \"Read & Write to EVM\"** guide\n- The **Keystone Forwarder / receiver contract** reference for the exact `onReport` signature\n- The **example workflows** repo (e.g., a \"read a price and write it onchain\" tutorial)\n\nIf you tell me which SDK you're using (Go or TypeScript) and your target chain, I can tailor the code example more precisely — and I can retry the live docs search once the search tool is available again.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 71654,
+              "output_tokens": 4289,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2297,
+              "output_tokens": 1617,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3528,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states that documentation retrieval failed due to rate limits and that it is answering from prior knowledge instead of the source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 5,
+            "relevance": 4,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "meeting the configured quorum/threshold",
+              "type": "invented_param",
+              "severity": "low"
+            },
+            {
+              "claim": "Enforces deduplication / replay protection",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "typically advertises it via ERC-165 `supportsInterface`",
+              "type": "fabricated_function",
+              "severity": "low"
+            },
+            {
+              "claim": "One DON node acts as the transmitter that lands the transaction",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "check directly in the docs... the Forwarder Directory",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "Details about a signer quorum/threshold requirement",
+            "Deduplication/replay protection mechanism in the Forwarder",
+            "ERC-165 supportsInterface usage for IReceiver",
+            "msg.sender check inside onReport as a required pattern",
+            "Metadata containing workflow owner address specifics",
+            "Single DON node acting as transmitter",
+            "Existence of a 'Forwarder Directory' page"
+          ],
+          "verdict": "The answer correctly covers the core report-to-consumer flow (signed report → KeystoneForwarder → signature validation → onReport) matching the source, but it explicitly admits it could not retrieve the docs and instead invents several unconfirmed implementation details (quorum, replay protection, ERC-165), so it should be spot-checked against the official docs before shipping.",
+          "fidelity": 63,
+          "prompt": "Using the Chainlink CRE EVM Write capability, what exactly happens after my workflow generates a report? Walk me through the flow to my consumer contract.",
+          "archetype": "constrained",
+          "answer": "I'll search for the current Chainlink CRE documentation on the EVM Write capability to give you an accurate walkthrough.Let me get the detailed content from the most relevant pages.I'm hitting search rate limits. Let me retry after a brief pause.I wasn't able to fully load the Chainlink docs pages because the search tool hit its usage limit for this session, so I'll answer from my knowledge of how the CRE EVM Write capability works. Here's the end-to-end flow after your workflow produces a report.\n\n## The flow: from report to consumer contract\n\n**1. Your workflow generates a report (off-chain, in the DON)**\nYour workflow logic runs across the nodes of the Decentralized Oracle Network (DON). When you invoke the EVM client's write method, the nodes run consensus over the result and package it into a **report** — a blob of ABI-encoded data plus a set of cryptographic signatures from the DON's signers. The report is only considered valid on-chain if enough signers (meeting the configured quorum/threshold) have signed it.\n\n**2. The report is transmitted to the Forwarder contract**\nThe EVM Write capability doesn't call your consumer contract directly. Instead, it submits the signed report as an on-chain transaction to the **KeystoneForwarder** contract deployed on your target chain. One DON node acts as the transmitter that lands the transaction; the Forwarder is the trusted on-chain entry point for all CRE writes.\n\n**3. The Forwarder verifies the report**\nThe Forwarder is the security boundary. It:\n- Recovers the signers from the report's signatures and checks them against the **configured DON signer set** for that workflow's configuration (DON ID / config version).\n- Confirms the signature count meets the required **quorum**.\n- Enforces **deduplication / replay protection** so the same report can't be delivered twice.\n\nIf any of these checks fail, the call reverts and nothing reaches your contract.\n\n**4. The Forwarder routes the report to your consumer contract**\nOnce verified, the Forwarder calls a standard callback on your consumer contract:\n\n```solidity\nfunction onReport(bytes calldata metadata, bytes calldata report) external;\n```\n\nYour consumer contract must implement the receiver interface (`IReceiver`) and typically advertises it via ERC-165 `supportsInterface`. The Forwarder passes two arguments:\n- **`metadata`** — provenance data about where the report came from (things like the workflow ID/name, the **workflow owner** address, report identifiers, and DON information).\n- **`report`** — the actual encoded payload your workflow produced.\n\n**5. Your consumer contract validates and consumes the report**\nInside `onReport`, you enforce your own trust checks before acting on the data:\n- **Verify the caller is the authorized Forwarder** (`msg.sender == forwarderAddress`). This is critical — it's what guarantees the data actually came through the verified CRE path.\n- **Validate the metadata**, e.g. checking the workflow owner and workflow name match the ones you expect, so only *your* workflow can drive state changes.\n- **Decode the `report`** payload (using `abi.decode` matching however your workflow encoded it) and update contract state / emit events.\n\n## Key mental model\n\n- The **DON** produces and signs the report off-chain.\n- The **Forwarder** is the single trusted on-chain contract that verifies signatures/quorum and prevents replays.\n- **Your consumer** never trusts raw data — it trusts the *Forwarder* (caller check) plus the *metadata* (workflow owner/name check), then decodes and uses the payload.\n\nSo the chain of custody is: **Workflow → DON consensus + signing → KeystoneForwarder (verify) → `onReport(metadata, report)` on your consumer → your decode + state update.**\n\nA couple of things worth confirming directly in the docs when you can (the specific pages are *Onchain Write → Overview*, *Building Consumer Contracts*, and the *Forwarder Directory*):\n- The **exact `metadata` byte layout** and helper libraries for parsing workflow owner/name out of it.\n- The **Forwarder address for your target chain** (from the Forwarder Directory), which you'll hard-check against `msg.sender`.\n\nWould you like me to try the search again (the limit may reset) to pull the exact Solidity `IReceiver` interface and metadata-parsing snippet from the official docs?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 102150,
+              "output_tokens": 4468,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1976,
+              "output_tokens": 2128,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3528,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/building-consumer-contracts"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer cites a different guide page instead of the expected source document."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 6,
+            "hallucination_free": 4,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "ReceiverTemplate.sol, that does the heavy lifting for you",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "allow 64 bytes, or accept both 62 and 64 if you must support alternate tooling",
+              "type": "invented_param",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "ERC-165 support / supportsInterface requirement for IReceiver",
+            "KeystoneForwarder checking supportsInterface before sending a report"
+          ],
+          "verdict": "The core fix (implement IReceiver with onReport(bytes metadata, bytes report)) matches the source, but the answer layers on unverified specifics (ERC-165, a named ReceiverTemplate.sol contract, and exact 62/64-byte metadata thresholds) that aren't in the cited source and could mislead a developer if inaccurate, and it never cites the expected doc page.",
+          "fidelity": 60,
+          "prompt": "My CRE workflow write reverts because my consumer contract can't receive the forwarder's data — what interface am I missing?",
+          "archetype": "error-debug",
+          "answer": "The \"Building Consumer Contracts\" doc is exactly what we need. Let me get its details.I found the answer. Let me pull the specifics on the two requirements.The missing piece is the **`IReceiver` interface** (plus its ERC-165 support). Here's what's going on and how to fix it.\n\n## Why your write reverts\n\nThe EVM capability sends this report to the Chainlink-managed KeystoneForwarder contract. The KeystoneForwarder validates the report's signatures. Then, if the report is valid, the forwarder calls a designated function (onReport) on your consumer contract to deliver the data.\n\nIf your consumer doesn't expose that function correctly, the forwarder's callback fails and the write reverts.\n\n## The interface you're missing\n\nYour contract must implement the IReceiver interface. This single requirement ensures your contract has the necessary onReport(bytes metadata, bytes report) function that the Chainlink Forwarder calls to deliver data.\n\nTo be a valid target, there are actually **two** requirements: To be a valid target for the KeystoneForwarder, your consumer contract must satisfy two main requirements: The KeystoneForwarder needs a standardized function to call.\n\n1. **The `onReport(bytes metadata, bytes report)` function** (via `IReceiver`).\n2. **ERC-165 support** — ERC165 is a standard that allows contracts to publish the interfaces they support. The KeystoneForwarder uses this to check if your contract supports the IReceiver interface before sending a report.\n\nSo if you implemented `onReport` but didn't wire up `supportsInterface` to advertise `IReceiver`, the forwarder's pre-check can also cause the delivery to fail.\n\n## Recommended fix\n\nRather than implementing both manually, inherit from the provided template: While you can implement these standards manually, we provide an abstract contract, ReceiverTemplate.sol, that does the heavy lifting for you. Inheriting from it is the recommended best practice.\n\n## One more common gotcha — metadata length\n\nIf your `onReport` validates the `metadata` bytes with a strict length check, be careful: If you validate metadata with a strict length requirement, allow 64 bytes, or accept both 62 and 64 if you must support alternate tooling. Requiring exactly 62 bytes breaks verified delivery from KeystoneForwarder whenever the forwarder supplies the 64-byte slice.\n\nThis is a frequent cause of reverts even when the interface *is* implemented correctly — so double-check any metadata assertions in your handler.\n\n## Summary\n\nImplement **`IReceiver`** (giving you `onReport(bytes metadata, bytes report)`) **and** ERC-165 `supportsInterface`, ideally by inheriting `ReceiverTemplate.sol`, and avoid an over-strict metadata length check (allow 64 bytes). See Chainlink's [Building Consumer Contracts](https://docs.chain.link/cre/guides/workflow/using-evm-client/onchain-write/building-consumer-contracts) guide for full examples.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 55074,
+              "output_tokens": 2536,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1444,
+              "output_tokens": 3658,
+              "cache_creation_input_tokens": 1139,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer did not cite the expected source page despite addressing the same general topic."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 4,
+            "hallucination_free": 2,
+            "relevance": 4,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "LAST_FINALIZED_BLOCK_NUMBER ... defined as { absVal: Buffer.from([3]).toString(\"base64\"), sign: \"-1\" }",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "headerByNumber(runtime: Runtime<unknown>, input: HeaderByNumberRequest | HeaderByNumberRequestJson): { result: () => HeaderByNumberReply }",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "passing -2 (latest) or -3 (finalized) as the BlockNumber parameter",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "EVM Log Triggers must use the three confidence levels (LATEST, SAFE, or FINALIZED)... by default triggers use SAFE",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "chain read operations such as CallContract, BalanceAt, and FilterLogs",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "protoBigIntToBigint(latestHeader.header.blockNumber)",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Reads call view and pure functions via evm.Client"
+          ],
+          "unverifiable_from_source": [
+            "SAFE confidence level and its usage guidance",
+            "import { LAST_FINALIZED_BLOCK_NUMBER, LATEST_BLOCK_NUMBER } from \"@chainlink/cre-sdk\"",
+            "blockNumber() helper function for custom block targeting",
+            "Go numeric sentinel convention for confidence levels",
+            "If you don't specify a block number, CRE defaults to LATEST"
+          ],
+          "verdict": "The answer captures the correct high-level concept (finalized/latest/specific block reads) but fabricates numerous specific function names, constants, byte encodings, and parameter conventions not present in the source, making it risky to ship as-is without independent verification.",
+          "fidelity": 45,
+          "prompt": "CRE evm.Client read block number options finalized latest specific",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about the CRE (Chainlink Runtime Environment) `evm.Client` and how to read block numbers with different finality options.Let me get the detailed content from the most relevant documentation pages.I have enough detailed documentation. Here's how reading block numbers works with the CRE (Chainlink Runtime Environment) `evm.Client`.\n\n## Reading Block Numbers with the CRE EVM Client\n\n### Getting the latest block number\nUse `headerByNumber` with an empty request to fetch the current chain head, then convert the protobuf BigInt to a native value for arithmetic:\n\nGet the latest block number from the blockchain with `const latestHeader = evmClient.headerByNumber(runtime, {}).result()`, then convert the protobuf BigInt to a native bigint for arithmetic using `protoBigIntToBigint`.\n\nThe `headerByNumber` signature is:\n\n`headerByNumber(runtime: Runtime<unknown>, input: HeaderByNumberRequest | HeaderByNumberRequestJson): { result: () => HeaderByNumberReply }` — it returns an object with a `.result()` method that blocks until the call completes.\n\n### The three confidence levels\nRather than tracking chain-specific finality rules yourself, CRE abstracts them into confidence levels: CRE provides three confidence levels for reading blockchain data and monitoring events, and these levels work consistently across all supported chains.\n\nWhen to use each:\n- **FINALIZED** — Use for financial transactions, critical state updates, or when incorrect data could cause significant issues.\n- **SAFE** — Use when you need reasonable confidence without waiting for full finality (good for most monitoring/alerting).\n- **LATEST** — Use for real-time dashboards or displays where speed matters more than guaranteed accuracy.\n\nWhen you specify FINALIZED, CRE automatically maps this to a native finality tag or a block depth threshold depending on the chain.\n\n### Passing the block/confidence level to reads\n\n**TypeScript SDK** — use the named constants for `callContract` (and similar read methods):\n\nRead from the finalized block (most common) by passing `blockNumber: LAST_FINALIZED_BLOCK_NUMBER`, or read from the latest block by passing `blockNumber: LATEST_BLOCK_NUMBER`.\n\nBoth are imported from the SDK: `import { LAST_FINALIZED_BLOCK_NUMBER, LATEST_BLOCK_NUMBER } from \"@chainlink/cre-sdk\"`.\n\nUnder the hood, the finalized constant is a signed protobuf value: `LAST_FINALIZED_BLOCK_NUMBER` is a constant representing the last finalized block number for use in `callContract()` and similar methods, defined as `{ absVal: Buffer.from([3]).toString(\"base64\"), sign: \"-1\" }` — i.e. 3 for the finalized block.\n\n**Go / numeric convention** — the confidence levels map to negative sentinel block numbers:\n\nFor most read operations, use the standard confidence levels by passing -2 (latest) or -3 (finalized) as the BlockNumber parameter. If you don't specify a block number, CRE defaults to LATEST.\n\n### Reading from a specific / custom block number\nFor fixed confirmation thresholds or historical verification, you can target an exact block. Fetch the head, subtract an offset, and wrap it with the `blockNumber()` helper:\n\nTo read from 500 blocks ago for custom finality: get the latest block number with `evmClient.headerByNumber(runtime, {}).result()`, convert it via `protoBigIntToBigint(latestHeader.header.blockNumber)`, calculate `customBlock = latestBlockNum - 500n`, then call the contract at that height using `blockNumber: blockNumber(customBlock)`.\n\nThis custom-block approach is intended for specific compliance/verification needs: For use cases requiring fixed confirmation thresholds (e.g., regulatory compliance) or historical state verification, you can specify an exact block number.\n\n### Important caveats\n- **Triggers are more restrictive than reads.** EVM Log Triggers must use the three confidence levels (LATEST, SAFE, or FINALIZED); custom block depths are not supported for triggers, and by default triggers use SAFE if no confidence level is specified.\n- **Finality applies broadly to read/query operations** — chain read operations such as CallContract, BalanceAt, and FilterLogs all respect the specified confidence level.\n\n### Quick reference\n\n| Intent | TS constant | Numeric (Go) |\n|---|---|---|\n| Latest head | `LATEST_BLOCK_NUMBER` | `-2` |\n| Finalized | `LAST_FINALIZED_BLOCK_NUMBER` | `-3` |\n| Safe | (SAFE) | native safe tag |\n| Specific block | `blockNumber(customBlock)` | exact number |\n\nFor production reads where correctness matters, prefer `LAST_FINALIZED_BLOCK_NUMBER`; use `LATEST` only when speed outweighs the risk of reading a block that could be reorged.\n\nWould you like a complete working code example (e.g., the Storage contract read pattern) in TypeScript or Go?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 97797,
+              "output_tokens": 4588,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2071,
+              "output_tokens": 2839,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3528,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 2,
+            "relevance": 3,
+            "structure": 8
+          },
+          "hallucinations": [
+            {
+              "claim": "calling the generic evm.Client directly... is not recommended",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "You use `cre generate-bindings` to create type-safe Go interfaces",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "As of CRE CLI 1.3.0, the `cre generate-bindings evm` command now supports TypeScript",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "an `AllowanceInput` struct for a method taking `(address owner, address spender)`",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the binding generator creates an Encode<StructName>Struct() method on the Codec",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "you must call .Await() to pause and wait for the result... .result() method",
+              "type": "fabricated_function",
+              "severity": "med"
+            },
+            {
+              "claim": "TypeScript workflows are compiled to WebAssembly (WASM) using Javy and QuickJS",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "Storage.go... and Storage_mock.go",
+              "type": "fabricated_function",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "cre generate-bindings CLI command and its output structure",
+            "CRE CLI 1.3.0 generated TypeScript bindings feature",
+            "AllowanceInput struct and parameter-struct generation pattern",
+            "Encode<StructName>Struct() Codec method",
+            "Javy/QuickJS WASM compilation details",
+            "the .Await()/.result() async pattern distinction",
+            "Storage.go and Storage_mock.go file naming"
+          ],
+          "verdict": "The answer captures the core doc facts (evm.Client, Go compile-time vs TypeScript viem runtime type safety) but buries them under a large volume of specific CLI commands, struct names, and mechanics that are not present in the cited source and are not verifiable, making it risky to ship as-is.",
+          "fidelity": 40,
+          "prompt": "For contract calls in a Chainlink CRE workflow, should I use the Go SDK's generated bindings or the TypeScript SDK, and how do they differ for type safety?",
+          "archetype": "comparison",
+          "answer": "Both approaches are valid and officially supported, but they represent different philosophies. Here's how they compare and how to choose.\n\n## The short answer\n\nFor **Go workflows**, you should use the CRE CLI's generated bindings — this is the explicitly recommended pattern. For **TypeScript workflows**, you have two options: the traditional viem-based manual ABI approach, or (as of a recent CLI release) newly added generated TypeScript bindings.\n\n## How contract calls work in each SDK\n\nBoth SDKs are built on top of a generic EVM client. The evm.Client provides the foundational methods for all onchain interactions, and in TypeScript the equivalent is the `EVMClient`. The key question is whether you call that low-level client directly or wrap it.\n\n**Go SDK — generated bindings are recommended.** You use `cre generate-bindings` to create type-safe Go interfaces for your smart contracts. The docs are explicit that calling the raw client is discouraged: While you could call the generic evm.Client directly from your main workflow logic, this is not recommended. Doing so would require you to manually handle ABI encoding and decoding for every contract call, leading to code that is hard to read and prone to errors. The recommended pattern is to create a binding: a separate Go package that acts as a type-safe client for your specific smart contract.\n\nThe workflow is: drop your ABI JSON into the ABI directory and run the generator. This command will automatically generate type-safe Go bindings for all ABI files in your contracts/evm/src/abi/ directory. It also automatically adds the required evm capability dependency to your go.mod file. The generated bindings will be placed in contracts/evm/src/generated/. For a `Storage` contract you'd get Storage.go — the main binding that provides a type-safe interface for interacting with your contract, and Storage_mock.go — a mock implementation for testing workflows without deploying contracts.\n\n**TypeScript SDK — traditionally viem-based.** The TypeScript SDK integrates with viem for type-safe contract interactions. You define ABIs directly in TypeScript files and use viem's functions for encoding and decoding. The documented default approach is that the TypeScript SDK uses Viem for type-safe contract interactions with manual ABI definitions instead of generated bindings. In practice you define an ABI with `parseAbi`, encode with `encodeFunctionData`, call via `evmClient.callContract(...)`, and decode with `decodeFunctionResult`.\n\nHowever, this gap has been closing. As of CRE CLI 1.3.0, the `cre generate-bindings evm` command now supports TypeScript. It generates a fully typed class from your contract ABI with read methods, write helpers, typed event structs, and logTriggerEventName() methods that handle all base64 encoding automatically.\n\n## How they differ for type safety\n\n| Aspect | Go SDK | TypeScript SDK |\n|---|---|---|\n| Primary source of types | Generated bindings from ABI | viem type inference from ABI (or generated bindings via newer CLI) |\n| Encoding/decoding | Encapsulated in the binding | Handled by viem (`encodeFunctionData`/`decodeFunctionResult`), or auto-handled if using generated bindings |\n| Async result pattern | Operations return a Promise, and you must call .Await() to pause and wait for the result | Operations return an object with a .result() method that you call to wait for the result |\n| Testing | Auto-generated mock file | Generated mocks available with the newer binding generator |\n\nThe practical type-safety difference: in Go, the binding generator produces concrete, compiler-checked types — for example, when your contract method takes parameters, the binding generator creates a struct type for each method that has parameters, such as an `AllowanceInput` struct for a method taking `(address owner, address spender)`, which you then pass to the corresponding method. Note also type mappings like Solidity types such as bytes and bytes32 map to []byte in Go. The bindings also help on the write path — if you have generated bindings for a contract that includes your struct in its ABI, the binding generator creates an Encode\\<StructName\\>Struct() method on the Codec, which is the simplest and recommended approach.\n\nIn TypeScript, type safety comes from viem's inference over the ABI you declare in a `.ts` module, which provides excellent TypeScript type inference when you define ABIs as TypeScript modules. This is genuinely type-safe, but the safety is derived at the viem layer rather than from pre-generated code, and (in the manual approach) you remain responsible for wiring encode/decode calls yourself.\n\nOne important TS-specific caveat is the execution model: TypeScript workflows are compiled to WebAssembly (WASM) using Javy and QuickJS, and this compilation process has implications for library compatibility and available Node.js APIs. Because of this, traditional TypeScript async/await doesn't work with SDK capabilities in the WebAssembly environment where CRE workflows run, since WASM execution is fundamentally synchronous — hence the `.result()` pattern instead of `await`.\n\n## Recommendation\n\n- **Choose the language first based on your team/stack**, since both compile to production DON binaries and both offer type safety.\n- **If you're in Go:** always use `cre generate-bindings`. It's the recommended, best-supported path, gives you compiler-enforced types, handles encode/decode automatically, and generates mocks for testing.\n- **If you're in TypeScript:** the viem approach is the well-documented baseline and gives strong inference-based type safety. But if you want parity with Go's ergonomics — typed classes, write helpers, and auto base64 handling — use the newer `cre generate-bindings evm --language typescript` generator, which reduces the manual encode/decode boilerplate that otherwise sits in your workflow.\n\nIn short: Go's type safety is \"bindings-first\" and strongly recommended over raw client calls, while TypeScript's is historically \"viem-inference-first\" with generated bindings now available as an increasingly capable alternative. If minimizing hand-written ABI plumbing and maximizing compile-time guarantees is your priority, generated bindings (in either language) are the way to go.\n\nWould you like a side-by-side code example of the same contract read implemented both ways?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 55816,
+              "output_tokens": 3707,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 2460,
+              "output_tokens": 3404,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3528,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": ""
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 7,
+            "hallucination_free": 7,
+            "relevance": 5,
+            "structure": 9
+          },
+          "hallucinations": [
+            {
+              "claim": "Confirms the report is legitimate and meets the required quorum",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [],
+          "unverifiable_from_source": [
+            "The nodes reach consensus and produce a signed report (source attributes report generation to the workflow, not node consensus)",
+            "You'll usually need to authorize the Forwarder (and often the specific workflow) in your contract",
+            "Report must meet a required quorum"
+          ],
+          "verdict": "The core architecture (workflow→signed report→KeystoneForwarder→onReport) is accurately conveyed and well-structured, but the answer never cites the source, adds a few unverified embellishments (consensus mechanics, quorum, authorization), and explicitly defers to a future search rather than confirming from retrieved docs, so it's mostly safe but not fully grounded.",
+          "fidelity": 70,
+          "prompt": "I'm new to this — I have a workflow and I want it to actually save some numbers onto the blockchain in a Chainlink CRE project. How does that even work behind the scenes, and does my workflow talk to my contract directly?",
+          "archetype": "verbose/beginner",
+          "answer": "Great question — this is one of the most important things to understand when you're getting started with Chainlink CRE, because the mental model is a little different from \"my code calls my contract.\"\n\n## The short answer\n\n**No, your workflow doesn't talk to your contract directly.** Your workflow runs *off-chain*, and when it needs to write numbers on-chain, it hands off a signed \"report\" that travels through a middleman contract (a **Forwarder**) before it ever reaches your contract.\n\n## What's actually happening behind the scenes\n\nHere's the flow, step by step:\n\n**1. Your workflow runs off-chain on the DON**\nA CRE workflow doesn't execute on the blockchain. It runs on the **Decentralized Oracle Network (DON)** — a network of independent Chainlink nodes. Each node runs your workflow logic (fetching data, doing computation, etc.). This is why writing on-chain isn't just a normal function call: the code producing the numbers lives outside the chain entirely.\n\n**2. The nodes reach consensus and produce a signed report**\nBecause multiple nodes each run your workflow, they agree on a result and collectively **sign** it. This signing is the security backbone — it's what lets an on-chain contract trust that the data genuinely came from the DON and wasn't tampered with. The output is packaged as a **report** (essentially your encoded numbers plus metadata).\n\n**3. The report is submitted through the Forwarder contract**\nInstead of your workflow calling your contract, the DON submits the report to a **Forwarder contract** (Chainlink's on-chain entry point, sometimes called the Keystone Forwarder). The Forwarder is the piece that:\n- Verifies the DON's signatures\n- Confirms the report is legitimate and meets the required quorum\n- Then **forwards** the data to your target contract\n\n**4. Your contract receives the data**\nYour consumer contract implements a specific **receiver interface** — typically a function like `onReport(...)`. The Forwarder calls *that* function on your contract, passing in the decoded report. So from your contract's perspective, the call comes *from the Forwarder*, not from the workflow.\n\n## The mental model\n\nThink of it like this:\n\n```\nYour Workflow (off-chain, on the DON)\n        │\n        │  produces a signed report\n        ▼\n   Forwarder Contract (on-chain gatekeeper)\n        │\n        │  verifies signatures, then forwards\n        ▼\n   Your Contract (implements onReport / receiver interface)\n```\n\n## A couple of practical implications for you\n\n- **Your contract must be written to *receive*, not to be *called normally*.** You'll implement the receiver interface (e.g. an `onReport` function) rather than a plain setter you'd invoke yourself.\n- **You'll usually need to authorize the Forwarder** (and often the specific workflow) in your contract, so random parties can't push fake data into it. This is a common \"gotcha\" for beginners — if your contract rejects the write, it's often because the sender isn't whitelisted.\n- **You configure the write in your workflow**, telling it which chain, which target contract address, and encoding the data into the report format your contract expects.\n\n## One thing worth flagging\n\nChainlink CRE is evolving fairly quickly, and the exact interface names, SDK methods, and setup steps can change between versions. Since you're just getting started, I'd recommend I pull up the **current official CRE documentation** so I can give you the precise, up-to-date function names and a working code example for defining a workflow that writes on-chain — rather than you working from names that might be slightly out of date.\n\nWant me to search for the latest CRE docs and walk you through a concrete \"write numbers to a contract\" example? I can also show you what the receiver contract side looks like if that'd help.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 0,
+            "searches_succeeded": 0,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 5955,
+              "output_tokens": 1729,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1776,
+              "output_tokens": 2416,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 3528,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T17-11-17-017Z-9cdc"
+    }
+  }
+}

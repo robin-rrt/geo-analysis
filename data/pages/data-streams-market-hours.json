@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-market-hours",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Streams Market Hours",
+    "url": "https://docs.chain.link/data-streams/market-hours",
+    "analyzedAt": "2026-09-22T13:31:32.539Z",
+    "contentType": "developer documentation / reference",
+    "score": 77,
+    "band": "Strong",
+    "weightedTotal": 77.3,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Sections open with liftable answers: \"Cryptocurrency markets operate continuously. There is no designated market close and no `marketStatus` field.\" Minor weakness: the top intro leads with caveats (\"depend on both…\") before naming the canonical fact."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 9,
+        "weighted": 13.5,
+        "analysis": "Strong; no action needed. 16 sections, median 70 words, max 326, 0 over 600, 11 tables — ideal RAG chunk boundaries."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 9,
+        "weighted": 10.8,
+        "analysis": "Strong. 158 numerals per 1k words, explicit UTC offsets, session times, holiday dates. The \"0 with units\" flag is a false alarm — times carry implicit ET/local units in context."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good. Links to NYSE and CME/NYMEX holiday calendars are authoritative primary sources despite the \"0 primary sources\" categorization; all schema references are internal."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Good. `marketStatus` value tables and the \"Not mapped. Do not treat as Closed or Pre-market\" Don'ts are crisp and liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 7,
+        "weighted": 8.4,
+        "analysis": "Good but flawed. Valid TechArticle + BreadcrumbList, canonical present. Weaknesses: `dateModified` identical to `datePublished` (no revision signal), keywords are 23 comma-split tokens including stopwords, `about` entries are auto-template \"Content about X\" with a duplicate \"Hours\", and declared `programmingLanguage` lists TypeScript + Rust while the page has zero code."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Weak for the weight. Zero code fences. Acceptable for a lookup page, but a short snippet reading `marketStatus` from a report would help agents, and the schema's TS/Rust claim is unsupported."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good, concept-first. Covers setup → mapping → edge cases (early closures) but lacks symptom/error-phrased entry points."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; no action needed. Consistent naming of schemas (v8/v11), asset classes, and status values."
+      }
+    ],
+    "summary": "This is a dense, well-structured reference page mapping trading hours and `marketStatus` values across seven Chainlink Data Streams asset classes. Its biggest GEO strength is machine-scannability: 11 tables, clean H2/H3 hierarchy with zero level skips, and self-contained section leads that an engine can lift verbatim. The biggest opportunity is symptom-phrased query coverage — developers and agents will ask \"what does marketStatus = 5 mean?\" or \"why is my equities feed returning 5?\", and no heading matches that phrasing even though the answer sits in a table cell. Honest verdict: best-in-class reference content, retrieval-limited by concept-titled headings and a few auto-generated schema artifacts.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add symptom-phrased lookup headings / FAQ",
+        "mapsTo": "symptom-phrased query coverage",
+        "tier": null,
+        "where": "new subsection under \"marketStatus quick reference\"",
+        "issue": "No heading matches \"what does marketStatus 5 mean\" or \"why is my feed closed\".",
+        "change": "Add H3s or an FAQ phrased as queries: \"What does `marketStatus = 5` mean?\", \"Why does my US Equities feed return `2` or `5` only?\", \"What is `marketStatus = 1` for a v11 feed?\" — each answered in one liftable sentence pointing to the right schema table.",
+        "why": "Devs query by value/symptom, not by \"asset class overview\"; concept-titled prose loses retrieval the FAQ phrasing wins."
+      },
+      {
+        "priority": 1,
+        "title": "Lead intro with the canonical rule before caveats",
+        "mapsTo": "answer-first extractability / parametric-prior resistance",
+        "tier": null,
+        "where": "page intro paragraph",
+        "issue": "\"The correct `marketStatus` values depend on both the report schema version and the feed's trading-hours model.\"",
+        "change": "Prepend a one-line canonical map: \"v8 (Forex/metals/commodities): 0/1/2. v11 standard-hours (US & APAC equities): 0/2/5. v11 24/5 equities: 0–5.\" Then the dependency sentence.",
+        "why": "Puts the highest-value fact in the first liftable sentence; defends against a skim answering from a single generic status table."
+      },
+      {
+        "priority": 2,
+        "title": "Name the wrong-mapping Don't explicitly in the 24/5 vs standard section",
+        "mapsTo": "parametric-prior resistance",
+        "tier": null,
+        "where": "\"RWA Advanced (v11) — Standard-hours feeds\" table intro",
+        "issue": "The `1/3/4 = Not mapped` rows are correct but easy to miss when skimmed.",
+        "change": "Add a lead sentence: \"For standard-hours v11 feeds, only `0`, `2`, and `5` occur — do not interpret `1`, `3`, or `4` as Pre-market/Post-market/Overnight; those apply only to 24/5 feeds.\"",
+        "why": "Prevents an engine from importing the 24/5 mapping (the tempting generic pattern) onto a standard-hours feed."
+      },
+      {
+        "priority": 2,
+        "title": "Correct auto-generated schema metadata",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "TechArticle JSON-LD `keywords`, `about`, `additionalProperty`",
+        "issue": "Stopword-laden keywords, \"Content about X\" template `about` with duplicate \"Hours\", and `programmingLanguage: TypeScript, Rust` on a code-free page.",
+        "change": "Replace keywords with curated entity terms (marketStatus, RWA schema v8, RWA schema v11, NYSE hours, APAC equities); dedupe `about`; drop the TS/Rust `programmingLanguage` properties.",
+        "why": "Clean entity metadata aids entity resolution and trust; a false language claim undermines E-E-A-T signals to parsers."
+      },
+      {
+        "priority": 2,
+        "title": "Emit a real `dateModified`",
+        "mapsTo": "machine-readability & freshness",
+        "tier": null,
+        "where": "TechArticle JSON-LD",
+        "issue": "`dateModified` identical to `datePublished` — reads as generator-stamped, never revised.",
+        "change": "Wire `dateModified` to the actual last content edit and surface a visible \"Last updated\" line on-page.",
+        "why": "Visible freshness is an independent trust/recency signal for generative engines."
+      },
+      {
+        "priority": 3,
+        "title": "Add a short marketStatus-read snippet",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "near \"marketStatus quick reference\"",
+        "issue": "Zero code; agents get no runnable extraction example.",
+        "change": "Add a labeled 5–8 line snippet showing how to read the `marketStatus` field from a decoded v11 report and branch on `2`/`5`.",
+        "why": "Gives agents a copy-pasteable pattern and justifies the (currently unsupported) code-language schema claim."
+      }
+    ],
+    "antiPatterns": [
+      "Auto-generated JSON-LD `keywords` split on commas into stopwords (\"and\", \"for\") and `about` template entries (\"Content about hours\") with a duplicate.",
+      "Declared `programmingLanguage` (TypeScript, Rust) with zero code on the page — schema/content mismatch.",
+      "`dateModified` == `datePublished` — stale/undated freshness signal.",
+      "No walls of prose, no unresolved cross-references, no ambiguous entities — clean otherwise."
+    ],
+    "offPageNotes": [
+      "Consider listing this page in `llms.txt` and ensuring sibling pages (report-schema-v8, report-schema-v11, 24/5 US Equities User Guide) link back here as the canonical market-hours hub.",
+      "Freshness cadence: automate `dateModified` from the content pipeline rather than stamping publish time.",
+      "Third-party citation of `marketStatus` value tables is earned, not on-page controllable — the crisp tables help it happen."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

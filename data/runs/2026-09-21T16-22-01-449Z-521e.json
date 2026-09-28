@@ -1,0 +1,120 @@
+{
+  "runId": "2026-09-21T16-22-01-449Z-521e",
+  "startedAt": "2026-09-21T16:22:01.450Z",
+  "endedAt": "2026-09-21T16:27:22.592Z",
+  "owner": {
+    "pid": 46057,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "page",
+    "name": "https://docs.chain.link/data-feeds/deprecating-feeds",
+    "productScope": null
+  },
+  "stages": [
+    "probes",
+    "test"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "complete",
+  "counts": {
+    "pages": 1,
+    "failed": 0
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T16-22-01-449Z-521e",
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/data-feeds/deprecating-feeds",
+      "productScope": null
+    },
+    "stages": [
+      "probes",
+      "test"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "complete",
+    "startedAt": "2026-09-21T16:22:01.450Z",
+    "endedAt": "2026-09-21T16:27:22.592Z",
+    "elapsedMs": 321142,
+    "counts": {
+      "pages": 1,
+      "failed": 0,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [
+      {
+        "key": "data-feeds-deprecating-feeds",
+        "url": "https://docs.chain.link/data-feeds/deprecating-feeds",
+        "stages": {
+          "probes": "ran",
+          "test": "ran"
+        },
+        "durations": {
+          "probes": 26461,
+          "test": 292339
+        },
+        "elapsedMs": 321140,
+        "probeSummary": {
+          "probes": 6,
+          "graded": 6,
+          "avgFidelity": 60.7,
+          "mode": "web"
+        }
+      }
+    ],
+    "failures": []
+  },
+  "ledger": {
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/data-feeds/deprecating-feeds",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 1,
+      "inScope": 1,
+      "failed": 0
+    },
+    "notes": [],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/data-feeds/deprecating-feeds",
+        "source": "explicit",
+        "included": true
+      }
+    ],
+    "failures": []
+  }
+}

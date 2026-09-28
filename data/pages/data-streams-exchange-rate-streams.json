@@ -1,0 +1,168 @@
+{
+  "key": "data-streams-exchange-rate-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Exchange Rate Data Streams",
+    "url": "https://docs.chain.link/data-streams/exchange-rate-streams",
+    "analyzedAt": "2026-09-22T13:31:00.563Z",
+    "contentType": "developer documentation / reference listing",
+    "score": 32,
+    "band": "Poor",
+    "weightedTotal": 32,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 2,
+        "weighted": 3,
+        "analysis": "The implied question (\"which exchange rate streams exist and what are their IDs?\") is answered by `Loading...`. A lifted chunk contains nothing usable. Weak."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Clean H1→H2 hierarchy, 0 level skips — but 0 tables and 0 bullets where a listing page most needs them. Structure exists; content to structure does not."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "0 numerals, 0 hex identifiers in served prose. For a page whose purpose *is* stream IDs and addresses, this is the core failure."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 internal links (tutorial, discovery endpoint, LINK contracts, supported networks) are relevant and well-placed; 0 external/primary sources. Adequate for a hub page."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "No one-sentence definition of \"Exchange Rate Data Streams\" near first use. Nothing verbatim-liftable."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Valid JSON-LD, canonical, complete OG/Twitter tags — good. Undercut by `datePublished`==`dateModified` (never revised/generator-stamped, and future-dated 2026), auto-generated `keywords` (contains stopword `and`), and template `about` entries (\"Content about exchange\")."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code; limited applicability for a listing page, but a verification snippet using a real stream ID would help agents."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 2,
+        "weighted": 2,
+        "analysis": "Title matches \"exchange rate data streams,\" but no symptom/how-to phrasing and no served answers. Devs asking \"what is the stream ID for X exchange rate?\" get nothing."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "The sparse prose is clean and consistent; there is simply almost none of it."
+      }
+    ],
+    "summary": "This is a reference listing page whose entire payload — the table of exchange rate streams, their IDs, and verifier addresses — is client-side rendered and absent from the served HTML (the body reads `Loading...`, 55 words total, 0 tables, 0 numerals). The single biggest strength is clean schema/metadata scaffolding (valid `TechArticle` + `BreadcrumbList`, canonical URL). The single biggest opportunity, which dominates everything else, is that **generative engines and agents that don't execute JavaScript see an empty page** — the very data this page exists to provide is invisible to retrieval. This is not a prose-polish problem; the page cannot be cited for facts it never serves.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Server-render the stream listing so IDs and addresses are in the HTML",
+        "mapsTo": "concrete specifics / machine-readability / answer-first",
+        "tier": null,
+        "where": "`## Mainnet Exchange Rate Streams` section (currently `Loading...`)",
+        "issue": "`Loading...` — the entire dataset is client-side and absent from served markup.",
+        "change": "Pre-render (SSR/SSG) the full stream table into static HTML so non-JS crawlers and agents receive stream names, IDs, feed/verifier addresses, and networks without executing scripts.",
+        "why": "Retrieval is the dominant loss; a page that serves no facts cannot be cited or synthesized regardless of schema quality."
+      },
+      {
+        "priority": 1,
+        "title": "Emit the stream inventory as a real semantic `<table>`",
+        "mapsTo": "structural scannability / specifics",
+        "tier": null,
+        "where": "Mainnet (and any testnet) streams sections",
+        "issue": "0 tables, 0 bullets on a listing page.",
+        "change": "Columns: Stream name · Stream ID (hex) · Asset pair · Network · Verifier proxy address · Decimals/format. One row per stream, header row present.",
+        "why": "Comparison tables are high-lift for extraction; engines lift row-scoped facts and answer \"what's the ID for X\" precisely."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first canonical definition in the first sentence",
+        "mapsTo": "quotable definitions / answer-first",
+        "tier": null,
+        "where": "Directly under the H1, before the tutorial link",
+        "issue": "Page opens with \"To learn how to use Data Streams, see…\" — a redirect, not an answer.",
+        "change": "Add a self-contained lead: \"Exchange Rate Data Streams provide onchain exchange-rate values for [assets]. Each stream is identified by a 32-byte stream ID and verified via the network's verifier proxy. The available streams and IDs are listed below.\"",
+        "why": "Gives engines a verbatim-liftable definition and a chunk that stands alone."
+      },
+      {
+        "priority": 2,
+        "title": "Fix freshness signals",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `datePublished`/`dateModified`",
+        "issue": "Identical timestamps, future-dated `2026-09-21` — reads as generator-stamped, never revised.",
+        "change": "Emit true last-modified on data changes and surface a visible \"Last updated\" line on-page.",
+        "why": "Divergent, plausible dates and visible freshness raise E-E-A-T trust for a page that changes as streams are added."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/query-phrased subheadings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Section headings",
+        "issue": "Only concept-titled headings (\"Streams Verifier Network Addresses\").",
+        "change": "Add H2/H3s phrased as queries: \"What is the stream ID for [pair]?\", \"Which networks support exchange rate streams?\", \"Verifier proxy address by network\".",
+        "why": "Devs/agents query by task and symptom; question-phrased headings win retrieval that concept titles miss."
+      },
+      {
+        "priority": 3,
+        "title": "Replace auto-generated schema fields with meaningful values",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `about` and `keywords`",
+        "issue": "`about` = \"Content about exchange/rate/data/streams\"; `keywords` includes stopword `and`.",
+        "change": "Set `about` to real entities (Chainlink Data Streams, exchange rate feeds, verifier proxy) and curate keywords; ideally add `ItemList`/`Dataset` schema describing the stream inventory.",
+        "why": "Template placeholders add no entity signal; a `Dataset`/`ItemList` graph makes the listing machine-parseable."
+      }
+    ],
+    "antiPatterns": [
+      "**Wall of nothing / unrendered content:** primary content served as `Loading...` — the most severe issue on the page.",
+      "**Stale/undated signal:** identical, future-dated publish/modify timestamps.",
+      "**Auto-generated metadata fluff:** template `about` descriptions and a stopword in `keywords`.",
+      "**Answer-deferral opener:** page leads with a \"see the tutorial\" pointer rather than its own answer."
+    ],
+    "offPageNotes": [
+      "Consider an `llms.txt` and a machine-readable endpoint (JSON/CSV) for the stream inventory so agents can fetch IDs without scraping rendered tables.",
+      "Site-level: ensure the discovery API page and `supported-networks` page link back to this hub (canonical-hub pattern) so authority concentrates here.",
+      "The CLI should confirm whether the SSR/hydrated DOM (post-JS) contains the table; this audit reflects the served HTML, which does not."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "key": "data-streams-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Chainlink Data Streams",
+    "url": "https://docs.chain.link/data-streams.md",
+    "analyzedAt": "2026-09-22T13:29:06.161Z",
+    "contentType": "developer documentation / product overview (landing page)",
+    "score": 59,
+    "band": "Developing",
+    "weightedTotal": 59.4,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. Opens with a crisp canonical claim: \"Chainlink Data Streams delivers low-latency market data offchain, which you can verify onchain.\" Most sections lead with a standalone statement. No action needed beyond the specifics injection below."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong. 10 headings, clean H1→H3, 0 level skips, sections median 69 words (max 126) — ideal RAG chunk sizes. Weak spot: the \"Comparison to push-based oracles\" section is prose where a table would extract better (0 tables on page)."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak. Only \"sub-second\" and \"99.9%+ uptime\" quantify anything; latency, frequency, report-format count, and connection counts are all qualitative. \"several report formats,\" \"robust fault tolerance\" beg for numbers."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Developing. 18 internal links are good for hub navigation, but 0 external/primary sources — no link to a whitepaper, spec, or canonical definition to anchor credibility."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Good. Pull-vs-push and commit-and-reveal are both cleanly defined verbatim (\"A 'commit-and-reveal' approach mitigates frontrunning by making trade data and stream data visible atomically onchain\")."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Weak. Measured: 0 JSON-LD blocks, canonical MISSING, no datePublished/dateModified, 0 og/twitter tags. No `TechArticle` schema or visible freshness signal. (Head was not captured — CLI should pass raw `<head>` to confirm.)"
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "Weak for an integration-adjacent page. 0 code fences. Acceptable for a pure overview, but a single \"fetch and verify a report\" snippet would let agents act without a second hop."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Developing. Covers \"what is,\" \"how to use,\" and use cases, and has a numbered getting-started path. No troubleshooting/FAQ and no symptom-phrased headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong. Consistent naming (Data Streams, DON, pull-based), unambiguous prose. No action needed."
+      }
+    ],
+    "summary": "This is a well-written top-of-funnel overview page for Chainlink Data Streams: clean prose, a strong liftable opening definition, and a logical section hierarchy with 18 internal links routing to SDKs and reference docs. Its biggest GEO strength is answer-first extractability — nearly every section leads with a self-contained claim. Its biggest opportunities are concrete specifics (only 5 numerals, none with units, plus vague quantifiers \"several/some/robust\") and machine-readable metadata (no JSON-LD, missing canonical, no dates). The honest verdict: a solid navigational hub that under-delivers on the quantitative detail and structured metadata that generative engines reward most.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Inject concrete numbers into capability claims",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "\"Sub-Second Data\" section and \"Key capabilities\" list",
+        "issue": "\"supports sub-second data resolution\" / \"several report formats\"",
+        "change": "State exact figures: median/target latency in ms, report update frequency, the actual number of report formats/asset classes, and supported networks. Replace \"several report formats\" with e.g. \"N report schemas (v3 crypto, v4 RWA, …)\".",
+        "why": "Quantitative claims are the highest-lift retrievable content; engines preferentially cite pages with specific numbers over qualitative prose."
+      },
+      {
+        "priority": 1,
+        "title": "Add `TechArticle` JSON-LD, canonical URL, and last-updated date",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter",
+        "issue": "Measured: 0 JSON-LD, canonical MISSING, no dateModified.",
+        "change": "Emit a `TechArticle` block with `headline`, `dateModified`, `about: \"Chainlink Data Streams\"`, and a self-referential canonical link.",
+        "why": "Structured metadata and visible freshness raise agent trust and E-E-A-T parseability; canonical prevents .md/.html duplication ambiguity."
+      },
+      {
+        "priority": 2,
+        "title": "Convert push-vs-pull comparison into a table",
+        "mapsTo": "structural scannability & justification structure",
+        "tier": null,
+        "where": "\"Comparison to push-based oracles\"",
+        "issue": "Reasons are buried in prose (\"Some applications only need onchain data at fixed intervals…\").",
+        "change": "Add a 2-column table (Push-based | Data Streams / pull-based) with rows for update trigger, latency, cost model, verification, best-fit use case.",
+        "why": "Tables let engines extract *reasons* and build justified comparative answers (\"which oracle for perps?\")."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/question-phrased headings and a short FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "new section near end",
+        "issue": "No content phrased as the questions devs ask.",
+        "change": "Add H3s like \"What's the difference between Data Feeds and Data Streams?\", \"How do I verify a report onchain?\", \"Which SDK should I use?\" with 1–2 sentence liftable answers linking to the deep pages.",
+        "why": "Question-phrased headings win retrieval that concept-titled prose loses, even when the body already contains the answer."
+      },
+      {
+        "priority": 2,
+        "title": "Add one minimal end-to-end code example",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "\"How to use Data Streams\" → Integration options",
+        "issue": "0 code blocks; agents must navigate away to act.",
+        "change": "Add a short, language-tagged snippet (e.g. Go SDK) showing fetch → decode → onchain-verify, with imports, that links to the full tutorial.",
+        "why": "Copy-pasteable, labeled snippets are directly liftable by coding agents completing tasks."
+      },
+      {
+        "priority": 3,
+        "title": "Add external/primary references",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "intro paragraph and \"High availability\" section",
+        "issue": "0 external links; claims like \"active-active multi-site deployment\" are self-referential only.",
+        "change": "Link the first mention of DON to its canonical concept/whitepaper, and any latency/uptime SLA claim to a spec or status page.",
+        "why": "Inline authoritative references raise citation rate and make quantitative claims attributable."
+      },
+      {
+        "priority": 3,
+        "title": "Replace vague quantifiers",
+        "mapsTo": "concrete statistics & specifics / clarity",
+        "tier": null,
+        "where": "throughout (\"robust fault tolerance,\" \"several,\" \"some applications\")",
+        "issue": "vague quantifiers flagged: several, some, robust.",
+        "change": "Swap for specifics (e.g. \"fault tolerance across N isolated origins\").",
+        "why": "Qualitative hedges underperform; specificity is independently rewarded."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"several report formats,\" \"some applications,\" \"robust fault tolerance.\"",
+      "Two `(Image: Image)` placeholders with no alt text — no textual value for engines; add descriptive captions.",
+      "No dated/freshness signal (dateModified absent) — undated content is a mild trust penalty.",
+      "No keyword stuffing, no marketing fluff of note, no broken cross-references. Prose is clean."
+    ],
+    "offPageNotes": [
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure it lists this page as the Data Streams canonical hub.",
+      "Head metadata could not be verified from the supplied content; the CLI should pass raw `<head>` so JSON-LD/canonical/OG presence can be confirmed rather than inferred.",
+      "Site-level: ensure sitemap and internal links from sibling reference pages point back to this overview to reinforce it as the canonical entry point (canonical-hub pattern)."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

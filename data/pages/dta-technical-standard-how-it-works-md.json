@@ -1,0 +1,177 @@
+{
+  "key": "dta-technical-standard-how-it-works-md",
+  "runId": "2026-09-22T13-07-40-558Z-8ba1",
+  "audit": {
+    "title": "How It Works (Chainlink DTA Technical Standard)",
+    "url": "https://docs.chain.link/dta-technical-standard/how-it-works.md",
+    "analyzedAt": "2026-09-22T13:08:34.489Z",
+    "contentType": "developer documentation / conceptual overview",
+    "score": 53,
+    "band": "Developing",
+    "weightedTotal": 52.6,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Section leads are decent (\"A typical subscription (buy) order follows a clear, four-step process…\"), but the page has no top-of-page definition of the DTA standard, and the first content block is a sub-heading component list. An engine skimming the top gets no self-contained \"what is this\" answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Reasonable section sizing (median 158, max 295 words; none over 600). But there is **1 level skip** — H1 jumps to `### Components…` (an H3), and **0 tables** where a settlement-model matrix belongs."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weak — 5 numerals, **0 with units**, no version strings; leans on \"multiple blockchains,\" \"many different networks,\" \"predetermined time (e.g., end of day).\" No concrete latencies, limits, or chain names."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Good internal linking (CCIP, NAVLink Feeds, ACE, Payment Modes) plus a Swift press-release external link; but 0 links to a primary/canonical spec for the standard itself."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "Component roles are crisply defined (Request Management vs Request Settlement), but the term \"DTA technical standard\" itself has no verbatim-liftable one-sentence definition near first use."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 3,
+        "weighted": 3.6,
+        "analysis": "Missing — no JSON-LD, canonical URL, `inLanguage`, or dateModified in served HTML. Head metadata could not be verified; the CLI should pass raw `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "No code blocks. This is a conceptual page so code isn't strictly expected, but no contract addresses/interface signatures or status-enum values reduce agent utility."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers the happy-path lifecycle (setup → flow → settlement) but has no \"what is DTA,\" no FAQ, and no symptom/question-phrased headings."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming of components and products. No action needed beyond the unrendered `<Dta section=\"dtaNotes\" />` component (see anti-patterns)."
+      }
+    ],
+    "summary": "This is a cleanly written conceptual overview of the Chainlink DTA technical standard's architecture, subscription/redemption flows, and three settlement models. Its biggest strength is clear, consistent prose with well-defined component roles; its biggest opportunity is that the page opens with a component list rather than a liftable one-sentence definition of what the DTA standard *is*, and it lacks a comparison table for the three settlement models — the single most quotable structure a generative engine could extract here. Metadata is entirely absent (no JSON-LD, canonical, or dates in the served HTML), which weakens machine-trust signals. Honest verdict: solid content, under-optimized for extraction and retrieval.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a settlement-model comparison table",
+        "mapsTo": "machine-scannability & justification structure",
+        "tier": null,
+        "where": "\"Flexible settlement models\" section (currently 3 bullets).",
+        "issue": "\"can occur in one of three ways, depending on how the fund is configured\"",
+        "change": "Add a table with columns *Model · Chains · Settlement mechanism · Atomic? · Best for*, one row each for Offchain / Local Onchain / Cross-Chain. Keep the prose beneath it.",
+        "why": "Tables are directly liftable and let engines extract *reasons* for choosing a model — the highest-value structure on this page."
+      },
+      {
+        "priority": 1,
+        "title": "Open the page with a canonical definition of the DTA standard",
+        "mapsTo": "answer-first extractability + quotable definitions",
+        "tier": null,
+        "where": "Immediately under the H1, before/instead of the `<Dta>` component.",
+        "issue": "First content is `### Components of the Chainlink DTA Technical Standard` — no definition precedes it.",
+        "change": "Add a 1–2 sentence self-contained definition: \"The Chainlink DTA (Digital Transfer Agent) technical standard is a set of smart contracts and Chainlink services that enable onchain subscription, redemption, and settlement of tokenized funds across multiple blockchains.\"",
+        "why": "Gives engines a verbatim answer to \"what is the DTA standard\" and defends against parametric-prior guesses."
+      },
+      {
+        "priority": 1,
+        "title": "Add question/symptom-phrased headings and an FAQ",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "New sub-sections or an FAQ block.",
+        "issue": "All headings are concept-titled (\"The subscription flow\"); none match how devs query.",
+        "change": "Add H2s/FAQ such as \"How does a subscription order get settled?\", \"What is the difference between DTA Request Management and Request Settlement?\", \"When do I need to fund the Request Settlement contract?\" (the redemption caveat is a natural answer).",
+        "why": "Symptom/question-phrased headings win retrieval that concept-titled prose loses even when the answer is present."
+      },
+      {
+        "priority": 2,
+        "title": "Fix the heading level skip",
+        "mapsTo": "structural scannability",
+        "tier": null,
+        "where": "`### Components of the Chainlink DTA Technical Standard`.",
+        "issue": "Measured: 1 level skip — H1 → H3, no H2.",
+        "change": "Promote to `## Components…` so hierarchy is H1 → H2 → H3 consistently.",
+        "why": "Clean heading nesting improves chunk boundaries for RAG."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "Throughout, esp. settlement and NAV steps.",
+        "issue": "\"at a predetermined time (e.g., end of day),\" \"many different networks.\"",
+        "change": "Name supported networks/chain types, state whether NAV updates are per-day, cite the request-status count/enum, and quantify where possible (e.g., \"5 request states from Pending to Processed\").",
+        "why": "Quantitative specifics are among the highest-lift changes for citation rate."
+      },
+      {
+        "priority": 2,
+        "title": "Add TechArticle JSON-LD, canonical URL, and visible last-updated",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter (site-level template).",
+        "issue": "Measured: 0 JSON-LD blocks, canonical MISSING, dateModified absent.",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified`, `inLanguage`, and a self-referential canonical; surface a visible \"Last updated\" line.",
+        "why": "Structured metadata and freshness signals raise agent trust (E-E-A-T). Note: largely site-level, see off-page."
+      },
+      {
+        "priority": 3,
+        "title": "Cite a primary/canonical spec for the standard",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "Near the intro definition.",
+        "issue": "Measured: 0 links to primary sources.",
+        "change": "Link the request-lifecycle/state spec and any formal DTA standard definition inline where the standard is first named.",
+        "why": "Attributable claims to canonical sources raise citation rate."
+      }
+    ],
+    "antiPatterns": [
+      "**Unrendered component:** `<Dta section=\"dtaNotes\" />` appears as literal markup — if this holds notes/context, its content is invisible to engines and should render to plain HTML.",
+      "**Unresolved image:** `(Image: Image)` placeholder with no alt text — add a descriptive caption/alt so the subscription-flow diagram's information is textually available.",
+      "**Vague quantifiers:** \"multiple blockchains,\" \"many different networks,\" \"predetermined time\" — replace with specifics where known."
+    ],
+    "offPageNotes": [
+      "JSON-LD, canonical tags, and `dateModified` are typically injected by the site template — coordinate the metadata fix at the docs-platform level, not just this page.",
+      "`llms.txt` is already referenced at the top of the page — good; ensure this page is listed in it for discoverability.",
+      "Head metadata could not be verified in this capture; re-run with raw `<head>` passed through for a definitive metadata read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-07-40-558Z-8ba1",
+    "probes": {}
+  }
+}

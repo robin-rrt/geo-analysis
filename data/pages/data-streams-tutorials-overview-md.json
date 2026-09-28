@@ -1,0 +1,157 @@
+{
+  "key": "data-streams-tutorials-overview-md",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Data Streams Tutorials",
+    "url": "https://docs.chain.link/data-streams/tutorials/overview.md",
+    "analyzedAt": "2026-09-22T13:33:58.115Z",
+    "contentType": "developer documentation / tutorial index (navigation hub)",
+    "score": 47,
+    "band": "Developing",
+    "weightedTotal": 47,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Opens with filler — \"Explore several tutorials to learn how to use the Data Streams\" — not a self-contained answer. A one-sentence definition of Data Streams up top would make the intro liftable."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Strong for its size — 3 clean headings, 0 level skips, sections under 117 words, well-grouped bullets. A summary table (tutorial × network × SDK) would push this higher."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Weak. Measured facts show 0 numerals and vague quantifiers \"several, various.\" No latencies, supported-chain counts, or SDK versions."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "15 internal links, well-labeled and useful for routing; 0 external/primary sources. Appropriate for a hub, but no anchor to canonical spec/standard."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 3,
+        "weighted": 2.4,
+        "analysis": "No crisp definition of \"Chainlink Data Streams\" or \"Data Streams Aggregation Network\" near first use — a missed liftable statement."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured facts confirm no JSON-LD, missing canonical, no datePublished/dateModified, no og/twitter tags. Note: raw `<head>` was not captured, so some tags may exist but couldn't be verified — the CLI should pass `<head>` for a full read."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code, and none is expected on an index page — treat as not applicable rather than a defect."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Covers \"how do I fetch / stream / verify reports\" through linked tutorials; no symptom- or error-phrased entry points and no troubleshooting."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 8,
+        "weighted": 6.4,
+        "analysis": "Strong; consistent naming (Data Streams, DON, SDKs). No action needed."
+      }
+    ],
+    "summary": "This is a tutorial-index hub for Chainlink Data Streams — its GEO job is routing readers/agents to the right tutorial, not being cited as a standalone answer. Its biggest strength is clean, unambiguous structure with well-labeled internal links across Go/Rust/TypeScript SDKs and EVM/Solana verification paths. Its biggest opportunity is that the page carries **zero specifics, no canonical definition of \"Data Streams,\" and no metadata** (no JSON-LD, canonical URL, or dates per Measured facts), so it neither gets cited itself nor establishes the entity for engines. Honest verdict: functional as human navigation, weak as a retrievable/liftable GEO asset — a few surgical additions would lift it materially.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a canonical definition of Data Streams in the first liftable sentence",
+        "mapsTo": "Quotable canonical statements / answer-first extractability",
+        "tier": null,
+        "where": "Intro line, replacing \"Explore several tutorials to learn how to use the Data Streams.\"",
+        "issue": "\"Explore several tutorials to learn how to use the Data Streams.\"",
+        "change": "Lead with a self-contained definition, e.g. \"Chainlink Data Streams delivers low-latency, on-demand market data from a Decentralized Oracle Network (DON), verifiable onchain. These tutorials show how to fetch, stream, and verify reports using the Go, Rust, or TypeScript SDKs.\" Keep the routing sentence after it.",
+        "why": "Gives engines a verbatim entity definition and a stand-alone opening chunk instead of filler."
+      },
+      {
+        "priority": 1,
+        "title": "Add a summary table mapping tutorial → network → SDK/method",
+        "mapsTo": "Machine-scannability & justification structure",
+        "tier": null,
+        "where": "Below the intro, spanning both \"Fetch/Stream/Decode\" and \"Verify Reports\" sections.",
+        "issue": "Reasons/decision factors are buried in prose bullets; 0 tables present.",
+        "change": "Add a table with columns Tutorial | Network (EVM / Solana) | Access method (SDK / REST / WebSocket / CPI) | Link, so an agent can pick the right path in one scan.",
+        "why": "Tables let engines extract decision factors and build justified \"which tutorial should I use\" answers."
+      },
+      {
+        "priority": 2,
+        "title": "Replace vague quantifiers and add concrete specifics",
+        "mapsTo": "Concrete statistics & specifics",
+        "tier": null,
+        "where": "Intro (\"several tutorials\") and NOTE block (\"various programming languages\").",
+        "issue": "\"several tutorials\" / \"various programming languages.\"",
+        "change": "State the actual count (\"five tutorials\") and name the languages/networks explicitly (e.g. supported chains, SDK version numbers where known).",
+        "why": "Quantitative specifics are among the highest-lift changes; vague quantifiers underperform."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/query-phrased sub-headings or an FAQ",
+        "mapsTo": "Symptom-phrased query coverage",
+        "tier": null,
+        "where": "New short section or reworded H2s.",
+        "issue": "Headings are concept-titled (\"Verify Reports\"), not question-phrased.",
+        "change": "Add entries like \"How do I verify a Data Streams report onchain?\" and \"How do I stream real-time reports over WebSocket?\" linking to the relevant tutorials.",
+        "why": "Devs/agents query by task/symptom; question-phrased headings win retrieval that concept titles lose."
+      },
+      {
+        "priority": 3,
+        "title": "Add page metadata: JSON-LD `TechArticle`/`CollectionPage`, canonical URL, last-updated",
+        "mapsTo": "Machine-readability & metadata",
+        "tier": null,
+        "where": "Page `<head>` / frontmatter (site-level template).",
+        "issue": "Measured facts show 0 JSON-LD blocks, missing canonical, no dateModified.",
+        "change": "Emit JSON-LD with `name`, `about: \"Chainlink Data Streams\"`, `inLanguage`, canonical URL, and a visible \"Last updated\" date.",
+        "why": "Structured metadata and freshness signals raise parseability and E-E-A-T trust; likely a template fix, not per-page."
+      }
+    ],
+    "antiPatterns": [
+      "Vague quantifiers: \"several tutorials,\" \"various programming languages\" — replace with counts/names.",
+      "Filler opening sentence with no informational payload (\"Explore several tutorials to learn how to use the Data Streams\").",
+      "No dated/freshness signal (undated content)."
+    ],
+    "offPageNotes": [
+      "Metadata absence is almost certainly a site-template issue (JSON-LD, canonical, dates) — fix once at the template level to benefit all hub pages.",
+      "The page already references `/llms.txt`, which is good site-level agent hygiene; ensure this hub is listed there as the canonical entry point for Data Streams tutorials.",
+      "Raw `<head>` was not captured; some meta/canonical tags may exist but are unverifiable here — pass `<head>` to the analyzer for a definitive read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

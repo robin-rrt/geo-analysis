@@ -1,0 +1,697 @@
+{
+  "key": "cre-support-feedback-md",
+  "runId": "2026-09-21T13-17-18-344Z-8032",
+  "audit": {
+    "title": "Support & Feedback",
+    "url": "https://docs.chain.link/cre/support-feedback.md",
+    "analyzedAt": "2026-09-21T13:28:02.745Z",
+    "contentType": "developer documentation / support & process reference",
+    "score": 62,
+    "band": "Good",
+    "weightedTotal": 62.5,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 7,
+        "weighted": 10.5,
+        "analysis": "Opens with the direct answer — \"You can submit a support request directly through the CRE UI.\" Good; the intro is a liftable standalone."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 8,
+        "weighted": 12,
+        "analysis": "Strong; 3 headings, 0 level skips, numbered steps and typed bullet lists. No action needed."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 5,
+        "weighted": 6,
+        "analysis": "Weak by nature — the useful specific is the `cre version` command; otherwise procedural. Acceptable for page type; a note on response-time expectations would help."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "2 internal links, 0 external. Adequate but the account-creation and discover links carry the load; fine for scope."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 5,
+        "weighted": 4,
+        "analysis": "Minimal — the request-type list (Support Request / Bug Report / Feature Request / General Feedback) is the closest to a liftable taxonomy."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 4,
+        "weighted": 4.8,
+        "analysis": "Weakest scored dimension: no JSON-LD/`TechArticle`, canonical MISSING, `dateModified` absent from schema though present in body text."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 6,
+        "weighted": 6,
+        "analysis": "Only inline `cre version`; no fenced blocks needed here. Reasonable."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 7,
+        "weighted": 7,
+        "analysis": "Good headings (\"How to submit a support request\", \"What to include\"). Could add explicit symptom-phrased entry points."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 9,
+        "weighted": 7.2,
+        "analysis": "Strong; consistent \"CRE\" usage, unambiguous imperative steps."
+      }
+    ],
+    "summary": "This is a short, clean process page telling CRE users how to file support requests, bug reports, feature requests, and feedback through the CRE UI. Its biggest strength is clarity and scannability — a numbered flow plus categorized \"what to include\" bullets that an engine can lift cleanly. Its biggest opportunity is machine-readability: no JSON-LD, no canonical URL, and no schema-visible date despite an in-body `Last Updated: 2025-11-04`. As a low-stakes utility page it scores fine, but retrieval for symptom-phrased help queries (\"how do I contact Chainlink CRE support\", \"report a CRE bug\") could be tightened.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add TechArticle JSON-LD with canonical URL and dateModified",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>`",
+        "issue": "\"JSON-LD: 0 block(s)… canonical: MISSING… dateModified absent\"",
+        "change": "Emit `TechArticle` JSON-LD with `headline`, `dateModified: 2025-11-04`, and a canonical `https://docs.chain.link/cre/support-feedback`; add `<link rel=\"canonical\">`.",
+        "why": "Structured freshness and canonical signals raise agent trust (E-E-A-T) and dedupe the `.md`/HTML variants."
+      },
+      {
+        "priority": 1,
+        "title": "Add a symptom-phrased heading or FAQ line",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "intro, above \"How to submit a support request\"",
+        "issue": "headings are concept-titled; devs query \"how do I contact CRE support\" / \"report a CRE bug\"",
+        "change": "Add a one-line answer-first sentence naming the exact phrasings, e.g. \"To contact Chainlink CRE support, report a bug, or request a feature, use the Help panel in the CRE UI at app.chain.link/cre/discover.\"",
+        "why": "Symptom/question-phrased text wins retrieval that concept-titled headings lose."
+      },
+      {
+        "priority": 2,
+        "title": "Surface a canonical one-sentence answer at the top",
+        "mapsTo": "answer-first extractability",
+        "tier": null,
+        "where": "intro paragraph",
+        "issue": "\"You can submit a support request directly through the CRE UI.\" omits *where*",
+        "change": "Fold the entry point into the first sentence (URL + \"Help\" sidebar) so the opening chunk is self-contained without the numbered steps.",
+        "why": "A standalone first sentence is what engines lift when they skim."
+      },
+      {
+        "priority": 2,
+        "title": "Add concrete expectation specifics",
+        "mapsTo": "concrete statistics & specifics",
+        "tier": null,
+        "where": "after the submit steps",
+        "issue": "page states process but no response/turnaround expectation",
+        "change": "If accurate, state typical response time or where to track ticket status; keep it factual, not marketing.",
+        "why": "Quantitative specifics are among the highest-lift additions; also answers a common follow-up query."
+      },
+      {
+        "priority": 3,
+        "title": "Cross-link the CRE CLI docs on `cre version`",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "\"CRE CLI version (run `cre version` to check)\"",
+        "issue": "command referenced without a link to CLI reference",
+        "change": "Link `cre version` to the CRE CLI installation/reference page.",
+        "why": "Inline links to canonical references raise attributability and give agents a next hop."
+      }
+    ],
+    "antiPatterns": [
+      "Body-only freshness: `Last Updated: 2025-11-04` is present in prose but absent from machine-readable metadata — visible to humans, invisible to parsers.",
+      "No other anti-patterns: no keyword stuffing, no fluff, no unresolved cross-references, no undifferentiated prose."
+    ],
+    "offPageNotes": [
+      "Canonical/JSON-LD emission is likely template/site-level — coordinate the fix across the CRE docs section rather than this page alone.",
+      "Page already references `/llms.txt`; ensure this URL is listed there so agents can discover the support entry point.",
+      "The CLI should pass raw `<head>` for a full metadata read; current audit could not verify head tags."
+    ]
+  },
+  "probeRuns": [
+    {
+      "source_url": "https://docs.chain.link/cre/support-feedback.md",
+      "source_title": "Support & Feedback",
+      "probe_set_id": "dde7d7a8e673",
+      "model_tested": "claude-opus-4-8",
+      "mode": "web",
+      "grader_model": "claude-sonnet-5",
+      "grader_effort": "high",
+      "probe_effort": "medium",
+      "grader_prompt_sha": "7ca3088c42f0",
+      "run_at": "2026-09-28T18:30:51.263Z",
+      "probe_count": 6,
+      "graded_count": 6,
+      "refusal_count": 0,
+      "error_count": 0,
+      "avg_fidelity": 23.7,
+      "avg_fidelity_all": 18.5,
+      "unattributed_count": 3,
+      "retrieval_hit_rate": 0,
+      "retrieval_hit_rate_effective": 0,
+      "retrieval_mention_hit_count": 0,
+      "search_degraded_count": 0,
+      "live_search_failed_count": 0,
+      "inconclusive_miss_count": 0,
+      "avg_scores": {
+        "accuracy": 0.7,
+        "hallucination_free": 2.8,
+        "relevance": 0.7,
+        "structure": 3.2
+      },
+      "usage": {
+        "model_under_test": {
+          "input_tokens": 375005,
+          "output_tokens": 13500,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "web_search_requests": 28,
+          "service_tier": "standard"
+        },
+        "grader": {
+          "input_tokens": 6346,
+          "output_tokens": 4247,
+          "cache_creation_input_tokens": 592,
+          "cache_read_input_tokens": 17294,
+          "web_search_requests": 0,
+          "service_tier": "standard"
+        }
+      },
+      "results": [
+        {
+          "probe_id": "p01",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or references the actual support-feedback page and instead fabricates an unrelated deploy-access workflow with invented CLI commands."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 1,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "Run `cre account access` to check your status or submit a request directly from your terminal",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Run `cre whoami` in your terminal to verify you're logged in",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "run `cre login` to authenticate",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Visit app.chain.link/cre/request-access to fill out the request form",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "docs.chain.link/resources/getting-help",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Access request submitted successfully!",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "deploy access is only required for `cre workflow deploy`",
+              "type": "fabricated_function",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Go to app.chain.link/cre/discover",
+            "Log in to your account",
+            "Click Help in the left sidebar",
+            "Support form opens as a slide-out panel",
+            "Select request type from the dropdown",
+            "Describe your issue",
+            "Click Request to submit"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misidentifies the topic, inventing a 'deploy access request' flow with fabricated CLI commands and URLs that do not appear anywhere in the actual support-feedback documentation, making it unsafe and misleading for a developer trying to submit a support request.",
+          "fidelity": 10,
+          "prompt": "How do I submit a support request for Chainlink CRE?",
+          "archetype": "direct-howto",
+          "answer": "Based on the Chainlink documentation, the primary way to \"submit a request\" in Chainlink CRE is through the **deploy access request** flow. Here's how it works:\n\n## Requesting Deploy Access\n\nDeploying workflows to a Chainlink DON requires Early Access approval. You can submit this request in two ways:\n\n**1. From the CLI:**\nRun `cre account access` to check your status or submit a request directly from your terminal. If your organization does not have deploy access, `cre account access` will prompt you to submit a request. After confirming, you'll be asked to briefly describe what you're building — for example, describing your use case such as a prediction market you want to deploy.\n\nNote that running this command requires you to be logged in with the CRE CLI. Run `cre whoami` in your terminal to verify you're logged in, or run `cre login` to authenticate.\n\n**2. From the web:**\nVisit app.chain.link/cre/request-access to fill out the request form.\n\n## What happens after submitting\n\nOnce submitted, you'll see a confirmation (\"Access request submitted successfully!\"). The Chainlink team will review your request and get back to you via email shortly.\n\nIn the meantime, deploy access is only required for `cre workflow deploy` — you can continue developing and simulating workflows locally with `cre workflow simulate` while your request is under review.\n\n---\n\nIf you're looking for **general technical support** (rather than deploy access specifically), Chainlink also maintains a \"Getting Help\" resource in their documentation at `docs.chain.link/resources/getting-help`, which is the best starting point for broader support questions.\n\nCould you clarify what kind of support request you have in mind — deployment/access approval, or general troubleshooting help? That would let me point you to the exact right channel.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 113245,
+              "output_tokens": 2468,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1016,
+              "output_tokens": 1180,
+              "cache_creation_input_tokens": 592,
+              "cache_read_input_tokens": 2389,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p02",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [
+              "https://docs.chain.link/cre/guides/operations/monitoring-workflows"
+            ],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it hit search rate limits and could not retrieve the official documentation."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 3,
+            "hallucination_free": 3,
+            "relevance": 2,
+            "structure": 6
+          },
+          "hallucinations": [
+            {
+              "claim": "Monitoring & Debugging Workflows\" ... `https://docs.chain.link/cre/guides/operations/monitoring-workflows`",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "Workflow identifiers – the Workflow ID (and Workflow Owner address)",
+              "type": "invented_param",
+              "severity": "med"
+            },
+            {
+              "claim": "the version of the `@chainlink/cre-sdk`",
+              "type": "wrong_import",
+              "severity": "med"
+            },
+            {
+              "claim": "The `smartcontractkit` GitHub organization (e.g., issues on the relevant CRE SDK / chainlink repositories)",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "Timestamps – when the failure occurred (with time zone)",
+              "type": "invented_param",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Operating system"
+          ],
+          "unverifiable_from_source": [
+            "Workflow ID and Workflow Owner address",
+            "@chainlink/cre-sdk version",
+            "GitHub smartcontractkit organization for filing issues",
+            "Frequency / impact of the bug"
+          ],
+          "verdict": "The answer openly admits it could not retrieve the actual documentation and then substitutes a fabricated page and invented technical details (Workflow ID, SDK package, GitHub org) that are not in the source, making it unsafe to present as authoritative guidance.",
+          "fidelity": 35,
+          "prompt": "In Chainlink CRE, what should I include when filing a bug report?",
+          "archetype": "direct-howto",
+          "answer": "I'm hitting search rate limits. Let me try once more to retrieve the specific debugging documentation content.I ran into search rate limits and wasn't able to fully retrieve the exact content of Chainlink's bug-reporting guidance, so I can't quote the official documentation verbatim. I don't want to invent specifics. That said, here's practical guidance, and where to find the authoritative details.\n\n## Where the official guidance lives\n\nThe most relevant Chainlink documentation page is **\"Monitoring & Debugging Workflows\"** in the CRE docs: `https://docs.chain.link/cre/guides/operations/monitoring-workflows`. This is the page that covers debugging and the information you'll want to gather before filing an issue.\n\n## What to typically include in a CRE bug report\n\nWhen reporting a bug in the Chainlink Runtime Environment, a good report generally includes:\n\n1. **Workflow identifiers** – the Workflow ID (and Workflow Owner address), plus the workflow name, so the issue can be located.\n2. **Environment / network details** – which CRE environment or target chain(s) you're running against, and whether you were running locally (simulation) or deployed.\n3. **SDK / CLI versions** – the version of the `@chainlink/cre-sdk`, the CRE CLI, and your language runtime (e.g., Node/TypeScript or Go version).\n4. **Steps to reproduce** – a minimal, clear sequence of actions that triggers the bug, ideally with a small reproducible workflow example.\n5. **Expected vs. actual behavior** – what you expected to happen and what actually occurred.\n6. **Logs and error output** – relevant execution logs, error messages, stack traces, and (if available) the execution/trace/transaction details for the failing run. Redact any secrets.\n7. **Timestamps** – when the failure occurred (with time zone), which helps correlate with backend logs.\n8. **Configuration** – relevant (sanitized) parts of your workflow config, triggers, and capabilities used, with any secrets/API keys removed.\n9. **Frequency / impact** – whether it's intermittent or consistent, and how it affects your use case.\n\n## Where to file\n\nDepending on the component, reports usually go to:\n- The **`smartcontractkit`** GitHub organization (e.g., issues on the relevant CRE SDK / chainlink repositories), and/or\n- Official Chainlink **support / developer channels** if you have a direct engagement.\n\nIf you tell me which part of CRE you're hitting (SDK, CLI, a specific capability, deployment, etc.), I can tailor this further. And if you'd like, I can retry the search later to pull the exact checklist from Chainlink's official docs once the rate limit clears.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 98322,
+              "output_tokens": 3605,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1259,
+              "output_tokens": 1463,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2981,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p03",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer explicitly states it could not find the documentation for this feature, indicating a retrieval failure."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 8,
+            "relevance": 0,
+            "structure": 2
+          },
+          "hallucinations": [
+            {
+              "claim": "help/feedback options are commonly found via a \"?\" icon, a user/account menu, or a footer link",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Navigate to app.chain.link/cre/discover",
+            "Log in",
+            "Click Help in the left sidebar",
+            "Slide-out panel opens",
+            "Choose request type (e.g., General Feedback)",
+            "Describe and click Request"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer fails to find or provide the documented steps and is not safe to ship; it explicitly states it could not locate the relevant documentation, indicating a retrieval failure rather than an incorrect answer.",
+          "fidelity": 25,
+          "prompt": "Using the Chainlink CRE UI, show me the exact steps to open the Help form and send feedback",
+          "archetype": "code-first",
+          "answer": "I searched the Chainlink documentation and blog resources but wasn't able to find any official material that documents an in-UI \"Help\" form or a \"send feedback\" workflow for the Chainlink CRE (Chainlink Runtime Environment) interface.\n\nBecause the search results don't contain instructions describing those exact steps, I can't give you a reliable, verified click-by-click walkthrough without risking making something up.\n\nHere's how you can get the accurate steps:\n\n- **Check the official CRE docs** at `docs.chain.link/cre` and the CRE Connect docs at `docs.chain.link/crec` — these are the primary references for the CRE UI.\n- **Look within the CRE UI itself** — help/feedback options are commonly found via a \"?\" icon, a user/account menu, or a footer link.\n\nIf you can tell me a bit more about which specific CRE surface you're using (for example, the CRE Connect web console, the CLI, or a particular dashboard) — or share a screenshot of the interface — I can give you more targeted guidance. Would you also like me to try searching again for the specific product screen you're on?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 44597,
+              "output_tokens": 1747,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 792,
+              "output_tokens": 313,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2981,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p04",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer states it could not find the specific dropdown list and did not cite the expected source."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 1,
+            "hallucination_free": 6,
+            "relevance": 1,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "you run `cre account access` from the CLI... interactive flow ... Requesting Deploy Access",
+              "type": "other",
+              "severity": "low"
+            },
+            {
+              "claim": "CRE Connect is currently in private beta ... Get Access onboarding flow",
+              "type": "other",
+              "severity": "low"
+            }
+          ],
+          "missing_must_include": [
+            "Support Request",
+            "Bug Report",
+            "Feature Request",
+            "General Feedback",
+            "Other"
+          ],
+          "unverifiable_from_source": [
+            "cre account access CLI flow for deploy access",
+            "CRE Connect private beta and Get Access onboarding flow"
+          ],
+          "verdict": "The answer explicitly fails to find the requested dropdown options and instead offers unrelated, unverifiable information, making it unhelpful and not safe to ship as a direct answer.",
+          "fidelity": 28,
+          "prompt": "chainlink cre support request types dropdown options",
+          "archetype": "terse/keyword",
+          "answer": "I'll search for information about Chainlink CRE support request types.Let me search more specifically for the support form.I searched for information about Chainlink CRE support request types and their dropdown options, but I wasn't able to find a specific published list of the dropdown categories used in a Chainlink CRE support request form.\n\nHere's what the search results do show about getting help and support for Chainlink CRE:\n\n- To request deploy access, you run `cre account access` from the CLI, and the CLI includes an interactive flow that checks your organization's deployment access status and lets you submit a request for Early Access directly from the CLI, with a full walkthrough including the interactive flow and web UI option described in \"Requesting Deploy Access.\"\n\n- For CRE Connect specifically, CRE Connect is currently in private beta, your organization must be provisioned by Chainlink before you can use the product, and there is a \"Get Access\" onboarding flow to request access to the private beta.\n\n- There is also a general Chainlink \"Getting Help\" documentation page that may point to the appropriate support channels.\n\nIf you can tell me a bit more, I can help you find the right answer:\n\n1. **Where are you seeing this dropdown?** Is it in the CRE web UI, a Zendesk/support portal, a Discord/ticketing form, or somewhere else? A link or screenshot would help.\n2. **What are you trying to accomplish?** (e.g., report a bug, request deploy access, ask an integration question) — I can point you to the correct request path even without the exact dropdown labels.\n\nThe specific menu labels for a support form aren't something I can reliably retrieve or reproduce accurately from public documentation, so I'd rather confirm the source than guess at them. If you paste the options you're seeing, I can help you pick the right one.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38547,
+              "output_tokens": 1181,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 890,
+              "output_tokens": 335,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2981,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p05",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer never cites or references the actual CRE support-feedback documentation and instead fabricates a GitHub-based workflow."
+          },
+          "subject_identified": true,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 0,
+            "structure": 3
+          },
+          "hallucinations": [
+            {
+              "claim": "The standard channel for feature suggestions across the Chainlink ecosystem (including CRE) is GitHub",
+              "type": "contradiction",
+              "severity": "high"
+            },
+            {
+              "claim": "tagging that issue with the [FEAT] prefix (Feature request)",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "raise it or ask for guidance on the Chainlink Official Discord",
+              "type": "other",
+              "severity": "med"
+            },
+            {
+              "claim": "when a feature is put to a vote, the issue is tagged with the 'needs votes' label",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "Problem statement, Proposed solution, Alternatives considered... map to Chainlink's typical issue-form fields",
+              "type": "other",
+              "severity": "med"
+            }
+          ],
+          "missing_must_include": [
+            "Submit through the CRE UI Help form",
+            "Select Feature Request from the dropdown",
+            "Include your use case",
+            "Explain why the feature would help you"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "This answer directs the developer to the wrong channel entirely (GitHub issues instead of the CRE UI Help form) and fabricates process details like the [FEAT] tag and voting labels, making it unsafe to ship.",
+          "fidelity": 8,
+          "prompt": "I want to suggest a new feature for Chainlink CRE — where do I do that and what info should I provide?",
+          "archetype": "verbose/beginner",
+          "answer": "I'll look into where you can suggest new features for Chainlink CRE (Chainlink Runtime Environment) and what information you should provide.I have enough to give you a clear answer.\n\n## Where to suggest a Chainlink CRE feature\n\nThe standard channel for feature suggestions across the Chainlink ecosystem (including CRE) is **GitHub**. You can request new features by creating a new GitHub issue in the correct repository and tagging that issue with the [FEAT] prefix (Feature request). The `[FEAT]` prefix is how Chainlink categorizes issues so viewers can immediately tell what type of request it is.\n\nThe general workflow is: you bring it to the attention of the Chainlink Labs team and the wider developer community by raising an issue in the project's GitHub repository. The 'Issues' tab lists all of the open issues for the repository, and after an issue is raised and tagged, the Chainlink Labs team and the wider community can address it.\n\nA couple of practical tips before you post:\n- Search existing issues first so you don't duplicate an already-open request.\n- You can also raise it or ask for guidance on the **Chainlink Official Discord**, which is the primary communication channel used for day to day communication and answering development questions.\n\n## What information to include\n\nThe key guidance from Chainlink is to be thorough: provide as much detail as possible in your feature request, including any benefits, risks, or considerations that you can think of. Sometimes a new feature is put to a vote to decide if it's something that the team and wider community should implement.\n\nBased on Chainlink's standard feature-request structure, a strong submission should cover:\n\n1. **Problem statement** — the user problem or limitation you're currently hitting with CRE.\n2. **Proposed solution** — the feature or capability you want, described concretely.\n3. **Alternatives considered** — other approaches or workarounds you evaluated.\n4. **Benefits** — what value this adds for you and other developers.\n5. **Risks / considerations** — potential downsides, security concerns, or trade-offs.\n\nThese map to Chainlink's typical issue-form fields, which capture user problem statement, proposed solution, and alternatives considered.\n\n## One thing to note about voting\n\nIf your idea gains traction, be aware of the community process: when a feature is put to a vote, the issue is tagged with the 'needs votes' label. You can also strengthen a request by replying directly to the feature request with a new post in the thread — so engaging with others' comments and building support helps.\n\n---\n\n**Quick summary:** Open a **GitHub issue** in the relevant Chainlink/CRE repository, tag it with **`[FEAT]`**, and include a detailed description covering the problem, your proposed solution, alternatives, benefits, and risks. For discussion or to gauge interest first, the Chainlink Discord is a good complementary channel.\n\nWould you like help identifying the specific GitHub repository that best matches your CRE feature idea?",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 4,
+            "searches_succeeded": 4,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 41725,
+              "output_tokens": 1991,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 4,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1341,
+              "output_tokens": 505,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2981,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        },
+        {
+          "probe_id": "p06",
+          "model_tested": "claude-opus-4-8",
+          "retrieval": {
+            "cited_urls": [],
+            "hit_expected_source": false,
+            "via": null,
+            "tier": null,
+            "notes": "The answer discusses Oracle Cloud support instead of Chainlink CRE, indicating retrieval/subject identification failure."
+          },
+          "subject_identified": false,
+          "scores": {
+            "accuracy": 0,
+            "hallucination_free": 0,
+            "relevance": 0,
+            "structure": 2
+          },
+          "hallucinations": [
+            {
+              "claim": "Support requests are available to paid accounts only. Customers using only Always Free resources and customers using Free Tier accounts aren't eligible for Oracle Support.",
+              "type": "other",
+              "severity": "high"
+            },
+            {
+              "claim": "The normal path is to open the Help menu and then select Create a Support request.",
+              "type": "fabricated_function",
+              "severity": "high"
+            },
+            {
+              "claim": "your user account must have create privileges within a user group",
+              "type": "invented_param",
+              "severity": "high"
+            },
+            {
+              "claim": "I'm assuming this is the Oracle Cloud support flow",
+              "type": "contradiction",
+              "severity": "high"
+            }
+          ],
+          "missing_must_include": [
+            "You must have a CRE account to submit support requests",
+            "If you don't have an account, create one first",
+            "Log in before accessing Help",
+            "Help is in the left sidebar at app.chain.link/cre/discover"
+          ],
+          "unverifiable_from_source": [],
+          "verdict": "The answer completely misidentifies the product as Oracle Cloud instead of Chainlink CRE, fabricating an entirely unrelated support flow, and is unsafe to ship.",
+          "fidelity": 5,
+          "prompt": "I tried to submit a CRE support request but there's no Help option — do I need something first?",
+          "archetype": "error-debug",
+          "answer": "Short answer: yes — in these support systems the \"Help → Create Support Request\" option only appears once your account is eligible and your support account has been set up. A missing Help/Create option is almost always a sign that a prerequisite hasn't been met yet. (I'm assuming this is the Oracle Cloud support flow, since that matches the \"Help menu\" behavior you describe — let me know if CRE means something else.)\n\nHere are the usual things you need in place first:\n\n**1. An eligible (paid) account**\nSupport requests are available to paid accounts only. Customers using only Always Free resources and customers using Free Tier accounts aren't eligible for Oracle Support. If you need support in that case, you can use Support Chat and Cloud Customer Connect instead.\n\n**2. A provisioned support account**\nThe normal path is to open the Help menu and then select Create a Support request. The first time you open a support request, you're automatically taken through a series of steps to provision your support account. If that Help option isn't showing at all, it typically means this provisioning step hasn't been completed. If you want to make changes or if you run into problems, see Configuring Your Oracle Support Account.\n\n**3. Create privileges within a user group (for technical requests)**\nTo create a technical support request, your user account must have create privileges within a user group. If you can't create a service request, ask the Customer User Administrator (CUA) to assign you create privileges within at least one user group.\n\n**What to do next:**\n- If you're on a Free Tier / Always Free account, you'll need to upgrade to a paid account before the option becomes available.\n- If you're on a paid account, ask your **Customer User Administrator (CUA)** to grant you create privileges in a user group and confirm your support account has been provisioned.\n- Once eligible, open the Help menu and, under Request Help, click Create Support Request.\n\nCould you confirm what CRE stands for in your case (product/platform) and whether your account is paid or free? That would let me point you to the exact step you're missing.",
+          "stop": "end_turn",
+          "harness": {
+            "retries": 0,
+            "searches_attempted": 5,
+            "searches_succeeded": 5,
+            "search_errors": [],
+            "search_degraded": false,
+            "live_search_failed": false
+          },
+          "usage": {
+            "model_under_test": {
+              "input_tokens": 38569,
+              "output_tokens": 2508,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 0,
+              "web_search_requests": 5,
+              "service_tier": "standard"
+            },
+            "grader": {
+              "input_tokens": 1048,
+              "output_tokens": 451,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 2981,
+              "web_search_requests": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "probeSet": {
+    "present": true,
+    "count": 6
+  },
+  "tested": true,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-21T13-17-18-344Z-8032",
+    "probes": {
+      "web": "2026-09-28T18-08-06-246Z-2498"
+    }
+  }
+}

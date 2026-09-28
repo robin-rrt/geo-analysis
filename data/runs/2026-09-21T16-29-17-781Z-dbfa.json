@@ -1,0 +1,109 @@
+{
+  "runId": "2026-09-21T16-29-17-781Z-dbfa",
+  "startedAt": "2026-09-21T16:29:17.782Z",
+  "endedAt": "2026-09-21T16:29:18.306Z",
+  "owner": {
+    "pid": 49301,
+    "host": "Mac-2.lan"
+  },
+  "target": {
+    "type": "page",
+    "name": "https://docs.chain.link/vrf/v2-5/overview",
+    "productScope": null
+  },
+  "stages": [
+    "audit"
+  ],
+  "protocol": {
+    "analystModel": "claude-opus-4-8",
+    "analystEffort": "high",
+    "graderModel": "claude-sonnet-5",
+    "probeModel": "claude-opus-4-8",
+    "probeEffort": "medium",
+    "mode": "web",
+    "batch": false
+  },
+  "protocolFingerprint": "claude-sonnet-5|claude-opus-4-8|medium|web",
+  "status": "partial",
+  "counts": {
+    "expected": 1,
+    "pages": 0,
+    "failed": 1
+  },
+  "cost": {
+    "measured": 0,
+    "currency": "USD"
+  },
+  "breakdown": {
+    "runId": "2026-09-21T16-29-17-781Z-dbfa",
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/vrf/v2-5/overview",
+      "productScope": null
+    },
+    "stages": [
+      "audit"
+    ],
+    "protocol": {
+      "analystModel": "claude-opus-4-8",
+      "analystEffort": "high",
+      "graderModel": "claude-sonnet-5",
+      "probeModel": "claude-opus-4-8",
+      "probeEffort": "medium",
+      "mode": "web",
+      "batch": false
+    },
+    "status": "partial",
+    "startedAt": "2026-09-21T16:29:17.782Z",
+    "endedAt": "2026-09-21T16:29:18.306Z",
+    "elapsedMs": 524,
+    "counts": {
+      "pages": 0,
+      "failed": 1,
+      "reused": 0,
+      "cancelled": 0
+    },
+    "skipped": {
+      "audit": 0,
+      "probes": 0,
+      "test": 0
+    },
+    "cost": {
+      "measured": 0,
+      "currency": "USD"
+    },
+    "pages": [],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/vrf/v2-5/overview"
+      }
+    ]
+  },
+  "ledger": {
+    "target": {
+      "type": "page",
+      "name": "https://docs.chain.link/vrf/v2-5/overview",
+      "productScope": null
+    },
+    "counts": {
+      "discovered": 1,
+      "inScope": 1,
+      "failed": 1
+    },
+    "notes": [],
+    "ledger": [
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview",
+        "source": "explicit",
+        "included": true
+      }
+    ],
+    "failures": [
+      {
+        "url": "https://docs.chain.link/vrf/v2-5/overview",
+        "error": "Fetch failed: 404 Not Found for https://docs.chain.link/vrf/v2-5/overview"
+      }
+    ]
+  }
+}

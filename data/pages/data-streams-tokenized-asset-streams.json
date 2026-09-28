@@ -1,0 +1,166 @@
+{
+  "key": "data-streams-tokenized-asset-streams",
+  "runId": "2026-09-22T13-29-05-693Z-f68e",
+  "audit": {
+    "title": "Tokenized Asset Data Streams",
+    "url": "https://docs.chain.link/data-streams/tokenized-asset-streams",
+    "analyzedAt": "2026-09-22T13:33:38.035Z",
+    "contentType": "developer documentation / reference listing",
+    "score": 37,
+    "band": "Poor",
+    "weightedTotal": 36.8,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 3,
+        "weighted": 4.5,
+        "analysis": "The implied question — \"which tokenized asset streams exist and what are their IDs?\" — is answered only by a `Loading...` placeholder. No liftable chunk contains an actual stream. The intro sentence is a redirect, not an answer."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 5,
+        "weighted": 7.5,
+        "analysis": "Clean hierarchy — 1 H1, H2 max depth, 0 level skips (per facts). But sections are near-empty (median 12 words) and the two data regions (\"Streams Verifier Network Addresses\", \"Mainnet Tokenized Asset Streams\") render nothing static. Good skeleton, no meat."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 1,
+        "weighted": 1.2,
+        "analysis": "Facts confirm 0 numerals, 0 units, 0 hex identifiers. For a page whose purpose is publishing stream IDs and contract addresses, this is the core failure — all specifics are behind JS."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "5 internal links to related canonical hubs (discovery endpoint, LINK token contracts, supported networks). Reasonable internal linking; zero external/primary-source links, though for a listing page that's acceptable."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "No sentence defines \"tokenized asset data stream.\" An engine cannot lift a definition of the page's own subject."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 6,
+        "weighted": 7.2,
+        "analysis": "Valid JSON-LD (both blocks parse), canonical set, full og/twitter coverage. Weakened by auto-generated artifacts: `datePublished` == `dateModified` (never-revised/generator-stamped), keywords are tokenized fragments (\"and\", \"ID.\"), and all four `about` entries use the \"Content about X\" template — low-value entity signals."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "No code blocks. For a reference listing this is partly expected, but no copy-pasteable verification snippet or example stream-ID usage is shown."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 3,
+        "weighted": 3,
+        "analysis": "Title matches \"tokenized asset data streams\" queries, but \"what is the stream ID for [asset]\" and \"verifier address for [network]\" — the actual dev queries — resolve to nothing retrievable. No troubleshooting or FAQ."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 6,
+        "weighted": 4.8,
+        "analysis": "The little prose present is clear and consistently named. Nothing to fix here beyond volume."
+      }
+    ],
+    "summary": "This is a reference/listing page whose entire payload — the tokenized asset stream IDs, network names, and verifier addresses — is client-side rendered and reaches a crawler only as `Loading...`. As served, the page contains 55 words, zero numerals, zero hex identifiers, and no table, so a generative engine sees a title and three navigation links but *none of the data the page exists to provide*. The single biggest opportunity is not prose polish: it is making the stream inventory present in server-rendered HTML so it can be retrieved and quoted at all. Metadata scaffolding (valid `TechArticle` + `BreadcrumbList` JSON-LD, canonical URL) is the one genuine strength; everything downstream of retrieval is starved because the body is empty.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Server-render the stream inventory",
+        "mapsTo": "concrete statistics & specifics; answer-first extractability",
+        "tier": null,
+        "where": "\"Mainnet Tokenized Asset Streams\" and \"Streams Verifier Network Addresses\" sections.",
+        "issue": "`Loading...` — the data table is client-side only.",
+        "change": "Emit the stream table (asset name, stream ID, network, verifier proxy address) in static HTML, or provide a server-rendered fallback. Numbers, hex stream IDs, and addresses must exist in the served DOM.",
+        "why": "Engines and agents cannot retrieve or cite content they never receive; this is the difference between an invisible page and a citable one. Highest-lift change on the page."
+      },
+      {
+        "priority": 1,
+        "title": "Add an answer-first lead sentence with the canonical definition",
+        "mapsTo": "quotable canonical definitions; answer-first",
+        "tier": null,
+        "where": "Directly under the H1, before the tutorial link.",
+        "issue": "Page opens with \"To learn how to use Data Streams, see…\" — a redirect, not an answer.",
+        "change": "Lead with a self-contained sentence, e.g. \"Tokenized Asset Data Streams are Chainlink Data Streams that deliver [NAV/price] data for tokenized real-world assets; each stream is identified by a unique stream ID and verified onchain via a network-specific verifier proxy. The table below lists all available streams and their IDs.\"",
+        "why": "Gives engines a verbatim-liftable definition and frames the table as the answer to the page's implied query."
+      },
+      {
+        "priority": 2,
+        "title": "Render the table as a real HTML `<table>` with headers",
+        "mapsTo": "structural scannability & chunkability",
+        "tier": null,
+        "where": "Both data sections.",
+        "issue": "Facts show 0 tables; data (once rendered) risks being an unstructured widget.",
+        "change": "Use a semantic table with columns (Asset, Stream ID, Network, Verifier Proxy Address). One row = one coherent retrievable unit.",
+        "why": "Comparison/lookup tables are high-extractability structures engines parse cleanly for justified answers."
+      },
+      {
+        "priority": 2,
+        "title": "Add symptom/lookup-phrased sub-headings",
+        "mapsTo": "query/intent coverage",
+        "tier": null,
+        "where": "Section headings.",
+        "issue": "Headings are concept-titled (\"Mainnet Tokenized Asset Streams\") not query-shaped.",
+        "change": "Add anchors/subheads like \"How do I find a tokenized asset stream ID?\" and \"Verifier proxy addresses by network,\" matching how devs query.",
+        "why": "Question-phrased headings win retrieval that concept titles miss."
+      },
+      {
+        "priority": 3,
+        "title": "Fix metadata template artifacts",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "JSON-LD `keywords`, `about`, and date fields.",
+        "issue": "keywords include \"and\"/\"ID.\"; `about` entries all read \"Content about X\"; `datePublished` == `dateModified`.",
+        "change": "Replace keyword fragments with real entities (e.g. \"Chainlink Data Streams\", \"tokenized assets\", \"verifier proxy\"); give `about` meaningful descriptions; stamp `dateModified` from actual revision time.",
+        "why": "Cleaner entity signals and a genuine freshness date raise E-E-A-T and entity resolution. (Lower priority — schema cannot help a page whose body is unretrievable.)"
+      },
+      {
+        "priority": 3,
+        "title": "Add a minimal usage snippet linking ID → verification",
+        "mapsTo": "code completeness & agent-runnability",
+        "tier": null,
+        "where": "After the intro/definition.",
+        "issue": "No code showing how a stream ID is consumed.",
+        "change": "Add a short, tagged snippet (e.g. Go/Solidity) passing a stream ID to the verifier, with imports.",
+        "why": "Gives agents a concrete, copy-pasteable path from listing to action."
+      }
+    ],
+    "antiPatterns": [
+      "**Empty/placeholder content:** Core data renders as `Loading...` — a wall of nothing, not a wall of prose, but equally unretrievable.",
+      "**Stale/undated signal:** `datePublished` and `dateModified` are identical (generator-stamped).",
+      "**Auto-generated keyword/entity noise:** keyword list includes stopword \"and\" and fragment \"ID.\"; `about` entries are template placeholders."
+    ],
+    "offPageNotes": [
+      "Consider `llms.txt` and ensuring the stream inventory is exposed via the discovery API endpoint (already linked) as an agent-friendly structured source.",
+      "Client-side rendering is a site-level architecture decision; if the table must stay dynamic, publish a server-rendered or static JSON/CSV mirror that crawlers and agents can ingest."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-29-05-693Z-f68e",
+    "probes": {}
+  }
+}

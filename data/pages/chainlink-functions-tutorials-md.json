@@ -1,0 +1,157 @@
+{
+  "key": "chainlink-functions-tutorials-md",
+  "runId": "2026-09-22T13-23-24-508Z-8d9a",
+  "audit": {
+    "title": "Chainlink Functions Tutorials",
+    "url": "https://docs.chain.link/chainlink-functions/tutorials.md",
+    "analyzedAt": "2026-09-22T13:26:17.911Z",
+    "contentType": "developer documentation / navigation hub (tutorials index)",
+    "score": 41,
+    "band": "Developing",
+    "weightedTotal": 41,
+    "dimensions": [
+      {
+        "name": "Answer-first extractability",
+        "weight": 15,
+        "score": 4,
+        "weighted": 6,
+        "analysis": "Opens with a title and a topic list but no self-contained answer to \"what are Chainlink Functions / where do I start.\" A lifted chunk from this page conveys only a menu. Add a lead sentence."
+      },
+      {
+        "name": "Structural scannability & chunkability",
+        "weight": 15,
+        "score": 6,
+        "weighted": 9,
+        "analysis": "Strong for its size — 1 H1, clean `## Topics` list, 0 level skips, 12 well-formed bullets. Works as a chunk. No action beyond adding descriptions."
+      },
+      {
+        "name": "Concrete statistics & specifics",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "Measured 0 numerals, 0 units, no versions. Expected for a hub, but a line on supported networks or request limits would add liftable specificity."
+      },
+      {
+        "name": "Citations & authoritative references",
+        "weight": 10,
+        "score": 4,
+        "weighted": 4,
+        "analysis": "14 links, 13 internal, 1 external (Playground), 0 primary sources. Internal linking is the hub's job and is fine; no authoritative concept anchor to the Functions overview/spec."
+      },
+      {
+        "name": "Quotable canonical definitions",
+        "weight": 8,
+        "score": 2,
+        "weighted": 1.6,
+        "analysis": "Weakest dimension — no definition of Chainlink Functions anywhere. An engine skimming this page cannot lift \"Chainlink Functions is…\". High-value gap."
+      },
+      {
+        "name": "Machine-readability & metadata",
+        "weight": 12,
+        "score": 2,
+        "weighted": 2.4,
+        "analysis": "0 JSON-LD, canonical MISSING, no datePublished/dateModified, no og/twitter tags. Note: head metadata could not be verified from served content — CLI should pass raw `<head>`."
+      },
+      {
+        "name": "Code completeness & agent-runnability",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "No code, which is appropriate for an index page — scored neutral, not penalized. The child tutorials carry the code."
+      },
+      {
+        "name": "Query/intent coverage",
+        "weight": 10,
+        "score": 5,
+        "weighted": 5,
+        "analysis": "Task-phrased labels cover \"how do I call an API / post data / use secrets / automate.\" Missing: a \"what is Chainlink Functions\" framing and any troubleshooting/FAQ entry point."
+      },
+      {
+        "name": "Clarity, fluency & terminology consistency",
+        "weight": 8,
+        "score": 7,
+        "weighted": 5.6,
+        "analysis": "Clean and consistent; \"Chainlink Functions,\" \"DON-hosted Secrets\" used precisely. Strong; no action needed."
+      }
+    ],
+    "summary": "This is a thin navigation hub — 122 words, 12 links — routing to individual Chainlink Functions tutorials. As a hub it does one thing well: the link labels are phrased as developer tasks (\"Call an API,\" \"POST Data to an API,\" \"Using DON-hosted Secrets\"), which matches how devs and agents query. Its biggest GEO weakness is that it says nothing quotable: there is no one-sentence definition of Chainlink Functions, no specifics, and no metadata (0 JSON-LD blocks, missing canonical, no dates). For a hub page the honest verdict is \"functional router, weak standalone citation target\" — small surgical additions (a lead definition + per-link descriptions + schema) would lift it materially without turning it into a content page.",
+    "probeInformed": null,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Add a lead definition + orientation sentence",
+        "mapsTo": "quotable canonical definitions / answer-first extractability",
+        "tier": null,
+        "where": "immediately under the H1, before `## Topics`.",
+        "issue": "page opens straight into a callout and link list; no liftable definition.",
+        "change": "Add 2 sentences, e.g. \"Chainlink Functions is a serverless developer platform that lets smart contracts fetch data from any API and run custom compute off-chain via a Decentralized Oracle Network (DON). These tutorials cover requests, secrets management, ABI encoding, and automation, from a simple computation to production automation.\"",
+        "why": "gives engines a verbatim-liftable definition and makes the hub answer \"what is / where do I start\" queries instead of only routing."
+      },
+      {
+        "priority": 2,
+        "title": "Add a one-line description after each tutorial link",
+        "mapsTo": "query/intent coverage / machine-scannability",
+        "tier": null,
+        "where": "the `## Topics` bullet list.",
+        "issue": "links are labels only, e.g. \"[Use ABI encoding and decoding]\" with no context.",
+        "change": "append a short gloss per item, e.g. \"Call an API — make a GET request with query parameters and return the result on-chain.\" Convert to a two-column table (Tutorial | What it does) for cleaner extraction.",
+        "why": "descriptions capture symptom/task phrasing and let an engine justify *why* to pick a given tutorial, raising the odds this hub is cited for \"how do I X with Chainlink Functions.\""
+      },
+      {
+        "priority": 2,
+        "title": "Add page metadata / structured data",
+        "mapsTo": "machine-readability & metadata",
+        "tier": null,
+        "where": "page `<head>` / frontmatter.",
+        "issue": "canonical MISSING, no dateModified, 0 JSON-LD blocks.",
+        "change": "emit `TechArticle` (or `CollectionPage`) JSON-LD with `name`, `about: \"Chainlink Functions\"`, canonical URL, and `dateModified`; add a visible \"Last updated\" line.",
+        "why": "freshness and canonical signals raise trust/E-E-A-T and help agents resolve the entity; note this is partly a site-level template fix."
+      },
+      {
+        "priority": 3,
+        "title": "Link the canonical concept/overview page authoritatively",
+        "mapsTo": "citations & authoritative references",
+        "tier": null,
+        "where": "the new lead sentence.",
+        "issue": "0 links to a primary concept definition; only task pages and the Playground.",
+        "change": "link \"Chainlink Functions\" to the Functions overview/architecture page, and reference the DON concept page on first use.",
+        "why": "anchors the hub to the canonical definition, strengthening entity resolution and the canonical-hub pattern."
+      },
+      {
+        "priority": 3,
+        "title": "Add a \"Getting started / prerequisites\" pointer",
+        "mapsTo": "query/intent coverage (full lifecycle)",
+        "tier": null,
+        "where": "above or below `## Topics`.",
+        "issue": "list jumps straight to tasks; no setup or troubleshooting entry point.",
+        "change": "add a short \"Before you begin\" link to the Functions getting-started/subscription setup, and a link to any troubleshooting/errors page.",
+        "why": "covers setup→use→debug lifecycle queries the current list omits."
+      }
+    ],
+    "antiPatterns": [
+      "Undated content — no visible last-updated or dateModified signal.",
+      "Missing canonical URL and JSON-LD (metadata gap, not stuffing).",
+      "No keyword stuffing, marketing fluff, or unresolved cross-references — clean."
+    ],
+    "offPageNotes": [
+      "Canonical URL, JSON-LD, and freshness cadence are likely governed by the site template/CMS, not this single page — fix at the layout level.",
+      "`llms.txt` is already referenced at the top — good site-level signal; ensure this hub and its children are enumerated there.",
+      "Head metadata could not be verified from the served content; have the CLI pass raw `<head>` for a definitive metadata read."
+    ]
+  },
+  "probeRuns": [],
+  "probeSet": {
+    "present": false,
+    "count": 0
+  },
+  "tested": false,
+  "health": {
+    "degraded": 0,
+    "failed": 0,
+    "clean": true
+  },
+  "provenance": {
+    "audit": "2026-09-22T13-23-24-508Z-8d9a",
+    "probes": {}
+  }
+}

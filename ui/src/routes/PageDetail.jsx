@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "../api/client.js";
-import { Bar } from "../charts/Bar.jsx";
+import { Dimensions } from "../components/Dimensions.jsx";
 import { bandColour, bandName } from "../lib/bands.js";
 import { FidelityBadge } from "../components/FidelityBadge.jsx";
 import { Loading, ErrorState, Empty } from "../components/States.jsx";
@@ -105,32 +105,8 @@ export default function PageDetail() {
 
       {audit?.dimensions?.length ? (
         <section className="ruled" style={{ marginTop: "var(--s6)" }}>
-          <h2>Dimensions</h2>
-          {/* Sorted ascending so the weakest — the thing to act on — reads first. */}
-          <Bar
-            items={[...audit.dimensions]
-              .sort((a, b) => a.score - b.score)
-              .map((d) => ({ label: d.name, value: d.score, note: `weight ${d.weight}` }))}
-            max={10}
-            format={(v) => `${v}/10`}
-          />
-          {/* Per-dimension critique — the reasoning behind each score. */}
-          {audit.dimensions.some((d) => d.analysis) ? (
-            <div style={{ marginTop: 12 }}>
-              {[...audit.dimensions]
-                .sort((a, b) => a.score - b.score)
-                .filter((d) => d.analysis)
-                .map((d) => (
-                  <details key={d.name} className="card" style={{ marginBottom: 6 }}>
-                    <summary>
-                      <strong className="small">{d.name}</strong>{" "}
-                      <span className="muted small">{d.score}/10 · weight {d.weight}</span>
-                    </summary>
-                    <div className="small" style={{ marginTop: 8, whiteSpace: "pre-wrap" }}>{d.analysis}</div>
-                  </details>
-                ))}
-            </div>
-          ) : null}
+          <h2>Where the points are</h2>
+          <Dimensions dimensions={audit.dimensions} />
         </section>
       ) : null}
 

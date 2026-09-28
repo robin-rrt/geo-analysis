@@ -119,6 +119,7 @@ export default function Overview() {
                 runId: p.runId,
               }))}
               onSelect={(r) => r.runId && navigate(`/runs/${encodeURIComponent(r.runId)}`)}
+              fill="brand"
               emptyLabel="No product runs yet."
             />
             <div className="small faint" style={{ marginTop: "var(--s3)" }}>

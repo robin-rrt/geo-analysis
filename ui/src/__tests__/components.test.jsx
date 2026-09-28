@@ -11,6 +11,7 @@ import { aggregatableTargets, weakestFirst } from "../components/ProductScores.j
 import { ScaleBar } from "../charts/ScaleBar.jsx";
 import { bandColour, bandName } from "../lib/bands.js";
 import { ScoreRows } from "../components/ScoreRows.jsx";
+import { Dimensions, recoverablePoints, byOpportunity } from "../components/Dimensions.jsx";
 import { productOf, productOfRun, sortGroups, meanOf, UNGROUPED } from "../lib/group.js";
 
 const assert_equal = (a, b) => expect(a).toBe(b);
@@ -586,5 +587,68 @@ describe("design language consistency", () => {
       const src = fs.readFileSync(`src/routes/${r}.jsx`, "utf8");
       expect(src, `${r} should use the shared figure treatment`).toContain("figure-value");
     }
+  });
+});
+
+describe("dimensions", () => {
+  test("recoverable points weight the gap — the number the old chart hid", () => {
+    // The same 3/10 is worth very different amounts depending on weight, and a
+    // bar chart of scores drew both as equally short bars.
+    assert_equal(recoverablePoints({ score: 3, weight: 12 }), 8.4);
+    assert_equal(recoverablePoints({ score: 3, weight: 8 }), 5.6);
+    // A perfect score has nothing left to gain.
+    assert_equal(recoverablePoints({ score: 10, weight: 15 }), 0);
+  });
+
+  test("ordering is by opportunity, not by score", () => {
+    // 5/10 on weight 15 (7.5 points) beats 3/10 on weight 10 (7.0), so the
+    // higher-scoring dimension is the more urgent one.
+    const rows = byOpportunity([
+      { name: "low score, low weight", score: 3, weight: 10 },
+      { name: "higher score, high weight", score: 5, weight: 15 },
+    ]);
+    assert_equal(rows[0].name, "higher score, high weight");
+    assert_equal(rows[0].gain, 7.5);
+  });
+
+  test("missing figures cannot poison the ordering", () => {
+    assert_equal(recoverablePoints({ score: null, weight: 12 }), 0);
+    assert_equal(recoverablePoints({ score: 4 }), 0);
+  });
+
+  test("renders one row per dimension and states the total available", () => {
+    render(<Dimensions dimensions={[
+      { name: "Machine-readability & metadata", score: 3, weight: 12 },
+      { name: "Answer-first extractability", score: 8, weight: 15 },
+    ]} />);
+    expect(screen.getByText("+8.4")).toBeTruthy();
+    expect(screen.getByText("+3.0")).toBeTruthy();
+    expect(screen.getByText(/11.4 points/)).toBeTruthy();
+  });
+
+  test("the score strip has ten segments, filled to the score", () => {
+    const { container } = render(<Dimensions dimensions={[{ name: "d", score: 4, weight: 10 }]} />);
+    expect(container.querySelectorAll(".dim-dot")).toHaveLength(10);
+    expect(container.querySelectorAll(".dim-dot.on")).toHaveLength(4);
+  });
+});
+
+describe("score rows", () => {
+  test("the fill actually renders — it was an inline span with no height", () => {
+    // `.row-fill` sat inside `.row-track` rather than being a grid item, so it
+    // stayed display:inline and height:100% did nothing. Every bar was empty.
+    const { container } = render(<ScoreRows rows={[{ label: "ccip", value: 56.2, count: 35 }]} />);
+    const fill = container.querySelector(".row-fill");
+    expect(fill).toBeTruthy();
+    expect(fill.style.width).toBe("56.2%");
+  });
+
+  test("brand fill overrides the band colour without losing the band elsewhere", () => {
+    const { container } = render(
+      <ScoreRows rows={[{ label: "ccip", value: 56.2, count: 35 }]} fill="brand" />,
+    );
+    expect(container.querySelector(".row-fill").style.background).toContain("--accent");
+    // The value text still carries the band, so meaning survives a uniform bar.
+    expect(container.querySelector(".row-value").style.color).toContain("--band-");
   });
 });

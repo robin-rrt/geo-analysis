@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Bar } from "../charts/Bar.jsx";
+import { Dimensions } from "./Dimensions.jsx";
 import { FidelityBadge } from "./FidelityBadge.jsx";
 import { Band } from "./Band.jsx";
 
@@ -56,21 +56,11 @@ export function ProductScores({ products = [] }) {
               </p>
             ) : null}
 
-            <h3 style={{ marginTop: 4 }}>Rubric dimensions, averaged across {p.pages.audited} page(s)</h3>
-            <Bar
-              items={weakestFirst(p.dimensions).map((d) => ({
-                label: d.name,
-                value: d.mean,
-                note: `weight ${d.weight}`,
-              }))}
-              max={10}
-              format={(v) => `${v}/10`}
-              emptyLabel="No dimension data — the audits could not be parsed."
+            <h3 style={{ marginTop: 4 }}>Averaged across {p.pages.audited} page(s)</h3>
+            <Dimensions
+              dimensions={(p.dimensions ?? []).map((d) => ({ ...d, score: d.mean }))}
+              showAnalysis={false}
             />
-            <p className="small faint">
-              Weakest first. Weight is the dimension's share of the 100-point score, so a low mean
-              on a high weight is where the points are.
-            </p>
 
             {p.runId ? (
               <p className="small" style={{ marginTop: 10 }}>

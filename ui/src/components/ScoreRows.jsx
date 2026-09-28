@@ -6,7 +6,13 @@ import { bandColour } from "../lib/bands.js";
  * Colour comes from the band and nothing else. Used decoratively it would stop
  * meaning anything, and the band is the only thing here worth encoding twice.
  */
-export function ScoreRows({ rows = [], max = 100, onSelect, emptyLabel = "Nothing measured yet." }) {
+/**
+ * `fill` decides what the bar is for.
+ *   "brand"  — the bar shows magnitude only; the value text still carries the
+ *              band, so meaning is not lost by making bars one colour.
+ *   "band"   — the bar itself encodes the band.
+ */
+export function ScoreRows({ rows = [], max = 100, onSelect, fill = "band", emptyLabel = "Nothing measured yet." }) {
   if (!rows.length) return <div className="state small">{emptyLabel}</div>;
 
   return (
@@ -20,7 +26,10 @@ export function ScoreRows({ rows = [], max = 100, onSelect, emptyLabel = "Nothin
               {has ? (
                 <span
                   className="row-fill"
-                  style={{ width: `${Math.max(2, (r.value / max) * 100)}%`, background: bandColour(r.value) }}
+                  style={{
+                    width: `${Math.max(2, (r.value / max) * 100)}%`,
+                    background: fill === "brand" ? "var(--accent)" : bandColour(r.value),
+                  }}
                 />
               ) : null}
             </span>

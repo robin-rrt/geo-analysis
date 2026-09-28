@@ -275,8 +275,18 @@ tr.grouphead td {
 }
 .row:last-child { border-bottom: 0; }
 .row-label { font-size: 13px; }
-.row-track { background: var(--track); border-radius: 999px; height: 6px; overflow: hidden; }
-.row-fill { height: 100%; border-radius: 999px; transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+/* Both must be blocks. `.row-track` is a grid item so the grid blockifies it,
+   but `.row-fill` sits INSIDE it and stayed inline — and height does nothing on
+   an inline element, so every bar rendered at zero height. The track showed,
+   the fill did not, which reads as "empty bars". */
+.row-track {
+  display: block; background: var(--track); border-radius: 999px;
+  height: 6px; overflow: hidden;
+}
+.row-fill {
+  display: block; height: 100%; border-radius: 999px;
+  transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
 @media (prefers-reduced-motion: reduce) { .row-fill { transition: none; } }
 .row-value { font-size: 13px; font-weight: 600; text-align: right; }
 .row-count { font-size: 12px; color: var(--faint); text-align: right; }
@@ -320,6 +330,7 @@ tr.grouphead td {
    no brand face was available; TASA Orbiter does the same job and is the
    brand's primary typeface. */
 .measure-figure {
+  color: var(--accent);
   font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(56px, 9vw, 82px);
   line-height: 0.92;
@@ -426,3 +437,31 @@ a.quiet:hover { border-bottom-color: var(--accent); color: var(--accent); }
   display: flex; gap: var(--s4); flex-wrap: wrap;
   font-size: 12px; color: var(--muted);
 }
+
+/* ------------------------------------------------------------ dimensions --- */
+
+/* Nine dimensions used to be a bar chart plus a separate stack of disclosures.
+   The chart encoded the SCORE, but the score is not the actionable number —
+   what a gap costs is score x weight, so a 3/10 on weight 12 matters more than
+   a 3/10 on weight 8 and the chart made you work that out yourself.
+   These rows encode the cost directly and sort by it. */
+
+.dim { display: grid; grid-template-columns: 1fr auto; gap: var(--s2) var(--s4);
+  padding: var(--s3) 0; border-bottom: var(--hairline) solid var(--border); }
+.dim:last-child { border-bottom: 0; }
+.dim-name { font-size: 13px; }
+
+/* A ten-segment strip instead of a bar: discrete, reads as "4 out of 10"
+   without an axis, and takes a fraction of the ink. */
+.dim-dots { display: flex; gap: 3px; margin-top: 6px; }
+.dim-dot { width: 14px; height: 4px; border-radius: 1px; background: var(--track); }
+.dim-dot.on { background: var(--accent); }
+
+.dim-figures { text-align: right; white-space: nowrap; }
+.dim-gain {
+  font-family: "TASA Orbiter Variable", ui-sans-serif, system-ui, sans-serif;
+  font-size: 19px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+  color: var(--accent); line-height: 1.1;
+}
+.dim-meta { font-size: 11px; color: var(--faint); margin-top: 2px; }
+.dim-analysis { font-size: 12.5px; color: var(--muted); max-width: 62ch; margin-top: var(--s2); }
